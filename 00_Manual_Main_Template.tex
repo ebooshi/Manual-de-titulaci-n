@@ -1,4 +1,4 @@
-\documentclass[11pt]{report}
+\documentclass[8pt]{report}
 
 	\usepackage[spanish]{babel}
 	\usepackage{varioref,multicol}
@@ -22,11 +22,11 @@
 	\begin{document}
 
 		\pagenumbering{roman}
-		\input{portada_manual}
+			\input{01_portada_manual}
 		
 		\setcounter{page}{0}
-		\include{nota_al_lector}
-		%\include{thesis_03_dedication}
+			\include{02_nota_al_lector}
+			\include{03_dedicatoria}
 		
 		\tableofcontents
 		\newpage\phantom{~}\newpage
@@ -36,41 +36,41 @@
 		
 		\chapter{Introducción}
 		\label{sec:intro}
-			%\input{thesis_04_introduccion}
+			\input{04_introduccion}
 		
 		\chapter{Herramientas matemáticas}
-			%\input{thesis_05_Herramientas_Matematicas}
+			\input{05_herramientas_matematicas}
 		
 		\chapter{Sintaxis}
 		\label{sec:sintax}
-			%\input{thesis_06_Sintaxis}
+			%\input{06_Sintaxis}
 		
 		\chapter{Semántica}
 		\label{sec:semantics}
-			%\input{thesis_07_Semantica}
+			%\input{07_Semantica}
 		
 		\chapter{Cálculo Lambda}
-			%\input{thesis_08_LambdaC}
+			%\input{08_Calculo_Lambda}
 		
 		\chapter{MinHs}
-			%\input{thesis_09_MinHs}
+			%\input{09_MinHs}
 		
 		\chapter{Inferencia de tipos}
-			%\input{thesis_10_Inferencia_Tipos}
+			%\input{10_Inferencia_Tipos}
 		
 		\chapter{Máquinas abstractas}
-			%\input{thesis_11_Maquinas_Abstractas}
+			%\input{11_Maquinas_Abstractas}
 		
 		\chapter{TinyC}
-			%\input{thesis_12_TinyC}
+			%\input{12_TinyC}
 		
 		\chapter{Herencia y subtipos}
-			%\input{thesis_13_Subtipado}
+			%\input{13_Subtipado}
 		
 		\chapter{Java Peso Pluma}
-			%\input{thesis_14_Featherweight_Java}
+			%\input{14_Featherweight_Java}
 		
-		\input{bibliografia}
+		\input{15_bibliografia}
 
 
 	\end{document}
