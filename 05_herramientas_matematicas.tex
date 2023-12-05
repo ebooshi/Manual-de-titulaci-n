@@ -337,16 +337,20 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
         En base a la especificación dada anteriormente contesta lo siguiente:\\
 
         \begin{enumerate}
-            \item Define formalmente el conjunto de estados (indica estados iniciales con la letra  ''I '', finales con la letra  ''F '' y los intermedios con ''$\Gamma$''): 
+            \item Define formalmente el conjunto de estados (indica estados iniciales con la letra  ''I'', finales con la letra  ''F'' y los intermedios con ''$\Gamma$''): 
+
                 \begin{equation}
-                    \text{I} = \{(\text{A},0,0)\}\nonumber\\
+                    \text{I} = \{(\text{A},0,0)\}\nonumber
                  \end{equation}    
+
                  \begin{equation}
-                    \Gamma = \{\text{C},\text{X},\text{Y}\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y } 0 \leq \text{X},\text{Y} \leq 10\nonumber\\
-                \end{equation}
+                    \Gamma = \{\text{C},\text{X},\text{Y}\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y } 0 \leq \text{X},\text{Y} \leq 10\nonumber
+                 \end{equation}
+
                 \begin{equation}
-                    \text{F} =  \{\text{C},\text{X},\text{Y}\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y } X \text{ o } Y = 10\nonumber\\
+                    \text{F} =  \{\text{C},\text{X},\text{Y}\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y } X \text{ o } Y = 10\nonumber
                 \end{equation}
+
             \item  Define la función de transición (enlista cuales son los casos y como se comporta la función en cada uno de estos):\\\\
                 Sí el jugador A puntúa: 
                 \[ f((\text{A},\text{X},\text{Y})) = (\text{A},\text{X}+1,\text{Y}) \]
@@ -499,7 +503,6 @@ Demuestra utilizando la inducción estructural sobre árboles binarios balancead
 
     \end{exercise}
 
-    \newpage
 
     Para finalizar esta sección vamos a revisar dos ejercicios prácticos que implementaremos en \texttt{Haskell}. Estos ejercicios combinan las definiciones de las funciones que hemos estudiado hasta este punto para listas y que ejemplifican las propiedades recursivas de estas estructuras en un lenguaje de programación funcional\footnote{Los ejercicios 4.11 y 4.12 fueron extraidos de \hyperlink{75}{[75]}.}.
 
