@@ -1,4 +1,3 @@
-% This template has been created by Theo J. Mertzimekis, PhD
 \documentclass[11pt]{report}
 
 	\usepackage[spanish]{babel}
@@ -7,46 +6,26 @@
 	\usepackage{graphicx}
 	\usepackage{longtable}
 	\usepackage{caption,subcaption}
-	%\usepackage{amsmath,amssymb,isotope}
 	\usepackage[version=4]{mhchem}
 	\usepackage{listings}
-	%\usepackage{fontspec}
-	%\usepackage{amsmath}
-	%\usepackage{geometry}
-	%\usepackage{xunicode}
-	%\usepackage{xltxtra}
 	\usepackage{xcolor}
 	\usepackage{noto} 
-	%\usepackage{sectsty} 
-	%\usepackage[normalem]{ulem}  
-	%\usepackage{fancybox}
 	\usepackage{comands} 
 
-	%\geometry{a4paper,textwidth=150mm,textheight=220mm,marginparsep=4pt}
 	\setlength\parindent{8mm}
 	\setlength\parskip{3mm}
 
-	%\defaultfontfeatures{Mapping=tex-text} 
 	\renewcommand{\arraystretch}{1.25}
-
-
-	%\sectionfont{\rmfamily\mdseries\upshape\Large}
-	%\subsectionfont{\rmfamily\bfseries\upshape\normalsize} 
-	%\subsubsectionfont{\rmfamily\mdseries\upshape\normalsize} 
-	%\usepackage[unicode,driverfallback=dvipdfmx, bookmarks, colorlinks, breaklinks, pdftitle={Manual de ejercicios para lenguajes de programacion},pdfauthor={Luis Miguel Muñoz Baron}]{hyperref}  
-	%\hypersetup{linkcolor=black,citecolor=blue,filecolor=black,urlcolor=blue} 
-
 	\renewcommand\thesection{\arabic{section}}
+
 	\setcounter{tocdepth}{2}
-
-
 	\begin{document}
 
 		\pagenumbering{roman}
-		%\input{thesis_01_titlepage}
+		\input{portada_manual}
 		
 		\setcounter{page}{0}
-		%\include{thesis_02_abstract}
+		\include{nota_al_lector}
 		%\include{thesis_03_dedication}
 		
 		\tableofcontents
@@ -91,7 +70,7 @@
 		\chapter{Java Peso Pluma}
 			%\input{thesis_14_Featherweight_Java}
 		
-		%\input{thesis_biblio.tex}
+		\input{bibliografia}
 
 
 	\end{document}
