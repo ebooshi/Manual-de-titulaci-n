@@ -150,7 +150,6 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
         \] 
 
         \bigskip
-        \bigskip
 
         \scalemath{0.9}{
             \begin{array}{cc}
@@ -158,3 +157,412 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
             \end{array}
         }
 
+    \bigskip
+
+        \scalemath{0.7}{
+            \begin{array}{cc}
+                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in v}[(\textit{ax})]& \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}}[(\textit{eps})]}{\<1,\varepsilon\> \in \text{A}^*}[(\textit{tup})]}{\<0\<1,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<0,\<0\<1,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0\<1,\varepsilon\>\>\>\> \in \text{A}^*}[(\textit{tup})]
+            \end{array}     
+        }
+
+    \bigskip
+
+        \scalemath{0.49}{
+            \begin{array}{cc}
+                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})] \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}^*}[(\textit{eps})]}{\<0,\varepsilon\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<0,\<1,\<0,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<1,\<0,\varepsilon\>\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\> \in \text{A}^*}[(\textit{tup})]}{ \<1,\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\>\> \in \text{A}^*}[(\textit{tup})]
+            \end{array}  
+        }
+    \end{exercise}
+
+    \bigskip
+
+    % Definición 2.2: Función para contar caracteres
+    \begin{definition}
+        Definimos la función para contar caracteres\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}} en una cadena denotada por $n_c$ :: A* $\rightarrow$ Int como sigue:
+        \[   
+            n_c(\<a,t\>) = 
+                \begin{cases}
+                    n_c(\varepsilon) = 0 \\
+                    1 + n_c(t) & \text{Sí \textit{a} = c} \\
+                    n_c(t)     & \text{Sí \textit{a}} \neq c \\
+                 \end{cases}
+        \]
+    \end{definition}
+
+    \bigskip
+
+    % Ejercicio 2.3
+    \begin{exercise}
+        Utiliza la inducción estructural para demostrar
+
+           \[ n_c(s \bullet t) = n_c(s) + n_c(t)  \]
+
+        \textbf{Caso Base} $s = \varepsilon$ \\\
+             $n_c(\varepsilon \bullet t) = n_c(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (Por la definición de $\bullet$)\\
+             = $0 + n_c(t)$ = $n_c(\varepsilon) + n_c(t)$ \qquad \qquad \qquad \quad \qquad \qquad \qquad  \qquad (Por la definición de $n_c$)\\
+             = $n_c(s) + n_c(t)$\\
+
+        \textbf{Hipótesis Inductiva}  $n_c(s \bullet t) = n_c(s) + n_c(t) $ \\
+
+        \textbf{Paso Inductivo} Por demostrar para $s = \<a,s'\>$\\
+            $n_c(\<a,s'\> \bullet t)$ = $n_c(\<a, s' \bullet t \>)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la definición de $\bullet$)\\
+            
+        \textbf{Caso 1} $a = c$ entonces tenemos\\
+            = $n_c(\<a, s' \bullet t \>)$ = $1 + n_c( s' \bullet t ) $ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad (Por la definición de $n_c$) \\
+            = $1 +  n_c(s') +  n_c(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
+            = $(1 + n_c(s')) + n_c(t)$ = $n_c(\<a,s'\>) +  n_c(t)$ \qquad \qquad \qquad \quad \quad (Por la definición de $n_c$) \\
+
+        \textbf{Caso 2} $a \neq c$ entonces tenemos \\
+            = $n_c(\<a, s' \bullet t \>)$ = $n_c( s' \bullet t )$ \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad \quad (Por la definición de $n_c$) \\
+            = $n_c(s') +  n_c(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
+            = $n_c(\<a,s'\>) +  n_c(t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad \quad \quad \quad \quad (Por la definición de $n_c$) 
+            
+    \end{exercise}
+    
+    % Definición 2.3: funcion de reversa y longitud para cadenas de caracteres.
+    \begin{definition}
+        Definimos las funciones $rev$ :: A* $\rightarrow$ A* y $len$ :: A* $\rightarrow$ Int para obtener la reversa y la longitud\footnote{Definición formulada a partir de \hyperlink{67}{[67]} y \hyperlink{70}{[70]} } de los elementos de A* respectivamente como:
+        \[
+            rev(\varepsilon) = \epsilon  \qquad
+            rev(\<a,s\>) = rev(s) \bullet \<a, \varepsilon\>  
+        \]
+        \[
+            len(\varepsilon) = \epsilon \qquad
+            len(\<a,s\>) = 1\ +\ len(s) 
+        \]
+    \end{definition}
+
+    % Ejercicio 2.4
+    \begin{exercise}
+        Utiliza inducción estructural para demostrar
+            \[ len(s \bullet t) = len(s) + len(t) \]
+    
+        \textbf{Caso Base } $s = \varepsilon$ \\
+            $len(\varepsilon \bullet t) = len(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad \quad (Por la definición de $\bullet$) \\
+            = $0 + len(t)$ = $len(\varepsilon) + len(t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad (Por la definición de $len$) \\
+            = $len(s) + len(t)$\\\
+
+        \textbf{Hipótesis inductiva }  $len(s \bullet t) = len(s) + len(t)$ \\  
+
+        \textbf{Paso Inductivo } Por demostrar para $s = \<a,s'\>$\\
+            $len(\<a,s'\> \bullet t) = len(\<a,\<s' \bullet t\>\>)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad (Por la definición $\bullet$) \\
+            = $1 + len(s' \bullet t)$ = $1 + len(s') + len(t)$ \qquad \qquad \qquad \qquad \qquad (Por la hipótesis inductiva) \\
+            = $(1 + len(s')) + len(t)$ = $len(\<a,s'\>) + len(t)$ \\
+    
+    \end{exercise} 
+
+    % Ejercicio 2.5
+    \begin{exercise}
+        Utiliza inducción estructural para demostrar
+            \[ len(rev(s)) = len(s) \]
+
+        \textbf{Caso Base} $s = \varepsilon$ \\
+            $len(rev(\varepsilon)) = len(\varepsilon)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la definición de $rev$) \\
+            $len(rev(s)) = len(rev(\varepsilon)) = len(\varepsilon) = len(s)$. \\\\
+            \textbf{Hipótesis Inductiva} $len(rev(s)) = len(s)$ \\\\
+            \textbf{Paso Inductivo} $s = \<a, s\> $ \\
+            $len(rev(\<a, s\> )) = len(rev(s) \bullet \<a,\varepsilon\>)$ \qquad \qquad \qquad \qquad \qquad (Por la definición de $rev$)\\
+            $len(rev(s) \bullet \<a,\varepsilon\>) = len(rev(s)) + len(\<a,\varepsilon\>)$  \qquad \qquad \qquad (Por la propiedad anterior)\\
+            $len(rev(s)) + 1 + len(\varepsilon\>)$ = $len(rev(s)) + 1 + 0$\\
+            $ 1 + len(rev(s)) = 1 + len(s)$   \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
+            $len(\<a,s\>)$ \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (Por definición de $len$) 
+
+    \end{exercise}
+
+    % Definición 2.4 Arboles binarios balanceados de altura K y tipo A, Función para contar los nodos de un árbol
+    \begin{definition}
+        Definimos los árboles binarios de tipo A con las siguientes reglas\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
+
+        \begin{enumerate}
+            \item $\emptyset$ es un árbol de tipo A.
+            \item Sí  $t_1$ y $t_2$ son árboles de tipo A y $a \in $A  entonces  $node(a,t_1,t_2)$ es un árbol binario de tipo A.
+            \item Son todas.
+        \end{enumerate} 
+
+        \bigskip
+
+        % $\text{1) $\emptyset$ es un árbol de tipo A}$ \\
+        % $\text{2) Sí } t_1 \text{y } t_2 \text{ son árboles de tipo A y } a \in A \text{ entonces } node(a,t1,t2) \\
+        % \text{es un árbol binario de tipo A}$.\\
+
+        Decimos que un árbol binario de tipo A y altura $k$ es balanceado sí se cumple alguna de las siguientes dos condiciones:\\
+
+        \begin{enumerate}
+            \item t = $\emptyset$ y \textit{k} = 0 
+            \item t = $node(a,t_1,t_2)$ de altura \textit{k} donde $t_1$ y $t_2$ son árboles binarios balanceados de tipo A y altura \textit{k}-1. \\\
+        \end{enumerate}
+
+
+        Definimos la función que cuenta el número de nodos denotada $n_n(t)$ como:
+        \[
+            \begin{array}{rcl}
+                 n_n(\emptyset)     &  =  & 0  \\
+                 n_n(node(a,t_1,t_2))&  =  &1+ n_n(t_1)+n_n(t_2) 
+            \end{array}
+        \]
+
+        % $n_n(\emptyset) = 0$ \\
+        % $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \\
+    \end{definition}
+
+    \bigskip
+    
+    % Ejercicio 2.6
+    \begin{exercise}
+        Demuestra utilizando inducción estructural que si \textit{t} es un árbol binario de tipo A con altura \textit{k} entonces $n_n(t) = 2^k - 1$ \\\\
+        \textbf{Caso Base} $t = \emptyset$, $k=0$\\\\
+            $n_n(\emptyset) = 2^0 -1 $ = $1 -1$ = 0.\\\\
+        \textbf{Hipótesis Inductiva} $n_n(t) = 2^k - 1$ para todo árbol binario de tipo A $t$ donde $k$ es la altura del mismo. \\\\
+        \textbf{Paso Inductivo} Por demostrar para $t = node(a,t_1,t_2)$ donde $t_1$ y $t_2$ son árboles binarios balnceados de altura $k-1$ se cumple que $n_n(node(a,t_1,t_2)) = 2^k - 1$ donde $k$ es la altura asociada al árbol $t$. \\\\
+            $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \quad \quad \quad \quad \quad \quad \quad\ (Por definición de $n_n(t)$) \\
+            = $1 + (2^{k-1} - 1) + (2^{k-1} - 1)$ \qquad \qquad \qquad \qquad \qquad \qquad  (Por la hipótesis inductiva) \\
+            = $1 + 2(2^{k-1} - 1)$ = $2^k - 2 + 1$ = $2^k - 1$
+    \end{exercise}
+
+    \bigskip
+
+% Sección 3: sistemas de transición
+\section{Sistemas de transición}}
+    En el contexto de las ciencias de la computación los sistemas de transición resultan particularmente útiles para obtener cualquier configuración de un programa en cada paso de su ejecución en forma de estados. En particular tendremos dos estados especiales para denotar la configuración inicial y la configuración final. Adicionalmente nos apoyaremos de un conjunto de reglas que nos permiten aplicar instrucciones y operadores para movernos de una configuración a otra\footnote{ Para el enfoque que seguimos en este manual definiremos las reglas de nuestros sistemas de transición como juicios lógicos.}.\\\\
+    Obtener todas las configuraciones posibles partiendo del estado inicial al estado final nos facilitará hacer el análisis de complejidad en tiempo y en espacio de nuestro programa.\\\\
+    Estructuras similares se han estudiado en cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } donde adicionalmente se define el alfabeto y se considera la lectura de un carácter para obtener una configuración distinta. En este caso omitiremos estos elementos y nos concentraremos únicamente en los estados y las reglas de transición.\\
+    \begin{exercise}
+    
+        Supón que se quiere modelar una partida de pinpón donde hay 2 jugadores A y B (el jugador A siempre empieza primero), y un marcador que cuenta el número de puntos de A y B representado como: jugador en turno, puntuación de A, puntuación de B. \\ 
+   
+        De tal forma que cada estado indica la información del juego hasta ese punto. Por ejemplo si el jugador B anota, el estado se modelaría como (B,X,Y) $\rightarrow$ (B,X,Y+1)  ya que el jugador que anota un punto vuelve a tirar la pelota en el siguiente turno.\\
+    
+        La partida acaba cuando alguno de los dos logra anotar 10 puntos. \\\
+
+        En base a la especificación dada anteriormente contesta lo siguiente:\\
+
+        \begin{enumerate}
+            \item Define formalmente el conjunto de estados (indica estados iniciales con la letra  ''I '', finales con la letra  ''F '' y los intermedios con ''$\Gamma$''): 
+                \begin{equation}
+                    \text{I} = \{(\text{A},0,0)\}\nonumber\\
+                 \end{equation}    
+                 \begin{equation}
+                    \Gamma = \{\text{C},\text{X},\text{Y}\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y } 0 \leq \text{X},\text{Y} \leq 10\nonumber\\
+                \end{equation}
+                \begin{equation}
+                    \text{F} =  \{\text{C},\text{X},\text{Y}\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y } X \text{ o } Y = 10\nonumber\\
+                \end{equation}
+            \item  Define la función de transición (enlista cuales son los casos y como se comporta la función en cada uno de estos):\\\\
+                Sí el jugador A puntúa: 
+                \[ f((\text{A},\text{X},\text{Y})) = (\text{A},\text{X}+1,\text{Y}) \]
+                Sí el jugador B puntúa: 
+                \[f((\text{B},\text{X},\text{Y})) = (\text{B},\text{X},\text{Y}+1)\]
+                Sí el jugador A no puntúa: 
+                \[ f((\text{A},\text{X},\text{Y})) = (\text{B},\text{X},\text{Y}) \]
+                Sí el jugador B no puntúa: 
+                \[ f((\text{B},\text{X},\text{Y})) = (\text{A},\text{X},\text{Y}) \]
+            \item Define con reglas de inferencia la función de transición escrita en el inciso anterior:\\
+                \[
+                \scalemath{0.75}{
+                    \begin{array}{lcl}    
+                        \inference{(\text{A},\text{X},\text{Y}) \text{ Estado},& (\text{A},\text{X}+1,\text{Y}) \text{ Estado}}{(\text{A},\text{X},\text{Y})\rightarrow(\text{A},\text{X}+1,\text{Y})  \text{ Estado}}[$(\text{A}+)$] \qquad 
+                        \inference{(\text{B},\text{X},\text{Y}) \text{ Estado},& (\text{B},\text{X},\text{Y}+1) \text{ Estado}}{(\text{B},\text{X},\text{Y})\rightarrow(\text{B},\text{X},\text{Y}+1)  \text{ Estado}}[$(\text{B}+)$] 
+                    \end{array}
+                }
+                \]
+                \bigskip
+                \[
+                \scalemath{0.81}{
+                    \begin{array}{lcl}    
+                        \inference{(\text{A},\text{X},\text{Y}) \text{ Estado},& (\text{B},\text{X},\text{Y}) \text{ Estado}}{(\text{A},\text{X},\text{Y})\rightarrow(\text{B},\text{X},\text{Y})  \text{ Estado}}[$(\text{A}-)$] \qquad 
+                        \inference{(\text{B},\text{X},\text{Y}) \text{ Estado},& (\text{A},\text{X},\text{Y}) \text{ Estado}}{(\text{B},\text{X},\text{Y})\rightarrow(\text{A},\text{X},\text{Y})  \text{ Estado}}[$(\text{B}-)$] 
+                    \end{array}
+                }
+                \]
+            \item Muestra una ejecución donde gane el jugador B especificando cada estado desde el inicial hasta el final: 
+                \begin{center}
+                    $ (\text{A},0,0) \rightarrow (\text{A},1,0) \rightarrow (\text{A},1,0) \rightarrow (\text{B},1,1) \rightarrow (\text{B},1,1) \rightarrow$ \\
+                    $ (\text{B},1,2) \rightarrow (\text{B},1,2) \rightarrow (\text{B},1,3) \rightarrow (\text{B},1,3) \rightarrow (\text{B},1,4) \rightarrow$ \\
+                    $ (\text{B},1,4) \rightarrow (\text{B},1,5) \rightarrow (\text{B},1,5) \rightarrow (\text{A},2,5) \rightarrow (\text{A},2,5) \rightarrow$ \\
+                    $ (\text{B},2,6) \rightarrow (\text{B},2,6) \rightarrow (\text{B},2,7) \rightarrow (\text{B},2,7) \rightarrow (\text{A},3,7) \rightarrow$ \\
+                    $ (\text{A},3,7) \rightarrow (\text{A},4,7) \rightarrow (\text{A},4,7) \rightarrow (\text{B},4,8) \rightarrow (\text{B},4,8) \rightarrow $\\
+                    $ (\text{A},5,8) \rightarrow (\text{A},5,8) \rightarrow (\text{B},5,9) \rightarrow (\text{B},5,9) \rightarrow (\text{B},5,10) $
+                \end{center}
+                En donde la secuencia se puede interpretar como: \\\\
+                 ''El jugador A hizo el saque inicial y el marcador muestra A con 0 y B con 0 puntos '', después  ''El jugador A anotó y el marcador muestra A con 1 punto y B con 0 puntos '', después  ''El jugador A hizo el saque inicial pues anotó en el turno anterior y el marcador muestra A con 1 punto y B con 0 puntos '', después  ''El jugador B anotó y el marcador muestra A con 1  punto y B con 1 punto '', después  ''El jugador B hizo el saque inicial pues anotó en el turno anterior y el marcador muestra A con 1  punto y B con 1 punto '', después  ''El jugador B anotó y el marcador muestra A con 1  punto y B con 2 puntos '' ...            
+        \end{enumerate}
+
+    \end{exercise}
+
+
+% Sección Ejercicios al lector
+\section{Ejercicios para el lector}
+    
+    %    Ejercicio 4.3
+    \begin{exercise}
+        Escribe el árbol de derivación para la siguiente cadena utilizando la definición 2.1 para el tipo de dato A*: 
+        \[ \<1,\<0,\varepsilon\>\> \]
+    \end{exercise}
+
+
+    %    Ejercicio 4.4
+    \begin{exercise}
+        Escribe el árbol de derivación para la siguiente cadena utilizando la definición 2.1 para el tipo de dato A*: 
+        \[\<1,\<1,\<1\<0,\varepsilon\>\>\>\>\]
+    \end{exercise}
+
+
+    %    Ejercicio 4.5
+    \begin{exercise}
+        Escribe el árbol de derivación para la siguiente cadena utilizando la definición 2.1 para el tipo de dato A*: 
+        \[ \<1,\<0,\<0,\<0,\<0,\<1,\varepsilon\>\>\>\>\>\> \]
+    \end{exercise}
+
+
+    %    definición 4.1: definición de la función map
+    \begin{definition}
+        Definimos la función \textit{map} :: (A $\rightarrow$ A) $\rightarrow$ A* $\rightarrow$ A*  \\que recibe una función \textit{f} y una cadena \textit{s} de la siguiente forma\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}: 
+        \[
+            \begin{array}{rcl}
+                \textit{map } f\ \varepsilon& = & \varepsilon \\
+                \textit{map } f\ \<a, s\>&   = & \<\textit{f}\text{ a}, \textit{map}\ f\ s \>
+            \end{array}
+        \]
+    \end{definition}
+
+    %    Ejercicio 4.1
+    \begin{exercise}
+        Demuestra utilizando la inducción estructural sobre las cadenas binarias de tipo A* que:
+        \[\textit{len} (\textit{map }\ f\ \<a,s\> ) =  \textit{len}(\<a,s\>)\]
+    \end{exercise}
+
+
+    %    Ejercicio 4.2
+    \begin{exercise}
+        Demuestra utilizando la inducción estructural sobre el tipo de dato A* que:
+        \[\textit{map } f\ \<a,s\> \bullet \<b,t\> = \textit{map } f\  \<a,s\> \bullet \textit{map } f\  \<b,t\>\]
+    \end{exercise}
+
+
+    %    Ejercicio 4.6
+    \begin{exercise}
+        Demuestra utilizando la inducción estructural sobre árboles binarios balanceados de tipo A que se cumple la siguiente afirmación:\\\\
+        Sea \textit{t} un árbol binario balanceado de tipo A y altura \textit{h} entonces
+        \[ n_n(t) \leq 2^{h+1} - 1\]
+    \end{exercise}
+
+    %    Ejercicio 4.7
+    \begin{exercise}
+Demuestra utilizando la inducción estructural sobre árboles binarios balanceados de tipo A que se cumple la siguiente afirmación:\\\\
+        Sea \textit{t} un árbol binario balanceado de tipo A y altura \textit{h} entonces
+        \[   n_i(t) = \frac{n_n(t) - 1}{2} \] donde $n_i(t)$ es el número de nodos internos en un árbol y $n_n(t)$ es el número de total de nodos.
+    \end{exercise}
+
+
+    %    Ejercicio 4.8
+    \begin{exercise}
+        De acuerdo a la máquina de transición definida en el ejercicio 3.1 ¿los jugadores A y B pueden empatar?\\\\
+        Justifica tu respuesta
+    \end{exercise}
+
+    \bigskip
+
+    %    Ejercicio 4.9
+    \begin{exercise}
+        De acuerdo con el sistema de transición definido en el ejercicio 3.1 muestra una ejecución en la que el jugador A gane.
+    \end{exercise}
+
+    \bigskip
+
+    %Ejercicio 4.10
+    \begin{exercise}
+        Suponga que se necesita definir un lenguaje que permita controlar un robot con movimientos
+        y funcionalidades muy simples. El robot se mueve sobre una cuadrícula siguiendo las instrucciones especificadas por el programa. \\\\
+        Al inicio el robot se encuentra en la coordenada (0,0) y viendo hacia el norte. El programa consiste en una secuencia posiblemente 
+        vacía de los comandos \texttt{move} y \texttt{turn} separados por punto y coma (';'), donde cada comando tiene el siguiente funcionamiento:\\
+    
+        \begin{itemize}
+            \item \texttt{turn} hace que el robot dé un giro de 90 grados en el sentido de las manecillas del reloj.
+            \item \texttt{move} provoca que el robot avance una casilla en la dirección hacía la que está viendo.\\
+        \end{itemize}
+
+        Donde un ejemplo de un programa válido puede ser el siguiente:
+        \[   \texttt{move};\texttt{turn};\texttt{move};\texttt{turn};\texttt{turn};\texttt{turn};\texttt{move} \]
+        Al final de la ejecución programa el robot termina en la casilla (2,1). La primera entrada de la coordenada
+        indica la posición vertical mientras que la segunda es la posición horizontal.\\\\
+
+        Con la especificación discutida anteriormente contesta los siguientes puntos:\\
+
+        \begin{enumerate}
+            \item Determina el conjunto de estados. 
+            \item Identifica los estados iniciales y finales del sistema de transición.
+            \item Define la función de transición $\rightarrow_R$ que indique como se debe transitar entre los estados del sistema.
+            \item Muestra paso a paso la ejecución del programa:
+                  \[  \texttt{move};\texttt{turn};\texttt{move};\texttt{turn};\texttt{turn};\texttt{turn};\texttt{move} \]
+                  Utilizando la relación $\rightarrow_R$ y partiendo del estado inicial.
+         \end{enumerate}
+
+    \end{exercise}
+
+    \newpage
+
+    Para finalizar esta sección vamos a revisar dos ejercicios prácticos que implementaremos en \texttt{Haskell}. Estos ejercicios combinan las definiciones de las funciones que hemos estudiado hasta este punto para listas y que ejemplifican las propiedades recursivas de estas estructuras en un lenguaje de programación funcional\footnote{Los ejercicios 4.11 y 4.12 fueron extraidos de \hyperlink{75}{[75]}.}.
+
+    \bigskip
+
+    \begin{exercise}
+        La validación del número de una tarjeta de crédito se hace implementando un algoritmo \texttt{checkSum} obteniendo información de los digitos que la componen. Para eso implementaremos nuestro propio validador de tarjetas de crédito como sigue:\\
+    
+        Los dígitos que están una posición impar (empezando por el índice 0 de derecha a izquierda) se deben duplicar. \\\\
+        Posteriormente se suman todos los dígitos de los números que componen la tarjeta (aquellos números que fueron duplicados tendrán dos dígitos, los cuales deben de ser sumados junto con el resto que no se modificaron).\\\\
+        Por último se aplica el módulo 10 al resultado de la suma, si el resultado es diferente de 0 entonces la tarjeta es inválida, en caso contrario es válida.\\
+        \begin{enumerate} 
+           \item  Implementa la función {\tt getDigits :: Int ->\ [Int]} \\\\
+                  Por ejemplo, la tarjeta \[1348\ 1548\ 9998\ 6535\] dará como resultado la lista: \texttt{[1,3,4,8,1,5,4,8,9,9,9,8,6,5,3,5]} \\
+                  (asumimos que la entrada son solo los dígitos de la tarjeta SIN separación).\\
+           \item  Implementa la función \texttt{reverseDigits ::  [Int] ->\ [Int]} \\\\
+                  Esta función obtiene la reversa de la lista de los dígitos obtenidos en el paso anterior.\\
+           \item  Implementa la función \texttt{duplicateOddPositionDigits ::  [Int] ->\ [Int]} \\\\
+                  Por ejemplo: la lista \texttt{[1,3,4,8,1,5,4,8,9,9,9,8,6,5,3,5]} solo duplicará los números que estén en una posición impar obteniendo como resultado: \texttt{[1,6,4,16,1,10,4,16,9,18,9,16,6,10,6,5]}. \\
+           \item  Implementa la función \texttt{toDigits :: Int ->\ [Int]}\\\\
+                  El objetivo de la implementación de esta función es el de obtener los dígitos de los números mayores o iguales a 10, de tal forma que si tenemos como parámetro de entrada para esta función a la lista \texttt{[1,6,4,16,1,10,4,16,9,18,9,16,6,10,6,5]} obtengamos la siguiente como resultado \texttt{[1,6,4,1,6,1,0,4,1,6,9,1,8,9,1,6,1,0,6,5]} \\
+           \item  Implementa la función \texttt{sumDigitsInList :: [Int] ->\ Int} \\\\
+                  Esta función simplemente suma los dígitos contenidos en la lista (puedes utilizar la función sum provista por \texttt{GHCi}).\\
+           \item  Implementa la función \texttt{checkSumCreditCard :: Int ->\ Bool}\\\\
+                  Recuerda que el criterio de validez es que la suma de los dígitos filtrados de la tarjeta módulo 10 sea igual a 0.
+                    
+        \end{enumerate}    
+    \end{exercise}
+
+    \bigskip
+
+    \begin{exercise}
+        Las torres de Hanoi son un un rompecabezas clásico cuya solución puede ser escrita de forma recursiva. Los discos de diferentes tamaños se apilan del más grande al más pequeño y el objetivo es moverlos del pivote A al pivote C utilizando un pivote auxiliar B con \textit{n} = 4\footnote{\textit{n} denota la cantidad de discos en el pivote inical.}.\\
+        
+        Las reglas son  las siguientes: \\
+        
+        \begin{enumerate}
+            \item Ningún disco puede estar encima de un disco mas pequeño. 
+            \item Por movimiento solo es válido el desplazamiento de un disco hacía otro pivote.
+        \end{enumerate}
+
+        Se definen los siguientes tipos para implementar la solución al \textit{puzzle} de la siguiente forma: 
+
+        \begin{center}
+            \begin{verbatim}
+                          type Peg  = String
+                          type move = (Peg, Peg)
+            \end{verbatim}
+        \end{center}
+        
+        % $$\text{Type Peg = String}$$ 
+        % $$\text{Type move = (Peg, Peg)}$$\\
+
+        Implementa la función \texttt{Hanoi :: Int ->\ Peg ->\ Peg ->\ Peg ->\ [move]}\\\\
+        Que dada el número de discos y los pivotes regrese una lista con los movimientos para mover los discos del primer pivote al pivote objetivo, por ejemplo: \\
+        \begin{center}
+            \texttt{Hanoi 2  ''A ''  ''B ''  ''C '' = [( ''A '', ''C ''), ( ''A '', ''B ''), ( ''C '', ''B '')]}
+        \end{center}
+    \end{exercise}  
+
+    \newpage
+    \newpage
+
+%https://comp.anu.edu.au/courses/comp2600/Lectures/11ListInduction.pdf
+%https://courses.engr.illinois.edu/cs173/fa2010/Lectures/trees.pdf
+%https://math.stackexchange.com/questions/2615653/using-structural-induction-to-prove-a-property-of-full-binary-trees
