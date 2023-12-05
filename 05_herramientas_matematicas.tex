@@ -7,7 +7,7 @@
 
 %Gatito Constructor
 \begin{figure}[htbp]
-    \centerline{\includegraphics[scale=.22]{assets/02_gatito_herramientas_matematicas.jpg}}
+    \centerline{\includegraphics[scale=.19]{assets/02_gatito_herramientas_matematicas.jpg}}
     \label{fig 1. Mapa para clasificar los lenguajes de programación.}        
 \end{figure}
 
@@ -107,7 +107,7 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
     En el caso de la lista de tipo de dato A*, el elemento más primitivo que pertenece a esta estructura es la cadena vacía (denotada como $\varepsilon$) o bien una tupla con cabeza \textit{a} $\in $ A y cola de tipo A*.\\\\
     Este principio se aplica tanto para definir la estructura recursiva como para las funciones que se quieran aplicar sobre la misma\footnote{Información obtenida de \hyperlink{94}{[94]} y \hyperlink{95}{[95]}}. Para ilustrar este punto definimos la función para concatenar dos elementos de A* de la siguiente forma: 
     \begin{definition}
-        Definimos la concatenación de cadenas A* denotada como\\ $\bullet$ ::\ (A* $\rightarrow$\ A*) $\rightarrow$\ A* mediante la siguiente especificación\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]}}:
+        Definimos la concatenación de cadenas A* denotada como: $\bullet$ ::\ (A* $\rightarrow$\ A*) $\rightarrow$\ A* mediante la siguiente especificación\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]}}:
         \[
             \begin{array}{rcl}
                 \text{Caso base:}   & \varepsilon \bullet t  =   t &  (\textit{eps}) \\
@@ -134,11 +134,10 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
             \textbf{Hipótesis Inductiva} $t \bullet \varepsilon = t$  para toda $t \in \text{A}^*$ \\\\
             \textbf{Paso Inductivo} por demostrar $\<a,t\> \bullet \varepsilon = \<a,t\>$ para toda $a \in \text{A}$ y $t \in \text{A}^*$ \\
             $\<a,t\> \bullet \varepsilon$ = $\<a, \<t \bullet \varepsilon \> \>$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad (Por la definición de $\bullet$) \\
-            $\<t \bullet \varepsilon \> = t $ \qquad \qquad \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad (Por la hipótesis inductiva) \\
+            $\<t \bullet \varepsilon \> = t $ \qquad \qquad \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad\ (Por la hipótesis inductiva) \\
             $\<a,t\> \bullet \varepsilon = \<a, \<t \bullet \varepsilon \> \> = \<a, t\>$ \\ 
     \end{exercise}
 
-    \bigskip
 
     % Ejercicio 2.2
     \begin{exercise}
@@ -174,7 +173,6 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
         }
     \end{exercise}
 
-    \bigskip
 
     % Definición 2.2: Función para contar caracteres
     \begin{definition}
@@ -198,8 +196,8 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
            \[ n_c(s \bullet t) = n_c(s) + n_c(t)  \]
 
         \textbf{Caso Base} $s = \varepsilon$ \\\
-             $n_c(\varepsilon \bullet t) = n_c(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (Por la definición de $\bullet$)\\
-             = $0 + n_c(t)$ = $n_c(\varepsilon) + n_c(t)$ \qquad \qquad \qquad \quad \qquad \qquad \qquad  \qquad (Por la definición de $n_c$)\\
+             $n_c(\varepsilon \bullet t) = n_c(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la definición de $\bullet$)\\
+             = $0 + n_c(t)$ = $n_c(\varepsilon) + n_c(t)$ \qquad \qquad \qquad \quad \qquad \qquad \qquad  \qquad\  (Por la definición de $n_c$)\\
              = $n_c(s) + n_c(t)$\\
 
         \textbf{Hipótesis Inductiva}  $n_c(s \bullet t) = n_c(s) + n_c(t) $ \\
@@ -208,14 +206,14 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
             $n_c(\<a,s'\> \bullet t)$ = $n_c(\<a, s' \bullet t \>)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la definición de $\bullet$)\\
             
         \textbf{Caso 1} $a = c$ entonces tenemos\\
-            = $n_c(\<a, s' \bullet t \>)$ = $1 + n_c( s' \bullet t ) $ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad (Por la definición de $n_c$) \\
+            = $n_c(\<a, s' \bullet t \>)$ = $1 + n_c( s' \bullet t ) $ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad\ (Por la definición de $n_c$) \\
             = $1 +  n_c(s') +  n_c(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
-            = $(1 + n_c(s')) + n_c(t)$ = $n_c(\<a,s'\>) +  n_c(t)$ \qquad \qquad \qquad \quad \quad (Por la definición de $n_c$) \\
+            = $(1 + n_c(s')) + n_c(t)$ = $n_c(\<a,s'\>) +  n_c(t)$ \qquad \qquad \qquad \quad \quad\ (Por la definición de $n_c$) \\
 
         \textbf{Caso 2} $a \neq c$ entonces tenemos \\
-            = $n_c(\<a, s' \bullet t \>)$ = $n_c( s' \bullet t )$ \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad \quad (Por la definición de $n_c$) \\
+            = $n_c(\<a, s' \bullet t \>)$ = $n_c( s' \bullet t )$ \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad \quad\ (Por la definición de $n_c$) \\
             = $n_c(s') +  n_c(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
-            = $n_c(\<a,s'\>) +  n_c(t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad \quad \quad \quad \quad (Por la definición de $n_c$) 
+            = $n_c(\<a,s'\>) +  n_c(t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad \quad \quad \quad \quad\ \ (Por la definición de $n_c$) 
             
     \end{exercise}
     
@@ -238,14 +236,14 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
             \[ len(s \bullet t) = len(s) + len(t) \]
     
         \textbf{Caso Base } $s = \varepsilon$ \\
-            $len(\varepsilon \bullet t) = len(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad \quad (Por la definición de $\bullet$) \\
+            $len(\varepsilon \bullet t) = len(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \ (Por la definición de $\bullet$) \\
             = $0 + len(t)$ = $len(\varepsilon) + len(t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad (Por la definición de $len$) \\
             = $len(s) + len(t)$\\\
 
         \textbf{Hipótesis inductiva }  $len(s \bullet t) = len(s) + len(t)$ \\  
 
         \textbf{Paso Inductivo } Por demostrar para $s = \<a,s'\>$\\
-            $len(\<a,s'\> \bullet t) = len(\<a,\<s' \bullet t\>\>)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad (Por la definición $\bullet$) \\
+            $len(\<a,s'\> \bullet t) = len(\<a,\<s' \bullet t\>\>)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad \ \ \ (Por la definición $\bullet$) \\
             = $1 + len(s' \bullet t)$ = $1 + len(s') + len(t)$ \qquad \qquad \qquad \qquad \qquad (Por la hipótesis inductiva) \\
             = $(1 + len(s')) + len(t)$ = $len(\<a,s'\>) + len(t)$ \\
     
@@ -257,15 +255,15 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
             \[ len(rev(s)) = len(s) \]
 
         \textbf{Caso Base} $s = \varepsilon$ \\
-            $len(rev(\varepsilon)) = len(\varepsilon)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la definición de $rev$) \\
+            $len(rev(\varepsilon)) = len(\varepsilon)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \ \  (Por la definición de $rev$) \\
             $len(rev(s)) = len(rev(\varepsilon)) = len(\varepsilon) = len(s)$. \\\\
             \textbf{Hipótesis Inductiva} $len(rev(s)) = len(s)$ \\\\
             \textbf{Paso Inductivo} $s = \<a, s\> $ \\
-            $len(rev(\<a, s\> )) = len(rev(s) \bullet \<a,\varepsilon\>)$ \qquad \qquad \qquad \qquad \qquad (Por la definición de $rev$)\\
+            $len(rev(\<a, s\> )) = len(rev(s) \bullet \<a,\varepsilon\>)$ \qquad \qquad \qquad \qquad \qquad \ \ (Por la definición de $rev$)\\
             $len(rev(s) \bullet \<a,\varepsilon\>) = len(rev(s)) + len(\<a,\varepsilon\>)$  \qquad \qquad \qquad (Por la propiedad anterior)\\
             $len(rev(s)) + 1 + len(\varepsilon\>)$ = $len(rev(s)) + 1 + 0$\\
-            $ 1 + len(rev(s)) = 1 + len(s)$   \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
-            $len(\<a,s\>)$ \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (Por definición de $len$) 
+            $ 1 + len(rev(s)) = 1 + len(s)$   \qquad \qquad \qquad \qquad \qquad \qquad \quad \ \ \ (Por la hipótesis inductiva) \\
+            $len(\<a,s\>)$ \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \ \ \ (Por definición de $len$) 
 
     \end{exercise}
 
@@ -314,7 +312,7 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
             $n_n(\emptyset) = 2^0 -1 $ = $1 -1$ = 0.\\\\
         \textbf{Hipótesis Inductiva} $n_n(t) = 2^k - 1$ para todo árbol binario de tipo A $t$ donde $k$ es la altura del mismo. \\\\
         \textbf{Paso Inductivo} Por demostrar para $t = node(a,t_1,t_2)$ donde $t_1$ y $t_2$ son árboles binarios balnceados de altura $k-1$ se cumple que $n_n(node(a,t_1,t_2)) = 2^k - 1$ donde $k$ es la altura asociada al árbol $t$. \\\\
-            $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \quad \quad \quad \quad \quad \quad \quad\ (Por definición de $n_n(t)$) \\
+            $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \quad \quad \quad \quad \quad \quad \ \ \ \ \   (Por definición de $n_n(t)$) \\
             = $1 + (2^{k-1} - 1) + (2^{k-1} - 1)$ \qquad \qquad \qquad \qquad \qquad \qquad  (Por la hipótesis inductiva) \\
             = $1 + 2(2^{k-1} - 1)$ = $2^k - 2 + 1$ = $2^k - 1$
     \end{exercise}
@@ -322,7 +320,7 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
     \bigskip
 
 % Sección 3: sistemas de transición
-\section{Sistemas de transición}}
+\section{Sistemas de transición}
     En el contexto de las ciencias de la computación los sistemas de transición resultan particularmente útiles para obtener cualquier configuración de un programa en cada paso de su ejecución en forma de estados. En particular tendremos dos estados especiales para denotar la configuración inicial y la configuración final. Adicionalmente nos apoyaremos de un conjunto de reglas que nos permiten aplicar instrucciones y operadores para movernos de una configuración a otra\footnote{ Para el enfoque que seguimos en este manual definiremos las reglas de nuestros sistemas de transición como juicios lógicos.}.\\\\
     Obtener todas las configuraciones posibles partiendo del estado inicial al estado final nos facilitará hacer el análisis de complejidad en tiempo y en espacio de nuestro programa.\\\\
     Estructuras similares se han estudiado en cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } donde adicionalmente se define el alfabeto y se considera la lectura de un carácter para obtener una configuración distinta. En este caso omitiremos estos elementos y nos concentraremos únicamente en los estados y las reglas de transición.\\
@@ -388,11 +386,10 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
                     $ (\text{A},5,8) \rightarrow (\text{A},5,8) \rightarrow (\text{B},5,9) \rightarrow (\text{B},5,9) \rightarrow (\text{B},5,10) $
                 \end{center}
                 En donde la secuencia se puede interpretar como: \\\\
-                 ''El jugador A hizo el saque inicial y el marcador muestra A con 0 y B con 0 puntos '', después  ''El jugador A anotó y el marcador muestra A con 1 punto y B con 0 puntos '', después  ''El jugador A hizo el saque inicial pues anotó en el turno anterior y el marcador muestra A con 1 punto y B con 0 puntos '', después  ''El jugador B anotó y el marcador muestra A con 1  punto y B con 1 punto '', después  ''El jugador B hizo el saque inicial pues anotó en el turno anterior y el marcador muestra A con 1  punto y B con 1 punto '', después  ''El jugador B anotó y el marcador muestra A con 1  punto y B con 2 puntos '' ...            
+                 ''El jugador A hizo el saque inicial y el marcador muestra A con 0 y B con 0 puntos '', después  ''El jugador A anotó y el marcador muestra A con 1 punto y B con 0 puntos '', después  ''El jugador A hizo el saque inicial pues anotó en el turno anterior y el marcador muestra A con 1 punto y B con 0 puntos '', después  ''El jugador B anotó y el marcador muestra A con 1  punto y B con 1 punto '', después  ''El jugador B hizo el saque inicial pues anotó en el turno anterior y el marcador muestra A con 1  punto y B con 1 punto '', después  ''El jugador B anotó y el marcador muestra A con 1  punto y B con 2 puntos... ''         
         \end{enumerate}
 
     \end{exercise}
-
 
 % Sección Ejercicios al lector
 \section{Ejercicios para el lector}
@@ -403,20 +400,17 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
         \[ \<1,\<0,\varepsilon\>\> \]
     \end{exercise}
 
-
     %    Ejercicio 4.4
     \begin{exercise}
         Escribe el árbol de derivación para la siguiente cadena utilizando la definición 2.1 para el tipo de dato A*: 
         \[\<1,\<1,\<1\<0,\varepsilon\>\>\>\>\]
     \end{exercise}
 
-
     %    Ejercicio 4.5
     \begin{exercise}
         Escribe el árbol de derivación para la siguiente cadena utilizando la definición 2.1 para el tipo de dato A*: 
         \[ \<1,\<0,\<0,\<0,\<0,\<1,\varepsilon\>\>\>\>\>\> \]
     \end{exercise}
-
 
     %    definición 4.1: definición de la función map
     \begin{definition}
@@ -435,13 +429,11 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
         \[\textit{len} (\textit{map }\ f\ \<a,s\> ) =  \textit{len}(\<a,s\>)\]
     \end{exercise}
 
-
     %    Ejercicio 4.2
     \begin{exercise}
         Demuestra utilizando la inducción estructural sobre el tipo de dato A* que:
         \[\textit{map } f\ \<a,s\> \bullet \<b,t\> = \textit{map } f\  \<a,s\> \bullet \textit{map } f\  \<b,t\>\]
     \end{exercise}
-
 
     %    Ejercicio 4.6
     \begin{exercise}
@@ -457,21 +449,16 @@ Demuestra utilizando la inducción estructural sobre árboles binarios balancead
         \[   n_i(t) = \frac{n_n(t) - 1}{2} \] donde $n_i(t)$ es el número de nodos internos en un árbol y $n_n(t)$ es el número de total de nodos.
     \end{exercise}
 
-
     %    Ejercicio 4.8
     \begin{exercise}
         De acuerdo a la máquina de transición definida en el ejercicio 3.1 ¿los jugadores A y B pueden empatar?\\\\
         Justifica tu respuesta
     \end{exercise}
 
-    \bigskip
-
     %    Ejercicio 4.9
     \begin{exercise}
         De acuerdo con el sistema de transición definido en el ejercicio 3.1 muestra una ejecución en la que el jugador A gane.
     \end{exercise}
-
-    \bigskip
 
     %Ejercicio 4.10
     \begin{exercise}
@@ -506,7 +493,6 @@ Demuestra utilizando la inducción estructural sobre árboles binarios balancead
 
     Para finalizar esta sección vamos a revisar dos ejercicios prácticos que implementaremos en \texttt{Haskell}. Estos ejercicios combinan las definiciones de las funciones que hemos estudiado hasta este punto para listas y que ejemplifican las propiedades recursivas de estas estructuras en un lenguaje de programación funcional\footnote{Los ejercicios 4.11 y 4.12 fueron extraidos de \hyperlink{75}{[75]}.}.
 
-    \bigskip
 
     \begin{exercise}
         La validación del número de una tarjeta de crédito se hace implementando un algoritmo \texttt{checkSum} obteniendo información de los digitos que la componen. Para eso implementaremos nuestro propio validador de tarjetas de crédito como sigue:\\
@@ -531,8 +517,6 @@ Demuestra utilizando la inducción estructural sobre árboles binarios balancead
                     
         \end{enumerate}    
     \end{exercise}
-
-    \bigskip
 
     \begin{exercise}
         Las torres de Hanoi son un un rompecabezas clásico cuya solución puede ser escrita de forma recursiva. Los discos de diferentes tamaños se apilan del más grande al más pequeño y el objetivo es moverlos del pivote A al pivote C utilizando un pivote auxiliar B con \textit{n} = 4\footnote{\textit{n} denota la cantidad de discos en el pivote inical.}.\\
@@ -559,11 +543,10 @@ Demuestra utilizando la inducción estructural sobre árboles binarios balancead
         Implementa la función \texttt{Hanoi :: Int ->\ Peg ->\ Peg ->\ Peg ->\ [move]}\\\\
         Que dada el número de discos y los pivotes regrese una lista con los movimientos para mover los discos del primer pivote al pivote objetivo, por ejemplo: \\
         \begin{center}
-            \texttt{Hanoi 2  ''A ''  ''B ''  ''C '' = [( ''A '', ''C ''), ( ''A '', ''B ''), ( ''C '', ''B '')]}
+            \texttt{Hanoi 2  ''A'' ''B'' ''C'' = [(''A'',''C''),(''A'',''B''),(''C'',''B'')]}
         \end{center}
     \end{exercise}  
 
-    \newpage
     \newpage
 
 %https://comp.anu.edu.au/courses/comp2600/Lectures/11ListInduction.pdf
