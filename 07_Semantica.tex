@@ -1,0 +1,519 @@
+%    Cuarto Capítulo capítulo: Siintáxis.
+%    Ejercicios por Barón L. Miguel.
+%    Teoría por Javier Enríquez Mendoza.
+%    Empezado el 29/11/22
+%    Concluido el 17/1/23
+
+%Gatito Sintáctico
+\begin{figure}[htbp]
+    \centerline{\includegraphics[scale=.4]{assets/04_gatito_semantica.jpg}}       
+\end{figure}
+
+
+%Introducción
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+
+    En el capítulo anterior se estudió la composición sintáctica de las expresiones de nuestro lenguaje mediante juicios que nos permiten construir una instrucción utilizando la sintaxis
+    concreta y el árbol de sintaxis abstracta asociado a la misma. Estos niveles sintácticos nos permiten responder a la pregunta ¿qué es una expresión de lenguaje?.\\\\
+    En el presente capítulo nos ocuparemos de la semántica del lenguaje, que tiene como propósito responder a la pregunta ¿qué significa una expresión del lenguaje?.\\
+    En el contexto de los lenguajes de programación podemos pensar de forma intuitiva que la respuesta a la pregunta anterior sería algo como: ''el comportamiento que tiene la expresión del lenguaje en tiempo de ejecución al ser evaluada''. 
+    En particular  nos interesa obtener el valor al que la expresión del lenguaje se evalúa (semántica dinámica) y analizar el tipo de la expresión (semántica estática)\footnote{Definición acuñada de \hyperlink{98}{[98]}, \hyperlink{99}{[99]} y \hyperlink{100}{[100]}}.\\\\
+    Muchas veces en la documentación oficial de los lenguajes de programación la semántica está escrita en un manual el cual contiene una descripción de alto nivel
+    acerca de como una determinada instrucción, método o expresión se comporta al momento de ejecutarse. Si bien esto resulta útil al escribir un programa nuestro interés sera definir formalmente la semántica de ejecución mediante juicios y reglas para el lenguaje \textsf{EAB}. \\
+
+    \subsection*{Objetivo}
+        Definir los diferentes niveles semánticos de \textsf{EAB} mediante reglas de inferencia que dictaminen el proceso que se 
+        debe seguir al para evaluar o asignar un tipo a una expresión bien formada de este lenguaje.
+
+    \subsection*{Planteamiento}
+        Iniciaremos el estudio de este capítulo presentando las reglas para poder asignar un tipo a cada un de las expresiones bien formadas de \textsf{EAB}. Este nivel corresponde a la semántica estática y será de utilidad para fundamentar la seguridad del lenguaje y garantizar que se pueda regresar un valor al final de la evaluación de la expresión a la que se pretende asignar el tipo.\\\\
+        Posteriormente se definirá el procedimiento para evaluar las expresiones bien formadas de \textsf{EAB}. Este mecanismo se conoce como semántica dinámica y se estudiará en dos paradigmas: de paso grande y de paso pequeño. Por último definiremos la función \texttt{eval} para \textsf{EAB}.
+
+    \section{Semántica estática}
+    La semántica estática extrae información del programa en tiempo de compilación, la cantidad y calidad de la información obtenida depende de la implementación de cada compilador\footnote{Definición acuñada de \hyperlink{96}{[96]} y \hyperlink{97}{[97]}}. \\\\
+    La información que se extrae del programa provisto por el usuario puede ser: el alcance de una variable, el tipo de una expresión, saber si una expresión tiene variables libres, etc. Saber esto es indispensable  para poder evaluar las expresiones de \textsf{EAB} (este último punto es importante ya que necesitamos que todas las variables estén ligadas y no haya presencias libres en nuestras expresiones, de lo contrario de la evaluación no se obtendrá valor alguno).\\\\
+    En el lenguaje de expresiones aritméticas con el que hemos estado trabajando, las expresiones de la forma:
+        \begin{center}
+                \texttt{let}\ \textit{x}\ =\ \textit{y}\ \texttt{in}\ \textit{x}\ +\ \textit{x}\ \texttt{end}
+        \end{center}
+    son sintácticamente correctas pero semánticamente incorrectas, pues la variable \textit{y} está libre en la expresión por lo que no podría evaluarse.\\\\
+    Ésta es una de las propiedades de las que se encarga la semántica estática, así que daremos un conjunto de reglas para definir una semántica estática encargada de evitar estos errores. Para esto se define el siguiente juicio: 
+
+    \bigskip
+    
+    \begin{definition}Semántica estática para capturar expresiones con variables libres en \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:\\\\
+    Sea $\Delta$ un conjunto de variables y \textit{a} un árbol de sintáxis abstracta, decimos que \textit{a} no tiene variables libres en bajo el conjunto $\Delta$ denotado como:
+        $$ \Delta\sim a\ ASA$$
+    
+    En particular nos interesa que todas las variables ligadas de \textit{a} estén presentes en $\Delta$.\\
+    Para construir este conjunto definimos las siguientes reglas que nos permitirán acrecentar $\Delta$ cada que encontremos una variable ligada en el árbol $x.t$. Definimos las reglas como sigue:
+    \[
+        \begin{array}{ccc}
+            \inference{x\in \Delta}{\Delta \sim\ x}[\textsf{fvv}]&
+            \inference{}{\Delta \sim num[n]}[\textsf{fvn}]&
+            \inference{\Delta, x \sim e}{\Delta \sim\ x.e}[\textsf{fva}]
+        \end{array}
+    \]
+    \bigskip
+    \[
+        \begin{array}{cc}
+            \inference{}{\Delta\sim num[Bool]}[{\sf fvb}]&
+            \inference{\Delta\sim e_1&\cdots&\Delta\sim e_n}{\Delta\sim O(e_1,\cdots,e_n)}[{\sf fvo}]
+        \end{array}
+    \]
+
+    \bigskip
+    
+    Para garantizar que una expresión $e$ no tiene variables libres se inicia con el conjunto vacío de variables definidas y se debe probar $\emptyset\sim e$ usando las reglas anteriores.
+    \end{definition}
+
+    \bigskip
+
+    \begin{definition}Expresión cerrada de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}:\\\\
+    Sea $a$ un \textit{ASA} decimos que $a$ es cerrada si y sólo si $$\emptyset\sim a$$
+    Es decir, $a$ es una expresión del lenguaje cerrada si no tiene apariciones de variables libres. 
+    \end{definition}
+
+    \bigskip
+
+    \begin{exercise}
+        Para la siguiente expresión realiza el análisis estático para encontrar variables libres mediante la derivación aplicando las reglas del juicio $\sim$
+        \[ 
+            \texttt{let } x = 1 \texttt{ in } (y * x) + z \texttt{ end}
+        \]
+        \[
+            \inference{\inference{\inference{\inference{\texttt{Error}}{\{ x \} \sim y} \quad \inference{x \in \{x\}}{\{ x \} \sim x}[fvn]}{\{ x \} \sim (y * x)}[fvo] \quad  \inference{Error}{\{ x \} \sim z} }{\{ x \} \sim \text{(y * x) + z}}[fvo]}{\emptyset \sim \textbf{let } x = 1 \textbf{ in } \text{(y * x) + z} \textbf{ end}}[fva]
+        \]
+    \end{exercise}
+
+    \bigskip
+
+    \begin{exercise}
+        Para la siguiente expresión realiza el análisis estático para encontrar variables libres mediante la derivación aplicando las reglas del juicio $\sim$
+       %\scalemath{0.6}{
+            \[
+                 \textbf{ if  } True \textbf{ then } (1 + 1) * 2  \textbf{ else } 7 
+            \]
+            \[
+                \inference{\inference{}{\emptyset \sim True}[fvb] \quad \inference{\inference{\inference{}{\emptyset \sim 1}[fvn] \quad \inference{}{\emptyset \sim 1}[fvn]}{\emptyset \sim (1 + 1)}[fvo] \quad \inference{}{\emptyset \sim 2}[fvn]}{\emptyset \sim (1 + 1) * 2}[fvo] \quad \inference{}{\emptyset \sim 7}[fvn] }{\emptyset \sim \textbf{ if } True \textbf{ then } (1 + 1) * 2 \textbf{ else } 7  }[fvo]
+            \]
+	%}
+
+    \end{exercise}
+
+    \bigskip
+
+    \begin{exercise}
+        Para la siguiente expresión realiza el análisis estático para encontrar variables libres mediante la derivación aplicando las reglas del juicio $\sim$
+        \[
+            1 + \textbf{if ( } \textbf{ let } x = True \textbf{ in } x \textbf{ end } \textbf{ then } 2 \textbf{ else } 1 \textbf{ )}
+        \]
+        \[
+            \inference{\inference{}{\Delta \sim 1}[fvn] \inference{ \inference{\inference{}{\{x\} \sim x}[fvn]}{\Delta \sim \textbf{ let } x = True \textbf{ in } x \textbf{ end }}[fvo] \inference{}{\Delta \sim 2}[fvn] \inference{}{\Delta \sim 1}[fvn] }{\Delta \sim \textbf{if ( } \textbf{ let } x = True \textbf{ in } x \textbf{ end } \textbf{ then } 2 \textbf{ else } 1 \textbf{ )}}[fvo]}{\Delta \sim 1 + \textbf{if ( } \textbf{ let } x = True \textbf{ in } x \textbf{ end } \textbf{ then } 2 \textbf{ else } 1 \textbf{ )}}[fvo]
+        \]
+    \end{exercise}
+
+    \bigskip
+
+    De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación\footnote{Éste tipo de árboles de derivación han sido discutidos antes en el cap. 2 \textbf{Herramientas Matemáticas}}. aplicados en expresiones cerradas concluirán todas sus ramas con algún axioma (\textbf{fvn}, \textbf{fvb}). \\\\
+
+    \section{Semántica dinámica}
+    La semántica dinámica que estudiaremos en este capítulo, es el siguiente componente del proceso de ejecución de un programa. Una vez verificada la estructura dada por la semántica estática se puede comenzar a discutir el \textbf{cómo} se modelará la ejecución de las expresiones correctas del lenguaje. \\\\\
+    Diferentes modelos de ejecución pueden ser aplicados dependiendo del enfoque que se quiera tener para estudiar ésta (cambios en la memoria, el valor las variables del programa, el valor final al que se evalúa la expresion, etc). En este capítulo nos centraremos en la \textbf{Semántica Operacional} que estudia el proceso de ejecución modelando cada configuración del programa como un estado (una expresión del lenguaje) y las transiciones entre éllos que serán los cómputos que partiendo de una configuración A nos permiten obtener una configuración B.
+    
+    
+    \subsection{Semántica operacional}
+    En esta categoría se hace la distinción entre dos tipos de semántica
+    \begin{itemize}
+        \item \textbf{Estructural} ó también conocida de paso pequeño, la cuál modela la ejecución de un programa describiendo las transiciones una a una mostrando los compútos generados de forma individual. 
+        \item \textbf{Natural} ó también conocida de paso grande, la cúal modela de forma general la ejecución de un programa que fue llevada a cabo para obtener el resultado.
+    \end{itemize}
+
+    Como ambos enfoques solo difieren en el sistema de transición que emplean definiremos los estados de la máquina de transición para ambos a continuación.
+
+    \bigskip
+    
+    \begin{definition}[Sistema de transición para semántica operacional de \textbf{EAB}]\label{sistemaT} Se define la semántica operacional del lenguaje de expresiones aritméticas utilizando el sistema de transición siguiente:
+    \vspace{1em}
+        \begin{description}
+            \item[Conjunto de estados] $S=\{a;|;a; asa\}$, es decir, los estados del sistema son las expresiones bien formadas del lenguaje en sintaxis abstracta. Esta definición corresponde a la regla de inferencia:
+            $$\inference{a;asa}{a;estado}[\sf state]$$  \bigskip
+            \item[Estados Iniciales] $I=\{a;|;a;asa,;\emptyset\sim a\}$, los estados iniciales son todas las expresiones cerradas del lenguaje, es decir, expresiones sin variables libres. Correspondiente a la regla:
+            $$\inference{a;asa & \emptyset \sim a}{a;inicial}[\sf init]$$ \bigskip
+            \item[Estados Finales] se definen como las expresiones que representan a los posibles resultados finales de un proceso de evaluación. Para poder modelarlos definimos una categoría de valores los cuales son un subconjunto de expresiones que ya se han terminado de evaluar y no pueden reducirse más, con el juicio $v;valor$. Para el caso de ea el único valor son los números, formalmente definido con la regla:
+            $$\inference{}{num[n];valor}[\sf vnum]\inference{}{bool[b];valor}[\sf vbool]$$
+            Entonces se define el conjunto de estados finales $F=\{a;|;a;valor\}$, correspondiente a la regla:
+            $$\inference{a;valor}{a;final}[\sf fin]$$ 
+
+        \end{description}
+    \end{definition}
+
+    De la definición anterior es importante recalcar que los estados finales asociados a un valor no pueden ser reducidos a ningún otro estado, es por ésto que los denotaremos como estados "bloqueados"
+
+    \begin{definition}[Estado bloqueado] Un estado $s$ está bloqueado si no existe otro estado $s'$ tal que $sto s'$ y lo denotamos como $sNotto$.
+    \end{definition}
+
+    \bigskip
+
+    \subsection{Semántica de paso pequeño}
+        Para esta semántica las transiciones se modelarán paso a paso mediante la función de transición, denotada como: $e_1 \rightarrow e_2$ donde $e_1$ es llamado "$redex$" y $e_2$ es llamado "$reducto$" en donde se interpreta cómo la transición entre $e_1$ y $e_2$ si y solo sí en un paso de evaluación se puede reducir $e_1$ a $e_2$.
+
+        La siguiente definición contiene las reglas para cada constructor de nuestro lenguaje \textbf{EAB} y las posibles reducciones para transitar de un estado a otro.
+
+    \bigskip
+
+    \begin{definition}[Función de transición para semántica de paso pequeño]\label{pasopequeno} Se da la definición de la función de transición para completar la definición de la semántica operacional de paso pequeño con el sistema de transición \ref{sistemaT} mediante las siguientes reglas de inferencia:\\
+    \begin{description}
+        \item[Suma]
+
+        \[
+            \scalemath{0.85}{
+                \begin{array}{c}
+                    \inference{}{suma(num[n],num[m])to num[n+_N m]}[\sf sumaf]\\
+                    \quad
+                \end{array}
+            }
+        \]
+        \[
+            \scalemath{0.85}{
+                \begin{array}{c}
+                    \inference{a_1to a_1'}{suma(a_1,a_2)to suma(a_1',a_2)}[\sf suma1]\\
+                    \quad
+                \end{array}    
+                \quad
+                \begin{array}{c}
+                    \inference{a_2to a_2'}{suma(num[n],a_2)to suma(num[n],a_2')}[\sf suma2]\\
+                    \quad
+                \end{array} 
+            }
+        \]
+
+        \bigskip
+        
+        \item[Producto]
+        \[
+            \scalemath{0.85}{
+                \begin{array}{c}
+                    \inference{}{prod(num[n],num[m])to num[n\times_N m]}[\sf prodf]\\
+                    \quad
+                \end{array}
+            }
+        \]
+        \[
+            \scalemath{0.85}{
+                \begin{array}{ccc}
+                    \inference{a_1to a_1'}{prod(a_1,a_2)to produ(a_1',a_2)}[\sf prod1]&
+                    \inference{a_2to a_2'}{prod(num[n],a_2)to prod(num[n],a_2')}[\sf prod2]\\
+                    \quad&&
+                \end{array}
+            }
+        \]
+        \item[Expresiones lógicas]
+        \[
+            \scalemath{0.85}{
+                \begin{array}{c}
+                    \inference{}{if(True,e_1,e_2) to e_1}[\sf ift]
+                    \quad
+                    \inference{}{if(False,e_1,e_2) to e_2}[\sf iff]
+                    \quad
+                \end{array}
+            }
+        \]
+        \[
+            \scalemath{0.85}{
+                \begin{array}{ccc}
+                    \inference{a_1to a_1'}{if(a_1, e_1 , e_2)n to if(a_1', e_1 , e_2)}[\sf if1]&
+                \end{array}
+            }
+        \]
+        \item[Asignaciones locales]
+        \[
+            \scalemath{0.85}{
+                \begin{array}{ccc}
+                    \inference{v;valor}{let(v,x.a_2)to a_2[x:=v]}[\sf letf]&
+                    \quad&
+                    \inference{a_1to a_1'}{let(a_1,x.a_2)to let(a_1',x.a_2)}[\sf let1]
+                \end{array}
+            }
+        \]
+
+        \bigskip
+        
+        \end{description}
+        \textbf{Nota:} la evaluación del operador $if$ es una evaluación "perezosa", en donde no se evaluará el resto de la expresión if hasta antes haber determinado el valor de la sentencia de control (\textbf{True} ó \textbf{False})
+        
+    \end{definition}
+
+    \bigskip
+
+    \begin{exercise}
+        Dada la siguiente expresion de nuestro lenguaje \textbf{EAB} utiliza las reglas de transición para semántica de paso pequeño para evaluarla.
+        \[
+            \textbf{let } k = (3 + 1) \textbf{ in } (7 * k) + 1 \textbf{ end} 
+        \]
+        \[
+            \begin{array}{cl}
+                &\text{let}(\text{sum}(3,1),\text{k}.\text{sum}(\text{prod}(7,\text{k}),1))\\
+                to&\text{let}(4,\text{k}.\text{sum}(\text{prod}(7,\text{k}),1))\\
+                to&(\text{sum}(\text{prod}(7,\text{k}),1))[\text{k}:=4]\\
+                to&\text{sum}(\text{prod}(7,\text{k})[\text{k}:=4],1[\text{k}:=4])\\
+                to&\text{sum}(\text{prod}(7[\text{k}:=4],\text{k}[\text{k}:=4]),1)\\
+                to&\text{sum}(\text{prod}(7,4),1)\\
+                to&\text{sum}(28,1)\\
+                to&29\\
+                
+
+            \end{array}
+        \]
+        
+    \end{exercise}
+
+    \bigskip
+
+    \begin{exercise}
+        Dada la siguiente expresion de nuestro lenguaje \textbf{EAB} utiliza las reglas de transición para semántica de paso pequeño para evaluarla.
+        \[
+            \textbf{if (} False \textbf{ then } 4 * \textbf{let } x = 99 * 99 \textbf{ in } x + x \textbf{ end} \textbf{ else } 0 \textbf{)}
+        \] 
+        \[
+            \begin{array}{cl}
+                &if(False,let(prod(99,99)x.sum(x,x),0)\\
+                to&0
+
+            \end{array}
+        \]
+    \end{exercise}
+
+    Del ejercicio anterior podemos notar la ventaja de la evaluación perezosa, dado que nuestro valor de control es $False$ no es necesario evaluar la expresión $e_1$ y directamente nos saltaremos a evalúar $e_2$ por la regla \textbf{iff} que en este caso es el valor 0.\\
+    
+    \begin{exercise}
+        Dada la siguiente expresion de nuestro lenguaje \textbf{EAB} utiliza las reglas de transición para semántica de paso pequeño para evaluarla.
+        \[
+            \textbf{let } x = \textbf{ if ( } True \textbf{ then } 42 \textbf{ else } 0 \textbf{)} \textbf{ in } \textbf{ if (} False \textbf{ then } 41 \textbf{ else } x \textbf{ )}
+        \]  
+        \[
+            \begin{array}{cl}
+                &\text{let}(\text{if(True,42,0)},\text{x}.\text{if(False,41,x))}\\
+                to&\text{let}(\text{42},\text{x}.\text{if(False,41,x))}\\
+                to&\text{if(False,41,x)}[x:=42]\\
+                to&\text{if(False[x:=42],41[x:=42],x[x:=42])}\\
+                to&\text{if(False,41,42)}\\
+                to&42\\
+            \end{array}
+        \]
+    \end{exercise}
+
+    Es importante definir las carácteristicas inductivas que la relación de transición posee para alcanzar estados partiendo de uno inicial. \\\\
+    Éstas se conocen como \textbf{cerraduras} y pueden ser:  \textbf{reflexiva} (un estado puede llegar a si mismo en 0 aplicaciones de pasos), \textbf{transitiva} (si un estado $e_1$ puede alcanzar un estado $e_2$ y $e_2$ puede alcanzar a $e_n$ en un número finito de pasos entonces $e_1$ puede llegar a $e_n$ en un número finito de pasos) ó \textbf{positiva} (la aplicación de las reglas de transición n veces con n $\geq$ 1).\\\\
+    A continuación enunciamos las cerraduras, la relación de transición y la iteración en n pasos.
+
+    \begin{definition}[Cerradura transitiva y reflexiva] La cerradura reflexiva y transitiva se denota como $to^*$ y se define con la siguientes reglas:
+        \[
+            \begin{array}{ccc}
+                \inference{}{sto^*s}&
+                \quad&
+                \inference{s_1to s_2&s_2to^*s_3}{s_1to^*s_3}
+            \end{array}
+        \]
+        Intuitivamente la relación $s_1to^*s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos (posiblemente 0), de la relación de transición $to$.
+    \end{definition}
+    
+    \begin{definition}[Cerradura positiva] La cerradura transitiva se denota como $to^+$ y se define con la siguientes reglas:
+        \[
+            \begin{array}{ccc}
+                \inference{s_1to s_2}{s_1to^+s_2}&
+                \quad&
+                \inference{s_1to s_2&s_2to^+s_3}{s_1to^+s_3}
+            \end{array}
+        \]
+        Intuitivamente la relación $s_1to^+s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos estrictamente mayor a cero, de la relación de transición $to$. Es decir, se llega de $s_1$ a $s_2$ en al menos un paso.
+    \end{definition}
+    
+    \begin{definition}[Iteración en $n$ pasos] la iteración en $n$ pasos se denota como $to^n$ con $n\in N$ y se define con la siguientes reglas:
+        \[
+            \begin{array}{ccc}
+                \inference{}{sto^0s}&
+                \quad&
+                \inference{s_1to s_2&s_2to^ns_3}{s_1to^{n+1}s_3}
+            \end{array}
+        \]
+        Intuitivamente la relación $s_1to^ns_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en exactamente $n$ pasos de la relación de transición $to$.
+    \end{definition}
+
+    \subsection{Semántica de paso grande}
+    Este semántica define la ejecución de un programa mostrando el valor al cual se evalúa. Encapsula de forma general el proceso sin detallar paso a paso como es que una expresión es evaluada (contrario a la \textbf{semántica de paso pequeño}).\\\\
+    La relación de transición en este caso se denota como $e \Downarrow v$ donde $e$ es una expresión válida de nuestro lenguaje \textbf{EAB} y $v$ es un valor, ésta se lee como "la expresión $e$ se evalúa a $v$".
+
+    \begin{definition}[La relación $\Downarrow$ para ea] Se define la transición sobre los estados definidos en \ref{sistemaT} para la semántica operacional de paso grande de ea mediante las siguientes reglas de inferencia:
+        \begin{description}
+            \item[Valores]
+            $$\inference{}{num[n]\Downarrow num[n]}[\sf bsnum ] \inference{}{bool[b]\Downarrow bool[b]}[\sf bsbool ]$$
+            \item[Suma] 
+            $$\inference{e_1\Downarrow Num[n]&e_2\Downarrow Num[m]}{sum(e_1,e_2)\Downarrow Num[n+_N m]}[\sf bssum]$$
+            \item[Producto] 
+            $$\inference{e_1\Downarrow Num[n]&e_2\Downarrow num[m]}{prod(e_1,e_2)\Downarrow num[n\times_N m]}[\sf bsprod]$$
+            \item[Asignaciones locales] 
+            $$\inference{e_1\Downarrow v_1&e_2[x:=v_1]\Downarrow v_2}{let(e_1,x.e_2)\Downarrow v_2}[\sf bslet]$$
+            \item[Sentencias de control]
+            $$\inference{e_0\Downarrow True & e_1 \Downarrow v_1}{if(e_0,e_1,e_2)\Downarrow v_1}[\sf bsift ]
+              \inference{e_0\Downarrow False & e_2 \Downarrow v_2}{if(e_0,e_1,e_2)\Downarrow v_2}[\sf bsift]$$
+        \end{description}
+        \textbf{Nota: } Para este enfoque si es necesario definir una regla de transición para los valores del lenguaje, pues es necesaria para el correcto funcionamiento del resto de las reglas. 
+    \end{definition}
+
+    \begin{theorem}[Equivalencia entre semántica de paso pequeño y paso grande] Para cualquier expresión $e$ del lenguaje \textbf{EAB} se cumple:
+        $$eto^*v\mbox{ si y sólo si } e\Downarrow v$$
+        Es decir, las semánticas que hemos definido son equivalentes.
+    \end{theorem}
+
+    \begin{exercise}
+        Dada la siguiente expresión de \textbf{EAB} evalúala utilizando \textbf{semántica de paso grande}. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
+        \textbf{Síntaxis Concreta:}
+        \[
+            \textbf{let } x \textbf{ = } \textbf{let } y \textbf{ = } False \textbf{ in } \textbf{ if ( } y \textbf{ then } 0 \textbf{ else } 1 \textbf{ ) }  \textbf{ end } \textbf{ in } x + 1 \textbf{ end}
+        \]
+        \textbf{Síntaxis Abstracta:}
+        \[
+            \textbf{let(} \textbf{let(} False, y.\textbf{if(}y,0,1\textbf{)}\textbf{)} ,x.\textbf{sum(}x,1\textbf{))}
+        \]
+        \textbf{Evaluación Paso Grande:}
+        \[
+            \scalemath{.90}{
+                \inference{ \inference{ \inference{}{False \Downarrow False}[bsbool]  & \inference{}{\textbf{if(}y,0,1\textbf{)}\textbf{)}[y:=False] \Downarrow 1} }{\textbf{let(} False, y.\textbf{if(}y,0,1\textbf{)}\textbf{)} \Downarrow 1}[bslet] & \inference{}{ \textbf{sum(}x,1\textbf{)} [x:=1] \Downarrow 2}[bssum] }{ \textbf{let(} \textbf{let(} False, y.\textbf{if(}y,0,1\textbf{)}\textbf{)} ,x.\textbf{sum(}x,1\textbf{))} \Downarrow 2}[bslet]
+            }
+        \]
+    \end{exercise}
+
+    \begin{exercise}
+         Dada la siguiente expresión de \textbf{EAB} evalúala utilizando \textbf{semántica de paso grande}. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
+        \textbf{Síntaxis Concreta:}
+        \[
+            ((7 + 4) * 4) + ((8 + 3) * 2)
+        \]
+        \textbf{sintaxis Abstracta}
+        \[
+            \textbf{sum(} \textbf{prod(} \textbf{sum(} 7,4 \textbf{)}, 4 \textbf{)} , \textbf{prod(} \textbf{sum(} 8,3\textbf{)}, 2 \textbf{)}  \textbf{)}
+        \]
+        \textbf{Evaluación Paso Grande:}
+        \[
+            \scalemath{0.6}{
+                \inference{\inference{\inference{\inference{}{7 \Downarrow 7}[bsnum] & \inference{}{4 \Downarrow 4}[bsnum]}{\textbf{sum(}7,4\textbf{)} \Downarrow 11}[bsum] & \inference{}{4 \Downarrow 4}[bsnum]}{\textbf{prod(} \textbf{sum(} 7,4 \textbf{)}, 4 \textbf{)} \Downarrow 44}[bsprod] & \inference{\inference{\inference{}{8 \Downarrow 8}[bsnum] & \inference{}{3 \Downarrow 3}[bsnum]}{\textbf{sum(}8,3\textbf{)} \Downarrow 11}[bsum] & \inference{}{2 \Downarrow 2}[bsnum]}{\textbf{prod(} \textbf{sum(} 8,3\textbf{)}, 2 \textbf{)}  \textbf{)} \Downarrow 22}[bsprod] }{\textbf{sum(} \textbf{prod(} \textbf{sum(} 7,4 \textbf{)}, 4 \textbf{)} , \textbf{prod(} \textbf{sum(} 8,3\textbf{)}, 2 \textbf{)}  \textbf{)} \Downarrow 66}[bssum]
+            }
+        \]
+    \end{exercise}
+
+    \begin{exercise}
+        Dada la siguiente expresión de \textbf{EAB} evalúa utilizando \textbf{semántica de paso grande}. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
+        \textbf{Síntaxis Concreta:}
+        \[
+            \textbf{if ( } False \textbf{ then } (3 * 7) + 1 \textbf{ else } (2 * 7) + 1 \textbf{ )} 
+        \]
+        \textbf{sintaxis Abstracta:}
+        \[
+            \textbf{if ( } False,\textbf{sum(}\textbf{prod(}3,7\textbf{)},1\textbf{)}, \textbf{sum(}\textbf{prod(}2,7\textbf{)},1\textbf{)} \textbf{ )} \Downarrow 15
+        \]
+        \textbf{Evaluación Paso Grande:}
+        \[
+            \scalemath{.85}{
+                \inference{\inference{}{False \Downarrow False}[bsbool] & \inference{\inference{\inference{}{2 \Downarrow 2}[bsnum] & \inference{}{7 \Downarrow 7}[bsnum] }{\textbf{prod(}2,7\textbf{)} \Downarrow 14}[bsprod] & \inference{}{1 \Downarrow 1}[bsnum]}{ \textbf{sum(}\textbf{prod(}2,7\textbf{)},1\textbf{)} \textbf{ )} \Downarrow 15 }[bssum] }{\textbf{if ( } False,\textbf{sum(}\textbf{prod(}3,7\textbf{)},1\textbf{)}, \textbf{sum(}\textbf{prod(}2,7\textbf{)},1\textbf{)} \textbf{ )} \Downarrow 15 }[bsiff]
+            }
+        \]
+    \end{exercise}
+    
+    \textbf{Nota } De este ejercicio podemos observar que dependiendo del valor que se obtenga en $e_0$ de nuestras expresiones \textbf{if($e_0$,$e_1$,$e_2$)} las reglas \textbf{bsiff} y \textbf{bsift} nos permiten  omitir la evaluación de la expresión $e_1$ ó $e_2$ respectivamente, en este caso se omite la evaluación de la expresión $e_1 = (3 * 7) + 1$.\\
+
+\section{La función eval}
+
+    Concluimos este capítulo enunciando la relación entre \textbf{semántica de paso pequeño} y \textbf{semántica de paso grande} con la función de evaluación definida para \textbf{EAB} como sigue:
+
+    \begin{definition} Se define la función \lstinline{eval} en términos de la semántica dinámica del lenguaje como sigue:
+    $$eval(e)=e_f\mbox{ si y sólo si } eto ^*e_f\mbox{ y }e_fNotto$$
+
+    \textbf{Nota: } La propiedad de \textbf{bloqueo de valor} para \textbf{EAB} se deriva de las reglas \textbf{bsnum} y \textbf{vsbool} dónde se cumple que Si $v$ valor entonces $vNotto$, es decir $v$ está bloqueado.
+    \end{definition}
+    
+    La función \textbf{eval} será de utilidad para el resto de las secciones que visitaremos a lo largo del curso.
+
+    Newpage
+    
+    \section{Ejercicios para el lector}
+
+    \begin{exercise}
+        Considera la siguiente sintaxis concreta para un lenguaje proposicional simple ($Prop$) donde solo se utiliza el conector AND ($\wedge$) y el operador NOT ($Neg$) definida como: 
+        \[
+            \inference{x \ Prop  y \ Prop}{ x \wedge y \ Prop} ; \inference{x \ Prop}{Neg x \ Prop} ; \inference{}{top \ Prop} ; \inference{}{\bot  \ Prop} 
+        \] 
+
+        A) Proporciona una semántica de paso pequeño para evaluar las expresiones en $Prop$.\\\\
+        B) Proporciona una semántica de paso grande para evaluar las expresiones $Prop$.
+    \end{exercise}
+
+    \bigskip
+
+    \begin{exercise}
+        Ahora supón que se quieren añadir cuantificadores y variables a nuestro lenguaje $Prop$ de la siguiente forma: \\
+        \[
+            \inference{x \ Prop}{\exists v, \ x \ Prop} ; \inference{x \ Prop}{\forall v,\ x \ Prop} ; \inference{v \ variable}{v \ Prop} 
+        \]
+
+        Proporciona un conjunto de reglas que definan la semántica estática que nos permite decidir cuando una expresión de $Prop$ no contengiene variables libres bajo un contexto $\Gamma$. Denotado de la siguiente forma: \\
+        $$ \Gamma \vdash e \ Ok $$ 
+
+    \end{exercise}
+
+    \begin{exercise}
+        Una cálculadora de \textbf{Notación Polaca Reversa} es una calculadora que no requiere de parentizado para evaluar las expresiones que son pasadas como argumento.\\
+        Ésta se apoya de una \textbf{pila} para "empujar" los operandos y los operadores así como de la \textbf{notación post-fija}, es decir el operador se escribe después de los operandos, por ejemplo:
+        $$7\ +\ 1\ =\ 7\ 1\ + $$ 
+        $$7\ -\ (3\ +\ 2)\ =\ 7\ 3\ 2\ +\ -$$
+        Esta calculadora empuja símbolos a la pila hasta encontrar un operador, en tal caso dos símbolos son sacados de la pila y el resultado de la operación es empujado.
+        La sintaxis concreta de la calculadora está definida por las siguientes reglas: \\
+        \[
+            \inference{x \in N}{x \ Symbol} ; \inference{x \in \{+,-,*,/ \}}{x \ Symbol} ; \inference{}{\empty \ NPR} ; \inference{x \ Symbol & xs\ NPR}{x \ xs \ NPR}
+        \]
+        Esta gramática tiene el problema de poder formar expresiones que no pertenecen necesariamente a \textbf{NPR} como:
+        $$ 1 + 2$$ 
+        $$ + * /$$
+
+        A) Proporciona un conjunto de reglas para definir la semántica estática que pueda analizar una expresión $e$ y nos diga si es una expresión perteneciente a \textbf{NPR} denotando el juicio como:
+        $$ \vdash e \ Ok $$
+
+        B) Proporciona un conjunto de reglas para definir la semántica de paso pequeño que evalúen las expresiónes de \textbf{NPR}.\\
+
+        C) Proporciona un conjunto de reglas para definir la semántica de paso grande que evalúen las expresiónes de \textbf{NPR}.\\
+    \end{exercise}
+
+    \begin{exercise}
+        Utilizando el analizador sintáctico y las reglas de semántica de paso pequeño y grande definidas en el ejercicio anterior contesta lo siguiente: \\
+
+        Dada la expresión \textbf{NPR} $$e = 7\ 1\ 9 \ - -\ $$ \\
+        A) muestra que $\vdash $ e $Ok$ \\\\
+        B) Evalúa la expresión utilizando la semántica de paso pequeño.\\\\
+        C) Evalúa la expresión utilizando la semántica de paso grande.
+    \end{exercise}
+
+    \begin{exercise}
+        Dada la siguiente expresión de \textbf{EAB} definida como:
+        \begin{align*}
+        	e = \textsf{let  }
+        		a&= \textsf{let }d = 2 \textsf{ in } d+1 \textsf{ end }
+        		\textsf{ in }\\
+        		 &\textsf{let }b=(a + 1)+a 
+        		 	\textsf{ in } \\
+        		 & \qquad(a + b) + \textsf{let }c=1 \textsf{ in } 
+        		 						b \ast c 
+        		 				\textsf{ end }\\
+        		 &\textsf{ end }\\
+        	\textsf{ end }&
+        \end{align*}
+
+        \begin{itemize}
+            \item Utilizando el analizador sintáctico definido para \textbf{EAB} ($\sim$) decide si esta expresión es cerrada.\\
+            \item Utilizando la semántica dinámica de paso pequeño definida para \textbf{EAB} muestra la evaluación de la expresión hasta obtener un valor.\\
+            \item Utilizando la semántica dinámica de paso grande definida para \textbf{EAB} muestra la evaluación de la expresión hasta obtener un valor.
+        \end{itemize}
+    \end{exercise}
