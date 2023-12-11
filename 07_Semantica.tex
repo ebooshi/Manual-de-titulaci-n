@@ -45,7 +45,7 @@
 
     \bigskip
     
-    \begin{definition}Semántica estática para capturar expresiones con variables libres en \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:\\\\
+    \begin{definition}Semántica estática para capturar expresiones con variables libres en \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
     Sea $\Delta$ un conjunto de variables y \textit{a} un árbol de sintáxis abstracta, decimos que \textit{a} no tiene variables libres en bajo el conjunto $\Delta$ denotado como:
         $$ \Delta\sim a\ ASA$$
     
@@ -61,20 +61,20 @@
     \bigskip
     \[
         \begin{array}{cc}
-            \inference{}{\Delta\sim num[Bool]}[{\sf fvb}]&
+            \inference{}{\Delta\sim \textit{T}\ \text{ Bool}}[{\sf fvb}]&
             \inference{\Delta\sim e_1&\cdots&\Delta\sim e_n}{\Delta\sim O(e_1,\cdots,e_n)}[{\sf fvo}]
         \end{array}
     \]
 
     \bigskip
     
-    Para garantizar que una expresión $e$ no tiene variables libres se inicia con el conjunto vacío de variables definidas y se debe probar $\emptyset\sim e$ usando las reglas anteriores.
+    Para garantizar que una expresión $e$ no tiene variables libres se inicia con el conjunto vacío y se debe probar $\emptyset\sim e$ usando las reglas anteriores.
     \end{definition}
 
     \bigskip
 
-    \begin{definition}Expresión cerrada de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}:\\\\
-    Sea $a$ un \textit{ASA} decimos que $a$ es cerrada si y sólo si $$\emptyset\sim a$$
+    \begin{definition}Expresión cerrada de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}:
+    Sea $a$ un \textit{ASA} decimos que $a$ es cerrada si y sólo si $$ FV(a)\ =\ \emptyset $$
     Es decir, $a$ es una expresión del lenguaje cerrada si no tiene apariciones de variables libres. 
     \end{definition}
 
@@ -86,7 +86,7 @@
             \texttt{let } x = 1 \texttt{ in } (y * x) + z \texttt{ end}
         \]
         \[
-            \inference{\inference{\inference{\inference{\texttt{Error}}{\{ x \} \sim y} \quad \inference{x \in \{x\}}{\{ x \} \sim x}[fvn]}{\{ x \} \sim (y * x)}[fvo] \quad  \inference{Error}{\{ x \} \sim z} }{\{ x \} \sim \text{(y * x) + z}}[fvo]}{\emptyset \sim \textbf{let } x = 1 \textbf{ in } \text{(y * x) + z} \textbf{ end}}[fva]
+            \inference{\inference{\inference{\inference{\texttt{Error}}{\{ x \} \sim y} & \inference{x \in \{x\}}{\{ x \} \sim x}[(fvn)]}{\{ x \} \sim (y * x)}[(fvo)] & \inference{Error}{\{ x \} \sim z} }{\{ x \} \sim \text{(y * x) + z}}[(fvo)]}{\emptyset \sim \texttt{let } x = 1 \texttt{ in } \text{($y$ * $x$) + $z$} \texttt{ end}}[(fva)]
         \]
     \end{exercise}
 
@@ -94,14 +94,16 @@
 
     \begin{exercise}
         Para la siguiente expresión realiza el análisis estático para encontrar variables libres mediante la derivación aplicando las reglas del juicio $\sim$
-       %\scalemath{0.6}{
+ 
             \[
-                 \textbf{ if  } True \textbf{ then } (1 + 1) * 2  \textbf{ else } 7 
+                 \texttt{ if  } \texttt{True } \texttt{then } (1 + 1) * 2  \texttt{ else } 7 
             \]
             \[
-                \inference{\inference{}{\emptyset \sim True}[fvb] \quad \inference{\inference{\inference{}{\emptyset \sim 1}[fvn] \quad \inference{}{\emptyset \sim 1}[fvn]}{\emptyset \sim (1 + 1)}[fvo] \quad \inference{}{\emptyset \sim 2}[fvn]}{\emptyset \sim (1 + 1) * 2}[fvo] \quad \inference{}{\emptyset \sim 7}[fvn] }{\emptyset \sim \textbf{ if } True \textbf{ then } (1 + 1) * 2 \textbf{ else } 7  }[fvo]
-            \]
-	%}
+	\scalemath{0.7}{
+                \inference{\inference{}{\emptyset \sim True}[(fvb)] & \inference{\inference{\inference{}{\emptyset \sim 1}[(fvn)] & \inference{}{\emptyset \sim 1}[(fvn)]}{\emptyset \sim (1 + 1)}[(fvo)] & \inference{}{\emptyset \sim 2}[(fvn)]}{\emptyset \sim (1 + 1) * 2}[(fvo)] & \inference{}{\emptyset \sim 7}[(fvn)] }{\emptyset \sim \textbf{ if } True \textbf{ then } (1 + 1) * 2 \textbf{ else } 7  }[fvo]
+	}           
+ \]
+
 
     \end{exercise}
 
@@ -110,40 +112,44 @@
     \begin{exercise}
         Para la siguiente expresión realiza el análisis estático para encontrar variables libres mediante la derivación aplicando las reglas del juicio $\sim$
         \[
-            1 + \textbf{if ( } \textbf{ let } x = True \textbf{ in } x \textbf{ end } \textbf{ then } 2 \textbf{ else } 1 \textbf{ )}
+            1 + \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}
         \]
         \[
-            \inference{\inference{}{\Delta \sim 1}[fvn] \inference{ \inference{\inference{}{\{x\} \sim x}[fvn]}{\Delta \sim \textbf{ let } x = True \textbf{ in } x \textbf{ end }}[fvo] \inference{}{\Delta \sim 2}[fvn] \inference{}{\Delta \sim 1}[fvn] }{\Delta \sim \textbf{if ( } \textbf{ let } x = True \textbf{ in } x \textbf{ end } \textbf{ then } 2 \textbf{ else } 1 \textbf{ )}}[fvo]}{\Delta \sim 1 + \textbf{if ( } \textbf{ let } x = True \textbf{ in } x \textbf{ end } \textbf{ then } 2 \textbf{ else } 1 \textbf{ )}}[fvo]
+\scalemath{0.8}{
+            \inference{\inference{}{\Delta \sim 1}[(fvn)] \inference{ \inference{\inference{}{\{x\} \sim x}[(fvn)]}{\Delta \sim \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end }}[(fvo)] \inference{}{\Delta \sim 2}[(fvn)] \inference{}{\Delta \sim 1}[(fvn)] }{\Delta \sim \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}}[(fvo)]}{\Delta \sim 1 + \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}}[(fvo)]
+}
         \]
     \end{exercise}
 
     \bigskip
 
-    De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación\footnote{Éste tipo de árboles de derivación han sido discutidos antes en el cap. 2 \textbf{Herramientas Matemáticas}}. aplicados en expresiones cerradas concluirán todas sus ramas con algún axioma (\textbf{fvn}, \textbf{fvb}). \\\\
+    De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación generados de expresiones cerradas concluirán todas sus ramas con algún axioma (fvn, fvb  o fvv). \\\\
 
     \section{Semántica dinámica}
-    La semántica dinámica que estudiaremos en este capítulo, es el siguiente componente del proceso de ejecución de un programa. Una vez verificada la estructura dada por la semántica estática se puede comenzar a discutir el \textbf{cómo} se modelará la ejecución de las expresiones correctas del lenguaje. \\\\\
-    Diferentes modelos de ejecución pueden ser aplicados dependiendo del enfoque que se quiera tener para estudiar ésta (cambios en la memoria, el valor las variables del programa, el valor final al que se evalúa la expresion, etc). En este capítulo nos centraremos en la \textbf{Semántica Operacional} que estudia el proceso de ejecución modelando cada configuración del programa como un estado (una expresión del lenguaje) y las transiciones entre éllos que serán los cómputos que partiendo de una configuración A nos permiten obtener una configuración B.
+    La semántica dinámica constituye el siguiente eslabón del proceso de ejecución de un programa. Una vez verificada que la expresión en sintáxis concreta es una expresión válida y no posee variables libres por la semántica estática, entonces se puede comenzar a discutir el cómo se ejecutará dicha expresión. \\\\\
+    Diferentes paradigmas de ejecución pueden ser aplicados para las expresiones de \textsf{EAB} dependiendo de la rama de interés que se quiera estudiar del lenguaje de programación (por ejemplo cambios en la memoria, el valor las variables del programa, el valor final al que reduce la expresion, etc). En este capítulo nos centraremos en la semántica operacional que estudia el proceso de ejecución modelando cada configuración del programa como un estado y las transiciones entre ellos.
     
     
     \subsection{Semántica operacional}
-    En esta categoría se hace la distinción entre dos tipos de semántica
+    En esta categoría se hace la distinción entre los dos paradigmas mas imprtanes para estudiar la semántica operacional de los lenguajes de programación:
     \begin{itemize}
-        \item \textbf{Estructural} ó también conocida de paso pequeño, la cuál modela la ejecución de un programa describiendo las transiciones una a una mostrando los compútos generados de forma individual. 
-        \item \textbf{Natural} ó también conocida de paso grande, la cúal modela de forma general la ejecución de un programa que fue llevada a cabo para obtener el resultado.
+        \item Semántica de paso pequeño: la cuál modela la ejecución de un programa describiendo las transiciones una a una mostrando los compútos generados de forma individual. 
+        \item Semántica de paso grande: que contrasta con la de paso pequeño porque aquí no nos importa que estados sucedieron en la ejecución del programa, únicamente nos interesa el valor que regresa.
     \end{itemize}
 
-    Como ambos enfoques solo difieren en el sistema de transición que emplean definiremos los estados de la máquina de transición para ambos a continuación.
+   % Como ambos enfoques solo difieren en el sistema de transición que emplean definiremos los estados de la máquina de transición para ambos a continuación.
 
     \bigskip
     
-    \begin{definition}[Sistema de transición para semántica operacional de \textbf{EAB}]\label{sistemaT} Se define la semántica operacional del lenguaje de expresiones aritméticas utilizando el sistema de transición siguiente:
+    \begin{definition}Sistema de transición para la semántica operacional de \textsf{EAB}:  Se define la semántica operacional del lenguaje de expresiones aritméticas utilizando el sistema de transición siguiente:
     \vspace{1em}
         \begin{description}
-            \item[Conjunto de estados] $S=\{a;|;a; asa\}$, es decir, los estados del sistema son las expresiones bien formadas del lenguaje en sintaxis abstracta. Esta definición corresponde a la regla de inferencia:
-            $$\inference{a;asa}{a;estado}[\sf state]$$  \bigskip
-            \item[Estados Iniciales] $I=\{a;|;a;asa,;\emptyset\sim a\}$, los estados iniciales son todas las expresiones cerradas del lenguaje, es decir, expresiones sin variables libres. Correspondiente a la regla:
-            $$\inference{a;asa & \emptyset \sim a}{a;inicial}[\sf init]$$ \bigskip
+            \item[Conjunto de estados] $S=\{a\ |\ a\ asa\}$\\
+	 los estados del sistema son las expresiones del lenguaje en sintaxis abstracta. Esta definición corresponde a la regla de inferencia:
+            $$\inference{a\ asa}{a\ estado}[ state]$$ 
+            \item[Estados Iniciales] $I=\{a\ |\ a\ asa,\ \emptyset\sim a\}$ \\
+	 los estados iniciales son todas las expresiones cerradas del lenguaje y corresponde a la regla:
+            $$\inference{a\ asa & \emptyset \sim a}{a\ inicial}[ init]$$ 
             \item[Estados Finales] se definen como las expresiones que representan a los posibles resultados finales de un proceso de evaluación. Para poder modelarlos definimos una categoría de valores los cuales son un subconjunto de expresiones que ya se han terminado de evaluar y no pueden reducirse más, con el juicio $v;valor$. Para el caso de ea el único valor son los números, formalmente definido con la regla:
             $$\inference{}{num[n];valor}[\sf vnum]\inference{}{bool[b];valor}[\sf vbool]$$
             Entonces se define el conjunto de estados finales $F=\{a;|;a;valor\}$, correspondiente a la regla:
