@@ -141,45 +141,44 @@
 
     \bigskip
     
-    \begin{definition}Sistema de transición para la semántica operacional de \textsf{EAB}:  Se define la semántica operacional del lenguaje de expresiones aritméticas utilizando el sistema de transición siguiente:
+    \begin{definition}Sistema de transición para la semántica operacional de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:  Se define la semántica operacional del lenguaje de expresiones aritméticas utilizando el sistema de transición siguiente:
     \vspace{1em}
         \begin{description}
             \item[Conjunto de estados] $S=\{a\ |\ a\ asa\}$\\
-	 los estados del sistema son las expresiones del lenguaje en sintaxis abstracta. Esta definición corresponde a la regla de inferencia:
+	 Los estados del sistema son las expresiones del lenguaje en sintaxis abstracta. Esta definición corresponde a la regla de inferencia:
             $$\inference{a\ asa}{a\ estado}[ state]$$ 
-            \item[Estados Iniciales] $I=\{a\ |\ a\ asa,\ \emptyset\sim a\}$ \\
-	 los estados iniciales son todas las expresiones cerradas del lenguaje y corresponde a la regla:
+            \item[Estados Iniciales] $I=\{a\ |\ a\ asa,\ FV(a) = \emptyset \}$ \\
+	 Los estados iniciales son todas las expresiones cerradas del lenguaje y corresponde a la regla:
             $$\inference{a\ asa & \emptyset \sim a}{a\ inicial}[ init]$$ 
-            \item[Estados Finales] se definen como las expresiones que representan a los posibles resultados finales de un proceso de evaluación. Para poder modelarlos definimos una categoría de valores los cuales son un subconjunto de expresiones que ya se han terminado de evaluar y no pueden reducirse más, con el juicio $v;valor$. Para el caso de ea el único valor son los números, formalmente definido con la regla:
-            $$\inference{}{num[n];valor}[\sf vnum]\inference{}{bool[b];valor}[\sf vbool]$$
-            Entonces se define el conjunto de estados finales $F=\{a;|;a;valor\}$, correspondiente a la regla:
-            $$\inference{a;valor}{a;final}[\sf fin]$$ 
+            \item[Estados Finales] Son las expresiones que no se pueden reducir mas obtenidas al final del proceso de evaluación.\\\\
+	 Definimos una categoría de valores los cuales son un subconjunto de expresiones de \textsf{EAB}, esta nueva categoría se representa con el juicio $v\ valor$. Para el caso de \textsf{EAB}  se denota con las reglas:
+            $$\inference{}{num[n]\ valor}[vnum] \ \ \ \ \ \inference{}{T\ \text{Bool}\ valor}[vbool]$$
+            Entonces se define el conjunto de estados finales $F=\{a\ |\ a\ valor\}$, correspondiente a la regla:
+            $$\inference{a\ valor}{a\ final}[fin]$$ 
 
         \end{description}
     \end{definition}
 
-    De la definición anterior es importante recalcar que los estados finales asociados a un valor no pueden ser reducidos a ningún otro estado, es por ésto que los denotaremos como estados "bloqueados"
-
-    \begin{definition}[Estado bloqueado] Un estado $s$ está bloqueado si no existe otro estado $s'$ tal que $sto s'$ y lo denotamos como $sNotto$.
+    \begin{definition}Estado bloqueado\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }: Un estado $s$ está bloqueado si no existe otro estado $s'$ tal que $s \rightarrow s'$ y lo denotamos como $s \nrightarrow$
     \end{definition}
 
     \bigskip
 
     \subsection{Semántica de paso pequeño}
-        Para esta semántica las transiciones se modelarán paso a paso mediante la función de transición, denotada como: $e_1 \rightarrow e_2$ donde $e_1$ es llamado "$redex$" y $e_2$ es llamado "$reducto$" en donde se interpreta cómo la transición entre $e_1$ y $e_2$ si y solo sí en un paso de evaluación se puede reducir $e_1$ a $e_2$.
-
-        La siguiente definición contiene las reglas para cada constructor de nuestro lenguaje \textbf{EAB} y las posibles reducciones para transitar de un estado a otro.
+        Para esta semántica las transiciones se modelarán paso a paso mediante la función de transición, denotada como: 
+	$$e_1 \rightarrow e_2$$ 
+	Donde $e_1$ es llamado ''$redex$'' y $e_2$ es llamado ''$reducto$''. Esta relación se interpreta cómo la transición entre $e_1$ y $e_2$ que existe si y solo sí en un paso de evaluación se puede reducir la expresión $e_1$ a la expresión $e_2$.
 
     \bigskip
 
-    \begin{definition}[Función de transición para semántica de paso pequeño]\label{pasopequeno} Se da la definición de la función de transición para completar la definición de la semántica operacional de paso pequeño con el sistema de transición \ref{sistemaT} mediante las siguientes reglas de inferencia:\\
+    \begin{definition}Función de transición para semántica de paso pequeñ\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }o: Definición de la función de transición para implementar la operacional de paso pequeño con el sistema de transición de \textsf{EAB} mediante las siguientes reglas de inferencia:\\
     \begin{description}
         \item[Suma]
 
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{}{suma(num[n],num[m])to num[n+_N m]}[\sf sumaf]\\
+                    \inference{}{suma(num[n], num[m]) \rightarrow num[n+_N m]}[sumaf]\\
                     \quad
                 \end{array}
             }
@@ -187,12 +186,12 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{a_1to a_1'}{suma(a_1,a_2)to suma(a_1',a_2)}[\sf suma1]\\
+                    \inference{a_1  \rightarrow a_1'}{suma(a_1 ,a_2) \rightarrow  suma(a_1', a_2)}[suma1]\\
                     \quad
                 \end{array}    
                 \quad
                 \begin{array}{c}
-                    \inference{a_2to a_2'}{suma(num[n],a_2)to suma(num[n],a_2')}[\sf suma2]\\
+                    \inference{a_2  \rightarrow a_2'}{suma(num[n], a_2)to suma(num[n] ,a_2')}[suma2]\\
                     \quad
                 \end{array} 
             }
@@ -204,7 +203,7 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{}{prod(num[n],num[m])to num[n\times_N m]}[\sf prodf]\\
+                    \inference{}{prod(num[n], num[m])  \rightarrow num[n\times_N m]}[prodf]\\
                     \quad
                 \end{array}
             }
@@ -212,8 +211,8 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{ccc}
-                    \inference{a_1to a_1'}{prod(a_1,a_2)to produ(a_1',a_2)}[\sf prod1]&
-                    \inference{a_2to a_2'}{prod(num[n],a_2)to prod(num[n],a_2')}[\sf prod2]\\
+                    \inference{a_1  \rightarrow a_1'}{prod(a_1, a_2)  \rightarrow produ(a_1',a_2)}[prod1]&
+                    \inference{a_2  \rightarrow a_2'}{prod(num[n],a_2)  \rightarrow prod(num[n],a_2')}[prod2]\\
                     \quad&&
                 \end{array}
             }
@@ -222,9 +221,9 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{}{if(True,e_1,e_2) to e_1}[\sf ift]
+                    \inference{}{if(True,e_1,e_2)  \rightarrow e_1}[ift]
                     \quad
-                    \inference{}{if(False,e_1,e_2) to e_2}[\sf iff]
+                    \inference{}{if(False,e_1,e_2)  \rightarrow e_2}[iff]
                     \quad
                 \end{array}
             }
@@ -232,7 +231,7 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{ccc}
-                    \inference{a_1to a_1'}{if(a_1, e_1 , e_2)n to if(a_1', e_1 , e_2)}[\sf if1]&
+                    \inference{a_1  \rightarrow a_1'}{if(a_1, e_1 , e_2)  \rightarrow if(a_1', e_1 , e_2)}[if1]&
                 \end{array}
             }
         \]
@@ -240,9 +239,9 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{ccc}
-                    \inference{v;valor}{let(v,x.a_2)to a_2[x:=v]}[\sf letf]&
+                    \inference{v\ valor}{let(v,x.a_2)  \rightarrow a_2[x:=v]}[letf]&
                     \quad&
-                    \inference{a_1to a_1'}{let(a_1,x.a_2)to let(a_1',x.a_2)}[\sf let1]
+                    \inference{a_1 \rightarrow a_1'}{let(a_1,x.a_2)  \rightarrow let(a_1',x.a_2)}[let1]
                 \end{array}
             }
         \]
@@ -250,7 +249,7 @@
         \bigskip
         
         \end{description}
-        \textbf{Nota:} la evaluación del operador $if$ es una evaluación "perezosa", en donde no se evaluará el resto de la expresión if hasta antes haber determinado el valor de la sentencia de control (\textbf{True} ó \textbf{False})
+        La evaluación del operador $if$ es una evaluación ''perezosa'', en donde no se evaluará el resto de la expresión if hasta antes haber determinado el valor de la sentencia de control (\textit{True} ó \textit{False})
         
     \end{definition}
 
@@ -352,7 +351,7 @@
 
     \subsection{Semántica de paso grande}
     Este semántica define la ejecución de un programa mostrando el valor al cual se evalúa. Encapsula de forma general el proceso sin detallar paso a paso como es que una expresión es evaluada (contrario a la \textbf{semántica de paso pequeño}).\\\\
-    La relación de transición en este caso se denota como $e \Downarrow v$ donde $e$ es una expresión válida de nuestro lenguaje \textbf{EAB} y $v$ es un valor, ésta se lee como "la expresión $e$ se evalúa a $v$".
+    La relación de transición en este caso se denota como $e \Downarrow v$ donde $e$ es una expresión válida de nuestro lenguaje \textbf{EAB} y $v$ es un valor, ésta se lee como ''la expresión $e$ se evalúa a $v$''.
 
     \begin{definition}[La relación $\Downarrow$ para ea] Se define la transición sobre los estados definidos en \ref{sistemaT} para la semántica operacional de paso grande de ea mediante las siguientes reglas de inferencia:
         \begin{description}
@@ -473,7 +472,7 @@
 
     \begin{exercise}
         Una cálculadora de \textbf{Notación Polaca Reversa} es una calculadora que no requiere de parentizado para evaluar las expresiones que son pasadas como argumento.\\
-        Ésta se apoya de una \textbf{pila} para "empujar" los operandos y los operadores así como de la \textbf{notación post-fija}, es decir el operador se escribe después de los operandos, por ejemplo:
+        Ésta se apoya de una \textbf{pila} para ''empujar'' los operandos y los operadores así como de la \textbf{notación post-fija}, es decir el operador se escribe después de los operandos, por ejemplo:
         $$7\ +\ 1\ =\ 7\ 1\ + $$ 
         $$7\ -\ (3\ +\ 2)\ =\ 7\ 3\ 2\ +\ -$$
         Esta calculadora empuja símbolos a la pila hasta encontrar un operador, en tal caso dos símbolos son sacados de la pila y el resultado de la operación es empujado.
