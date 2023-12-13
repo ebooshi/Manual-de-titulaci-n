@@ -162,14 +162,12 @@
     \begin{definition}Estado bloqueado\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }: Un estado $s$ está bloqueado si no existe otro estado $s'$ tal que $s \rightarrow s'$ y lo denotamos como $s \nrightarrow$
     \end{definition}
 
-    \bigskip
 
     \subsection{Semántica de paso pequeño}
         Para esta semántica las transiciones se modelarán paso a paso mediante la función de transición, denotada como: 
 	$$e_1 \rightarrow e_2$$ 
 	Donde $e_1$ es llamado ''$redex$'' y $e_2$ es llamado ''$reducto$''. Esta relación se interpreta cómo la transición entre $e_1$ y $e_2$ que existe si y solo sí en un paso de evaluación se puede reducir la expresión $e_1$ a la expresión $e_2$.
 
-    \bigskip
 
     \begin{definition}Función de transición para semántica de paso pequeñ\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }o: Definición de la función de transición para implementar la operacional de paso pequeño con el sistema de transición de \textsf{EAB} mediante las siguientes reglas de inferencia:\\
     \begin{description}
@@ -246,30 +244,28 @@
             }
         \]
 
-        \bigskip
         
         \end{description}
-        La evaluación del operador \texttt{if} es una evaluación ''perezosa'', en donde no se evaluará el cuerpo hasta antes haber determinado el valor de la sentencia de control (\textit{True} ó \textit{False})
+        La evaluación del operador \texttt{if} es una evaluación ''perezosa'', en donde no se evaluará el cuerpo hasta antes haber determinado el valor de la sentencia de control (\texttt{True} ó \texttt{False})
         
     \end{definition}
 
-    \bigskip
 
     \begin{exercise}
-        Dada la siguiente expresion de nuestro lenguaje \text{EAB} utiliza las reglas de transición para semántica de paso pequeño para evaluarla.
+        Dada la siguiente expresion de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
         \[
-            \textbf{let } k = (3 + 1) \textbf{ in } (7 * k) + 1 \textbf{ end} 
+            \texttt{let } k = (3 + 1) \texttt{ in } (7 * k) + 1 \texttt{ end} 
         \]
         \[
             \begin{array}{cl}
-                &\text{let}(\text{sum}(3,1),\text{k}.\text{sum}(\text{prod}(7,\text{k}),1))\\
-                to&\text{let}(4,\text{k}.\text{sum}(\text{prod}(7,\text{k}),1))\\
-                to&(\text{sum}(\text{prod}(7,\text{k}),1))[\text{k}:=4]\\
-                to&\text{sum}(\text{prod}(7,\text{k})[\text{k}:=4],1[\text{k}:=4])\\
-                to&\text{sum}(\text{prod}(7[\text{k}:=4],\text{k}[\text{k}:=4]),1)\\
-                to&\text{sum}(\text{prod}(7,4),1)\\
-                to&\text{sum}(28,1)\\
-                to&29\\
+                &\textit{let}(\textit{sum}(3,1), \textit{k}.\textit{sum}(\textit{prod}(7,\textit{k}), 1))\\
+                \rightarrow &\textit{let}(4, \textit{k}.\textit{sum}(\textit{prod}(7, \textit{k}), 1))\\
+                \rightarrow &(\textit{sum}(\textit{prod}(7, \textit{k}),1))[\textit{k}:=4]\\
+                \rightarrow &\textit{sum}(\textit{prod}(7, \textit{k})[\textit{k}:=4],1[\textit{k}:=4])\\
+                \rightarrow &\textit{sum}(\textit{prod}(7[\text{k}:=4], \textit{k}[\textit{k}:=4]),1)\\
+                \rightarrow &\textit{sum}(\textit{prod}(7, 4), 1)\\
+                \rightarrow &\textit{sum}(28, 1)\\
+                \rightarrow &29\\
                 
 
             \end{array}
@@ -277,80 +273,78 @@
         
     \end{exercise}
 
-    \bigskip
 
     \begin{exercise}
-        Dada la siguiente expresion de nuestro lenguaje \textbf{EAB} utiliza las reglas de transición para semántica de paso pequeño para evaluarla.
+        Dada la siguiente expresion de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
         \[
-            \textbf{if (} False \textbf{ then } 4 * \textbf{let } x = 99 * 99 \textbf{ in } x + x \textbf{ end} \textbf{ else } 0 \textbf{)}
+            \texttt{if (}\texttt{False} \texttt{ then } 4 * \texttt{let } x = 99 * 99 \texttt{ in } x + x \texttt{ end} \texttt{ else } 0 \texttt{)}
         \] 
         \[
             \begin{array}{cl}
-                &if(False,let(prod(99,99)x.sum(x,x),0)\\
-                to&0
+                &if(\ False,\ let(prod(99,\ 99),\ x.sum(x,\ x),\ 0)\\
+                \rightarrow &0
 
             \end{array}
         \]
     \end{exercise}
 
-    Del ejercicio anterior podemos notar la ventaja de la evaluación perezosa, dado que nuestro valor de control es $False$ no es necesario evaluar la expresión $e_1$ y directamente nos saltaremos a evalúar $e_2$ por la regla \textbf{iff} que en este caso es el valor 0.\\
+    Del ejercicio anterior podemos notar la ventaja de la evaluación perezosa. Dado que nuestro valor de control es \texttt{False} no es necesario evaluar la expresión $e_1$ y directamente nos saltaremos a evaluar $e_2$ por la regla \texttt{iff} que en este caso es el valor 0.\\
     
     \begin{exercise}
-        Dada la siguiente expresion de nuestro lenguaje \textbf{EAB} utiliza las reglas de transición para semántica de paso pequeño para evaluarla.
+        Dada la siguiente expresion de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición para semántica de paso pequeño para evaluarla.
         \[
-            \textbf{let } x = \textbf{ if ( } True \textbf{ then } 42 \textbf{ else } 0 \textbf{)} \textbf{ in } \textbf{ if (} False \textbf{ then } 41 \textbf{ else } x \textbf{ )}
+            \texttt{let } x = \texttt{ if ( } True \texttt{ then } 42 \texttt{ else } 0 \texttt{)} \texttt{ in } \texttt{ if (} False \texttt{ then } 41 \texttt{ else } x \texttt{ )}
         \]  
         \[
             \begin{array}{cl}
-                &\text{let}(\text{if(True,42,0)},\text{x}.\text{if(False,41,x))}\\
-                to&\text{let}(\text{42},\text{x}.\text{if(False,41,x))}\\
-                to&\text{if(False,41,x)}[x:=42]\\
-                to&\text{if(False[x:=42],41[x:=42],x[x:=42])}\\
-                to&\text{if(False,41,42)}\\
-                to&42\\
+                &\textit{let}(\textit{if(True}, 42,0), \textit{x}.\textit{if(False}, \text{41}, x))\\
+                \rightarrow &\textit{let}(\text{42}, \textit{x}. \textit{if(False}, \text{41}, x))\\
+                \rightarrow &\textit{if(False}, 41, x)[x:=42]\\
+                \rightarrow &\textit{if(False}[x:=42], 41[x:=42], x[x:=42])\\
+                \rightarrow &\textit{if(False}, 41, 42)\\
+                \rightarrow &42\\
             \end{array}
         \]
     \end{exercise}
 
-    Es importante definir las carácteristicas inductivas que la relación de transición posee para alcanzar estados partiendo de uno inicial. \\\\
-    Éstas se conocen como \textbf{cerraduras} y pueden ser:  \textbf{reflexiva} (un estado puede llegar a si mismo en 0 aplicaciones de pasos), \textbf{transitiva} (si un estado $e_1$ puede alcanzar un estado $e_2$ y $e_2$ puede alcanzar a $e_n$ en un número finito de pasos entonces $e_1$ puede llegar a $e_n$ en un número finito de pasos) ó \textbf{positiva} (la aplicación de las reglas de transición n veces con n $\geq$ 1).\\\\
+    La relación de transición ($\rightarrow$)  define tres categorías importantes de aplicación las cuales se conocen como ''cerraduras'' y pueden ser:  reflexiva (un estado puede llegar a si mismo en 0 aplicaciones de pasos), transitiva (si un estado $e_1$ puede alcanzar un estado $e_2$ y $e_2$ puede alcanzar a $e_n$ en un número finito de pasos entonces $e_1$ puede llegar a $e_n$ en un número finito de pasos) ó positiva (la aplicación de las reglas de transición n veces con n $\geq$ 1).\\\\
     A continuación enunciamos las cerraduras, la relación de transición y la iteración en n pasos.
 
-    \begin{definition}[Cerradura transitiva y reflexiva] La cerradura reflexiva y transitiva se denota como $to^*$ y se define con la siguientes reglas:
+    \begin{definition}[Cerradura transitiva y reflexiva] La cerradura reflexiva y transitiva se denota como $t\rightarrow^*$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
-                \inference{}{sto^*s}&
+                \inference{}{s \rightarrow^*s}[refl]&
                 \quad&
-                \inference{s_1to s_2&s_2to^*s_3}{s_1to^*s_3}
+                \inference{s_1 \rightarrow s_2& s_2 \rightarrow^*s_3}{s_1 \rightarrow^*s_3}[trans]
             \end{array}
         \]
-        Intuitivamente la relación $s_1to^*s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos (posiblemente 0), de la relación de transición $to$.
+        Intuitivamente la relación $s_1 \rightarrow^*s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos (posiblemente 0), de la relación de transición $\rightarrow$.
     \end{definition}
     
-    \begin{definition}[Cerradura positiva] La cerradura transitiva se denota como $to^+$ y se define con la siguientes reglas:
+    \begin{definition}[Cerradura positiva] La cerradura transitiva se denota como $\rightarrow^+$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
-                \inference{s_1to s_2}{s_1to^+s_2}&
+                \inference{s_1 \rightarrow s_2}{s_1 \rightarrow^+s_2}[one+]&
                 \quad&
-                \inference{s_1to s_2&s_2to^+s_3}{s_1to^+s_3}
+                \inference{s_1 \rightarrow s_2 & s_2 \rightarrow^+ s_3}{s_1 \rightarrow^+s_3}[trans+]
             \end{array}
         \]
-        Intuitivamente la relación $s_1to^+s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos estrictamente mayor a cero, de la relación de transición $to$. Es decir, se llega de $s_1$ a $s_2$ en al menos un paso.
+        Intuitivamente la relación $s_1 \rightarrow^+s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos estrictamente mayor a cero, de la relación de transición $\rightarrow$. Es decir, se llega de $s_1$ a $s_2$ en al menos un paso.
     \end{definition}
     
-    \begin{definition}[Iteración en $n$ pasos] la iteración en $n$ pasos se denota como $to^n$ con $n\in N$ y se define con la siguientes reglas:
+    \begin{definition}[Iteración en $n$ pasos] la iteración en $n$ pasos se denota como $to^n$ con $n\in N$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
-                \inference{}{sto^0s}&
+                \inference{}{s \rightarrow^0 s}[iterz]&
                 \quad&
-                \inference{s_1to s_2&s_2to^ns_3}{s_1to^{n+1}s_3}
+                \inference{s_1  \rightarrow s_2&s_2  \rightarrow^n s_3}{s_1  \rightarrow^{n+1}s_3}[itern]
             \end{array}
         \]
-        Intuitivamente la relación $s_1to^ns_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en exactamente $n$ pasos de la relación de transición $to$.
+        Intuitivamente la relación $s_1 \rightarrow^n s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en exactamente $n$ pasos de la relación de transición $ \rightarrow$.
     \end{definition}
 
     \subsection{Semántica de paso grande}
-    Este semántica define la ejecución de un programa mostrando el valor al cual se evalúa. Encapsula de forma general el proceso sin detallar paso a paso como es que una expresión es evaluada (contrario a la \textbf{semántica de paso pequeño}).\\\\
+    Este semántica define la ejecución de un programa mostrando el valor . Encapsula de forma general el proceso sin detallar paso a paso como es que una expresión es evaluada (contrario a la \textbf{semántica de paso pequeño}).\\\\
     La relación de transición en este caso se denota como $e \Downarrow v$ donde $e$ es una expresión válida de nuestro lenguaje \textbf{EAB} y $v$ es un valor, ésta se lee como ''la expresión $e$ se evalúa a $v$''.
 
     \begin{definition}[La relación $\Downarrow$ para ea] Se define la transición sobre los estados definidos en \ref{sistemaT} para la semántica operacional de paso grande de ea mediante las siguientes reglas de inferencia:
