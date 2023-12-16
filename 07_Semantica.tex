@@ -310,7 +310,7 @@
     La relación de transición ($\rightarrow$)  define tres categorías importantes de aplicación las cuales se conocen como ''cerraduras'' y pueden ser:  reflexiva (un estado puede llegar a si mismo en 0 aplicaciones de pasos), transitiva (si un estado $e_1$ puede alcanzar un estado $e_2$ y $e_2$ puede alcanzar a $e_n$ en un número finito de pasos entonces $e_1$ puede llegar a $e_n$ en un número finito de pasos) ó positiva (la aplicación de las reglas de transición n veces con n $\geq$ 1).\\\\
     A continuación enunciamos las cerraduras, la relación de transición y la iteración en n pasos.
 
-    \begin{definition}[Cerradura transitiva y reflexiva] La cerradura reflexiva y transitiva se denota como $t\rightarrow^*$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}Cerradura transitiva y reflexiva: se denota como $t\rightarrow^*$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
                 \inference{}{s \rightarrow^*s}[refl]&
@@ -321,7 +321,7 @@
         Intuitivamente la relación $s_1 \rightarrow^*s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos (posiblemente 0), de la relación de transición $\rightarrow$.
     \end{definition}
     
-    \begin{definition}[Cerradura positiva] La cerradura transitiva se denota como $\rightarrow^+$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}Cerradura positiva: se denota como $\rightarrow^+$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
                 \inference{s_1 \rightarrow s_2}{s_1 \rightarrow^+s_2}[one+]&
@@ -332,7 +332,7 @@
         Intuitivamente la relación $s_1 \rightarrow^+s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos estrictamente mayor a cero, de la relación de transición $\rightarrow$. Es decir, se llega de $s_1$ a $s_2$ en al menos un paso.
     \end{definition}
     
-    \begin{definition}[Iteración en $n$ pasos] la iteración en $n$ pasos se denota como $to^n$ con $n\in N$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}Iteración en $n$ pasos: se denota como $to^n$ con $n\in N$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
                 \inference{}{s \rightarrow^0 s}[iterz]&
@@ -344,63 +344,63 @@
     \end{definition}
 
     \subsection{Semántica de paso grande}
-    Este semántica define la ejecución de un programa mostrando el valor . Encapsula de forma general el proceso sin detallar paso a paso como es que una expresión es evaluada (contrario a la \textbf{semántica de paso pequeño}).\\\\
-    La relación de transición en este caso se denota como $e \Downarrow v$ donde $e$ es una expresión válida de nuestro lenguaje \textbf{EAB} y $v$ es un valor, ésta se lee como ''la expresión $e$ se evalúa a $v$''.
+    Este paradigma para definir la semántica dinámica encapsula de forma general el proceso de evaluación sin mostrar de forma explícita paso a paso como es que una expresión es evaluada (contrario a la semántica de paso pequeño).\\\\
+    La relación de transición en este caso se denota como $e \Downarrow v$ donde $e$ es una expresión válida de nuestro lenguaje \textbf{EAB} y $v$ es un valor, esta se lee como ''la expresión $e$ se evalúa a $v$''.
 
-    \begin{definition}[La relación $\Downarrow$ para ea] Se define la transición sobre los estados definidos en \ref{sistemaT} para la semántica operacional de paso grande de ea mediante las siguientes reglas de inferencia:
+    \begin{definition}Semántica de paso grande para \textsf{EAB}: Se define la relación de transición  $\Downarrow$ mediante las siguientes reglas de inferencia\footnote{Definición formulada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \begin{description}
             \item[Valores]
-            $$\inference{}{num[n]\Downarrow num[n]}[\sf bsnum ] \inference{}{bool[b]\Downarrow bool[b]}[\sf bsbool ]$$
+            $$\inference{}{num[n] \Downarrow num[n]}[\sf bsnum ] \inference{}{b\ \text{Bool} \Downarrow b\ \text{Bool}}[ bsbool ]$$
             \item[Suma] 
-            $$\inference{e_1\Downarrow Num[n]&e_2\Downarrow Num[m]}{sum(e_1,e_2)\Downarrow Num[n+_N m]}[\sf bssum]$$
+            $$\inference{e_1 \Downarrow num[n]&e_2\Downarrow num[m]}{sum(e_1, e_2)\Downarrow num[n+_N m]}[bssum]$$
             \item[Producto] 
-            $$\inference{e_1\Downarrow Num[n]&e_2\Downarrow num[m]}{prod(e_1,e_2)\Downarrow num[n\times_N m]}[\sf bsprod]$$
+            $$\inference{e_1\Downarrow num[n]&e_2\Downarrow num[m]}{prod(e_1,e_2)\Downarrow num[n\times_N m]}[bsprod]$$
             \item[Asignaciones locales] 
-            $$\inference{e_1\Downarrow v_1&e_2[x:=v_1]\Downarrow v_2}{let(e_1,x.e_2)\Downarrow v_2}[\sf bslet]$$
+            $$\inference{e_1\Downarrow v_1&e_2[x:=v_1]\Downarrow v_2}{let(e_1,x.e_2)\Downarrow v_2}[bslet]$$
             \item[Sentencias de control]
-            $$\inference{e_0\Downarrow True & e_1 \Downarrow v_1}{if(e_0,e_1,e_2)\Downarrow v_1}[\sf bsift ]
-              \inference{e_0\Downarrow False & e_2 \Downarrow v_2}{if(e_0,e_1,e_2)\Downarrow v_2}[\sf bsift]$$
+            $$\inference{e_0\Downarrow True & e_1 \Downarrow v_1}{if(e_0,e_1,e_2)\Downarrow v_1}[bsift]
+              \inference{e_0\Downarrow False & e_2 \Downarrow v_2}{if(e_0,e_1,e_2)\Downarrow v_2}[bsift]$$
         \end{description}
-        \textbf{Nota: } Para este enfoque si es necesario definir una regla de transición para los valores del lenguaje, pues es necesaria para el correcto funcionamiento del resto de las reglas. 
+         Es importante destacar que los valores de tipo \textit{num[n] y b } Bool si tienen reglas en esta semántica de paso grande.
     \end{definition}
 
-    \begin{theorem}[Equivalencia entre semántica de paso pequeño y paso grande] Para cualquier expresión $e$ del lenguaje \textbf{EAB} se cumple:
-        $$eto^*v\mbox{ si y sólo si } e\Downarrow v$$
+    \begin{theorem}Equivalencia entre semántica de paso pequeño y paso grande: Decimos que para cualquier expresión $e$ del lenguaje \textsf{EAB} se cumple:
+        $$e \rightarrow^*v \text{ si y sólo si } e \Downarrow v$$
         Es decir, las semánticas que hemos definido son equivalentes.
     \end{theorem}
 
     \begin{exercise}
-        Dada la siguiente expresión de \textbf{EAB} evalúala utilizando \textbf{semántica de paso grande}. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
-        \textbf{Síntaxis Concreta:}
+        Dada la siguiente expresión de \textsf{EAB} evalúala utilizando semántica de paso grande. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
+        Síntaxis Concreta:
         \[
-            \textbf{let } x \textbf{ = } \textbf{let } y \textbf{ = } False \textbf{ in } \textbf{ if ( } y \textbf{ then } 0 \textbf{ else } 1 \textbf{ ) }  \textbf{ end } \textbf{ in } x + 1 \textbf{ end}
+            \texttt{let } x \text{ = } \texttt{let } y \text{ =  False} \texttt{ in} \texttt{ if (} y \texttt{ then } 0 \texttt{ else } 1 \texttt{)}  \texttt{ end} \texttt{ in } x + 1 \texttt{ end}
         \]
-        \textbf{Síntaxis Abstracta:}
+        Síntaxis Abstracta:
         \[
-            \textbf{let(} \textbf{let(} False, y.\textbf{if(}y,0,1\textbf{)}\textbf{)} ,x.\textbf{sum(}x,1\textbf{))}
+            \textit{let}( \textit{let}( False,\ y.\textit{if}(y, 0, 1\text{)}\text{)} ,\ x.\textit{sum}(x, 1\text{))}
         \]
-        \textbf{Evaluación Paso Grande:}
+        Evaluación Paso Grande:
         \[
-            \scalemath{.90}{
-                \inference{ \inference{ \inference{}{False \Downarrow False}[bsbool]  & \inference{}{\textbf{if(}y,0,1\textbf{)}\textbf{)}[y:=False] \Downarrow 1} }{\textbf{let(} False, y.\textbf{if(}y,0,1\textbf{)}\textbf{)} \Downarrow 1}[bslet] & \inference{}{ \textbf{sum(}x,1\textbf{)} [x:=1] \Downarrow 2}[bssum] }{ \textbf{let(} \textbf{let(} False, y.\textbf{if(}y,0,1\textbf{)}\textbf{)} ,x.\textbf{sum(}x,1\textbf{))} \Downarrow 2}[bslet]
+            \scalemath{.73}{
+                \inference{ \inference{ \inference{}{False \Downarrow False}[bsbool]  & \inference{}{\textit{if}(y,0, 1\text{)}\textbf{)}[y:=False] \Downarrow 1}[bsift] }{\textit{let}( False,\ y.\textit{if}(y, 0, 1\text{)}\text{)} \Downarrow 1}[bslet] & \inference{}{ \textit{sum}(x,1\textbf{)} [x:=1] \Downarrow 2}[bssum] }{ \textit{let}( \textit{let}( False, y.\textit{if}(y,0,1\text{)}\text{)} ,x.\textit{sum}(x,1\text{))} \Downarrow 2}[bslet]
             }
         \]
     \end{exercise}
 
     \begin{exercise}
-         Dada la siguiente expresión de \textbf{EAB} evalúala utilizando \textbf{semántica de paso grande}. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
-        \textbf{Síntaxis Concreta:}
+         Dada la siguiente expresión de \textsf{EAB} evalúa utilizando la semántica de paso grande, adicionalmente proporciona la representación como árbol de sintaxis abstracta.\\\\
+        Síntaxis Concreta:
         \[
-            ((7 + 4) * 4) + ((8 + 3) * 2)
+            \texttt{((7 + 4) * 4) + ((8 + 3) * 2)}
         \]
-        \textbf{sintaxis Abstracta}
+        Sintaxis Abstracta:
         \[
-            \textbf{sum(} \textbf{prod(} \textbf{sum(} 7,4 \textbf{)}, 4 \textbf{)} , \textbf{prod(} \textbf{sum(} 8,3\textbf{)}, 2 \textbf{)}  \textbf{)}
+            \textit{sum}( \textit{prod}( \textit{sum}( 7, 4 \text{)},4 \textit{)}, \textit{prod}( \textit{sum}( 8, 3\text{)},2 \text{)} \text{)}
         \]
-        \textbf{Evaluación Paso Grande:}
+        Evaluación Paso Grande:
         \[
             \scalemath{0.6}{
-                \inference{\inference{\inference{\inference{}{7 \Downarrow 7}[bsnum] & \inference{}{4 \Downarrow 4}[bsnum]}{\textbf{sum(}7,4\textbf{)} \Downarrow 11}[bsum] & \inference{}{4 \Downarrow 4}[bsnum]}{\textbf{prod(} \textbf{sum(} 7,4 \textbf{)}, 4 \textbf{)} \Downarrow 44}[bsprod] & \inference{\inference{\inference{}{8 \Downarrow 8}[bsnum] & \inference{}{3 \Downarrow 3}[bsnum]}{\textbf{sum(}8,3\textbf{)} \Downarrow 11}[bsum] & \inference{}{2 \Downarrow 2}[bsnum]}{\textbf{prod(} \textbf{sum(} 8,3\textbf{)}, 2 \textbf{)}  \textbf{)} \Downarrow 22}[bsprod] }{\textbf{sum(} \textbf{prod(} \textbf{sum(} 7,4 \textbf{)}, 4 \textbf{)} , \textbf{prod(} \textbf{sum(} 8,3\textbf{)}, 2 \textbf{)}  \textbf{)} \Downarrow 66}[bssum]
+                \inference{\inference{\inference{\inference{}{7 \Downarrow 7}[bsnum] & \inference{}{4 \Downarrow 4}[bsnum]}{\textit{sum(}7,4\textit{)} \Downarrow 11}[bsum] & \inference{}{4 \Downarrow 4}[bsnum]}{\textit{prod(} \textit{sum(} 7,4 \textit{)}, 4 \textit{)} \Downarrow 44}[bsprod] & \inference{\inference{\inference{}{8 \Downarrow 8}[bsnum] & \inference{}{3 \Downarrow 3}[bsnum]}{\textit{sum(}8,3\textit{)} \Downarrow 11}[bsum] & \inference{}{2 \Downarrow 2}[bsnum]}{\textit{prod(} \textit{sum(} 8,3\textit{)}, 2 \textit{)}  \textit{)} \Downarrow 22}[bsprod] }{\textit{sum(} \textit{prod(} \textit{sum(} 7,4 \textit{)}, 4 \textit{)} , \textit{prod(} \textit{sum(} 8,3\textit{)}, 2 \textit{)}  \textit{)} \Downarrow 66}[bssum]
             }
         \]
     \end{exercise}
