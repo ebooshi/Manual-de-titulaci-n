@@ -293,7 +293,7 @@
     \begin{exercise}
         Dada la siguiente expresion de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición para semántica de paso pequeño para evaluarla.
         \[
-            \texttt{let } x = \texttt{ if ( } True \texttt{ then } 42 \texttt{ else } 0 \texttt{)} \texttt{ in } \texttt{ if (} False \texttt{ then } 41 \texttt{ else } x \texttt{ )}
+            \texttt{let } x = \texttt{ if(True} \texttt{ then } 42 \texttt{ else } 0 \texttt{)} \texttt{ in } \texttt{if(False} \texttt{ then } 41 \texttt{ else } x \texttt{)}
         \]  
         \[
             \begin{array}{cl}
@@ -361,7 +361,7 @@
             $$\inference{e_0\Downarrow True & e_1 \Downarrow v_1}{if(e_0,e_1,e_2)\Downarrow v_1}[bsift]
               \inference{e_0\Downarrow False & e_2 \Downarrow v_2}{if(e_0,e_1,e_2)\Downarrow v_2}[bsift]$$
         \end{description}
-         Es importante destacar que los valores de tipo \textit{num[n] y b } Bool si tienen reglas en esta semántica de paso grande.
+         Es importante destacar que los valores de tipo \textit{num[n] y b } Bool si tienen reglas definidas  en esta semántica de paso grande.
     \end{definition}
 
     \begin{theorem}Equivalencia entre semántica de paso pequeño y paso grande: Decimos que para cualquier expresión $e$ del lenguaje \textsf{EAB} se cumple:
@@ -371,68 +371,65 @@
 
     \begin{exercise}
         Dada la siguiente expresión de \textsf{EAB} evalúala utilizando semántica de paso grande. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
-        Síntaxis Concreta:
+        Síntaxis concreta:
         \[
-            \texttt{let } x \text{ = } \texttt{let } y \text{ =  False} \texttt{ in} \texttt{ if (} y \texttt{ then } 0 \texttt{ else } 1 \texttt{)}  \texttt{ end} \texttt{ in } x + 1 \texttt{ end}
+            \texttt{let } x \text{ = } \texttt{let } y \texttt{ =  False} \texttt{ in} \texttt{ if (} y \texttt{ then } 0 \texttt{ else } 1 \texttt{)}  \texttt{ end} \texttt{ in } x + 1 \texttt{ end}
         \]
-        Síntaxis Abstracta:
+        Síntaxis abstracta:
         \[
-            \textit{let}( \textit{let}( False,\ y.\textit{if}(y, 0, 1\text{)}\text{)} ,\ x.\textit{sum}(x, 1\text{))}
+            \textit{let}( \textit{let}( False,y.\textit{if}(y, 0, 1\text{)}\text{)} , x.\textit{sum}(x, 1\text{))}
         \]
-        Evaluación Paso Grande:
+        Evaluación paso grande:
         \[
             \scalemath{.73}{
-                \inference{ \inference{ \inference{}{False \Downarrow False}[bsbool]  & \inference{}{\textit{if}(y,0, 1\text{)}\textbf{)}[y:=False] \Downarrow 1}[bsift] }{\textit{let}( False,\ y.\textit{if}(y, 0, 1\text{)}\text{)} \Downarrow 1}[bslet] & \inference{}{ \textit{sum}(x,1\textbf{)} [x:=1] \Downarrow 2}[bssum] }{ \textit{let}( \textit{let}( False, y.\textit{if}(y,0,1\text{)}\text{)} ,x.\textit{sum}(x,1\text{))} \Downarrow 2}[bslet]
+                \inference{ \inference{ \inference{}{False \Downarrow False}[bsbool]  & \inference{}{\textit{if}(y,0, 1\text{)}\text{)}[y:=False] \Downarrow 1}[bsift] }{\textit{let}( False,\ y.\textit{if}(y, 0, 1\text{)}\text{)} \Downarrow 1}[bslet] & \inference{}{ \textit{sum}(x,1\text{)} [x:=1] \Downarrow 2}[bssum] }{ \textit{let}( \textit{let}( False, y.\textit{if}(y,0,1\text{)}\text{)} ,x.\textit{sum}(x,1\text{))} \Downarrow 2}[bslet]
             }
         \]
     \end{exercise}
 
     \begin{exercise}
          Dada la siguiente expresión de \textsf{EAB} evalúa utilizando la semántica de paso grande, adicionalmente proporciona la representación como árbol de sintaxis abstracta.\\\\
-        Síntaxis Concreta:
+        Síntaxis concreta:
         \[
             \texttt{((7 + 4) * 4) + ((8 + 3) * 2)}
         \]
-        Sintaxis Abstracta:
+        Sintaxis abstracta:
         \[
-            \textit{sum}( \textit{prod}( \textit{sum}( 7, 4 \text{)},4 \textit{)}, \textit{prod}( \textit{sum}( 8, 3\text{)},2 \text{)} \text{)}
+            \textit{sum}( \textit{prod}( \textit{sum}( 7, 4 \text{)},4 \text{)}, \textit{prod}( \textit{sum}( 8, 3\text{)},2 \text{)} \text{)}
         \]
-        Evaluación Paso Grande:
+        Evaluación paso grande:
         \[
-            \scalemath{0.6}{
-                \inference{\inference{\inference{\inference{}{7 \Downarrow 7}[bsnum] & \inference{}{4 \Downarrow 4}[bsnum]}{\textit{sum(}7,4\textit{)} \Downarrow 11}[bsum] & \inference{}{4 \Downarrow 4}[bsnum]}{\textit{prod(} \textit{sum(} 7,4 \textit{)}, 4 \textit{)} \Downarrow 44}[bsprod] & \inference{\inference{\inference{}{8 \Downarrow 8}[bsnum] & \inference{}{3 \Downarrow 3}[bsnum]}{\textit{sum(}8,3\textit{)} \Downarrow 11}[bsum] & \inference{}{2 \Downarrow 2}[bsnum]}{\textit{prod(} \textit{sum(} 8,3\textit{)}, 2 \textit{)}  \textit{)} \Downarrow 22}[bsprod] }{\textit{sum(} \textit{prod(} \textit{sum(} 7,4 \textit{)}, 4 \textit{)} , \textit{prod(} \textit{sum(} 8,3\textit{)}, 2 \textit{)}  \textit{)} \Downarrow 66}[bssum]
+            \scalemath{0.51}{
+                \inference{\inference{\inference{\inference{}{7 \Downarrow 7}[bsnum] & \inference{}{4 \Downarrow 4}[bsnum] }{\textit{sum}(7,4\text{)} \Downarrow 11}[bsum] & \inference{}{4 \Downarrow 4}[bsnum] }{\textit{prod}( \textit{sum}( 7, 4 \text{)}, 4 \text{)} \Downarrow 44}[bsprod] & \inference{\inference{ \inference{}{8 \Downarrow 8}[bsnum] & \inference{}{3 \Downarrow 3}[bsnum] }{\textit{sum}(8, 3\text{)} \Downarrow 11}[bsum] & \inference{}{2 \Downarrow 2}[bsnum] }{\textit{prod}( \textit{sum}( 8, 3\text{)}, 2 \text{)}  \text{)} \Downarrow 22}[bsprod] }{\textit{sum}( \textit{prod}( \textit{sum}( 7,4 \text{)}, 4 \text{)} , \textit{prod}( \textit{sum}( 8,3\text{)}, 2 \text{)}  \textit{)} \Downarrow 66}[bssum]
             }
         \]
     \end{exercise}
 
     \begin{exercise}
-        Dada la siguiente expresión de \textbf{EAB} evalúa utilizando \textbf{semántica de paso grande}. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
-        \textbf{Síntaxis Concreta:}
+        Dada la siguiente expresión de \textsf{EAB} evalúa utilizando la semántica de paso grande, adicionalmente proporciona la representación en sintaxis abstracta.\\\\
+        Síntaxis concreta:
         \[
-            \textbf{if ( } False \textbf{ then } (3 * 7) + 1 \textbf{ else } (2 * 7) + 1 \textbf{ )} 
+            \texttt{if(False } \texttt{then } (3 * 7) + 1 \texttt{ else } (2 * 7) + 1 \text{)} 
         \]
-        \textbf{sintaxis Abstracta:}
+        Sintaxis abstracta:
         \[
-            \textbf{if ( } False,\textbf{sum(}\textbf{prod(}3,7\textbf{)},1\textbf{)}, \textbf{sum(}\textbf{prod(}2,7\textbf{)},1\textbf{)} \textbf{ )} \Downarrow 15
+            \textit{if(False},\textit{sum}(\textit{prod}(3,7\text{)},1\text{)}, \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{)} 
         \]
-        \textbf{Evaluación Paso Grande:}
+        Evaluación paso grande:
         \[
-            \scalemath{.85}{
-                \inference{\inference{}{False \Downarrow False}[bsbool] & \inference{\inference{\inference{}{2 \Downarrow 2}[bsnum] & \inference{}{7 \Downarrow 7}[bsnum] }{\textbf{prod(}2,7\textbf{)} \Downarrow 14}[bsprod] & \inference{}{1 \Downarrow 1}[bsnum]}{ \textbf{sum(}\textbf{prod(}2,7\textbf{)},1\textbf{)} \textbf{ )} \Downarrow 15 }[bssum] }{\textbf{if ( } False,\textbf{sum(}\textbf{prod(}3,7\textbf{)},1\textbf{)}, \textbf{sum(}\textbf{prod(}2,7\textbf{)},1\textbf{)} \textbf{ )} \Downarrow 15 }[bsiff]
+            \scalemath{.76}{
+                \inference{\inference{}{False \Downarrow False}[bsbool] & \inference{\inference{\inference{}{2 \Downarrow 2}[bsnum] & \inference{}{7 \Downarrow 7}[bsnum] }{\textit{prod}(2,7\text{)} \Downarrow 14}[bsprod] & \inference{}{1 \Downarrow 1}[bsnum] }{ \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{ )} \Downarrow 15 }[bssum] }{\textit{if(False},\textit{sum}(\textit{prod}(3,7\text{)},1\text{)}, \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{ )} \Downarrow 15 }[bsiff]
             }
         \]
     \end{exercise}
     
-    \textbf{Nota } De este ejercicio podemos observar que dependiendo del valor que se obtenga en $e_0$ de nuestras expresiones \textbf{if($e_0$,$e_1$,$e_2$)} las reglas \textbf{bsiff} y \textbf{bsift} nos permiten  omitir la evaluación de la expresión $e_1$ ó $e_2$ respectivamente, en este caso se omite la evaluación de la expresión $e_1 = (3 * 7) + 1$.\\
-
 \section{La función eval}
 
-    Concluimos este capítulo enunciando la relación entre \textbf{semántica de paso pequeño} y \textbf{semántica de paso grande} con la función de evaluación definida para \textbf{EAB} como sigue:
+    Concluimos este capítulo con la definición de la función de evaluación para \textsf{EAB}, la cuál nos ayuda a vincular ambos paradigmas tratados para la semántica dinámica mediante la siguiente especificación.
+    \begin{definition} Se define la función \texttt{eval} en términos de la semántica dinámica del lenguaje como sigue\footnote{Definición formulada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    $$\texttt{eval}(e)=e_f\mbox{ si y sólo si } e \rightarrow^* e_f \mbox{ y }e_f \nrightarrow $$
 
-    \begin{definition} Se define la función \lstinline{eval} en términos de la semántica dinámica del lenguaje como sigue:
-    $$eval(e)=e_f\mbox{ si y sólo si } eto ^*e_f\mbox{ y }e_fNotto$$
-
-    \textbf{Nota: } La propiedad de \textbf{bloqueo de valor} para \textbf{EAB} se deriva de las reglas \textbf{bsnum} y \textbf{vsbool} dónde se cumple que Si $v$ valor entonces $vNotto$, es decir $v$ está bloqueado.
+    La función de evaluación aplica de forma exahustiva la semántica dinámica hasta llegar a un estado bloqueado (en el caso de \textsf{EAB} los estados bloqueados son los valores).
     \end{definition}
     
     La función \textbf{eval} será de utilidad para el resto de las secciones que visitaremos a lo largo del curso.
