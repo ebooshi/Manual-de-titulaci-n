@@ -108,17 +108,17 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
         Analizador síntactico para expresiones de lenguaje de EAB\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
         \[
             \begin{array}{ccc}
-                \inference{e\;{\sf N}&e\in\N}{e\;{\sf F}\longleftrightarrow num[e]\;\textit{ASA}}&
+                \inference{e\;{\sf N}&e\in\N}{e\;{\sf F}\longleftrightarrow num[e]\;\textit{ASA}}[\textit{(num)}]&
                 \quad&
-                \inference{e\;{\sf E}\longleftrightarrow a\;\textit{ASA}}{(e)\;{\sf F}\longleftrightarrow a\;\textit{ASA}}\\
+                \inference{e\;{\sf E}\longleftrightarrow a\;\textit{ASA}}{(e)\;{\sf F}\longleftrightarrow a\;\textit{ASA}}[\textit{(parentE)}]\\
                 &&\\
-                \inference{e\;{\sf F}\longleftrightarrow a\;\textit{ASA}}{e\;{\sf T}\longleftrightarrow a\;\textit{ASA}}&
+                \inference{e\;{\sf F}\longleftrightarrow a\;\textit{ASA}}{e\;{\sf T}\longleftrightarrow a\;\textit{ASA}}[\textit{(fact)}]&
                 \quad&
-                \inference{e_1\;{\sf T}\longleftrightarrow a_1\;\textit{ASA}&e_2\;{\sf F}\longleftrightarrow a_2\;\textit{ASA}}{e_1*e_2\;{\sf T}\longleftrightarrow prod(a_1,a_2)\;\textit{ASA}}\\
+                \inference{e_1\;{\sf T}\longleftrightarrow a_1\;\textit{ASA}&e_2\;{\sf F}\longleftrightarrow a_2\;\textit{ASA}}{e_1*e_2\;{\sf T}\longleftrightarrow prod(a_1,a_2)\;\textit{ASA}}[\textit{(prod)}]\\
                 &&\\
-                \inference{e\;{\sf T}\longleftrightarrow a\;\textit{ASA}}{e\;{\sf E}\longleftrightarrow a\;\textit{ASA}}&
+                \inference{e\;{\sf T}\longleftrightarrow a\;\textit{ASA}}{e\;{\sf E}\longleftrightarrow a\;\textit{ASA}}[\textit{(exprE)}]&
                 \quad&
-                \inference{e_1\;{\sf E}\longleftrightarrow a_1\;\textit{ASA}&e_2\;{\sf T}\longleftrightarrow a_2\;\textit{ASA}}{e_1+e_2\;{\sf T}\longleftrightarrow sum(a_1,a_2)\;\textit{ASA}}
+                \inference{e_1\;{\sf E}\longleftrightarrow a_1\;\textit{ASA}&e_2\;{\sf T}\longleftrightarrow a_2\;\textit{ASA}}{e_1+e_2\;{\sf T}\longleftrightarrow sum(a_1,a_2)\;\textit{ASA}}[\textit{(sum)}]
             \end{array}
         \]
     \end{definition}
@@ -132,7 +132,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
     \begin{exercise}        
         Define la sintaxis concreta para extender nuestro lenguaje \textsf{EAB} con las instrucciones lógicas previamente discutidas\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }
         \[ 
-            \inference{}{\texttt{True} \text{ B}} \inference{}{\texttt{False} \text{ B}} 
+            \inference{}{\texttt{True} \text{ B}} \quad \inference{}{\texttt{False} \text{ B}}
         \]
         \[ 
              \inference{c \text{ B } t \text{ LE }  c \text{ E}}{\texttt{if $c$ then $t$ else $e$ $E$}} \inference{c \text{ B } t \text{ LE}}{\texttt{if $c$ then $t$ E}} \inference{x \text{ B }}{x \text{ LE}}
@@ -171,20 +171,20 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
     \begin{exercise}
         Define las reglas del analizador sintáctico para el operador \texttt{If}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
         \[
-            \inference{}{\texttt{True} \text{ B} \longleftrightarrow \text{T} \textit{ ASA}}[\textit{true}] 
-            \inference{}{\texttt{False} \text{ B} \longleftrightarrow \text{F} \textit{ ASA}}[\textit{false}]
+            \inference{}{\texttt{True} \text{ B} \longleftrightarrow \text{T} \textit{ ASA}}[\textit{(true)}] 
+            \inference{}{\texttt{False} \text{ B} \longleftrightarrow \text{F} \textit{ ASA}}[\textit{(false)}]
         \]
         \[
-            \inference{\text{$c$ B} \longleftrightarrow \textit{c'}  \textit{ ASA } \quad \text{$t$ LE } \longleftrightarrow \text{$t'$ ASA } \quad \text{$e$ E } \longleftrightarrow \text{e'} \textit{ ASA }}{\texttt{if $c$ then $t$ else $e$ E } \longleftrightarrow \textit{if(c' t' e')} \textit{ ASA} }[$if_e$]
+            \inference{\text{$c$ B} \longleftrightarrow \textit{c'}  \textit{ ASA } \quad \text{$t$ LE } \longleftrightarrow \text{$t'$ ASA } \quad \text{$e$ E } \longleftrightarrow \text{e'} \textit{ ASA }}{\texttt{if $c$ then $t$ else $e$ E } \longleftrightarrow \textit{if(c' t' e')} \textit{ ASA} }[$(if_e)$]
         \]
         \[
             \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA} \quad \text{ $t$ LE} \longleftrightarrow \textit{t' ASA } }
-            { \texttt{if($c$ then $t$) E} \longleftrightarrow  \textit{if(c' t')} \textit{ ASA} }[$if_s$]
+            { \texttt{if($c$ then $t$) E} \longleftrightarrow  \textit{if(c' t')} \textit{ ASA} }[$(if_s)$]
         \]
         \[
-            \inference{ \text{$c$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{($e$) LE} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{parent }]
-            \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA}}{\text{$c$ LE} \longleftrightarrow \textit{c'} \textit{ ASA}}[\textit{bool }]
-            \inference{\text{$e$ LE} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{$e$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{expr }]
+            \inference{ \text{$c$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{($e$) LE} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(parentB)}]
+            \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA}}{\text{$c$ LE} \longleftrightarrow \textit{c'} \textit{ ASA}}[\textit{(bool)}]
+            \inference{\text{$e$ LE} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{$e$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(exprB)}]
         \]
     \end{exercise}
 
@@ -202,10 +202,10 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
         Proporciona las sintaxis concreta para agregar las instrucciones \texttt{let} de tal forma que sea congruente con las especificación mencionada anteriormente\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} }.
 
         \[
-            \inference{e \text{ identificador}}{e\text{ V}}[\textit{var }]
-            \inference{e\text{ V}}{e\text{ B}}[\textit{vIn }]
-            \inference{e\text{ V}}{e\text{ F}}[\textit{vfac }]
-            \inference{x\text{ V} \quad \text{$e_1$ E} \quad \text{$e_2$ E}}{ \texttt{let $x$ = $e_1$ in $e_2$ end E}}[\textit{let}]
+            \inference{e \text{ identificador}}{e\text{ V}}[\textit{(var) }]
+            \inference{e\text{ V}}{e\text{ B}}[\textit{(vIn) }]
+            \inference{e\text{ V}}{e\text{ F}}[\textit{(vfac) }]
+            \inference{x\text{ V} \quad \text{$e_1$ E} \quad \text{$e_2$ E}}{ \texttt{let $x$ = $e_1$ in $e_2$ end E}}[\textit{(let)}]
         \]
     \end{exercise}
 
