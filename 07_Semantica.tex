@@ -86,7 +86,7 @@
             \texttt{let } x = 1 \texttt{ in } (y * x) + z \texttt{ end}
         \]
         \[
-            \inference{\inference{\inference{\inference{\texttt{Error}}{\{ x \} \sim y} & \inference{x \in \{x\}}{\{ x \} \sim x}[(fvn)]}{\{ x \} \sim (y * x)}[(fvo)] & \inference{Error}{\{ x \} \sim z} }{\{ x \} \sim \text{(y * x) + z}}[(fvo)]}{\emptyset \sim \texttt{let } x = 1 \texttt{ in } \text{($y$ * $x$) + $z$} \texttt{ end}}[(fva)]
+            \inference{\inference{\inference{\inference{\texttt{Error}}{\{ x \} \sim y} & \inference{x \in \{x\}}{\{ x \} \sim x}[\textit{(fvn)}]}{\{ x \} \sim (y * x)}[\textit{(fvo)}] & \inference{Error}{\{ x \} \sim z} }{\{ x \} \sim \text{(y * x) + z}}[\textit{(fvo)}]}{\emptyset \sim \texttt{let } x = 1 \texttt{ in } \text{($y$ * $x$) + $z$} \texttt{ end}}[\textit{(fva)}]
         \]
     \end{exercise}
 
@@ -100,7 +100,7 @@
             \]
             \[
 	\scalemath{0.7}{
-                \inference{\inference{}{\emptyset \sim True}[(fvb)] & \inference{\inference{\inference{}{\emptyset \sim 1}[(fvn)] & \inference{}{\emptyset \sim 1}[(fvn)]}{\emptyset \sim (1 + 1)}[(fvo)] & \inference{}{\emptyset \sim 2}[(fvn)]}{\emptyset \sim (1 + 1) * 2}[(fvo)] & \inference{}{\emptyset \sim 7}[(fvn)] }{\emptyset \sim \textbf{ if } True \textbf{ then } (1 + 1) * 2 \textbf{ else } 7  }[fvo]
+                \inference{\inference{}{\emptyset \sim True}[\textit{(fvb)}] & \inference{\inference{\inference{}{\emptyset \sim 1}[\textit{(fvn)}] & \inference{}{\emptyset \sim 1}[\textit{(fvn)}]}{\emptyset \sim (1 + 1)}[\textit{(fvo)}] & \inference{}{\emptyset \sim 2}[\textit{(fvn)}]}{\emptyset \sim (1 + 1) * 2}[\textit{(fvo)}] & \inference{}{\emptyset \sim 7}[\textit{(fvn)}] }{\emptyset \sim \texttt{ if True} \texttt{ then } (1 + 1) * 2 \texttt{ else } 7  }[\textit{(fvo)}]
 	}           
  \]
 
@@ -116,22 +116,22 @@
         \]
         \[
 \scalemath{0.8}{
-            \inference{\inference{}{\Delta \sim 1}[(fvn)] \inference{ \inference{\inference{}{\{x\} \sim x}[(fvn)]}{\Delta \sim \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end }}[(fvo)] \inference{}{\Delta \sim 2}[(fvn)] \inference{}{\Delta \sim 1}[(fvn)] }{\Delta \sim \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}}[(fvo)]}{\Delta \sim 1 + \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}}[(fvo)]
+            \inference{\inference{}{\Delta \sim 1}[\textit{(fvn)}] \inference{ \inference{\inference{}{\{x\} \sim x}[\textit{(fvn)}]}{\Delta \sim \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end }}[\textit{(fvo)}] \inference{}{\Delta \sim 2}[\textit{(fvn)}] \inference{}{\Delta \sim 1}[\textit{(fvn)}] }{\Delta \sim \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}}[\textit{(fvo)}]}{\Delta \sim 1 + \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}}[\textit{(fvo)}]
 }
         \]
     \end{exercise}
 
     \bigskip
 
-    De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación generados de expresiones cerradas concluirán todas sus ramas con algún axioma (fvn, fvb  o fvv). \\\\
+    De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación generados de expresiones cerradas concluirán todas sus ramas con algún axioma (\textit{fvn, fvb  o fvv}). \\\\
 
     \section{Semántica dinámica}
     La semántica dinámica constituye el siguiente eslabón del proceso de ejecución de un programa. Una vez verificada que la expresión en sintáxis concreta es una expresión válida y no posee variables libres por la semántica estática, entonces se puede comenzar a discutir el cómo se ejecutará dicha expresión. \\\\\
-    Diferentes paradigmas de ejecución pueden ser aplicados para las expresiones de \textsf{EAB} dependiendo de la rama de interés que se quiera estudiar del lenguaje de programación (por ejemplo cambios en la memoria, el valor las variables del programa, el valor final al que reduce la expresion, etc). En este capítulo nos centraremos en la semántica operacional que estudia el proceso de ejecución modelando cada configuración del programa como un estado y las transiciones entre ellos.
+    Diferentes paradigmas de ejecución pueden ser aplicados para las expresiones de \textsf{EAB} dependiendo de la rama de interés que se quiera estudiar del lenguaje de programación (por ejemplo cambios en la memoria, el valor las variables del programa, el valor final al que reduce la expresion, etc). En este capítulo nos centraremos en la semántica operacional que estudia el proceso de ejecución modelando cada configuración del programa como un estado y las transiciones entre estos.
     
     
     \subsection{Semántica operacional}
-    En esta categoría se hace la distinción entre los dos paradigmas mas imprtanes para estudiar la semántica operacional de los lenguajes de programación:
+    En esta categoría se hace la distinción entre los dos paradigmas mas importantes para estudiar la semántica operacional de los lenguajes de programación:
     \begin{itemize}
         \item Semántica de paso pequeño: la cuál modela la ejecución de un programa describiendo las transiciones una a una mostrando los compútos generados de forma individual. 
         \item Semántica de paso grande: que contrasta con la de paso pequeño porque aquí no nos importa que estados sucedieron en la ejecución del programa, únicamente nos interesa el valor que regresa.
@@ -141,20 +141,20 @@
 
     \bigskip
     
-    \begin{definition}Sistema de transición para la semántica operacional de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:  Se define la semántica operacional del lenguaje de expresiones aritméticas utilizando el sistema de transición siguiente:
+    \begin{definition}Sistema de transición para la semántica operacional de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
     \vspace{1em}
         \begin{description}
             \item[Conjunto de estados] $S=\{a\ |\ a\ asa\}$\\
 	 Los estados del sistema son las expresiones del lenguaje en sintaxis abstracta. Esta definición corresponde a la regla de inferencia:
-            $$\inference{a\ asa}{a\ estado}[ state]$$ 
+            $$\inference{a\ asa}{a\ estado}[ \textit{(state)}]$$ 
             \item[Estados Iniciales] $I=\{a\ |\ a\ asa,\ FV(a) = \emptyset \}$ \\
 	 Los estados iniciales son todas las expresiones cerradas del lenguaje y corresponde a la regla:
-            $$\inference{a\ asa & \emptyset \sim a}{a\ inicial}[ init]$$ 
+            $$\inference{a\ asa & \emptyset \sim a}{a\ inicial}[\textit{(init)}]$$ 
             \item[Estados Finales] Son las expresiones que no se pueden reducir mas obtenidas al final del proceso de evaluación.\\\\
 	 Definimos una categoría de valores los cuales son un subconjunto de expresiones de \textsf{EAB}, esta nueva categoría se representa con el juicio $v\ valor$. Para el caso de \textsf{EAB}  se denota con las reglas:
-            $$\inference{}{num[n]\ valor}[vnum] \ \ \ \ \ \inference{}{T\ \text{Bool}\ valor}[vbool]$$
+            $$\inference{}{num[n]\ valor}[vnum] \ \ \ \ \ \inference{}{\texttt{T}\ \text{Bool}\ valor}[\textit{(vbool)}]$$
             Entonces se define el conjunto de estados finales $F=\{a\ |\ a\ valor\}$, correspondiente a la regla:
-            $$\inference{a\ valor}{a\ final}[fin]$$ 
+            $$\inference{a\ valor}{a\ final}[\textit{(fin)}]$$ 
 
         \end{description}
     \end{definition}
@@ -166,17 +166,17 @@
     \subsection{Semántica de paso pequeño}
         Para esta semántica las transiciones se modelarán paso a paso mediante la función de transición, denotada como: 
 	$$e_1 \rightarrow e_2$$ 
-	Donde $e_1$ es llamado ''$redex$'' y $e_2$ es llamado ''$reducto$''. Esta relación se interpreta cómo la transición entre $e_1$ y $e_2$ que existe si y solo sí en un paso de evaluación se puede reducir la expresión $e_1$ a la expresión $e_2$.
+	Donde $e_1$ es llamado ''$redex$'' y $e_2$ es llamado ''$reducto$''. Esta relación se interpreta cómo la transición entre $e_1$ y $e_2$ que existe si y solo sí en un paso de evaluación se puede reducir la expresión $e_1$ a la expresión $e_2$\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }.
 
 
-    \begin{definition}Función de transición para semántica de paso pequeñ\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }o: Definición de la función de transición para implementar la operacional de paso pequeño con el sistema de transición de \textsf{EAB} mediante las siguientes reglas de inferencia:\\
+    \begin{definition}Función de transición para semántica de paso pequeño\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
     \begin{description}
         \item[Suma]
 
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{}{suma(num[n], num[m]) \rightarrow num[n+_N m]}[sumaf]\\
+                    \inference{}{suma(num[n], num[m]) \rightarrow num[n+_N m]}[\textit{(sumaf)}]\\
                     \quad
                 \end{array}
             }
@@ -184,12 +184,12 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{a_1  \rightarrow a_1'}{suma(a_1 ,a_2) \rightarrow  suma(a_1', a_2)}[suma1]\\
+                    \inference{a_1  \rightarrow a_1'}{suma(a_1 ,a_2) \rightarrow  suma(a_1', a_2)}[\textit{(suma1)}]\\
                     \quad
                 \end{array}    
                 \quad
                 \begin{array}{c}
-                    \inference{a_2  \rightarrow a_2'}{suma(num[n], a_2)to suma(num[n] ,a_2')}[suma2]\\
+                    \inference{a_2  \rightarrow a_2'}{suma(num[n], a_2)to suma(num[n] ,a_2')}[\textit{(suma2)}]\\
                     \quad
                 \end{array} 
             }
@@ -201,7 +201,7 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{}{prod(num[n], num[m])  \rightarrow num[n\times_N m]}[prodf]\\
+                    \inference{}{prod(num[n], num[m])  \rightarrow num[n\times_N m]}[\textit{(prodf)}]\\
                     \quad
                 \end{array}
             }
@@ -209,8 +209,8 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{ccc}
-                    \inference{a_1  \rightarrow a_1'}{prod(a_1, a_2)  \rightarrow produ(a_1',a_2)}[prod1]&
-                    \inference{a_2  \rightarrow a_2'}{prod(num[n],a_2)  \rightarrow prod(num[n],a_2')}[prod2]\\
+                    \inference{a_1  \rightarrow a_1'}{prod(a_1, a_2)  \rightarrow produ(a_1',a_2)}[\textit{(prod1)}]&
+                    \inference{a_2  \rightarrow a_2'}{prod(num[n],a_2)  \rightarrow prod(num[n],a_2')}[\textit{(prod2)}]\\
                     \quad&&
                 \end{array}
             }
@@ -219,9 +219,9 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{}{if(True,e_1,e_2)  \rightarrow e_1}[ift]
+                    \inference{}{if(True,e_1,e_2)  \rightarrow e_1}[\textit{(ift)}]
                     \quad
-                    \inference{}{if(False,e_1,e_2)  \rightarrow e_2}[iff]
+                    \inference{}{if(False,e_1,e_2)  \rightarrow e_2}[\textit{(iff)}]
                     \quad
                 \end{array}
             }
@@ -229,7 +229,7 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{ccc}
-                    \inference{a_1  \rightarrow a_1'}{if(a_1, e_1 , e_2)  \rightarrow if(a_1', e_1 , e_2)}[if1]&
+                    \inference{a_1  \rightarrow a_1'}{if(a_1, e_1 , e_2)  \rightarrow if(a_1', e_1 , e_2)}[\textit{(if1)}]&
                 \end{array}
             }
         \]
@@ -237,9 +237,9 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{ccc}
-                    \inference{v\ valor}{let(v,x.a_2)  \rightarrow a_2[x:=v]}[letf]&
+                    \inference{v\ valor}{let(v,x.a_2)  \rightarrow a_2[x:=v]}[\textit{(letf)}]&
                     \quad&
-                    \inference{a_1 \rightarrow a_1'}{let(a_1,x.a_2)  \rightarrow let(a_1',x.a_2)}[let1]
+                    \inference{a_1 \rightarrow a_1'}{let(a_1,x.a_2)  \rightarrow let(a_1',x.a_2)}[\textit{(let1)}]
                 \end{array}
             }
         \]
