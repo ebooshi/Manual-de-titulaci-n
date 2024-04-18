@@ -85,28 +85,37 @@
         \[ 
             \texttt{let } x = 1 \texttt{ in } (y * x) + z \texttt{ end}
         \]
-        \[
-            \inference
-                {
-                   \inference
-                      {
-                          \inference
-                              {
-                                  \inference
-                                      { Error }
-                                      {\{ x \} \sim y} \; 
-                                      \inference
-                                      {x \in \{x\}}
-                                      {\{ x \} \sim x}[\textit{(fvn)}]
-                               }
-                               {\{ x \} \sim (y * x)}[\textit{(fvo)}]& 
-                          \inference
-                              {Error}
-                              {\{ x \} \sim z} 
-                      }    
-                      {\{ x \} \sim \text{(y * x) + z}}[\textit{(fvo)}]
-                  }
-                  {\emptyset \sim \texttt{let } x = 1 \texttt{ in } \text{($y$ * $x$) + $z$} \texttt{ end}}[\textit{(fva)}]
+	\[
+        \scalemath{0.8}{
+	            \inference
+	                {
+	                    \inference
+		              {}
+			   {\emptyset \sim 1}[\textit{(fvn)}]&
+	                    \inference
+	                        {
+	                            \inference
+				{
+	                                    \inference
+	                                        {
+	                                            \inference
+	                                                { Error }
+	                                                {\{ x \} \sim y} \; 
+	                                            \inference
+	                                              {x \in \{x\}}
+	                                              {\{ x \} \sim x}[\textit{(fvn)}]
+	                                        }
+	                                         {\{ x \} \sim \textit{prod(x,y)}}[\textit{(fvo)}]& 
+	                                    \inference
+	                                        {Error}
+	                                        {\{ x \} \sim z}
+	                                }    
+	                               {\{ x \} \sim \textit{sum(prod(y, x), z)}}[\textit{(fvo)}]
+			      }
+	                           {\emptyset \sim \textit{x.sum(prod(y, x), z))} }
+	                    }
+	                    {\emptyset \sim \textit{let(1,x.sum(pord(y,x),z))}}[\textit{(fva)}]
+	    }
         \]
     \end{exercise}
 
@@ -119,10 +128,36 @@
                  \texttt{ if  } \texttt{True } \texttt{then } (1 + 1) * 2  \texttt{ else } 7 
             \]
             \[
-	\scalemath{0.7}{
-                \inference{\inference{}{\emptyset \sim True}[\textit{(fvb)}] & \inference{\inference{\inference{}{\emptyset \sim 1}[\textit{(fvn)}]& \inference{}{\emptyset \sim 1}[\textit{(fvn)}]}{\emptyset \sim (1 + 1)}[\textit{(fvo)}]& \inference{}{\emptyset \sim 2}[\textit{(fvn)}]}{\emptyset \sim (1 + 1) * 2}[\textit{(fvo)}] & \inference{}{\emptyset \sim 7}[\textit{(fvn)}] }{\emptyset \sim \texttt{ if True} \texttt{ then } (1 + 1) * 2 \texttt{ else } 7  }[\textit{(fvo)}]
-	}           
- \]
+	        \scalemath{0.7}{
+                    \inference
+                         {
+                             \inference
+                                 {}
+                                 {\emptyset \sim True}[\textit{(fvb)}] 
+                             \inference
+                                 {
+                                     \inference
+                                         {
+                                             \inference
+                                                 {}
+                                                 {\emptyset \sim 1}[\textit{(fvn)}] 
+                                             \inference
+                                                 {}
+                                                 {\emptyset \sim 1}[\textit{(fvn)}]
+                                         }
+                                         {\emptyset \sim (1 + 1)}[\textit{(fvo)}] 
+                                     \inference
+                                         {}
+                                         {\emptyset \sim 2}[\textit{(fvn)}]
+                                 }
+                                 {\emptyset \sim (1 + 1) * 2}[\textit{(fvo)}]
+                             \inference
+                                 {}
+                                 {\emptyset \sim 7}[\textit{(fvn)}] 
+                             }
+                             {\emptyset \sim \texttt{ if True} \texttt{ then } (1 + 1) * 2 \texttt{ else } 7  }[\textit{(fvo)}]
+	            }           
+            \]
 
 
     \end{exercise}
@@ -135,9 +170,9 @@
             1 + \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}
         \]
         \[
-\scalemath{0.8}{
+            \scalemath{0.8}{
             \inference{\inference{}{\Delta \sim 1}[\textit{(fvn)}]& \inference{ \inference{\inference{}{\{x\} \sim x}[\textit{(fvn)}]}{\Delta \sim \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end }}[\textit{(fvo)}] \inference{}{\Delta \sim 2}[\textit{(fvn)}] \inference{}{\Delta \sim 1}[\textit{(fvn)}] }{\Delta \sim \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}}[\textit{(fvo)}]}{\Delta \sim 1 + \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}}[\textit{(fvo)}]
-}
+            }
         \]
     \end{exercise}
 
