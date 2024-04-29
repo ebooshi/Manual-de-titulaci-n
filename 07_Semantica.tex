@@ -114,7 +114,7 @@
 			      }
 	                           {\emptyset \sim \textit{x.sum(prod(y, x), z))} }
 	                    }
-	                    {\emptyset \sim \textit{let(1,x.sum(pord(y,x),z))}}[\textit{(fva)}]
+	                    {\emptyset \sim \textit{let(1,x.sum(prod(y,x),z))}}[\textit{(fva)}]
 	    }
         \]
     \end{exercise}
@@ -133,7 +133,7 @@
                          {
                              \inference
                                  {}
-                                 {\emptyset \sim True}[\textit{(fvb)}] 
+                                 {\emptyset \sim \textit{T}}[\textit{(fvb)}] 
                              \inference
                                  {
                                      \inference
@@ -145,17 +145,17 @@
                                                  {}
                                                  {\emptyset \sim 1}[\textit{(fvn)}]
                                          }
-                                         {\emptyset \sim (1 + 1)}[\textit{(fvo)}] 
+                                         {\emptyset \sim \textit{sum(1, 1)}}[\textit{(fvo)}] 
                                      \inference
                                          {}
                                          {\emptyset \sim 2}[\textit{(fvn)}]
                                  }
-                                 {\emptyset \sim (1 + 1) * 2}[\textit{(fvo)}]
+                                 {\emptyset \sim \textit{prod(sum(1, 1), 2)}}[\textit{(fvo)}]
                              \inference
                                  {}
                                  {\emptyset \sim 7}[\textit{(fvn)}] 
                              }
-                             {\emptyset \sim \texttt{ if True} \texttt{ then } (1 + 1) * 2 \texttt{ else } 7  }[\textit{(fvo)}]
+                             {\emptyset \sim \textit{if(T, prod(sum(1, 1), 2), 7) }}[\textit{(fvo)}]
 	            }           
             \]
 
@@ -167,11 +167,34 @@
     \begin{exercise}
         Para la siguiente expresión realiza el análisis estático para encontrar variables libres mediante la derivación aplicando las reglas del juicio $\sim$
         \[
-            1 + \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}
+            1 + \texttt{if(} \texttt{let } x = \texttt{True} \texttt{ in } x \texttt{ end} \texttt{ then } 2 \texttt{ else } 1 \texttt{)}
         \]
         \[
             \scalemath{0.8}{
-            \inference{\inference{}{\Delta \sim 1}[\textit{(fvn)}]& \inference{ \inference{\inference{}{\{x\} \sim x}[\textit{(fvn)}]}{\Delta \sim \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end }}[\textit{(fvo)}] \inference{}{\Delta \sim 2}[\textit{(fvn)}] \inference{}{\Delta \sim 1}[\textit{(fvn)}] }{\Delta \sim \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}}[\textit{(fvo)}]}{\Delta \sim 1 + \texttt{if ( } \texttt{ let } x = \texttt{True} \texttt{ in } x \texttt{ end } \texttt{ then } 2 \texttt{ else } 1 \texttt{ )}}[\textit{(fvo)}]
+            	\inference
+			{
+				\inference
+					{}
+					{\Delta \sim 1}[\textit{(fvn)}] 
+				\inference
+					{ 
+						\inference
+							{
+								\inference
+									{}
+									{\{x\} \sim x}[\textit{(fvn)}]
+							}
+							{\Delta \sim \textit{let(} \textit{T,}x.x \textit{) }    }[\textit{(fvo)}] 
+						\inference
+							{}
+							{\Delta \sim 2}[\textit{(fvn)}] 
+						\inference
+							{}
+							{\Delta \sim 1}[\textit{(fvn)}] 
+					}
+					{\Delta \sim \textit{if(} \textit{let(} \textit{T,}x.x \textit{),} 2, 1 \textit{)}}[\textit{(fvo)}]
+			}
+			{\Delta \sim \textit{sum(1,} \textit{if(} \textit{let(} \textit{T,}x.x \textit{),} 2, 1 \textit{))}}[\textit{(fvo)}]
             }
         \]
     \end{exercise}
@@ -181,8 +204,8 @@
     De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación generados de expresiones cerradas concluirán todas sus ramas con algún axioma (\textit{fvn, fvb  o fvv}). \\\\
 
     \section{Semántica dinámica}
-    La semántica dinámica constituye el siguiente eslabón del proceso de ejecución de un programa. Una vez verificada que la expresión en sintáxis concreta es una expresión válida y no posee variables libres por la semántica estática, entonces se puede comenzar a discutir el cómo se ejecutará dicha expresión. \\\\\
-    Diferentes paradigmas de ejecución pueden ser aplicados para las expresiones de \textsf{EAB} dependiendo de la rama de interés que se quiera estudiar del lenguaje de programación (por ejemplo cambios en la memoria, el valor las variables del programa, el valor final al que reduce la expresion, etc). En este capítulo nos centraremos en la semántica operacional que estudia el proceso de ejecución modelando cada configuración del programa como un estado y las transiciones entre estos.
+    La semántica dinámica constituye el siguiente eslabón del proceso de ejecución de un programa. Una vez verificada que la expresión en sintáxis concreta es una expresión válida y no posee variables libres, entonces se puede comenzar a discutir el como se ejecutará dicha expresión. \\\\\
+   Existen diferentes paradigmas de ejecución que pueden ser aplicados para evaluar las expresiones de los lenguajes de programación según el interés de estudio (por ejemplo cambios en la memoria, el valor las variables del programa, el valor final al que evalúa una expresión, etc). En este capítulo nos centraremos en la semántica operacional que estudia el proceso de ejecución modelando cada configuración del programa como un estado y las transiciones entre estos.
     
     
     \subsection{Semántica operacional}
@@ -207,7 +230,7 @@
             $$\inference{a\ asa & \emptyset \sim a}{a\ inicial}[\textit{(init)}]$$ 
             \item[Estados Finales] Son las expresiones que no se pueden reducir mas obtenidas al final del proceso de evaluación.\\\\
 	 Definimos una categoría de valores los cuales son un subconjunto de expresiones de \textsf{EAB}, esta nueva categoría se representa con el juicio $v\ valor$. Para el caso de \textsf{EAB}  se denota con las reglas:
-            $$\inference{}{num[n]\ valor}[vnum] \ \ \ \ \ \inference{}{\texttt{T}\ \text{Bool}\ valor}[\textit{(vbool)}]$$
+            $$\inference{}{num[n]\ valor}[\textit{(vnum)}] \ \ \ \ \ \inference{}{\textit{T}\ \text{Bool}\ valor}[\textit{(vbool)}]$$
             Entonces se define el conjunto de estados finales $F=\{a\ |\ a\ valor\}$, correspondiente a la regla:
             $$\inference{a\ valor}{a\ final}[\textit{(fin)}]$$ 
 
@@ -224,14 +247,16 @@
 	Donde $e_1$ es llamado ''$redex$'' y $e_2$ es llamado ''$reducto$''. Esta relación se interpreta cómo la transición entre $e_1$ y $e_2$ que existe si y solo sí en un paso de evaluación se puede reducir la expresión $e_1$ a la expresión $e_2$\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }.
 
 
-    \begin{definition}Función de transición para semántica de paso pequeño\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}Función de transición para semántica de paso pequeño\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }: \\\\
+	Para definir las reglas de transición para los computos siguiendo el paradigma de semántica de paso pequeño, primero vamos a evaluar el argumento más a la izquierda dentro de las expresiones que denotan un operador hasta obtener un valor. Posteriormente evaluaremos el argumento a la derecha. \\
+
     \begin{description}
         \item[Suma]
 
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{}{suma(num[n], num[m]) \rightarrow num[n+_N m]}[\textit{(sumaf)}]\\
+                    \inference{}{sum(num[n], num[m]) \rightarrow num[n+_N m]}[$(sum_N)$]\\
                     \quad
                 \end{array}
             }
@@ -239,12 +264,12 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{a_1  \rightarrow a_1'}{suma(a_1 ,a_2) \rightarrow  suma(a_1', a_2)}[\textit{(suma1)}]\\
+                    \inference{a_1  \rightarrow a_1'}{sum(a_1 ,a_2) \rightarrow  sum(a_1', a_2)}[$(sum_L)$]\\
                     \quad
                 \end{array}    
                 \quad
                 \begin{array}{c}
-                    \inference{a_2  \rightarrow a_2'}{suma(num[n], a_2)to suma(num[n] ,a_2')}[\textit{(suma2)}]\\
+                    \inference{a_2  \rightarrow a_2'}{sum(num[n], a_2) \rightarrow sum(num[n] ,a_2')}[$(sum_R)$]\\
                     \quad
                 \end{array} 
             }
@@ -256,7 +281,7 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{}{prod(num[n], num[m])  \rightarrow num[n\times_N m]}[\textit{(prodf)}]\\
+                    \inference{}{prod(num[n], num[m])  \rightarrow num[n\times_N m]}[$(prod_N)$]\\
                     \quad
                 \end{array}
             }
@@ -264,8 +289,8 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{ccc}
-                    \inference{a_1  \rightarrow a_1'}{prod(a_1, a_2)  \rightarrow produ(a_1',a_2)}[\textit{(prod1)}]&
-                    \inference{a_2  \rightarrow a_2'}{prod(num[n],a_2)  \rightarrow prod(num[n],a_2')}[\textit{(prod2)}]\\
+                    \inference{a_1  \rightarrow a_1'}{prod(a_1, a_2)  \rightarrow prod(a_1',a_2)}[$(prod_L)$]&
+                    \inference{a_2  \rightarrow a_2'}{prod(num[n],a_2)  \rightarrow prod(num[n],a_2')}[$(prod_R)$]\\
                     \quad&&
                 \end{array}
             }
@@ -274,9 +299,9 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{}{if(True,e_1,e_2)  \rightarrow e_1}[\textit{(ift)}]
+                    \inference{}{if(T,e_1,e_2)  \rightarrow e_1}[$(if_T)$]
                     \quad
-                    \inference{}{if(False,e_1,e_2)  \rightarrow e_2}[\textit{(iff)}]
+                    \inference{}{if(F,e_1,e_2)  \rightarrow e_2}[$(if_F)$]
                     \quad
                 \end{array}
             }
@@ -284,7 +309,7 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{ccc}
-                    \inference{a_1  \rightarrow a_1'}{if(a_1, e_1 , e_2)  \rightarrow if(a_1', e_1 , e_2)}[\textit{(if1)}]&
+                    \inference{a_1  \rightarrow a_1'}{if(a_1, e_1 , e_2)  \rightarrow if(a_1', e_1 , e_2)}[$(if_B)$]&
                 \end{array}
             }
         \]
@@ -292,9 +317,9 @@
         \[
             \scalemath{0.85}{
                 \begin{array}{ccc}
-                    \inference{v\ valor}{let(v,x.a_2)  \rightarrow a_2[x:=v]}[\textit{(letf)}]&
+                    \inference{v\ valor}{let(v,x.a_2)  \rightarrow a_2[x:=v]}[$(let_V)$]&
                     \quad&
-                    \inference{a_1 \rightarrow a_1'}{let(a_1,x.a_2)  \rightarrow let(a_1',x.a_2)}[\textit{(let1)}]
+                    \inference{a_1 \rightarrow a_1'}{let(a_1,x.a_2)  \rightarrow let(a_1',x.a_2)}[$(let_L)$]
                 \end{array}
             }
         \]
@@ -336,14 +361,14 @@
         \] 
         \[
             \begin{array}{cl}
-                &if(\ False,\ let(prod(99,\ 99),\ x.sum(x,\ x),\ 0)\\
+                &if(F,\ let(prod(99,99),\ x.sum(x,x)),\ 0)\\
                 \rightarrow &0
 
             \end{array}
         \]
     \end{exercise}
 
-    Del ejercicio anterior podemos notar la ventaja de la evaluación perezosa. Dado que nuestro valor de control es \texttt{False} no es necesario evaluar la expresión $e_1$ y directamente nos saltaremos a evaluar $e_2$ por la regla \texttt{iff} que en este caso es el valor 0.\\
+    Del ejercicio anterior podemos notar la ventaja de la evaluación perezosa. Dado que nuestro valor de control es \texttt{False} no es necesario evaluar la expresión $e_1$ y directamente nos saltaremos a evaluar $e_2$ por la regla $if_F$ que en este caso es el valor 0.\\
     
     \begin{exercise}
         Dada la siguiente expresion de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición para semántica de paso pequeño para evaluarla.
@@ -352,11 +377,11 @@
         \]  
         \[
             \begin{array}{cl}
-                &\textit{let}(\textit{if(True}, 42,0), \textit{x}.\textit{if(False}, \text{41}, x))\\
-                \rightarrow &\textit{let}(\text{42}, \textit{x}. \textit{if(False}, \text{41}, x))\\
-                \rightarrow &\textit{if(False}, 41, x)[x:=42]\\
-                \rightarrow &\textit{if(False}[x:=42], 41[x:=42], x[x:=42])\\
-                \rightarrow &\textit{if(False}, 41, 42)\\
+                &\textit{let}(\textit{if(T}, 42,0), \textit{x}.\textit{if(F}, \text{41}, x))\\
+                \rightarrow &\textit{let}(\text{42}, \textit{x}. \textit{if(F}, \text{41}, x))\\
+                \rightarrow &\textit{if(F}, 41, x)[x:=42]\\
+                \rightarrow &\textit{if(F}[x:=42], 41[x:=42], x[x:=42])\\
+                \rightarrow &\textit{if(F}, 41, 42)\\
                 \rightarrow &42\\
             \end{array}
         \]
@@ -368,31 +393,31 @@
     \begin{definition}Cerradura transitiva y reflexiva: se denota como $t\rightarrow^*$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
-                \inference{}{s \rightarrow^*s}[refl]&
+                \inference{}{s \rightarrow^*s}[\textit{(refl)}]&
                 \quad&
-                \inference{s_1 \rightarrow s_2& s_2 \rightarrow^*s_3}{s_1 \rightarrow^*s_3}[trans]
+                \inference{s_1 \rightarrow s_2& s_2 \rightarrow^*s_3}{s_1 \rightarrow^*s_3}[\textit{(trans)}]
             \end{array}
         \]
-        Intuitivamente la relación $s_1 \rightarrow^*s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos (posiblemente 0), de la relación de transición $\rightarrow$.
+        La relación $s_1 \rightarrow^*s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de aplicaciones (posiblemente 0) de la relación de transición $\rightarrow$.
     \end{definition}
     
     \begin{definition}Cerradura positiva: se denota como $\rightarrow^+$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
-                \inference{s_1 \rightarrow s_2}{s_1 \rightarrow^+s_2}[one+]&
+                \inference{s_1 \rightarrow s_2}{s_1 \rightarrow^+s_2}[\textit{(one+)}]&
                 \quad&
-                \inference{s_1 \rightarrow s_2 & s_2 \rightarrow^+ s_3}{s_1 \rightarrow^+s_3}[trans+]
+                \inference{s_1 \rightarrow s_2 & s_2 \rightarrow^+ s_3}{s_1 \rightarrow^+s_3}[\textit{(trans+)}]
             \end{array}
         \]
-        Intuitivamente la relación $s_1 \rightarrow^+s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos estrictamente mayor a cero, de la relación de transición $\rightarrow$. Es decir, se llega de $s_1$ a $s_2$ en al menos un paso.
+        La relación $s_1 \rightarrow^+s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de aplicaciones estrictamente mayor a cero de la relación de transición $\rightarrow$. Es decir, se llega de $s_1$ a $s_2$ en al menos un paso.
     \end{definition}
     
-    \begin{definition}Iteración en $n$ pasos: se denota como $to^n$ con $n\in N$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}Iteración en $n$ pasos: se denota como $\rightarrow^n$ con $n\in N$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
-                \inference{}{s \rightarrow^0 s}[iterz]&
+                \inference{}{s \rightarrow^0 s}[($iter_z$)]&
                 \quad&
-                \inference{s_1  \rightarrow s_2&s_2  \rightarrow^n s_3}{s_1  \rightarrow^{n+1}s_3}[itern]
+                \inference{s_1  \rightarrow s_2&s_2  \rightarrow^n s_3}{s_1  \rightarrow^{n+1}s_3}[($iter_n$)]
             \end{array}
         \]
         Intuitivamente la relación $s_1 \rightarrow^n s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en exactamente $n$ pasos de la relación de transición $ \rightarrow$.
