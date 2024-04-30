@@ -45,7 +45,7 @@
 
     \bigskip
     
-    \begin{definition}Semántica estática para capturar expresiones con variables libres en \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}Semántica estática para capturar expresiones con variables libres en \textsf{EAB}\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
     Sea $\Delta$ un conjunto de variables y \textit{a} un árbol de sintáxis abstracta, decimos que \textit{a} no tiene variables libres en bajo el conjunto $\Delta$ denotado como:
         $$ \Delta\sim a\ ASA$$
     
@@ -73,7 +73,7 @@
 
     \bigskip
 
-    \begin{definition}Expresión cerrada de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}:
+    \begin{definition}Expresión cerrada de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}:
     Sea $a$ un \textit{ASA} decimos que $a$ es cerrada si y sólo si $$ FV(a)\ =\ \emptyset $$
     Es decir, $a$ es una expresión del lenguaje cerrada si no tiene apariciones de variables libres. 
     \end{definition}
@@ -209,7 +209,7 @@
     
     
     \subsection{Semántica operacional}
-    En esta categoría se hace la distinción entre los dos paradigmas mas importantes para estudiar la semántica operacional de los lenguajes de programación:
+    En esta categoría se hace la distinción entre los dos paradigmas mas importantes para estudiar la semántica operacional de los lenguajes de programación\footnote{Definición acuñada de y  \hyperlink{2}{[2]}, \hyperlink{103}{[103] y  \hyperlink{104}{[104]}} }:
     \begin{itemize}
         \item Semántica de paso pequeño: la cuál modela la ejecución de un programa describiendo las transiciones una a una mostrando los compútos generados de forma individual. 
         \item Semántica de paso grande: que contrasta con la de paso pequeño porque aquí no nos importa que estados sucedieron en la ejecución del programa, únicamente nos interesa el valor que regresa.
@@ -219,7 +219,7 @@
 
     \bigskip
     
-    \begin{definition}Sistema de transición para la semántica operacional de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}Sistema de transición para la semántica operacional de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} y \hyperlink{105}{[105]}  }:
     \vspace{1em}
         \begin{description}
             \item[Conjunto de estados] $S=\{a\ |\ a\ asa\}$\\
@@ -237,7 +237,7 @@
         \end{description}
     \end{definition}
 
-    \begin{definition}Estado bloqueado\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }: Un estado $s$ está bloqueado si no existe otro estado $s'$ tal que $s \rightarrow s'$ y lo denotamos como $s \nrightarrow$
+    \begin{definition}Estado bloqueado\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }: Un estado $s$ está bloqueado si no existe otro estado $s'$ tal que $s \rightarrow s'$ y lo denotamos como $s \nrightarrow$
     \end{definition}
 
 
@@ -247,7 +247,7 @@
 	Donde $e_1$ es llamado ''$redex$'' y $e_2$ es llamado ''$reducto$''. Esta relación se interpreta cómo la transición entre $e_1$ y $e_2$ que existe si y solo sí en un paso de evaluación se puede reducir la expresión $e_1$ a la expresión $e_2$\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }.
 
 
-    \begin{definition}Función de transición para semántica de paso pequeño\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }: \\\\
+    \begin{definition}Función de transición para semántica de paso pequeño\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]},  \hyperlink{12}{[12]} y \hyperlink{105}{[105]}  }: \\\\
 	Para definir las reglas de transición para los computos siguiendo el paradigma de semántica de paso pequeño, primero vamos a evaluar el argumento más a la izquierda dentro de las expresiones que denotan un operador hasta obtener un valor. Posteriormente evaluaremos el argumento a la derecha. \\
 
     \begin{description}
@@ -420,7 +420,7 @@
                 \inference{s_1  \rightarrow s_2&s_2  \rightarrow^n s_3}{s_1  \rightarrow^{n+1}s_3}[($iter_n$)]
             \end{array}
         \]
-        Intuitivamente la relación $s_1 \rightarrow^n s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en exactamente $n$ pasos de la relación de transición $ \rightarrow$.
+        La relación $s_1 \rightarrow^n s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en exactamente $n$ pasos de la relación de transición $ \rightarrow$.
     \end{definition}
 
     \subsection{Semántica de paso grande}
@@ -430,23 +430,23 @@
     \begin{definition}Semántica de paso grande para \textsf{EAB}: Se define la relación de transición  $\Downarrow$ mediante las siguientes reglas de inferencia\footnote{Definición formulada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \begin{description}
             \item[Valores]
-            $$\inference{}{num[n] \Downarrow num[n]}[\sf bsnum ] \inference{}{b\ \text{Bool} \Downarrow b\ \text{Bool}}[ bsbool ]$$
+            $$\inference{}{num[n] \Downarrow num[n]}[\textit{(bsnum)} ] \inference{}{B\ \text{Bool} \Downarrow B\ \text{Bool}}[ \textit{(bsbool)} ]$$
             \item[Suma] 
-            $$\inference{e_1 \Downarrow num[n]&e_2\Downarrow num[m]}{sum(e_1, e_2)\Downarrow num[n+_N m]}[bssum]$$
+            $$\inference{e_1 \Downarrow num[n]&e_2\Downarrow num[m]}{sum(e_1, e_2)\Downarrow num[n+_N m]}[\textit{(bssum)}]$$
             \item[Producto] 
-            $$\inference{e_1\Downarrow num[n]&e_2\Downarrow num[m]}{prod(e_1,e_2)\Downarrow num[n\times_N m]}[bsprod]$$
+            $$\inference{e_1\Downarrow num[n]&e_2\Downarrow num[m]}{prod(e_1,e_2)\Downarrow num[n\times_N m]}[\textit{(bsprod)}]$$
             \item[Asignaciones locales] 
-            $$\inference{e_1\Downarrow v_1&e_2[x:=v_1]\Downarrow v_2}{let(e_1,x.e_2)\Downarrow v_2}[bslet]$$
+            $$\inference{e_1\Downarrow v_1&e_2[x:=v_1]\Downarrow v_2}{let(e_1,x.e_2)\Downarrow v_2}[\textit{(bslet)}]$$
             \item[Sentencias de control]
-            $$\inference{e_0\Downarrow True & e_1 \Downarrow v_1}{if(e_0,e_1,e_2)\Downarrow v_1}[bsift]
-              \inference{e_0\Downarrow False & e_2 \Downarrow v_2}{if(e_0,e_1,e_2)\Downarrow v_2}[bsift]$$
+            $$\inference{e_0\Downarrow True & e_1 \Downarrow v_1}{if(e_0,e_1,e_2)\Downarrow v_1}[\textit{(bsift)}]
+              \inference{e_0\Downarrow False & e_2 \Downarrow v_2}{if(e_0,e_1,e_2)\Downarrow v_2}[\textit{(bsift)}]$$
         \end{description}
          Es importante destacar que los valores de tipo \textit{num[n] y b } Bool si tienen reglas definidas  en esta semántica de paso grande.
     \end{definition}
 
     \begin{theorem}Equivalencia entre semántica de paso pequeño y paso grande: Decimos que para cualquier expresión $e$ del lenguaje \textsf{EAB} se cumple:
-        $$e \rightarrow^*v \text{ si y sólo si } e \Downarrow v$$
-        Es decir, las semánticas que hemos definido son equivalentes.
+        $$e \rightarrow^*v \longleftrightarrow e \Downarrow v$$
+        Es decir, las semánticas que hemos definido son equivalentes\footnote{La demostración se puede hacer por inducción estructural sobre cada insturcción de \texttt{EAB}, esta queda fuera del alcance del presente manual de caracter práctico pero si se desea consultar la demostración esta está disponible en \hyperlink{106}{[106]}}.
     \end{theorem}
 
     \begin{exercise}
