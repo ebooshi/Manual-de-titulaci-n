@@ -230,7 +230,7 @@
             $$\inference{a\ asa & \emptyset \sim a}{a\ inicial}[\textit{(init)}]$$ 
             \item[Estados Finales] Son las expresiones que no se pueden reducir mas obtenidas al final del proceso de evaluación.\\\\
 	 Definimos una categoría de valores los cuales son un subconjunto de expresiones de \textsf{EAB}, esta nueva categoría se representa con el juicio $v\ valor$. Para el caso de \textsf{EAB}  se denota con las reglas:
-            $$\inference{}{num[n]\ valor}[\textit{(vnum)}] \ \ \ \ \ \inference{}{\textit{T}\ \text{Bool}\ valor}[\textit{(vbool)}]$$
+            $$\inference{}{num[n]\ valor}[\textit{(vnum)}] \ \ \ \ \ \inference{}{\textit{B}\ \text{Bool}\ valor}[\textit{(vbool)}]$$
             Entonces se define el conjunto de estados finales $F=\{a\ |\ a\ valor\}$, correspondiente a la regla:
             $$\inference{a\ valor}{a\ final}[\textit{(fin)}]$$ 
 
@@ -446,23 +446,39 @@
 
     \begin{theorem}Equivalencia entre semántica de paso pequeño y paso grande: Decimos que para cualquier expresión $e$ del lenguaje \textsf{EAB} se cumple:
         $$e \rightarrow^*v \longleftrightarrow e \Downarrow v$$
-        Es decir, las semánticas que hemos definido son equivalentes\footnote{La demostración se puede hacer por inducción estructural sobre cada insturcción de \texttt{EAB}, esta queda fuera del alcance del presente manual de caracter práctico pero si se desea consultar la demostración esta está disponible en \hyperlink{106}{[106]}}.
+        Es decir, las semánticas que hemos definido son equivalentes\footnote{La demostración se puede hacer por inducción estructural sobre cada insturcción de \texttt{EAB}, esta queda fuera del alcance del presente manual de caracter práctico pero si se desea consultar la esta está disponible en \hyperlink{106}{[106]}}.
     \end{theorem}
 
     \begin{exercise}
         Dada la siguiente expresión de \textsf{EAB} evalúala utilizando semántica de paso grande. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
         Síntaxis concreta:
         \[
-            \texttt{let } x \text{ = } \texttt{let } y \texttt{ =  False} \texttt{ in} \texttt{ if (} y \texttt{ then } 0 \texttt{ else } 1 \texttt{)}  \texttt{ end} \texttt{ in } x + 1 \texttt{ end}
+            \texttt{let } x \text{ = } \texttt{let } y \texttt{ =  False} \texttt{ in} \texttt{ if(} y \texttt{ then } 0 \texttt{ else } 1 \texttt{)}  \texttt{ end} \texttt{ in } x + 1 \texttt{ end}
         \]
         Síntaxis abstracta:
         \[
-            \textit{let}( \textit{let}( False,y.\textit{if}(y, 0, 1\text{)}\text{)} , x.\textit{sum}(x, 1\text{))}
+            \textit{let}( \textit{let}( F,y.\textit{if}(y, 0, 1\text{)}\text{)} , x.\textit{sum}(x, 1\text{))}
         \]
         Evaluación paso grande:
         \[
-            \scalemath{.73}{
-                \inference{ \inference{ \inference{}{False \Downarrow False}[bsbool]  & \inference{}{\textit{if}(y,0, 1\text{)}\text{)}[y:=False] \Downarrow 1}[bsift] }{\textit{let}( False,\ y.\textit{if}(y, 0, 1\text{)}\text{)} \Downarrow 1}[bslet] & \inference{}{ \textit{sum}(x,1\text{)} [x:=1] \Downarrow 2}[bssum] }{ \textit{let}( \textit{let}( False, y.\textit{if}(y,0,1\text{)}\text{)} ,x.\textit{sum}(x,1\text{))} \Downarrow 2}[bslet]
+            \scalemath{.75}{
+                \inference
+		{ 
+			\inference
+				{ 
+				\inference
+					{}
+					{F \Downarrow F}[\textit{(bsbool)}]  & 
+				\inference
+					{}
+					{\textit{if}(y,0, 1\text{)}\text{)}[y:=F] \Downarrow 1}[\textit{(bsift)}]
+				 }
+				{\textit{let}( F,\ y.\textit{if}(y, 0, 1\text{)}\text{)} \Downarrow 1}[\textit{(bslet)}] & 
+			\inference
+				{}
+				{ \textit{sum}(x,1\text{)} [x:=1] \Downarrow 2}[\textit{(bssum)}] 
+		}
+		{ \textit{let}( \textit{let}(F, y.\textit{if}(y,0,1\text{)}\text{)} ,x.\textit{sum}(x,1\text{))} \Downarrow 2}[\textit{(bslet)}]
             }
         \]
     \end{exercise}
@@ -479,8 +495,45 @@
         \]
         Evaluación paso grande:
         \[
-            \scalemath{0.51}{
-                \inference{\inference{\inference{\inference{}{7 \Downarrow 7}[bsnum] & \inference{}{4 \Downarrow 4}[bsnum] }{\textit{sum}(7,4\text{)} \Downarrow 11}[bsum] & \inference{}{4 \Downarrow 4}[bsnum] }{\textit{prod}( \textit{sum}( 7, 4 \text{)}, 4 \text{)} \Downarrow 44}[bsprod] & \inference{\inference{ \inference{}{8 \Downarrow 8}[bsnum] & \inference{}{3 \Downarrow 3}[bsnum] }{\textit{sum}(8, 3\text{)} \Downarrow 11}[bsum] & \inference{}{2 \Downarrow 2}[bsnum] }{\textit{prod}( \textit{sum}( 8, 3\text{)}, 2 \text{)}  \text{)} \Downarrow 22}[bsprod] }{\textit{sum}( \textit{prod}( \textit{sum}( 7,4 \text{)}, 4 \text{)} , \textit{prod}( \textit{sum}( 8,3\text{)}, 2 \text{)}  \textit{)} \Downarrow 66}[bssum]
+            \scalemath{0.48}{
+            	\inference
+			{
+				\inference
+					{
+						\inference
+							{
+								\inference
+									{}
+									{7 \Downarrow 7}[\textit{(bsnum)}] &
+						 		\inference
+									{}
+									{4 \Downarrow 4}[bsnum] 
+							}
+							{\textit{sum}(7,4\text{)} \Downarrow 11}[\textit{(bsum)}] & 
+						\inference
+							{}
+							{4 \Downarrow 4}[bsnum] 
+					}
+					{\textit{prod}( \textit{sum}( 7, 4 \text{)}, 4 \text{)} \Downarrow 44}[\textit{(bsprod)}] & 
+				\inference
+					{
+						\inference
+							{ 
+								\inference
+									{}
+									{8 \Downarrow 8}[\textit{(bsnum)}] & 
+								\inference
+									{}
+									{3 \Downarrow 3}[bsnum] 
+							}
+							{\textit{sum}(8, 3\text{)} \Downarrow 11}[\textit{(bsum)}] & 
+						\inference
+								{}
+								{2 \Downarrow 2}[\textit{(bsnum)}] 
+					}
+					{\textit{prod}( \textit{sum}( 8, 3\text{)}, 2 \text{)}  \text{)} \Downarrow 22}[\textit{(bsprod)}] 
+				}
+			{\textit{sum}( \textit{prod}( \textit{sum}( 7,4 \text{)}, 4 \text{)} , \textit{prod}( \textit{sum}( 8,3\text{)}, 2 \text{)}  \textit{)} \Downarrow 66}[\textit{(bssum)}]
             }
         \]
     \end{exercise}
@@ -493,12 +546,35 @@
         \]
         Sintaxis abstracta:
         \[
-            \textit{if(False},\textit{sum}(\textit{prod}(3,7\text{)},1\text{)}, \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{)} 
+            \textit{if(F},\textit{sum}(\textit{prod}(3,7\text{)},1\text{)}, \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{)} 
         \]
         Evaluación paso grande:
         \[
             \scalemath{.76}{
-                \inference{\inference{}{False \Downarrow False}[bsbool] & \inference{\inference{\inference{}{2 \Downarrow 2}[bsnum] & \inference{}{7 \Downarrow 7}[bsnum] }{\textit{prod}(2,7\text{)} \Downarrow 14}[bsprod] & \inference{}{1 \Downarrow 1}[bsnum] }{ \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{ )} \Downarrow 15 }[bssum] }{\textit{if(False},\textit{sum}(\textit{prod}(3,7\text{)},1\text{)}, \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{ )} \Downarrow 15 }[bsiff]
+                \inference
+		{
+			\inference
+				{}
+				{F \Downarrow F}[\textit{(bsbool)}] & 
+			\inference
+				{
+					\inference
+						{
+							\inference
+								{}
+								{2 \Downarrow 2}[\textit{(bsnum)}] & 
+							\inference
+								{}
+								{7 \Downarrow 7}[\textit{(bsnum)}] 
+						}
+						{\textit{prod}(2,7\text{)} \Downarrow 14}[\textit{(bsprod)}] & 
+					\inference
+						{}
+						{1 \Downarrow 1}[\textit{(bsnum)}] 
+				}
+				{ \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{ )} \Downarrow 15 }[\textit{(bssum)}] 
+		}
+		{\textit{if(F},\textit{sum}(\textit{prod}(3,7\text{)},1\text{)}, \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{ )} \Downarrow 15 }[\textit{(bsiff)}]
             }
         \]
     \end{exercise}
@@ -509,58 +585,56 @@
     \begin{definition} Se define la función \texttt{eval} en términos de la semántica dinámica del lenguaje como sigue\footnote{Definición formulada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
     $$\texttt{eval}(e)=e_f\mbox{ si y sólo si } e \rightarrow^* e_f \mbox{ y }e_f \nrightarrow $$
 
-    La función de evaluación aplica de forma exahustiva la semántica dinámica hasta llegar a un estado bloqueado (en el caso de \textsf{EAB} los estados bloqueados son los valores).
+    La función de evaluación aplica de forma exhaustiva la semántica dinámica hasta llegar a un estado bloqueado (en el caso de \textsf{EAB} los estados bloqueados son los valores).
     \end{definition}
     
     La función \textbf{eval} será de utilidad para el resto de las secciones que visitaremos a lo largo del curso.
 
-    Newpage
     
     \section{Ejercicios para el lector}
 
     \begin{exercise}
-        Considera la siguiente sintaxis concreta para un lenguaje proposicional simple ($Prop$) donde solo se utiliza el conector AND ($\wedge$) y el operador NOT ($Neg$) definida como: 
+        Considera la siguiente sintaxis concreta para un lenguaje proposicional simple \texttt{Prop} donde solo se utiliza el conector \texttt{AND} ($\wedge$) y el operador \texttt{NOT} ($\neg$) definida como: 
         \[
-            \inference{x \ Prop  y \ Prop}{ x \wedge y \ Prop} ; \inference{x \ Prop}{Neg x \ Prop} ; \inference{}{top \ Prop} ; \inference{}{\bot  \ Prop} 
+            \inference{x \ \texttt{Prop}\ \: y\ \texttt{Prop}}{ x \wedge y\ \texttt{Prop}} \; \inference{x \ \texttt{Prop}}{\neg x \ \texttt{Prop}} \; \inference{}{\top \ \texttt{Prop}} \; \inference{}{\bot \  \texttt{Prop}} 
         \] 
 
-        A) Proporciona una semántica de paso pequeño para evaluar las expresiones en $Prop$.\\\\
-        B) Proporciona una semántica de paso grande para evaluar las expresiones $Prop$.
+        Proporciona una semántica de paso pequeño para evaluar las expresiones en \texttt{Prop}.\\
+        Proporciona una semántica de paso grande para evaluar las expresiones \texttt{Prop}.
     \end{exercise}
 
     \bigskip
 
     \begin{exercise}
-        Ahora supón que se quieren añadir cuantificadores y variables a nuestro lenguaje $Prop$ de la siguiente forma: \\
+        Ahora supón que se quieren añadir cuantificadores y variables a nuestro lenguaje \texttt{Prop} de la siguiente forma: \\
         \[
-            \inference{x \ Prop}{\exists v, \ x \ Prop} ; \inference{x \ Prop}{\forall v,\ x \ Prop} ; \inference{v \ variable}{v \ Prop} 
+            \inference{x \ \texttt{Prop}}{\exists v, \ x \ \texttt{Prop}} \; \inference{x \ \texttt{Prop}}{\forall v,\ x \ \texttt{Prop}} \; \inference{v \ variable}{v \ \texttt{Prop}} 
         \]
 
-        Proporciona un conjunto de reglas que definan la semántica estática que nos permite decidir cuando una expresión de $Prop$ no contengiene variables libres bajo un contexto $\Gamma$. Denotado de la siguiente forma: \\
+        Proporciona un conjunto de reglas que definan la semántica estática que nos permite decidir cuando una expresión de \texttt{Prop} no contengiene variables libres bajo un contexto $\Gamma$. Denotado de la siguiente forma: \\
         $$ \Gamma \vdash e \ Ok $$ 
 
     \end{exercise}
 
     \begin{exercise}
-        Una cálculadora de \textbf{Notación Polaca Reversa} es una calculadora que no requiere de parentizado para evaluar las expresiones que son pasadas como argumento.\\
-        Ésta se apoya de una \textbf{pila} para ''empujar'' los operandos y los operadores así como de la \textbf{notación post-fija}, es decir el operador se escribe después de los operandos, por ejemplo:
+        Una cálculadora de Notación Polaca Reversa (\texttt{NPR}) es una calculadora que no requiere de parentizado para evaluar las expresiones que son pasadas como argumento.\\
+        Esta se apoya de una pila para ''empujar'' los operandos y los operadores así como de la notación post-fija, es decir el operador se escribe después de los operandos, por ejemplo:
         $$7\ +\ 1\ =\ 7\ 1\ + $$ 
         $$7\ -\ (3\ +\ 2)\ =\ 7\ 3\ 2\ +\ -$$
-        Esta calculadora empuja símbolos a la pila hasta encontrar un operador, en tal caso dos símbolos son sacados de la pila y el resultado de la operación es empujado.
+        Esta calculadora empuja símbolos a la pila hasta encontrar un operador, en tal caso, los dos símbolos más próximos al tope de la pila son extraídos de la pila y el resultado de la operación es empujado nuevamente.\\\\
         La sintaxis concreta de la calculadora está definida por las siguientes reglas: \\
         \[
-            \inference{x \in N}{x \ Symbol} ; \inference{x \in \{+,-,*,/ \}}{x \ Symbol} ; \inference{}{\empty \ NPR} ; \inference{x \ Symbol & xs\ NPR}{x \ xs \ NPR}
+            \inference{x \in N}{x \ Symbol} \; \inference{x \in \{+,-,*,/ \}}{x \ Symbol} \; \inference{}{\empty \ \texttt{NPR}} \; \inference{x \ Symbol & xs\ \texttt{NPR}}{x \ xs \ \texttt{NPR}}
         \]
-        Esta gramática tiene el problema de poder formar expresiones que no pertenecen necesariamente a \textbf{NPR} como:
+        Esta gramática tiene el problema de poder formar expresiones que no pertenecen necesariamente a \texttt{NPR} como:
         $$ 1 + 2$$ 
         $$ + * /$$
 
-        A) Proporciona un conjunto de reglas para definir la semántica estática que pueda analizar una expresión $e$ y nos diga si es una expresión perteneciente a \textbf{NPR} denotando el juicio como:
+        Proporciona un conjunto de reglas para definir la semántica estática que pueda analizar una expresión $e$ y nos diga si es una expresión perteneciente a \texttt{NPR} denotando el juicio como:
         $$ \vdash e \ Ok $$
+        Proporciona un conjunto de reglas para definir la semántica de paso pequeño que evalúen las expresiónes de \texttt{NPR}.\\
+        Proporciona un conjunto de reglas para definir la semántica de paso grande que evalúen las expresiónes de \texttt{NPR}.\\
 
-        B) Proporciona un conjunto de reglas para definir la semántica de paso pequeño que evalúen las expresiónes de \textbf{NPR}.\\
-
-        C) Proporciona un conjunto de reglas para definir la semántica de paso grande que evalúen las expresiónes de \textbf{NPR}.\\
     \end{exercise}
 
     \begin{exercise}
