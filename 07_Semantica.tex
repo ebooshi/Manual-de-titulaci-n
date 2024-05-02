@@ -599,9 +599,11 @@
             \inference{x \ \texttt{Prop}\ \: y\ \texttt{Prop}}{ x \wedge y\ \texttt{Prop}} \; \inference{x \ \texttt{Prop}}{\neg x \ \texttt{Prop}} \; \inference{}{\top \ \texttt{Prop}} \; \inference{}{\bot \  \texttt{Prop}} 
         \] 
 
-        Proporciona una semántica de paso pequeño para evaluar las expresiones en \texttt{Prop}.\\
-        Proporciona una semántica de paso grande para evaluar las expresiones \texttt{Prop}.
-    \end{exercise}
+        \begin{itemize}
+           \item  Proporciona una semántica de paso pequeño para evaluar las expresiones en \texttt{Prop}.
+           \item Proporciona una semántica de paso grande para evaluar las expresiones \texttt{Prop}.
+        \end{itemize}    
+\end{exercise}
 
     \bigskip
 
@@ -610,10 +612,11 @@
         \[
             \inference{x \ \texttt{Prop}}{\exists v, \ x \ \texttt{Prop}} \; \inference{x \ \texttt{Prop}}{\forall v,\ x \ \texttt{Prop}} \; \inference{v \ variable}{v \ \texttt{Prop}} 
         \]
-
-        Proporciona un conjunto de reglas que definan la semántica estática que nos permite decidir cuando una expresión de \texttt{Prop} no contengiene variables libres bajo un contexto $\Gamma$. Denotado de la siguiente forma: \\
-        $$ \Gamma \vdash e \ Ok $$ 
-
+	
+	 \begin{itemize}
+        	\item Proporciona un conjunto de reglas que definan la semántica estática que nos permite decidir cuando una expresión de \texttt{Prop} no contengiene variables libres bajo un contexto $\Gamma$. Denotado de la siguiente forma: \\
+        $ \Gamma \vdash e \ Ok $ 
+	\end{itemize}
     \end{exercise}
 
     \begin{exercise}
@@ -630,21 +633,27 @@
         $$ 1 + 2$$ 
         $$ + * /$$
 
-        Proporciona un conjunto de reglas para definir la semántica estática que pueda analizar una expresión $e$ y nos diga si es una expresión perteneciente a \texttt{NPR} denotando el juicio como:
-        $$ \vdash e \ Ok $$
-        Proporciona un conjunto de reglas para definir la semántica de paso pequeño que evalúen las expresiónes de \texttt{NPR}.\\
-        Proporciona un conjunto de reglas para definir la semántica de paso grande que evalúen las expresiónes de \texttt{NPR}.\\
-
+	 \begin{itemize}
+        		\item Proporciona un conjunto de reglas para definir la semántica estática que pueda analizar una expresión $e$ y nos diga si es una expresión perteneciente a \texttt{NPR} denotando el juicio como: $\vdash e \ Ok$.
+        		\item Proporciona un conjunto de reglas para definir la semántica de paso pequeño que evalúen las expresiónes de \texttt{NPR}.
+        		\item Proporciona un conjunto de reglas para definir la semántica de paso grande que evalúen las expresiónes de \texttt{NPR}.
+	\end{itemize}
     \end{exercise}
+
+	\bigskip
 
     \begin{exercise}
         Utilizando el analizador sintáctico y las reglas de semántica de paso pequeño y grande definidas en el ejercicio anterior contesta lo siguiente: \\
 
-        Dada la expresión \textbf{NPR} $$e = 7\ 1\ 9 \ - -\ $$ \\
-        A) muestra que $\vdash $ e $Ok$ \\\\
-        B) Evalúa la expresión utilizando la semántica de paso pequeño.\\\\
-        C) Evalúa la expresión utilizando la semántica de paso grande.
+        Dada la expresión \texttt{NPR} $$e = 7\ 1\ 9 \ - -\ $$ \\
+        Muestra que $\vdash $ e $Ok$ \\\\
+	\begin{itemize}
+        		\item Evalúa la expresión utilizando la semántica de paso pequeño.
+        		\item Evalúa la expresión utilizando la semántica de paso grande.
+	\end{itemize}
     \end{exercise}
+
+	\bigskip
 
     \begin{exercise}
         Dada la siguiente expresión de \textbf{EAB} definida como:
@@ -662,8 +671,8 @@
         \end{align*}
 
         \begin{itemize}
-            \item Utilizando el analizador sintáctico definido para \textbf{EAB} ($\sim$) decide si esta expresión es cerrada.\\
-            \item Utilizando la semántica dinámica de paso pequeño definida para \textbf{EAB} muestra la evaluación de la expresión hasta obtener un valor.\\
-            \item Utilizando la semántica dinámica de paso grande definida para \textbf{EAB} muestra la evaluación de la expresión hasta obtener un valor.
+            \item Utilizando el analizador sintáctico definido para \texttt{NPR} ($\sim$) decide si esta expresión es cerrada.
+            \item Utilizando la semántica dinámica de paso pequeño definida para \texttt{NPR} muestra la evaluación de la expresión hasta obtener un valor.
+            \item Utilizando la semántica dinámica de paso grande definida para \texttt{NPR} muestra la evaluación de la expresión hasta obtener un valor.
         \end{itemize}
     \end{exercise}

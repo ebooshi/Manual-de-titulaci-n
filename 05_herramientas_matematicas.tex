@@ -12,14 +12,14 @@
 \end{figure}
 
 Para estudiar a los lenguajes de programación es necesario definir una estructura que nos permita capturar su escencia matemática y nos proporcione un mecanismo para demostrar características y propiedades asociadas a estos. \\\\
-Una manera de definir formalmente un lenguaje de programación es mediante el uso de juicios lógicos\footnote{En lógica el equivalente a un juicio lógico son los predicados que denominan una característica que se cumple en una proposición.} para definir propiedades, pertenencia de los elementos de nuestra estructura a un conjunto, relación entre diferentes elementos de una misma estructura, etc. Que junto con la aplicación de reglas de inferencia nos permitirán dar una definición inductiva de las estructuras que vamos a construir en el resto del manual\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintáxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, reglas inductivas, reglas de inferencia e inducción estructural. }. \\
+Una manera de definir formalmente un lenguaje de programación es mediante el uso de juicios lógicos\footnote{En lógica el equivalente a un juicio lógico son los predicados que denominan una característica que se cumple en una proposición.} para definir propiedades, pertenencia de los elementos de nuestra estructura a un conjunto, relación entre diferentes elementos de una misma estructura, etc\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintáxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, reglas inductivas, reglas de inferencia e inducción estructural. }. \\
 \subsection*{Objetivo}
-Estudiar las estructuras matemáticas que utilizaremos para familiarizarnos con el concepto de inducción estructural. En particular centraremos nuestra atención a estructuras recursivas como listas de tipo A y árboles binarios balanceados de tipo A\footnote{donde A es un conjunto o una colección de elementos.} junto con las reglas de inferencia que las generan para ilustrar la naturaleza recursiva que estas poseen.\\\\
+Estudiar las estructuras matemáticas que utilizaremos para familiarizarnos con el concepto de inducción estructural. En particular centraremos nuestra atención a estructuras recursivas como listas de tipo A y árboles binarios balanceados de tipo A\footnote{donde A es un conjunto o una colección de elementos.} junto con las reglas que nos permiten construir estas estructuras.\\\\
 Este tipo de mecanismos es particularmente útil para ilustrar las propiedades de los lenguajes que definiremos a lo largo de los capítulos de este manual.
 
 \subsection*{Planteamiento}
 En este capítulo exploraremos diferentes estructuras empezando por los juicios lógicos que consituyen las entidades fundamentales sobre las cuales iniciaremos el estudio de los lenguajes.
-También estudiaremos brevemente estructuras inductivas como cadenas y listas para enunciar el principio de inducción que nos permite demostrar propiedades sobre dichas estructuras. Por último estudiaremos un sistema de transición para modelar los estados y reglas de evaluación de la instancia de un juego.
+También estudiaremos brevemente estructuras recursivas como cadenas y listas para enunciar el principio de inducción que nos permite demostrar propiedades sobre dichas estructuras. Por último estudiaremos un sistema de transición para modelar los estados y reglas de evaluación de la instancia de un juego.
 
 %    Sección 1: Juicios lógicos.
 \section{Juicios lógicos}
@@ -56,6 +56,7 @@ También estudiaremos brevemente estructuras inductivas como cadenas y listas pa
 			0 $\mathbb{N}$  & 0 es un Natural. \\
 			S(0) impar & El sucesor de 0 es impar.\\
 			$\frac{p}{q}$  $\mathbb{Q}$  & La fracción $\frac{p}{q}$ es un racional.\\
+			...
 		\end{tabular}
 	\end{center}
     \end{exercise}
@@ -498,7 +499,7 @@ Demuestra utilizando la inducción estructural sobre árboles binarios balancead
         La validación del número de una tarjeta de crédito se hace implementando un algoritmo \texttt{checkSum} obteniendo información de los digitos que la componen. Para eso implementaremos nuestro propio validador de tarjetas de crédito como sigue:\\
     
         Los dígitos que están una posición impar (empezando por el índice 0 de derecha a izquierda) se deben duplicar. \\\\
-        Posteriormente se suman todos los dígitos de los números que componen la tarjeta (aquellos números que fueron duplicados tendrán dos dígitos, los cuales deben de ser sumados junto con el resto que no se modificaron).\\\\
+        Posteriormente se suman todos los dígitos de los números que componen la tarjeta (aquellos números que fueron duplicados deben de ser sumados junto con el resto que no se modificaron).\\\\
         Por último se aplica el módulo 10 al resultado de la suma, si el resultado es diferente de 0 entonces la tarjeta es inválida, en caso contrario es válida.\\
         \begin{enumerate} 
            \item  Implementa la función {\tt getDigits :: Int ->\ [Int]} \\\\
