@@ -12,7 +12,7 @@
 \end{figure}
 
 Para estudiar a los lenguajes de programación es necesario definir una estructura que nos permita capturar su escencia matemática y nos proporcione un mecanismo para demostrar características y propiedades asociadas a estos. \\\\
-Una manera de definir formalmente un lenguaje de programación es mediante el uso de juicios lógicos\footnote{En lógica el equivalente a un juicio lógico son los predicados que denominan una característica que se cumple en una proposición.} para definir propiedades, pertenencia de los elementos de nuestra estructura a un conjunto, relación entre diferentes elementos de una misma estructura, etc\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintáxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, reglas inductivas, reglas de inferencia e inducción estructural. }. \\
+Una manera de definir formalmente un lenguaje de programación es mediante el uso de juicios lógicos\footnote{En lógica el equivalente a un juicio lógico son los predicados que denominan una característica que se cumple en una proposición.} para definir propiedades, pertenencia de los elementos de nuestra estructura a un conjunto, relación entre diferentes elementos de una misma estructura, etc\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintáxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, estructuras recursivas, reglas de inferencia e inducción estructural. }. \\
 \subsection*{Objetivo}
 Estudiar las estructuras matemáticas que utilizaremos para familiarizarnos con el concepto de inducción estructural. En particular centraremos nuestra atención a estructuras recursivas como listas de tipo A y árboles binarios balanceados de tipo A\footnote{donde A es un conjunto o una colección de elementos.} junto con las reglas que nos permiten construir estas estructuras.\\\\
 Este tipo de mecanismos es particularmente útil para ilustrar las propiedades de los lenguajes que definiremos a lo largo de los capítulos de este manual.
@@ -31,14 +31,14 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
 
     % Ejercicio 1.1
     \begin{exercise}
-	¿Qué es un objeto? \\  \\
-	   ''En el lenguaje habitual de las matemáticas, un objeto es cualquier cosa que ha sido (o podría ser) definida formalmente y con la que se pueden realizar razonamientos deductivos y pruebas matemáticas. ''\footnote{Definición extraída de \hyperlink{58}{[58]}, formulada de  \hyperlink{59}{[59]} y \hyperlink{60}{[60]}}
+	¿Qué es una entidad matemática? \\  \\
+	   ''En el lenguaje habitual de las matemáticas, una entidad es cualquier cosa que ha sido (o podría ser) definida formalmente y con la que se pueden realizar razonamientos deductivos y pruebas matemáticas. ''\footnote{Definición formulada de \hyperlink{58}{[58]}, \hyperlink{59}{[59]} y \hyperlink{60}{[60]}}
     \end{exercise}
 
     % Ejercicio 1.2
     \begin{exercise}
 	¿Qué es un juicio? \\ \\
-         ''En lógica matemática, un juicio es una afirmación o enunciación en un metalenguaje de una característica o propiedad sobre un objecto o elemento de un dominio. ''\footnote{Definición extraída de \hyperlink{61}{[61]}, formulada de \hyperlink{62}{[62]}.}
+         ''En lógica matemática, un juicio es una afirmación o enunciación de una característica o propiedad sobre un objecto o elemento de un dominio. ''\footnote{Definición formulada de \hyperlink{61}{[61]} y \hyperlink{62}{[62]}.}
     \end{exercise} 
 
     % Ejercicio 1.3
@@ -46,7 +46,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
 	Proporciona un listado de juicios sobre objetos matemáticos (Puedes suponer definidos con anterioridad elementos como $\mathbb{N}$, $\mathbb{Q}$, Bool, \textit{String}, funciones, relaciones de orden, operadores arítmeticos, etc).
 	\begin{center}
 		\begin{tabular}{rl}
-			 ''Hola Mundo '' \textbf{$String$} & La cadena  ''Hola Mundo '' es de tipo $String$.  \\
+			 ''Hola Mundo'' \textbf{$String$} & La cadena  ''Hola Mundo'' es de tipo $String$.  \\
 			L \textbf{$NP$} & El lenguaje L es $NP$. \\
 			\textit{a} $\textgreater$ \textit{b} & el número $a$ es más grande que el número $b$. \\
 			A $|$ B  & El evento A es independiente al evento B. \\
@@ -64,7 +64,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
 %    Sección 2: Reglas de Inferencia, Inducción estructural.
 \section{Reglas de inferencia}
 
-    Las reglas de inferencia\footnote{En esta manual utilizaremos el término  ''regla de inferencia '' o  ''juicio lógico '' de forma indistinta.} son una representación de la aplicación de un juicio de la forma:  ''Si las premisas $p_1,p_2,\ ...\ p_n$ son verdaderas, entonces $c$ es verdadero ''. Visualmente esto se denota como:
+    Las reglas de inferencia\footnote{En esta manual utilizaremos el término  ''regla de inferencia '' o  ''juicio lógico '' de forma indistinta.} son una representación de la aplicación de un juicio de la forma:  ''Si las premisas $p_1,p_2,\ ...\ p_n$ son verdaderas, entonces $c$ es verdadero .'' Visualmente esto se denota como:
     \[
         \inference{p_1,p_2,\ ...\ p_n}{\textit{c}}
     \]
@@ -82,13 +82,13 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
             \[
                 \begin{array}{lcl}    
                     \inference{}{\varepsilon \in \text{A}^*}[\textit{(eps)}] \qquad 
-                    \inference{a \in \text{A}, s \in \text{A}^*}{\<a, s\> \in \text{A}^*}[\textit{(tup)}]
+                    \inference{a \in \text{A},\; s \in \text{A}^*}{\<a, s\> \in \text{A}^*}[\textit{(tup)}]
                 \end{array}
             \] 
 
 
-            La regla \textit{eps} se lee como:  ''la cadena vacía es una cadena binaria de tipo A '', Nótese que esta regla es un axioma dado que carece de premisas. \\\\
-            La regla \textit{tup} se lee como:  ''si \textit{a} es de tipo A y \textit{s} es una cadena binaria de tipo A, entonces la construcción de una tupla con cabeza \textit{a} y cola \textit{s} es una cadena binaria de tipo A. ''\\\\
+            La regla \textit{eps} se lee como:  ''la cadena vacía es una cadena binaria de tipo A.'' Nótese que esta regla es un axioma dado que carece de premisas. \\\\
+            La regla \textit{tup} se lee como:  ''si \textit{a} es de tipo A y \textit{s} es una cadena binaria de tipo A, entonces la construcción de una tupla con cabeza \textit{a} y cola \textit{s} es una cadena binaria de tipo A.''\\\\
             Por ejemplo, la cadena 10101 se representa por la 5-tupla $\<1,\<0,\<1,\<0,\<1. \epsilon \>\>\>\>\>$ 
     \end{definition}
 
@@ -105,7 +105,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
     \end{itemize}
 
 
-    En el caso de la lista de tipo de dato A*, el elemento más primitivo que pertenece a esta estructura es la cadena vacía (denotada como $\varepsilon$) o bien una tupla con cabeza \textit{a} $\in $ A y cola de tipo A*.\\\\
+    En el caso del tipo de dato A*, el elemento más primitivo que pertenece a esta estructura es la cadena vacía (denotada como $\varepsilon$) o bien una tupla con cabeza \textit{a} $\in $ A y cola de tipo A*.\\\\
     Este principio se aplica tanto para definir la estructura recursiva como para las funciones que se quieran aplicar sobre la misma\footnote{Información obtenida de \hyperlink{94}{[94]} y \hyperlink{95}{[95]}}. Para ilustrar este punto definimos la función para concatenar dos elementos de A* de la siguiente forma: 
     \begin{definition}
         Definimos la concatenación de cadenas A* denotada como: $\bullet$ ::\ (A* $\rightarrow$\ A*) $\rightarrow$\ A* mediante la siguiente especificación\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]}}:
@@ -262,7 +262,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
             \textbf{Paso Inductivo} $s = \<a, s\> $ \\
             $len(rev(\<a, s\> )) = len(rev(s) \bullet \<a,\varepsilon\>)$ \qquad \qquad \qquad \qquad \qquad \ \ (Por la definición de $rev$)\\
             $len(rev(s) \bullet \<a,\varepsilon\>) = len(rev(s)) + len(\<a,\varepsilon\>)$  \qquad \qquad \qquad (Por la propiedad anterior)\\
-            $len(rev(s)) + 1 + len(\varepsilon\>)$ = $len(rev(s)) + 1 + 0$\\
+            $len(rev(s)) + 1 + len(\< \varepsilon\>)$ = $len(rev(s)) + 1 + 0$\\
             $ 1 + len(rev(s)) = 1 + len(s)$   \qquad \qquad \qquad \qquad \qquad \qquad \quad \ \ \ (Por la hipótesis inductiva) \\
             $len(\<a,s\>)$ \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \ \ \ (Por definición de $len$) 
 
@@ -313,7 +313,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
             $n_n(\emptyset) = 2^0 -1 $ = $1 -1$ = 0.\\\\
         \textbf{Hipótesis Inductiva} $n_n(t) = 2^k - 1$ para todo árbol binario de tipo A $t$ donde $k$ es la altura del mismo. \\\\
         \textbf{Paso Inductivo} Por demostrar para $t = node(a,t_1,t_2)$ donde $t_1$ y $t_2$ son árboles binarios balnceados de altura $k-1$ se cumple que $n_n(node(a,t_1,t_2)) = 2^k - 1$ donde $k$ es la altura asociada al árbol $t$. \\\\
-            $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \quad \quad \quad \quad \quad \quad \ \ \ \ \   (Por definición de $n_n(t)$) \\
+            $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \quad \quad \quad \quad \quad \quad \ \ \ \   (Por definición de $n_n(t)$) \\
             = $1 + (2^{k-1} - 1) + (2^{k-1} - 1)$ \qquad \qquad \qquad \qquad \qquad \qquad  (Por la hipótesis inductiva) \\
             = $1 + 2(2^{k-1} - 1)$ = $2^k - 2 + 1$ = $2^k - 1$
     \end{exercise}
@@ -359,7 +359,9 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
                 \[ f((\text{A},\text{X},\text{Y})) = (\text{B},\text{X},\text{Y}) \]
                 Sí el jugador B no puntúa: 
                 \[ f((\text{B},\text{X},\text{Y})) = (\text{A},\text{X},\text{Y}) \]
-            \item Define con reglas de inferencia la función de transición escrita en el inciso anterior:\\
+          	     Sí cualquier jugador hace un saque despúes de anotar: 
+                \[ f((\text{J},\text{X},\text{Y})) = (\text{J},\text{X},\text{Y}) \] 
+	\item Define con reglas de inferencia la función de transición escrita en el inciso anterior:\\
                 \[
                 \scalemath{0.75}{
                     \begin{array}{lcl}    
@@ -374,6 +376,15 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
                     \begin{array}{lcl}    
                         \inference{(\text{A},\text{X},\text{Y}) \text{ Estado},& (\text{B},\text{X},\text{Y}) \text{ Estado}}{(\text{A},\text{X},\text{Y})\rightarrow(\text{B},\text{X},\text{Y})  \text{ Estado}}[$(\text{A}-)$] \qquad 
                         \inference{(\text{B},\text{X},\text{Y}) \text{ Estado},& (\text{A},\text{X},\text{Y}) \text{ Estado}}{(\text{B},\text{X},\text{Y})\rightarrow(\text{A},\text{X},\text{Y})  \text{ Estado}}[$(\text{B}-)$] 
+                    \end{array}
+                }
+                \]
+                \bigskip
+                \[
+                \scalemath{0.81}{
+                    \begin{array}{lcl}    
+                        \inference{(\text{J},\text{X},\text{Y}) \text{ Estado}}{(\text{J},\text{X},\text{Y})\rightarrow(\text{J},\text{X},\text{Y})  \text{ Estado}}[$(saque)$] 
+   
                     \end{array}
                 }
                 \]
