@@ -1,0 +1,206 @@
+-----
+CAMBIOS NECESARIOS EN TODO EL ARCHIVO
+
+el pdf tiene (meta)nombre como de un template, revisa los metadatos del .tex
+
+revisar acentos
+
+revisar uso de comillas porque modifica la letra siguiente o genera caracteres 
+raros
+
+
+-----
+COMENTARIOS PARTICULARES
+
+
+p.I hay un repositorio o página en donde se puedan consultar las notas de 
+Javier?
+
+p.3 la definición 2.2 tiene incompleto el codominio
+
+p.4 en la def.2.2 usas t y f pero en la evaluación usas True y False 
+
+p.5 revisar def. 2.3 
+
+p.7 ej4.1. a qué te refieres con el tipo de regla del ; ?
+
+p.10 definición inductiva vs definición recursiva
+estructura inductiva vs estructura recursiva
+revisa estos conceptos
+
+p.11 ej1.3 creo que hacen falta algunos símbolos matemáticos(?)
+
+p.11 en las reglas, pueden haber varios juicios en la parte inferior?
+no has dicho qué es una hipótesis en una regla
+
+p.15 def.2.4 revisar nombre de función que cuenta el número de nodos
+
+p.16 puedes interpretar (describir en español) la secuencia del inciso D del 
+ejercicio 3.1?
+
+p.17 cómo debe ser el tipo de f en la definición 4.1 de los ejercicios?
+
+p.17 ejercicios 4.3, 4.4 y 4.5 indica la gramática a usarse
+
+p.17 ejercicios 4.6 y 4.7 indica la def. de árboles a usarse
+
+p.18 ejercicio 4.11 cuando duplicas un dígito, no necesariamente tendrá dos 
+dígitos 
+
+p.19&20 revisa los footnotes
+
+p.21 el principio de inducción sólo se tiene cuando la definición del lenguaje 
+fue dada por recursión... este comentario tiene que ver con el que hice sobre 
+la p.10
+
+
+Cap.3 revisar diferencias entre AS y CS
+eg. consultar 
+https://www.inf.ed.ac.uk/teaching/courses/epl/2016/lectures/lec1.pdf
+
+
+p.34 si hay variables libres, no se puede suponer que existe un estado de la 
+memoria donde se pueda obtener información sobre esas variables libres?
+p.35 hablas de variables no definidas y parace que las igualas a las variables 
+libres, pero... son lo mismo?
+
+p.36 def. 2.1 esta bien la def de conjuntos de estados?
+
+p.37 secc.2.2 revisar el estilo del texto entre comillas
+
+p.41 puedes dar una bosquejo de la demostración del teorema?
+
+p.43 la extensión de lógica proposicional con cuantificadores esta rara, no? 
+Cómo funcionan los cuantificadores sobre las proposiciones?
+
+p.46 l.1 una --> un 
+
+p.47 footnote1 Alan Turing
+
+p.47 Zermelo y Russell también utiliza sus nombres completos  y revisa los 
+apellidos de todos
+
+p.48 def.1.1 utilizas l para las expresiones y en todo lo demás usas e's 
+
+p.48 en la descripción de los ejemplos, en lugar de ejemplo n) utiliza caso n. 
+el caso 4. devuelve el valor constante correspondiente a la variable y
+el caso 7. sobre la currificación, falta decir que es definir funciones de 
+múltiples argumentos que se procesan de uno por uno
+Revisa la diferencia entre argumento y parámetro en funciones...
+
+p.49 revisa footnote4 
+
+p.50 ejercicio3.3 utiliza más paréntesis para enfatizar las sustituciones
+
+p.50 sec4. las funciones no son tipos primitivos, son objetos primitivos y de 
+orden superior para poder ser usados como argumentos o como resultados 
+
+p.51 def.4.2 está incompleta la definición, además no se ha dado el término 
+para el if
+
+p.52 revisar def.5.1,  numeral no lleva acento
+
+p.54 la definición de suma está definida recursivamente 
+
+p.54 regleja --> refleja 
+pimero --> primer
+
+p.55 revisar explicación de la multiplicación
+p.55 ej5.7 utiliza más paréntesis para enfatizar las aplicaciones, puedes usar 
+\big o \Big antes de los paréntesis para hacerlos más grandes
+
+p.57   contsturctores --> constructores
+
+p.59 ej8.1 quién es g?
+
+-------------
+Revisión PARTE 2
+
+p.63 persé --> per se
+
+p.64 inciso 4 del ejercicio 1.1 revisa la definición del let
+
+p.65 revisar el primer párrafo 
+además cambiar empleado -->  empleando 
+
+p.66  falta ¿ 
+incorporar el footnote a en la descripción del juicio para asignar tipos
+
+p.67 los operadores tienen abreviación del inglés, pero la del igual no...
+la obsevación final está incompleta
+
+p.68 ejercicio 2.1 separa las expresiones con un itemize o enumerate para 
+leerlas mejor
+
+p.69 explicar más sobre las reglas que involucran al fix
+
+p.70 posse --> posee
+def. 3.1 es necesario que esta propiedad se enuncie sin contexto para tipar t?
+porqué la preservación dices que potencialmente preserva su mismo tipo?
+
+p.72 revisar la redacción del ejercicio 4.3, en particular la descripción del 
+operador case
+
+p.76 en la intro mencionas que darás algoritmos o procedimientos pero no veo 
+una descripción de ninguno de ellos para generar una expresión alpha-equivalente
+
+p.77 revisar def. 2.2 el uso de la tipografía para X y explicar mas [e]
+
+p.78 están bien las reglas de los operadores, condicional y el resto? 
+me refiero al uso de la coma para separar tipos y las restricciones
+Además, cómo logras que se acumulen las restricciones de toda una expresión que 
+serán usadas para la unificación?
+
+p.79 falta un ejemplo de unificación (no me queda claro el algoritmo de la 
+def.3.1)
+
+p.80&81 ej4.1 
+porqué deberías renombrar si no hay conflicto en los nombres de vars?
+la primera restricción está mal
+sigo sin comprender cómo acumulas todas las restricciones usando |--> 
+tampoco veo cómo es que las reglas U definen un algoritmo
+
+p.84 recfun?
+
+p.96 turing --> Turing
+
+p.99 la def.1.4 le falta un símbolo en la primera frase
+creo que también falta un símbolo en la 3a regla
+
+p.100 recfun?
+
+p.101 ejemplo1.1 mencionas closures pero creo que no han sido propiamente 
+definidos
+porqué se repiten algunos pasos en la evaluación?
+
+p.102 qué importancia tiene cambiar de evaluación perezosa a ansiosa?
+
+p.103 revisar def.2.2 y def.2.3, creo que el bullet denota al ambiente vacío y 
+no a cualquier ambiente E
+
+p.106&107 
+aquí no se usa la alpha equivalencia?
+
+p.110 todos deben llamarse ejercicio y no ejemplo
+en el 3.2 recfun?
+
+p.113 revisar redacción del 3er párrafo
+
+p.114 def.2.1 
+vardec ya no tiene --
+call no fue definida y tampoco return 
+
+p.115 explicar las nociones de las definiciones 2.2 2.3 y 2.4
+
+p.116 vardec y fundec ya no tienen --
+secu no fue definida
+
+p.117 while y call no están definidas
+
+p.124 indicar que el polimorfismo de la OO es diferente al de Haskell
+
+p.128 chequeos --> verificaciones
+
+cap.11 revisar en las definiciones la tipografía utilizada 
+
+En las referencias falta agregar alguna sobre FWJ.
