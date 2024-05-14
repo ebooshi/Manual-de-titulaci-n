@@ -318,7 +318,6 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
             = $1 + 2(2^{k-1} - 1)$ = $2^k - 2 + 1$ = $2^k - 1$
     \end{exercise}
 
-    \bigskip
 
 % Sección 3: sistemas de transición
 \section{Sistemas de transición}
@@ -477,7 +476,7 @@ Demuestra utilizando la inducción estructural sobre árboles binarios balancead
         Suponga que se necesita definir un lenguaje que permita controlar un robot con movimientos
         y funcionalidades muy simples. El robot se mueve sobre una cuadrícula siguiendo las instrucciones especificadas por el programa. \\\\
         Al inicio el robot se encuentra en la coordenada (0,0) y viendo hacia el norte. El programa consiste en una secuencia posiblemente 
-        vacía de los comandos \texttt{move} y \texttt{turn} separados por punto y coma (';'), donde cada comando tiene el siguiente funcionamiento:\\
+        vacía de los comandos \texttt{move} y \texttt{turn} separados por punto y coma (';'), donde cada comando tiene el siguiente funcionamiento\footnote{ejercicio extraído de \hyperlink{107}{[107]}}:\\
     
         \begin{itemize}
             \item \texttt{turn} hace que el robot dé un giro de 90 grados en el sentido de las manecillas del reloj.
@@ -531,14 +530,16 @@ Demuestra utilizando la inducción estructural sobre árboles binarios balancead
     \end{exercise}
 
     \begin{exercise}
-        Las torres de Hanoi son un un rompecabezas clásico cuya solución puede ser escrita de forma recursiva. Los discos de diferentes tamaños se apilan del más grande al más pequeño y el objetivo es moverlos del pivote A al pivote C utilizando un pivote auxiliar B con \textit{n} = 4\footnote{\textit{n} denota la cantidad de discos en el pivote inical.}.\\
+        Las torres de Hanoi son un un rompecabezas clásico cuya solución puede ser escrita de forma recursiva. Los discos de diferentes tamaños se apilan del más grande al más pequeño y el objetivo es moverlos del pivote A al pivote C utilizando un pivote auxiliar B con \textit{n} = 4.\\
         
-        Las reglas son  las siguientes: \\
+        Las reglas son  las siguientes: 
         
         \begin{enumerate}
             \item Ningún disco puede estar encima de un disco mas pequeño. 
             \item Por movimiento solo es válido el desplazamiento de un disco hacía otro pivote.
         \end{enumerate}
+
+\bigskip
 
         Se definen los siguientes tipos para implementar la solución al \textit{puzzle} de la siguiente forma: 
 
@@ -552,14 +553,14 @@ Demuestra utilizando la inducción estructural sobre árboles binarios balancead
         % $$\text{Type Peg = String}$$ 
         % $$\text{Type move = (Peg, Peg)}$$\\
 
-        Implementa la función \texttt{Hanoi :: Int ->\ Peg ->\ Peg ->\ Peg ->\ [move]}\\\\
+        Implementa la función \texttt{Hanoi :: Int ->\ Peg ->\ Peg ->\ Peg ->\ [move]}\\
         Que dada el número de discos y los pivotes regrese una lista con los movimientos para mover los discos del primer pivote al pivote objetivo, por ejemplo: \\
         \begin{center}
             \texttt{Hanoi 2  ''A'' ''B'' ''C'' = [(''A'',''C''),(''A'',''B''),(''C'',''B'')]}
         \end{center}
     \end{exercise}  
 
-    \newpage
+
 
 %https://comp.anu.edu.au/courses/comp2600/Lectures/11ListInduction.pdf
 %https://courses.engr.illinois.edu/cs173/fa2010/Lectures/trees.pdf

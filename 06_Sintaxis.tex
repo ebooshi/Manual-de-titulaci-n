@@ -98,7 +98,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
 
    \subsection{Analizador sintáctico}
     Al proceso mediante el cual se obtiene el árbol de sintaxis abstracta de una expresión en sintaxis concreta se le conoce como análisis sintáctico. Es importante notar que no siempre será posible encontrar el árbol de sintaxis abstracta (por ejemplo si la expresión que analizamos no es derivable de las reglas de la sintaxis concreta).\\\\
-    De tal forma que el objetivo ahora será definir formalmente la relación entre ambos niveles donde el siguiente juicio es válido:\footnote{La definición de esta relación fue formulada  partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}, se refiere a las siguientes publicaciones para un estudio en profundidad sobre los niveles sintácticos de los lenguajes de programación: \hyperlink{76}{[76]}, \hyperlink{77}{[77]}, \hyperlink{78}{[78]} y \hyperlink{79}{[79]}}
+    De tal forma que el objetivo ahora será definir formalmente la relación entre ambos niveles donde el siguiente juicio es válido:\footnote{La definición de esta relación fue formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}, se refiere a las siguientes publicaciones para un estudio en profundidad sobre los niveles sintácticos de los lenguajes de programación: \hyperlink{76}{[76]}, \hyperlink{77}{[77]}, \hyperlink{78}{[78]} y \hyperlink{79}{[79]}}
             \[ e\  E \longleftrightarrow a\ ASA \]
     Esta relación se interpreta como ''a es el árbol de sintaxis abstracta asociado a la expresión e''. Definimos entonces las reglas para implementarla en \textsf{EAB} como sigue:
 
@@ -125,7 +125,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
 
     \bigskip
     
-    Ahora queremos extender EAB agregando instrucciones booleanas que permitan tener condicionales en nuestras expresiones de lenguaje. Es decir queremos agregar las constantes booleanas \texttt{True} y \texttt{False}, el operdador \texttt{if} ... \texttt{then} simple y el operador \texttt{if}... \texttt{then} ... \texttt{else} ... así como parentizado de expresiones para evitar condiciones de ''else colgante''\footnote{Éste problema es conocido en inglés como ''dangling else'' recurrente en la implementación de \textit{parsers} en el que una cláusula else opcional en una declaración if-then(-else) da como resultado que los condicionales anidados sean ambiguos. \hyperlink{90}{[90]}} y ambigüedad (esta regla puede ser modelada encerrando entre paréntesis la expresión inmediata a evaluar en la instrucción \texttt{then}).
+    Ahora queremos extender EAB agregando instrucciones booleanas que permitan tener condicionales en nuestras expresiones de lenguaje. Es decir queremos agregar las constantes booleanas \texttt{True} y \texttt{False}, el operdador \texttt{if} ... \texttt{then} simple y el operador \texttt{if}... \texttt{then} ... \texttt{else} ... así como parentizado de expresiones para evitar condiciones de ''else colgante''\footnote{Éste problema es conocido en inglés como ''$dangling\ else$'' recurrente en la implementación de \textit{parsers} en el que una cláusula else opcional en una declaración if-then(-else) da como resultado que los condicionales anidados sean ambiguos. \hyperlink{90}{[90]}} y ambigüedad (esta regla puede ser modelada encerrando entre paréntesis la expresión inmediata a evaluar en la instrucción \texttt{then}).
 
     \bigskip
     
@@ -182,8 +182,8 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
             { \texttt{if($c$ then $t$) E} \longleftrightarrow  \textit{if(c' t')} \textit{ ASA} }[$(if_s)$]
         \]
         \[
-            \inference{ \text{$c$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{($e$) LE} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(parentB)}]
-            \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA}}{\text{$c$ LE} \longleftrightarrow \textit{c'} \textit{ ASA}}[\textit{(bool)}]
+            \inference{ \text{$c$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{($e$) LE} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(parentB)}] \;
+            \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA}}{\text{$c$ LE} \longleftrightarrow \textit{c'} \textit{ ASA}}[\textit{(bool)}] \;
             \inference{\text{$e$ LE} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{$e$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(exprB)}]
         \]
     \end{exercise}
@@ -218,7 +218,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
         Proporciona las sintaxis Abstracta para agregar las instrucción \texttt{let}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} } considerando el \textit{ASA} \textit{x.t}.
         \[
             \inference{\text{$x$ identificador}}{\text{var[$x$] \textit{ASA}}}[] 
-            \inference{\textit{$a_1$ \textit{ASA}} \quad \textit{$a_2$ \textit{ASA}} }{\text{\textit{let(}$x$.$a_1$, $a_2$\textit{)} \textit{ASA}}}[]
+            \inference{\textit{$a_1$ \textit{ASA}} \quad \textit{$a_2$ \textit{ASA}} }{\text{\textit{let(}$a_1$, $x$.$a_2$\textit{)} \textit{ASA}}}[]
         \]
     \end{exercise}
 
@@ -243,7 +243,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
         Obtén la representación en sintaxis abstracta partiendo de la sintaxis concreta de las siguiente expresión: \\\\
         \texttt{let} $x$ = 1 \texttt{in} $x$ + 1 \texttt{end}\\
         \[
-            \textit{let(num[1], $x.x$+1)}\ ASA
+            \textit{let(num[1], $x.$var[$x$]+1)}\ ASA
         \]
     \end{exercise}
 
@@ -260,7 +260,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
         
         \texttt{let $x$ = False} \texttt{in} \texttt{if} $x$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} 4)) \texttt{else False} \texttt{end}\\
         \[
-            \textit{let(F, x.if(var[x], if(var[$\alpha$], if(var[$\alpha$], num[4], F)))) ASA}
+            \textit{let(F, x.if(var[x], if(var[$\alpha$], if(var[$\alpha$], num[4])), F)) ASA}
         \]        
     \end{exercise}
 
@@ -445,16 +445,18 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
     \begin{definition}Función de sustitución: se define la función de sustitución\footnote{Esta definición está formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]} adaptada para las instrucciones que hemos revisado hasta este momento para \textsf{EAB}.} sobre los árboles de sintaxis abstracta de \textsf{EAB}:
         \[
             \begin{array}{lclr}
-                x[x:=e]&=&e&\\
-                z[x:=e]&=&z&\\
-                num[n][x:=e]&=&num[n]&\\
-                sum(a_1,a_2)[x:=e]&=&sum(a_1[x:=e],a_2[x:=e])&\\
-                prod(a_1,a_2)[x:=e]&=&prod(a_1[x:=e],a_2[x:=e])&\\
-                let(a_1,a_2)[x:=e]&=&let(a_1[x:=e],a_2[x:=e])&\\
-                if(a_1,a_2)[x:=e]&=&if(a_1[x:=e],a_2[x:=e])&\\
-                if(a_1,a_2,a_3)[x:=e]&=&if(a_1[x:=e],a_2[x:=e],a_3[x:=e])&\\
-                (z.a)[x:=e]&=&z.(a[x:=e])&\mbox{Si }x\neq z\mbox{ y }z\not\in FV(e)\\
-                (z.a)[x:=e]&=&{\tt indefinido}&\mbox{Si }z\in FV(e)\\
+                var[x][var[x]:=e]&=&e&\\
+                var[z][var[z]:=e]&=&var[z]&\\
+	     T\; [var[z]:=e]& =& T \\
+	     F\; [var[z]:=e] &=& F\\
+                num[n][var[x]:=e]&=&num[n]&\\
+                sum(a_1,a_2)[var[x]:=e]&=&sum(a_1[var[x]:=e],a_2[var[x]:=e])&\\
+                prod(a_1,a_2)[var[x]:=e]&=&prod(a_1[var[x]:=e],a_2[var[x]:=e])&\\
+                let(a_1,a_2)[var[x]:=e]&=&let(a_1[var[x]:=e],a_2[var[x]:=e])&\\
+                if(a_1,a_2)[var[x]:=e]&=&if(a_1[var[x]:=e],a_2[var[x]:=e])&\\
+                if(a_1,a_2,a_3)[var[x]:=e]&=&if(a_1[var[$x$]:=e],a_2[var[x]:=e],a_3[var[x]:=e])&\\
+                (z.a)[var[x]:=e]&=&z.(a[var[x]:=e]) \; \mbox{Si }x\neq z\mbox{ y }z\not\in FV(e)\\
+                (z.a)[var[x]:=e]&=&{\tt indefinido} \; \mbox{Si }z\in FV(e)\\
             \end{array}
         \]
     \end{definition} 
@@ -493,20 +495,27 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
             \texttt{let } x = (w + 1) * 2 \texttt{ in} \texttt{ if (} \texttt{True } \texttt{ then } w \texttt{ else } (2 * x) \texttt{)} \texttt{ end }[w:=2]
         \]
         \[
-            = \texttt{let } x = ((w + 1) * 2)[w:=2] \texttt{ in} \texttt{ if (} \texttt{True } \texttt{then } w \texttt{ else } (2 * x) \texttt{)}[w:=2] \texttt{ end }
+            = \textit{let(prod(sum(var[w], 1), 2), if(T, var[w], prod(2, var[x])))\; [var[w] := 2]}
         \]
         \[
             \scalemath{0.81}{
-                = \texttt{let } x = ((w + 1)[w:=2] * 2[w:=2]) \texttt{ in} \texttt{ if (} \texttt{True}[w:=2] \texttt{ then } w[w:=2] \texttt{ else } (2 * x)[w:=2] \texttt{)} \texttt{ end }
+             =  \textit{let(prod(sum(var[w], 1), 2) \; [var[w] := 2], if(T, var[w], prod(2, var[x]))\; [var[w] := 2] )}
             }
         \]
         \[
-            \scalemath{0.86}{
-                = \texttt{let } x = ((w[w:=2] + 1[w:=2]) * 2) \texttt{ in} \texttt{ if (} \texttt{True } \texttt{ then } 2 \texttt{ else } (2[w:=2] * x[w:=2]) \texttt{)} \texttt{ end }
+            \scalemath{0.6}{
+               =  \textit{let(prod(sum(var[w], 1) [var[w] := 2], 2 [var[w] := 2]), if(T [var[w] := 2], var[w] [var[w] := 2], prod(2, var[x])[var[w] := 2] ))}
             }
         \]
         \[
-            = \texttt{let } x = ((2 + 1) * 2) \texttt{ in} \texttt{ if (} \texttt{True } \texttt{ then } 2 \texttt{ else } (2 * x) \texttt{)} \texttt{ end }
+	\scalemath{0.7}{
+             =  \textit{let(prod(sum(var[w] [var[w] := 2] , 1[var[w] := 2]), 2), if(T, 2, prod(2 [var[w] := 2], var[x] [var[w] := 2])))}
+ 	}
+        \]
+        \[
+	\scalemath{1}{
+             =  \textit{let(prod(sum(2, 1), 2), if(T, 2, prod(2, var[x])))}
+ 	}
         \]
 
     \end{exercise}
@@ -521,7 +530,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
     \bigskip
 
     \begin{exercise}
-        Explica con tus palabras por que es necesaria la sintaxis abstracta de orden superior que se introduce con el árbol de sintáxis abstracta \textbf{x.t}
+        Explica con tus palabras por que es necesaria la sintaxis abstracta de orden superior que se introduce con el árbol de sintáxis abstracta \textit{x.t}
     \end{exercise}
 
     \bigskip
@@ -567,13 +576,13 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
         		 &\texttt{ end }\\
         	\texttt{ end }&
         \end{align*}
-        Proporciona lo siguiente por cada subexpresión \texttt{let} definida en $e$:\\
-        \begin{enumerate}
+        Proporciona lo siguiente por cada subexpresión \texttt{let} definida en $e$:
+        \begin{itemize}
             \item Las variables ligadas
             \item Las variables libres
             \item El alcance de cada variable
             \item El valor que se obtiene al desarrollar la expresión.
-        \end{enumerate}
+        \end{itemize}
     \end{exercise}
 
     \bigskip
@@ -597,7 +606,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
     \begin{exercise}
         Desarrolla la siguiente sustitución paso por paso, en caso de ser inválida explica por qué. 
         \[
-            \texttt{ let } z = 3 \texttt{ in } (w + z) + \texttt{ if (} \texttt{True} \texttt{ then } 45 \texttt{ else } y \texttt{ )} \texttt{end } [y:=z+7]
+            \texttt{ let } z = 3 \texttt{ in } (w + z) + \texttt{ if (} \texttt{True} \texttt{ then } 45 \texttt{ else } y \texttt{)} \texttt{ end } [y:=z+7]
         \]
     \end{exercise}
 
@@ -605,20 +614,20 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
 
    \begin{exercise}
         A continuación se define la sintaxis concreta para un lenguaje funcional simple:
-        \[ e ::==  \text{ $x$ } \textbar \text{ $n$  }\textbar \text{ } e_1 \text{ } e_2 \text{ }  \textbar  \text{ } fun(x) \rightarrow e \]
+        \[ e ::=  \text{ $x$ } \text{$|$} \text{ $n$  }\text{$|$} \text{ } e_1 \text{ } e_2 \text{ } \text{$|$} \text{ } fun(x) \rightarrow e \]
 
     En donde el primer constructor representa las variables del lenguaje, el segundo números naturales,
     el tercero aplicación de función y el último la definición de funciones.\\
 
-    De acuerdo a la especificación discutida anteriormente, contesta los siguiente incisos \\\\
+    De acuerdo a la especificación discutida anteriormente, contesta los siguiente incisos: \\
     \begin{itemize}
-        \item Traduce la gramática anterior a una definición inductiva con reglas de inferencia.\\
-        \item Diseña una sintaxis abstracta apropiada para este lenguaje (Primero observa si es necesario alguna especie de ligado como el que define el operado \textbf{let} discutido en este capítulo).\\
-        \item Escribe las reglas para la relación de análisis sintáctico ($\longleftrightarrow$) del lenguaje.\\
-        \item Diseña un algoritmo de sustitución para este lenguaje.\\
-        \item La relación de $\alpha$-equivalencia en este lenguaje se da respecto al operador de definición de función fun, se dice que dos expresiones son $\alpha$-equivalentes si solo difieren en el          nombre de la variable del parámetro de la función. Por ejemplo:
+        \item Define las reglas de inferencia para la sintaxis concreta de la gramática anterior.
+        \item Diseña una sintaxis abstracta apropiada para este lenguaje (Primero observa si es necesario alguna especie de ligado como el que define el operado \texttt{let} discutido en este capítulo).
+        \item Escribe las reglas para la relación de análisis sintáctico ($\longleftrightarrow$) del lenguaje.
+        \item Diseña un algoritmo de sustitución para este lenguaje.
+        \item La relación de $\alpha$-equivalencia en este lenguaje se da respecto al operador de definición de función $fun$. Se dice que dos expresiones son $\alpha$-equivalentes si solo difieren en el nombre de la variable del parámetro de la función. Por ejemplo:
               \[ fun(x) \rightarrow e \equiv_\alpha fun(y) \rightarrow e \]
-              Demuestra que $\equiv_\alpha$ es una relacuión de equivalencia.
+              Demuestra que $\equiv_\alpha$ es una relación de equivalencia.
     \end{itemize}
 
    \end{exercise}

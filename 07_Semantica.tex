@@ -30,7 +30,7 @@
         debe seguir al para evaluar o asignar un tipo a una expresión bien formada de este lenguaje.
 
     \subsection*{Planteamiento}
-        Iniciaremos el estudio de este capítulo presentando las reglas para poder asignar un tipo a cada un de las expresiones bien formadas de \textsf{EAB}. Este nivel corresponde a la semántica estática y será de utilidad para fundamentar la seguridad del lenguaje y garantizar que se pueda regresar un valor al final de la evaluación de la expresión a la que se pretende asignar el tipo.\\\\
+        Iniciaremos el estudio de este capítulo presentando las reglas para poder asignar un tipo a cada una de las expresiones bien formadas de \textsf{EAB}. Este nivel corresponde a la semántica estática y será de utilidad para fundamentar la seguridad del lenguaje\footnote{La seguridad de un lenguaje se relaciona con la asignación correcta de tipos y la vamos a estudiar mas adelante en este capítulo.} y garantizar que se pueda regresar un valor al final de la evaluación de la expresión a la que se pretende asignar el tipo.\\\\
         Posteriormente se definirá el procedimiento para evaluar las expresiones bien formadas de \textsf{EAB}. Este mecanismo se conoce como semántica dinámica y se estudiará en dos paradigmas: de paso grande y de paso pequeño. Por último definiremos la función \texttt{eval} para \textsf{EAB}.
 
     \section{Semántica estática}
@@ -588,13 +588,13 @@
     La función de evaluación aplica de forma exhaustiva la semántica dinámica hasta llegar a un estado bloqueado (en el caso de \textsf{EAB} los estados bloqueados son los valores).
     \end{definition}
     
-    La función \textbf{eval} será de utilidad para el resto de las secciones que visitaremos a lo largo del curso.
+    La función \texttt{eval} será de utilidad para el resto de las secciones que visitaremos a lo largo del curso.
 
     
     \section{Ejercicios para el lector}
 
     \begin{exercise}
-        Considera la siguiente sintaxis concreta para un lenguaje proposicional simple \texttt{Prop} donde solo se utiliza el conector \texttt{AND} ($\wedge$) y el operador \texttt{NOT} ($\neg$) definida como: 
+        Considera la siguiente sintaxis concreta para un lenguaje proposicional simple \texttt{Prop}\footnote{Ejercicio extraído de \hyperlink{107}{[107]}.} donde solo se utiliza el conector \texttt{AND} ($\wedge$) y el operador \texttt{NOT} ($\neg$) definida como: 
         \[
             \inference{x \ \texttt{Prop}\ \: y\ \texttt{Prop}}{ x \wedge y\ \texttt{Prop}} \; \inference{x \ \texttt{Prop}}{\neg x \ \texttt{Prop}} \; \inference{}{\top \ \texttt{Prop}} \; \inference{}{\bot \  \texttt{Prop}} 
         \] 
@@ -608,7 +608,7 @@
     \bigskip
 
     \begin{exercise}
-        Ahora supón que se quieren añadir cuantificadores y variables a nuestro lenguaje \texttt{Prop} de la siguiente forma: \\
+        Ahora supón que se quieren añadir cuantificadores y variables a nuestro lenguaje \texttt{Prop}\footnote{Ejercicio extraído de \hyperlink{107}{[107]}.} de la siguiente forma: \\
         \[
             \inference{x \ \texttt{Prop}}{\exists v, \ x \ \texttt{Prop}} \; \inference{x \ \texttt{Prop}}{\forall v,\ x \ \texttt{Prop}} \; \inference{v \ variable}{v \ \texttt{Prop}} 
         \]
@@ -620,7 +620,7 @@
     \end{exercise}
 
     \begin{exercise}
-        Una cálculadora de Notación Polaca Reversa (\texttt{NPR}) es una calculadora que no requiere de parentizado para evaluar las expresiones que son pasadas como argumento.\\
+        Una cálculadora de Notación Polaca Reversa (\texttt{NPR})\footnote{Ejercicio extraído de \hyperlink{107}{[107]}.} es una calculadora que no requiere de parentizado para evaluar las expresiones que son pasadas como argumento.\\
         Esta se apoya de una pila para ''empujar'' los operandos y los operadores así como de la notación post-fija, es decir el operador se escribe después de los operandos, por ejemplo:
         $$7\ +\ 1\ =\ 7\ 1\ + $$ 
         $$7\ -\ (3\ +\ 2)\ =\ 7\ 3\ 2\ +\ -$$
@@ -656,7 +656,7 @@
 	\bigskip
 
     \begin{exercise}
-        Dada la siguiente expresión de \textbf{EAB} definida como:
+        Dada la siguiente expresión de \textsf{EAB} definida como:
         \begin{align*}
         	e = \textsf{let  }
         		a&= \textsf{let }d = 2 \textsf{ in } d+1 \textsf{ end }
