@@ -17,11 +17,11 @@
 \bigskip
 
 
-    En el capítulo anterior se estudió la composición sintáctica de los lenguajes de programación mediante la definición de juicios lógicos que nos permiten construir una instrucción válida del lenguaje obteniendo como resultado así la representación de alto nivel conocida como sintaxis 
-    concreta y la representación jerárquica de bajo nivel conocida como árbol de sintaxis abstracta. Este primer nivel de los lenguajes de programación provee un conjunto de reglas para derivar aquellas cadenas que pertenecen a estos mismos.\\\\
+    En el capítulo anterior se estudió la composición sintáctica de los lenguajes de programación mediante la definición de juicios lógicos que nos permiten construir expresiones válidas de \textsf{EAB} definiendo así la sintaxis 
+    concreta de este lenguaje. También se estudió la estructura jerárquica de bajo nivel con la que se obtiene la representación única de las expresiones válidas de \textsf{EAB} conocida como árboles de sintaxis abstracta, este primer nivel de los lenguajes de programación está enfocado a la representación del lenguaje pero no a su significado.\\\\
     En el presente capítulo nos ocuparemos de la semántica del lenguaje, que tiene como propósito responder a la pregunta ¿qué significa una expresión del lenguaje? y como podemos interpretar aquellas expresiones correctamente formuladas a partir de la sintáxis.\\\\
-    En el contexto de los lenguajes de programación podemos pensar de forma intuitiva que la respuesta al cómo interpretamos las instrucciones del lenguaje como: ''el comportamiento que tiene la expresión en tiempo de ejecución al ser evaluada''. 
-    En particular  nos interesa obtener el valor al que la expresión regresa (semántica dinámica) y el tipo de esta (semántica estática)\footnote{Definición acuñada de \hyperlink{98}{[98]}, \hyperlink{99}{[99]} y \hyperlink{100}{[100]}}.\\\\
+    En el contexto de los lenguajes de programación podemos pensar de forma intuitiva que la respuesta al cómo interpretamos las instrucciones del lenguaje podría ser: ''el comportamiento que tiene la expresión en tiempo de ejecución al ser evaluada.'' 
+    En particular  nos interesa obtener el valor que la expresión retorna al concluir su evaluación (semántica dinámica) y el tipo de esta (semántica estática).\footnote{Definición acuñada de \hyperlink{98}{[98]}, \hyperlink{99}{[99]} y \hyperlink{100}{[100]}}.\\\\
     Muchas veces en la documentación oficial de los lenguajes de programación la semántica está escrita en un manual el cual contiene una descripción de alto nivel
     acerca de como una determinada instrucción, método o expresión se comporta al momento de ejecutarse. Si bien esto resulta útil al escribir un programa nuestro interés sera definir formalmente la semántica de ejecución mediante juicios y reglas para el lenguaje \textsf{EAB}. \\
 
@@ -35,7 +35,7 @@
 
     \section{Semántica estática}
     La semántica estática extrae información del programa en tiempo de compilación, la cantidad y calidad de la información obtenida depende de la implementación de cada compilador\footnote{Definición acuñada de \hyperlink{96}{[96]} y \hyperlink{97}{[97]}}. \\\\
-    La información que se extrae del programa provisto por el usuario puede ser: el alcance de una variable, el tipo de una expresión, saber si una expresión tiene variables libres, etc. Saber esto es indispensable  para poder evaluar las expresiones de \textsf{EAB} (este último punto es importante ya que necesitamos que todas las variables estén ligadas y no haya presencias libres en nuestras expresiones, de lo contrario de la evaluación no se obtendrá valor alguno).\\\\
+    La información que se extrae del programa provisto por el usuario puede ser: el alcance de una variable, el tipo de una expresión, saber si una expresión tiene variables libres, etc. Saber esto es indispensable  para poder evaluar las expresiones de \textsf{EAB} (este último punto es importante ya que necesitamos que todas las variables estén ligadas y no haya presencia de variables libres en nuestras expresiones, de lo contrario de la evaluación no se obtendrá valor alguno).\\\\
     En el lenguaje de expresiones aritméticas con el que hemos estado trabajando, las expresiones de la forma:
         \begin{center}
                 \texttt{let}\ \textit{x}\ =\ \textit{y}\ \texttt{in}\ \textit{x}\ +\ \textit{x}\ \texttt{end}
@@ -46,7 +46,7 @@
     \bigskip
     
     \begin{definition}Semántica estática para capturar expresiones con variables libres en \textsf{EAB}\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
-    Sea $\Delta$ un conjunto de variables y \textit{a} un árbol de sintáxis abstracta, decimos que \textit{a} no tiene variables libres en bajo el conjunto $\Delta$ denotado como:
+    Sea $\Delta$ un conjunto de variables y \textit{a} un árbol de sintáxis abstracta, decimos que \textit{a} no tiene variables libres bajo el conjunto $\Delta$ denotado como:
         $$ \Delta\sim a\ ASA$$
     
     En particular nos interesa que todas las variables ligadas de \textit{a} estén presentes en $\Delta$.\\
@@ -182,7 +182,14 @@
 							{
 								\inference
 									{}
-									{\{x\} \sim x}[\textit{(fvn)}]
+									{\Delta \sim T}[\textit{(fvb)}]
+								\inference
+									{
+										\inference
+											{}
+											{\{x\} \sim x}[\textit{(fva)}]
+									}
+									{\Delta \sim x.x}[\textit{(fvn)}]
 							}
 							{\Delta \sim \textit{let(} \textit{T,}x.x \textit{) }    }[\textit{(fvo)}] 
 						\inference
@@ -425,7 +432,7 @@
 
     \subsection{Semántica de paso grande}
     Este paradigma para definir la semántica dinámica encapsula de forma general el proceso de evaluación sin mostrar de forma explícita paso a paso como es que una expresión es evaluada (contrario a la semántica de paso pequeño).\\\\
-    La relación de transición en este caso se denota como $e \Downarrow v$ donde $e$ es una expresión válida de nuestro lenguaje \textbf{EAB} y $v$ es un valor, esta se lee como ''la expresión $e$ se evalúa a $v$''.
+    La relación de transición en este caso se denota como $e \Downarrow v$ donde $e$ es una expresión válida de nuestro lenguaje \textsf{EAB} y $v$ es un valor, esta se lee como ''la expresión $e$ se evalúa a $v$''.
 
     \begin{definition}Semántica de paso grande para \textsf{EAB}: Se define la relación de transición  $\Downarrow$ mediante las siguientes reglas de inferencia\footnote{Definición formulada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \begin{description}
