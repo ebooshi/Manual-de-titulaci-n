@@ -378,7 +378,7 @@
     Del ejercicio anterior podemos notar la ventaja de la evaluación perezosa. Dado que nuestro valor de control es \texttt{False} no es necesario evaluar la expresión $e_1$ y directamente nos saltaremos a evaluar $e_2$ por la regla $if_F$ que en este caso es el valor 0.\\
     
     \begin{exercise}
-        Dada la siguiente expresion de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición para semántica de paso pequeño para evaluarla.
+        Dada la siguiente expresion de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
         \[
             \texttt{let } x = \texttt{ if(True} \texttt{ then } 42 \texttt{ else } 0 \texttt{)} \texttt{ in } \texttt{if(False} \texttt{ then } 41 \texttt{ else } x \texttt{)}
         \]  
@@ -397,7 +397,7 @@
     La relación de transición ($\rightarrow$)  define tres categorías importantes de aplicación las cuales se conocen como ''cerraduras'' y pueden ser:  reflexiva (un estado puede llegar a si mismo en 0 aplicaciones de pasos), transitiva (si un estado $e_1$ puede alcanzar un estado $e_2$ y $e_2$ puede alcanzar a $e_n$ en un número finito de pasos entonces $e_1$ puede llegar a $e_n$ en un número finito de pasos) ó positiva (la aplicación de las reglas de transición n veces con n $\geq$ 1).\\\\
     A continuación enunciamos las cerraduras, la relación de transición y la iteración en n pasos.
 
-    \begin{definition}Cerradura transitiva y reflexiva: se denota como $t\rightarrow^*$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}Cerradura transitiva y reflexiva: se denota como $t\rightarrow^*$ y se define con las siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
                 \inference{}{s \rightarrow^*s}[\textit{(refl)}]&
@@ -408,7 +408,7 @@
         La relación $s_1 \rightarrow^*s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de aplicaciones (posiblemente 0) de la relación de transición $\rightarrow$.
     \end{definition}
     
-    \begin{definition}Cerradura positiva: se denota como $\rightarrow^+$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}Cerradura positiva: se denota como $\rightarrow^+$ y se define con las siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
                 \inference{s_1 \rightarrow s_2}{s_1 \rightarrow^+s_2}[\textit{(one+)}]&
@@ -419,7 +419,7 @@
         La relación $s_1 \rightarrow^+s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de aplicaciones estrictamente mayor a cero de la relación de transición $\rightarrow$. Es decir, se llega de $s_1$ a $s_2$ en al menos un paso.
     \end{definition}
     
-    \begin{definition}Iteración en $n$ pasos: se denota como $\rightarrow^n$ con $n\in N$ y se define con la siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}Iteración en $n$ pasos: se denota como $\rightarrow^n$ con $n\in N$ y se define con las siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
             \begin{array}{ccc}
                 \inference{}{s \rightarrow^0 s}[($iter_z$)]&
@@ -437,7 +437,7 @@
     \begin{definition}Semántica de paso grande para \textsf{EAB}: Se define la relación de transición  $\Downarrow$ mediante las siguientes reglas de inferencia\footnote{Definición formulada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \begin{description}
             \item[Valores]
-            $$\inference{}{num[n] \Downarrow num[n]}[\textit{(bsnum)} ] \inference{}{B\ \text{Bool} \Downarrow B\ \text{Bool}}[ \textit{(bsbool)} ]$$
+            $$\inference{}{num[n] \Downarrow num[n]}[\textit{(bsnum)}] \ \ \ \ \ \inference{}{B\ \text{Bool} \Downarrow B\ \text{Bool}}[\textit{(bsbool)}]$$
             \item[Suma] 
             $$\inference{e_1 \Downarrow num[n]&e_2\Downarrow num[m]}{sum(e_1, e_2)\Downarrow num[n+_N m]}[\textit{(bssum)}]$$
             \item[Producto] 
@@ -448,12 +448,12 @@
             $$\inference{e_0\Downarrow True & e_1 \Downarrow v_1}{if(e_0,e_1,e_2)\Downarrow v_1}[\textit{(bsift)}]
               \inference{e_0\Downarrow False & e_2 \Downarrow v_2}{if(e_0,e_1,e_2)\Downarrow v_2}[\textit{(bsift)}]$$
         \end{description}
-         Es importante destacar que los valores de tipo \textit{num[n] y b } Bool si tienen reglas definidas  en esta semántica de paso grande.
+         Es importante destacar que los valores de tipo \textit{num}[$n$] y $B$  Bool si tienen reglas definidas  en esta semántica de paso grande.
     \end{definition}
 
     \begin{theorem}Equivalencia entre semántica de paso pequeño y paso grande: Decimos que para cualquier expresión $e$ del lenguaje \textsf{EAB} se cumple:
         $$e \rightarrow^*v \longleftrightarrow e \Downarrow v$$
-        Es decir, las semánticas que hemos definido son equivalentes\footnote{La demostración se puede hacer por inducción estructural sobre cada insturcción de \texttt{EAB}, esta queda fuera del alcance del presente manual de caracter práctico pero si se desea consultar la esta está disponible en \hyperlink{106}{[106]}}.
+        Es decir, las semánticas que hemos definido son equivalentes\footnote{La demostración se puede hacer por inducción estructural sobre cada insturcción de \textsf{EAB}, esta queda fuera del alcance del presente manual de caracter práctico pero si se desea consultarla esta está disponible en \hyperlink{106}{[106]}}.
     \end{theorem}
 
     \begin{exercise}
@@ -621,7 +621,7 @@
         \]
 	
 	 \begin{itemize}
-        	\item Proporciona un conjunto de reglas que definan la semántica estática que nos permite decidir cuando una expresión de \texttt{Prop} no contengiene variables libres bajo un contexto $\Gamma$. Denotado de la siguiente forma: \\
+        	\item Proporciona un conjunto de reglas que definan la semántica estática que nos permite decidir cuando una expresión de \texttt{Prop} no contiene variables libres bajo un contexto $\Gamma$. Denotado de la siguiente forma: \\
         $ \Gamma \vdash e \ Ok $ 
 	\end{itemize}
     \end{exercise}
@@ -634,7 +634,7 @@
         Esta calculadora empuja símbolos a la pila hasta encontrar un operador, en tal caso, los dos símbolos más próximos al tope de la pila son extraídos de la pila y el resultado de la operación es empujado nuevamente.\\\\
         La sintaxis concreta de la calculadora está definida por las siguientes reglas: \\
         \[
-            \inference{x \in N}{x \ Symbol} \; \inference{x \in \{+,-,*,/ \}}{x \ Symbol} \; \inference{}{\empty \ \texttt{NPR}} \; \inference{x \ Symbol & xs\ \texttt{NPR}}{x \ xs \ \texttt{NPR}}
+            \inference{x \in N}{x \ Symbol} \; \inference{x \in \{+,-,*,/ \}}{x \ Symbol} \; \inference{}{\epsilon \ \texttt{NPR}} \; \inference{x \ Symbol & xs\ \texttt{NPR}}{x \ xs \ \texttt{NPR}}
         \]
         Esta gramática tiene el problema de poder formar expresiones que no pertenecen necesariamente a \texttt{NPR} como:
         $$ 1 + 2$$ 
@@ -653,7 +653,7 @@
         Utilizando el analizador sintáctico y las reglas de semántica de paso pequeño y grande definidas en el ejercicio anterior contesta lo siguiente: \\
 
         Dada la expresión \texttt{NPR} $$e = 7\ 1\ 9 \ - -\ $$ \\
-        Muestra que $\vdash $ e $Ok$ \\\\
+        Muestra que $\vdash $ e $Ok$ 
 	\begin{itemize}
         		\item Evalúa la expresión utilizando la semántica de paso pequeño.
         		\item Evalúa la expresión utilizando la semántica de paso grande.
