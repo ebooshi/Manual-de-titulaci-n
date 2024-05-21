@@ -11,67 +11,72 @@
 
 
 %Introducción
-Es extraño concebir una vida sin teléfonos, relojes o televisores que no tengan una pequeño procesador embedido. Las computadoras son entidades relativamente nuevas pero por ajeno que pudiera parecer, hubo un tiempo en el que estas herramientas no existían, sus bases debieron ser sentadas en algún momento de nuestra historia humana. \\\\
-Podemos pensar en los antiguos griegos como Euclides que escribió uno de los primeros algoritmos que nos permite encontrar el máximo común divisor de dos números naturales o algo no tan lejano, quizá más mecánico y acercado a lo que hoy entendemos como computador como la máquina analítica de Babage del siglo XIX. \\
-Para estudiar el nacimiento de esta ciencia no debemos irnos tan atrás en la historia, hubo una época de excepcional progreso e interés en el desarrollo de las computadoras (parcialmente impulsado por un conflicto bélico, como muchos de los avances del siglo pasado). \\\\
-Cuando pensamos en el nacimiento de las computadoras podemos inmediatamente asociarlo con las máquinas de Turing, un sistema de transición que se ha estudiado con anterioridad en materias como \textbf{Autómatas y Lenguajes Formales} siendo el más reconocido cuando se habla de modelos de computo y la definición de conceptos como \textbf{computabilidad}, \textbf{algoritmo} ó \textbf{complejidad} allá por el no tan lejano 1936.\\\\
-En este curso estudiaremos un modelo equivalente (y muy distinto pero interesante) de cómputo, es aquí donde nuestro protagonista Alonzo Church\footnote{Nacido en Washington en 1903 y fallecido en 1995 en Ohio, formado en la universidad de Princeton dóndo acogió a Alan durante su doctorado fungiendo como mentor.} nos introduce en 1928 a su aproximación de un sistema formal basado en el concepto de "función" con las primitivas de "abstracción" y "aplicación" que fungiría como fundamento lógico para sustituir el la teoría de conjuntos de Zermelo y la teoría de tipos de Rusell. Éste sistema fue demostrado como inconsistente por sus dos alumnos Stephen Kleene y Barkley Russel pero no todo sería desechado, conservando la parte del manejo de funciones, particularmente rica, consistente y sorprendentemente equivalente al modelo de Alan Turing: \textbf{El Cálculo Lambda}.\\\\
+Cuando pensamos en el nacimiento de las computadoras podemos inmediatamente asociarlo con las máquinas de Turing, un sistema de transición que se ha estudiado con anterioridad en materias como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } siendo el más reconocido cuando se habla de modelos de cómputo y la definición de conceptos como: computabilidad, algoritmo o complejidad. Términos apenas formalizados en 1936.\\\\
+En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alonzo Church nos introduce en 1928 a su aproximación de un sistema formal basado en el concepto de ''función'' con las primitivas de ''abstracción'' y ''aplicación'' que fungiría como fundamento lógico para sustituir el la teoría de conjuntos de Zermelo-Fraenkel y la teoría de tipos de Russell. Este sistema fue demostrado como inconsistente por sus dos alumnos Stephen Kleene y Barkley Russell pero no todo sería desechado, conservando la parte del manejo de funciones particularmente rica, consistente y sorprendentemente equivalente al modelo de Alan Turing, a este modelo se le conoce como Cálculo Lambda\footnote{Extraído de  \hyperlink{107}{[107]}}.\\
 
 
 \subsubsection{Objetivo}
-El interés principal de este capítulo está en revisar la composición del \textbf{Cálculo Lambda} mediante la revisión de la sintáxis, semántica operacional y las representaciones de tipos primitivos en éste modelo de cómputo así como las propiedades inherentes a la semántica del cálculo junto con los sistemas de recursión para la evaluación de las \textbf{$\lambda$-expresiones}. \\ 
+Revisar la composición del Cálculo Lambda mediante el estudio de la sintáxis, semántica operacional y la representación de tipos primitivos en este modelo de cómputo, así como las propiedades inherentes a la semántica del cálculo junto con los sistemas de recursión para la evaluación de $\lambda$-expresiones. \\ 
 
 \subsubsection{Planteamiento}
-En este capítulo se revisará la \textbf{sintáxis concreta} del Cálculo Lámbda\footnote{Las definiciones revisadas en este capítulo fueron extraidas de: Enríquez Mendoza J. Lenguajes de Programación Notas de Clase: Cálculo Lambda. Universidad Nacional Autónoma de México. 2022.} para generar \textbf{$\lambda$-expresiones} junto con
-La \textbf{semántica operacional} del cálculo basándonos en la operación de sustitución sintáctica (\textbf{[:=]} conocida como \textbf{$\beta$-reducción}).\\\\
-La definición de los \textbf{booleanos} junto con los \textbf{operadores lógicos}, \textbf{datos estructurados} (en particular se estudiarán las tuplas, proyecciones y listas) así como \textbf{numerales} y \textbf{operadores aritméticos} mismos que se espera el lector pueda manipular, razonar y resolver en la sección de ejercicios. \\\\
-Finalmente se introducirá al lector el sistema de recursión para el Cálculo Lambda con los \textbf{operadores de punto fijo}.
+En este capítulo se revisará la sintáxis concreta del Cálculo Lámbda para generar $\lambda$-expresiones junto con
+la semántica operacional del cálculo, basándonos en la operación de sustitución sintáctica ([variable := valor]) conocida como $\beta$-reducción.\\\\
+También se abordará la definición de los booleanos junto con los operadores lógicos, estructuras de datos (tuplas, proyecciones, listas) y los numerales de Chruch con operadores aritméticos mismos que se espera el lector pueda manipular, razonar y resolver en la sección de ejercicios. \\\\
+Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con los operadores de punto fijo.
 
-\newpage
 
 \section{Sintáxis del Cálculo Lambda}
     El cálculo lambda es un modelo simple, su sintáxis comprende sólo tres categorías de términos:
     \begin{itemize}
-        \item \textbf{Variables}: Los elementos de ésta categoría pertenecen a un conjunto finito y son las expresiones lambda más simples, se denotan igual que en álgebra como letras, generalmente las últimas del alfabeto \textbf{(w, x, y, z)}.
-        \item \textbf{Abstracciones:} Esta categoría engloba los términos que definen a las funciones anónimas compuestas por tres elementos: el primero es la letra griega \textbf{$\lambda$}, el segundo es la variable que estará ligada en el cuerpo de la expresión y por último el cuerpo mismo de la función denotado como $e$, éstas se representan de la forma $\lambda x.e$.
-        \item \textbf{Aplicación:} Esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función. estas son representadas como $e_1\,e_2$ y su evaluación será la sustitución sintáctica ([:=]).
+        \item Variables: Los elementos de esta categoría pertenecen a un conjunto finito de letras mínusculas, generalmente las últimas del alfabeto (w, x, y, z) y son las expresiones lambda más simples.\\
+        \item Abstracciones: Esta categoría engloba los términos que definen a las funciones anónimas, compuestas por tres elementos: el primero es la letra griega $\lambda$, el segundo es la variable que estará ligada en el cuerpo de la expresión y por último el cuerpo mismo de la función denotado como $e$, estas se representan de la forma $\lambda x.e$.\\
+        \item Aplicación: Esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función. estas son representadas como $e_1\,e_2$ y su evaluación será la sustitución sintáctica ([:=]).
     \end{itemize}
 
-    \begin{definition}[Sintaxis concreta del Cálculo Lambda] La sintaxis concreta del Cálculo Lambda se da con la siguiente definición inductiva, sobre el juicio $l\lambda$ que indica que $l$ es una expresión válida en el Cálculo Lambda.
+    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $l \; \lambda$ que indica que $l$ es una expresión válida en el Cálculo Lambda\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]},  y  \hyperlink{107}{[107]}}:
     
         \[
             \begin{array}{ccccc}
-                \inference{x\;{\sf var}}{x\;\lambda}[\sf var]&\quad&
-                \inference{x\;{\sf var}&e\;\lambda}{\lambda x.e\;\lambda}[\sf abs]&\quad&
-                \inference{e_1\;\lambda&e_2\;\lambda}{e_1\,e_2\;\lambda}[\sf app]
+                \inference{x\;{\sf var}}{x\;\lambda}[$var$]&\quad&
+                \inference{x\;{\sf var}&e\;\lambda}{\lambda x.e\;\lambda}[$abs$]&\quad&
+                \inference{e_1\;\lambda&e_2\;\lambda}{e_1\,e_2\;\lambda}[$app$]
             \end{array}
         \]
     \end{definition}
 
+\bigskip
 
     \begin{exercise}
-        Algunas expresiones válidas del cálculo lambda se pueden escribir de la siguiente manera:
-        \begin{enumerate}
-            \item x \; \; \; \; \; \; \; \; variable
-            \item y \; \; \; \; \; \; \; \; variable
-            \item $\lambda$x.x \; \; \; \; \; \; función anónima
-            \item $\lambda$x.y \; \; \; \; \; \;  función anónima
-            \item ($\lambda$x.x)x \; \; \; \;  aplicación
-            \item ($\lambda$x.x)y \; \; \; \;  aplicación
-            \item $\lambda$x.$\lambda$y.xy \; \; \;  currificación de dos parámetros
-            \item x($\lambda$x.y) \; \; \; \;  aplicación
-            \item ($\lambda$x.x)($\lambda$y.y) \; aplicación de dos funciones anónimas
-        \end{enumerate}
+        Para las siguientes $\lambda-$expresiones anota a la derecha a que categoría de la sintáxis del Cálculo Lambda corresponde dicho término.
+       \begin{center}
+          \begin{tabular}{ c c }
+
+             $x$ 			  	 	  & \text{variable} \\ 
+             $y$		 	 	 	  & \text{variable}  \\
+             $\lambda x.x$	  		  & \text{función anónima} \\
+             $\lambda x.y$   	  		  & \text{función anónima}  \\
+             ($\lambda x.x)v$  	    	  & \text{aplicación} \\
+             ($\lambda x.x)v'$	 	 	  & \text{aplicación} \\
+             $\lambda x.\lambda y.xy$           & \text{función anónima}\\
+             $x(\lambda x.y)$ 			  & \text{aplicación}\\
+             $(\lambda x.x)(\lambda y.y)$     &  \text{aplicación}	
+ 
+        \end{tabular}
+      \end{center}
     \end{exercise}
 
-    Vale la pena remarcar que el ejemplo 3) corresponde a la función identidad que regresa el argumento que es pasado como parámetro. El ejemplo 4) corresponde a la función constante que siempre regresa el mismo valor sin importar el parámetro que recibe. El ejemplo 7) es la ilustración de como se puede anidar dos funciones anónimas para construir una sola función de dos parámetros, a éste proceso se le conoce como \textbf{currificación}\footnote{En honor a Haskell Curry} y nos permite anidar tantas funciones como parámetros necesitemos. Dicho tema será revisado a detalle más adelante en este manual. \\
+	\bigskip
+
+    En el ejemplo anterior, la tercer $\lambda-$expresión corresponde a la función identidad que regresa el argumento que es pasado como parámetro. La cuarta $\lambda-$expresión corresponde a la función constante que siempre regresa el mismo valor sin importar el parámetro que recibe. La sétima $\lambda-$expresión es la ilustración de como se puede anidar dos funciones anónimas para construir una sola de dos parámetros  (a este proceso se le conoce como currificación\footnote{En honor a Haskell Curry} y nos permite anidar tantas funciones como parámetros necesitemos. Dicho tema será revisado a detalle más adelante en este manual). \\
 
 \section{$\alpha$-equivalencia en el Cálculo Lambda}
 
-    En el cálculo lambda se tiene un constructor similar al constructor \textbf{let}\footnote{Este constructor sirvió para presentar la sintáxis de orden superior que en el cálculo lambda tiene porpiedades similares.} que tiene una variable ligada, un alcance asociado a élla y con ésto el concepto de \textbf{$\alpha$-equivalencia} fue introducido para expresiones que difieren a lo más en el nombrado de sus variables ligadas. Para el cálculo lambda se tiene el mismo caso.
+    En el Cálculo Lambda se tiene un constructor similar al operador \textsf{let} que tiene una variable ligada, un alcance asociado a ella y con esto el concepto de $\alpha$-equivalencia fue introducido para expresiones que difieren a lo más en el nombrado de sus variables ligadas. Para el cálculo lambda se tiene el mismo caso.
 
-    \begin{definition}[$\alpha$-equivalencia] En Cálculo Lambda, dos lambda términos $e_1$ y $e_2$ son $\alpha$-equivalentes si y sólo si solo se diferencian en el nombre de las variables de ligado.\\
-    Ésta es denotado como: $$e_1 \equiv_{\alpha} e_2 $$
+\bigskip
+
+    \begin{definition}[$\alpha$-equivalencia] En Cálculo Lambda, dos $\lambda-$expresiones $e_1$ y $e_2$ son $\alpha$-equivalentes si y sólo si solo difieren a lo mas en el nombre de las variables ligadas\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]},  y  \hyperlink{12}{[12]}}.\\\\
+    Esto es denotado como: $$e_1 \equiv_{\alpha} e_2 $$
     \end{definition}
 
      Por ejemplo, las expresiones:
@@ -84,7 +89,7 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
     son $\alpha$-equivalentes y se denota como $\lambda x.x\equiv_{\alpha}\lambda z.z$
 
     \section{Semántica operacional del Cálculo Lambda}
-    Cómo se discutió brevemente en la sección de sintáxis para el cálculo Lambda, la semántica operacional del mismo estará definida por la sustitución sintáctica, a la operación de sustituir los términos que concuerden con la variable del operador en la expresión Lambda $e$ (redex)\footnote{este terminó es acuñado del inglés \textbf{reducible expression.}} \textbf{:=} (reducto) se le conoce como \textbf{$\beta$}-reducción.
+    Cómo se discutió brevemente en la sección de sintáxis para el cálculo Lambda, la semántica operacional del mismo estará definida por la sustitución sintáctica, a la operación de sustituir los términos que concuerden con la variable del operador en la expresión Lambda $e$ (redex) := (reducto) se le conoce como $\beta$-reducción.
 
     \bigskip
 
@@ -132,7 +137,7 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
     Si llevamos esta idea para definir entidades nos encontraremos nombrando funciones para construir cosas que damos por sentadas en los lenguajes de programación, especificamente booleanos y números.
 
     \subsection{Booleanos y operadores lógicos}
-    Las constantes booleanas \textbf{True} y \textbf{False} son cosas que podemos pensar como opuestas, una es la antítesis de la otra. Tratemos de trasladar esta idea a un par de funciones que parezcan mutuamente excluyentes una de la otra.\\\\
+    Las constantes booleanas True y False son cosas que podemos pensar como opuestas, una es la antítesis de la otra. Tratemos de trasladar esta idea a un par de funciones que parezcan mutuamente excluyentes una de la otra.\\\\
     La función que toma dos argumentos y regresa el primero es el antónimo de la función que toma dos argumentos y regresa el segundo.
     \[
         \lambda x.\lambda y.x
@@ -140,20 +145,20 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
     \[
         \lambda x.\lambda y.y
     \]
-    Estas entidades están haciendo exactamento lo contrario que hace la otra, como las funciones son objetos primitivos en el cálculo lambda entonces definiremos este par de elementos como nuestro \textbf{True} y nuestro \textbf{False} (respectivamente).
+    Estas entidades están haciendo exactamento lo contrario que hace la otra, como las funciones son objetos primitivos en el cálculo lambda entonces definiremos este par de elementos como nuestro True y nuestro False (respectivamente).
 
     De esta forma podemos definir funciones que a su vez, construyan la lógica booleana y nos permitan operar instrucciones de control:
-    \begin{definition}[Operadores lógicos para el cálculo Lambda] Los operadores serán funciones que reciben a las funciones \textbf{True} y \textbf{False}\\
+    \begin{definition}[Operadores lógicos para el cálculo Lambda] Los operadores serán funciones que reciben a las funciones True y False\\
         \begin{enumerate}
-            \item \textbf{True:} $\lambda$x.$\lambda$y.x 
-            \item \textbf{False:}  $\lambda$x.$\lambda$y.y 
-            \item \textbf{NOT:} $\lambda z. z \textbf{ False }\textbf{True}$ 
-            \item \textbf{AND:}  $\lambda x.\lambda y. xy\textbf{ False}$ 
+            \item True: $\lambda$x.$\lambda$y.x 
+            \item False:  $\lambda$x.$\lambda$y.y 
+            \item NOT: $\lambda z. z  False True$ 
+            \item AND:  $\lambda x.\lambda y. xy False$ 
         \end{enumerate} 
     \end{definition}
 
-    Para el operador \textbf{NOT} la idea es que dependiendo del argumento se regrese su contrario, si el parámetro de entrada es \textbf{True} entonces se regresará el primer argumento que entra a la función, en este caso los parámetros de entrada son: \textbf{False} y \textbf{True} regresándonos el primero: \textbf{False}. Sí al contrario el parámetro de entrada es \textbf{False} éste regresará el segundo argumento de la entrada: \textbf{False} y \textbf{True}, en este caso: \textbf{True}.\\\\
-    En el caso del operador \textbf{AND} la idea subyaciente de este operador es que si el primer parámetro es un \textbf{False} se regrese su segundo argumento, en este caso recibe: "$y$" y \textbf{False} evalúandose así a: \textbf{False}. Sí recibe como primer argumento \textbf{True} este regresa el primer argumento, en este caso "$y$" y \textbf{False} evalúandose a "$y$".
+    Para el operador NOT la idea es que dependiendo del argumento se regrese su contrario, si el parámetro de entrada es True entonces se regresará el primer argumento que entra a la función, en este caso los parámetros de entrada son: False y True regresándonos el primero: False. Sí al contrario el parámetro de entrada es False éste regresará el segundo argumento de la entrada: False y True, en este caso: True.\\\\
+    En el caso del operador AND la idea subyaciente de este operador es que si el primer parámetro es un False se regrese su segundo argumento, en este caso recibe: "$y$" y False evalúandose así a False. Sí recibe como primer argumento True este regresa el primer argumento, en este caso "$y$" y False evalúandose a "$y$".
 
     \begin{definition}[Sémantica Operacional de las instrucciones lógicas para el Cálculo Lambda]
         Con los operadores de la definición anterior es posible verificar que la siguiente semántica operacional es válida:
@@ -165,16 +170,16 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
             \item $\mathsf{and}\,false\,b\to_\beta^* false$
             \item $\mathsf{and}\,true\,b\to_\beta^* b$
         \end{enumerate}
-        \textbf{Nota:} En esta definición se hace abuso de notación al escribit \textbf{True} y  \textbf{False} como constantes y no como funciones, esto será permitido para 
+        \textbf{Nota:} En esta definición se hace abuso de notación al escribit True y  False como constantes y no como funciones, esto será permitido para 
      \end{definition}
 
      \section{Aritmética del Cálculo Lambda}
         En los lenguajes de programación el tipo primitivo más importante que nos es proporcionado (a parte de los booleanos) son los números. Éstos muchas veces están categorizados en: flotantes, enteros, enteros largos, etc.\\\\
         Estas entidades también tienen una representación en el cálculo Lambda, empezando por los números más simples: los naturales.\\\\
-        El cálculo Lambda tiene la particularidad de modelar a los naturales de una forma muy simple y cuyo mapeo a la estructura revisada en cursos como \textbf{Álgebra Superior} y \textbf{Estructuras Discretas} es inmediata. Recordemos que en estos cursos los números no son presentados como carácteres arábigos (0,1,2,3,4 ...) si no como la aplicación de la función sucesor \textbf{S(n)} al constructor \textbf{Zero} tantas veces como el número que se desea construir, si dicho número es el 4 entonces su representación será la función sucesor aplicada cuatro veces al \textbf{Zero}: \textbf{S(S(S(S(Zero))))}
+        El cálculo Lambda tiene la particularidad de modelar a los naturales de una forma muy simple y cuyo mapeo a la estructura revisada en cursos como Álgebra Superior y Estructuras Discretas es inmediata. Recordemos que en estos cursos los números no son presentados como carácteres arábigos (0,1,2,3,4 ...) si no como la aplicación de la función sucesor S(n) al constructor Zero tantas veces como el número que se desea construir, si dicho número es el 4 entonces su representación será la función sucesor aplicada cuatro veces al Zero: S(S(S(S(Zero))))
         
      \subsection{Numerales de Church}
-        Church introdujó los numerales como la abstracción de dos parámetros \textbf{s} y \textbf{z} en una función anónima, de tal forma que si se desea representar al n-ésimo número éste sea formado por la aplicación de \textbf{s} a \textbf{z} n veces:
+        Church introdujó los numerales como la abstracción de dos parámetros s y z en una función anónima, de tal forma que si se desea representar al n-ésimo número éste sea formado por la aplicación de s a z n veces:
 
     \begin{itemize}
         \item $\bar{0}=_{def}\lambda s.\lambda z.z$
@@ -191,7 +196,7 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
             $$\textbf{suc } \; \lambda n\lambda Z\lambda s. s(n \; z \; s)$$
         \end{definition}
     
-        la aplicación de "s" y "z" a un númeral de Church como la que aparece en la parte interna de la función \textbf{suc} (n \textbf{s} \textbf{z}) reduce el númeral a una representación más parecida a la de los números naturales:    
+        la aplicación de "s" y "z" a un númeral de Church como la que aparece en la parte interna de la función suc (n s z) reduce el númeral a una representación más parecida a la de los números naturales:    
         \begin{itemize}
             \item $(\lambda z.\lambda s.z)sz \rightarrow_\beta^* z$
             \item $(\lambda z.\lambda s.sz)sz  \rightarrow_\beta^* sz$
@@ -199,9 +204,9 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
             \item ...
         \end{itemize}
 
-        Junto con la aplicación de "s" que está fuera de ésta sección (\textbf{s} (n s z)) se agrega un símbolo sucesor más al numeral obteniendo así el siguiente elemento.\\
+        Junto con la aplicación de "s" que está fuera de ésta sección (s (n s z)) se agrega un símbolo sucesor más al numeral obteniendo así el siguiente elemento.\\
 
-        Acontinuación enlistamos los ejercicios para ejemplificar la semántica operacional del operador \textbf{suc} (El abuso de notación escribiendo los numerales de Church con una línea encima del numero que corresponde es permitida para ahorrar espacio, lo mismo es válido para las constantes booleanas \textbf{True} y \textbf{False}).
+        Acontinuación enlistamos los ejercicios para ejemplificar la semántica operacional del operador suc (El abuso de notación escribiendo los numerales de Church con una línea encima del numero que corresponde es permitida para ahorrar espacio, lo mismo es válido para las constantes booleanas True y False).
 
         \bigskip
 
@@ -238,38 +243,38 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
         \end{exercise}
 
         \subsubsection{Is Zero}
-        Este operador sirve para comprobar si un numeral es cero, regresa el booleano \textbf{True} en caso de que el numeral corresponda y \textbf{False} cuando no.\\
+        Este operador sirve para comprobar si un numeral es cero, regresa el booleano True en caso de que el numeral corresponda y False cuando no.\\
         \begin{definition}[Función IsZero para numerales de Church.]
-            $$\textbf{IsZero: } \; \lambda m. m\;\textbf{True} \;(\lambda x.\textbf{False})$$
+            $$IsZero:  \; \lambda m. m\;True \;(\lambda x.False)$$
         \end{definition}
 
         \begin{exercise}
-            Utiliza las definición de la función \textbf{IsZero} para evaluar la siguiente $\lambda$-expresión
+            Utiliza las definición de la función IsZero para evaluar la siguiente $\lambda$-expresión
             \[
-                \textbf{IsZero: } \; \overline{2}
+                IsZero:  \; \overline{2}
             \]
             \[
-                (\lambda m. m\;\textbf{True} \;(\lambda x.\textbf{False})) \; \lambda z\lambda s.s(s\;z) \rightarrow_\beta (\lambda z\lambda s.s(s\:z)) \; \textbf{True} \; (\lambda x.\textbf{False}) 
+                (\lambda m. m\;True \;(\lambda x.False)) \; \lambda z\lambda s.s(s\;z) \rightarrow_\beta (\lambda z\lambda s.s(s\:z)) \; True \; (\lambda x.False) 
             \]
             \[
-                (\lambda s.s(s\: \textbf{True})) \; (\lambda x.\textbf{False}) \rightarrow_\beta  (\lambda x.\textbf{false}) \; ((\lambda x.\textbf{false}) \; \textbf{true})))
+                (\lambda s.s(s\: True)) \; (\lambda x.False) \rightarrow_\beta  (\lambda x.false) \; ((\lambda x.false) \; true)))
             \]
             \[
-                 \rightarrow_\beta  (\lambda x.\textbf{false}) \; \textbf{false} \rightarrow_\beta \textbf{False}
+                 \rightarrow_\beta  (\lambda x.False) \; false \rightarrow_\beta False
             \]
 
         \end{exercise}
 
         \begin{exercise}
-            Utiliza las definición de la función \textbf{IsZero} para evaluar la siguiente $\lambda$-expresión
+            Utiliza las definición de la función IsZero para evaluar la siguiente $\lambda$-expresión
             \[
                 \textbf{IsZero: } \; \overline{0}
             \]
             \[
-                (\lambda m. m\textbf{True} \; (\lambda x.\textbf{False})) \; \lambda z\lambda s.z \rightarrow_\beta (\lambda z\lambda s.z) \; \textbf{True} \; (\lambda x.\textbf{False})
+                (\lambda m. mTrue \; (\lambda x.False)) \; \lambda z\lambda s.z \rightarrow_\beta (\lambda z\lambda s.z) \; True \; (\lambda x.False)
             \]
             \[
-                \rightarrow_\beta (\lambda s.\textbf{True}) \; \lambda x.\textbf{False} \rightarrow_\beta \textbf{True}
+                \rightarrow_\beta (\lambda s.True) \; \lambda x.False \rightarrow_\beta True
             \]
         \end{exercise}
         
@@ -283,18 +288,18 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
 
         Para el cálculo lambda la definición de está función será:
         \begin{definition}[Definición de la suma para los numerales de Church]
-            $$\textbf{sum: } \; \lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s$$
+            $$sum:  \; \lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s$$
         \end{definition}
 
-        la definición de esta función puede ser entendida en términos de la función suma para los naturales. El argumento \textbf{m} no es afectado por la función en ningún momento, ésto se regleja en la sección interna de nuestra lambda, a saber \textbf{(m z s)}. Ésto no altera \textbf{m}, lo simplifica pero mantiene la cantidad de aplicaciones de \textbf{s}, esta simplificación de \textbf{m} es el pimero argumento que va a recibir el numeral \textbf{n} tomándo el lugar de \textbf{z}.\\
-        El segundo argumento del numeral \textbf{n} será la \textbf{s} que simplemente reemplazara todas las apariciones de \textbf{s} por \textbf{s} misma.\\\\
+        la definición de esta función puede ser entendida en términos de la función suma para los naturales. El argumento m no es afectado por la función en ningún momento, ésto se regleja en la sección interna de nuestra lambda, a saber (m z s). Ésto no altera m, lo simplifica pero mantiene la cantidad de aplicaciones de s, esta simplificación de m es el pimero argumento que va a recibir el numeral n tomándo el lugar de z.\\
+        El segundo argumento del numeral n será la s que simplemente reemplazara todas las apariciones de s por s misma.\\\\
         De esta forma lo que al final sucede es que se concatenarán las "s's" de ambos numerales generando así el numeral correspondiente a la suma de las apariciones del carácter "s" en ambos n y m.\\
 
 
         \begin{exercise}
-            Utiliza la definición de la función \textbf{sum} evaluar la siguiente  $\lambda$-expresión
+            Utiliza la definición de la función sum evaluar la siguiente  $\lambda$-expresión
             \[
-                \textbf{sum } \overline{2} \; \overline{3} 
+                sum  \overline{2} \; \overline{3} 
             \]
             \[
                 = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s) \; \lambda z'\lambda s'.s'(s'z') \;\; \lambda z''\lambda s''.s''(s''(s''z'')) \rightarrow_\beta 
@@ -320,9 +325,9 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
         \end{exercise}
 
         \begin{exercise}
-            Utiliza la definición de la función \textbf{sum} evaluar la siguiente  $\lambda$-expresión
+            Utiliza la definición de la función sum evaluar la siguiente  $\lambda$-expresión
             \[
-                \textbf{sum } \overline{4} \; \overline{5} 
+                sum  \overline{4} \; \overline{5} 
             \]
             \[
                 = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s) \; \lambda z'\lambda s'.s'(s'(s'(s'z'))) \; \lambda z''\lambda s''.s''(s''(s''(s''(s''z'')))) \rightarrow_\beta 
@@ -348,25 +353,25 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
         \end{exercise}
 
         \subsubsection{Producto}
-        Para el producto de \textbf{m} y \textbf{n} la ídea es anidar la operación: \textbf{n} + \textbf{n}, \textbf{m} veces reemplazando las aparaciones de de la variable \textbf{s} en el numeral \textbf{m} por \textbf{sum(n ... }, esta operación está definida de la siguiente manera:
+        Para el producto de m y n la ídea es anidar la operación: n + n, m veces reemplazando las aparaciones de de la variable s en el numeral m por sum(n ... , esta operación está definida de la siguiente manera:
 
         \begin{definition}[Definición del producto para los numerales de Church.]
-            $$\textbf{prod: } \; \\lambda m.\lambda n.m\; \bar{0} \; (\textbf{sum}\;n)$$
+            $$prod:  \; \\lambda m.\lambda n.m\; \bar{0} \; (sum\;n)$$
         \end{definition}
 
         \begin{exercise}
-            Utiliza la definición de la función \textbf{prod} evaluar la siguiente  $\lambda$-expresión
+            Utiliza la definición de la función prod evaluar la siguiente  $\lambda$-expresión
             \[
-                    \textbf{prod } \overline{2} \; \overline{3}
+                    prod  \overline{2} \; \overline{3}
             \]
             \[
-                   = (\lambda m\lambda n.m\; \overline{0} \; (\textbf{sum} \; n)) \;  \lambda z\lambda s.s(sz) \; \overline{3} \rightarrow_\beta (\lambda n.(\lambda z\lambda s.s(sz)) \; \overline{0} \; (\textbf{sum} \; n)) \; \overline{3} 
+                   = (\lambda m\lambda n.m\; \overline{0} \; (sum \; n)) \;  \lambda z\lambda s.s(sz) \; \overline{3} \rightarrow_\beta (\lambda n.(\lambda z\lambda s.s(sz)) \; \overline{0} \; (sum \; n)) \; \overline{3} 
             \]
             \[
-                    \rightarrow_\beta (\lambda n.(\lambda s.s(s\overline{0}))\; (\textbf{sum }n)) \; \overline{3} \rightarrow_\beta  (\lambda n.(\textbf{sum} \; n \; (\textbf{sum} \; n \; \overline{0})) \; \overline{3}
+                    \rightarrow_\beta (\lambda n.(\lambda s.s(s\overline{0}))\; (sum n)) \; \overline{3} \rightarrow_\beta  (\lambda n.(sum \; n \; (sum \; n \; \overline{0})) \; \overline{3}
             \]
             \[
-                    \rightarrow_\beta (\textbf{sum} \; \overline{3} \; (\textbf{sum} \; \overline{3} \; \overline{0})) = 
+                    \rightarrow_\beta (sum \; \overline{3} \; (sum \; \overline{3} \; \overline{0})) = 
             \]
             \[
                     \scalemath{0.8}{
@@ -377,7 +382,7 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
                     \text{resolveremos por partes la suma dado que la notación crece muy rápido y es poco legible}
             \]
             \[
-                    \textbf{sum } \overline{3} \; \overline{0} = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s ) \; \lambda z'\lambda s'.z' \; \overline{3}
+                    sum  \overline{3} \; \overline{0} = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s ) \; \lambda z'\lambda s'.z' \; \overline{3}
             \]
             \[
                     \rightarrow_\beta  (\lambda n\lambda z\lambda s.n((\lambda z'\lambda s'.z') \; z \; s) \; s) \; \overline{3}
@@ -416,24 +421,24 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
 
         \section{Datos estructurados en el Cálculo Lambda}
 
-            En el \textbf{Cálculo Lambda} es posible definir estructuras para almacenar información junto con las funciones para recuperar los elementos guardados en éllas.
-            Revisaremos dos: La estructura más simple serán las \textbf{tuplas} junto con sus proyecciones \textbf{first} y \textbf{second} que ayudan a sentar la base para definir una estructura más compleja, las listas. Con su respectiva función para obtener la \textbf{cabeza} y la \textbf{cola}. Juntas proveen un mecanismo de almacenamiento en este sistema.
+            En el Cálculo Lambda es posible definir estructuras para almacenar información junto con las funciones para recuperar los elementos guardados en éllas.
+            Revisaremos dos: La estructura más simple serán las tuplas junto con sus proyecciones first y second que ayudan a sentar la base para definir una estructura más compleja, las listas. Con su respectiva función para obtener la cabeza y la cola. Juntas proveen un mecanismo de almacenamiento en este sistema.
     
             \subsection{Tuplas}
 
-                La tupla es la estructura que representa a un par compuesto por elemento izquierdo y derecho o primero y segundo. En el cálculo Lambda se define como la función que tiene dos argumentos uno para cada elemento. Y una función \textbf{b} (el argumento \textbf{f} representa al elemento primero o $first$ en inglés y el argumento \textbf{s} representa el segundo o $second$).
+                La tupla es la estructura que representa a un par compuesto por elemento izquierdo y derecho o primero y segundo. En el cálculo Lambda se define como la función que tiene dos argumentos uno para cada elemento. Y una función b (el argumento f representa al elemento primero o $first$ en inglés y el argumento s representa el segundo o $second$).
         
                 \begin{definition}[Constructor de una tupla junto con la proyección de ambos elementos]
             
-                    \textbf{Constructor}
+                    Constructor
                         $$\mathsf{pair} = \lambda f\lambda s\lambda b. bfs$$
-                    \textbf{Proyección del primer elemento}
-                        $$\mathsf{fst} = \lambda p.p \ \textbf{True}$$
-                    \textbf{Proyección del segundo elemento}
-                        $$\mathsf{snd} = \lambda p.p \ \textbf{False}$$
+                    Proyección del primer elemento
+                        $$\mathsf{fst} = \lambda p.p \ True$$
+                    Proyección del segundo elemento
+                        $$\mathsf{snd} = \lambda p.p \ False$$
                 \end{definition}
 
-                Donde las proyecciones se apoyan de la propiedad de los booleanos de regresar el primer argumento para el caso de \textbf{True} y el segundo en el caso de \textbf{False}\footnote{Véase la sección de este capítulo: \textbf{Booleanos}}. \\
+                Donde las proyecciones se apoyan de la propiedad de los booleanos de regresar el primer argumento para el caso de True y el segundo en el caso de False\footnote{Véase la sección de este capítulo: \textbf{Booleanos}}. \\
                 En general se tienen las siguiente reducciones cuando se aplican estos operadores a cualquier tupla:
 
                 $${\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf a}$$
@@ -441,25 +446,25 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
 
             \subsection{Listas}
             Las listas en el Cálculo Lambda se apoyan de los constructores de la tupla para ir añadiendo elementos en la cabeza al cuerpo de una lista anidando las tuplas un elemento a la vez. 
-            El único inconveniente es que no hay un constructor para la lista vacía, éste será representado por una $\lambda$-expresión que sea $\alpha$-equivalemte al booleano \textbf{False}. \\\\
-            La definición de las listas resulta ser una aplicación de los contsturctores para tuplas, sus funciones y la constante boleana \textbf{False} como se ve a continuación:
+            El único inconveniente es que no hay un constructor para la lista vacía, éste será representado por una $\lambda$-expresión que sea $\alpha$-equivalemte al booleano False. \\\\
+            La definición de las listas resulta ser una aplicación de los contsturctores para tuplas, sus funciones y la constante boleana False como se ve a continuación:
 
             \begin{definition}[Constructores para listas en Cálculo Lambda junto con sus funciones]
                 \textbf{Definición de la Lista vacía}
-                $${\sf nil}  = \textbf{False}$$
+                $${\sf nil}  = False$$
                 \textbf{Constructor de una lista tomando una cabeza y una cola}
-                $${\sf cons} = \textbf{pair}$$
+                $${\sf cons} = pair$$
                 \textbf{función para obtener la cabeza de la lista}
-                $${\sf head}  = \textbf{fst}$$
+                $${\sf head}  = fst$$
                 \textbf{función para obtener la cola de la lista}
-                $${\sf tail} = \textbf{snd}$$
+                $${\sf tail} = snd$$
             \end{definition}
 
         \section{Propiedades semánitcas del Cálculo Lambda}
-            En el capítulo \textbf{5. Sémantica} se mencionaron brevemente las propiedades de la evaluación para expresiones de \textbf{EAB}. En esta sección discutiremos cómo el Cálculo Lambda interactúa con las mismas propiedades con la ayuda de ejercicios que nos permitan entender cada propiedad aplicada en este modelo.\\
+            En el capítulo 5. Sémantica se mencionaron brevemente las propiedades de la evaluación para expresiones de EAB. En esta sección discutiremos cómo el Cálculo Lambda interactúa con las mismas propiedades con la ayuda de ejercicios que nos permitan entender cada propiedad aplicada en este modelo.\\
             
                 \subsection{No terminación}
-                    Hemos tratado brevemente las propiedad de la evaluación para expresiones bien formadas de \textbf{EAB} en donde éstas se evaluarán a un valor (número o booleano) en algún punto de su ejecución. 
+                    Hemos tratado brevemente las propiedad de la evaluación para expresiones bien formadas de \textsf{EAB} en donde éstas se evaluarán a un valor (número o booleano) en algún punto de su ejecución. 
                     No obstante esta propiedad no se cumple para el Cálculo Lambda como se puede ver a continuación:
                     \begin{exercise}
                         Demuestra o da un contraejemplo de por qué la porpiedad de terminación para el Cálculo Lámnbda es válida.\\\\
@@ -476,8 +481,8 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
                     $$(\lambda z.(\lambda y.z)a)b$$
                     Si tomamos como redex la expresión completa, se obtine la siguiente evaluación: $$\underline{(\lambda z.(\lambda y.z)a)b} \rightarrow_\beta (\lambda y.b)a$$
                     Si por el contrario tomamos como redex la lambda interna se obtiene: $$(\lambda z.\underline{(\lambda y.z)a})b \rightarrow_\beta (\lambda z.z)b$$
-                    En ambas evaluaciones el resultado al que se llega al terminar de evaluar la expresión es la variable \textbf{b} sin importar cuál redex se haya escogido para la evaluación.\\\\
-                    Esta característica del Cálculo Lambda no supone una desventaja por el principio de \textbf{confluencia}.
+                    En ambas evaluaciones el resultado al que se llega al terminar de evaluar la expresión es la variable b sin importar cuál redex se haya escogido para la evaluación.\\\\
+                    Esta característica del Cálculo Lambda no supone una desventaja por el principio de confluencia.
 
                 \subsection{Confluencia}
                     El principio de confluencia nos asegura que dadas dos dos evaluaciones distintas para la misma $\lambda$-expresión, éstas convergen en un término común en algún punto de la evaluación:
@@ -490,9 +495,9 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
                     \end{corollary}
 
         \section{Combinadores de punto fijo}
-                    El Cálculo Lambda por si mísmo no posee un mecanisno iterativo que nos permita formar alguna secuencia de control como los ciclos \textbf{$for$} o \textbf{$while$} como en la mayoría de los lenguajes de programación modernos.\\\\
-                    Su naturaleza funcional nos hace preguntarnos si podemos emplear un mecanismo mas afín como la \textbf{recursión} para definir funciones que iteren sobre algún parámetro.\\\\
-                    El mecanismo de recursión para el Cálculo Lambda no viene dado por la definición que hasta el momento hemos revisado, se precisa de la introducción de los \textbf{Combinadores de Punto Fijo} que capturan la escencia del principio de recursión general en computación, ésto es:
+                    El Cálculo Lambda por si mísmo no posee un mecanisno iterativo que nos permita formar alguna secuencia de control como los ciclos $for$ o $while$ como en la mayoría de los lenguajes de programación modernos.\\\\
+                    Su naturaleza funcional nos hace preguntarnos si podemos emplear un mecanismo mas afín como la recursión para definir funciones que iteren sobre algún parámetro.\\\\
+                    El mecanismo de recursión para el Cálculo Lambda no viene dado por la definición que hasta el momento hemos revisado, se precisa de la introducción de los Combinadores de Punto Fijo que capturan la escencia del principio de recursión general en computación, ésto es:
                     $$ rec\ F\ =\ F\ (rec\ F) $$
                     De esta forma, si definimos una $\lambda$-expresión rec que nos permita "autoaplicarse" la función que toma como parámetro podemos definir cualquier función recursiva aplicando n veces la función.
                     $$rec\ F = F(rec\ F) = F(\ F(rec\ F)) =\ ...\ F(\ F(\ F(\ ...\ )))$$
@@ -506,7 +511,7 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
 
                     Existen diferentes $\lambda$-expresiones que cumplen con la definición provista anteriormente, uno de los combinadores mas sencillos y populares es el Combinador $\Y$ que se define de la siguiente forma:
 
-                    \begin{definition}(Combinador $\Y$) también conocido como \textbf{Curry-Rosser}:
+                    \begin{definition}(Combinador $\Y$) también conocido como Curry-Rosser:
                         $$\Y = \lambda f.(\lambda x.f(xx))(\lambda x.f(xx))$$
                     \end{definition}
     
@@ -545,7 +550,7 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
                 \end{exercise}
 
                 \begin{exercise}
-                    Verifica las propiedas de la semántica operacional para cada operador booleano según la definición \textbf{4.2}:
+                    Verifica las propiedas de la semántica operacional para cada operador booleano según la definición 4.2:
 
                         $$\mathsf{if}\,true\,e_1\,e_2 \to_\beta^* e_1$$ 
                         $$\mathsf{if}\,false\,e_1\,e_2 \to_\beta^* e_2$$ 
@@ -599,14 +604,14 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
                 \end{exercise}
 
                 \begin{exercise}
-                    Utilizando cualquiera de los combinadores de punto fijo implemeta la función recursiva \textbf{Factorial} para los numerales de Church en el Cálculo Lambda.
+                    Utilizando cualquiera de los combinadores de punto fijo implemeta la función recursiva Factorial para los numerales de Church en el Cálculo Lambda.
                     \[ Factorial\ 1\ =\ 1 \]
                     \[ Factorial\ n\ =\ n\ *\ factorial\ n-1\]
                     Adicionalmente muestra la ejecución para n = $\overline{3}$
                 \end{exercise}
 
                 \begin{exercise}
-                    Utilizando algún combinador de punto fijo implemeta la función recursiva \textbf{Fibonacci} para los numerales de Church en el cálculo Lambda.
+                    Utilizando algún combinador de punto fijo implemeta la función recursiva Fibonacci para los numerales de Church en el cálculo Lambda.
                     \[ Fibonacci\ 0\ =\ 0 \]
                     \[ Fibonacci\ 1\ =\ 1 \]
                     \[ Fibonacci\ n\ =\ Fibonacci\ n-1\ +\ Fibonacci\ n-2\]
@@ -614,7 +619,7 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
                 \end{exercise}
 
                 \begin{exercise}
-                    Utilizando el combinador $\mathbf{Y}$, define la función \textbf{concat} para la representación de listas en el Cálculo Lambda.
+                    Utilizando el combinador $\mathbf{Y}$, define la función concat para la representación de listas en el Cálculo Lambda.
 
                     \[
                         concat\ []\ (y:ys)\ =\ (y:ys)
@@ -627,21 +632,21 @@ Finalmente se introducirá al lector el sistema de recursión para el Cálculo L
                 \begin{exercise}
                     Utilizando cualquier combinador de punto fijo resuelve lo siguiente:\\
                     
-                    1. Define la función \textbf{reversa} para las listas del Cálculo Lambda. \\
+                    1. Define la función reversa para las listas del Cálculo Lambda. \\
                     \[
                         rev\ []\ =\ []
                     \]
                     \[
                         rev\ (x:xs)\ =\ rev\ xs\ ++\ [x]
                     \]
-                    2. Aplica la función para obtener la reversa de la lista: \textbf{pair} 1 (\textbf{pair} 2 (\textbf{pair} 3 \textbf{False}))
+                    2. Aplica la función para obtener la reversa de la lista: pair 1 (pair 2 (pair 3 False))
                 \end{exercise}
 
                 \begin{exercise}
                     Utilizando el combinador $\mathbf{Y}$ contesta lo siguiente: \\
                     
                     1. Da una definición de la función de exponenciación para los numerales de Church.\\
-                    2. Resuelve la función para \textbf{exp} $\overline{4} \; \overline{2}$.
+                    2. Resuelve la función para exp $\overline{4} \; \overline{2}$.
                 \end{exercise}
 
 %https://blog.brunobonacci.com/2017/10/08/lambda-calculus-and-boolean-logic/
