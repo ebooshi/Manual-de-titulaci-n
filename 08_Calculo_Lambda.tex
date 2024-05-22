@@ -12,7 +12,7 @@
 
 %Introducción
 Cuando pensamos en el nacimiento de las computadoras podemos inmediatamente asociarlo con las máquinas de Turing, un sistema de transición que se ha estudiado con anterioridad en materias como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } siendo el más reconocido cuando se habla de modelos de cómputo y la definición de conceptos como: computabilidad, algoritmo o complejidad. Términos apenas formalizados en 1936.\\\\
-En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alonzo Church nos introduce en 1928 a su aproximación de un sistema formal basado en el concepto de ''función'' con las primitivas de ''abstracción'' y ''aplicación'' que fungiría como fundamento lógico para sustituir el la teoría de conjuntos de Zermelo-Fraenkel y la teoría de tipos de Russell. Este sistema fue demostrado como inconsistente por sus dos alumnos Stephen Kleene y Barkley Russell pero no todo sería desechado, conservando la parte del manejo de funciones particularmente rica, consistente y sorprendentemente equivalente al modelo de Alan Turing, a este modelo se le conoce como Cálculo Lambda\footnote{Extraído de  \hyperlink{107}{[107]}}.\\
+En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alonzo Church nos introduce en 1928 a su aproximación de un sistema formal basado en el concepto de ''función'' con las primitivas de ''abstracción'' y ''aplicación'' que fungiría como fundamento lógico para sustituir el la teoría de conjuntos de Zermelo-Fraenkel y la teoría de tipos de Russell. Este sistema fue demostrado como inconsistente por sus dos alumnos Stephen Kleene y Barkley Russell pero no todo sería desechado, conservando la parte del manejo de funciones particularmente rica, consistente y sorprendentemente equivalente al modelo de Alan Turing, a este modelo se le conoce como Cálculo Lambda\footnote{Extraído de  \hyperlink{108}{[108]}}.\\
 
 
 \subsubsection{Objetivo}
@@ -33,7 +33,7 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
         \item Aplicación: Esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función. estas son representadas como $e_1\,e_2$ y su evaluación será la sustitución sintáctica ([:=]).
     \end{itemize}
 
-    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $l \; \lambda$ que indica que $l$ es una expresión válida en el Cálculo Lambda\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]},  y  \hyperlink{107}{[107]}}:
+    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $l \; \lambda$ que indica que $l$ es una expresión válida en el Cálculo Lambda. A estas expresiones las denominaremos  $\lambda-$expresiones\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  y  \hyperlink{108}{[108]}}.
     
         \[
             \begin{array}{ccccc}
@@ -65,19 +65,12 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
       \end{center}
     \end{exercise}
 
-	\bigskip
-
-    En el ejemplo anterior, la tercer $\lambda-$expresión corresponde a la función identidad que regresa el argumento que es pasado como parámetro. La cuarta $\lambda-$expresión corresponde a la función constante que siempre regresa el mismo valor sin importar el parámetro que recibe. La sétima $\lambda-$expresión es la ilustración de como se puede anidar dos funciones anónimas para construir una sola de dos parámetros  (a este proceso se le conoce como currificación\footnote{En honor a Haskell Curry} y nos permite anidar tantas funciones como parámetros necesitemos. Dicho tema será revisado a detalle más adelante en este manual). \\
+    En el ejemplo anterior, la tercer $\lambda-$expresión corresponde a la función identidad que regresa el argumento que es pasado como parámetro. La cuarta $\lambda-$expresión corresponde a la función constante que siempre regresa el mismo valor sin importar el parámetro que recibe. La sétima $\lambda-$expresión es la ilustración de como se puede anidar dos funciones anónimas para construir una sola de dos parámetros \footnote{A este proceso se le conoce como currificación en honor a Haskell Curry y nos permite anidar tantas funciones como parámetros necesitemos, este tema será revisado a detalle más adelante en este capítulo}. 
 
 \section{$\alpha$-equivalencia en el Cálculo Lambda}
 
-    En el Cálculo Lambda se tiene un constructor similar al operador \textsf{let} que tiene una variable ligada, un alcance asociado a ella y con esto el concepto de $\alpha$-equivalencia fue introducido para expresiones que difieren a lo más en el nombrado de sus variables ligadas. Para el cálculo lambda se tiene el mismo caso.
-
-\bigskip
-
-    \begin{definition}[$\alpha$-equivalencia] En Cálculo Lambda, dos $\lambda-$expresiones $e_1$ y $e_2$ son $\alpha$-equivalentes si y sólo si solo difieren a lo mas en el nombre de las variables ligadas\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]},  y  \hyperlink{12}{[12]}}.\\\\
-    Esto es denotado como: $$e_1 \equiv_{\alpha} e_2 $$
-    \end{definition}
+    En el Cálculo Lambda se tiene un constructor similar al operador \textsf{let} que tiene una variable ligada, un alcance asociado a ella y con esto el concepto de $\alpha$-equivalencia fue introducido para expresiones que difieren a lo más en el nombrado de sus variables ligadas. 
+    \begin{definition}[$\alpha$-equivalencia en el Cálculo Lambda]  Dos $\lambda-$expresiones $e_1$ y $e_2$ son $\alpha$-equivalentes si y sólo si solo difieren a lo mas en el nombre de las variables ligadas\footnote{Definición extraída de  \hyperlink{5}{[5]},  y  \hyperlink{12}{[12]}}. Esto es denotado como: $$e_1 \equiv_{\alpha} e_2 $$
 
      Por ejemplo, las expresiones:
     \[
@@ -86,44 +79,47 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
         \end{array}
     \]
     \noindent
-    son $\alpha$-equivalentes y se denota como $\lambda x.x\equiv_{\alpha}\lambda z.z$
+    son $\alpha$-equivalentes y se representa como: $$\lambda x.x\equiv_{\alpha}\lambda z.z$$
+    \end{definition}
+
 
     \section{Semántica operacional del Cálculo Lambda}
-    Cómo se discutió brevemente en la sección de sintáxis para el cálculo Lambda, la semántica operacional del mismo estará definida por la sustitución sintáctica, a la operación de sustituir los términos que concuerden con la variable del operador en la expresión Lambda $e$ (redex) := (reducto) se le conoce como $\beta$-reducción.
+    Cómo se discutió brevemente en la introducción del capítulo, la semántica operacional del Cálculo Lambda está definida por la sustitución sintáctica. 
+A la operación de sustituir los términos que concuerden con la variable del operador en la $\lambda-$expresión se le conoce como $\beta$-reducción y se representa con el símbolo $\to_\beta$. 
 
-    \bigskip
 
-    \begin{definition}[Semántica operacional del Cálculo Lambda] La semántica operacional del Cálculo Lambda está dada por la siguiente regla conocida como $\beta$ reducción.
+    \begin{definition}[Semántica operacional del Cálculo Lambda] La semántica operacional está definida por la siguiente regla\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{108}{[108]} y  \hyperlink{109}{[109]}}: 
 
-    $$(\lambda x.t)\,s \to_\beta t[x:=s]$$
-    Dónde se tienen los siguientes casos según la composición de la expresión Lambda:
+    $$(\lambda x.t)\,s \to_\beta t[x:=s] \quad \text{($\beta$-reducción)}$$
+    Donde se tienen los siguientes casos según la composición de la $\lambda-$expresión:\\
         \begin{itemize}
         \item $x[x:=r] = r$. 
         \item $y[x:=r] = y$ si $x\neq y$.
         \item $(ts)[x:=r] = t[x:=r]s[x:=r]$.
         \item $(\lambda y.t)[x:=r] = \lambda y.t[x:=r]$ donde $y\notin FV(r)$.
         \end{itemize}
-        \textbf{Nota:} la asociatividad de las aplicaciones Lambda es hacia la izquierda.
+	\bigskip
+	Es importante remarcar que la asociatividad de la aplicación de la $\beta$-reducción es hacia la izquierda
     \end{definition}
     
     \begin{exercise}
-    Utiliza la definición de $\beta$-reducción para evaluar la siguiente expresión Lambda.
+    Utiliza la definición de $\beta$-reducción para evaluar la siguiente $\lambda-$expresión.
     $$e= (\lambda x.z)y$$
     \[ (\lambda x.z)y \rightarrow_\beta  z [x := y]\]
     \[ = z \]
     \end{exercise}
 
     \begin{exercise}
-        Utiliza la definición de $\beta$-reducción para evaluar la siguiente expresión Lambda.
+        Utiliza la definición de $\beta$-reducción para evaluar la siguiente $\lambda-$expresión.
         $$e = (\lambda x.x)(\lambda y.yy) z$$
         \[ (\lambda x.x)(\lambda y.yy) z \rightarrow_\beta (x[x:=\lambda y.yy])(z)\]
         \[ = (\lambda y.yy)(z) \rightarrow_\beta yy[y:=z]\]
         \[ =  y[y:=z]y[y:=z] = zz\]
+       \[= zz \]
     \end{exercise}
 
-
     \begin{exercise}
-        Utiliza la definición de $\beta$-reducción para evaluar la siguiente expresión Lambda.
+        Utiliza la definición de $\beta$-reducción para evaluar la siguiente $\lambda-$expresión.
         $$e= (\lambda x.\lambda y.xy)(\lambda z.z)(w)$$
         \[(\lambda x.\lambda y.xy)(\lambda z.z)(w) \rightarrow_\beta (\lambda y.xy[x := \lambda z.z])(w) \]
         \[ =  (\lambda y.x[x := \lambda z.z]y[x := \lambda z.z])(w) = (\lambda y.(\lambda z.z)y)(w) \]
@@ -133,19 +129,18 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
     \end{exercise}
 
     \section{Definibilidad Lambda}
-    En el cálculo Lambda la idea principal es que las funciones son "tipos primitivos", estas pueden ser pasadas como argumentos entre sí y generar nuevos elementos válidos para el cálculo.\\
-    Si llevamos esta idea para definir entidades nos encontraremos nombrando funciones para construir cosas que damos por sentadas en los lenguajes de programación, especificamente booleanos y números.
+    En el cálculo Lambda las funciones son tipos primitivos, estas pueden ser pasadas como argumentos entre sí y generar nuevos elementos válidos para el cálculo. Si extrapolamos esta idea para definir entidades nos encontraremos nombrando funciones para construir tipos o conjuntos que nos son proporcionados por la biblioteca estándar en los lenguajes de programación, en concreto elementos como los booleanos y los enteros.
 
     \subsection{Booleanos y operadores lógicos}
-    Las constantes booleanas True y False son cosas que podemos pensar como opuestas, una es la antítesis de la otra. Tratemos de trasladar esta idea a un par de funciones que parezcan mutuamente excluyentes una de la otra.\\\\
-    La función que toma dos argumentos y regresa el primero es el antónimo de la función que toma dos argumentos y regresa el segundo.
+    Las constantes booleanas \textsf{True} y \textsf{False} son cosas que podemos pensar como opuestas, una es la antítesis de la otra. Tratemos de trasladar esta idea a un par de funciones que parezcan mutuamente excluyentes.\\\\
+    La función que toma dos argumentos y regresa el primero es el opuesto de la función que toma dos argumentos y regresa el segundo:
     \[
         \lambda x.\lambda y.x
     \]
     \[
         \lambda x.\lambda y.y
     \]
-    Estas entidades están haciendo exactamento lo contrario que hace la otra, como las funciones son objetos primitivos en el cálculo lambda entonces definiremos este par de elementos como nuestro True y nuestro False (respectivamente).
+    Estas entidades están haciendo exactamente lo contrario que hace la otra, como las funciones son objetos primitivos en el Cálculo Lambda entonces definiremos este par de elementos como nuestro \textsf{True} y nuestro \textsf{False} respectivamente.
 
     De esta forma podemos definir funciones que a su vez, construyan la lógica booleana y nos permitan operar instrucciones de control:
     \begin{definition}[Operadores lógicos para el cálculo Lambda] Los operadores serán funciones que reciben a las funciones True y False\\
