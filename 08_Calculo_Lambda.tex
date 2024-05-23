@@ -26,14 +26,14 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
 
 
 \section{Sintáxis del Cálculo Lambda}
-    El cálculo lambda es un modelo simple, su sintáxis comprende sólo tres categorías de términos:
+    El cálculo lambda es un modelo simple, su sintáxis comprende sólo tres categorías de términos\footnote{Definición extraída de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y \hyperlink{110}{[110]}}:
     \begin{itemize}
         \item Variables: Los elementos de esta categoría pertenecen a un conjunto finito de letras mínusculas, generalmente las últimas del alfabeto (w, x, y, z) y son las expresiones lambda más simples.\\
         \item Abstracciones: Esta categoría engloba los términos que definen a las funciones anónimas, compuestas por tres elementos: el primero es la letra griega $\lambda$, el segundo es la variable que estará ligada en el cuerpo de la expresión y por último el cuerpo mismo de la función denotado como $e$, estas se representan de la forma $\lambda x.e$.\\
         \item Aplicación: Esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función. estas son representadas como $e_1\,e_2$ y su evaluación será la sustitución sintáctica ([:=]).
     \end{itemize}
 
-    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $l \; \lambda$ que indica que $l$ es una expresión válida en el Cálculo Lambda. A estas expresiones las denominaremos  $\lambda-$expresiones\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  y  \hyperlink{108}{[108]}}.
+    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $l \; \lambda$ que indica que $l$ es una expresión válida en el Cálculo Lambda. A estas expresiones las denominaremos  $\lambda-$expresiones\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{108}{[108]}, \hyperlink{109}{[109]}}.
     
         \[
             \begin{array}{ccccc}
@@ -129,11 +129,12 @@ A la operación de sustituir los términos que concuerden con la variable del op
     \end{exercise}
 
     \section{Definibilidad Lambda}
-    En el cálculo Lambda las funciones son tipos primitivos, estas pueden ser pasadas como argumentos entre sí y generar nuevos elementos válidos para el cálculo. Si extrapolamos esta idea para definir entidades nos encontraremos nombrando funciones para construir tipos o conjuntos que nos son proporcionados por la biblioteca estándar en los lenguajes de programación, en concreto elementos como los booleanos y los enteros.
+    En el Cálculo Lambda las funciones son tipos primitivos, estas pueden ser pasadas como argumentos entre sí y generar nuevos elementos válidos para el sistema. Si extrapolamos esta idea para definir entidades primitivas nos encontraremos nombrando funciones para construir los elementos que pertenecen a esta categoría.\\\\
+ En el contexto de los lenguajes de programación las entidades primitivas o tipos primitivos nos son proporcionados por la biblioteca estándar del lenguaje (\textsf{int}, \textsf{char}, \textsf{boo}l, etc.). En el Cálculo Lambda estos tipos primitivos serán definidos por funciones anónimas a las que convendremos un nombre para facilitar su representación\footnote{Información consultada de \hyperlink{108}{[108]} y  \hyperlink{109}{[109]}}.
 
     \subsection{Booleanos y operadores lógicos}
-    Las constantes booleanas \textsf{True} y \textsf{False} son cosas que podemos pensar como opuestas, una es la antítesis de la otra. Tratemos de trasladar esta idea a un par de funciones que parezcan mutuamente excluyentes.\\\\
-    La función que toma dos argumentos y regresa el primero es el opuesto de la función que toma dos argumentos y regresa el segundo:
+    Las constantes booleanas \textsf{True} y \textsf{False} son entidades opuestas, una es el valor contrario de la otra. Si tratemos de trasladar esta idea a un par de funciones podemos pensar en algo como:
+    la función que toma dos argumentos y regresa el primero es el opuesto de la función que toma dos argumentos y regresa el segundo\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{110}{[110]} y  \hyperlink{111}{[111]}}:
     \[
         \lambda x.\lambda y.x
     \]
@@ -142,39 +143,47 @@ A la operación de sustituir los términos que concuerden con la variable del op
     \]
     Estas entidades están haciendo exactamente lo contrario que hace la otra, como las funciones son objetos primitivos en el Cálculo Lambda entonces definiremos este par de elementos como nuestro \textsf{True} y nuestro \textsf{False} respectivamente.
 
-    De esta forma podemos definir funciones que a su vez, construyan la lógica booleana y nos permitan operar instrucciones de control:
-    \begin{definition}[Operadores lógicos para el cálculo Lambda] Los operadores serán funciones que reciben a las funciones True y False\\
-        \begin{enumerate}
-            \item True: $\lambda$x.$\lambda$y.x 
-            \item False:  $\lambda$x.$\lambda$y.y 
-            \item NOT: $\lambda z. z  False True$ 
-            \item AND:  $\lambda x.\lambda y. xy False$ 
-        \end{enumerate} 
+    De esta forma podemos definir funciones que a su vez, construyan la lógica booleana y nos permitan operar instrucciones de control.
+    \begin{definition}[Operadores lógicos para el cálculo Lambda] Definimos las constantes booleanas \textsf{True}, \textsf{False}, \textsf{NOT} y \textsf{AND} con las siguientes funciones\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y  \hyperlink{110}{[110]}}:\\
+
+        \begin{itemize}
+            \item \textsf{True}  $=_{def}$  $\lambda x.\lambda y.x$ 
+            \item \textsf{False}  $=_{def}$   $\lambda x.\lambda y.y$ 
+            \item\textsf{NOT}   $=_{def}$   $\lambda z. z  (\textsf{False}) (\textsf{True})$ 
+            \item \textsf{AND}  $=_{def}$  $\lambda x.\lambda y. xy (\textsf{False})$ 
+	     \item \textsf{If}      $=_{def}$ $\lambda f.\lambda a.\lambda b.fab $
+        \end{itemize}
+	  \bigskip
+	Es importante mencionar que para estas definiciones estamos abusando de la notación al no escribir la definición de las constantes y usar su nombre directamente. Esto es para ahorrar espacio en los desarrollos y estará permitido su uso en los ejercicios posteriores.
     \end{definition}
 
-    Para el operador NOT la idea es que dependiendo del argumento se regrese su contrario, si el parámetro de entrada es True entonces se regresará el primer argumento que entra a la función, en este caso los parámetros de entrada son: False y True regresándonos el primero: False. Sí al contrario el parámetro de entrada es False éste regresará el segundo argumento de la entrada: False y True, en este caso: True.\\\\
-    En el caso del operador AND la idea subyaciente de este operador es que si el primer parámetro es un False se regrese su segundo argumento, en este caso recibe: "$y$" y False evalúandose así a False. Sí recibe como primer argumento True este regresa el primer argumento, en este caso "$y$" y False evalúandose a "$y$".
+    Para el operador \textsf{NOT} la lógica de ejecución es aplicar la función identidad al parámetro de entrada, si este es \textsf{True} entonces se regresará el primer argumento, en este caso la constante \textsf{False}: \[ (\lambda x.x (\textsf{False})(\textsf{True}))\textsf{True} \to_\beta^* \textsf{True}(\textsf{False})(\textsf{True}) \to_\beta^* \textsf{False}\] 
+	Sí al contrario el parámetro de entrada es \textsf{False} este regresará el segundo argumento, en este caso la constante \textsf{True}: \[ (\lambda x.x (\textsf{False})(\textsf{True}))\textsf{False} \to_\beta^* \textsf{False}(\textsf{False})(\textsf{True}) \to_\beta^* \textsf{True}\]
+    En el caso del operador \textsf{AND} la lógica subyacientes es que si el primer parámetro es un \textsf{False} no importa el segundo parámetro que reciba, siempre regresaremos la constante \textsf{False}:
+\[ (\lambda x.\lambda y. xy (\textsf{False}))\ \textsf{False}\  w \to_\beta^* \textsf{False}\ w\ (\textsf{False}) \to_\beta^* \textsf{False}  \]
+Si recibe como primer parámetro la constante \textsf{True} entonces el resultado será el segundo parámetro:
+\[ (\lambda x.\lambda y. xy (\textsf{False}))\ \textsf{True}\  w \to_\beta^* \textsf{True}\ w\ (\textsf{False}) \to_\beta^* w  \]
+Notemos que la única forma de evaluar la instrucción \textsf{AND} como \textsf{True} es si se recibe esta constante dos veces.
 
-    \begin{definition}[Sémantica Operacional de las instrucciones lógicas para el Cálculo Lambda]
-        Con los operadores de la definición anterior es posible verificar que la siguiente semántica operacional es válida:
-        \begin{enumerate}
-            \item $\mathsf{if}\,true\,e_1\,e_2 \to_\beta^* e_1$ 
-            \item $\mathsf{if}\,false\,e_1\,e_2 \to_\beta^* e_2$ 
-            \item $\mathsf{not}\,true\to_\beta^* false$
-            \item $\mathsf{not}\,false\to_\beta^* true$
-            \item $\mathsf{and}\,false\,b\to_\beta^* false$
-            \item $\mathsf{and}\,true\,b\to_\beta^* b$
-        \end{enumerate}
-        \textbf{Nota:} En esta definición se hace abuso de notación al escribit True y  False como constantes y no como funciones, esto será permitido para 
-     \end{definition}
+Para el Cálculo Lambda es desable entonces que los operadores anteriormente definidos, aplicando un número finito de veces la regla de $\to_\beta$ se obtengan los siguientes resultados:
+   \begin{center}
+
+        \begin{itemize} \centering
+            \item $\mathsf{If}\,\textsf{True}\,e_1\,e_2 \to_\beta^* e_1$ 
+            \item $\mathsf{If}\,\textsf{False}\,e_1\,e_2 \to_\beta^* e_2$ 
+            \item $\mathsf{NOT}\,\textsf{True}\to_\beta^* \textsf{False}$
+            \item $\mathsf{NOT}\,\textsf{False}\to_\beta^* \textsf{True}$
+            \item $\mathsf{AND}\,\textsf{False}\,b\to_\beta^* \textsf{False}$
+            \item $\mathsf{AND}\,\textsf{True}\,b\to_\beta^* b$
+        \end{itemize}
+   \end{center} 
 
      \section{Aritmética del Cálculo Lambda}
-        En los lenguajes de programación el tipo primitivo más importante que nos es proporcionado (a parte de los booleanos) son los números. Éstos muchas veces están categorizados en: flotantes, enteros, enteros largos, etc.\\\\
-        Estas entidades también tienen una representación en el cálculo Lambda, empezando por los números más simples: los naturales.\\\\
-        El cálculo Lambda tiene la particularidad de modelar a los naturales de una forma muy simple y cuyo mapeo a la estructura revisada en cursos como Álgebra Superior y Estructuras Discretas es inmediata. Recordemos que en estos cursos los números no son presentados como carácteres arábigos (0,1,2,3,4 ...) si no como la aplicación de la función sucesor S(n) al constructor Zero tantas veces como el número que se desea construir, si dicho número es el 4 entonces su representación será la función sucesor aplicada cuatro veces al Zero: S(S(S(S(Zero))))
-        
+        En los lenguajes de programación otro tipo primitivo que es de vital importancia y que se nos es proporcionado por la biblioteca estándar son los números enteros.
+        Estas entidades también tienen una representación en el Cálculo Lambda como funciones.\\\\
+        La construcción de los números naturales se obtiene al aplicar la función sucesor al cero, de tal forma que no tenemos el número dos, tenemos dos veces la aplicación de la función sucesor al cero: \textit{s(s(0))}, en Cálculo Lambda esta idea se mantiene vigente, los números serán la aplicación anidada de una función a la constante cero. 
      \subsection{Numerales de Church}
-        Church introdujó los numerales como la abstracción de dos parámetros s y z en una función anónima, de tal forma que si se desea representar al n-ésimo número éste sea formado por la aplicación de s a z n veces:
+        Church introdujó los numerales como la abstracción de dos parámetros s y z en una función anónima, de tal forma que si se desea representar al n-ésimo número este sea formado por la aplicación de s a z n veces\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}:
 
     \begin{itemize}
         \item $\bar{0}=_{def}\lambda s.\lambda z.z$
