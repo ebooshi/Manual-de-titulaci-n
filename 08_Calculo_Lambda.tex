@@ -183,7 +183,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
         Estas entidades también tienen una representación en el Cálculo Lambda como funciones.\\\\
         La construcción de los números naturales se obtiene al aplicar la función sucesor al cero, de tal forma que no tenemos el número dos, tenemos dos veces la aplicación de la función sucesor al cero: \textit{s(s(0))}, en Cálculo Lambda esta idea se mantiene vigente, los números serán la aplicación anidada de una función a la constante cero. 
      \subsection{Numerales de Church}
-        Church introdujó los numerales como la abstracción de dos parámetros s y z en una función anónima, de tal forma que si se desea representar al n-ésimo número este sea formado por la aplicación de s a z n veces\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}:
+        Church introdujó los numerales como la abstracción de dos parámetros ''$s$'' y ''$z$'' en una función anónima, de tal forma que si se desea representar al n-ésimo número este sea formado por la aplicación de $s$ a $z$, n veces\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}:
 
     \begin{itemize}
         \item $\bar{0}=_{def}\lambda s.\lambda z.z$
@@ -193,93 +193,108 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
     \end{itemize}
 
     \subsection{Funciones aritméticas}
+	Para los numerales de Church podemos difinir operadores aritméticos similares a los que se utilizan cuando trabajamos con los números enteros, estos operadores nos permitirán computar valores y estarán definidos como una función donde los operandos serán los argumentos de entrada.
 
-    \subsubsection{Función Sucesor}
-        Al igual que los números naturales, los numerales de Chruch tienen funciones aritméticas asociadas que nos permitirán computar valores, la función aritmética más simple para los naturales es la función sucesor. Para el cálculo lambda ésta está definida como:
-        \begin{definition}[Función Sucesor definida para los numerales de Church]
-            $$\textbf{suc } \; \lambda n\lambda Z\lambda s. s(n \; z \; s)$$
+    \subsubsection{Función sucesor}
+        Comenzamos el estudio de las funciones aritméticas para el Cálculo Lambda definiendo la función sucesor para los numerales de Church, esta función recibe un numeral y construye el sucesor añadiendo un símbolo ''$s$'' al inicio.
+        \begin{definition}[Función sucesor para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
+            $$\textsf{suc} =_{def} \lambda n\lambda z\lambda s. s(n \; z \; s)$$
         \end{definition}
-    
-        la aplicación de "s" y "z" a un númeral de Church como la que aparece en la parte interna de la función suc (n s z) reduce el númeral a una representación más parecida a la de los números naturales:    
-        \begin{itemize}
-            \item $(\lambda z.\lambda s.z)sz \rightarrow_\beta^* z$
-            \item $(\lambda z.\lambda s.sz)sz  \rightarrow_\beta^* sz$
-            \item $(\lambda z.\lambda s.s(sz))zs \rightarrow_\beta^* ssz$
-            \item ...
-        \end{itemize}
-
-        Junto con la aplicación de "s" que está fuera de ésta sección (s (n s z)) se agrega un símbolo sucesor más al numeral obteniendo así el siguiente elemento.\\
-
-        Acontinuación enlistamos los ejercicios para ejemplificar la semántica operacional del operador suc (El abuso de notación escribiendo los numerales de Church con una línea encima del numero que corresponde es permitida para ahorrar espacio, lo mismo es válido para las constantes booleanas True y False).
-
-        \bigskip
-
+     
         \begin{exercise}
-            Utiliza la definición de la función sucesor evaluar la siguiente  $\lambda$-expresión
+            Utiliza la definición de la función sucesor para evaluar la siguiente  $\lambda$-expresión
             \[
-                \textbf{suc } \overline{2}
+                \textsf{suc } \overline{2}
             \]
             \[
-                (\lambda n\lambda z\lambda s.s(n \; z \; s) ) \; \lambda z'\lambda s'.s'(s'z') \rightarrow_\beta \lambda z\lambda s.s((\lambda z'\lambda s'.s'(s'z')) s \; z)
+                (\lambda n\lambda z\lambda s.s(n \; z \; s) ) \; \lambda z'\lambda s'.s'(s'z') \rightarrow_\beta 
             \]
+		\[
+			\lambda z\lambda s.s((\lambda z'\lambda s'.s'(s'z'))\ z \; s) \rightarrow_\beta 
+		\]	
             \[
-                \rightarrow_\beta \lambda z\lambda s.s(\lambda z'.s(sz) z) \rightarrow_\beta \lambda s\lambda s.s(s(sz))
+                 \lambda z\lambda s.s(\lambda s'.s'(s'z)\ s) \rightarrow_\beta
             \]
+		\[
+			\lambda s\lambda s.s(s(sz)) \rightarrow_\beta
+		\]
             \[
                 = \overline{3}
             \]
         \end{exercise}
 
         \begin{exercise}
-            Utiliza la definición de la función sucesor evaluar la siguiente  $\lambda$-expresión
+            Utiliza la definición de la función sucesor para evaluar la siguiente  $\lambda$-expresión
             \[
-                \textbf{suc } \overline{5}
+                \textsf{suc } \overline{5}
             \]
             \[
-                (\lambda n\lambda z\lambda s.s(n z s) ) \; \lambda z'\lambda s'.s'(s'(s'(s'(s' \; z')))) \rightarrow_\beta \lambda z\lambda s.s((\lambda z'\lambda s'.s'(s'(s'(s'(s'z'))))) s z)
+                (\lambda n\lambda z\lambda s.s(n\ z\ s)) \; \lambda z'\lambda s'.s'(s'(s'(s'(s' \; z')))) \rightarrow_\beta
             \]
+		\[
+			 \lambda z\lambda s.s((\lambda z'\lambda s'.s'(s'(s'(s'(s'z')))))\ z\ s)  \rightarrow_\beta	
+		\]
             \[
-                \rightarrow_\beta \lambda z\lambda s.s(\lambda z'.s(s(s(s(s\;z')))) z) \rightarrow_\beta \lambda s\lambda z.s(s(s(s(s(sz)))))
+                \lambda z\lambda s.s(\lambda s'.s'(s'(s'(s'(s\;z))))\ s) \rightarrow_\beta 
             \]
+		\[
+			\lambda s\lambda z.s(s(s(s(s(sz)))))
+		\]
             \[
                 = \overline{6}
             \]
         \end{exercise}
 
-        \subsubsection{Is Zero}
-        Este operador sirve para comprobar si un numeral es cero, regresa el booleano True en caso de que el numeral corresponda y False cuando no.\\
-        \begin{definition}[Función IsZero para numerales de Church.]
-            $$IsZero:  \; \lambda m. m\;True \;(\lambda x.False)$$
+        \subsubsection{IsZero}
+        	Este operador está diseñado para regresar \textsf{True} cuando el numeral que recibe como parámetro corresponde al numeral $\overline{0}$. En caso contrario la función regresa \textsf{False} y está definida de la siguiente forma.
+        
+	\begin{definition}[Función IsZero para numerales de Church]\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
+            $$\textsf{IsZero} =_{def}  \; \lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})$$
         \end{definition}
 
         \begin{exercise}
-            Utiliza las definición de la función IsZero para evaluar la siguiente $\lambda$-expresión
+            Utiliza las definición de la función \textsf{IsZero} para evaluar la siguiente $\lambda$-expresión
             \[
-                IsZero:  \; \overline{2}
+                \textsf{IsZero}  \; \overline{2}
             \]
             \[
-                (\lambda m. m\;True \;(\lambda x.False)) \; \lambda z\lambda s.s(s\;z) \rightarrow_\beta (\lambda z\lambda s.s(s\:z)) \; True \; (\lambda x.False) 
+                (\lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})) \; \lambda z\lambda s.s(s\;z) \rightarrow_\beta 
             \]
+		\[
+			(\lambda z\lambda s.s(s\:z)) \; \textsf{True} \; (\lambda x.\textsf{False})  \rightarrow_\beta 
+		\]
             \[
-                (\lambda s.s(s\: True)) \; (\lambda x.False) \rightarrow_\beta  (\lambda x.false) \; ((\lambda x.false) \; true)))
+                	(\lambda s.s(s\: \textsf{True})) \; (\lambda x.\textsf{False}) \rightarrow_\beta  
             \]
+		\[
+			(\lambda x.\textsf{false}) \; ((\lambda x.\textsf{false}) \; \textsf{true}))) \rightarrow_\beta  
+		\]
             \[
-                 \rightarrow_\beta  (\lambda x.False) \; false \rightarrow_\beta False
+                 \rightarrow_\beta  (\lambda x.\textsf{False}) \; \textsf{false} \rightarrow_\beta 
             \]
+		\[
+			\textsf{False}
+		\]
 
         \end{exercise}
 
         \begin{exercise}
-            Utiliza las definición de la función IsZero para evaluar la siguiente $\lambda$-expresión
+            Utiliza las definición de la función \textsf{IsZero} para evaluar la siguiente $\lambda$-expresión
             \[
-                \textbf{IsZero: } \; \overline{0}
+                \textsf{IsZero} \; \overline{0}
             \]
             \[
-                (\lambda m. mTrue \; (\lambda x.False)) \; \lambda z\lambda s.z \rightarrow_\beta (\lambda z\lambda s.z) \; True \; (\lambda x.False)
+                (\lambda m. m\textsf{True} \; (\lambda x.\textsf{False})) \; \lambda z\lambda s.z \rightarrow_\beta 
             \]
+		\[
+			(\lambda z\lambda s.z) \; \textsf{True} \; (\lambda x.\textsf{False}) \rightarrow_\beta 
+		\]
             \[
-                \rightarrow_\beta (\lambda s.True) \; \lambda x.False \rightarrow_\beta True
+                   (\lambda s.\textsf{True}) \; \lambda x.\textsf{False} \rightarrow_\beta 
             \]
+		\[
+			\textsf{True}
+		\]
         \end{exercise}
         
 
