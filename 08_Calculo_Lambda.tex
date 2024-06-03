@@ -299,26 +299,20 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
         
 
     \subsubsection{Suma}
-        La suma para los números naturales está definida por inducción sobre el segundo argumento cuyos casos son:
-        \begin{enumerate}
-            \item m + 0 = m 
-            \item m + Sn = S(m + n)
-        \end{enumerate}
+        Esta función se define de forma similar a la función suma para los números naturales  donde se reciben dos argumentos $m$ y $n$ y se aplica n veces la función sucesor al número m.
 
-        Para el cálculo lambda la definición de está función será:
-        \begin{definition}[Definición de la suma para los numerales de Church]
-            $$sum:  \; \lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s$$
+           \[ m + 0 = m \]
+           \[ m + s(n) = s(m + n) \]
+
+
+        \begin{definition}[Definición de la suma para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
+            $$\textsf{sum} =_{def}  \; \lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s$$
         \end{definition}
 
-        la definición de esta función puede ser entendida en términos de la función suma para los naturales. El argumento m no es afectado por la función en ningún momento, ésto se regleja en la sección interna de nuestra lambda, a saber (m z s). Ésto no altera m, lo simplifica pero mantiene la cantidad de aplicaciones de s, esta simplificación de m es el pimero argumento que va a recibir el numeral n tomándo el lugar de z.\\
-        El segundo argumento del numeral n será la s que simplemente reemplazara todas las apariciones de s por s misma.\\\\
-        De esta forma lo que al final sucede es que se concatenarán las "s's" de ambos numerales generando así el numeral correspondiente a la suma de las apariciones del carácter "s" en ambos n y m.\\
-
-
         \begin{exercise}
-            Utiliza la definición de la función sum evaluar la siguiente  $\lambda$-expresión
+            Utiliza la definición de la función \textsf{sum} para evaluar la siguiente  $\lambda$-expresión
             \[
-                sum  \overline{2} \; \overline{3} 
+                \textsf{sum}\  \overline{2} \; \overline{3} 
             \]
             \[
                 = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s) \; \lambda z'\lambda s'.s'(s'z') \;\; \lambda z''\lambda s''.s''(s''(s''z'')) \rightarrow_\beta 
@@ -344,9 +338,9 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
         \end{exercise}
 
         \begin{exercise}
-            Utiliza la definición de la función sum evaluar la siguiente  $\lambda$-expresión
+            Utiliza la definición de la función \textsf{sum} para evaluar la siguiente  $\lambda$-expresión
             \[
-                sum  \overline{4} \; \overline{5} 
+                \textsf{sum}\  \overline{4} \; \overline{5} 
             \]
             \[
                 = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s) \; \lambda z'\lambda s'.s'(s'(s'(s'z'))) \; \lambda z''\lambda s''.s''(s''(s''(s''(s''z'')))) \rightarrow_\beta 
@@ -372,48 +366,60 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
         \end{exercise}
 
         \subsubsection{Producto}
-        Para el producto de m y n la ídea es anidar la operación: n + n, m veces reemplazando las aparaciones de de la variable s en el numeral m por sum(n ... , esta operación está definida de la siguiente manera:
+        Para el producto de $m$ y $n$ la idea es anidar la operación: n + n, m veces reemplazando las aparaciones de de la variable $s$ en el numeral m por sum(n ... , esta operación está definida de la siguiente manera:
 
-        \begin{definition}[Definición del producto para los numerales de Church.]
-            $$prod:  \; \\lambda m.\lambda n.m\; \bar{0} \; (sum\;n)$$
+        \begin{definition}[Definición del producto para los numerales de Church.]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
+            $$\textsf{prod} =_{def}  \; \lambda m.\lambda n.m\; \bar{0} \; (\textsf{sum}\;n)$$
         \end{definition}
 
         \begin{exercise}
-            Utiliza la definición de la función prod evaluar la siguiente  $\lambda$-expresión
+            Utiliza la definición de la función \textsf{prod} para evaluar la siguiente  $\lambda$-expresión
             \[
-                    prod  \overline{2} \; \overline{3}
+                    \textsf{prod}\  \overline{2} \; \overline{3}
             \]
             \[
-                   = (\lambda m\lambda n.m\; \overline{0} \; (sum \; n)) \;  \lambda z\lambda s.s(sz) \; \overline{3} \rightarrow_\beta (\lambda n.(\lambda z\lambda s.s(sz)) \; \overline{0} \; (sum \; n)) \; \overline{3} 
+                    (\lambda m\lambda n.m\; \overline{0} \; (\textsf{sum} \; n)) \;  \lambda z\lambda s.s(sz) \; \overline{3} \rightarrow_\beta 
             \]
             \[
-                    \rightarrow_\beta (\lambda n.(\lambda s.s(s\overline{0}))\; (sum n)) \; \overline{3} \rightarrow_\beta  (\lambda n.(sum \; n \; (sum \; n \; \overline{0})) \; \overline{3}
-            \]
+			(\lambda n.(\lambda z\lambda s.s(sz)) \; \overline{0} \; (\textsf{sum} \; n)) \; \overline{3}   \rightarrow_\beta 
+ 	    \]
             \[
-                    \rightarrow_\beta (sum \; \overline{3} \; (sum \; \overline{3} \; \overline{0})) = 
+                       (\lambda n.(\lambda s.s(s\ \overline{0}))\; (\textsf{sum}\; n)) \; \overline{3} \rightarrow_\beta 
+            \]
+	    \[
+			 (\lambda n.(\textsf{sum} \; n \; (\textsf{sum} \; n \; \overline{0})) \; \overline{3}  \rightarrow_\beta 
+	    \]
+            \[
+                        (\textsf{sum} \; \overline{3} \; (\textsf{sum} \; \overline{3} \; \overline{0})) = 
             \]
             \[
                     \scalemath{0.8}{
-                        \lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s \; \lambda z'\lambda s'.s'(s'(s'z')) \; (\lambda m'\lambda n'\lambda s''\lambda z''.n'(m' \; z'' \; s'') \; s \; \lambda z'''\lambda s'''.s'''(s'''(s'''z''')) \; \lambda z''''\lambda s''''.z'''') 
+                        \lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s \; \lambda z'\lambda s'.s'(s'(s'z')) \; (\lambda m'\lambda n'\lambda s''\lambda z''.n'(m' \; z'' \; s'') \; s'' \; \lambda z'''\lambda s'''.s'''(s'''(s'''z''')) \; \lambda z''''\lambda s''''.z'''') 
                     }
             \]
             \[
                     \text{resolveremos por partes la suma dado que la notación crece muy rápido y es poco legible}
             \]
             \[
-                    sum  \overline{3} \; \overline{0} = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s ) \; \lambda z'\lambda s'.z' \; \overline{3}
+                    \textsf{sum}\  \overline{3} \; \overline{0} = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s ) \; \lambda z'\lambda s'.z' \; \overline{3}
             \]
             \[
                     \rightarrow_\beta  (\lambda n\lambda z\lambda s.n((\lambda z'\lambda s'.z') \; z \; s) \; s) \; \overline{3}
             \]
             \[
-                    \rightarrow_\beta  (\lambda n\lambda z\lambda s.n(\lambda s'.z \; s) \; s) \; \overline{3} \rightarrow_\beta \rightarrow_\beta  (\lambda n\lambda z\lambda s.n \; z \; s) \; \overline{3}
+                    \rightarrow_\beta  (\lambda n\lambda z\lambda s.n(\lambda s'.z \; s) \; s) \; \overline{3} 
+            \]
+	 \[
+            	\rightarrow_\beta  (\lambda n\lambda z\lambda s.n \; z \; s) \; \overline{3}
             \]
             \[
                     \rightarrow_\beta   \lambda z\lambda s.(\overline{3} \; z \; s \;) = \; \lambda z\lambda s.((\lambda z'\lambda s'.s'(s'(s'z'))) \; z \; s)
             \]
             \[
-                    \rightarrow_\beta \lambda z\lambda s.(\lambda s'.s'(s'(s'(z))) \; s) \rightarrow_\beta \lambda z\lambda s.s(s(sz)) = \overline{3} 
+                    \rightarrow_\beta \lambda z\lambda s.(\lambda s'.s'(s'(s'(z))) \; s) 
+            \]
+            \[
+	         \rightarrow_\beta \lambda z\lambda s.s(s(sz)) = \overline{3} 
             \]
             \[
                     \textbf{sum } \; \overline{3} \; \overline{3} = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s ) \; \lambda z'\lambda s's'(s'(s'.z')) \; \overline{3}
@@ -440,50 +446,48 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
 
         \section{Datos estructurados en el Cálculo Lambda}
 
-            En el Cálculo Lambda es posible definir estructuras para almacenar información junto con las funciones para recuperar los elementos guardados en éllas.
-            Revisaremos dos: La estructura más simple serán las tuplas junto con sus proyecciones first y second que ayudan a sentar la base para definir una estructura más compleja, las listas. Con su respectiva función para obtener la cabeza y la cola. Juntas proveen un mecanismo de almacenamiento en este sistema.
+            En el Cálculo Lambda es posible definir estructuras para almacenar información junto con las funciones para recuperar los elementos guardados en estas. La estructura más simple que revisaremos serán las tuplas junto con sus proyecciones \textsf{first} y \textsf{second} que ayudan a sentar la base para definir una estructura más compleja; las listas, con sus respectivas funciones para obtener la cabeza y la cola. Juntas proveen una estructura de datos para almacenamiento en este sistema.
     
             \subsection{Tuplas}
 
-                La tupla es la estructura que representa a un par compuesto por elemento izquierdo y derecho o primero y segundo. En el cálculo Lambda se define como la función que tiene dos argumentos uno para cada elemento. Y una función b (el argumento f representa al elemento primero o $first$ en inglés y el argumento s representa el segundo o $second$).
+                La tupla es la estructura que representa a un par compuesto por un elemento izquierdo y un elemento derecho. En el Cálculo Lambda se define como la función que tiene tiene tres argumentos; el elemento izquierdo (en inglés se le conoce como $first$), el elemento derecho (o $second$) y una función $b$.
         
-                \begin{definition}[Constructor de una tupla junto con la proyección de ambos elementos]
+                \begin{definition}[Definición de tuplas para el Cálculo Lambda]\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{13}{[13]}}
             
                     Constructor
                         $$\mathsf{pair} = \lambda f\lambda s\lambda b. bfs$$
                     Proyección del primer elemento
-                        $$\mathsf{fst} = \lambda p.p \ True$$
+                        $$\mathsf{fst} = \lambda p.p \ \textsf{True}$$
                     Proyección del segundo elemento
-                        $$\mathsf{snd} = \lambda p.p \ False$$
+                        $$\mathsf{snd} = \lambda p.p \ \textsf{False}$$
+
+		      Donde las proyecciones se apoyan de la propiedad de los booleanos de regresar el primer argumento para el caso de \textsf{True} y el segundo en el caso de \textsf{False}.
                 \end{definition}
 
-                Donde las proyecciones se apoyan de la propiedad de los booleanos de regresar el primer argumento para el caso de True y el segundo en el caso de False\footnote{Véase la sección de este capítulo: \textbf{Booleanos}}. \\
-                En general se tienen las siguiente reducciones cuando se aplican estos operadores a cualquier tupla:
+                En general se tienen las siguiente reducciones cuando se aplican las proyecciones a las tuplas:
 
                 $${\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf a}$$
                 $${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$ 
 
             \subsection{Listas}
-            Las listas en el Cálculo Lambda se apoyan de los constructores de la tupla para ir añadiendo elementos en la cabeza al cuerpo de una lista anidando las tuplas un elemento a la vez. 
-            El único inconveniente es que no hay un constructor para la lista vacía, éste será representado por una $\lambda$-expresión que sea $\alpha$-equivalemte al booleano False. \\\\
-            La definición de las listas resulta ser una aplicación de los contsturctores para tuplas, sus funciones y la constante boleana False como se ve a continuación:
+            Las listas en el Cálculo Lambda se apoyan del constructor de la tupla para ir añadiendo elementos anidando esta operación agregando una unidad por aplicación. 
+            Para esta estrcutura la lista vacía será representada por una $\lambda$-expresión que sea $\alpha$-equivalente a la constante \textsf{False}.
 
-            \begin{definition}[Constructores para listas en Cálculo Lambda junto con sus funciones]
-                \textbf{Definición de la Lista vacía}
-                $${\sf nil}  = False$$
-                \textbf{Constructor de una lista tomando una cabeza y una cola}
-                $${\sf cons} = pair$$
-                \textbf{función para obtener la cabeza de la lista}
-                $${\sf head}  = fst$$
-                \textbf{función para obtener la cola de la lista}
-                $${\sf tail} = snd$$
+            \begin{definition}[Definición de listas en Cálculo Lambda]\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{13}{[13]}}\\\\
+                \text{Lista vacía}
+                $${\sf nil}  = \textsf{False}$$
+                \text{Constructor para listas}
+                $${\sf cons} = \textsf{pair}$$
+                \text{Cabeza de una lista}
+                $${\sf head}  = \textsf{fst}$$
+                \text{Cola de la lista}
+                $${\sf tail} = \textsf{snd}$$
             \end{definition}
 
         \section{Propiedades semánitcas del Cálculo Lambda}
-            En el capítulo 5. Sémantica se mencionaron brevemente las propiedades de la evaluación para expresiones de EAB. En esta sección discutiremos cómo el Cálculo Lambda interactúa con las mismas propiedades con la ayuda de ejercicios que nos permitan entender cada propiedad aplicada en este modelo.\\
-            
+
                 \subsection{No terminación}
-                    Hemos tratado brevemente las propiedad de la evaluación para expresiones bien formadas de \textsf{EAB} en donde éstas se evaluarán a un valor (número o booleano) en algún punto de su ejecución. 
+                    Estudiamos la propiedad de terminación para las expresiones correctamente formadas de \textsf{EAB}, en donde estas se evaluarán a un valor en un número finito de pasos (cuando la evaluación ha llegado a este punto se le conoce como forma normal). 
                     No obstante esta propiedad no se cumple para el Cálculo Lambda como se puede ver a continuación:
                     \begin{exercise}
                         Demuestra o da un contraejemplo de por qué la porpiedad de terminación para el Cálculo Lámnbda es válida.\\\\
@@ -496,11 +500,11 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                     \end{exercise}
 
                 \subsection{No determinismo}
-                    En los lenguajes de programación una propiedad deseable es la propiedad determinista de los programas, es decir, que la evaluación que se haga para una expresión sea siempre la misma. El Cálculo Lambda carece de esta propiedad. Dependiendo del segmento $redex$ que escogamos para aplicar la $\beta$-reducción el reducto puede diferir, tomemos como ejemplo la siguiente $\lambda$-expresión:
+                    En los lenguajes de programación una propiedad deseable es la propiedad determinista de los programas, es decir, que la evaluación que se haga para una expresión sea siempre la misma. El Cálculo Lambda carece de esta propiedad. Dependiendo del segmento que escogamos para aplicar la $\beta$-reducción el resultado puede diferir, tomemos como ejemplo la siguiente $\lambda$-expresión:
                     $$(\lambda z.(\lambda y.z)a)b$$
-                    Si tomamos como redex la expresión completa, se obtine la siguiente evaluación: $$\underline{(\lambda z.(\lambda y.z)a)b} \rightarrow_\beta (\lambda y.b)a$$
-                    Si por el contrario tomamos como redex la lambda interna se obtiene: $$(\lambda z.\underline{(\lambda y.z)a})b \rightarrow_\beta (\lambda z.z)b$$
-                    En ambas evaluaciones el resultado al que se llega al terminar de evaluar la expresión es la variable b sin importar cuál redex se haya escogido para la evaluación.\\\\
+                    Si consideramos la aplicación para la expresión completa, se obtine la siguiente evaluación: $$\underline{(\lambda z.(\lambda y.z)a)b} \rightarrow_\beta (\lambda y.b)a$$
+                    Si por el contrario consideramos la aplicación la $\lambda$-expresión interna se obtiene: $$(\lambda z.\underline{(\lambda y.z)a})b \rightarrow_\beta (\lambda z.z)b$$
+                    En ambas evaluaciones el resultado al que se llega al terminar de evaluar la expresión es la variable b sin importar cuál se haya escogido para la evaluación.\\\\
                     Esta característica del Cálculo Lambda no supone una desventaja por el principio de confluencia.
 
                 \subsection{Confluencia}
@@ -510,7 +514,8 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                     \end{theorem}
 
 
-                    \begin{corollary}[Unicidad de formas normales] Para cualquier expresión $e$ si $e\to_\beta^*e_f$ y $e\to_\beta^*e_f'$ tal que tanto $e_f$ como $e_f'$ están bloqueadas, entonces $e_f = e_f'$ salvo $\alpha$-equivalencias. Es decir, la forma normal de una expresión es única.
+                    \begin{corollary}[Unicidad de formas normales] Para cualquier expresión $e$ si $e\to_\beta^*e_f$ y $e\to_\beta^*e_f'$ tal que  $\neg \exists\ e_{final}\ y\ e_{final}'$ donde $e_f \rightarrow_{\beta} e_{final}\ \ y\ \ e_f' \rightarrow_{\beta}\ e_{final}'$ (ambas expresiones están en forma normal)
+Entonces $e_f = e_f'$ salvo $\alpha$-equivalencias. Es decir, la forma normal de una expresión es única.
                     \end{corollary}
 
         \section{Combinadores de punto fijo}
@@ -557,8 +562,6 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                     
                         de esta forma podemos concluir que $\Y\,g\equiv_\beta g\,(\Y\,g)$, entonces $\Y$ es un combinador de punto fijo.
                     \end{exercise}
-
-                    \newpage
 
             \section{Ejercicios para el lector}
 
