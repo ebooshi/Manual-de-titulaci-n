@@ -33,7 +33,7 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
         \item Aplicación: Esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función. estas son representadas como $e_1\,e_2$ y su evaluación será la sustitución sintáctica ([:=]).
     \end{itemize}
 
-    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $l \; \lambda$ que indica que $l$ es una expresión válida en el Cálculo Lambda. A estas expresiones las denominaremos  $\lambda-$expresiones\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{108}{[108]}, \hyperlink{109}{[109]}}.
+    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $e \; \lambda$ que indica que $e$ es una expresión válida en el Cálculo Lambda. A estas expresiones las denominaremos  $\lambda-$expresiones\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{108}{[108]}, \hyperlink{109}{[109]}}.
     
         \[
             \begin{array}{ccccc}
@@ -49,23 +49,23 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
     \begin{exercise}
         Para las siguientes $\lambda-$expresiones anota a la derecha a que categoría de la sintáxis del Cálculo Lambda corresponde dicho término.
        \begin{center}
-          \begin{tabular}{ c c }
+          \begin{tabular}{ c c c }
 
-             $x$ 			  	 	  & \text{variable} \\ 
-             $y$		 	 	 	  & \text{variable}  \\
-             $\lambda x.x$	  		  & \text{función anónima} \\
-             $\lambda x.y$   	  		  & \text{función anónima}  \\
-             ($\lambda x.x)v$  	    	  & \text{aplicación} \\
-             ($\lambda x.x)v'$	 	 	  & \text{aplicación} \\
-             $\lambda x.\lambda y.xy$           & \text{función anónima}\\
-             $x(\lambda x.y)$ 			  & \text{aplicación}\\
-             $(\lambda x.x)(\lambda y.y)$     &  \text{aplicación}	
+            caso 1) & $x$ 			  	 	  & \text{variable} \\ 
+            caso 2) & $y$		 	 	 	  & \text{variable}  \\
+            caso 3) & $\lambda x.x$	  		  & \text{función anónima} \\
+            caso 4) & $\lambda x.y$   	  		  & \text{función anónima}  \\
+            caso 5) & ($\lambda x.x)v$  	    	  & \text{aplicación} \\
+            caso 6) & ($\lambda x.x)v'$	 	 	  & \text{aplicación} \\
+            caso 7) & $\lambda x.\lambda y.xy$           & \text{función anónima}\\
+            caso 8) & $x(\lambda x.y)$ 			  & \text{aplicación}\\
+            caso 9) & $(\lambda x.x)(\lambda y.y)$     &  \text{aplicación}	
  
         \end{tabular}
       \end{center}
     \end{exercise}
 
-    En el ejemplo anterior, la tercer $\lambda-$expresión corresponde a la función identidad que regresa el argumento que es pasado como parámetro. La cuarta $\lambda-$expresión corresponde a la función constante que siempre regresa el mismo valor sin importar el parámetro que recibe. La sétima $\lambda-$expresión es la ilustración de como se puede anidar dos funciones anónimas para construir una sola de dos parámetros \footnote{A este proceso se le conoce como currificación en honor a Haskell Curry y nos permite anidar tantas funciones como parámetros necesitemos, este tema será revisado a detalle más adelante en este capítulo}. 
+    En el ejemplo anterior, el tercer caso corresponde a la función identidad que regresa el mismo argumento que recibe. El cuarto caso corresponde a la función constante que siempre regresa el mismo valor sin importar el argumento que recibe. El séptimo caso es la ilustración de como se puede anidar dos funciones anónimas para construir una sola de dos parámetros\footnote{A este proceso se le conoce como currificación en honor a Haskell Curry y nos permite anidar tantas funciones como parámetros necesitemos.}. 
 
 \section{$\alpha$-equivalencia en el Cálculo Lambda}
 
@@ -120,16 +120,16 @@ A la operación de sustituir los términos que concuerden con la variable del op
 
     \begin{exercise}
         Utiliza la definición de $\beta$-reducción para evaluar la siguiente $\lambda-$expresión.
-        $$e= (\lambda x.\lambda y.xy)(\lambda z.z)(w)$$
-        \[(\lambda x.\lambda y.xy)(\lambda z.z)(w) \rightarrow_\beta (\lambda y.xy[x := \lambda z.z])(w) \]
+        $$e= \big(\lambda x.\lambda y.xy\big)(\lambda z.z)(w)$$
+        \[\big(\lambda x.\lambda y.xy\big)(\lambda z.z)(w) \rightarrow_\beta (\lambda y.xy[x := \lambda z.z])(w) \]
         \[ =  (\lambda y.x[x := \lambda z.z]y[x := \lambda z.z])(w) = (\lambda y.(\lambda z.z)y)(w) \]
-        \[ (\lambda y.(\lambda z.z)y)(w) \rightarrow_\beta (\lambda y.z[z := y])(w) \]
-        \[ = (\lambda y.y)(w) \rightarrow_\beta y[y := w] \]
+        \[ \big(\lambda y.(\lambda z.z)y\big)(w) \rightarrow_\beta (\lambda y.z[z := y])(w) \]
+        \[ = \big(\lambda y.y\big)(w) \rightarrow_\beta y[y := w] \]
         \[ = w \]
     \end{exercise}
 
     \section{Definibilidad Lambda}
-    En el Cálculo Lambda las funciones son tipos primitivos, estas pueden ser pasadas como argumentos entre sí y generar nuevos elementos válidos para el sistema. Si extrapolamos esta idea para definir entidades primitivas nos encontraremos nombrando funciones para construir los elementos que pertenecen a esta categoría.\\\\
+    En el Cálculo Lambda las funciones son objetos primitivos, estas pueden ser pasadas como argumentos entre sí y generar nuevos elementos válidos para el sistema. Si extrapolamos esta idea para definir entidades primitivas nos encontraremos nombrando funciones para construir los elementos que pertenecen a esta categoría.\\\\
  En el contexto de los lenguajes de programación las entidades primitivas o tipos primitivos nos son proporcionados por la biblioteca estándar del lenguaje (\textsf{int}, \textsf{char}, \textsf{boo}l, etc.). En el Cálculo Lambda estos tipos primitivos serán definidos por funciones anónimas a las que convendremos un nombre para facilitar su representación\footnote{Información consultada de \hyperlink{108}{[108]} y  \hyperlink{109}{[109]}}.
 
     \subsection{Booleanos y operadores lógicos}
@@ -179,11 +179,11 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
    \end{center} 
 
      \section{Aritmética del Cálculo Lambda}
-        En los lenguajes de programación otro tipo primitivo que es de vital importancia y que se nos es proporcionado por la biblioteca estándar son los números enteros.
+        En los lenguajes de programación otro tipo de de dato primitivo que es de vital importancia y que se nos es proporcionado por la biblioteca estándar son los números enteros.
         Estas entidades también tienen una representación en el Cálculo Lambda como funciones.\\\\
         La construcción de los números naturales se obtiene al aplicar la función sucesor al cero, de tal forma que no tenemos el número dos, tenemos dos veces la aplicación de la función sucesor al cero: \textit{s(s(0))}, en Cálculo Lambda esta idea se mantiene vigente, los números serán la aplicación anidada de una función a la constante cero. 
      \subsection{Numerales de Church}
-        Church introdujó los numerales como la abstracción de dos parámetros ''$s$'' y ''$z$'' en una función anónima, de tal forma que si se desea representar al n-ésimo número este sea formado por la aplicación de $s$ a $z$, n veces\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}:
+        Church introdujo los numerales como la abstracción de dos parámetros ''$s$'' y ''$z$'' en una función anónima, de tal forma que si se desea representar al n-ésimo número este sea formado por la aplicación de $s$ a $z$, n veces\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}:
 
     \begin{itemize}
         \item $\bar{0}=_{def}\lambda s.\lambda z.z$
@@ -193,7 +193,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
     \end{itemize}
 
     \subsection{Funciones aritméticas}
-	Para los numerales de Church podemos difinir operadores aritméticos similares a los que se utilizan cuando trabajamos con los números enteros, estos operadores nos permitirán computar valores y estarán definidos como una función donde los operandos serán los argumentos de entrada.
+		Para los numerales de Church podemos difinir operadores aritméticos similares a los que se utilizan cuando trabajamos con los números enteros, estos operadores nos permitirán computar valores y estarán definidos como una función donde los operandos serán los argumentos de entrada.
 
     \subsubsection{Función sucesor}
         Comenzamos el estudio de las funciones aritméticas para el Cálculo Lambda definiendo la función sucesor para los numerales de Church, esta función recibe un numeral y construye el sucesor añadiendo un símbolo ''$s$'' al inicio.
@@ -301,10 +301,6 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
     \subsubsection{Suma}
         Esta función se define de forma similar a la función suma para los números naturales  donde se reciben dos argumentos $m$ y $n$ y se aplica n veces la función sucesor al número m.
 
-           \[ m + 0 = m \]
-           \[ m + s(n) = s(m + n) \]
-
-
         \begin{definition}[Definición de la suma para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
             $$\textsf{sum} =_{def}  \; \lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s$$
         \end{definition}
@@ -378,16 +374,16 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                     \textsf{prod}\  \overline{2} \; \overline{3}
             \]
             \[
-                    (\lambda m\lambda n.m\; \overline{0} \; (\textsf{sum} \; n)) \;  \lambda z\lambda s.s(sz) \; \overline{3} \rightarrow_\beta 
+                    \big(\lambda m\lambda n.m\; \overline{0} \; (\textsf{sum} \; n)\big) \;  \lambda z\lambda s.s(sz) \; \overline{3} \rightarrow_\beta 
             \]
             \[
-			(\lambda n.(\lambda z\lambda s.s(sz)) \; \overline{0} \; (\textsf{sum} \; n)) \; \overline{3}   \rightarrow_\beta 
+			\big(\lambda n.(\lambda z\lambda s.s(sz)\big) \; \overline{0} \; (\textsf{sum} \; n)) \; \overline{3}   \rightarrow_\beta 
  	    \]
             \[
-                       (\lambda n.(\lambda s.s(s\ \overline{0}))\; (\textsf{sum}\; n)) \; \overline{3} \rightarrow_\beta 
+                       (\lambda n.\big(\lambda s.s(s\ \overline{0})\big)\; (\textsf{sum}\; n)) \; \overline{3} \rightarrow_\beta 
             \]
 	    \[
-			 (\lambda n.(\textsf{sum} \; n \; (\textsf{sum} \; n \; \overline{0})) \; \overline{3}  \rightarrow_\beta 
+			 \big(\lambda n.(\textsf{sum} \; n \; (\textsf{sum} \; n \; \overline{0})\big) \; \overline{3}  \rightarrow_\beta 
 	    \]
             \[
                         (\textsf{sum} \; \overline{3} \; (\textsf{sum} \; \overline{3} \; \overline{0})) = 
@@ -401,43 +397,43 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                     \text{resolveremos por partes la suma dado que la notación crece muy rápido y es poco legible}
             \]
             \[
-                    \textsf{sum}\  \overline{3} \; \overline{0} = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s ) \; \lambda z'\lambda s'.z' \; \overline{3}
+                    \textsf{sum}\  \overline{3} \; \overline{0} = \big(\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s \big) \; \lambda z'\lambda s'.z' \; \overline{3}
             \]
             \[
-                    \rightarrow_\beta  (\lambda n\lambda z\lambda s.n((\lambda z'\lambda s'.z') \; z \; s) \; s) \; \overline{3}
+                    \rightarrow_\beta  (\lambda n\lambda z\lambda s.n(\big(\lambda z'\lambda s'.z'\big) \; z \; s) \; s) \; \overline{3}
             \]
             \[
-                    \rightarrow_\beta  (\lambda n\lambda z\lambda s.n(\lambda s'.z \; s) \; s) \; \overline{3} 
+                    \rightarrow_\beta  (\lambda n\lambda z\lambda s.n\big(\lambda s'.z \; s\big) \; s) \; \overline{3} 
             \]
 	 \[
-            	\rightarrow_\beta  (\lambda n\lambda z\lambda s.n \; z \; s) \; \overline{3}
+            	\rightarrow_\beta  \big(\lambda n\lambda z\lambda s.n \; z \; s\big) \; \overline{3}
             \]
             \[
-                    \rightarrow_\beta   \lambda z\lambda s.(\overline{3} \; z \; s \;) = \; \lambda z\lambda s.((\lambda z'\lambda s'.s'(s'(s'z'))) \; z \; s)
+                    \rightarrow_\beta   \lambda z\lambda s.(\overline{3} \; z \; s \;) = \; \lambda z\lambda s.(\big(\lambda z'\lambda s'.s'(s'(s'z'))\big) \; z \; s)
             \]
             \[
-                    \rightarrow_\beta \lambda z\lambda s.(\lambda s'.s'(s'(s'(z))) \; s) 
+                    \rightarrow_\beta \lambda z\lambda s.(\lambda s'.s'\big(s'(s'(z))\big) \; s) 
             \]
             \[
 	         \rightarrow_\beta \lambda z\lambda s.s(s(sz)) = \overline{3} 
             \]
             \[
-                    \textbf{sum } \; \overline{3} \; \overline{3} = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s ) \; \lambda z'\lambda s's'(s'(s'.z')) \; \overline{3}
+                    \textbf{sum } \; \overline{3} \; \overline{3} = \big(\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s \big) \; \lambda z'\lambda s's'(s'(s'.z')) \; \overline{3}
             \]
             \[
-                    \rightarrow_\beta (\lambda n\lambda z\lambda s.n((\lambda z'\lambda s's'(s'(s'.z'))) \; z \; s) \; s )  \; \overline{3}
+                    \rightarrow_\beta (\lambda n\lambda z\lambda s.n(\big(\lambda z'\lambda s's'(s'(s'.z'))\big) \; z \; s) \; s )  \; \overline{3}
             \]
             \[
-                    \rightarrow_\beta (\lambda n\lambda z\lambda s.n((\lambda s's'(s'(s'.z))) \; s) \; s )  \; \overline{3}
+                    \rightarrow_\beta (\lambda n\lambda z\lambda s.n(\big(\lambda s's'(s'(s'.z))\big) \; s) \; s )  \; \overline{3}
             \]
             \[
-                    \rightarrow_\beta (\lambda n\lambda z\lambda s.n \; (s(s(s.z))) \; s )  \; \overline{3}
+                    \rightarrow_\beta \big(\lambda n\lambda z\lambda s.n \; (s(s(s.z))) \; s \big)  \; \overline{3}
             \]
             \[
-                    \rightarrow_\beta \lambda z\lambda s.((\overline{3}) \; (s(s(s.z))) \; s) = \lambda m\lambda n\lambda z\lambda s.(( \lambda z'\lambda s'.s'(s'(s'z'))) \; (s(s(s.z))) \; s)
+                    \rightarrow_\beta \lambda z\lambda s.((\overline{3}) \; (s(s(s.z))) \; s) = \lambda m\lambda n\lambda z\lambda s.(\big( \lambda z'\lambda s'.s'(s'(s'z'))\big) \; (s(s(s.z))) \; s)
             \]
             \[
-                    \rightarrow_\beta \lambda z\lambda s.((\lambda s'.s'(s'(s'(s(s(s.z))))))  \; s)
+                    \rightarrow_\beta \lambda z\lambda s.(\big(\lambda s'.s'(s'(s'(s(s(s.z)))))\big)  \; s)
             \]
             \[
                     \rightarrow_\beta \lambda z\lambda s.\lambda s.s(s(s(s(s(s.z))))) = \overline{6}
@@ -565,10 +561,9 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
             \section{Ejercicios para el lector}
 
                 \begin{exercise}
-                    Supón que se requiere extender la definición 4.1 para booleanos y sus operadores en el Cálculo Lambda implementando los siguientes operadores:
-                    \[\textsf{IF}\]
+                    Supón que se requiere extender la definición 4.1 para booleanos y sus operadores en el Cálculo Lambda implementando el siguiente operador:
                     \[\textsf{OR}\]
-		Proporciona la $\lambda$-expresión que implemente dichas instrucciones.
+		Proporciona la $\lambda$-expresión que implemente dicha instrucción.
                 \end{exercise}
 
 		\bigskip
@@ -577,14 +572,14 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
                 \begin{exercise}
                     Verifica las propiedas de la semántica operacional para cada operador booleano según la definición 4.2:
 
-                        $$\mathsf{if}\,\textsf{true}\,e_1\,e_2 \to_\beta^* e_1$$ 
-                        $$\mathsf{if}\,\textsf{false}\,e_1\,e_2 \to_\beta^* e_2$$ 
-                        $$\mathsf{not}\,\textsf{true}\to_\beta^* \textsf{false}$$
-                        $$\mathsf{not}\,\textsf{false}\to_\beta^* \textsf{true}$$
-                        $$\mathsf{and}\,\textsf{false}\,b\to_\beta^* \textsf{false}$$
-                        $$\mathsf{and}\,\textsf{true}\,b\to_\beta^* b$$
-                        $$\mathsf{or}\,\textsf{true}\,b\to_\beta^* \textsf{true}$$
-                        $$\mathsf{or}\,\textsf{false}\,b\to_\beta^* b$$
+                        $$\mathsf{IF}\,\textsf{true}\,e_1\,e_2 \to_\beta^* e_1$$ 
+                        $$\mathsf{IF}\,\textsf{false}\,e_1\,e_2 \to_\beta^* e_2$$ 
+                        $$\mathsf{NOT}\,\textsf{true}\to_\beta^* \textsf{false}$$
+                        $$\mathsf{NOT}\,\textsf{false}\to_\beta^* \textsf{true}$$
+                        $$\mathsf{AND}\,\textsf{false}\,b\to_\beta^* \textsf{false}$$
+                        $$\mathsf{AND}\,\textsf{true}\,b\to_\beta^* b$$
+                        $$\mathsf{OR}\,\textsf{true}\,b\to_\beta^* \textsf{true}$$
+                        $$\mathsf{OR}\,\textsf{false}\,b\to_\beta^* b$$
                         
                 \end{exercise}
 

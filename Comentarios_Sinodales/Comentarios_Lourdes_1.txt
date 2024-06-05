@@ -106,42 +106,58 @@ R: Página 43. La idea de este ejercicio es que Prop puede ser algo como: x Prop
 
 ---------------------------------------- Capítulo 5: Cálculo Lambda ------------------------------------------------------
 
-p.46 l.1 una --> un 
+p.46 l.1 una --> un
+R: Página 44. El párrafo fue cambiado y el typo se modificó.
 
 p.47 footnote1 Alan Turing
+R: Página 45. Este footnote fue eliminado.
 
 p.47 Zermelo y Russell también utiliza sus nombres completos  y revisa los 
 apellidos de todos
+R: Página 45. Nombres ajustados
+
 
 p.48 def.1.1 utilizas l para las expresiones y en todo lo demás usas e's 
+R: Página 46. Sustituida "l" por "e".
 
 p.48 en la descripción de los ejemplos, en lugar de ejemplo n) utiliza caso n. 
 el caso 4. devuelve el valor constante correspondiente a la variable y
 el caso 7. sobre la currificación, falta decir que es definir funciones de 
 múltiples argumentos que se procesan de uno por uno
 Revisa la diferencia entre argumento y parámetro en funciones...
+R: Página 46. La tabla ahora está tabulada por caso n) y el párrafo explicando los casos está 
 
 p.49 revisa footnote4 
+R: Página 47. Este footnote ya no existe.
 
 p.50 ejercicio3.3 utiliza más paréntesis para enfatizar las sustituciones
+R: Página 47. 
 
 p.50 sec4. las funciones no son tipos primitivos, son objetos primitivos y de 
-orden superior para poder ser usados como argumentos o como resultados 
+orden superior para poder ser usados como argumentos o como resultados
+R: Página 48. El párrafo ahora tiene esa corrección.
 
 p.51 def.4.2 está incompleta la definición, además no se ha dado el término 
 para el if
+R: Página 48. Se agregó el operador para el if, el operador OR es un ejercicio al final del capítulo.
 
 p.52 revisar def.5.1,  numeral no lleva acento
+R: Página 49, este error fue corregido en la versión mas reciente del manual.
 
-p.54 la definición de suma está definida recursivamente 
+p.54 la definición de suma está definida recursivamente
+R: Página 51. 
 
 p.54 regleja --> refleja 
 pimero --> primer
+R: Página 51. este párrafo fue eliminado y en su lugar hay un ejemplo.
 
 p.55 revisar explicación de la multiplicación
 p.55 ej5.7 utiliza más paréntesis para enfatizar las aplicaciones, puedes usar 
 \big o \Big antes de los paréntesis para hacerlos más grandes
+R: Página 52. Cambié los paréntesis donde se aplica la sustituación por \big (la diferencia es muy discreta).
 
 p.57   contsturctores --> constructores
+R: Página 55. Typo arreglado.
 
 p.59 ej8.1 quién es g?
+R: Página 55/56: G es el argumento que recibe el combinador, puede ser a,b,c, etc.
