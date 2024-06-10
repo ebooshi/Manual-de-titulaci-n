@@ -11,8 +11,8 @@
 
 
 %Introducción
-Cuando pensamos en el nacimiento de las computadoras podemos inmediatamente asociarlo con las máquinas de Turing, un sistema de transición que se ha estudiado con anterioridad en materias como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } siendo el más reconocido cuando se habla de modelos de cómputo y la definición de conceptos como: computabilidad, algoritmo o complejidad. Términos apenas formalizados en 1936.\\\\
-En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alonzo Church nos introduce en 1928 a su aproximación de un sistema formal basado en el concepto de ''función'' con las primitivas de ''abstracción'' y ''aplicación'' que fungiría como fundamento lógico para sustituir el la teoría de conjuntos de Zermelo-Fraenkel y la teoría de tipos de Russell. Este sistema fue demostrado como inconsistente por sus dos alumnos Stephen Kleene y Barkley Russell pero no todo sería desechado, conservando la parte del manejo de funciones particularmente rica, consistente y sorprendentemente equivalente al modelo de Alan Turing, a este modelo se le conoce como Cálculo Lambda\footnote{Extraído de  \hyperlink{108}{[108]}}.\\
+Cuando pensamos en las bases que sentaron los modelos de cómputo modernos podemos inmediatamente asociarlo con las máquinas de Turing, un sistema de transición que se ha estudiado con anterioridad en materias como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } siendo el más reconocido cuando se habla de conceptos como: computabilidad, algoritmo o complejidad, términos apenas formalizados en 1936.\\\\
+En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alonzo Church nos introduce en 1928 a su aproximación de un sistema formal basado en el concepto de ''función'' con las primitivas de ''abstracción'' y ''aplicación'' que fungiría como fundamento lógico para sustituir la teoría de conjuntos de Zermelo-Fraenkel y la teoría de tipos de Russell. Este sistema fue demostrado como inconsistente por sus dos alumnos Stephen Kleene y Barkley Russell pero no todo sería desechado, conservando la parte del manejo de funciones particularmente rica, consistente y sorprendentemente equivalente al modelo de Alan Turing, a este modelo se le conoce como Cálculo Lambda\footnote{Extraído de  \hyperlink{108}{[108]}}.\\
 
 
 \subsubsection{Objetivo}
@@ -28,9 +28,9 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
 \section{Sintáxis del Cálculo Lambda}
     El cálculo lambda es un modelo simple, su sintáxis comprende sólo tres categorías de términos\footnote{Definición extraída de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y \hyperlink{110}{[110]}}:
     \begin{itemize}
-        \item Variables: Los elementos de esta categoría pertenecen a un conjunto finito de letras mínusculas, generalmente las últimas del alfabeto (w, x, y, z) y son las expresiones lambda más simples.\\
-        \item Abstracciones: Esta categoría engloba los términos que definen a las funciones anónimas, compuestas por tres elementos: el primero es la letra griega $\lambda$, el segundo es la variable que estará ligada en el cuerpo de la expresión y por último el cuerpo mismo de la función denotado como $e$, estas se representan de la forma $\lambda x.e$.\\
-        \item Aplicación: Esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función. estas son representadas como $e_1\,e_2$ y su evaluación será la sustitución sintáctica ([:=]).
+        \item Variables: los elementos de esta categoría pertenecen a un conjunto infinito de letras mínusculas, generalmente las últimas del alfabeto (y en ocasiones pueden estar numeradas, algunos ejemplos pueden ser: x, y, z, $x_1$, $z_2$, etc.) y son las expresiones lambda más simples.\\
+        \item Abstracciones: esta categoría engloba los términos que definen a las funciones anónimas, compuestas por tres elementos: el primero es la letra griega ''$\lambda$'', el segundo es la variable que estará ligada en el cuerpo de la expresión y por último el cuerpo mismo de la función denotado como $e$, estas se representan de la forma ''$\lambda x.e$''.\\
+        \item Aplicación: esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función ''$e_1\,e_2$'', donde $e_1$ es la definición de una función anónima y $e_2$ es el argumento con el que se evaluará dicha función.
     \end{itemize}
 
     \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $e \; \lambda$ que indica que $e$ es una expresión válida en el Cálculo Lambda. A estas expresiones las denominaremos  $\lambda-$expresiones\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{108}{[108]}, \hyperlink{109}{[109]}}.
@@ -196,13 +196,13 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
 		Para los numerales de Church podemos difinir operadores aritméticos similares a los que se utilizan cuando trabajamos con los números enteros, estos operadores nos permitirán computar valores y estarán definidos como una función donde los operandos serán los argumentos de entrada.
 
     \subsubsection{Función sucesor}
-        Comenzamos el estudio de las funciones aritméticas para el Cálculo Lambda definiendo la función sucesor para los numerales de Church, esta función recibe un numeral y construye el sucesor añadiendo un símbolo ''$s$'' al inicio.
+        Comenzamos el estudio de las funciones aritméticas para el Cálculo Lambda definiendo la función \textsf{suc} para los numerales de Church, esta función recibe un numeral y construye el sucesor añadiendo un símbolo ''$s$'' al inicio.
         \begin{definition}[Función sucesor para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
             $$\textsf{suc} =_{def} \lambda n\lambda z\lambda s. s(n \; z \; s)$$
         \end{definition}
      
         \begin{exercise}
-            Utiliza la definición de la función sucesor para evaluar la siguiente  $\lambda$-expresión
+            Utiliza la definición de la función \textsf{suc} para evaluar la siguiente  $\lambda$-expresión
             \[
                 \textsf{suc } \overline{2}
             \]
@@ -224,7 +224,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
         \end{exercise}
 
         \begin{exercise}
-            Utiliza la definición de la función sucesor para evaluar la siguiente  $\lambda$-expresión
+            Utiliza la definición de la función \textsf{suc} para evaluar la siguiente  $\lambda$-expresión
             \[
                 \textsf{suc } \overline{5}
             \]
@@ -299,7 +299,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
         
 
     \subsubsection{Suma}
-        Esta función se define de forma similar a la función suma para los números naturales  donde se reciben dos argumentos $m$ y $n$ y se aplica n veces la función sucesor al número m.
+        Esta función se define de forma similar a la función suma para los números naturales  donde se reciben dos argumentos $m$ y $n$ y se aplica n veces la función \textsf{suc} al numeral m.
 
         \begin{definition}[Definición de la suma para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
             $$\textsf{sum} =_{def}  \; \lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s$$
@@ -362,7 +362,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
         \end{exercise}
 
         \subsubsection{Producto}
-        Para el producto de $m$ y $n$ la idea es anidar la operación: n + n, m veces reemplazando las aparaciones de de la variable $s$ en el numeral m por sum(n ... , esta operación está definida de la siguiente manera:
+        Para el producto de $m$ y $n$ la idea es anidar la operación: \textsf{sum} $\overline{n}\ \overline{n}$, m veces reemplazando las aparaciones de de la variable $s$ en el numeral m por sum(n, ... Esta operación está definida de la siguiente manera:
 
         \begin{definition}[Definición del producto para los numerales de Church.]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
             $$\textsf{prod} =_{def}  \; \lambda m.\lambda n.m\; \bar{0} \; (\textsf{sum}\;n)$$
@@ -451,11 +451,11 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                 \begin{definition}[Definición de tuplas para el Cálculo Lambda]\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{13}{[13]}}
             
                     Constructor
-                        $$\mathsf{pair} = \lambda f\lambda s\lambda b. bfs$$
+                        $$\mathsf{pair} =_{def} \lambda f\lambda s\lambda b. bfs$$
                     Proyección del primer elemento
-                        $$\mathsf{fst} = \lambda p.p \ \textsf{True}$$
+                        $$\mathsf{fst} =_{def} \lambda p.p \ \textsf{True}$$
                     Proyección del segundo elemento
-                        $$\mathsf{snd} = \lambda p.p \ \textsf{False}$$
+                        $$\mathsf{snd} =_{def} \lambda p.p \ \textsf{False}$$
 
 		      Donde las proyecciones se apoyan de la propiedad de los booleanos de regresar el primer argumento para el caso de \textsf{True} y el segundo en el caso de \textsf{False}.
                 \end{definition}
@@ -505,7 +505,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                     Esta característica del Cálculo Lambda no supone una desventaja por el principio de confluencia.
 
                 \subsection{Confluencia}
-                    El principio de confluencia nos asegura que dadas dos dos evaluaciones distintas para la misma $\lambda$-expresión, estas convergen en un término común en un punto de su evaluación:
+                    La propiedad de confluencia nos asegura que dadas dos dos evaluaciones distintas para la misma $\lambda$-expresión, estas convergen en un término común en un punto de su evaluación:
 
                     \begin{theorem}[Propiedad de Church-Rosser]\footnote{La demostración queda fuera del alcance de este manual pero se puede consultar en \hyperlink{114}{[114]}}\\\\
  Si $e\to_\beta^* e_1$ y $e\to_\beta^*e_2$ entonces existe un término $t$ tal que  $e_1\to_\beta^* t$ y $e_2\to_\beta^* t$.
@@ -562,7 +562,10 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
 
                 \begin{exercise}
                     Supón que se requiere extender la definición 4.1 para booleanos y sus operadores en el Cálculo Lambda implementando el siguiente operador:
-                    \[\textsf{OR}\]
+                    \[\textsf{OR}\ a\ b\]
+		Donde el operador se comporta de la siguiente forma:
+		\[OR\ \textsf{true}\ b \to_\beta^*\ \textsf{true} \]
+		\[OR\ \textsf{false}\ b \to_\beta^*\ b \]
 		Proporciona la $\lambda$-expresión que implemente dicha instrucción.
                 \end{exercise}
 
@@ -682,10 +685,31 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
 		    \end{itemize}
                 \end{exercise}
 
+\bigskip
+		\begin{exercise}
+			Supón que se requieren extender las estructuras de datos para el Cálculo Lambda con la introducción de árboles binarios, en donde cada nodo puede almacenar un valor (numerales de Church o booleanos).
+			\begin{itemize}
+				\item Proporciona la $\lambda$-expresión para el árbol binario vacío.
+				\item Proporciona la $\lambda$-expresión para el nodo que contiene un elemento, un árbol binario izquierdo y un árbol binario derecho.
+				\item Define la función \textsf{fold} que nos permita iterar el árbol y computar alguna operación sobre sus elementos (deja indicado el operador con el símbolo ''op'').
+			\end{itemize}
+		\end{exercise}
+
+\bigskip
+
+		\begin{exercise}
+			Para cada una de los siguientes $\lambda$-expresiones menciona a cuál definición pertenece.
+			\begin{itemize}
+				\item $\lambda s\lambda z.s(s(s(s(s(sz)))))$
+				\item $\lambda f.\lambda a.\lambda b.fab $
+				\item $\lambda f\lambda s\lambda b. bfs$
+				\item $\lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s$
+			\end{itemize}
+		\end{exercise}
+
 %https://blog.brunobonacci.com/2017/10/08/lambda-calculus-and-boolean-logic/
 %https://stackoverflow.com/questions/52548280/implementing-fibonacci-sequence-using-pure-lambda-calculus-and-church-numerals-i
 %https://drive.google.com/file/d/1MM6Lu417pwH_zKl0kITA0EzSfJL8grP9/view
-%
-
+% https://cs.stackexchange.com/questions/96922/encoding-binary-trees-using-lambda-calculus
                     
             
