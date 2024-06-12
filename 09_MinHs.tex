@@ -1,0 +1,438 @@
+%    Sexto Capítulo capítulo: MinHs.
+%    Ejercicios por Barón L. Miguel.
+%    Teoría por Javier Enríquez Mendoza.
+%    Empezado el 27/2/23
+%    Concluido el 12/4/23
+
+%Gatito MinHs
+\begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.20]{assets/06_gatito_minHs.jpg}}       
+\end{figure}
+
+Con la teoría que hemos revisado hasta el momento en nuestro lenguaje \textsf{EAB} cuya definición engloba booleanos, a los números natures junto con sus operadores y la implementación del Cálculo Lambda, nos es natural preguntarnos  ¿cómo sería la implementación de un lenguje de características similares en una computadora?. Para resolver esta pregunta definiremos un lenguaje que contenga un subconjunto de instrucciones de algún otro lenguaje cuya implementación ya exista para computadoras.  \\\\
+Por su naturaleza funcional tomaremos como caso de estudio una versión simplificada del lenguaje de programación \textsf{Haskell}. Este posee características deseables para el enfoque de este curso que serán de importancia trasladar a \textsf{EAB}. \\\\
+Hasta el momento se ha trabajado con tipos de datos primitivos, pero no hemos hablado de la semántica estática que asigna dichos tipos a las expersiones, esto constituye un problema al poder escribir expresiones de \textsf{EAB} correctas pero cuya evaluación no termine en un valor puesto que la ejecución se detendría en algún momento al no hallar una regla de la semántica dinámica que nos permita continuar. \\\\
+Con esto en mente el objetivo de este capítulo será definir un lenguaje similar que nos permita tener todos los tipos de datos de \textsf{EAB}, el sistema de tipos de \textsf{Haskell} y las características más importante del mismo, evaluación perezosa, pureza funcional y asignación de tipos explícita y estática. 
+A este lenguaje lo llamaremos \textsf{MinHaskell} al ser menos robusto que su implementación para computadoras pero servirá para ilustrar los conceptos que hasta ahora hemos trabajado en este manual.
+
+\subsubsection{Objetivo}
+Proveer la definición del lenguaje funcional \textsf{MinHaskell} que preserve las características principales del lenguaje de programación \textsf{Haskell} a manera de ilustrar una implementación concreta de los conceptos que se han revisado hasta este momento: sintaxis, semántica, Cálculo Lambda y recursión, haciendo especial énfasis en el sistema de tipos de este lenguaje y sus propiedades.
+
+
+\subsubsection{Planteamiento}
+El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho con el lenguaje \textsf{EAB} dividiendo su definición en sintaxis concreta, sintaxis abstracta, semántica dinámica y es aquí en donde se introducirá una nueva capa para estudiar la asignación de tipos de las expresiones. Finalmente concluiremos mencionando brevemente las propiedades que este pequeño lenguaje posee. \\
+
+\section{sintaxis de MinHaskell}
+
+\subsection{sintaxis concreta}
+    Para construir el sistema de tipos de \textsf{MinHaskell}, se necesita introducir una nueva expresión de tipo al cual las variables pertenecen que será representado por la letra \textit{T}.\\\\    
+     El tipo de las $\lambda$-expresiones  será representado por la expresión $T_1 \Rightarrow T_2$ en la sintaxis concreta donde $T_1$ representa el tipo de la variable ligada en el cuerpo de la expresión  y $T_2$ es el tipo que regresa la evaluación de la expresión. 
+
+\bigskip
+
+    Finalmente se introduce la expresión para funciones recursivas representadas por la expresión \textsf{letrec}$\; var=\; e_1\; {\sf in}\; e_2\;$ \textsf{end}
+    \begin{definition}[Sintaxis Concreta de \textsf{MinHaskell}] A continuación definimos los elementos que componen a las expresiones válidas de \textsf{MinHaskell}.\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}\\ El tipo de las expresiones ahora figura como parte de la sintaxis concreta.
+        \[
+        \begin{array}{lrcl}
+            \mbox{\bf Expresiones}&e&::=&\; var\; | \; n\; |\; b\; |\; (e)\; |\; e_1\otimes \; e_2\; |\; e_1 \; e_2\\
+            &&|& \textsf{if} \;e_1\;{\sf then}\;e_2\;{\sf else}\;e_3\\
+            &&|& \textsf{let} \;x=\;e_1\;{\sf in}\;e_2\;{\sf end}\\
+            &&|& \textsf{lam} \; x :: \textit{T} \Rightarrow e \\
+            &&|& \textsf{recfun} \;f :: (T_1\Rightarrow T_2)\; x \Rightarrow \;e\\
+            \mbox{\bf Tipos}&\textit{T}&::=&\; \textit{Bool}\;|\textit{Nat}\;|\;T_1\Rightarrow T_2 \\
+            \mbox{\bf Variables}&var&::=&x\; |\; y \; | \; \dots\\
+            \mbox{\bf Números}&n&::=&0\; |\; 1 \; | \dots\\
+            \mbox{\bf Booleanos}&b&::=&\textsf{True}\; |\; \textsf{False}\\
+            \mbox{\bf Operadores Infijos}&\otimes&::=&+|*|-|=|<|>|\geq|\leq\\
+        \end{array}
+        \]
+    \end{definition}
+
+    \begin{exercise}
+    Escribe la definición de los siguientes instrucciones utilizando la sintaxis concreta de \textsf{MinHaskell}\\
+
+	\begin{itemize}
+		\item Proporciona la definición de la función sucesor que recibe un número y regresa el sucesor \textsf{suc}: 
+			$$ \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow x + 1$$
+		\item Proporciona la definición de la función que recibe un número y decide si es zero \textsf{IsZero}:
+			 $$ \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow\; \textsf{if}\; (x\; ==\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
+		\item Proporciona la definición de una función que recibe un número y regresa el factorial \textsf{fact}
+			 $$ \textsf{recfun}\; \textsf{fact}\; ::\; (\textit{Nat} \rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero}(x)\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$$
+		\item Proporciona la definición de una función que recibe dos números y regresa su producto \textsf{prod}:
+			$$ \textsf{lam}\; x\; ::\; Nat \rightarrow\; \textsf{lam}\; y\; ::\; Nat \rightarrow\; x*y$$
+	\end{itemize}
+
+    \end{exercise}
+
+\subsection{sintaxis abstracta}
+
+    \begin{definition}[Sintaxis abstracta de \textsf{MinHaskell}]  Una vez definidas las reglas para generar programas en \textsf{MinHaskell} empleado la sintaxis concreta del lenguaje, podemos definir su representación intermedia empleado los árboles de sintaxis abstracta\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.
+    
+        \begin{description}
+            \item[Valores y variables]
+        \[
+            \begin{array}{ccc}
+                \inference{n\in\N}{num[n]\;asa}&
+                \inference{}{bool[\textit{True}]\;asa}&
+                \inference{}{bool[\textit{False}]\;asa}
+            \end{array}
+        \]
+        \[
+            \begin{array}{ccc}
+                \inference{x \in\ Variables}{x\;asa}
+            \end{array}
+        \]
+        \item[Operadores]
+        \[
+            \begin{array}{c}
+                \inference{t_1\;asa&\cdots&t_n\;asa}{o(t_1,\dots,t_n)\;asa}
+            \end{array}
+        \]
+        \item[Condicional]
+        \[
+            \begin{array}{c}
+                \inference{t_1\;asa&t_2\;asa&t_3\;asa}{if(t_1,t_2,t_3)\;asa}
+            \end{array}
+        \]
+        \item[Asignaciones locales]
+        \[
+            \begin{array}{cc}
+                \inference{t_1\;asa&t_2\;asa}{let(t_1,x.t_2)\;asa}&
+            \end{array}
+        \]
+        \item[Definición de funciones]
+        \[
+            \begin{array}{c}
+                \inference{t\;asa}{lam(\textit{T},x.t)\;asa}
+                \inference{t\;asa}{recfun(T,f.x.t)\;asa}
+            \end{array}
+        \]
+        \item[Aplicación de función]
+        \[
+            \begin{array}{c}
+                \inference{t_1\;asa&t_2\;asa}{app(t_1,t_2)\;asa}
+            \end{array}
+        \]
+        \item[Operador de punto fijo]
+        \[
+            \begin{array}{c}
+                \inference{t\;asa}{fix(\textit{T},f.t)\;asa}
+             \end{array}
+         \]
+		\[\]
+    El operador de punto fijo $fix$ es una implementación interna para evaluar expresiones recursivas. Como no está asociado a ninguna expresión de la sintaxis concreta es imposible que un usuario lo pueda instanciar directamente.\\\\
+    El operador $recfun$ tiene dos variables ligadas en el cuerpo de la definición: el nombre de la función y la variable que recibe como argumento.
+        \end{description}
+    \end{definition}
+
+\section{Semántica de MinHaskell}
+
+    \subsection{Sistemas de tipos}
+    Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contentido específico que este pudiera tener.\\\\
+    En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones, qué valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos empleando una colección de reglas de tipado.\\\\
+    Este sistema estará embedido en la siguiente capa de \textsf{MinHaskell} de forma similar como fue trabajado con anterioridad con el lenguaje \textsf{EAB}, dicho nivel es la semántica estática que define un conjunto de juicios para brindar la seguridad de evaluación a las expresiones.
+
+\subsection{Semántica estática}
+
+    \textsf{Haskell} es un lenguaje de programación categorizado como fuertemente tipado, esto quiere decir que la evaluación de las expresiones solo es posible cuando el programa es congruente con las reglas definidas por su sitema de tipos, descartando la evaluación de todas aquellas expresiones que estén bien formadas pero que no respeten las restricciones del sistema. \\
+
+
+    \begin{definition}[Semántica estática]
+       La semántica estática nos ayuada a definir criterios para evaluar los programas de \textsf{MinHaskell} con la información que se pueda inferir acerca de los parámetros que una expresión toma como argumento o el tipo que esta regresa al concluir su evaluación\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}. Para este propósito definimos el siguiente juicio:
+    
+    $$\Gamma\vdash t: T$$
+    
+    \noindent
+    El cual se lee como: ''la expresión $t$ tiene tipo T$\ $bajo el contexto $\Gamma$''. 
+    En donde $\Gamma$ es un conjunto de asignaciones de tipos a variables de la forma $\{x_1:T_1\dots x_n:T_n\}$\footnote{Se utiliza la notación $\Gamma, x:T$ para indicar el conjunto $\Gamma \cup \{x:T\}$}.
+        \begin{description}
+            \item[Variables]
+            \[
+                \inference{}{\Gamma, x:T\vdash x:T}
+            \]
+            \item[Valores numéricos]
+            \[
+                \inference{}{\Gamma\vdash num[n] : \textit{Nat}}
+            \]
+             \item[Valores Booleanos]
+             \[
+                \begin{array}{ccc}
+                    \inference{}{\Gamma\vdash bool[\textit{False}] :\textit{Bool}}&\quad&
+                    \inference{}{\Gamma\vdash bool[\textit{True}] :\textit{Bool}}
+                \end{array}
+            \]
+            \item[Operadores]
+            \[
+                \begin{array}{ccc}
+                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash sum(t_1,t_2) : \textit{Nat}}&
+                    \quad&
+                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash prod(t_1,t_2) : \textit{Nat}}\\
+                    &&\\
+                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash sub(t_1,t_2) : \textit{Nat}}&
+                    \quad&
+                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash ig(t_1,t_2) : \textit{Bool}}\\
+                    &&\\
+                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash gt(t_1,t_2) : \textit{Bool}}&
+                    \quad&
+                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash lt(t_1,t_2) : \textit{Bool}}\\
+                \end{array}
+            \]
+            \item[Condicional]
+            \[
+                \inference{\Gamma\vdash t_c:\textit{Bool}&\Gamma\vdash t_t:T&\Gamma\vdash t_e:T}{\Gamma\vdash if(t_c,t_t,t_e):T}
+            \]
+            \item[Asignaciones Locales]
+            \[
+                \begin{array}{ccc}
+                    \inference{\Gamma\vdash t_v:T&\Gamma,x:T\vdash t_b:St}{\Gamma\vdash let(t_v,x.t_b) : St}&\quad&
+                \end{array}
+            \]
+            \item[Funciones]
+            \[
+                \inference{\Gamma,x:T\vdash t:St}{\Gamma\vdash fun(T,x.t): T\to St} \quad
+                \inference{\Gamma\vdash f:T\to St,x : T \vdash t : S}{\Gamma\vdash recfun(T \to S,f.x.t):T\to S}
+            \]
+            \item[Aplicación de función]
+            \[
+                \inference{\Gamma\vdash t_f:T\to St&\Gamma\vdash t_p : T}{\Gamma\vdash app(t_f,t_p):St}
+            \]
+            \item[Operador de punto fijo]
+            \[
+                \inference{\Gamma,x:T\vdash t:T}{\Gamma\vdash fix(T,x.t):T}
+            \]
+            Obsérvese que en el caso de $fix\,$ se está asumiendo el mismo tipo que se debe concluir.
+        \end{description}
+    \end{definition}
+
+    \begin{exercise}
+        Para cada expresión de $MinHaskell$ enlistada a continuación obtén su representación en \textbf{sintaxis abstracta} y aplica las reglas de la \textbf{semántica estática} para hacer el análisis de tipos de la expresión.\\\\
+        % USA DESCRIPTION
+        % \begin{description}
+        %   \item[Representación en sintaxis concreta]
+        % \end{description}
+        \textbf{Representación en sintaxis concreta: }
+        $$ 1\ +\ (7\ -\ 1)$$
+        \textbf{Representación en sintaxis abstracta: }
+        $$ sum(num[1],res(num[7],num[1]))$$
+        \textbf{Análisis de tipo aplicando la semántica estática: }
+        $$\inference{\inference{}{\empty \vdash num[1]\ :\textbf{Nat}} & \inference{\inference{}{\empty \vdash num[7]\ :\ \textbf{Nat}} & \inference{}{ \empty \vdash num[1]\ :\ \textbf{Nat}}}{\empty \vdash res(num[7],num[1])\ :\ \textbf{Nat}}}{ \empty \vdash sum(num[1],res(num[7],num[1])) : \textbf{Nat}}$$
+        \textbf{Representación en sintaxis concreta: }
+        $$ lam\ x\ :: \textbf{Nat} \rightarrow\ x\ \textgreater\ 1$$
+        \textbf{Representación en sintaxis abstracta: }
+        $$  fun(\textbf{Nat}, x.gt(x,num[1]))$$
+        \textbf{Análisis de tipo aplicando la semántica estática: }
+        $$  \inference{\inference{\inference{}{x\ :\ Nat \vdash  x\ :\ \textbf{Nat}} & \inference{}{x\ :\ Nat \vdash num[1]\ :\ \textbf{Nat}}}{x\ :\ Nat \vdash gt(x,num[1]) : \textbf{Bool}}}{\empty \vdash fun(\textbf{Nat}, x.gt(x,num[1]))\ :\ \textbf{Bool} \to \textbf{Nat}} $$
+        \textbf{Representación en sintaxis concreta: }
+        $$ \textbf{let}\ x\ =\ 3\ \textbf{in}\ if\ x \textless 7\ \textbf{then}\ x\ +\ (7\ -\ x)\ \textbf{else}\ x\ \textbf{end} $$
+        \textbf{Representación en sintaxis abstracta: }
+        $$  let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x))))$$
+        \textbf{Análisis de tipo aplicando la semántica estática: }
+        $$\scalemath{0.7}{
+            \inference{\inference{}{\vdash num[3]\ :\ \textbf{Nat}} & \inference{ \inference{(A) \cdots}{x:\textbf{Nat} \vdash lt(x,num[7]) : \textbf{Bool}} & \inference{}{x:\textbf{Nat} \vdash num[7] : \textbf{Nat}} & \inference{(B) \cdots}{x:\textbf{Nat} \vdash sum(x,res(num[7],x)) : \textbf{Nat}}}{x:\textbf{Nat} \vdash if(lt(x,num[7]),num[7],sum(x,res(num[7],x)) }}{\empty \vdash let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x))))\ :\ \textbf{Nat}}
+        }$$
+        \textbf{(A) Análisis semántico para lt}
+        $$ \inference{\inference{}{x:\textbf{Nat} \vdash x:\textbf{Nat}} & \inference{}{x:\textbf{Nat} \vdash num[7] : \textbf{Nat}}}{x:\textbf{Nat} \vdash lt(x,num[7]) : \textbf{Bool}} $$
+        \textbf{(B) Análisis semántico para sum}
+        $$ \inference{\inference{}{x:\textbf{Nat} \vdash x:\textbf{Nat}} & \inference{\inference{}{x:\textbf{Nat} \vdash num[7] : \textbf{Nat}} & \inference{}{x:\textbf{Nat} \vdash x:\textbf{Nat}}}{x:\textbf{Nat} \vdash res(num[7],x) : \textbf{Nat}}}{x:\textbf{Nat} \vdash sum(x,res(num[7],x)) : \textbf{Nat}} $$
+    \end{exercise}
+
+\subsection{Semántica dinámica}
+
+    Para concluir con la definición de $MinHaskell$ enunciaremos las reglas de la \textbf{Semántica Operacional}. Es importante observar que la evaluación perezosa característica de \textbf{Haskell} se debe particularmente a los operadores \textbf{app} y \textbf{let} dado que la sustitución se hace sin evaluar la expresión que dará el valor en la variable ligada. 
+    \begin{definition}[Semántica Operacional de paso pequeño perezosa]
+        \begin{itemize}
+            \item Conjunto de estados $S=\{a\;|\;a\;asa\}$
+            \item Estados Iniciales $I=\{a\;|\;a\;asa,\;\varnothing\sim a\}$
+            \item Estados Finales $F = \{num[n],bool[true],bool[false],lam(x.t)\}$
+            \item Transiciones, dadas por las siguientes reglas:
+            \begin{description}
+                \item[Condicional]
+    
+                \[
+                    \begin{array}{ccc}
+                        \inference{}{if(bool[true],a_t,a_e)\to a_t}[\sf ifT]&\quad&
+                        \inference{}{if(bool[false],a_t,a_e)\to a_e}[\sf ifF]
+                        \quad
+                    \end{array}
+                \]
+                \[
+                    \begin{array}{c}
+                        \inference{a_c\to a_c'}{if(a_c,a_t,a_e)\to if(a_c',a_t,a_e)}[\sf if]
+                        \quad
+                    \end{array}
+                \]
+    
+                \item[Asignaciones locales]
+    
+                \[
+                    \begin{array}{c}
+                        \inference{}{let(a_1,x.a_2)\to a_2[x:=a_1]}[\sf let]\\
+                    \end{array}
+                \]
+    
+                \item[Aplicación de función]
+                \[
+                    \begin{array}{ccc}
+                        \inference{}{app(lam(x.a_b),a_p)\to a_b[x:=a_p]}[\sf app]&
+                    \end{array}
+                \]
+                \[
+                    \begin{array}{ccc}
+                        \inference{a_f \to a_f'}{app(a_f,a_p)\to app(a_f',a_p)}[\sf appL]\
+                    \end{array}
+                \]
+                \[
+                    \begin{array}{ccc}
+                        \inference{}{app(recfun(\textbf{T},x.a_b),a_p) \to a_b[f:=fix(\textbf{T},f.x.a_b),\ x:=\ a_p])}[\sf appR]\
+                    \end{array}
+                \]
+                $$$$
+                \[
+                    \begin{array}{ccc}
+                        \inference{}{app(fix(\textbf{T},f.x.a_b),a_p) \to a_b[f:=fix(\textbf{T},f.x.a_b),x:=a_p]}[\sf appF]\
+                    \end{array}
+                \] 
+                \item[Operador de punto fijo]
+                \[
+                    \begin{array}{c}
+                        \inference{}{fix(\textbf{T},f.a) \to a[f := fix(\textbf{T},f.a)]}[\sf fix]
+                    \end{array}
+                \]
+                \item[Operadores] 
+                    $$$$
+                     \text{Para acotar el listado de reglas se omite la representación para los} \\
+                     \text{operadores cuya definición es la misma a la que se dió para \emph{EAB} en} \\
+                     \text{el \textbf{Capítulo 4: Semánitca} definición 2.3, las reglas para operadores} \\
+                     \text{booleanos de comparación $lt,\ \textless, \textgreater, =$ se define de manera análoga.}
+            \end{description}
+        \end{itemize}
+\end{definition}
+
+\section{Propiedades de MinHaskell}
+
+    Para concluir este capítulo revisaremos brevemente las propiedades que la definición de $MinHaskell$ posee. Mas adelante revisitaremos esta sección para discutir el resto de éllas enunciando únicamente las propiedades \textbf{Seguridad} y \textbf{No terminación} del lenguaje.
+
+    \subsection{Seguridad del lenguaje}
+        Esta propiedad es una característica que nos ayuda a verificar la correctud del sistma, y se interpreta como: "Un programa que cumpla con las restricciones dadas por el sistema de tipos no puede tener una evaluación errónea". Ligándo las definiciones para la \textbf{Semánitca estática} conciernente al tipado de las expresiones y la \textbf{Semánitca Dinámica} concerniente a la evluación de las mismas.\\
+        
+        Ésta propiedad posse dos características que se aplican a las expresiones de $MinHaskell$:
+        \begin{itemize}
+            \item \textbf{Progreso} \\
+            Engloba la propiedad: "Un programa que cumple con las restricciones de tipado no se bloquea hasta llegar a un valor." Éste comportamiento está capturado en la definición de progreso enlistada a continuación para las expresiones de $MinHaskell$:\\
+             
+             \begin{definition}[Propiedad de progreso]
+                Si $\vdash t : \textbf{T}$ para algún tipo \textbf{T} entonces se cumple una de los siguientes dos casos:\\
+                (A) t es un valor \\
+                (B) Existe una expresión t' tal que t $\to$ t'
+             \end{definition}
+                $$$$
+            \item \textbf{Preservación} \\
+                Referente a la idea: "Un programa que cumple con las restricciones de tipado dará como resultado de la evaluación una expresión correctamente tipada y que potencialmente preserva su mismo tipo"\\
+        
+                Ésto se puede observar en las siguientes dos propiedades definidas para las expresiones de $MinHaskell$:\\
+                
+
+                    \begin{definition}[Unicidad de tipado]
+                        Para cualesquiera $\Gamma$ y expresión t de \textbf{MinHs} existe a lo más un tipo \textbf{T} de tal forma que se cumple: $\Gamma \vdash t : \textbf{T}$\\    
+                    \end{definition}
+                    
+                     \begin{definition}[Preservación de tipos]
+                        Sí $\Gamma \vdash t : \textbf{T}$ y $t \to t'$ entonces $\Gamma \vdash t' : \textbf{T}$
+                    \end{definition}
+
+        \end{itemize}
+
+    \subsection{No terminación}
+        $MinHaskell$ hereda un problema similar a lo que sucedió en el \textbf{Cálculo Lambda} con la introducción de los combinadores para implementar la \textbf{recursión general}. Éste problema es la existencia de expresiones del lenguaje sintácticamente y semánticamente correctas que producen un estado conocido \textbf{´loop´} ó \textbf{'estado de ciclado'}
+
+
+        \begin{exercise}
+            Demuestra o da un contraejemplo de la propiedad de no terminación para $MinHaskell$\\
+
+            Considera la función identidad que recibe un parámetro y regresa el mismo representada como \textbf{x.x} sí utilizamos esta expresión como el cuerpo de nuestro operador \textbf{fix} obtenemos la expresión:
+            \[
+                fix(x.x) \to x[x:=fix(x.x)] = fix(x.x) \to ... \footnote{Ejemplo extraido de Javier E. Mendoza, Lenguajes de Programación 2023-1 Nota de clase 6 \textbf{MinHaskell}, Universidad Nacional Autónoma de México. pp 8}
+            \]
+            Por lo tanto $MinHaskell$ \textbf{no posee} la propiedad de terminación.
+            
+        \end{exercise}
+
+
+\newpage
+
+\section{Ejercicios para el lector}
+
+    Para concluir el capítulo se enlistan a continuación los ejercicios de comprensión para el lector, similares a los revisados durante el capítulo.\\\\
+    Estos ejercicios pretenden aplicar los diferentes niveles de la semánitca y la sintaxis de $MinHaskell$ agregando instrucciones para el lenguaje o verificando el tipado sobre la definición de funciones y expresiones\footnote{Ejercicios \textbf{4.3}, \textbf{4.5} y \textbf{4.6} extraídos de Javier E. Mendoza, Kevin P. Ramos, Lenguajes de Programación 2023-1; Boletín de ejercicios 4, Noviembre 2022. Extendiendo la definición del operador \textbf{Case} para incluir el caso por omisión.}.
+
+    \bigskip
+
+    \begin{exercise}
+        Queremos extender la definición de $MinHaskell$ para agregar el tipo de dato algebráico $tupla$ representado como \textbf{Pair(x,y)} (donde ambos elementos no necesariamente tienen que tener el mismo tipo). Así como las proyecciones \textbf{Fst} y \textbf{Snd}.\\
+
+        Con  la descripción anterior responde los siguientes puntos:
+        \begin{itemize}
+            \item Define la sintaxis concreta para las tuplas.
+            \item Define la regla de sintaxis abstracta para las tuplas.
+            \item Define la regla de la semántica estática para las tuplas.
+            \item Define la(s) reglas de evluación para las tuplas.
+            \item Cuál es la diferencia entre una expresión que construye la tupla y la proyección que obtiene el elemento? (\textbf{Hint: } Las reglas de la semántica dinámica permiten comparar ambos elementos para responder este punto).
+        \end{itemize}
+    \end{exercise}
+
+    \bigskip
+
+    \begin{exercise}
+        Para las siguientes expresiones de $MinHaskell$ determina el tipo y verifica tu respuesta utilizando las reglas de la \textbf{Semántica estática}.\\
+        
+        \begin{itemize}
+            \item \textbf{Pair(3, True)}
+            \item \textbf{Snd Pair(3, True)}
+            \item \textbf{app(lam(Nat, x.suc(x)), 0)}  
+            \item  \textbf{$recfun\; fact\; ::\; (\textbf{Nat} \rightarrow \textbf{Nat})\; x \rightarrow\; if\; IsZero(x)\; then\; 1\; else\; n\; *\; fact\; (n-1)$}
+            \item  \textbf{$ let\; f\; ::\; (\textbf{Nat} \rightarrow \textbf{Nat})\; in\; lam\; x\; ::\; Nat \rightarrow\; f\; x\; end$}
+        \end{itemize}
+    \end{exercise}
+
+    \begin{exercise}
+        El operador \textbf{Case $x$ of $x.g \rightarrow\ c1$ ; $x.g \rightarrow\ c2$ ; ... end} es la generlización de múltiples expresiones \textbf{if} \textbf{else} para evaluar el argumento de entrada o $guardia$ ($g$) y el caso al que este es aplicado ($e_n$) de tal forma que se toma como resultado de la expresión la primera guardia que se evalúe a verdadero de izquierda a derecha (o de arriba hacia abajo como generalmente se escribe el operador \textbf{Case}). \\\\
+        Adicionalmente queremos definir una expresión que por omisión sea el resultado del \textbf{Case} en caso de que ninguna de las condicionales se evalúe a verdadero: 
+        $$ \textbf{ Case } x \textbf{ of } x.g \rightarrow\ c1\ ;\ x.g \rightarrow\ c2\ ;\ ...\ ;\ e_d\ \textbf{end} $$
+
+        Con la especificación dada anterior contesta los siguientes incisos:
+        \begin{itemize}
+            \item Extiende la sintaxis concreta del lenguaje para el operador \textbf{Case} (\textbf{Hint:} se puede añadir un nivel extra para las expresiones guardadas y la expresión \textbf{default}).
+            \item Extiende la sintaxis abstracta del lenguaje para el operador \textbf{Case}. 
+            \item Extiende la semántica estática del lenguaje para el operador \textbf{Case}. 
+            \item Extiende la semántica dinámica del lenguaje para el operador \textbf{Case} (recuerda que se tiene que seguir la implementación de evaluación perezosa).
+        \end{itemize}
+    \end{exercise}
+
+    \begin{exercise}
+        Dada la siguiente expresión \textbf{Case}: 
+        $$ \textbf{Case } n \textbf{ of }  n \textless 0 \rightarrow \textbf{ True } ; n = 0 \rightarrow \textbf{ True } ; \textbf{ False }$$
+        \begin{itemize}
+            \item Evalúala utilizando las reglas de semántica dinámica definidas en el inciso anterior.
+            \item Sí $\Gamma = \{n:\textbf{Nat}\}$ utiliza las reglas de semántica estática definidas en el inciso anterior para obtener el tipado de la expresión.
+        \end{itemize}
+    \end{exercise}
+
+    \begin{exercise}
+        Define las siguientes funciones utilizando la sintaxis concreta de $MinHaskell$ y aplica las reglas de la semántica estática para verificar el tipado de las mismas.
+        \begin{itemize}
+            \item Define la función \textbf{exp}($n_1\ $ $n_2)$ que eleva el primer argumento a la potencia del segundo.
+            \item Define la función \textbf{fibonacci}(n) que obtiene el n-ésimo elemento de la sucesión de Fibonacci.
+            \item Evalúa la expresión \textbf{exp}(2,2) y \textbf{fibonacci}(3).
+        \end{itemize}
+    \end{exercise}
+
+    \begin{exercise}
+        Para las siguientes expresiones, verifique el tipado mostrando la derivación mediante la semántica estática.
+        \begin{itemize}
+            \item (\textbf{fun} x : \textbf{Nat $\to$ Nat} $\rightarrow$ (\textbf{fun} w : \textbf{Nat} $\rightarrow$ (x w) + (x w))) (\textbf{fun} y : \textbf{Nat} $\rightarrow$ y + 1) 
+            \item (\textbf{let} neg = (\textbf{fun} x : \textbf{Bool} $\rightarrow$ \textbf{if } x \textbf{then } false \textbf{else} true) \textbf{in} neg(3 $\leq$ 2) \textbf{end})
+        \end{itemize}
+    \end{exercise}
+
+
+%https://www.cs.princeton.edu/~dpw/cos441-11/notes/slides15-lambda-proofs.pdf
