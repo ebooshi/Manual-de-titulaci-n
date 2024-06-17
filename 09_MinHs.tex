@@ -37,13 +37,13 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
             \mbox{\bf Expresiones}&e&::=&\; var\; | \; n\; |\; b\; |\; (e)\; |\; e_1\otimes \; e_2\; |\; e_1 \; e_2\\
             &&|& \textsf{if} \;e_1\;{\sf then}\;e_2\;{\sf else}\;e_3\\
             &&|& \textsf{let} \;x=\;e_1\;{\sf in}\;e_2\;{\sf end}\\
-            &&|& \textsf{lam} \; x :: \textit{T} \Rightarrow e \\
-            &&|& \textsf{recfun} \;f :: (T_1\Rightarrow T_2)\; x \Rightarrow \;e\\
+            &&|& \textsf{lam} \; x :: \textit{T} \rightarrow e \\
+            &&|& \textsf{recfun} \;f :: (T_1\Rightarrow T_2)\; x \rightarrow \;e\\
             \mbox{\bf Tipos}&\textit{T}&::=&\; \textit{Bool}\;|\textit{Nat}\;|\;T_1\Rightarrow T_2 \\
             \mbox{\bf Variables}&var&::=&x\; |\; y \; | \; \dots\\
             \mbox{\bf Números}&n&::=&0\; |\; 1 \; | \dots\\
             \mbox{\bf Booleanos}&b&::=&\textsf{True}\; |\; \textsf{False}\\
-            \mbox{\bf Operadores Infijos}&\otimes&::=&+|*|-|=|<|>|\geq|\leq\\
+            \mbox{\bf Operadores Infijos}&\otimes&::=&+|*|-|=|<|>\\
         \end{array}
         \]
     \end{definition}
@@ -57,7 +57,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 		\item Proporciona la definición de la función que recibe un número y decide si es zero \textsf{IsZero}:
 			 $$ \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow\; \textsf{if}\; (x\; ==\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
 		\item Proporciona la definición de una función que recibe un número y regresa el factorial \textsf{fact}
-			 $$ \textsf{recfun}\; \textsf{fact}\; ::\; (\textit{Nat} \rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero}(x)\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$$
+			 $$ \textsf{recfun}\; \textsf{fact}\; ::\; (\textit{Nat} \Rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero}(x)\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$$
 		\item Proporciona la definición de una función que recibe dos números y regresa su producto \textsf{prod}:
 			$$ \textsf{lam}\; x\; ::\; Nat \rightarrow\; \textsf{lam}\; y\; ::\; Nat \rightarrow\; x*y$$
 	\end{itemize}
@@ -128,17 +128,17 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 \section{Semántica de MinHaskell}
 
     \subsection{Sistemas de tipos}
-    Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contentido específico que este pudiera tener.\\\\
+    Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contentido específico que estos pudiera tener.\\\\
     En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones, qué valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos empleando una colección de reglas de tipado.\\\\
-    Este sistema estará embedido en la siguiente capa de \textsf{MinHaskell} de forma similar como fue trabajado con anterioridad con el lenguaje \textsf{EAB}, dicho nivel es la semántica estática que define un conjunto de juicios para brindar la seguridad de evaluación a las expresiones.
+    Este sistema estará definido en la siguiente capa de \textsf{MinHaskell} de forma similar como fue trabajado con anterioridad con el lenguaje \textsf{EAB}, dicho nivel es la semántica estática que define un conjunto de juicios para brindar la seguridad de evaluación a las expresiones.
 
 \subsection{Semántica estática}
 
-    \textsf{Haskell} es un lenguaje de programación categorizado como fuertemente tipado, esto quiere decir que la evaluación de las expresiones solo es posible cuando el programa es congruente con las reglas definidas por su sitema de tipos, descartando la evaluación de todas aquellas expresiones que estén bien formadas pero que no respeten las restricciones del sistema. \\
+    \textsf{Haskell} es un lenguaje de programación categorizado como fuertemente tipado, esto quiere decir que la evaluación de las expresiones solo es posible cuando el programa es congruente con las reglas definidas por su sitema de tipos, descartando la evaluación de todas aquellas expresiones que estén bien formadas pero que no respeten las restricciones de este sistema. \\
 
 
     \begin{definition}[Semántica estática]
-       La semántica estática nos ayuada a definir criterios para evaluar los programas de \textsf{MinHaskell} con la información que se pueda inferir acerca de los parámetros que una expresión toma como argumento o el tipo que esta regresa al concluir su evaluación\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}. Para este propósito definimos el siguiente juicio:
+       La semántica estática nos ayuada a definir criterios para evaluar los programas de \textsf{MinHaskell} con la información que se pueda inferir acerca de los parámetros que una expresión toma como argumento o el tipo que esta regresa al concluir su evaluación. Para este propósito definimos el siguiente juicio\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}:
     
     $$\Gamma\vdash t: T$$
     
@@ -164,17 +164,17 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
             \item[Operadores]
             \[
                 \begin{array}{ccc}
-                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash sum(t_1,t_2) : \textit{Nat}}&
+                    \inference{\Gamma\vdash t_1:Nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash sum(t_1,t_2) : \textit{Nat}}&
                     \quad&
-                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash prod(t_1,t_2) : \textit{Nat}}\\
+                    \inference{\Gamma\vdash t_1:Nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash prod(t_1,t_2) : \textit{Nat}}\\
                     &&\\
-                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash sub(t_1,t_2) : \textit{Nat}}&
+                    \inference{\Gamma\vdash t_1:Nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash sub(t_1,t_2) : \textit{Nat}}&
                     \quad&
-                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash ig(t_1,t_2) : \textit{Bool}}\\
+                    \inference{\Gamma\vdash t_1:Nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash eq(t_1,t_2) : \textit{Bool}}\\
                     &&\\
-                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash gt(t_1,t_2) : \textit{Bool}}&
+                    \inference{\Gamma\vdash t_1:Nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash gt(t_1,t_2) : \textit{Bool}}&
                     \quad&
-                    \inference{\Gamma\vdash t_1:nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash lt(t_1,t_2) : \textit{Bool}}\\
+                    \inference{\Gamma\vdash t_1:Nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash lt(t_1,t_2) : \textit{Bool}}\\
                 \end{array}
             \]
             \item[Condicional]
@@ -205,59 +205,61 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
     \end{definition}
 
     \begin{exercise}
-        Para cada expresión de $MinHaskell$ enlistada a continuación obtén su representación en \textbf{sintaxis abstracta} y aplica las reglas de la \textbf{semántica estática} para hacer el análisis de tipos de la expresión.\\\\
+        Para cada expresión de $MinHaskell$ enlistada a continuación obtén su representación en sintaxis abstracta y aplica las reglas de la semántica estática para hacer el análisis de tipos de la expresión.\\\\
         % USA DESCRIPTION
         % \begin{description}
         %   \item[Representación en sintaxis concreta]
         % \end{description}
-        \textbf{Representación en sintaxis concreta: }
-        $$ 1\ +\ (7\ -\ 1)$$
-        \textbf{Representación en sintaxis abstracta: }
-        $$ sum(num[1],res(num[7],num[1]))$$
-        \textbf{Análisis de tipo aplicando la semántica estática: }
-        $$\inference{\inference{}{\empty \vdash num[1]\ :\textbf{Nat}} & \inference{\inference{}{\empty \vdash num[7]\ :\ \textbf{Nat}} & \inference{}{ \empty \vdash num[1]\ :\ \textbf{Nat}}}{\empty \vdash res(num[7],num[1])\ :\ \textbf{Nat}}}{ \empty \vdash sum(num[1],res(num[7],num[1])) : \textbf{Nat}}$$
-        \textbf{Representación en sintaxis concreta: }
-        $$ lam\ x\ :: \textbf{Nat} \rightarrow\ x\ \textgreater\ 1$$
-        \textbf{Representación en sintaxis abstracta: }
-        $$  fun(\textbf{Nat}, x.gt(x,num[1]))$$
-        \textbf{Análisis de tipo aplicando la semántica estática: }
-        $$  \inference{\inference{\inference{}{x\ :\ Nat \vdash  x\ :\ \textbf{Nat}} & \inference{}{x\ :\ Nat \vdash num[1]\ :\ \textbf{Nat}}}{x\ :\ Nat \vdash gt(x,num[1]) : \textbf{Bool}}}{\empty \vdash fun(\textbf{Nat}, x.gt(x,num[1]))\ :\ \textbf{Bool} \to \textbf{Nat}} $$
-        \textbf{Representación en sintaxis concreta: }
-        $$ \textbf{let}\ x\ =\ 3\ \textbf{in}\ if\ x \textless 7\ \textbf{then}\ x\ +\ (7\ -\ x)\ \textbf{else}\ x\ \textbf{end} $$
-        \textbf{Representación en sintaxis abstracta: }
-        $$  let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x))))$$
-        \textbf{Análisis de tipo aplicando la semántica estática: }
-        $$\scalemath{0.7}{
-            \inference{\inference{}{\vdash num[3]\ :\ \textbf{Nat}} & \inference{ \inference{(A) \cdots}{x:\textbf{Nat} \vdash lt(x,num[7]) : \textbf{Bool}} & \inference{}{x:\textbf{Nat} \vdash num[7] : \textbf{Nat}} & \inference{(B) \cdots}{x:\textbf{Nat} \vdash sum(x,res(num[7],x)) : \textbf{Nat}}}{x:\textbf{Nat} \vdash if(lt(x,num[7]),num[7],sum(x,res(num[7],x)) }}{\empty \vdash let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x))))\ :\ \textbf{Nat}}
+       	\begin{itemize}
+		\item    1\ +\ (7\ -\ 1) \\\\
+		 	       Representación en sintaxis abstracta: 
+        			$$ sum(num[1],res(num[7],num[1]))$$
+        				Análisis de tipo aplicando la semántica estática:
+        			$$\inference{\inference{}{\empty \vdash num[1]\ :\textit{Nat}} & \inference{\inference{}{\empty \vdash num[7]\ :\ \textit{Nat}} & \inference{}{ \empty \vdash num[1]\ :\ \textit{Nat}}}{\empty \vdash res(num[7],num[1])\ :\ \textit{Nat}}}{ \empty \vdash sum(num[1],res(num[7],num[1])) : \textit{Nat}}$$
+
+		\item $ \textsf{lam}\ x\ :: \textit{Nat} \rightarrow\ x\ \textgreater\ 1$ \\\\
+        			Representación en sintaxis abstracta: 
+        				$$  fun(\textit{Nat}, x.gt(x,num[1]))$$
+        			Análisis de tipo aplicando la semántica estática: 
+        $$  \inference{\inference{\inference{}{x\ :\ Nat \vdash  x\ :\ \textit{Nat}} & \inference{}{x\ :\ Nat \vdash num[1]\ :\ \textit{Nat}}}{x\ :\ Nat \vdash gt(x,num[1]) : \textit{Bool}}}{\empty \vdash fun(\textit{Nat}, x.gt(x,num[1]))\ :\ \textit{Bool} \to \textit{Nat}} $$ 
+
+		\item $\textsf{let}\ x\ =\ 3\ \textsf{in}\ \textsf{if}\ x \textless\ 7\ \textsf{then}\ x\ +\ (7\ -\ x)\ \textsf{else}\ x\ \textsf{end} $ \\\\
+        			Representación en sintaxis abstracta:
+        				$$  let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x)))) $$
+        			Análisis de tipo aplicando la semántica estática: 
+        $$\scalemath{0.65}{
+            \inference{\inference{}{\vdash num[3]\ :\ \textit{Nat}} & \inference{ \inference{(A) \cdots}{x:\textit{Nat} \vdash lt(x,num[7]) : \textit{Bool}} & \inference{}{x:\textit{Nat} \vdash num[7] : \textit{Nat}} & \inference{(B) \cdots}{x:\textit{Nat} \vdash sum(x,res(num[7],x)) : \textit{Nat}}}{x:\textit{Nat} \vdash if(lt(x,num[7]),num[7],sum(x,res(num[7],x)) }}{\empty \vdash let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x))))\ :\ \textit{Nat}}
         }$$
-        \textbf{(A) Análisis semántico para lt}
-        $$ \inference{\inference{}{x:\textbf{Nat} \vdash x:\textbf{Nat}} & \inference{}{x:\textbf{Nat} \vdash num[7] : \textbf{Nat}}}{x:\textbf{Nat} \vdash lt(x,num[7]) : \textbf{Bool}} $$
-        \textbf{(B) Análisis semántico para sum}
-        $$ \inference{\inference{}{x:\textbf{Nat} \vdash x:\textbf{Nat}} & \inference{\inference{}{x:\textbf{Nat} \vdash num[7] : \textbf{Nat}} & \inference{}{x:\textbf{Nat} \vdash x:\textbf{Nat}}}{x:\textbf{Nat} \vdash res(num[7],x) : \textbf{Nat}}}{x:\textbf{Nat} \vdash sum(x,res(num[7],x)) : \textbf{Nat}} $$
+        (A) Análisis semántico para \textsf{lt}
+        		$$ \inference{\inference{}{x:\textit{Nat} \vdash x:\textit{Nat}} & \inference{}{x:\textit{Nat} \vdash num[7] : \textit{Nat}}}{x:\textit{Nat} \vdash lt(x,num[7]) : \textit{Bool}} $$
+        (B) Análisis semántico para \textsf{sum}
+        		$$ \inference{\inference{}{x:\textit{Nat} \vdash x:\textit{Nat}} & \inference{\inference{}{x:\textit{Nat} \vdash num[7] : \textit{Nat}} & \inference{}{x:\textit{Nat} \vdash x:\textit{Nat}}}{x:\textit{Nat} \vdash res(num[7],x) : \textit{Nat}}}{x:\textit{Nat} \vdash sum(x,res(num[7],x)) : \textit{Nat}} $$
+		
+	\end{itemize}       
     \end{exercise}
 
 \subsection{Semántica dinámica}
 
-    Para concluir con la definición de $MinHaskell$ enunciaremos las reglas de la \textbf{Semántica Operacional}. Es importante observar que la evaluación perezosa característica de \textbf{Haskell} se debe particularmente a los operadores \textbf{app} y \textbf{let} dado que la sustitución se hace sin evaluar la expresión que dará el valor en la variable ligada. 
-    \begin{definition}[Semántica Operacional de paso pequeño perezosa]
+    \begin{definition}[Semántica operacional de paso pequeño] Para concluir con la definición de \textsf{MinHaskell} enunciaremos las reglas de la semántica operacional. \\\\
+Es importante observar que la evaluación perezosa característica de \textsf{Haskell} se debe particularmente a los operadores \textsf{app} y \textsf{let} dado que la sustitución se hace sin evaluar la expresión que dará el valor en la variable ligada\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\ 
         \begin{itemize}
             \item Conjunto de estados $S=\{a\;|\;a\;asa\}$
             \item Estados Iniciales $I=\{a\;|\;a\;asa,\;\varnothing\sim a\}$
             \item Estados Finales $F = \{num[n],bool[true],bool[false],lam(x.t)\}$
-            \item Transiciones, dadas por las siguientes reglas:
+            \item Transiciones, dadas por las siguientes reglas:\\
             \begin{description}
                 \item[Condicional]
     
                 \[
                     \begin{array}{ccc}
-                        \inference{}{if(bool[true],a_t,a_e)\to a_t}[\sf ifT]&\quad&
-                        \inference{}{if(bool[false],a_t,a_e)\to a_e}[\sf ifF]
+                        \inference{}{if(bool[true],a_t,a_e)\to a_t}[\it ifT]&\quad&
+                        \inference{}{if(bool[false],a_t,a_e)\to a_e}[\it ifF]
                         \quad
                     \end{array}
                 \]
                 \[
                     \begin{array}{c}
-                        \inference{a_c\to a_c'}{if(a_c,a_t,a_e)\to if(a_c',a_t,a_e)}[\sf if]
+                        \inference{a_c\to a_c'}{if(a_c,a_t,a_e)\to if(a_c',a_t,a_e)}[\it if]
                         \quad
                     \end{array}
                 \]
@@ -266,44 +268,45 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
     
                 \[
                     \begin{array}{c}
-                        \inference{}{let(a_1,x.a_2)\to a_2[x:=a_1]}[\sf let]\\
+                        \inference{}{let(a_1,x.a_2)\to a_2[x:=a_1]}[\it let]\\
                     \end{array}
                 \]
     
                 \item[Aplicación de función]
                 \[
                     \begin{array}{ccc}
-                        \inference{}{app(lam(x.a_b),a_p)\to a_b[x:=a_p]}[\sf app]&
+                        \inference{}{app(lam(x.a_b),a_p)\to a_b[x:=a_p]}[\it app]&
                     \end{array}
                 \]
                 \[
                     \begin{array}{ccc}
-                        \inference{a_f \to a_f'}{app(a_f,a_p)\to app(a_f',a_p)}[\sf appL]\
+                        \inference{a_f \to a_f'}{app(a_f,a_p)\to app(a_f',a_p)}[\it appL]\
                     \end{array}
                 \]
                 \[
                     \begin{array}{ccc}
-                        \inference{}{app(recfun(\textbf{T},x.a_b),a_p) \to a_b[f:=fix(\textbf{T},f.x.a_b),\ x:=\ a_p])}[\sf appR]\
+                        \inference{}{app(recfun(\textit{T},x.a_b),a_p) \to a_b[f:=fix(\textit{T},f.x.a_b),\ x:=\ a_p])}[\it appR]\
                     \end{array}
                 \]
                 $$$$
                 \[
                     \begin{array}{ccc}
-                        \inference{}{app(fix(\textbf{T},f.x.a_b),a_p) \to a_b[f:=fix(\textbf{T},f.x.a_b),x:=a_p]}[\sf appF]\
+                        \inference{}{app(fix(\textit{T},f.x.a_b),a_p) \to a_b[f:=fix(\textit{T},f.x.a_b),x:=a_p]}[\it appF]\
                     \end{array}
                 \] 
                 \item[Operador de punto fijo]
                 \[
                     \begin{array}{c}
-                        \inference{}{fix(\textbf{T},f.a) \to a[f := fix(\textbf{T},f.a)]}[\sf fix]
+                        \inference{}{fix(\textit{T},f.a) \to a[f := fix(\textit{T},f.a)]}[\it fix]
                     \end{array}
                 \]
                 \item[Operadores] 
                     $$$$
                      \text{Para acotar el listado de reglas se omite la representación para los} \\
-                     \text{operadores cuya definición es la misma a la que se dió para \emph{EAB} en} \\
-                     \text{el \textbf{Capítulo 4: Semánitca} definición 2.3, las reglas para operadores} \\
-                     \text{booleanos de comparación $lt,\ \textless, \textgreater, =$ se define de manera análoga.}
+                     \text{operadores cuya definición es la misma a la que se dió para \textsf{EAB} en} \\
+                     \text{el \hyperref[sec:semantics]{capítulo 4: Semántica}.}
+                     \text{Las reglas para operadores booleanos de }\\
+		     \text{comparación $\textless, \textgreater y  =$ se definen de manera análoga.}
             \end{description}
         \end{itemize}
 \end{definition}
@@ -357,8 +360,6 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
             
         \end{exercise}
 
-
-\newpage
 
 \section{Ejercicios para el lector}
 
