@@ -466,10 +466,9 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                 $${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$ 
 
             \subsection{Listas}
-            Las listas en el Cálculo Lambda se apoyan del constructor de la tupla para ir añadiendo elementos anidando esta operación agregando una unidad por aplicación. 
-            Para esta estrcutura la lista vacía será representada por una $\lambda$-expresión que sea $\alpha$-equivalente a la constante \textsf{False}.
 
-            \begin{definition}[Definición de listas en Cálculo Lambda]\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{113}{[113]}}\\\\
+            \begin{definition}[Definición de listas en Cálculo Lambda]  Las listas en el Cálculo Lambda se apoyan del constructor de la tupla para ir añadiendo elementos anidando esta operación agregando una unidad por aplicación. \\\\
+            Para esta estrcutura la lista vacía será representada por una $\lambda$-expresión que sea $\alpha$-equivalente a la constante \textsf{False}.\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{113}{[113]}}\\\\
                 \text{Lista vacía}
                 $${\sf nil}  = \textsf{False}$$
                 \text{Constructor para listas}
@@ -486,7 +485,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                     Estudiamos la propiedad de terminación para las expresiones correctamente formadas de \textsf{EAB}, en donde estas se evaluarán a un valor en un número finito de pasos (cuando la evaluación ha llegado a este punto se le conoce como forma normal). 
                     No obstante esta propiedad no se cumple para el Cálculo Lambda como se puede ver a continuación:
                     \begin{exercise}
-                        Demuestra o da un contraejemplo de por qué la porpiedad de terminación para el Cálculo Lambda es válida.\\\\
+                        Demuestra o da un contraejemplo de por qué la porpiedad de terminación para el Cálculo Lambda es válida\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}.\\\\
                         Consideremos el siguiente par de $\lambda$-expresiones:\\
                         $$ \omega = \lambda x.xx$$
                         $$ \Omega = \omega \omega$$
@@ -496,7 +495,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                     \end{exercise}
 
                 \subsection{No determinismo}
-                    En los lenguajes de programación una propiedad deseable es la propiedad determinista de los programas, es decir, que la evaluación que se haga para una expresión sea siempre la misma. El Cálculo Lambda carece de esta propiedad. Dependiendo del segmento que escogamos para aplicar la $\beta$-reducción el siguiente paso de la evaluación puede diferir.\\
+                    En los lenguajes de programación una propiedad deseable es la propiedad determinista de los programas, es decir, que la evaluación que se haga para una expresión sea siempre la misma. El Cálculo Lambda carece de esta propiedad. Dependiendo del segmento que escogamos para aplicar la $\beta$-reducción el siguiente paso de la evaluación puede diferir\footnote{Definición formulada de \hyperlink{119}{[119]}}.\\
 		   Tomemos como ejemplo la siguiente $\lambda$-expresión\footnote{Ejemplo extraído de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
                     $$(\lambda z.(\lambda y.z)a)b$$
                     Si consideramos la aplicación para la expresión completa, se obtiene la siguiente evaluación: $$\underline{(\lambda z.(\lambda y.z)a)b} \rightarrow_\beta (\lambda y.b)a$$

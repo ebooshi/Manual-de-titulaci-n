@@ -306,58 +306,49 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
                      \text{operadores cuya definición es la misma a la que se dió para \textsf{EAB} en} \\
                      \text{el \hyperref[sec:semantics]{capítulo 4: Semántica}.}
                      \text{Las reglas para operadores booleanos de }\\
-		     \text{comparación $\textless, \textgreater y  =$ se definen de manera análoga.}
+		     \text{comparación $\textless, \textgreater,  =$ se definen de manera análoga.}
             \end{description}
         \end{itemize}
 \end{definition}
 
 \section{Propiedades de MinHaskell}
 
-    Para concluir este capítulo revisaremos brevemente las propiedades que la definición de $MinHaskell$ posee. Mas adelante revisitaremos esta sección para discutir el resto de éllas enunciando únicamente las propiedades \textbf{Seguridad} y \textbf{No terminación} del lenguaje.
-
     \subsection{Seguridad del lenguaje}
-        Esta propiedad es una característica que nos ayuda a verificar la correctud del sistma, y se interpreta como: "Un programa que cumpla con las restricciones dadas por el sistema de tipos no puede tener una evaluación errónea". Ligándo las definiciones para la \textbf{Semánitca estática} conciernente al tipado de las expresiones y la \textbf{Semánitca Dinámica} concerniente a la evluación de las mismas.\\
+        Esta propiedad  proporciona un mecanismo para corroborar que derivado de la evaluación de una expresión que cumple las restricciones dictadas por el sistema de tipos del lenguaje, se obtendrá un valor. Vinculando las definiciones para la semánitca estática conciernente al tipado de las expresiones y la semánitca dinámica concerniente a la evaluación de las mismas\footnote{Definición formulada de \hyperlink{117}{[117]} y \hyperlink{118}{[118]}}.
         
-        Ésta propiedad posse dos características que se aplican a las expresiones de $MinHaskell$:
         \begin{itemize}
-            \item \textbf{Progreso} \\
-            Engloba la propiedad: "Un programa que cumple con las restricciones de tipado no se bloquea hasta llegar a un valor." Éste comportamiento está capturado en la definición de progreso enlistada a continuación para las expresiones de $MinHaskell$:\\
+            \item Progreso: Un programa que cumple con las restricciones de tipado no se bloquea hasta llegar a un valor. Este comportamiento está capturado en la definición de progreso enlistada a continuación para las expresiones de \textsf{MinHaskell}:
              
              \begin{definition}[Propiedad de progreso]
-                Si $\vdash t : \textbf{T}$ para algún tipo \textbf{T} entonces se cumple una de los siguientes dos casos:\\
-                (A) t es un valor \\
-                (B) Existe una expresión t' tal que t $\to$ t'
+                Si $\vdash t : \textit{T}$ para algún tipo \textit{T} entonces se cumple una de los siguientes dos casos\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{117}{[117]} y  \hyperlink{118}{[118]}}:
+                \begin{itemize}
+			\item $t$ es un valor 
+                	\item Existe una expresión $t'$ tal que $t$ $\to$ $t'$
+		   \end{itemize}
              \end{definition}
-                $$$$
-            \item \textbf{Preservación} \\
-                Referente a la idea: "Un programa que cumple con las restricciones de tipado dará como resultado de la evaluación una expresión correctamente tipada y que potencialmente preserva su mismo tipo"\\
-        
-                Ésto se puede observar en las siguientes dos propiedades definidas para las expresiones de $MinHaskell$:\\
+            \item Preservación: Un programa que cumple con las restricciones de tipado dará como resultado de la evaluación una expresión correctamente tipada. Esto se puede observar en las siguientes dos propiedades definidas para las expresiones de \textsf{MinHaskell}:
                 
-
                     \begin{definition}[Unicidad de tipado]
-                        Para cualesquiera $\Gamma$ y expresión t de \textbf{MinHs} existe a lo más un tipo \textbf{T} de tal forma que se cumple: $\Gamma \vdash t : \textbf{T}$\\    
+                        Para cualesquiera $\Gamma$ y expresión t de \textsf{MinHaskell} existe a lo más un tipo \textit{T} de tal forma que se cumple: $\Gamma \vdash t : \textit{T}$\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}}.\\    
                     \end{definition}
                     
                      \begin{definition}[Preservación de tipos]
-                        Sí $\Gamma \vdash t : \textbf{T}$ y $t \to t'$ entonces $\Gamma \vdash t' : \textbf{T}$
+                        Sí $\Gamma \vdash t : \textit{T}$ y $t \to t'$ entonces $\Gamma \vdash t' : \textit{T}$\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}  y \hyperlink{118}{[118]}}.
                     \end{definition}
 
         \end{itemize}
 
     \subsection{No terminación}
-        $MinHaskell$ hereda un problema similar a lo que sucedió en el \textbf{Cálculo Lambda} con la introducción de los combinadores para implementar la \textbf{recursión general}. Éste problema es la existencia de expresiones del lenguaje sintácticamente y semánticamente correctas que producen un estado conocido \textbf{´loop´} ó \textbf{'estado de ciclado'}
-
+        \textsf{MinHaskell} hereda un problema similar a lo que sucedió en el Cálculo Lambda con la introducción de los combinadores para implementar la recursión general. Este problema es la existencia de expresiones del lenguaje sintácticamente y semánticamente correctas que producen un estado conocido \textit{loop} ó estado de ciclado.
 
         \begin{exercise}
-            Demuestra o da un contraejemplo de la propiedad de no terminación para $MinHaskell$\\
+            Demuestra o da un contraejemplo de la propiedad de no terminación para \textsf{MinHaskell}\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}\\
 
-            Considera la función identidad que recibe un parámetro y regresa el mismo representada como \textbf{x.x} sí utilizamos esta expresión como el cuerpo de nuestro operador \textbf{fix} obtenemos la expresión:
+            Considera la función identidad que recibe un parámetro y regresa el mismo representada como \textit{f.f} sí utilizamos esta expresión como el cuerpo de nuestro operador \textsf{fix} obtenemos la expresión:
             \[
-                fix(x.x) \to x[x:=fix(x.x)] = fix(x.x) \to ... \footnote{Ejemplo extraido de Javier E. Mendoza, Lenguajes de Programación 2023-1 Nota de clase 6 \textbf{MinHaskell}, Universidad Nacional Autónoma de México. pp 8}
+                \textit{fix}(Nat\ f.f) \to f[f:=fix(Nat\ f.f)] = fix(Nat\ f.f)  \to ...
             \]
-            Por lo tanto $MinHaskell$ \textbf{no posee} la propiedad de terminación.
-            
+            Por lo tanto \textsf{MinHaskell} no posee la propiedad de terminación.
         \end{exercise}
 
 
