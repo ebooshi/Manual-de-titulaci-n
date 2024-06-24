@@ -354,77 +354,73 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
 
 \section{Ejercicios para el lector}
 
-    Para concluir el capítulo se enlistan a continuación los ejercicios de comprensión para el lector, similares a los revisados durante el capítulo.\\\\
-    Estos ejercicios pretenden aplicar los diferentes niveles de la semánitca y la sintaxis de $MinHaskell$ agregando instrucciones para el lenguaje o verificando el tipado sobre la definición de funciones y expresiones\footnote{Ejercicios \textbf{4.3}, \textbf{4.5} y \textbf{4.6} extraídos de Javier E. Mendoza, Kevin P. Ramos, Lenguajes de Programación 2023-1; Boletín de ejercicios 4, Noviembre 2022. Extendiendo la definición del operador \textbf{Case} para incluir el caso por omisión.}.
-
-    \bigskip
-
     \begin{exercise}
-        Queremos extender la definición de $MinHaskell$ para agregar el tipo de dato algebráico $tupla$ representado como \textbf{Pair(x,y)} (donde ambos elementos no necesariamente tienen que tener el mismo tipo). Así como las proyecciones \textbf{Fst} y \textbf{Snd}.\\
+        Queremos extender la definición de \textsf{MinHaskell} para agregar el tipo de dato algebráico tupla representado como \textsf{pair(x,y)}, donde ambos elementos no necesariamente tienen que tener el mismo tipo, así como las proyecciones \textsf{fst} y \textsf{snd}.\\
 
-        Con  la descripción anterior responde los siguientes puntos:
+        Con  la descripción anterior responde los siguientes incisos:\\
         \begin{itemize}
             \item Define la sintaxis concreta para las tuplas.
             \item Define la regla de sintaxis abstracta para las tuplas.
             \item Define la regla de la semántica estática para las tuplas.
-            \item Define la(s) reglas de evluación para las tuplas.
-            \item Cuál es la diferencia entre una expresión que construye la tupla y la proyección que obtiene el elemento? (\textbf{Hint: } Las reglas de la semántica dinámica permiten comparar ambos elementos para responder este punto).
+            \item Define la(s) reglas de evaluación para las tuplas.
+            \item ¿Cuál es la diferencia entre una expresión que construye la tupla y la proyección que obtiene el elemento?.
         \end{itemize}
     \end{exercise}
 
-    \bigskip
+\bigskip
 
     \begin{exercise}
-        Para las siguientes expresiones de $MinHaskell$ determina el tipo y verifica tu respuesta utilizando las reglas de la \textbf{Semántica estática}.\\
+        Para las siguientes expresiones de \textsf{MinHaskell} determina el tipo y verifica tu respuesta utilizando las reglas de la semántica estática de este lenguaje.\\
         
         \begin{itemize}
-            \item \textbf{Pair(3, True)}
-            \item \textbf{Snd Pair(3, True)}
-            \item \textbf{app(lam(Nat, x.suc(x)), 0)}  
-            \item  \textbf{$recfun\; fact\; ::\; (\textbf{Nat} \rightarrow \textbf{Nat})\; x \rightarrow\; if\; IsZero(x)\; then\; 1\; else\; n\; *\; fact\; (n-1)$}
-            \item  \textbf{$ let\; f\; ::\; (\textbf{Nat} \rightarrow \textbf{Nat})\; in\; lam\; x\; ::\; Nat \rightarrow\; f\; x\; end$}
+            \item \textsf{pair(3, True)}
+            \item \textsf{snd pair(3, True)}
+            \item \textsf{lam} x ::\ $\textit{Nat}\ \rightarrow\ x +1$\; 0  
+            \item  \textsf{$ \textsf{recfun}\; \textit{fact}\; ::\; (\textit{Nat} \Rightarrow \textsf{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero($x$)}\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$}
+		\item \textsf{let} neg = (\textsf{lam} x : \textit{Bool} $\rightarrow$ \textsf{if } x \textsf{then } false \textsf{else} true) \textsf{in} neg(3 $\leq$ 2) \textsf{end}
         \end{itemize}
     \end{exercise}
 
-    \begin{exercise}
-        El operador \textbf{Case $x$ of $x.g \rightarrow\ c1$ ; $x.g \rightarrow\ c2$ ; ... end} es la generlización de múltiples expresiones \textbf{if} \textbf{else} para evaluar el argumento de entrada o $guardia$ ($g$) y el caso al que este es aplicado ($e_n$) de tal forma que se toma como resultado de la expresión la primera guardia que se evalúe a verdadero de izquierda a derecha (o de arriba hacia abajo como generalmente se escribe el operador \textbf{Case}). \\\\
-        Adicionalmente queremos definir una expresión que por omisión sea el resultado del \textbf{Case} en caso de que ninguna de las condicionales se evalúe a verdadero: 
-        $$ \textbf{ Case } x \textbf{ of } x.g \rightarrow\ c1\ ;\ x.g \rightarrow\ c2\ ;\ ...\ ;\ e_d\ \textbf{end} $$
+\bigskip
 
-        Con la especificación dada anterior contesta los siguientes incisos:
+    \begin{exercise}
+        Queremos definir el operador \textsf{Case} con la siguiente sintáxis\footnote{Ejercicio extraído de \hyperlink{121}{[121]}}: \[ \textsf{Case $x$ of $x.g_1 \rightarrow\ c1$ ; $x.g_2 \rightarrow\ c2$ ; ... end} \] Donde \textsf{Case} es la generlización de múltiples expresiones \textsf{if} \textsf{else} para evaluar un argumento de entrada con una condicional o ''guardia'' ($g_n$) para determinar el caso al que este es aplicado ($C_n$). De tal forma que se toma como resultado de la expresión la primera guardia que se evalúe a verdadero de izquierda a derecha (o de arriba hacia abajo como generalmente se escribe el operador \textsf{Case}). \\\\
+        Adicionalmente queremos definir una expresión que por omisión sea el resultado de la evaluación de \textsf{Case} en caso de que ninguna de las guardias se evalúe a verdadero (en este caso se escribe como el último elemento representado como $c_d$): 
+        $$ \textsf{ Case } x \textsf{ of } x.g_1 \rightarrow\ c_1\ ;\ x.g_2 \rightarrow\ c_2\ ;\ ...\ ;\ c_d\ \textsf{end} $$
+
+        Con la especificación anteriormente dada contesta los siguientes incisos:\\
         \begin{itemize}
-            \item Extiende la sintaxis concreta del lenguaje para el operador \textbf{Case} (\textbf{Hint:} se puede añadir un nivel extra para las expresiones guardadas y la expresión \textbf{default}).
-            \item Extiende la sintaxis abstracta del lenguaje para el operador \textbf{Case}. 
-            \item Extiende la semántica estática del lenguaje para el operador \textbf{Case}. 
-            \item Extiende la semántica dinámica del lenguaje para el operador \textbf{Case} (recuerda que se tiene que seguir la implementación de evaluación perezosa).
+            \item Extiende la sintaxis concreta del lenguaje para el operador \textsf{Case}.
+            \item Extiende la sintaxis abstracta del lenguaje para el operador \textsf{Case}. 
+            \item Extiende la semántica estática del lenguaje para el operador \textsf{Case}. 
+            \item Extiende la semántica dinámica del lenguaje para el operador \textsf{Case}.
         \end{itemize}
     \end{exercise}
 
+\bigskip
+
     \begin{exercise}
-        Dada la siguiente expresión \textbf{Case}: 
-        $$ \textbf{Case } n \textbf{ of }  n \textless 0 \rightarrow \textbf{ True } ; n = 0 \rightarrow \textbf{ True } ; \textbf{ False }$$
+        Dada la siguiente expresión \textsf{Case}: 
+        $$ \textsf{Case } n \textsf{ of }  n\ \textless\ 0 \rightarrow \textsf{ True } ; n = 0 \rightarrow \textsf{ True } ; \textsf{ False }$$
         \begin{itemize}
             \item Evalúala utilizando las reglas de semántica dinámica definidas en el inciso anterior.
-            \item Sí $\Gamma = \{n:\textbf{Nat}\}$ utiliza las reglas de semántica estática definidas en el inciso anterior para obtener el tipado de la expresión.
+            \item Sí $\Gamma = \{n:\textit{Nat}\}$ utiliza las reglas de semántica estática definidas en el inciso anterior para obtener el tipo de la expresión.
         \end{itemize}
     \end{exercise}
 
+\bigskip
+
     \begin{exercise}
-        Define las siguientes funciones utilizando la sintaxis concreta de $MinHaskell$ y aplica las reglas de la semántica estática para verificar el tipado de las mismas.
+        Define las siguientes funciones utilizando la sintaxis concreta de \textsf{MinHaskell} y aplica las reglas de la semántica estática para verificar el tipo de las mismas\footnote{Ejercicio extraído de \hyperlink{121}{[121]}}:\\
         \begin{itemize}
-            \item Define la función \textbf{exp}($n_1\ $ $n_2)$ que eleva el primer argumento a la potencia del segundo.
-            \item Define la función \textbf{fibonacci}(n) que obtiene el n-ésimo elemento de la sucesión de Fibonacci.
-            \item Evalúa la expresión \textbf{exp}(2,2) y \textbf{fibonacci}(3).
+            \item Define la función \textsf{exp}($n_1, $ $n_2)$ que eleva el primer argumento a la potencia del segundo.
+            \item Define la función \textsf{fibonacci}(n) que obtiene el n-ésimo elemento de la sucesión de Fibonacci.
+            \item Evalúa la expresión \textsf{exp}(2,2) y \textsf{fibonacci}(3).
         \end{itemize}
     \end{exercise}
 
-    \begin{exercise}
-        Para las siguientes expresiones, verifique el tipado mostrando la derivación mediante la semántica estática.
-        \begin{itemize}
-            \item (\textbf{fun} x : \textbf{Nat $\to$ Nat} $\rightarrow$ (\textbf{fun} w : \textbf{Nat} $\rightarrow$ (x w) + (x w))) (\textbf{fun} y : \textbf{Nat} $\rightarrow$ y + 1) 
-            \item (\textbf{let} neg = (\textbf{fun} x : \textbf{Bool} $\rightarrow$ \textbf{if } x \textbf{then } false \textbf{else} true) \textbf{in} neg(3 $\leq$ 2) \textbf{end})
-        \end{itemize}
-    \end{exercise}
+\bigskip
+
 
 
 %https://www.cs.princeton.edu/~dpw/cos441-11/notes/slides15-lambda-proofs.pdf
