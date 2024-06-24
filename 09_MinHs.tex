@@ -22,7 +22,7 @@ Proveer la definición del lenguaje funcional \textsf{MinHaskell} que preserve l
 \subsubsection{Planteamiento}
 El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho con el lenguaje \textsf{EAB} dividiendo su definición en sintaxis concreta, sintaxis abstracta, semántica dinámica y es aquí en donde se introducirá una nueva capa para estudiar la asignación de tipos de las expresiones. Finalmente concluiremos mencionando brevemente las propiedades que este pequeño lenguaje posee. \\
 
-\section{sintaxis de MinHaskell}
+\section{sintaxis de \textsf{MinHaskel}}
 
 \subsection{sintaxis concreta}
     Para construir el sistema de tipos de \textsf{MinHaskell}, se necesita introducir una nueva expresión de tipo al cual las variables pertenecen que será representado por la letra \textit{T}.\\\\    
@@ -55,7 +55,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 		\item Proporciona la definición de la función sucesor que recibe un número y regresa el sucesor \textsf{suc}: 
 			$$ \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow x + 1$$
 		\item Proporciona la definición de la función que recibe un número y decide si es zero \textsf{IsZero}:
-			 $$ \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow\; \textsf{if}\; (x\; ==\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
+			 $$ \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow\; \textsf{if}\; (x\; =\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
 		\item Proporciona la definición de una función que recibe un número y regresa el factorial \textsf{fact}
 			 $$ \textsf{recfun}\; \textsf{fact}\; ::\; (\textit{Nat} \Rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero}(x)\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$$
 		\item Proporciona la definición de una función que recibe dos números y regresa su producto \textsf{prod}:
@@ -66,7 +66,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 
 \subsection{sintaxis abstracta}
 
-    \begin{definition}[Sintaxis abstracta de \textsf{MinHaskell}]  Una vez definidas las reglas para generar programas en \textsf{MinHaskell} empleado la sintaxis concreta del lenguaje, podemos definir su representación intermedia empleado los árboles de sintaxis abstracta\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.
+    \begin{definition}[Sintaxis abstracta de \textsf{MinHaskell}]  Una vez definidas las reglas para generar programas en \textsf{MinHaskell} empleando la sintaxis concreta del lenguaje, podemos definir su representación intermedia como un árbol de sintaxis abstracta\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\
     
         \begin{description}
             \item[Valores y variables]
@@ -125,16 +125,16 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
         \end{description}
     \end{definition}
 
-\section{Semántica de MinHaskell}
+\section{Semántica de \textsf{MinHaskel}l}
 
     \subsection{Sistemas de tipos}
     Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contentido específico que estos pudiera tener.\\\\
-    En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones, qué valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos empleando una colección de reglas de tipado.\\\\
+    En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones, qué valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos empleando una colección de reglas de tipado\footnote{definición formulada a partir de \hyperlink{96}{[96]}}.\\\\
     Este sistema estará definido en la siguiente capa de \textsf{MinHaskell} de forma similar como fue trabajado con anterioridad con el lenguaje \textsf{EAB}, dicho nivel es la semántica estática que define un conjunto de juicios para brindar la seguridad de evaluación a las expresiones.
 
 \subsection{Semántica estática}
 
-    \textsf{Haskell} es un lenguaje de programación categorizado como fuertemente tipado, esto quiere decir que la evaluación de las expresiones solo es posible cuando el programa es congruente con las reglas definidas por su sitema de tipos, descartando la evaluación de todas aquellas expresiones que estén bien formadas pero que no respeten las restricciones de este sistema. \\
+    \textsf{Haskell} es un lenguaje de programación categorizado como fuertemente tipado, esto quiere decir que la evaluación de las expresiones solo es posible cuando el programa es congruente con las reglas definidas por su sitema de tipos, descartando la evaluación de todas aquellas expresiones que estén bien formadas pero que no respeten las restricciones de este sistema\footnote{definición formulada a partir de \hyperlink{75}{[75]}}. 
 
 
     \begin{definition}[Semántica estática]
@@ -144,7 +144,8 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
     
     \noindent
     El cual se lee como: ''la expresión $t$ tiene tipo T$\ $bajo el contexto $\Gamma$''. 
-    En donde $\Gamma$ es un conjunto de asignaciones de tipos a variables de la forma $\{x_1:T_1\dots x_n:T_n\}$\footnote{Se utiliza la notación $\Gamma, x:T$ para indicar el conjunto $\Gamma \cup \{x:T\}$}.
+    En donde $\Gamma$ es un conjunto de asignaciones de tipos a variables de la forma $\{x_1:T_1\dots x_n:T_n\}$.\\
+    Adicionalmente se utiliza la notación $\Gamma, x:T$ para indicar el conjunto $\Gamma \cup \{x:T\}$.\\
         \begin{description}
             \item[Variables]
             \[
@@ -205,7 +206,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
     \end{definition}
 
     \begin{exercise}
-        Para cada expresión de $MinHaskell$ enlistada a continuación obtén su representación en sintaxis abstracta y aplica las reglas de la semántica estática para hacer el análisis de tipos de la expresión.\\\\
+        Para cada expresión de \textsf{MinHaskell} enlistada a continuación obtén su representación en sintaxis abstracta y aplica las reglas de la semántica estática para hacer el análisis de tipos de la expresión.\\
         % USA DESCRIPTION
         % \begin{description}
         %   \item[Representación en sintaxis concreta]
@@ -227,7 +228,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
         			Representación en sintaxis abstracta:
         				$$  let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x)))) $$
         			Análisis de tipo aplicando la semántica estática: 
-        $$\scalemath{0.65}{
+        $$\scalemath{0.55}{
             \inference{\inference{}{\vdash num[3]\ :\ \textit{Nat}} & \inference{ \inference{(A) \cdots}{x:\textit{Nat} \vdash lt(x,num[7]) : \textit{Bool}} & \inference{}{x:\textit{Nat} \vdash num[7] : \textit{Nat}} & \inference{(B) \cdots}{x:\textit{Nat} \vdash sum(x,res(num[7],x)) : \textit{Nat}}}{x:\textit{Nat} \vdash if(lt(x,num[7]),num[7],sum(x,res(num[7],x)) }}{\empty \vdash let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x))))\ :\ \textit{Nat}}
         }$$
         (A) Análisis semántico para \textsf{lt}
@@ -317,19 +318,19 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
         Esta propiedad  proporciona un mecanismo para corroborar que derivado de la evaluación de una expresión que cumple las restricciones dictadas por el sistema de tipos del lenguaje, se obtendrá un valor. Vinculando las definiciones para la semánitca estática conciernente al tipado de las expresiones y la semánitca dinámica concerniente a la evaluación de las mismas\footnote{Definición formulada de \hyperlink{117}{[117]} y \hyperlink{118}{[118]}}.
         
         \begin{itemize}
-            \item Progreso: Un programa que cumple con las restricciones de tipado no se bloquea hasta llegar a un valor. Este comportamiento está capturado en la definición de progreso enlistada a continuación para las expresiones de \textsf{MinHaskell}:
+            \item Progreso: un programa que cumple con las restricciones de tipado no se bloquea hasta llegar a un valor. Este comportamiento está capturado en la definición de progreso enlistada a continuación para las expresiones de \textsf{MinHaskell}:
              
              \begin{definition}[Propiedad de progreso]
-                Si $\vdash t : \textit{T}$ para algún tipo \textit{T} entonces se cumple una de los siguientes dos casos\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{117}{[117]} y  \hyperlink{118}{[118]}}:
+                Si $\vdash t : \textit{T}$ para algún tipo \textit{T} entonces se cumple una de los siguientes dos casos\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{117}{[117]} y  \hyperlink{118}{[118]}}:\\
                 \begin{itemize}
 			\item $t$ es un valor 
                 	\item Existe una expresión $t'$ tal que $t$ $\to$ $t'$
 		   \end{itemize}
              \end{definition}
-            \item Preservación: Un programa que cumple con las restricciones de tipado dará como resultado de la evaluación una expresión correctamente tipada. Esto se puede observar en las siguientes dos propiedades definidas para las expresiones de \textsf{MinHaskell}:
+            \item Preservación: un programa que cumple con las restricciones de tipado dará como resultado de la evaluación una expresión correctamente tipada. Esto se puede observar en las siguientes dos propiedades definidas para las expresiones de \textsf{MinHaskell}:
                 
                     \begin{definition}[Unicidad de tipado]
-                        Para cualesquiera $\Gamma$ y expresión t de \textsf{MinHaskell} existe a lo más un tipo \textit{T} de tal forma que se cumple: $\Gamma \vdash t : \textit{T}$\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}}.\\    
+                        Para cualesquiera $\Gamma$ y expresión t de \textsf{MinHaskell} existe a lo más un tipo \textit{T} de tal forma que se cumple: $\Gamma \vdash t : \textit{T}$\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}}.
                     \end{definition}
                     
                      \begin{definition}[Preservación de tipos]
@@ -384,7 +385,7 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
 \bigskip
 
     \begin{exercise}
-        Queremos definir el operador \textsf{Case} con la siguiente sintáxis\footnote{Ejercicio extraído de \hyperlink{121}{[121]}}: \[ \textsf{Case $x$ of $x.g_1 \rightarrow\ c1$ ; $x.g_2 \rightarrow\ c2$ ; ... end} \] Donde \textsf{Case} es la generlización de múltiples expresiones \textsf{if} \textsf{else} para evaluar un argumento de entrada con una condicional o ''guardia'' ($g_n$) para determinar el caso al que este es aplicado ($C_n$). De tal forma que se toma como resultado de la expresión la primera guardia que se evalúe a verdadero de izquierda a derecha (o de arriba hacia abajo como generalmente se escribe el operador \textsf{Case}). \\\\
+        Queremos definir el operador \textsf{Case} con la siguiente sintaxis\footnote{Ejercicio extraído de \hyperlink{121}{[121]}}: \[ \textsf{Case $x$ of $x.g_1 \rightarrow\ c1$ ; $x.g_2 \rightarrow\ c2$ ; ... end} \] Donde \textsf{Case} es la generlización de múltiples expresiones \textsf{if} \textsf{else} para evaluar un argumento de entrada con una condicional o ''guardia'' ($g_n$) para determinar el caso al que este es aplicado ($C_n$). De tal forma que se toma como resultado de la expresión la primera guardia que se evalúe a verdadero de izquierda a derecha (o de arriba hacia abajo como generalmente se escribe el operador \textsf{Case}). \\\\
         Adicionalmente queremos definir una expresión que por omisión sea el resultado de la evaluación de \textsf{Case} en caso de que ninguna de las guardias se evalúe a verdadero (en este caso se escribe como el último elemento representado como $c_d$): 
         $$ \textsf{ Case } x \textsf{ of } x.g_1 \rightarrow\ c_1\ ;\ x.g_2 \rightarrow\ c_2\ ;\ ...\ ;\ c_d\ \textsf{end} $$
 
