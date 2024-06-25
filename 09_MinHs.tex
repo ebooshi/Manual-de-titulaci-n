@@ -13,10 +13,10 @@ Con la teoría que hemos revisado hasta el momento en nuestro lenguaje \textsf{E
 Por su naturaleza funcional tomaremos como caso de estudio una versión simplificada del lenguaje de programación \textsf{Haskell}. Este posee características deseables para el enfoque de este curso que serán de importancia trasladar a \textsf{EAB}. \\\\
 Hasta el momento se ha trabajado con tipos de datos primitivos, pero no hemos hablado de la semántica estática que asigna dichos tipos a las expersiones, esto constituye un problema al poder escribir expresiones de \textsf{EAB} correctas pero cuya evaluación no termine en un valor puesto que la ejecución se detendría en algún momento al no hallar una regla de la semántica dinámica que nos permita continuar. \\\\
 Con esto en mente el objetivo de este capítulo será definir un lenguaje similar que nos permita tener todos los tipos de datos de \textsf{EAB}, el sistema de tipos de \textsf{Haskell} y las características más importante del mismo, evaluación perezosa, pureza funcional y asignación de tipos explícita y estática. 
-A este lenguaje lo llamaremos \textsf{MinHaskell} al ser menos robusto que su implementación para computadoras pero servirá para ilustrar los conceptos que hasta ahora hemos trabajado en este manual.
+A este lenguaje lo llamaremos \textsf{MinHS} al ser menos robusto que su implementación para computadoras pero servirá para ilustrar los conceptos que hasta ahora hemos trabajado en este manual.
 
 \subsubsection{Objetivo}
-Proveer la definición del lenguaje funcional \textsf{MinHaskell} que preserve las características principales del lenguaje de programación \textsf{Haskell} a manera de ilustrar una implementación concreta de los conceptos que se han revisado hasta este momento: sintaxis, semántica, Cálculo Lambda y recursión, haciendo especial énfasis en el sistema de tipos de este lenguaje y sus propiedades.
+Proveer la definición del lenguaje funcional \textsf{MinHS} que preserve las características principales del lenguaje de programación \textsf{Haskell} a manera de ilustrar una implementación concreta de los conceptos que se han revisado hasta este momento: sintaxis, semántica, Cálculo Lambda y recursión, haciendo especial énfasis en el sistema de tipos de este lenguaje y sus propiedades.
 
 
 \subsubsection{Planteamiento}
@@ -25,13 +25,13 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 \section{sintaxis de \textsf{MinHaskel}}
 
 \subsection{sintaxis concreta}
-    Para construir el sistema de tipos de \textsf{MinHaskell}, se necesita introducir una nueva expresión de tipo al cual las variables pertenecen que será representado por la letra \textit{T}.\\\\    
+    Para construir el sistema de tipos de \textsf{MinHS}, se necesita introducir una nueva expresión de tipo al cual las variables pertenecen que será representado por la letra \textit{T}.\\\\    
      El tipo de las $\lambda$-expresiones  será representado por la expresión $T_1 \Rightarrow T_2$ en la sintaxis concreta donde $T_1$ representa el tipo de la variable ligada en el cuerpo de la expresión  y $T_2$ es el tipo que regresa la evaluación de la expresión. 
 
 \bigskip
 
     Finalmente se introduce la expresión para funciones recursivas representadas por la expresión \textsf{letrec}$\; var=\; e_1\; {\sf in}\; e_2\;$ \textsf{end}
-    \begin{definition}[Sintaxis Concreta de \textsf{MinHaskell}] A continuación definimos los elementos que componen a las expresiones válidas de \textsf{MinHaskell}.\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}\\ El tipo de las expresiones ahora figura como parte de la sintaxis concreta.
+    \begin{definition}[Sintaxis Concreta de \textsf{MinHS}] A continuación definimos los elementos que componen a las expresiones válidas de \textsf{MinHS}.\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}\\ El tipo de las expresiones ahora figura como parte de la sintaxis concreta.
         \[
         \begin{array}{lrcl}
             \mbox{\bf Expresiones}&e&::=&\; var\; | \; n\; |\; b\; |\; (e)\; |\; e_1\otimes \; e_2\; |\; e_1 \; e_2\\
@@ -49,7 +49,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
     \end{definition}
 
     \begin{exercise}
-    Escribe la definición de los siguientes instrucciones utilizando la sintaxis concreta de \textsf{MinHaskell}\\
+    Escribe la definición de los siguientes instrucciones utilizando la sintaxis concreta de \textsf{MinHS}\\
 
 	\begin{itemize}
 		\item Proporciona la definición de la función sucesor que recibe un número y regresa el sucesor \textsf{suc}: 
@@ -66,7 +66,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 
 \subsection{sintaxis abstracta}
 
-    \begin{definition}[Sintaxis abstracta de \textsf{MinHaskell}]  Una vez definidas las reglas para generar programas en \textsf{MinHaskell} empleando la sintaxis concreta del lenguaje, podemos definir su representación intermedia como un árbol de sintaxis abstracta\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\
+    \begin{definition}[Sintaxis abstracta de \textsf{MinHS}]  Una vez definidas las reglas para generar programas en \textsf{MinHS} empleando la sintaxis concreta del lenguaje, podemos definir su representación intermedia como un árbol de sintaxis abstracta\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\
     
         \begin{description}
             \item[Valores y variables]
@@ -129,16 +129,16 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 
     \subsection{Sistemas de tipos}
     Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contentido específico que estos pudiera tener.\\\\
-    En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones, qué valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos empleando una colección de reglas de tipado\footnote{definición formulada a partir de \hyperlink{96}{[96]}}.\\\\
-    Este sistema estará definido en la siguiente capa de \textsf{MinHaskell} de forma similar como fue trabajado con anterioridad con el lenguaje \textsf{EAB}, dicho nivel es la semántica estática que define un conjunto de juicios para brindar la seguridad de evaluación a las expresiones.
+    En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones, qué valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos empleando una colección de reglas para asignar tipos\footnote{definición formulada a partir de \hyperlink{96}{[96]}}.\\\\
+    Este sistema estará definido en la siguiente capa de \textsf{MinHS} de forma similar como fue trabajado con anterioridad con el lenguaje \textsf{EAB}, dicho nivel es la semántica estática que define un conjunto de juicios para brindar la seguridad de evaluación a las expresiones.
 
 \subsection{Semántica estática}
 
-    \textsf{Haskell} es un lenguaje de programación categorizado como fuertemente tipado, esto quiere decir que la evaluación de las expresiones solo es posible cuando el programa es congruente con las reglas definidas por su sitema de tipos, descartando la evaluación de todas aquellas expresiones que estén bien formadas pero que no respeten las restricciones de este sistema\footnote{definición formulada a partir de \hyperlink{75}{[75]}}. 
+    \textsf{Haskell} es un lenguaje de programación que implementa un sistema de verificación de tipos estático, esto quiere decir que la evaluación de las expresiones solo es posible cuando el programa es congruente con las reglas definidas por su sitema de tipos, descartando la evaluación de todas aquellas expresiones que estén bien formadas pero que no respeten las restricciones de este sistema\footnote{definición formulada a partir de \hyperlink{75}{[75]}}. 
 
 
     \begin{definition}[Semántica estática]
-       La semántica estática nos ayuada a definir criterios para evaluar los programas de \textsf{MinHaskell} con la información que se pueda inferir acerca de los parámetros que una expresión toma como argumento o el tipo que esta regresa al concluir su evaluación. Para este propósito definimos el siguiente juicio\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}:
+       La semántica estática nos ayuada a definir criterios para evaluar los programas de \textsf{MinHS} con la información que se pueda inferir acerca de los parámetros que una expresión toma como argumento o el tipo que esta regresa al concluir su evaluación. Para este propósito definimos el siguiente juicio\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}:
     
     $$\Gamma\vdash t: T$$
     
@@ -206,7 +206,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
     \end{definition}
 
     \begin{exercise}
-        Para cada expresión de \textsf{MinHaskell} enlistada a continuación obtén su representación en sintaxis abstracta y aplica las reglas de la semántica estática para hacer el análisis de tipos de la expresión.\\
+        Para cada expresión de \textsf{MinHS} enlistada a continuación obtén su representación en sintaxis abstracta y aplica las reglas de la semántica estática para hacer el análisis de tipos de la expresión.\\
         % USA DESCRIPTION
         % \begin{description}
         %   \item[Representación en sintaxis concreta]
@@ -241,7 +241,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 
 \subsection{Semántica dinámica}
 
-    \begin{definition}[Semántica operacional de paso pequeño] Para concluir con la definición de \textsf{MinHaskell} enunciaremos las reglas de la semántica operacional. \\\\
+    \begin{definition}[Semántica operacional de paso pequeño] Para concluir con la definición de \textsf{MinHS} enunciaremos las reglas de la semántica operacional. \\\\
 Es importante observar que la evaluación perezosa característica de \textsf{Haskell} se debe particularmente a los operadores \textsf{app} y \textsf{let} dado que la sustitución se hace sin evaluar la expresión que dará el valor en la variable ligada\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\ 
         \begin{itemize}
             \item Conjunto de estados $S=\{a\;|\;a\;asa\}$
@@ -310,27 +310,33 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
 		     \text{comparación $\textless, \textgreater,  =$ se definen de manera análoga.}
             \end{description}
         \end{itemize}
+	Es importante notar que el operador \textit{fix} puede aplicarse a sí mismo de manera indefinida, reemplazando las apariciones del nombre ligado en el cuerpo por la misma definición \textit{fix}. \\\\
+	Esto supone un problema que revisaremos en la siguiente sección ya que deriva en estados ciclados donde el programa puede aplicar esta regla sin llegar a ningún valor si no se define con cuidado la función que estará en el cuerpo de la expresión. 
+
 \end{definition}
 
-\section{Propiedades de MinHaskell}
+\section{Propiedades de \textsf{MinHS}}
 
     \subsection{Seguridad del lenguaje}
-        Esta propiedad  proporciona un mecanismo para corroborar que derivado de la evaluación de una expresión que cumple las restricciones dictadas por el sistema de tipos del lenguaje, se obtendrá un valor. Vinculando las definiciones para la semánitca estática conciernente al tipado de las expresiones y la semánitca dinámica concerniente a la evaluación de las mismas\footnote{Definición formulada de \hyperlink{117}{[117]} y \hyperlink{118}{[118]}}.
+        Esta propiedad  proporciona un mecanismo para corroborar que derivado de la evaluación de una expresión que cumple las restricciones dictadas por el sistema de tipos del lenguaje, se obtendrá un valor. Vinculando las definiciones para la semánitca estática conciernente al tipo de las expresiones y la semánitca dinámica concerniente a la evaluación de las mismas\footnote{Definición formulada de \hyperlink{117}{[117]} y \hyperlink{118}{[118]}}.\\\\
+En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctamente construida y correctamente tipificada se le pueda aplicar alguna de las reglas definidas por la semantica dinámica (progreso). Adicionalmente nos interesa que el tipo de las expresiones sea único y que a cada paso en la evaluación este se conserve (preservación). A continuación daremos una definición formal para estas propiedades.
         
         \begin{itemize}
-            \item Progreso: un programa que cumple con las restricciones de tipado no se bloquea hasta llegar a un valor. Este comportamiento está capturado en la definición de progreso enlistada a continuación para las expresiones de \textsf{MinHaskell}:
+            \item Progreso: un programa que cumple con las restricciones del sistema de tipos no se bloquea. Este comportamiento está capturado en la definición de progreso enlistada a continuación para las expresiones de \textsf{MinHS}:
              
              \begin{definition}[Propiedad de progreso]
-                Si $\vdash t : \textit{T}$ para algún tipo \textit{T} entonces se cumple una de los siguientes dos casos\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{117}{[117]} y  \hyperlink{118}{[118]}}:\\
+                Si $\Gamma \vdash t : \textit{T}$ para algún tipo \textit{T} entonces se cumple una de los siguientes dos casos\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{117}{[117]} y  \hyperlink{118}{[118]}}:
                 \begin{itemize}
 			\item $t$ es un valor 
                 	\item Existe una expresión $t'$ tal que $t$ $\to$ $t'$
 		   \end{itemize}
              \end{definition}
-            \item Preservación: un programa que cumple con las restricciones de tipado dará como resultado de la evaluación una expresión correctamente tipada. Esto se puede observar en las siguientes dos propiedades definidas para las expresiones de \textsf{MinHaskell}:
+
+\bigskip
+            \item Preservación: un programa que cumple con las restricciones del sistema de tipos dará como resultado de la evaluación una expresión correctamente tipada. Esto se puede observar en las siguientes dos propiedades definidas para las expresiones de \textsf{MinHS}:
                 
-                    \begin{definition}[Unicidad de tipado]
-                        Para cualesquiera $\Gamma$ y expresión t de \textsf{MinHaskell} existe a lo más un tipo \textit{T} de tal forma que se cumple: $\Gamma \vdash t : \textit{T}$\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}}.
+                    \begin{definition}[Unicidad de tipo]
+                        Para cualesquiera $\Gamma$ y expresión t de \textsf{MinHS} existe a lo más un tipo \textit{T} de tal forma que se cumple: $\Gamma \vdash t : \textit{T}$\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}}.
                     \end{definition}
                     
                      \begin{definition}[Preservación de tipos]
@@ -340,23 +346,23 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
         \end{itemize}
 
     \subsection{No terminación}
-        \textsf{MinHaskell} hereda un problema similar a lo que sucedió en el Cálculo Lambda con la introducción de los combinadores para implementar la recursión general. Este problema es la existencia de expresiones del lenguaje sintácticamente y semánticamente correctas que producen un estado conocido \textit{loop} ó estado de ciclado.
+        \textsf{MinHS} hereda un problema similar a lo que sucedió en el Cálculo Lambda con la introducción de los combinadores de punto fijo para implementar la recursión general. Este problema es la existencia de expresiones del lenguaje sintácticamente y semánticamente correctas que producen un estado conocido estado ciclado.
 
         \begin{exercise}
-            Demuestra o da un contraejemplo de la propiedad de no terminación para \textsf{MinHaskell}\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}\\
+            Demuestra o da un contraejemplo de la propiedad de no terminación para \textsf{MinHS}\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}\\
 
             Considera la función identidad que recibe un parámetro y regresa el mismo representada como \textit{f.f} sí utilizamos esta expresión como el cuerpo de nuestro operador \textsf{fix} obtenemos la expresión:
             \[
                 \textit{fix}(Nat\ f.f) \to f[f:=fix(Nat\ f.f)] = fix(Nat\ f.f)  \to ...
             \]
-            Por lo tanto \textsf{MinHaskell} no posee la propiedad de terminación.
+            Por lo tanto \textsf{MinHS} no posee la propiedad de terminación.
         \end{exercise}
 
 
 \section{Ejercicios para el lector}
 
     \begin{exercise}
-        Queremos extender la definición de \textsf{MinHaskell} para agregar el tipo de dato algebráico tupla representado como \textsf{pair(x,y)}, donde ambos elementos no necesariamente tienen que tener el mismo tipo, así como las proyecciones \textsf{fst} y \textsf{snd}.\\
+        Queremos extender la definición de \textsf{MinHS} para agregar el tipo de dato algebráico tupla representado como \textsf{pair(x,y)}, donde ambos elementos no necesariamente tienen que tener el mismo tipo, así como las proyecciones \textsf{fst} y \textsf{snd}.\\
 
         Con  la descripción anterior responde los siguientes incisos:\\
         \begin{itemize}
@@ -371,13 +377,13 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
 \bigskip
 
     \begin{exercise}
-        Para las siguientes expresiones de \textsf{MinHaskell} determina el tipo y verifica tu respuesta utilizando las reglas de la semántica estática de este lenguaje.\\
+        Para las siguientes expresiones de \textsf{MinHS} determina el tipo y verifica tu respuesta utilizando las reglas de la semántica estática de este lenguaje.\\
         
         \begin{itemize}
             \item \textsf{pair(3, True)}
             \item \textsf{snd pair(3, True)}
             \item \textsf{lam} x ::\ $\textit{Nat}\ \rightarrow\ x +1$\; 0  
-            \item  \textsf{$ \textsf{recfun}\; \textit{fact}\; ::\; (\textit{Nat} \Rightarrow \textsf{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero($x$)}\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$}
+            \item  \textsf{$ \textsf{recfun}\; \textit{fact}\; ::\; (\textit{Nat} \Rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero($x$)}\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$}
 		\item \textsf{let} neg = (\textsf{lam} x : \textit{Bool} $\rightarrow$ \textsf{if } x \textsf{then } false \textsf{else} true) \textsf{in} neg(3 $\leq$ 2) \textsf{end}
         \end{itemize}
     \end{exercise}
@@ -412,7 +418,7 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
 \bigskip
 
     \begin{exercise}
-        Define las siguientes funciones utilizando la sintaxis concreta de \textsf{MinHaskell} y aplica las reglas de la semántica estática para verificar el tipo de las mismas\footnote{Ejercicio extraído de \hyperlink{121}{[121]}}:\\
+        Define las siguientes funciones utilizando la sintaxis concreta de \textsf{MinHS} y aplica las reglas de la semántica estática para verificar el tipo de las mismas\footnote{Ejercicio extraído de \hyperlink{121}{[121]}}:\\
         \begin{itemize}
             \item Define la función \textsf{exp}($n_1, $ $n_2)$ que eleva el primer argumento a la potencia del segundo.
             \item Define la función \textsf{fibonacci}(n) que obtiene el n-ésimo elemento de la sucesión de Fibonacci.
