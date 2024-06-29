@@ -9,11 +9,11 @@
     \centerline{\includegraphics[scale=0.20]{assets/06_gatito_minHs.jpg}}       
 \end{figure}
 
-Con la teoría que hemos revisado hasta el momento en nuestro lenguaje \textsf{EAB} cuya definición engloba booleanos, a los números natures junto con sus operadores y la implementación del Cálculo Lambda, nos es natural preguntarnos  ¿cómo sería la implementación de un lenguje de características similares en una computadora?. Para resolver esta pregunta definiremos un lenguaje que contenga un subconjunto de instrucciones de algún otro lenguaje cuya implementación ya exista para computadoras.  \\\\
-Por su naturaleza funcional tomaremos como caso de estudio una versión simplificada del lenguaje de programación \textsf{Haskell}. Este posee características deseables para el enfoque de este curso que serán de importancia trasladar a \textsf{EAB}. \\\\
-Hasta el momento se ha trabajado con tipos de datos primitivos, pero no hemos hablado de la semántica estática que asigna dichos tipos a las expersiones, esto constituye un problema al poder escribir expresiones de \textsf{EAB} correctas pero cuya evaluación no termine en un valor puesto que la ejecución se detendría en algún momento al no hallar una regla de la semántica dinámica que nos permita continuar. \\\\
-Con esto en mente el objetivo de este capítulo será definir un lenguaje similar que nos permita tener todos los tipos de datos de \textsf{EAB}, el sistema de tipos de \textsf{Haskell} y las características más importante del mismo, evaluación perezosa, pureza funcional y asignación de tipos explícita y estática. 
-A este lenguaje lo llamaremos \textsf{MinHS} al ser menos robusto que su implementación para computadoras pero servirá para ilustrar los conceptos que hasta ahora hemos trabajado en este manual.
+Con la teoría que hemos revisado hasta el momento en nuestro lenguaje \textsf{EAB} cuya definición engloba booleanos e instrucciones lógicas, a los números natures junto con sus operadores y la implementación del Cálculo Lambda, nos es natural preguntarnos  ¿cómo es la implementación de un lenguje de características similares en una computadora? \\ Para resolver esta pregunta definiremos un lenguaje que contenga un subconjunto de instrucciones de algún otro lenguaje cuya implementación ya exista para estas.  \\\\
+Por su naturaleza funcional tomaremos como caso de estudio una versión simplificada del lenguaje de programación \textsf{Haskell}. Este posee características importantes para el enfoque de este curso que serán de interés trasladar a \textsf{EAB}. \\\\
+Hasta el momento se ha trabajado con tipos de datos primitivos, pero no hemos hablado de las reglas de la semántica estática que asignan el tipo a las expersiones. Esto constituye un problema al poder escribir expresiones de \textsf{EAB} sintácticamente correctas pero cuya evaluación no termine en un valor puesto que la ejecución se detendría en algún momento al no hallar una regla de la semántica dinámica que nos permita continuar. \\\\
+Con esto en mente el objetivo de este capítulo será definir un lenguaje similar que nos permita tener todos los tipos de datos de \textsf{EAB}, el sistema de tipos de \textsf{Haskell} y las características más importante del mismo: evaluación perezosa, pureza funcional y asignación de tipos explícita y estática. 
+A este lenguaje lo llamaremos \textsf{MinHS} al ser una versión acotada de \textsf{Haskell} pero servirá para ilustrar los conceptos que introduciremos en este capítulo.
 
 \subsubsection{Objetivo}
 Proveer la definición del lenguaje funcional \textsf{MinHS} que preserve las características principales del lenguaje de programación \textsf{Haskell} a manera de ilustrar una implementación concreta de los conceptos que se han revisado hasta este momento: sintaxis, semántica, Cálculo Lambda y recursión, haciendo especial énfasis en el sistema de tipos de este lenguaje y sus propiedades.
@@ -22,7 +22,7 @@ Proveer la definición del lenguaje funcional \textsf{MinHS} que preserve las ca
 \subsubsection{Planteamiento}
 El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho con el lenguaje \textsf{EAB} dividiendo su definición en sintaxis concreta, sintaxis abstracta, semántica dinámica y es aquí en donde se introducirá una nueva capa para estudiar la asignación de tipos de las expresiones. Finalmente concluiremos mencionando brevemente las propiedades que este pequeño lenguaje posee. \\
 
-\section{sintaxis de \textsf{MinHaskel}}
+\section{sintaxis de \textsf{MinHS}}
 
 \subsection{sintaxis concreta}
     Para construir el sistema de tipos de \textsf{MinHS}, se necesita introducir una nueva expresión de tipo al cual las variables pertenecen que será representado por la letra \textit{T}.\\\\    
@@ -30,7 +30,8 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 
 \bigskip
 
-    Finalmente se introduce la expresión para funciones recursivas representadas por la expresión \textsf{letrec}$\; var=\; e_1\; {\sf in}\; e_2\;$ \textsf{end}
+    Finalmente se introduce la expresión para funciones recursivas representadas por la expresión \[ \textsf{letrec}\; var=\; e_1\; {\sf in}\; e_2\; \textsf{end}\]
+\bigskip
     \begin{definition}[Sintaxis Concreta de \textsf{MinHS}] A continuación definimos los elementos que componen a las expresiones válidas de \textsf{MinHS}.\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}\\ El tipo de las expresiones ahora figura como parte de la sintaxis concreta.
         \[
         \begin{array}{lrcl}
@@ -52,14 +53,14 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
     Escribe la definición de los siguientes instrucciones utilizando la sintaxis concreta de \textsf{MinHS}\\
 
 	\begin{itemize}
-		\item Proporciona la definición de la función sucesor que recibe un número y regresa el sucesor \textsf{suc}: 
-			$$ \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow x + 1$$
-		\item Proporciona la definición de la función que recibe un número y decide si es zero \textsf{IsZero}:
-			 $$ \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow\; \textsf{if}\; (x\; =\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
-		\item Proporciona la definición de una función que recibe un número y regresa el factorial \textsf{fact}
-			 $$ \textsf{recfun}\; \textsf{fact}\; ::\; (\textit{Nat} \Rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero}(x)\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$$
-		\item Proporciona la definición de una función que recibe dos números y regresa su producto \textsf{prod}:
-			$$ \textsf{lam}\; x\; ::\; Nat \rightarrow\; \textsf{lam}\; y\; ::\; Nat \rightarrow\; x*y$$
+		\item Proporciona la definición de la función sucesor que recibe un número y regresa el sucesor: 
+			$$ \textsf{suc} =_{def} \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow x + 1$$
+		\item Proporciona la definición de la función que recibe un número y decide si es cero:
+			 $$ \textsf{IsZero} =_{def} \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow\; \textsf{if}\; (x\; =\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
+		\item Proporciona la definición de una función que recibe un número y regresa el factorial:
+			 $$ \textsf{fact} =_{def} \textsf{recfun}\; \textsf{fact}\; ::\; (\textit{Nat} \Rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero}(x)\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$$
+		\item Proporciona la definición de una función que recibe dos números y regresa su producto:
+			$$ \textsf{prod} =_{def} \textsf{lam}\; x\; ::\; Nat \rightarrow\; \textsf{lam}\; y\; ::\; Nat \rightarrow\; x*y$$
 	\end{itemize}
 
     \end{exercise}
@@ -103,7 +104,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
         \item[Definición de funciones]
         \[
             \begin{array}{c}
-                \inference{t\;asa}{lam(\textit{T},x.t)\;asa}
+                \inference{t\;asa}{lam(\textit{T},x.t)\;asa} \; \;
                 \inference{t\;asa}{recfun(T,f.x.t)\;asa}
             \end{array}
         \]
@@ -128,8 +129,8 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 \section{Semántica de \textsf{MinHaskel}l}
 
     \subsection{Sistemas de tipos}
-    Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contentido específico que estos pudiera tener.\\\\
-    En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones, qué valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos empleando una colección de reglas para asignar tipos\footnote{definición formulada a partir de \hyperlink{96}{[96]}}.\\\\
+    Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contentido específico que estos pudieran tener.\\\\
+    En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones, qué valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos\footnote{definición formulada a partir de \hyperlink{96}{[96]}}.\\\\
     Este sistema estará definido en la siguiente capa de \textsf{MinHS} de forma similar como fue trabajado con anterioridad con el lenguaje \textsf{EAB}, dicho nivel es la semántica estática que define un conjunto de juicios para brindar la seguridad de evaluación a las expresiones.
 
 \subsection{Semántica estática}
@@ -191,7 +192,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
             \item[Funciones]
             \[
                 \inference{\Gamma,x:T\vdash t:St}{\Gamma\vdash fun(T,x.t): T\to St} \quad
-                \inference{\Gamma\vdash f:T\to St,x : T \vdash t : S}{\Gamma\vdash recfun(T \to S,f.x.t):T\to S}
+                \inference{\Gamma\vdash f:T\to S,x : T \vdash t : S}{\Gamma\vdash recfun(T \to S,f.x.t):T\to S}
             \]
             \item[Aplicación de función]
             \[
@@ -334,13 +335,13 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
 
 \bigskip
             \item Preservación: un programa que cumple con las restricciones del sistema de tipos dará como resultado de la evaluación una expresión correctamente tipada. Esto se puede observar en las siguientes dos propiedades definidas para las expresiones de \textsf{MinHS}:
-                
-                    \begin{definition}[Unicidad de tipo]
-                        Para cualesquiera $\Gamma$ y expresión t de \textsf{MinHS} existe a lo más un tipo \textit{T} de tal forma que se cumple: $\Gamma \vdash t : \textit{T}$\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}}.
-                    \end{definition}
-                    
+                                    
                      \begin{definition}[Preservación de tipos]
                         Sí $\Gamma \vdash t : \textit{T}$ y $t \to t'$ entonces $\Gamma \vdash t' : \textit{T}$\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}  y \hyperlink{118}{[118]}}.
+                    \end{definition}
+
+                    \begin{definition}[Unicidad de tipo]
+                        Para cualesquiera $\Gamma$ y expresión t de \textsf{MinHS} existe a lo más un tipo \textit{T} de tal forma que se cumple: $\Gamma \vdash t : \textit{T}$\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}}.
                     \end{definition}
 
         \end{itemize}
@@ -349,7 +350,7 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
         \textsf{MinHS} hereda un problema similar a lo que sucedió en el Cálculo Lambda con la introducción de los combinadores de punto fijo para implementar la recursión general. Este problema es la existencia de expresiones del lenguaje sintácticamente y semánticamente correctas que producen un estado conocido estado ciclado.
 
         \begin{exercise}
-            Demuestra o da un contraejemplo de la propiedad de no terminación para \textsf{MinHS}\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}\\
+            Demuestra o da un contraejemplo de la propiedad de terminación para \textsf{MinHS}\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}\\
 
             Considera la función identidad que recibe un parámetro y regresa el mismo representada como \textit{f.f} sí utilizamos esta expresión como el cuerpo de nuestro operador \textsf{fix} obtenemos la expresión:
             \[
@@ -368,7 +369,7 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
         \begin{itemize}
             \item Define la sintaxis concreta para las tuplas.
             \item Define la regla de sintaxis abstracta para las tuplas.
-            \item Define la regla de la semántica estática para las tuplas.
+            \item Define la regla de la semántica estática para verificación de tipos para las tuplas.
             \item Define la(s) reglas de evaluación para las tuplas.
             \item ¿Cuál es la diferencia entre una expresión que construye la tupla y la proyección que obtiene el elemento?.
         \end{itemize}
