@@ -126,7 +126,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
         \end{description}
     \end{definition}
 
-\section{Semántica de \textsf{MinHaskel}l}
+\section{Semántica de \textsf{MinHs}}
 
     \subsection{Sistemas de tipos}
     Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contentido específico que estos pudieran tener.\\\\
@@ -223,14 +223,14 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
         			Representación en sintaxis abstracta: 
         				$$  fun(\textit{Nat}, x.gt(x,num[1]))$$
         			Análisis de tipo aplicando la semántica estática: 
-        $$  \inference{\inference{\inference{}{x\ :\ Nat \vdash  x\ :\ \textit{Nat}} & \inference{}{x\ :\ Nat \vdash num[1]\ :\ \textit{Nat}}}{x\ :\ Nat \vdash gt(x,num[1]) : \textit{Bool}}}{\empty \vdash fun(\textit{Nat}, x.gt(x,num[1]))\ :\ \textit{Bool} \to \textit{Nat}} $$ 
+        $$  \inference{\inference{\inference{}{x\ :\ Nat \vdash  x\ :\ \textit{Nat}} & \inference{}{x\ :\ Nat \vdash num[1]\ :\ \textit{Nat}}}{x\ :\ Nat \vdash gt(x,num[1]) : \textit{Bool}}}{\empty \vdash fun(\textit{Nat}, x.gt(x,num[1]))\ :\ \textit{Nat} \to \textit{Bool}} $$ 
 
-		\item $\textsf{let}\ x\ =\ 3\ \textsf{in}\ \textsf{if}\ x \textless\ 7\ \textsf{then}\ x\ +\ (7\ -\ x)\ \textsf{else}\ x\ \textsf{end} $ \\\\
+		\item $\textsf{let}\ x\ =\ 3\ \textsf{in}\ \textsf{if}\ x \textless\ 7\ \textsf{then}\ 7\ \textsf{else}\ x\ +\ (7\ -\ x)\ \textsf{end} $ \\\\
         			Representación en sintaxis abstracta:
         				$$  let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x)))) $$
         			Análisis de tipo aplicando la semántica estática: 
         $$\scalemath{0.55}{
-            \inference{\inference{}{\vdash num[3]\ :\ \textit{Nat}} & \inference{ \inference{(A) \cdots}{x:\textit{Nat} \vdash lt(x,num[7]) : \textit{Bool}} & \inference{}{x:\textit{Nat} \vdash num[7] : \textit{Nat}} & \inference{(B) \cdots}{x:\textit{Nat} \vdash sum(x,res(num[7],x)) : \textit{Nat}}}{x:\textit{Nat} \vdash if(lt(x,num[7]),num[7],sum(x,res(num[7],x)) }}{\empty \vdash let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x))))\ :\ \textit{Nat}}
+            \inference{\inference{}{\vdash num[3]\ :\ \textit{Nat}} & \inference{ \inference{(A) \cdots}{x:\textit{Nat} \vdash lt(x,num[7]) : \textit{Bool}} & \inference{}{x:\textit{Nat} \vdash num[7] : \textit{Nat}} & \inference{(B) \cdots}{x:\textit{Nat} \vdash sum(x,res(num[7],x)) : \textit{Nat}}}{x:\textit{Nat} \vdash if(lt(x,num[7]),num[7],sum(x,res(num[7],x))\ :\ \textit{Nat} }}{\empty \vdash let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x))))\ :\ \textit{Nat}}
         }$$
         (A) Análisis semántico para \textsf{lt}
         		$$ \inference{\inference{}{x:\textit{Nat} \vdash x:\textit{Nat}} & \inference{}{x:\textit{Nat} \vdash num[7] : \textit{Nat}}}{x:\textit{Nat} \vdash lt(x,num[7]) : \textit{Bool}} $$
@@ -287,7 +287,7 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
                 \]
                 \[
                     \begin{array}{ccc}
-                        \inference{}{app(recfun(\textit{T},x.a_b),a_p) \to a_b[f:=fix(\textit{T},f.x.a_b),\ x:=\ a_p])}[\it appR]\
+                        \inference{}{app(recfun(\textit{T},x.f.a_b),a_p) \to a_b[f:=fix(\textit{T},f.x.a_b),\ x:=\ a_p])}[\it appR]\
                     \end{array}
                 \]
                 $$$$
@@ -383,9 +383,9 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
         \begin{itemize}
             \item \textsf{pair(3, True)}
             \item \textsf{snd pair(3, True)}
-            \item \textsf{lam} x ::\ $\textit{Nat}\ \rightarrow\ x +1$\; 0  
-            \item  \textsf{$ \textsf{recfun}\; \textit{fact}\; ::\; (\textit{Nat} \Rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero($x$)}\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$}
-		\item \textsf{let} neg = (\textsf{lam} x : \textit{Bool} $\rightarrow$ \textsf{if } x \textsf{then } false \textsf{else} true) \textsf{in} neg(3 $\leq$ 2) \textsf{end}
+            \item \textsf{lam} x ::\ $\textit{Nat}\ \rightarrow\ x +1$\;  
+            \item  \textsf{$ \textsf{recfun}\; \textit{fact}\; ::\; (\textit{Nat} \Rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero($x$)}\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textit{fact}\; (n-1)$}
+		\item \textsf{let} \textsf{neg} = (\textsf{lam} x : \textit{Bool} $\rightarrow$ \textsf{if } \textit{x} \textsf{then } \textsf{False } \textsf{else } \textsf{True}) \textsf{in} \textsf{neg}(3 $\textless$ 2) \textsf{end}
         \end{itemize}
     \end{exercise}
 
@@ -423,7 +423,8 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
         \begin{itemize}
             \item Define la función \textsf{exp}($n_1, $ $n_2)$ que eleva el primer argumento a la potencia del segundo.
             \item Define la función \textsf{fibonacci}(n) que obtiene el n-ésimo elemento de la sucesión de Fibonacci.
-            \item Evalúa la expresión \textsf{exp}(2,2) y \textsf{fibonacci}(3).
+            \item Evalúa la expresión \textsf{exp}(2,2).
+	 \item Evalúa la expresión \textsf{fibonacci}(3).
         \end{itemize}
     \end{exercise}
 
