@@ -20,7 +20,7 @@ Anteriormente se defininieron mediante la semantíca estática las reglas para o
 Esta nueva capa aporta a que al lenguaje se vuelva seguro, es decir que si una expresión de \textsf{MinHS} está bien formada y ha sido tipificada siguiendo las diferentes reglas y etapas correctamente entonces nuestro programa nos regresará un valor.\\
 
 \subsubsection{Objetivo}
-Definir el sistema de inferencia de tipos para \textsf{MinHS} que nos permita tipificar las expresiones para garantizar la seguridad del lenguaje. Para esto, el objetivo principal será la definición del algoritmo de unificación \textbf{$\mu$}.
+Definir el sistema de inferencia de tipos para \textsf{MinHS} que nos permita tipificar las expresiones para garantizar la seguridad del lenguaje. Para esto, el objetivo principal será proporcionar las definiciones para las condiciones que cada estructura particular de las expresiones sintácticas de \textsf{MinHS} generan, a estas se les conoce como restricciones de tipo. Adicionalmente se proporcionará la definción del algoritmo de unificación para aplicar la inferencia de tipos conocido como algoritmo  unificador \textbf{$\mu$}.
 
 
 \subsubsection{Planteamiento}
@@ -90,32 +90,33 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
     \end{definition}
 
     \begin{definition}[Extensión de tipos para la generación de restricciones]
-        Para definir el algoritmo se extiende la categoría de tipos como sigue:
+        Para definir el algoritmo se extiende la categoría de tipos como sigue\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{125}{[125]} y \hyperlink{124}{[124]}}:
         
-        $$\ T\ ::=\ X\ |\ Nat\ |\ Bool\ |\ T_1\ \to T_2\ |\ [e]\footnote{ La expresión [e] es una construcción sintáctica para definir el tipo de una expresión $e$ del lenguaje y se lee como: "el tipo de $e$". Es importante aclarar que los tipos de la forma [e] no pueden figurar en el tipo resultante del algoritmo de inferencia, el tipo de una expresión debe construirse únicamente con el resto de los tipos.}$$
+        $$\ T\ ::=\ X\ |\ Nat\ |\ Bool\ |\ T_1\ \to T_2\ |\ [e]$$
         
-        en donde X $\,$ es una variable de tipo. Estas variables nos ayudan en la definición de programas polimórficos, por ejemplo la función general identidad 
+        En donde $X$ $\,$ es una variable de tipo. Estas variables nos ayudan en la definición de programas polimórficos, por ejemplo la función identidad:
         
-        $$lam\ x\Rightarrow x$$ 
+        $$lam\ x\Rightarrow x :: X \to X$$ 
         
-        tiene el tipo $\X \to \X$ y esta variable de tipo X$\,$ va a tomar su valor hasta que la función sea utilizada, por ejemplo en la aplicación
-        
-        $$(funt\ x \Rightarrow x)\ 5$$
-        
-        la variable $\X$ toma el valor de \textbf{Nat}. \\
-        
-    
+        La variable de tipo $X$$\,$ va a tomar su valor hasta que la función sea evaluada, por ejemplo en la aplicación:
+       
+        $$(funt\ x \Rightarrow x)\ 5 :: Nat \to Nat$$
+
+        La expresión [$e$] es una construcción sintáctica para definir el tipo de una expresión $e$ del lenguaje y se lee como: ''el tipo de $e$''. Es importante aclarar que los tipos de la forma [$e$] no pueden figurar en el tipo resultante del algoritmo de unificación $\mu$.  
+            
     \end{definition}
+
+   \bigskip    
+
 
     \begin{definition}[Algoritmo de generación de restricciones]
     
-    Una restricción es una ecuación de la forma $T_1 = T_2$ en donde $T_1$ y $T_2$ son tipos. La ecuación indica que $T_1$ debe ser igual a $T_2$ bajo unificación.
+    Una restricción es una ecuación de la forma $T_1 = T_2$ en donde $T_1$ y $T_2$ son tipos. La ecuación indica que $T_1$ debe ser igual a $T_2$ bajo unificación\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{125}{[125]} y \hyperlink{124}{[124]}}.\\
 
-    
         \begin{description}
             \item[Variables]
             \[
-                \inference{}{x_i\mapsto [x_i] = \X_i}
+                \inference{}{x_i\mapsto [x_i] = X_i}
             \]
             Para el tipo de las variables se usará una variable de tipo con el mismo nombre de la variable. Todas las apariciones de la misma variable generarán la misma restricción y como los nombres de variables son únicos no habrá dos variables distintas con el mismo tipo. 
             \item[Valores numéricos]
@@ -124,35 +125,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
             \]
              \item[Valores Booleanos]
              \[
-                \inference{}{Bool[b] \mapsto [Bool[b]] = Bool}
-            \]
-            \item[Operadores]
-            \[
-                \begin{array}{c}
-                    \inference
-                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        {sum(e_1 , e_2) \mapsto R_1,R_2, [e_1] = Nat, [e_2] = Nat, [sum(e_1 , e_2)] = Nat}\\
-                    \\
-                     \inference
-                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        { prod(e_1 , e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [prod(e_1 , e_2)] = Nat}\\
-                    \\
-                     \inference
-                        {e_1\mapsto R_1 & e_2 \mapsto R_2}
-                        { sub(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [sub(e_1,e_2)] = Nat}\\
-                    \\
-                     \inference
-                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        { ig(e_1,e_2) \mapsto R_1,R_2, [e_1] = Nat, [e_2] = Nat,[ig(e_1,e_2)] = Bool}\\
-                    \\
-                    \inference
-                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        {gt(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [gt(e_1,e_2)] = Bool}\\
-                        \\
-                     \inference
-                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        {lt(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [lt(e_1,e_2)]= Bool}\\
-                \end{array}
+                \inference{}{bool[b] \mapsto [bool[b]] = Bool}
             \]
             \item[Condicional]
             \[
@@ -185,23 +158,52 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                     {f \mapsto R_1 & p \mapsto R_2}
                     {app(f,p) \mapsto R_1, R_2, [f] = [p] \to [app(f,p)]}
             \]
+            \item[Operadores]
+            \[
+                \begin{array}{c}
+                    \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        {sum(e_1 , e_2) \mapsto R_1,R_2, [e_1] = Nat, [e_2] = Nat, [sum(e_1 , e_2)] = Nat}\\
+                    \\
+                     \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        { prod(e_1 , e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [prod(e_1 , e_2)] = Nat}\\
+                    \\
+                     \inference
+                        {e_1\mapsto R_1 & e_2 \mapsto R_2}
+                        { sub(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [sub(e_1,e_2)] = Nat}\\
+                    \\
+                     \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        { ig(e_1,e_2) \mapsto R_1,R_2, [e_1] = Nat, [e_2] = Nat,[ig(e_1,e_2)] = Bool}\\
+                    \\
+                    \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        {gt(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [gt(e_1,e_2)] = Bool}\\
+                        \\
+                     \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        {lt(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [lt(e_1,e_2)]= Bool}\\\\
+                \end{array}
+            \]
         \end{description}
     \end{definition}
 
 \section{Algoritmo de unificación}
 
-    Una vez obtenida la lista de restricciones asociadas a una expresión $e$ tenemos toda la información que necesitamos acerca de su estructura para comenzar a unificar los tipos aplicando las restricciones hasta encontrar el tipo más general de la expresión, ó hasta encontrar un error de tipado al asignar dos tipos distintos a la misma expresión.\\\\
-    Para ésto construiremos una composición de sustituciones tomando cada una de las restricciones y sustituyendo el tipo al cuál la expresión está ligada en dicha restricción. Al final se obtendrá la lista de sustituciones necesarias para hallar el tipo más general el cuál será la cabeza de la lista, en caso contrario quiere decir que la unficación falló.
+    Una vez obtenida la lista de restricciones asociadas a una expresión $e$ tenemos toda la información que necesitamos acerca de su estructura para comenzar a unificar los tipos aplicando las restricciones hasta encontrar el tipo más general de la expresión, o hasta encontrar un error de tipificado al asignar dos tipos distintos a la misma expresión.\\\\
+    Para esto construiremos una composición de sustituciones tomando cada una de las restricciones y sustituyendo el tipo al cuál la expresión está ligada en dicha restricción. Al final se obtendrá la lista de sustituciones necesarias para hallar el tipo más general el cuál será la cabeza de la lista, en caso contrario quiere decir que la unficación falló.
     
+\bigskip
 
-    \begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es un unificador $\mu$ en caso de que las restricciones se puedan resolver o ${\sf fail}$ en caso contrario.
+    \begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es un unificador $\mu$ en caso de que las restricciones se puedan resolver o ${\sf fail}$ en caso contrario\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}.
 
         \[
             \begin{array}{rclr}
                 U([\,])&=&[\,]\\
                 U(T=T:R)&=&U(R)&\\
-                U(X=T:R)&=&U(R[X:=T]) $\textopenbullet$ [X:=T] & \textit{si }X \not \in \var(T)\\
-                U(X=T:R)&=&{\sf Fail}& \text{si }X \in \var(T)\\
+                U(X=T:R)&=&U(R[X:=T]) $\textopenbullet$ [X:=T] & \textit{si }X \not \in var(T)\\
+                U(X=T:R)&=&{\sf Fail}& \text{si }X \in var(T)\\
                 U(e=T:R)&=&U(R[e:=T]) $\textopenbullet$ [e:=T]&\\
                 U(T=X:R)&=&U(X=T:R)&\\
                 U(T=e:R)&=&U(e=T:R)&\\
@@ -209,12 +211,12 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 U(R)&=&{\sf fail}&\\
            \end{array}
         \]
-        En donde T $\,$ representa a cualquier tipo y X $\,$a una variable de tipo. 
+ 
     \end{definition}
 
     \section{Algoritmo de inferencia de tipos}
 
-    \begin{definition}[Algoritmo de Inferencia de tipos] Se define el algoritmo $\Ts(e)$ de inferencia de tipos que recibe una expresión $e$ de \textbf{minhs} y regresa el tipo de esta expresión. El algoritmo se define con los siguientes pasos:\\
+    \begin{definition}[Algoritmo de Inferencia de tipos] Se define el algoritmo $\Ts(e)$ de inferencia de tipos que recibe una expresión $e$ de \textsf{MinHS} y regresa el tipo de esta expresión. El algoritmo se define con los siguientes pasos\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}:\\
 
         \begin{itemize}
             \item Se encuentra la expresión $e'$ con nombres de variables únicas.
@@ -222,6 +224,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
             \item Utilizando la función $U$ se calcula el unificador mas general $\mu$ del conjunto de restricciones $\R$, tal que $U(\R)=\mu$.
             \item Se busca en $\mu$ la ecuación $e':= T$.
             \item T $\,$ es el tipo mas general de $e$, es decir, $\Ts(e)=T$.
+\bigskip
         \end{itemize}
     \end{definition}
 
