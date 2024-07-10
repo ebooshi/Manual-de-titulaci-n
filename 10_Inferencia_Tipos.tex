@@ -1,0 +1,841 @@
+%    Séptimo Capítulo: Inferencia de Tipos.
+%    Ejercicios por Barón L. Miguel.
+%    Teoría por Javier Enríquez Mendoza.
+%    Empezado el 12/4/23
+%    Concluido el 1/6/23
+% https://www.webber-labs.com/wp-content/uploads/2015/08/mpl-06.pdf
+% http://www.dcc.ic.uff.br/~isabel/LP/D.Watt.pdf
+% https://www.cs.cornell.edu/courses/cs3110/2011sp/Lectures/lec26-type-inference/type-inference.html
+% https://rodrigogribeiro.github.io/files/unify.pdf
+% file:///C:/Users/luismun/Downloads/doiufrgs,+100968-426558-3-CE.pdf https://www.google.com/url? sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiPy8-9842HAxVeD1kFHf_rB7Q4ChAWegQIIBAB&url=https%3A%2F%2Fwww.seer.ufrgs.br%2Frita%2Farticle%2Fdownload%2FVol27_nr3_13%2Fpdf_1&usg=AOvVaw0CRZfNvzqWmtheLBDCOXwk&opi=89978449
+
+%Gatito lambda
+\begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{assets/gatitos_tipados.PNG}}       
+\end{figure}
+
+Una característica de \textsf{Haskell} que quermos trasladar a \textsf{MinHS} es el mecanismo de inferencia de tipos. Este mecanismo provee una capa extra que permite trabajar con expresiones aún si estas no poseen un tipo explicito en cada uno de sus parámetros de entrada y valores de retorno. \\\\
+Para esto, vamos a formular un sistema de restricciones, la estandarización de variables y aplicación de la inferencia de tipos mediante el algoritmo de unificación de tipos para expresiones de \textsf{MinHS}.\\\\
+Anteriormente se defininieron mediante la semantíca estática las reglas para obtener el tipo de una expresión, no obstante este proceso no es suficiente para descartar expresiones del lenguaje bien formadas pero cuya evaluación se verá detenida debido a la inconsistencia de tipos durante la evaluación.\\\\
+Esta nueva capa aporta a que al lenguaje se vuelva seguro, es decir que si una expresión de \textsf{MinHS} está bien formada y ha sido tipificada siguiendo las diferentes reglas y etapas correctamente entonces nuestro programa nos regresará un valor.\\
+
+\subsubsection{Objetivo}
+Definir el sistema de inferencia de tipos para \textsf{MinHS} que nos permita tipificar las expresiones para garantizar la seguridad del lenguaje. Para esto, el objetivo principal será la definición del algoritmo de unificación \textbf{$\mu$}.
+
+
+\subsubsection{Planteamiento}
+En este capítulo  revisaremos diferentes  procedimientos que se aplican a las expresiones de \textsf{MinHS} para poder garantizar la correcta  asignación de un tipo.
+Estudiaremos la estandarización de variables para obtener $\alpha\text{-equivalencias}$ entre las variables ligadas repetidas dentro de una expresión.
+Posteriormente vamos a revisar los juicios para generar las restricciones de tipo que cada expresión genera para finalmente definir el algoritmo unificador $\mu$.
+
+
+\section{Estandarización de variables}
+La semántica estática de \textsf{MinHS} y la de \textsf{EAB} se implementa de forma similar para ir agregando a un contexto (que denotaremos con la letra $\Gamma$) aquellas variables definidas en las expresiones junto con el tipo que se espera estas tengan.\\\\
+En el contexto $\Gamma$ solo puede existir una sola aparición por variable, es decir, nunca podremos tener $\Gamma=\{x : Nat,\ x : Bool\}$ dado que $\Gamma$ es un conjunto de variables y tipos, tener la misma variable con dos tipos distintos es una inconsistencia dentro de nuestro programa y constituye un error en el tipificado de la expresión\footnote{Definición de semántica estática para \textsf{MinHS} formulada de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\\\
+Para evitar esta situación se define el proceso conocido como estandarización de variables que consiste en brindar una $\alpha$-equivalencia cuando dos variables ligadas tengan el mismo nombre.\\\\
+Tomemos como ejemplo la siguiente expresión:
+$$ \textsf{let } x = \textsf{True} \textsf{ in } x\ !=\ \textsf{ let } x = 5 \textsf{ in } x \leq x \textsf{ end } \textsf{ end }$$
+En este caso la expresión está bien formada, no hay ninguna regla de la sintáxis concreta que esté mal aplicada para obtener nuestra expresión, la evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a a verdadero y luego se prosigue con la comparación de dos booleanos, sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
+El problema puede ser corregido utilizando una $\alpha$-equivalencia y renombrando las variables x por $x_0$ y $x_1$ respectivamente:
+$$ \textsf{let } x_0 = \textsf{True} \textsf{ in } x_0\ !=\ \textsf{ let } x_1 = 5 \textsf{ in } x_1 \leq x_1 \textsf{ end } \textsf{ end }$$
+Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
+
+\begin{exercise}
+    Para la siguiente expresión de \textsf{MinHS} expresando el contexto
+    $$\textsf{let } x = \textsf{False} \textsf{ in } x = (\textsf{let } x = 6 \textsf{ in } (x + x + x) \leq 10 \textsf{ end}) \textsf{ end }$$
+    $$\Gamma=\{x : Nat,\ x : Bool\}$$
+    
+    Aplica la estandarización de variables:
+    
+    $$\textsf{let } x_0 = \textsf{False} \textsf{ in } x_0 == (\textsf{let } x_1 = 6 \textsf{ in } (x_1 + x_1 + x_1) \leq 10 \textsf{ end}) \textsf{ end }$$
+    $$\Gamma=\{x_1 : Nat, x_0 : Bool\}$$
+
+\end{exercise} 
+
+\begin{exercise}    
+    Para la siguiente expresión de \textsf{MinHS} expresando el contexto
+
+    $$ \textsf{let } x = \textsf{True} \textsf{ in } x \textsf{ or } (\textsf{let } x = 5 \textsf{ in } x == 5 \textsf{ end}) \textsf{ end} $$
+    $$ \Gamma = \{x:Bool,\ x:Nat\}$$
+    
+    Aplica la estandarización de variables: 
+    
+    $$ \textsf{let } x_0 = \textsf{True} \textsf{ in } x_0 \textsf{ or } (\textsf{let } x_1 = 5 \textsf{ in } x_1 = 5 \textsf{ end}) \textsf{ end} $$
+    $$ \Gamma = \{x_1:Bool,\ x_0:Nat\}$$
+\end{exercise}
+
+\begin{exercise}    
+    Para la siguiente expresión de \textsf{MinHS}, expresando el contexto
+    
+    $$ \textsf{let } x = 1 \textsf{ in } (\textsf{let } x = \textsf{False} \textsf{ in } (\textsf{let } x = lam\ y :: Bool \to y  \textsf{ or } x \textsf{ end }) \textsf{ end}) \textsf{ end }$$
+    $$ \Gamma = \{ x : Int, x : Bool,\ x : Bool \to Bool \}$$
+    
+    Aplica la estandarización de variables:
+    
+    $$ \textsf{let } x_0 = 1 \textsf{ in } (\textsf{ let } x_1 = \textsf{False} \textsf{ in } (\textsf{let } x_2 = lam\ y :: Bool \to y  \textsf{ or } y \textsf{ end}) \textsf{ end}) \textsf{ end} $$
+    $$ \Gamma = \{ x_0 : Int,\ x_1 : Bool,\ x_2 : Bool \to Bool \}$$
+\end{exercise}
+
+\section{Generación de restricciones}
+
+    Para poder tipificar una expresión bien formada de \textbf{MinHS}  sin utilizar las anotaciones de tipo explicitamente en los argumentos y valores de retorno es necesario definir un proceso que nos ayude a obtener información sobre la estructura que esta posee. \\\\
+    A esta información se le conoce como restricciones y nos ayuda a atar las condiciones que se deben cumplir para aplicar los procesos de inferencia de tipos.
+
+    \begin{definition}[Conjunto de restricciones]
+        Definimos el jucio para generar restricciones partiendo de una expresión válida $e$ representado como\footnote{Jucio para representar restricciones \hyperlink{123}{[123]},  \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}:
+    
+        $$e\mapsto\R$$
+        
+        que se lee como: "la expresión $e$ genera el conjunto $\R$ de restricciones de tipo".
+    \end{definition}
+
+    \begin{definition}[Extensión de tipos para la generación de restricciones]
+        Para definir el algoritmo se extiende la categoría de tipos como sigue:
+        
+        $$\ T\ ::=\ X\ |\ Nat\ |\ Bool\ |\ T_1\ \to T_2\ |\ [e]\footnote{ La expresión [e] es una construcción sintáctica para definir el tipo de una expresión $e$ del lenguaje y se lee como: "el tipo de $e$". Es importante aclarar que los tipos de la forma [e] no pueden figurar en el tipo resultante del algoritmo de inferencia, el tipo de una expresión debe construirse únicamente con el resto de los tipos.}$$
+        
+        en donde X $\,$ es una variable de tipo. Estas variables nos ayudan en la definición de programas polimórficos, por ejemplo la función general identidad 
+        
+        $$lam\ x\Rightarrow x$$ 
+        
+        tiene el tipo $\X \to \X$ y esta variable de tipo X$\,$ va a tomar su valor hasta que la función sea utilizada, por ejemplo en la aplicación
+        
+        $$(funt\ x \Rightarrow x)\ 5$$
+        
+        la variable $\X$ toma el valor de \textbf{Nat}. \\
+        
+    
+    \end{definition}
+
+    \begin{definition}[Algoritmo de generación de restricciones]
+    
+    Una restricción es una ecuación de la forma $T_1 = T_2$ en donde $T_1$ y $T_2$ son tipos. La ecuación indica que $T_1$ debe ser igual a $T_2$ bajo unificación.
+
+    
+        \begin{description}
+            \item[Variables]
+            \[
+                \inference{}{x_i\mapsto [x_i] = \X_i}
+            \]
+            Para el tipo de las variables se usará una variable de tipo con el mismo nombre de la variable. Todas las apariciones de la misma variable generarán la misma restricción y como los nombres de variables son únicos no habrá dos variables distintas con el mismo tipo. 
+            \item[Valores numéricos]
+            \[
+                \inference{}{num[n] \mapsto [num[n]] = Nat}
+            \]
+             \item[Valores Booleanos]
+             \[
+                \inference{}{Bool[b] \mapsto [Bool[b]] = Bool}
+            \]
+            \item[Operadores]
+            \[
+                \begin{array}{c}
+                    \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        {sum(e_1 , e_2) \mapsto R_1,R_2, [e_1] = Nat, [e_2] = Nat, [sum(e_1 , e_2)] = Nat}\\
+                    \\
+                     \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        { prod(e_1 , e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [prod(e_1 , e_2)] = Nat}\\
+                    \\
+                     \inference
+                        {e_1\mapsto R_1 & e_2 \mapsto R_2}
+                        { sub(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [sub(e_1,e_2)] = Nat}\\
+                    \\
+                     \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        { ig(e_1,e_2) \mapsto R_1,R_2, [e_1] = Nat, [e_2] = Nat,[ig(e_1,e_2)] = Bool}\\
+                    \\
+                    \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        {gt(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [gt(e_1,e_2)] = Bool}\\
+                        \\
+                     \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        {lt(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [lt(e_1,e_2)]= Bool}\\
+                \end{array}
+            \]
+            \item[Condicional]
+            \[
+                \inference
+                    {c \mapsto R_1 & t \mapsto R_2 & e \mapsto R_3}
+                    {if(c,t,e) \mapsto R_1, R_2, R_3, [c] = Bool, [t] = [e], [if(c,t,e)] = [e], [if(c,t,e)] = [t]}
+            \]
+            \item[Asignaciones Locales]
+            \[
+                \begin{array}{c}
+                    \inference
+                        {v \mapsto R_1 & b \mapsto R_2}
+                        {let(v,x_i.b) \mapsto R_1, R_2, X_i = [v], [let(v,x_i.b)] = [b]}\\
+                    \\
+                    \inference
+                        {v \mapsto R_1 & b \mapsto R_2}
+                        {letrec(v,x_i.b) \mapsto R_1, R_2, X_i = [v],[letrec(v,x_i.b)] = [b]}\\
+                \end{array}
+            \]
+            \newpage
+            \item[Funciones]
+            \[
+                \inference
+                    {t \mapsto R}
+                    {funt(x_i.t) \mapsto R,[funt(x_i.t)] = X_i \to [t]}
+            \]
+            \item[Aplicación de función]
+            \[
+                \inference
+                    {f \mapsto R_1 & p \mapsto R_2}
+                    {app(f,p) \mapsto R_1, R_2, [f] = [p] \to [app(f,p)]}
+            \]
+        \end{description}
+    \end{definition}
+
+\section{Algoritmo de unificación}
+
+    Una vez obtenida la lista de restricciones asociadas a una expresión $e$ tenemos toda la información que necesitamos acerca de su estructura para comenzar a unificar los tipos aplicando las restricciones hasta encontrar el tipo más general de la expresión, ó hasta encontrar un error de tipado al asignar dos tipos distintos a la misma expresión.\\\\
+    Para ésto construiremos una composición de sustituciones tomando cada una de las restricciones y sustituyendo el tipo al cuál la expresión está ligada en dicha restricción. Al final se obtendrá la lista de sustituciones necesarias para hallar el tipo más general el cuál será la cabeza de la lista, en caso contrario quiere decir que la unficación falló.
+    
+
+    \begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es un unificador $\mu$ en caso de que las restricciones se puedan resolver o ${\sf fail}$ en caso contrario.
+
+        \[
+            \begin{array}{rclr}
+                U([\,])&=&[\,]\\
+                U(T=T:R)&=&U(R)&\\
+                U(X=T:R)&=&U(R[X:=T]) $\textopenbullet$ [X:=T] & \textit{si }X \not \in \var(T)\\
+                U(X=T:R)&=&{\sf Fail}& \text{si }X \in \var(T)\\
+                U(e=T:R)&=&U(R[e:=T]) $\textopenbullet$ [e:=T]&\\
+                U(T=X:R)&=&U(X=T:R)&\\
+                U(T=e:R)&=&U(e=T:R)&\\
+                U(St_1\to St_2=T_1\to T_2:R)&=&U(St_1=T_1:St_2=T_2:R)&\\
+                U(R)&=&{\sf fail}&\\
+           \end{array}
+        \]
+        En donde T $\,$ representa a cualquier tipo y X $\,$a una variable de tipo. 
+    \end{definition}
+
+    \section{Algoritmo de inferencia de tipos}
+
+    \begin{definition}[Algoritmo de Inferencia de tipos] Se define el algoritmo $\Ts(e)$ de inferencia de tipos que recibe una expresión $e$ de \textbf{minhs} y regresa el tipo de esta expresión. El algoritmo se define con los siguientes pasos:\\
+
+        \begin{itemize}
+            \item Se encuentra la expresión $e'$ con nombres de variables únicas.
+            \item Se encuentra el conjunto de restricciones $\R$ tal que $e'\mapsto\R$.
+            \item Utilizando la función $U$ se calcula el unificador mas general $\mu$ del conjunto de restricciones $\R$, tal que $U(\R)=\mu$.
+            \item Se busca en $\mu$ la ecuación $e':= T$.
+            \item T $\,$ es el tipo mas general de $e$, es decir, $\Ts(e)=T$.
+        \end{itemize}
+    \end{definition}
+
+    \begin{exercise}
+            Vamos a encontrar el tipo de la expresión:
+                \begin{lstlisting}
+                let x = 0 in
+                    let y = 1 in
+                        x == y
+                    end
+                end    
+            \end{lstlisting}
+        que corresponde al árbol de sintaxis abstracta:
+        $$let(0,x.let(1,y.eq(x,y)))$$
+        \begin{description}
+            \item[Renombramiento de variables]
+                 $$let(0,x_0.let(1,x_1.eq(x_0,x_1)))$$
+            \item[Generación de Restricciones].
+            \begin{itemize}
+                \item$ 0 \mapsto [1] = Nat$
+                \item$ 1 \mapsto [1] = Nat$
+                \item$x_0\mapsto [x_0] = \X_0$
+                \item$x_1\mapsto [x_1] = \X_1$
+                \item$eq(x_0,x_1) \mapsto \underbrace{[x_0] = \X_0, [x_1] = \X_1, [x_0] = Nat, [x_1] = Nat, [eq(x_0,x_1)] = Bool}_{\R_1} $
+                \item$let(1,x_1.eq(x_0,x_1)) \mapsto \underbrace{[1] = Nat, R_1, \X_1 = [1], [let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]}_{\R_2}$
+                \item$let(0,x_0.let(1,x_1.eq(x_0,x_1))) \mapsto \\\underbrace{[0] = Nat, \R_2,\X_0 = [0], [let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]}_{\R_3}$
+            \end{itemize}
+            Como resultado se obtiene la lista de restricciones $\R$:
+        
+            \[
+                \begin{array}{rclr}
+                \R&=&[0]= Nat,\\
+                &&[1] = Nat\\
+                &&[x_0] = \X_0\\
+                &&[x_1] = \X_1\\
+                &&[x_0] = Nat\\
+                &&[eq(x_0,x_1)] = Bool\\
+                &&\X_1 = [1] \\
+                &&[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)] \\
+                && [x_1] = \X_1 \\
+                && \X_0= [0] \\
+                && [let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]
+                \end{array}
+            \] \\\\
+            
+            \item[Unificación de $\R$].
+
+                \begin{center}
+                    \begin{longtable}{ | l | l | } 
+                      \hline
+                      Restricciones & Unificador $\mu$ \\ 
+                        \hline
+                        $[0] = Nat$  & \\
+                        $[1] = Nat$  & \\
+                        $[x_0] = \X_0$ & \\
+                        $[x_1] = \X_1$  & \\
+                        $[x_0] = Nat$  & \\
+                        $[eq(x_0,x_1)] = Bool$  & \\
+                        $\X_1 = [1]$ & \\
+                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & \\
+                        $[x_1] = \X_1$  & \\
+                        $\X_0= [0]$ & \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
+                      \hline
+                        $[1] = Nat$  & $[0] := Nat$  \\
+                        $[x_0] = \X_0$ & \\
+                        $[x_1] = \X_1$  & \\
+                        $[x_0] = Nat$  & \\
+                        $[eq(x_0,x_1)] = Bool$  & \\
+                        $\X_1 = [1]$ & \\
+                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & \\
+                        $[x_1] = \X_1$  & \\
+                        $\X_0 = Nat$ & \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
+                      \hline
+                        $[x_0] = \X_0$ &  $[0] := Nat$  \\
+                        $[x_1] = \X_1$  &  $[1] := Nat$\\
+                        $[x_0] = Nat$  & \\
+                        $[eq(x_0,x_1)] = Bool$  & \\
+                        $\X_1 = Nat$ & \\
+                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & \\
+                        $[x_1] = \X_1$  & \\
+                        $\X_0 = Nat$ & \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
+                      \hline
+                        $[x_1] = \X_1$  &   $[0] := Nat$\\
+                        $\X_0 = Nat$  & $[1] := Nat$ \\
+                        $[eq(x_0,x_1)] = Bool$  &  $[x_0] := \X_0$ \\
+                        $\X_1 = Nat$ & \\
+                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & \\
+                        $[x_1] = \X_1$  & \\
+                        $\X_0 = Nat$ & \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
+                      \hline
+                        $\X_0 = Nat$  & $[0] := Nat$ \\
+                        $[eq(x_0,x_1)] = Bool$  &  $[1] := Nat$ \\
+                        $\X_1 = Nat$ & $[x_0] := \X_0$  \\
+                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  &  $[x_1] := \X_1$ \\
+                        $\X_1 = \X_1$  & \\
+                        $\X_0 = Nat$ & \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
+                      \hline
+                        $[eq(x_0,x_1)] = Bool$  & $[0] := Nat$ \\
+                        $\X_1 = Nat$ & $[1] := Nat$ \\
+                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & $[x_0] := \X_0$ \\
+                        $\X_1 = \X_1$  & $[x_1] := \X_1$ \\
+                        $Nat = Nat$ & $\X_0 := Nat$ \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
+                      \hline
+                        $[eq(x_0,x_1)] = Bool$  & $[0] := Nat$ \\
+                        $\X_1 = Nat$ & $[1] := Nat$ \\
+                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & $[x_0] := \X_0$ \\
+                        $\X_1 = \X_1$  & $[x_1] := \X_1$ \\
+                        $Nat = Nat$ &  $[x_0] := Nat$ \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
+                      \hline
+                        $\X_1 = Nat$ & $[0] := Nat$  \\
+                        $[let(1,x_1.eq(x_0,x_1))] = Bool$  & $[1] := Nat$ \\
+                        $\X_1 = \X_1$  & $[x_0] := \X_0$  \\
+                        $Nat = Nat$ & $[x_1] := \X_1$ \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ &  $[x_0] := Nat$ \\
+                        & $[eq(x_0,x_1)] = Bool$ \\
+                      \hline
+                        $[let(1,x_1.eq(x_0,x_1))] = Bool$  &  $[0] := Nat$  \\
+                        $Nat = Nat$  &  $[1] := Nat$ \\
+                        $Nat = Nat$ &  $[x_0] := \X_0$  \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & $[x_1] := \X_1$ \\
+                        &  $[x_0] := Nat$ \\
+                        &  $[eq(x_0,x_1)] := Bool$ \\
+                        &  $\X_1 := Nat$ \\
+                      \hline
+                        $Nat = Nat$  &   $[0] := Nat$ \\
+                        $Nat = Nat$ & $[1] := Nat$ \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = Bool$ &  $[x_0] := \X_0$   \\
+                        & $[x_1] := \X_1$  \\
+                        & $[x_0] := Nat$  \\
+                        & $[eq(x_0,x_1)] := Bool$  \\
+                        & $\X_1 := Nat$\\
+                        & $[let(1,x_1.eq(x_0,x_1))] := Bool$ \\
+                      \hline
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = Bool$ & $[1] := Nat$ \\
+                        & $[x_0] := \X_0$  \\
+                        & $[x_1] := \X_1$ \\
+                        & $[x_0] := Nat$ \\
+                        & $[eq(x_0,x_1)] := Bool$ \\
+                        & $\X_1 := Nat$ \\
+                        & $[let(1,x_1.eq(x_0,x_1))] := Bool$ \\
+                      \hline
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = Bool$ & $[0] := Nat$ \\
+                        & $[1] := Nat$ \\
+                        & $[x_0] := \X_0$ \\
+                        & $[x_1] := \X_1$ \\
+                        & $[eq(x_0,x_1)] := Bool$ \\
+                        & $\X_1 := Nat$ \\
+                        & $[let(1,x_1.eq(x_0,x_1))] := Bool$ \\
+                      \hline
+                        & $[0] := Nat$ \\
+                        & $[1] := Nat$  \\
+                        & $[x_0] := \X_0$ \\
+                        & $[x_1] := \X_1$ \\
+                        & $[eq(x_0,x_1)] := Bool$ \\
+                        & $\X_1 := Nat$ \\
+                        & $[let(1,x_1.eq(x_0,x_1))] := Bool$ \\
+                        & $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] := Bool$ 
+                    \end{longtable}
+                \end{center}
+        \end{description}
+        De el proceso anterior se puede concluir que el tipo de la expresión es $Bool$
+    \end{exercise}
+
+
+    \begin{exercise}
+        Vamos a encontrar el tipo de la expresión:
+            \begin{lstlisting}
+             (recfun fibonacci n => 
+                 if (n < 2) 
+                    then 1
+                 else fibonacci (n - 1) + fibonacci (n -2) ) 4
+           \end{lstlisting}
+        que corresponde al árbol de sintaxis abstracta:
+        $$app(recfun(fibonacci.n.if(lt(n , 2), 1, sum(app(fibonacci, (sub(n,1))),app(fibonacci, (sub(n,2)))))),4)$$
+        \begin{description}
+            \item[Renombramiento de variables]
+                $$app(recfun(x_0.x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))),4)$$
+            \item[Generación de Restricciones].
+            \begin{itemize}
+                \item $1 \mapsto [1] = Nat$
+                \item $2 \mapsto [2] = Nat$
+                \item $x_0 \to [x_0] = X_0$
+                \item $x_1 \mapsto [x_1] = \X_1$ 
+                \item $sub(x_1,1) \mapsto \underbrace{[x_1] = \X_1, [1] = Nat, [x_1] = Nat, [sub(x_1,1)] = Nat}_{R1}$
+                \item $sub(x_1,2) \mapsto \underbrace{[x_1] = \X_1, [2] = Nat, [x_1] = Nat, [sub(x_1,2)] = Nat}_{R2}$
+                \item $app(x_0, sub(x_1,1)) \mapsto \underbrace{[x_0] = X_0, R_1, [x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))] }_{R_3}$
+                \item $app(x_0, sub(x_1,2)) \mapsto \underbrace{[x_0] = X_0, R_2, [x_0] = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))] }_{R_4}$
+                \item $sum(app(x_0, sub(x_1,1)), app(x_0, sub(x_1,2))) \mapsto \\ \underbrace{R_3, R_4. [app(x_0, sub(x_1,1))] = Nat, [app(x_0, sub(x_1,2))] = Nat, [app(x_0, sub(x_1,2))] = Nat}_{R_5}$
+                \item $lt(x_1 , 2) \mapsto \underbrace{[x_1] = X_1, [2] = Nat, [x_1] = Nat, [lt(x_1 , 2)] = Bool}_{R_6}$
+                \item $if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_6, [1] = Nat, R_5, [1] = [sum(app(x_0, (sub(x_1,1))), \\ app(x_0, (sub(x_1,2))))], [if(...)] = [1], [if(...)] = [sum(...)] }_{R7}$
+                \item $recfun(x_0.x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_7, [recfun(...)] = X_1 \mapsto [if(...)]}_{R_8}$
+                \item $app(recfun(...), 4) \mapsto \\ \underbrace{R_8, [4] = Nat, [recfun(...)] = [4] \mapsto [app(recfun(...), 4)]}_{R_9}$
+
+            \end{itemize}
+            Como resultado se obtiene la lista de restricciones $\R$:
+        
+            \[
+                \begin{array}{rclr}
+                \R&=& [x_1] = X_1  \\
+                && [2] = Nat\\
+                && [lt(x_1 , 2)] = Bool\\
+                && [1] = Nat\\
+                && [x_0] = X_0 \\
+                && [x_1] = \X_1 \\
+                && [x_1] = Nat\\
+                && [sub(x_1,1)] = Nat \\
+                && [x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]\\
+                && [2] = Nat \\
+                && [sub(x_1,2)] = Nat \\
+                && [x_0] = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))] \\
+                && [app(x_0, sub(x_1,1))] = Nat \\
+                && [app(x_0, sub(x_1,2))] = Nat \\
+                && [1] = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))] \\
+                && [if(...)] = [1]\\
+                && [if(...)] = [sum(...)] \\
+                && [recfun(...)] = X_1 \mapsto [if(...)] \\
+                && [4] = Nat \\
+                && [recfun(...)] = [4] \mapsto [app(recfun(...), 4)] \\
+                \end{array}
+            \]
+            \item[Unificación de $\R$].
+             \begin{center}
+                    \begin{longtable}{ | l | l | } 
+                      \hline
+                      Restricciones & Unificador $\mu$ \\ 
+                        \hline
+                        $[x_1] = X_1$  
+                        $[2] = Nat$  & \\
+                        $[lt(x_1 , 2)] = Bool$ & \\
+                        $[1] = Nat$ & \\
+                        $[x_0] = X_0$ & \\
+                        $[x_1] = \X_1$ & \\
+                        $[x_1] = Nat$ & \\
+                        $[sub(x_1,1)] = Nat$ & \\
+                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & \\
+                        $[2] = Nat$ & \\
+                        $[sub(x_1,2)] = Nat$ & \\
+                        $[x_0] = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[1] = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
+                        $[if(...)] = [1]$ & \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\ 
+                      \hline
+                        $[2] = Nat$  & $[x_1] := X_1$ 
+                        $[lt(x_1 , 2)] = Bool$  \\
+                        $[1] = Nat$ & \\
+                        $[x_0] = X_0$ & \\
+                        $X_1 = \X_1$ & \\
+                        $X_1 = Nat$ & \\
+                        $[sub(x_1,1)] = Nat$ & \\
+                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & \\
+                        $[2] = Nat$ & \\
+                        $[sub(x_1,2)] = Nat$ & \\
+                        $[x_0] = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[1] = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
+                        $[if(...)] = [1]$ & \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $[lt(x_1 , 2)] = Bool$ & $[x_1] := X_1$\\
+                        $[1] = Nat$ & $[2] := Nat$\\
+                        $[x_0] = X_0$ & \\
+                        $X_1 = \X_1$ & \\
+                        $X_1 = Nat$ & \\
+                        $[sub(x_1,1)] = Nat$ & \\
+                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & \\
+                        $Nat = Nat$ & \\
+                        $[sub(x_1,2)] = Nat$ & \\
+                        $[x_0] =[sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[1] = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
+                        $[if(...)] = [1]$ & \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $[1] = Nat$ & $[x_1] := X_1$ \\
+                        $[x_0] = X_0$ & $[2] := Nat$\\
+                        $X_1 = \X_1$ & $[lt(x_1 , 2)] = Bool$\\
+                        $X_1 = Nat$ & \\
+                        $[sub(x_1,1)] = Nat$ & \\
+                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & \\
+                        $Nat = Nat$ & \\
+                        $[sub(x_1,2)] = Nat$ & \\
+                        $[x_0] =[sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[1] = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
+                        $[if(...)] = [1]$ & \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $[x_0] = X_0$ & $[x_1] := X_1$ \\
+                        $X_1 = \X_1$ & $[2] := Nat$ \\
+                        $X_1 = Nat$ & $[lt(x_1 , 2)] = Bool$ \\
+                        $[sub(x_1,1)] = Nat$ & $[1] = Nat$ \\
+                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & \\
+                        $Nat = Nat$ & \\
+                        $[sub(x_1,2)] = Nat$ & \\
+                        $[x_0] =[sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
+                        $[if(...)] = Nat$ & \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $X_1 = \X_1$ & $[x_1] := X_1$ \\
+                        $X_1 = Nat$ & $[2] := Nat$ \\
+                        $[sub(x_1,1)] = Nat$ & $[lt(x_1 , 2)] = Bool$  \\
+                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ &  $[1] = Nat$\\
+                        $Nat = Nat$ & $[x_0] = X_0$ \\
+                        $[sub(x_1,2)] = Nat$ & \\
+                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
+                        $[if(...)] = Nat$ & \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $X_1 = Nat$ &  $[x_1] := X_1$ \\
+                        $[sub(x_1,1)] = Nat$ & $[2] := Nat$ \\
+                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ &  $[lt(x_1 , 2)] = Bool$ \\
+                        $Nat = Nat$ & $[1] = Nat$ \\
+                        $[sub(x_1,2)] = Nat$ & $[x_0] = X_0$ \\
+                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $X_1 = \X_1$ \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
+                        $[if(...)] = Nat$ & \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $X_1 = Nat$ &  $[x_1] := X_1$ \\
+                        $[sub(x_1,1)] = Nat$ & $[2] := Nat$ \\
+                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ &  $[lt(x_1 , 2)] = Bool$ \\
+                        $Nat = Nat$ & $[1] = Nat$ \\
+                        $[sub(x_1,2)] = Nat$ & $[x_0] = X_0$ \\
+                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
+                        $[if(...)] = Nat$ & \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline &  \\
+                        $[sub(x_1,1)] = Nat$ &  $[x_1] := X_1$ \\
+                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & $[2] := Nat$ \\
+                        $Nat = Nat$ & $[lt(x_1 , 2)] = Bool$ \\
+                        $[sub(x_1,2)] = Nat$ & $[1] = Nat$ \\
+                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[x_0] = X_0$  \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $X_1 = Nat$\\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
+                        $[if(...)] = Nat$ & \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $[x_0] = Nat \mapsto [app(x_0, sub(x_1,1))]$ &   $[x_1] := X_1$ \\
+                        $Nat = Nat$ & $[2] := Nat$ \\
+                        $[sub(x_1,2)] = Nat$ & $[lt(x_1 , 2)] = Bool$ \\
+                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ &  $[1] = Nat$ \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[x_0] = X_0$ \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $X_1 = Nat$ \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ &  $[sub(x_1,1)] = Nat$\\
+                        $[if(...)] = Nat$ & \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $Nat = Nat$ & $[x_1] := X_1$ \\
+                        $[sub(x_1,2)] = Nat$ & $[2] := Nat$ \\
+                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[lt(x_1 , 2)] = Bool$ \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[1] = Nat$ \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $[x_0] = X_0$ \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $X_1 = Nat$ \\
+                        $[if(...)] = Nat$ & $[sub(x_1,1)] = Nat$ \\
+                        $[if(...)] = [sum(...)]$ & $[x_0] = Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $[sub(x_1,2)] = Nat$ & $[x_1] := X_1$ \\
+                        $X_0 =  [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[2] := Nat$ \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $[1] := Nat$ \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[x_0] := X_0$ \\
+                        $[if(...)] = Nat$ & $X_1 := Nat$ \\
+                        $[if(...)] = [sum(...)]$ & $[sub(x_1,1)] := Nat$ \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$  \\
+                        $[4] = Nat$ &   $Nat := Nat$ \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $[sub(x_1,2)] = Nat$ & $[x_1] := X_1$ \\
+                        $X_0 =  [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ &  $[2] := Nat$ \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $[1] := Nat$ \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[x_0] := X_0$ \\
+                        $[if(...)] = Nat$ & $X_1 := Nat$ \\
+                        $[if(...)] = [sum(...)]$ &  $[sub(x_1,1)] := Nat$ \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ &  $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        $[4] = Nat$ & \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                    \hline
+                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[x_1] := X_1$ \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[2] := Nat$ \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[1] := Nat$ \\
+                        $[if(...)] = Nat$ & $[x_0] := X_0$ \\
+                        $[if(...)] = [sum(...)]$ & $X_1 := Nat$ \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[sub(x_1,1)] := Nat$ \\
+                        $[4] = Nat$ &  $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$  \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ &  $[sub(x_1,2)] = Nat$\\
+                    \hline
+                        $X_0 = Nat \mapsto [app(x_0, sub(x_1,2))]$ & $[x_1] := X_1$ \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[2] := Nat$ \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[1] := Nat$ \\
+                        $[if(...)] = Nat$ & $[x_0] := X_0$ \\
+                        $[if(...)] = [sum(...)]$ & $X_1 := Nat$  \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[sub(x_1,1)] := Nat$  \\
+                        $[4] = Nat$ &  $[sub(x_1,2)] = Nat$ \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                        $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ & \\
+                    \hline
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[x_1] := X_1$ \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $[2] := Nat$ \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $[if(...)] = Nat$ & $[1] := Nat$ \\
+                        $[if(...)] = [sum(...)]$ & $[x_0] := X_0$ \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $X_1 := Nat$ \\
+                        $[4] = Nat$ &  $[sub(x_1,1)] := Nat$ \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ &  $[sub(x_1,2)] = Nat$ \\
+                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                    \hline
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $[x_1] := X_1$ \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[2] := Nat$ \\
+                        $[if(...)] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $[if(...)] = [sum(...)]$ & $[1] := Nat$ \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[x_0] := X_0$ \\
+                        $[4] = Nat$ & $X_1 := Nat$ \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $[sub(x_1,1)] := Nat$ \\
+                        & $[sub(x_1,2)] = Nat$ \\
+                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        &  $[app(x_0, sub(x_1,1))] := Nat$\\
+                    \hline
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[x_1] := X_1$ \\
+                        $[if(...)] = Nat$ & $[2] := Nat$ \\
+                        $[if(...)] = [sum(...)]$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[1] := Nat$ \\
+                        $[4] = Nat$ & $[x_0] := X_0$ \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $X_1 := Nat$ \\
+                        & $[sub(x_1,1)] := Nat$ \\
+                        & $[sub(x_1,2)] := Nat$ \\
+                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
+                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
+                    \hline
+                        $[if(...)] = Nat $ & $[x_1] := X_1$ \\
+                        $[if(...)] = Nat $ & $[2] := Nat$ \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $[4] = Nat$ & $[1] := Nat$ \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $[x_0] := X_0$ \\
+                        & $X_1 := Nat$ \\
+                        & $[sub(x_1,1)] := Nat$ \\
+                        & $[sub(x_1,2)] := Nat$ \\
+                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
+                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
+                        & $[sum(app(...), app(...))] := Nat $ \\
+                    \hline
+                        $Nat = Nat $ & $[x_1] := X_1$ \\
+                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[2] := Nat$ \\
+                        $[4] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $[1] := Nat$\\
+                        & $[x_0] := X_0$ \\
+                        & $X_1 := Nat$ \\
+                        & $[sub(x_1,1)] := Nat$ \\
+                        & $[sub(x_1,2)] := Nat$ \\
+                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
+                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
+                        & $[sum(app(...), app(...))] := Nat$ \\
+                        & $[if(...)] := Nat $ \\
+                    \hline
+                        $Nat = Nat $ & $[x_1] := X_1$ \\
+                        $[recfun(...)] = X_1 \mapsto Nat$ & $[2] := Nat$ \\
+                        $[4] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $[1] := Nat$\\
+                        & $[x_0] := X_0$ \\
+                        & $X_1 := Nat$ \\
+                        & $[sub(x_1,1)] := Nat$ \\
+                        & $[sub(x_1,2)] := Nat$ \\
+                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
+                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
+                        & $[sum(app(...), app(...))] := Nat$ \\
+                        & $[if(...)] := Nat $ \\
+                    \hline
+                        $[recfun(...)] = X_1 \mapsto Nat$ &$[x_1] := X_1$ \\
+                        $[4] = Nat$ &  $[2] := Nat$ \\
+                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $[lt(x_1 , 2)] := Bool$ \\
+                        & $[1] := Nat$ \\
+                        & $[x_0] := X_0$ \\
+                        & $X_1 := Nat$  \\
+                        & $[sub(x_1,1)] := Nat$ \\
+                        & $[sub(x_1,2)] := Nat$ \\
+                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
+                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
+                        & $[sum(app(...), app(...))] := Nat$ \\
+                        & $[if(...)] := Nat $ \\
+                    \hline
+                        $[4] = Nat$ &  $[x_1] := X_1$ \\
+                        $ X_1 \mapsto Nat = [4] \mapsto [app(recfun(...), 4)]$ & $[2] := Nat$ \\
+                        & $[lt(x_1 , 2)] := Bool$ \\
+                        & $[1] := Nat$ \\
+                        & $[x_0] := X_0$ \\
+                        & $X_1 := Nat$ \\
+                        & $[sub(x_1,1)] := Nat$ \\
+                        & $[sub(x_1,2)] := Nat$ \\
+                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
+                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
+                        & $[sum(app(...), app(...))] := Nat$ \\
+                        & $[if(...)] := Nat $ \\
+                        & $[recfun(...)] = X_1 \mapsto Nat$ \\
+                    \hline
+                        $ X_1 \mapsto Nat = Nat \mapsto [app(recfun(...), 4)]$ & $[x_1] := X_1$ \\
+                        & $[2] := Nat$ \\
+                        & $[lt(x_1 , 2)] := Bool$ \\
+                        & $[1] := Nat$ \\
+                        & $[x_0] := X_0$ \\
+                        & $X_1 := Nat$ \\
+                        & $[sub(x_1,1)] := Nat$ \\
+                        & $[sub(x_1,2)] := Nat$ \\
+                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
+                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
+                        & $[sum(app(...), app(...))] := Nat$ \\
+                        & $[if(...)] := Nat $ \\
+                        & $[recfun(...)] = X_1 \mapsto Nat$ \\
+                        & $[4] = Nat$ \\
+                    \hline
+                        & $[x_1] := X_1$ $[2] := Nat$ \\
+                        & $[2] := Nat$ \\
+                        & $[lt(x_1 , 2)] := Bool$ \\
+                        & $[1] := Nat$ \\
+                        & $[x_0] := X_0$ \\
+                        & $X_1 := Nat$ \\
+                        & $[sub(x_1,1)] := Nat$ \\
+                        & $[sub(x_1,2)] := Nat$ \\
+                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
+                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
+                        & $[sum(app(...), app(...))] := Nat$ \\
+                        & $[if(...)] := Nat $ \\
+                        & $[recfun(...)] = X_1 \mapsto Nat$  \\
+                        & $[4] = Nat $ \\
+                        & $X_1 = Nat $\\
+                        & $[app(recfun(...), 4)] = Nat$ \\
+                    \hline
+                \end{longtable}
+            \end{center}
+        \end{description}
+            De el proceso anterior se puede concluir que el tipo de la expresión es $Nat$
+    \end{exercise}
+    
+    \section{Ejercicios para el lector}
+
+     \begin{exercise} Dada la siguiente expresión de MinHaskell, obten el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
+          \begin{lstlisting}
+             (recfun factorial n => 
+                 if (n < 0) 
+                    then 1
+                 else factorial (n - 1) * n  ) 9
+           \end{lstlisting}
+     \end{exercise}
+
+     \bigskip
+
+    \begin{exercise} Dada la siguiente expresión de MinHaskell, obten el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraido de: Lenguajes de Programación 2022-1 Nota de clase 8: Inferencia de tipos, Enriquez Mendoza Javier. Universidad Nacional Autónoma de México. Noviembre 2022. }
+           \begin{lstlisting}
+                fun x -> app(x,x)
+           \end{lstlisting} 
+    \end{exercise}
