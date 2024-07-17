@@ -100,7 +100,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
         
         La variable de tipo $X$$\,$ va a tomar su valor hasta que la función sea evaluada, por ejemplo en la aplicación:
        
-        $$(funt\ x \Rightarrow x)\ 5 :: Nat \to Nat$$
+        $$(lam \ x \Rightarrow x)\ 5 :: Nat \to Nat$$
 
         La expresión [$e$] es una construcción sintáctica para definir el tipo de una expresión $e$ del lenguaje y se lee como: ''el tipo de $e$''. Es importante aclarar que los tipos de la forma [$e$] no pueden figurar en el tipo resultante del algoritmo de unificación $\mu$.  
             
@@ -118,7 +118,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
             \[
                 \inference{}{x_i\mapsto [x_i] = X_i}
             \]
-            Para el tipo de las variables se usará una variable de tipo con el mismo nombre de la variable. Todas las apariciones de la misma variable generarán la misma restricción y como los nombres de variables son únicos no habrá dos variables distintas con el mismo tipo. 
+            Para el tipo de las variables se usará la misma variable pero en mayúsculas. Todas las apariciones de la misma variable generarán la misma restricción y como los nombres de variables son únicos no habrá dos variables distintas con el mismo tipo. 
             \item[Valores numéricos]
             \[
                 \inference{}{num[n] \mapsto [num[n]] = Nat}
@@ -142,7 +142,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                     \\
                     \inference
                         {v \mapsto R_1 & b \mapsto R_2}
-                        {letrec(v,x_i.b) \mapsto R_1, R_2, X_i = [v],[letrec(v,x_i.b)] = [b]}\\
+                        {recfun(v,x_i.b) \mapsto R_1, R_2, X_i = [v],[recfun(v,x_i.b)] = [b]}\\
                 \end{array}
             \]
             \newpage
@@ -150,7 +150,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
             \[
                 \inference
                     {t \mapsto R}
-                    {funt(x_i.t) \mapsto R,[funt(x_i.t)] = X_i \to [t]}
+                    {lam(x_i.t) \mapsto R,[lam(x_i.t)] = X_i \to [t]}
             \]
             \item[Aplicación de función]
             \[
@@ -175,7 +175,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                     \\
                      \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        { ig(e_1,e_2) \mapsto R_1,R_2, [e_1] = Nat, [e_2] = Nat,[ig(e_1,e_2)] = Bool}\\
+                        { eq(e_1,e_2) \mapsto R_1,R_2, [e_1] = Nat, [e_2] = Nat,[ig(e_1,e_2)] = Bool}\\
                     \\
                     \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
@@ -191,12 +191,12 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 
 \section{Algoritmo de unificación}
 
-    Una vez obtenida la lista de restricciones asociadas a una expresión $e$ tenemos toda la información que necesitamos acerca de su estructura para comenzar a unificar los tipos aplicando las restricciones hasta encontrar el tipo más general de la expresión, o hasta encontrar un error de tipificado al asignar dos tipos distintos a la misma expresión.\\\\
+    Una vez obtenida la lista de restricciones asociadas a una expresión $e$ tenemos toda la información que necesitamos acerca de su estructura para comenzar a unificar los tipos aplicando las restricciones hasta encontrar el tipo más general de la expresión, o hasta encontrar un error de tipificado al asignar dos tipos distintos a un mismo elemento.\\\\
     Para esto construiremos una composición de sustituciones tomando cada una de las restricciones y sustituyendo el tipo al cuál la expresión está ligada en dicha restricción. Al final se obtendrá la lista de sustituciones necesarias para hallar el tipo más general el cuál será la cabeza de la lista, en caso contrario quiere decir que la unficación falló.
     
 \bigskip
 
-    \begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es un unificador $\mu$ en caso de que las restricciones se puedan resolver o ${\sf fail}$ en caso contrario\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}.
+    \begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es una composición de sustituciones en caso de que las restricciones se puedan resolver  (a esta composición de sustituciones la denotamos con la letra  $\mu$ y se le conoce como: ''unificador'')  o ${\sf fail}$ en caso contrario\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}.
 
         \[
             \begin{array}{rclr}
@@ -221,38 +221,40 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
         \begin{itemize}
             \item Se encuentra la expresión $e'$ con nombres de variables únicas.
             \item Se encuentra el conjunto de restricciones $\R$ tal que $e'\mapsto\R$.
-            \item Utilizando la función $U$ se calcula el unificador mas general $\mu$ del conjunto de restricciones $\R$, tal que $U(\R)=\mu$.
+            \item Utilizando la función $U$ se calcula el unificador general $\mu$ del conjunto de restricciones $\R$, tal que $U(\R)=\mu$.
             \item Se busca en $\mu$ la ecuación $e':= T$.
-            \item T $\,$ es el tipo mas general de $e$, es decir, $\Ts(e)=T$.
+            \item T $\,$ es el tipo general de $e$, es decir, $\Ts(e)=T$.
 \bigskip
         \end{itemize}
     \end{definition}
 
     \begin{exercise}
             Vamos a encontrar el tipo de la expresión:
-                \begin{lstlisting}
-                let x = 0 in
-                    let y = 1 in
-                        x == y
-                    end
-                end    
+                \begin{lstlisting}[mathescape=true]
+                $\textsf{let}$ $x$ = 0 $\textsf{in}$
+                    $\textsf{let}$ $y$ = 1 $\textsf{in}$
+                        $x$ = $y$
+                    $\textsf{end}$
+                $\textsf{end}$
             \end{lstlisting}
-        que corresponde al árbol de sintaxis abstracta:
-        $$let(0,x.let(1,y.eq(x,y)))$$
+
         \begin{description}
-            \item[Renombramiento de variables]
+        \item Representación en sintaxis abstracta:
+                  $$let(0,\ x.let(1,\ y.eq(x,\ y)))$$
+        \item  Renombramiento de variables
                  $$let(0,x_0.let(1,x_1.eq(x_0,x_1)))$$
-            \item[Generación de Restricciones].
+         \item Generación de Restricciones:
             \begin{itemize}
-                \item$ 0 \mapsto [1] = Nat$
+                \item$ 0 \mapsto [0] = Nat$
                 \item$ 1 \mapsto [1] = Nat$
-                \item$x_0\mapsto [x_0] = \X_0$
-                \item$x_1\mapsto [x_1] = \X_1$
-                \item$eq(x_0,x_1) \mapsto \underbrace{[x_0] = \X_0, [x_1] = \X_1, [x_0] = Nat, [x_1] = Nat, [eq(x_0,x_1)] = Bool}_{\R_1} $
-                \item$let(1,x_1.eq(x_0,x_1)) \mapsto \underbrace{[1] = Nat, R_1, \X_1 = [1], [let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]}_{\R_2}$
-                \item$let(0,x_0.let(1,x_1.eq(x_0,x_1))) \mapsto \\\underbrace{[0] = Nat, \R_2,\X_0 = [0], [let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]}_{\R_3}$
+                \item$x_0\mapsto [x_0] = X_0$
+                \item$x_1\mapsto [x_1] = X_1$
+                \item$eq(x_0,\ x_1) \mapsto \underbrace{[x_0] = X_0, [x_1] = X_1, [x_0] = Nat, [x_1] = Nat, [eq(x_0,x_1)] = Bool}_{\R_1} $
+                \item$let(1,\ x_1.eq(x_0,\ x_1)) \mapsto \underbrace{[1] = Nat, R_1, X_1 = [1], [let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]}_{\R_2}$
+                \item$let(0,\ x_0.let(1,\ x_1.eq(x_0,\ x_1))) \mapsto \\\underbrace{[0] = Nat, \R_2, X_0 = [0], [let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]}_{\R_3}$
             \end{itemize}
-            Como resultado se obtiene la lista de restricciones $\R$:
+
+           \item Lista de restricciones de $\R$:
         
             \[
                 \begin{array}{rclr}
@@ -262,15 +264,15 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 &&[x_1] = \X_1\\
                 &&[x_0] = Nat\\
                 &&[eq(x_0,x_1)] = Bool\\
-                &&\X_1 = [1] \\
+                && X_1 = [1] \\
                 &&[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)] \\
-                && [x_1] = \X_1 \\
-                && \X_0= [0] \\
+                && [x_1] = X_1 \\
+                && X_0= [0] \\
                 && [let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]
                 \end{array}
-            \] \\\\
+            \] 
             
-            \item[Unificación de $\R$].
+            \item Aplicación del algoritmo para encontrar el unificador general de $\R$:
 
                 \begin{center}
                     \begin{longtable}{ | l | l | } 
@@ -279,151 +281,147 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         \hline
                         $[0] = Nat$  & \\
                         $[1] = Nat$  & \\
-                        $[x_0] = \X_0$ & \\
-                        $[x_1] = \X_1$  & \\
+                        $[x_0] = X_0$ & \\
+                        $[x_1] = X_1$  & \\
                         $[x_0] = Nat$  & \\
                         $[eq(x_0,x_1)] = Bool$  & \\
-                        $\X_1 = [1]$ & \\
+                        $X_1 = [1]$ & \\
                         $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & \\
-                        $[x_1] = \X_1$  & \\
-                        $\X_0= [0]$ & \\
+                        $[x_1] = X_1$  & \\
+                        $X_0= [0]$ & \\
                         $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
                       \hline
                         $[1] = Nat$  & $[0] := Nat$  \\
-                        $[x_0] = \X_0$ & \\
-                        $[x_1] = \X_1$  & \\
+                        $[x_0] = X_0$ & \\
+                        $[x_1] = X_1$  & \\
                         $[x_0] = Nat$  & \\
                         $[eq(x_0,x_1)] = Bool$  & \\
-                        $\X_1 = [1]$ & \\
+                        $X_1 = [1]$ & \\
                         $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & \\
-                        $[x_1] = \X_1$  & \\
-                        $\X_0 = Nat$ & \\
+                        $[x_1] = X_1$  & \\
+                        $X_0 = Nat$ & \\
                         $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
                       \hline
-                        $[x_0] = \X_0$ &  $[0] := Nat$  \\
-                        $[x_1] = \X_1$  &  $[1] := Nat$\\
+                        $[x_0] = X_0$ &  $[0] := Nat$  \\
+                        $[x_1] = X_1$  &  $[1] := Nat$\\
                         $[x_0] = Nat$  & \\
                         $[eq(x_0,x_1)] = Bool$  & \\
-                        $\X_1 = Nat$ & \\
+                        $X_1 = Nat$ & \\
                         $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & \\
-                        $[x_1] = \X_1$  & \\
-                        $\X_0 = Nat$ & \\
+                        $[x_1] = X_1$  & \\
+                        $X_0 = Nat$ & \\
                         $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
                       \hline
-                        $[x_1] = \X_1$  &   $[0] := Nat$\\
-                        $\X_0 = Nat$  & $[1] := Nat$ \\
-                        $[eq(x_0,x_1)] = Bool$  &  $[x_0] := \X_0$ \\
-                        $\X_1 = Nat$ & \\
+                        $[x_1] = X_1$  &   $[0] := Nat$\\
+                        $X_0 = Nat$  & $[1] := Nat$ \\
+                        $[eq(x_0,x_1)] = Bool$  &  $[x_0] := X_0$ \\
+                        $X_1 = Nat$ & \\
                         $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & \\
-                        $[x_1] = \X_1$  & \\
-                        $\X_0 = Nat$ & \\
+                        $[x_1] = X_1$  & \\
+                        $X_0 = Nat$ & \\
                         $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
                       \hline
-                        $\X_0 = Nat$  & $[0] := Nat$ \\
+                        $X_0 = Nat$  & $[0] := Nat$ \\
                         $[eq(x_0,x_1)] = Bool$  &  $[1] := Nat$ \\
-                        $\X_1 = Nat$ & $[x_0] := \X_0$  \\
-                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  &  $[x_1] := \X_1$ \\
-                        $\X_1 = \X_1$  & \\
-                        $\X_0 = Nat$ & \\
+                        $X_1 = Nat$ & $[x_0] := X_0$  \\
+                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  &  $[x_1] := X_1$ \\
+                        $X_1 = X_1$  & \\
+                        $X_0 = Nat$ & \\
                         $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
                       \hline
                         $[eq(x_0,x_1)] = Bool$  & $[0] := Nat$ \\
-                        $\X_1 = Nat$ & $[1] := Nat$ \\
-                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & $[x_0] := \X_0$ \\
-                        $\X_1 = \X_1$  & $[x_1] := \X_1$ \\
-                        $Nat = Nat$ & $\X_0 := Nat$ \\
+                        $X_1 = Nat$ & $[1] := Nat$ \\
+                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & $[x_0] := X_0$ \\
+                        $X_1 = X_1$  & $[x_1] := X_1$ \\
+                        $Nat = Nat$ & $X_0 := Nat$ \\
                         $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
                       \hline
-                        $[eq(x_0,x_1)] = Bool$  & $[0] := Nat$ \\
-                        $\X_1 = Nat$ & $[1] := Nat$ \\
-                        $[let(1,x_1.eq(x_0,x_1))] = [eq(x_0,x_1)]$  & $[x_0] := \X_0$ \\
-                        $\X_1 = \X_1$  & $[x_1] := \X_1$ \\
-                        $Nat = Nat$ &  $[x_0] := Nat$ \\
-                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & \\
-                      \hline
-                        $\X_1 = Nat$ & $[0] := Nat$  \\
+                        $X_1 = Nat$ & $[0] := Nat$  \\
                         $[let(1,x_1.eq(x_0,x_1))] = Bool$  & $[1] := Nat$ \\
-                        $\X_1 = \X_1$  & $[x_0] := \X_0$  \\
-                        $Nat = Nat$ & $[x_1] := \X_1$ \\
+                        $X_1 = X_1$  & $[x_0] := X_0$  \\
+                        $Nat = Nat$ & $[x_1] := X_1$ \\
                         $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ &  $[x_0] := Nat$ \\
                         & $[eq(x_0,x_1)] = Bool$ \\
                       \hline
                         $[let(1,x_1.eq(x_0,x_1))] = Bool$  &  $[0] := Nat$  \\
                         $Nat = Nat$  &  $[1] := Nat$ \\
-                        $Nat = Nat$ &  $[x_0] := \X_0$  \\
-                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & $[x_1] := \X_1$ \\
+                        $Nat = Nat$ &  $[x_0] := X_0$  \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = [let(1,x_1.eq(x_0,x_1))]$ & $[x_1] := X_1$ \\
                         &  $[x_0] := Nat$ \\
                         &  $[eq(x_0,x_1)] := Bool$ \\
-                        &  $\X_1 := Nat$ \\
+                        &  $X_1 := Nat$ \\
                       \hline
                         $Nat = Nat$  &   $[0] := Nat$ \\
                         $Nat = Nat$ & $[1] := Nat$ \\
-                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = Bool$ &  $[x_0] := \X_0$   \\
-                        & $[x_1] := \X_1$  \\
+                        $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = Bool$ &  $[x_0] := X_0$   \\
+                        & $[x_1] := X_1$  \\
                         & $[x_0] := Nat$  \\
                         & $[eq(x_0,x_1)] := Bool$  \\
-                        & $\X_1 := Nat$\\
+                        & $X_1 := Nat$\\
                         & $[let(1,x_1.eq(x_0,x_1))] := Bool$ \\
                       \hline
+                        $Nat = Nat$  &   $[0] := Nat$ \\
                         $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = Bool$ & $[1] := Nat$ \\
-                        & $[x_0] := \X_0$  \\
-                        & $[x_1] := \X_1$ \\
-                        & $[x_0] := Nat$ \\
-                        & $[eq(x_0,x_1)] := Bool$ \\
-                        & $\X_1 := Nat$ \\
+                        &  $[x_0] := X_0$   \\
+                        & $[x_1] := X_1$  \\
+                        & $[x_0] := Nat$  \\
+                        & $[eq(x_0,x_1)] := Bool$  \\
+                        & $X_1 := Nat$\\
                         & $[let(1,x_1.eq(x_0,x_1))] := Bool$ \\
                       \hline
                         $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] = Bool$ & $[0] := Nat$ \\
                         & $[1] := Nat$ \\
-                        & $[x_0] := \X_0$ \\
-                        & $[x_1] := \X_1$ \\
+                        & $[x_0] := X_0$ \\
+                        & $[x_1] := X_1$ \\
                         & $[eq(x_0,x_1)] := Bool$ \\
-                        & $\X_1 := Nat$ \\
+                        & $X_1 := Nat$ \\
                         & $[let(1,x_1.eq(x_0,x_1))] := Bool$ \\
                       \hline
                         & $[0] := Nat$ \\
                         & $[1] := Nat$  \\
-                        & $[x_0] := \X_0$ \\
-                        & $[x_1] := \X_1$ \\
+                        & $[x_0] := X_0$ \\
+                        & $[x_1] := X_1$ \\
                         & $[eq(x_0,x_1)] := Bool$ \\
-                        & $\X_1 := Nat$ \\
+                        & $X_1 := Nat$ \\
                         & $[let(1,x_1.eq(x_0,x_1))] := Bool$ \\
-                        & $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] := Bool$ 
+                        & $[let(0,x_0.let(1,x_1.eq(x_0,x_1)))] := Bool$ \\
+		\hline
                     \end{longtable}
                 \end{center}
-        \end{description}
         De el proceso anterior se puede concluir que el tipo de la expresión es $Bool$
+        \end{description}
     \end{exercise}
 
+\newpage
 
     \begin{exercise}
         Vamos a encontrar el tipo de la expresión:
             \begin{lstlisting}
-             (recfun fibonacci n => 
+             (recfun fib n => 
                  if (n < 2) 
                     then 1
-                 else fibonacci (n - 1) + fibonacci (n -2) ) 4
+                 else fib (n - 1) + fib (n-2)) 4
            \end{lstlisting}
-        que corresponde al árbol de sintaxis abstracta:
-        $$app(recfun(fibonacci.n.if(lt(n , 2), 1, sum(app(fibonacci, (sub(n,1))),app(fibonacci, (sub(n,2)))))),4)$$
         \begin{description}
-            \item[Renombramiento de variables]
+	 \item Representación en sintáxis abstracta	
+ 	        $$app(recfun(fib.n.if(lt(n , 2), 1, sum(app(fib, (sub(n,1))),app(fib, (sub(n,2)))))),4)$$
+            \item Renombramiento de variables
                 $$app(recfun(x_0.x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))),4)$$
-            \item[Generación de Restricciones].
+            \item Generación de Restricciones
             \begin{itemize}
                 \item $1 \mapsto [1] = Nat$
                 \item $2 \mapsto [2] = Nat$
                 \item $x_0 \to [x_0] = X_0$
                 \item $x_1 \mapsto [x_1] = \X_1$ 
-                \item $sub(x_1,1) \mapsto \underbrace{[x_1] = \X_1, [1] = Nat, [x_1] = Nat, [sub(x_1,1)] = Nat}_{R1}$
-                \item $sub(x_1,2) \mapsto \underbrace{[x_1] = \X_1, [2] = Nat, [x_1] = Nat, [sub(x_1,2)] = Nat}_{R2}$
+                \item $sub(x_1,1) \mapsto \underbrace{[x_1] = X_1, [1] = Nat, [x_1] = Nat, [sub(x_1,1)] = Nat}_{R1}$
+                \item $sub(x_1,2) \mapsto \underbrace{[x_1] = X_1, [2] = Nat, [x_1] = Nat, [sub(x_1,2)] = Nat}_{R2}$
                 \item $app(x_0, sub(x_1,1)) \mapsto \underbrace{[x_0] = X_0, R_1, [x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))] }_{R_3}$
                 \item $app(x_0, sub(x_1,2)) \mapsto \underbrace{[x_0] = X_0, R_2, [x_0] = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))] }_{R_4}$
-                \item $sum(app(x_0, sub(x_1,1)), app(x_0, sub(x_1,2))) \mapsto \\ \underbrace{R_3, R_4. [app(x_0, sub(x_1,1))] = Nat, [app(x_0, sub(x_1,2))] = Nat, [app(x_0, sub(x_1,2))] = Nat}_{R_5}$
+                \item $sum(app(x_0, sub(x_1,1)), app(x_0, sub(x_1,2))) \mapsto \\ \underbrace{R_3, R_4. [app(x_0, sub(x_1,1))] = Nat, [app(x_0, sub(x_1,2))] = Nat, [sum(app(x_0, sub(x_1,1))] = Nat}_{R_5}$
                 \item $lt(x_1 , 2) \mapsto \underbrace{[x_1] = X_1, [2] = Nat, [x_1] = Nat, [lt(x_1 , 2)] = Bool}_{R_6}$
-                \item $if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_6, [1] = Nat, R_5, [1] = [sum(app(x_0, (sub(x_1,1))), \\ app(x_0, (sub(x_1,2))))], [if(...)] = [1], [if(...)] = [sum(...)] }_{R7}$
-                \item $recfun(x_0.x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_7, [recfun(...)] = X_1 \mapsto [if(...)]}_{R_8}$
-                \item $app(recfun(...), 4) \mapsto \\ \underbrace{R_8, [4] = Nat, [recfun(...)] = [4] \mapsto [app(recfun(...), 4)]}_{R_9}$
+                \item $if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto$ \\ $\underbrace{R_6, [1] = Nat, R_5, [1] = [sum(app(x_0, (sub(x_1,1)))}_{R7}$, \\ $\underbrace{app(x_0, (sub(x_1,2))))], [if(...)] = [1], [if(...)] = [sum(...)] }_{R7}$
+                \item $recfun(x_0,\ x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_7,  X_1 = [x_0], [recfun(...)] = [if(...)]}_{R_8}$
+                \item $app(recfun(...), 4) \mapsto \\ \underbrace{R_8, [4] = Nat, [recfun(...)] = [4] \to [app(recfun(...), 4)]}_{R_9}$
 
             \end{itemize}
             Como resultado se obtiene la lista de restricciones $\R$:
@@ -435,7 +433,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 && [lt(x_1 , 2)] = Bool\\
                 && [1] = Nat\\
                 && [x_0] = X_0 \\
-                && [x_1] = \X_1 \\
+                && [x_1] = X_1 \\
                 && [x_1] = Nat\\
                 && [sub(x_1,1)] = Nat \\
                 && [x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]\\
@@ -443,16 +441,17 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 && [sub(x_1,2)] = Nat \\
                 && [x_0] = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))] \\
                 && [app(x_0, sub(x_1,1))] = Nat \\
-                && [app(x_0, sub(x_1,2))] = Nat \\
+                && [app(x_0, sub(x_1,2))] = Nat \\	
+	     &&  [sum(app(x_0, sub(x_1,1))] = Nat \\
                 && [1] = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))] \\
                 && [if(...)] = [1]\\
                 && [if(...)] = [sum(...)] \\
-                && [recfun(...)] = X_1 \mapsto [if(...)] \\
+                && [recfun(...)] = [if(...)] \\
                 && [4] = Nat \\
                 && [recfun(...)] = [4] \mapsto [app(recfun(...), 4)] \\
                 \end{array}
             \]
-            \item[Unificación de $\R$].
+            \item Unificación de $\R$
              \begin{center}
                     \begin{longtable}{ | l | l | } 
                       \hline
