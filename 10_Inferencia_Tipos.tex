@@ -397,10 +397,10 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
     \begin{exercise}
         Vamos a encontrar el tipo de la expresión:
             \begin{lstlisting}
-             (recfun fib n => 
+             recfun fib n => 
                  if (n < 2) 
                     then 1
-                 else fib (n - 1) + fib (n-2)) 4
+                 else fib (n - 1) + fib (n-2)
            \end{lstlisting}
         \begin{description}
 	 \item Representación en sintáxis abstracta	
@@ -417,11 +417,10 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 \item $sub(x_1,2) \mapsto \underbrace{[x_1] = X_1, [2] = Nat, [x_1] = Nat, [sub(x_1,2)] = Nat}_{R2}$
                 \item $app(x_0, sub(x_1,1)) \mapsto \underbrace{[x_0] = X_0, R_1, [x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))] }_{R_3}$
                 \item $app(x_0, sub(x_1,2)) \mapsto \underbrace{[x_0] = X_0, R_2, [x_0] = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))] }_{R_4}$
-                \item $sum(app(x_0, sub(x_1,1)), app(x_0, sub(x_1,2))) \mapsto \\ \underbrace{R_3, R_4. [app(x_0, sub(x_1,1))] = Nat, [app(x_0, sub(x_1,2))] = Nat, [sum(app(x_0, sub(x_1,1))] = Nat}_{R_5}$
+                \item $sum(app(x_0, sub(x_1,1)), app(x_0, sub(x_1,2))) \mapsto \\ \underbrace{R_3, R_4. [app(x_0, sub(x_1,1))] = Nat, [app(x_0, sub(x_1,2))] = Nat,}_{R_5}$ \\ $\underbrace{ [sum(app(x_0, sub(x_1,1))] = Nat}_{R_5}$
                 \item $lt(x_1 , 2) \mapsto \underbrace{[x_1] = X_1, [2] = Nat, [x_1] = Nat, [lt(x_1 , 2)] = Bool}_{R_6}$
                 \item $if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto$ \\ $\underbrace{R_6, [1] = Nat, R_5, [1] = [sum(app(x_0, (sub(x_1,1)))}_{R7}$, \\ $\underbrace{app(x_0, (sub(x_1,2))))], [if(...)] = [1], [if(...)] = [sum(...)] }_{R7}$
                 \item $recfun(x_0,\ x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_7,  X_1 = [x_0], [recfun(...)] = [if(...)]}_{R_8}$
-                \item $app(recfun(...), 4) \mapsto \\ \underbrace{R_8, [4] = Nat, [recfun(...)] = [4] \to [app(recfun(...), 4)]}_{R_9}$
 
             \end{itemize}
             Como resultado se obtiene la lista de restricciones $\R$:
@@ -447,8 +446,6 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 && [if(...)] = [1]\\
                 && [if(...)] = [sum(...)] \\
                 && [recfun(...)] = [if(...)] \\
-                && [4] = Nat \\
-                && [recfun(...)] = [4] \mapsto [app(recfun(...), 4)] \\
                 \end{array}
             \]
             \item Unificación de $\R$
@@ -457,12 +454,12 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                       \hline
                       Restricciones & Unificador $\mu$ \\ 
                         \hline
-                        $[x_1] = X_1$  
+                        $[x_1] = X_1$ & \\
                         $[2] = Nat$  & \\
                         $[lt(x_1 , 2)] = Bool$ & \\
                         $[1] = Nat$ & \\
                         $[x_0] = X_0$ & \\
-                        $[x_1] = \X_1$ & \\
+                        $[x_1] = X_1$ & \\
                         $[x_1] = Nat$ & \\
                         $[sub(x_1,1)] = Nat$ & \\
                         $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & \\
@@ -471,18 +468,17 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $[x_0] = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
                         $[app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[sum(app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[1] = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
                         $[if(...)] = [1]$ & \\
                         $[if(...)] = [sum(...)]$ & \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\ 
+                        $[recfun(...)] = [if(...)]$ & \\
                       \hline
-                        $[2] = Nat$  & $[x_1] := X_1$ 
-                        $[lt(x_1 , 2)] = Bool$  \\
+                        $[2] = Nat$  & $[x_1] := X_1$ \\
+                        $[lt(x_1 , 2)] = Bool$ & \\
                         $[1] = Nat$ & \\
                         $[x_0] = X_0$ & \\
-                        $X_1 = \X_1$ & \\
+                        $X_1 = X_1$ & \\
                         $X_1 = Nat$ & \\
                         $[sub(x_1,1)] = Nat$ & \\
                         $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & \\
@@ -491,12 +487,11 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $[x_0] = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
                         $[app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[sum(app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[1] = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
                         $[if(...)] = [1]$ & \\
                         $[if(...)] = [sum(...)]$ & \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                        $[recfun(...)] = [if(...)]$ & \\
                     \hline
                         $[lt(x_1 , 2)] = Bool$ & $[x_1] := X_1$\\
                         $[1] = Nat$ & $[2] := Nat$\\
@@ -510,16 +505,15 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $[x_0] =[sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
                         $[app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[sum(app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[1] = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
                         $[if(...)] = [1]$ & \\
                         $[if(...)] = [sum(...)]$ & \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                        $[recfun(...)] = [if(...)]$ & \\
                     \hline
                         $[1] = Nat$ & $[x_1] := X_1$ \\
                         $[x_0] = X_0$ & $[2] := Nat$\\
-                        $X_1 = \X_1$ & $[lt(x_1 , 2)] = Bool$\\
+                        $X_1 = X_1$ & $[lt(x_1 , 2)] := Bool$\\
                         $X_1 = Nat$ & \\
                         $[sub(x_1,1)] = Nat$ & \\
                         $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & \\
@@ -528,299 +522,253 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $[x_0] =[sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
                         $[app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[sum(app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[1] = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
                         $[if(...)] = [1]$ & \\
                         $[if(...)] = [sum(...)]$ & \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                        $[recfun(...)] = [if(...)]$ & \\
                     \hline
                         $[x_0] = X_0$ & $[x_1] := X_1$ \\
-                        $X_1 = \X_1$ & $[2] := Nat$ \\
-                        $X_1 = Nat$ & $[lt(x_1 , 2)] = Bool$ \\
-                        $[sub(x_1,1)] = Nat$ & $[1] = Nat$ \\
+                        $X_1 = X_1$ & $[2] := Nat$ \\
+                        $X_1 = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $[sub(x_1,1)] = Nat$ & $[1] := Nat$ \\
                         $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & \\
                         $Nat = Nat$ & \\
                         $[sub(x_1,2)] = Nat$ & \\
                         $[x_0] =[sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
                         $[app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[sum(app(x_0, sub(x_1,1))] = Nat$ & \\
                         $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
                         $[if(...)] = Nat$ & \\
                         $[if(...)] = [sum(...)]$ & \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                        $[recfun(...)] =  [if(...)]$ & \\
                     \hline
-                        $X_1 = \X_1$ & $[x_1] := X_1$ \\
+                        $X_1 = X_1$ & $[x_1] := X_1$ \\
                         $X_1 = Nat$ & $[2] := Nat$ \\
-                        $[sub(x_1,1)] = Nat$ & $[lt(x_1 , 2)] = Bool$  \\
-                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ &  $[1] = Nat$\\
-                        $Nat = Nat$ & $[x_0] = X_0$ \\
+                        $[sub(x_1,1)] = Nat$ & $[lt(x_1 , 2)] := Bool$  \\
+                        $X_0 = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ &  $[1] := Nat$\\
+                        $Nat = Nat$ & $[x_0] := X_0$ \\
                         $[sub(x_1,2)] = Nat$ & \\
                         $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
                         $[app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[sum(app(x_0, sub(x_1,1))] = Nat$ & \\
                         $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
                         $[if(...)] = Nat$ & \\
                         $[if(...)] = [sum(...)]$ & \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                        $[recfun(...)] =  [if(...)]$ & \\
                     \hline
                         $X_1 = Nat$ &  $[x_1] := X_1$ \\
                         $[sub(x_1,1)] = Nat$ & $[2] := Nat$ \\
-                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ &  $[lt(x_1 , 2)] = Bool$ \\
-                        $Nat = Nat$ & $[1] = Nat$ \\
-                        $[sub(x_1,2)] = Nat$ & $[x_0] = X_0$ \\
-                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $X_1 = \X_1$ \\
+                        $X_0 = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ &  $[lt(x_1 , 2)] := Bool$ \\
+                        $Nat = Nat$ & $[1] := Nat$ \\
+                        $[sub(x_1,2)] = Nat$ & $[x_0] := X_0$ \\
+                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ &  \\
                         $[app(x_0, sub(x_1,1))] = Nat$ & \\
                         $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[sum(app(x_0, sub(x_1,1))] = Nat$ & \\
                         $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
                         $[if(...)] = Nat$ & \\
                         $[if(...)] = [sum(...)]$ & \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
-                    \hline
-                        $X_1 = Nat$ &  $[x_1] := X_1$ \\
-                        $[sub(x_1,1)] = Nat$ & $[2] := Nat$ \\
-                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ &  $[lt(x_1 , 2)] = Bool$ \\
-                        $Nat = Nat$ & $[1] = Nat$ \\
-                        $[sub(x_1,2)] = Nat$ & $[x_0] = X_0$ \\
-                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & \\
-                        $[app(x_0, sub(x_1,1))] = Nat$ & \\
-                        $[app(x_0, sub(x_1,2))] = Nat$ & \\
-                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
-                        $[if(...)] = Nat$ & \\
-                        $[if(...)] = [sum(...)]$ & \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
-                    \hline &  \\
+                        $[recfun(...)] =  [if(...)]$ & \\
+                    \hline 
                         $[sub(x_1,1)] = Nat$ &  $[x_1] := X_1$ \\
-                        $[x_0] = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & $[2] := Nat$ \\
-                        $Nat = Nat$ & $[lt(x_1 , 2)] = Bool$ \\
-                        $[sub(x_1,2)] = Nat$ & $[1] = Nat$ \\
-                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[x_0] = X_0$  \\
-                        $[app(x_0, sub(x_1,1))] = Nat$ & $X_1 = Nat$\\
+                        $X_0 = [sub(x_1,1)] \mapsto [app(x_0, sub(x_1,1))]$ & $[2] := Nat$ \\
+                        $Nat = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $[sub(x_1,2)] = Nat$ & $[1] := Nat$ \\
+                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[x_0] := X_0$  \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $X_1 := Nat$\\
                         $[app(x_0, sub(x_1,2))] = Nat$ & \\
+                        $[sum(app(x_0, sub(x_1,1))] = Nat$ & \\
                         $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
                         $[if(...)] = Nat$ & \\
                         $[if(...)] = [sum(...)]$ & \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                        $[recfun(...)] = [if(...)]$ & \\
                     \hline
-                        $[x_0] = Nat \mapsto [app(x_0, sub(x_1,1))]$ &   $[x_1] := X_1$ \\
+                        $X_0 = Nat \mapsto [app(x_0, sub(x_1,1))]$ &   $[x_1] := X_1$ \\
                         $Nat = Nat$ & $[2] := Nat$ \\
-                        $[sub(x_1,2)] = Nat$ & $[lt(x_1 , 2)] = Bool$ \\
-                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ &  $[1] = Nat$ \\
-                        $[app(x_0, sub(x_1,1))] = Nat$ & $[x_0] = X_0$ \\
-                        $[app(x_0, sub(x_1,2))] = Nat$ & $X_1 = Nat$ \\
-                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ &  $[sub(x_1,1)] = Nat$\\
+                        $[sub(x_1,2)] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
+                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ &  $[1] := Nat$ \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[x_0] := X_0$ \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $X_1 := Nat$ \\
+                        $[sum(app(x_0, sub(x_1,1))] := Nat$ & $[sub(x_1,1)] := Nat$ \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & \\
                         $[if(...)] = Nat$ & \\
                         $[if(...)] = [sum(...)]$ & \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                        $[recfun(...)] = [if(...)]$ & \\
                     \hline
-                        $Nat = Nat$ & $[x_1] := X_1$ \\
-                        $[sub(x_1,2)] = Nat$ & $[2] := Nat$ \\
-                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[lt(x_1 , 2)] = Bool$ \\
-                        $[app(x_0, sub(x_1,1))] = Nat$ & $[1] = Nat$ \\
-                        $[app(x_0, sub(x_1,2))] = Nat$ & $[x_0] = X_0$ \\
-                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $X_1 = Nat$ \\
-                        $[if(...)] = Nat$ & $[sub(x_1,1)] = Nat$ \\
-                        $[if(...)] = [sum(...)]$ & $[x_0] = Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                        $Nat = Nat$ &  $[x_1] := X_1$ \\
+                        $[sub(x_1,2)] = Nat$ & $[2] := Nat$  \\
+                        $Nat \mapsto [app(x_0, sub(x_1,1))] = $ & \\
+			     $[sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[lt(x_1 , 2)] := Bool$  \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ &  $[1] := Nat$  \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $[x_0] := X_0$  \\
+                        $[sum(app(x_0, sub(x_1,1))] := Nat$ &  $X_1 := Nat$ \\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
+                        $[if(...)] = Nat$ &   $[sub(x_1,1)] := Nat$ \\
+                        $[if(...)] = [sum(...)]$ & \\
+                        $[recfun(...)] = [if(...)]$ & \\
                     \hline
-                        $[sub(x_1,2)] = Nat$ & $[x_1] := X_1$ \\
-                        $X_0 =  [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[2] := Nat$ \\
-                        $[app(x_0, sub(x_1,1))] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
-                        $[app(x_0, sub(x_1,2))] = Nat$ & $[1] := Nat$ \\
-                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[x_0] := X_0$ \\
-                        $[if(...)] = Nat$ & $X_1 := Nat$ \\
-                        $[if(...)] = [sum(...)]$ & $[sub(x_1,1)] := Nat$ \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$  \\
-                        $[4] = Nat$ &   $Nat := Nat$ \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
+                        $[sub(x_1,2)] = Nat$ & $[x_1] := X_1$  \\
+                        $Nat \mapsto [app(x_0, sub(x_1,1))] =$ & \\ 
+			     $[sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[2] := Nat$ \\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[lt(x_1 , 2)] := Bool$\\
+                        $[app(x_0, sub(x_1,2))] = Nat$ &  $[1] := Nat$\\
+                        $[sum(app(x_0, sub(x_1,1))] := Nat$ & $[x_0] := X_0$\\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $X_1 := Nat$\\
+                        $[if(...)] = Nat$ & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\
+                        $[if(...)] = [sum(...)]$ & $[sub(x_1,1)] := Nat$\\
+                        $[recfun(...)] = [if(...)]$ & \\
                     \hline
-                        $[sub(x_1,2)] = Nat$ & $[x_1] := X_1$ \\
-                        $X_0 =  [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ &  $[2] := Nat$ \\
-                        $[app(x_0, sub(x_1,1))] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
-                        $[app(x_0, sub(x_1,2))] = Nat$ & $[1] := Nat$ \\
-                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[x_0] := X_0$ \\
-                        $[if(...)] = Nat$ & $X_1 := Nat$ \\
-                        $[if(...)] = [sum(...)]$ &  $[sub(x_1,1)] := Nat$ \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ &  $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        $[4] = Nat$ & \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
-                    \hline
-                        $X_0 = [sub(x_1,2)] \mapsto [app(x_0, sub(x_1,2))]$ & $[x_1] := X_1$ \\
-                        $[app(x_0, sub(x_1,1))] = Nat$ & $[2] := Nat$ \\
-                        $[app(x_0, sub(x_1,2))] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
-                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[1] := Nat$ \\
-                        $[if(...)] = Nat$ & $[x_0] := X_0$ \\
-                        $[if(...)] = [sum(...)]$ & $X_1 := Nat$ \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[sub(x_1,1)] := Nat$ \\
-                        $[4] = Nat$ &  $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$  \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ &  $[sub(x_1,2)] = Nat$\\
-                    \hline
-                        $X_0 = Nat \mapsto [app(x_0, sub(x_1,2))]$ & $[x_1] := X_1$ \\
-                        $[app(x_0, sub(x_1,1))] = Nat$ & $[2] := Nat$ \\
-                        $[app(x_0, sub(x_1,2))] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
-                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[1] := Nat$ \\
-                        $[if(...)] = Nat$ & $[x_0] := X_0$ \\
-                        $[if(...)] = [sum(...)]$ & $X_1 := Nat$  \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[sub(x_1,1)] := Nat$  \\
-                        $[4] = Nat$ &  $[sub(x_1,2)] = Nat$ \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & \\
-                        $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ & \\
-                    \hline
-                        $[app(x_0, sub(x_1,1))] = Nat$ & $[x_1] := X_1$ \\
-                        $[app(x_0, sub(x_1,2))] = Nat$ & $[2] := Nat$ \\
-                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[lt(x_1 , 2)] := Bool$ \\
-                        $[if(...)] = Nat$ & $[1] := Nat$ \\
-                        $[if(...)] = [sum(...)]$ & $[x_0] := X_0$ \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $X_1 := Nat$ \\
-                        $[4] = Nat$ &  $[sub(x_1,1)] := Nat$ \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ &  $[sub(x_1,2)] = Nat$ \\
-                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                    \hline
-                        $[app(x_0, sub(x_1,2))] = Nat$ & $[x_1] := X_1$ \\
-                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[2] := Nat$ \\
-                        $[if(...)] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
-                        $[if(...)] = [sum(...)]$ & $[1] := Nat$ \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[x_0] := X_0$ \\
-                        $[4] = Nat$ & $X_1 := Nat$ \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $[sub(x_1,1)] := Nat$ \\
-                        & $[sub(x_1,2)] = Nat$ \\
-                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        &  $[app(x_0, sub(x_1,1))] := Nat$\\
-                    \hline
-                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[x_1] := X_1$ \\
-                        $[if(...)] = Nat$ & $[2] := Nat$ \\
-                        $[if(...)] = [sum(...)]$ & $[lt(x_1 , 2)] := Bool$ \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[1] := Nat$ \\
-                        $[4] = Nat$ & $[x_0] := X_0$ \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $X_1 := Nat$ \\
-                        & $[sub(x_1,1)] := Nat$ \\
+                        $Nat \mapsto [app(x_0, sub(x_1,1))] = Nat \mapsto [app(x_0, sub(x_1,2))]$ & $[x_1] := X_1$\\
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[2] := Nat$\\
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $[lt(x_1 , 2)] := Bool$\\
+                        $[sum(app(x_0, sub(x_1,1))] := Nat$ &  $[1] := Nat$\\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[x_0] := X_0$\\
+                        $[if(...)] = Nat$ & $X_1 := Nat$\\
+                        $[if(...)] = [sum(...)]$ & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\
+                        $[recfun(...)] = [if(...)]$ & $[sub(x_1,1)] := Nat$\\
                         & $[sub(x_1,2)] := Nat$ \\
-                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
-                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
                     \hline
-                        $[if(...)] = Nat $ & $[x_1] := X_1$ \\
-                        $[if(...)] = Nat $ & $[2] := Nat$ \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[lt(x_1 , 2)] := Bool$ \\
-                        $[4] = Nat$ & $[1] := Nat$ \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $[x_0] := X_0$ \\
-                        & $X_1 := Nat$ \\
-                        & $[sub(x_1,1)] := Nat$ \\
-                        & $[sub(x_1,2)] := Nat$ \\
-                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
-                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
-                        & $[sum(app(...), app(...))] := Nat $ \\
+                        $Nat = Nat$ & $[x_1] := X_1$\\
+			     $[app(x_0, sub(x_1,1))] = [app(x_0, sub(x_1,2))]$ & $[2] := Nat$\\
+                        $[app(x_0, sub(x_1,1))] = Nat$ &  $[lt(x_1 , 2)] := Bool$\\
+                        $[app(x_0, sub(x_1,2))] = Nat$ &  $[1] := Nat$\\
+                        $[sum(app(x_0, sub(x_1,1))] := Nat$ &  $[x_0] := X_0$\\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $X_1 := Nat$\\
+                        $[if(...)] = Nat$ & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\
+                        $[if(...)] = [sum(...)]$ & $[sub(x_1,1)] := Nat$\\
+                        $[recfun(...)] = [if(...)]$ & $[sub(x_1,2)] := Nat$ \\
                     \hline
-                        $Nat = Nat $ & $[x_1] := X_1$ \\
-                        $[recfun(...)] = X_1 \mapsto [if(...)]$ & $[2] := Nat$ \\
-                        $[4] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $[1] := Nat$\\
-                        & $[x_0] := X_0$ \\
-                        & $X_1 := Nat$ \\
-                        & $[sub(x_1,1)] := Nat$ \\
+			     $[app(x_0, sub(x_1,1))] = [app(x_0, sub(x_1,2))]$ &   $[x_1] := X_1$\\ 
+                        $[app(x_0, sub(x_1,1))] = Nat$ & $[2] := Nat$\\ 
+                        $[app(x_0, sub(x_1,2))] = Nat$ & $[lt(x_1 , 2)] := Bool$\\
+                        $[sum(app(x_0, sub(x_1,1))] := Nat$ &    $[1] := Nat$\\ 
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ &  $[x_0] := X_0$\\
+                        $[if(...)] = Nat$ &  $X_1 := Nat$\\ 
+                        $[if(...)] = [sum(...)]$ &  $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\ 
+                        $[recfun(...)] = [if(...)]$ &  $[sub(x_1,1)] := Nat$\\ 
                         & $[sub(x_1,2)] := Nat$ \\
-                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
-                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
-                        & $[sum(app(...), app(...))] := Nat$ \\
-                        & $[if(...)] := Nat $ \\
                     \hline
-                        $Nat = Nat $ & $[x_1] := X_1$ \\
-                        $[recfun(...)] = X_1 \mapsto Nat$ & $[2] := Nat$ \\
-                        $[4] = Nat$ & $[lt(x_1 , 2)] := Bool$ \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $[1] := Nat$\\
-                        & $[x_0] := X_0$ \\
-                        & $X_1 := Nat$ \\
-                        & $[sub(x_1,1)] := Nat$ \\
-                        & $[sub(x_1,2)] := Nat$ \\
-                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
-                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
-                        & $[sum(app(...), app(...))] := Nat$ \\
-                        & $[if(...)] := Nat $ \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ &  $[x_1] := X_1$\\
+                        $[app(x_0, sub(x_1,2))] = Nat$ &   $[2] := Nat$\\  
+                        $[sum(app(x_0, sub(x_1,1))] := Nat$ & $[lt(x_1 , 2)] := Bool$\\ 
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ &    $[1] := Nat$\\
+                        $[if(...)] = Nat$ &  $[x_0] := X_0$\\ 
+                        $[if(...)] = [sum(...)]$ &  $X_1 := Nat$\\ 
+                        $[recfun(...)] = [if(...)]$ &  $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\ 
+                        &  $[sub(x_1,1)] := Nat$\\ 
+                        &  $[sub(x_1,2)] := Nat$ \\
+			     &  $[app(x_0, sub(x_1,1))]$ := \\
+			     &  $[app(x_0, sub(x_1,2))]$\\
                     \hline
-                        $[recfun(...)] = X_1 \mapsto Nat$ &$[x_1] := X_1$ \\
-                        $[4] = Nat$ &  $[2] := Nat$ \\
-                        $[recfun(...)] = [4] \mapsto [app(recfun(...), 4)]$ & $[lt(x_1 , 2)] := Bool$ \\
-                        & $[1] := Nat$ \\
-                        & $[x_0] := X_0$ \\
-                        & $X_1 := Nat$  \\
-                        & $[sub(x_1,1)] := Nat$ \\
-                        & $[sub(x_1,2)] := Nat$ \\
-                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
-                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
-                        & $[sum(app(...), app(...))] := Nat$ \\
-                        & $[if(...)] := Nat $ \\
-                    \hline
-                        $[4] = Nat$ &  $[x_1] := X_1$ \\
-                        $ X_1 \mapsto Nat = [4] \mapsto [app(recfun(...), 4)]$ & $[2] := Nat$ \\
-                        & $[lt(x_1 , 2)] := Bool$ \\
-                        & $[1] := Nat$ \\
-                        & $[x_0] := X_0$ \\
-                        & $X_1 := Nat$ \\
-                        & $[sub(x_1,1)] := Nat$ \\
-                        & $[sub(x_1,2)] := Nat$ \\
-                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
-                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
-                        & $[sum(app(...), app(...))] := Nat$ \\
-                        & $[if(...)] := Nat $ \\
-                        & $[recfun(...)] = X_1 \mapsto Nat$ \\
-                    \hline
-                        $ X_1 \mapsto Nat = Nat \mapsto [app(recfun(...), 4)]$ & $[x_1] := X_1$ \\
-                        & $[2] := Nat$ \\
-                        & $[lt(x_1 , 2)] := Bool$ \\
-                        & $[1] := Nat$ \\
-                        & $[x_0] := X_0$ \\
-                        & $X_1 := Nat$ \\
-                        & $[sub(x_1,1)] := Nat$ \\
-                        & $[sub(x_1,2)] := Nat$ \\
-                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
-                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
-                        & $[sum(app(...), app(...))] := Nat$ \\
-                        & $[if(...)] := Nat $ \\
-                        & $[recfun(...)] = X_1 \mapsto Nat$ \\
-                        & $[4] = Nat$ \\
-                    \hline
-                        & $[x_1] := X_1$ $[2] := Nat$ \\
-                        & $[2] := Nat$ \\
-                        & $[lt(x_1 , 2)] := Bool$ \\
-                        & $[1] := Nat$ \\
-                        & $[x_0] := X_0$ \\
-                        & $X_1 := Nat$ \\
-                        & $[sub(x_1,1)] := Nat$ \\
-                        & $[sub(x_1,2)] := Nat$ \\
-                        & $[x_0] := Nat \mapsto [app(x_0, sub(x_1,1))]$ \\
-                        & $[app(x_0, sub(x_1,1))] := Nat$ \\
-                        & $[app(x_0, sub(x_1,2))] := Nat$ \\
-                        & $[sum(app(...), app(...))] := Nat$ \\
-                        & $[if(...)] := Nat $ \\
-                        & $[recfun(...)] = X_1 \mapsto Nat$  \\
-                        & $[4] = Nat $ \\
-                        & $X_1 = Nat $\\
-                        & $[app(recfun(...), 4)] = Nat$ \\
+                        $[app(x_0, sub(x_1,2))] = Nat$ &  $[x_1] := X_1$\\   
+                        $[sum(app(x_0, sub(x_1,1))] := Nat$ &  $[2] := Nat$\\
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[lt(x_1 , 2)] := Bool$\\
+                        $[if(...)] = Nat$ &   $[1] := Nat$\\ 
+                        $[if(...)] = [sum(...)]$ & $[x_0] := X_0$\\
+                        $[recfun(...)] = [if(...)]$ &  $X_1 := Nat$\\
+                        & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\ 
+                        & $[sub(x_1,1)] := Nat$\\
+			     & $[sub(x_1,2)] := Nat$ \\
+			     & $[app(x_0, sub(x_1,1))]$ := \\
+			     & $[app(x_0, sub(x_1,2))]$\\ 
+                    \hline 
+                        $[sum(app(x_0, sub(x_1,1))] = Nat$ & $[x_1] := X_1$\\ 
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ & $[2] := Nat$\\
+                        $[if(...)] = Nat$ & $[lt(x_1 , 2)] := Bool$\\ 
+                        $[if(...)] = [sum(...)]$ & $[1] := Nat$\\
+                        $[recfun(...)] = [if(...)]$ & $[x_0] := X_0$\\
+                        &  $X_1 := Nat$\\ 
+                        & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\
+			     & $[sub(x_1,1)] := Nat$\\
+			     & $[sub(x_1,2)] := Nat$ \\
+			     & $[app(x_0, sub(x_1,1))]$ := \\
+			     & $[app(x_0, sub(x_1,2))]$\\ 
+			     & $[app(x_0, sub(x_1,2))] := Nat$ \\
+                    \hline 
+                        $Nat = [sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))]$ &  $[x_1] := X_1$\\
+                        $[if(...)] = Nat$ & $[2] := Nat$\\
+                        $[if(...)] = [sum(...)]$ & $[lt(x_1 , 2)] := Bool$\\
+                        $[recfun(...)] = [if(...)]$ & $[1] := Nat$\\
+                        & $[x_0] := X_0$\\ 
+                        &  $X_1 := Nat$\\  
+			     & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\
+			     & $[sub(x_1,1)] := Nat$\\
+			     & $[sub(x_1,2)] := Nat$ \\
+			     & $[app(x_0, sub(x_1,1))]$ := \\
+			     & $[app(x_0, sub(x_1,2))]$\\ 
+			     & $[app(x_0, sub(x_1,2))] := Nat$ \\
+			     & $[sum(app(x_0, sub(x_1,1))] := Nat$ \\
+                    \hline 
+                        $[if(...)] = Nat$ & $[x_1] := X_1$\\
+                        $[if(...)] = Nat$ & $[2] := Nat$\\
+                        $[recfun(...)] = [if(...)]$ & $[lt(x_1 , 2)] := Bool$\\
+                        & $[1] := Nat$\\ 
+                        & $[x_0] := X_0$\\  
+			     & $X_1 := Nat$\\
+			     & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\
+			     & $[sub(x_1,1)] := Nat$\\
+			     & $[sub(x_1,2)] := Nat$ \\
+			     & $[app(x_0, sub(x_1,1))]$ := \\
+			     & $[app(x_0, sub(x_1,2))]$\\ 
+			     & $[app(x_0, sub(x_1,2))] := Nat$ \\
+			     & $[sum(app(x_0, sub(x_1,1))] := Nat$ \\
+			     & $[sum(...)] := Nat$ \\
+                     \hline 
+                        $[if(...)] = Nat$ & $[x_1] := X_1$\\
+                        $[recfun(...)] = [if(...)]$ & $[2] := Nat$\\ 
+                        & $[lt(x_1 , 2)] := Bool$\\ 
+                        & $[1] := Nat$\\  
+			     & $[x_0] := X_0$\\
+			     & $X_1 := Nat$\\
+			     & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\
+			     & $[sub(x_1,1)] := Nat$\\
+			     & $[sub(x_1,2)] := Nat$ \\
+			     & $[app(x_0, sub(x_1,1))]$ := \\
+			     & $[app(x_0, sub(x_1,2))]$\\ 
+			     & $[app(x_0, sub(x_1,2))] := Nat$ \\
+			     & $[sum(app(x_0, sub(x_1,1))] := Nat$ \\
+			     & $[sum(...)] := Nat$ \\
+                     \hline 
+                        $[recfun(...)] = Nat$ & $[x_1] := X_1$\\
+                        & $[2] := Nat$\\ 
+                        & $[lt(x_1 , 2)] := Bool$\\  
+			     & $[1] := Nat$\\
+			     & $[x_0] := X_0$\\
+			     & $X_1 := Nat$\\
+			     & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\
+			     & $[sub(x_1,1)] := Nat$\\
+			     & $[sub(x_1,2)] := Nat$ \\
+			     & $[app(x_0, sub(x_1,1))]$ := \\
+			     & $[app(x_0, sub(x_1,2))]$\\ 
+			     & $[app(x_0, sub(x_1,2))] := Nat$ \\
+			     & $[sum(app(x_0, sub(x_1,1))] := Nat$ \\
+			     & $[sum(...)] := Nat$ \\
+			     & $[if(...)] := Nat$  \\
+                     \hline 
+			     & $[x_1] := X_1$\\
+                        & $[2] := Nat$\\ 
+                        & $[lt(x_1 , 2)] := Bool$\\  
+			     & $[1] := Nat$\\
+			     & $[x_0] := X_0$\\
+			     & $X_1 := Nat$\\
+			     & $X_0 := Nat \mapsto [app(x_0, sub(x_1,1))]$\\
+			     & $[sub(x_1,1)] := Nat$\\
+			     & $[sub(x_1,2)] := Nat$ \\
+			     & $[app(x_0, sub(x_1,1))]$ := \\
+			     & $[app(x_0, sub(x_1,2))]$\\ 
+			     & $[app(x_0, sub(x_1,2))] := Nat$ \\
+			     & $[sum(app(x_0, sub(x_1,1))] := Nat$ \\
+			     & $[sum(...)] := Nat$ \\
+			     & $[if(...)] := Nat$  \\
+                        & $[recfun(...)] := Nat$ \\ 
                     \hline
                 \end{longtable}
             \end{center}
-        \end{description}
             De el proceso anterior se puede concluir que el tipo de la expresión es $Nat$
+        \end{description}
     \end{exercise}
     
     \section{Ejercicios para el lector}
@@ -834,9 +782,8 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
            \end{lstlisting}
      \end{exercise}
 
-     \bigskip
 
-    \begin{exercise} Dada la siguiente expresión de MinHaskell, obten el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraido de: Lenguajes de Programación 2022-1 Nota de clase 8: Inferencia de tipos, Enriquez Mendoza Javier. Universidad Nacional Autónoma de México. Noviembre 2022. }
+    \begin{exercise} Dada la siguiente expresión de MinHaskell, obten el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraído de \hyperlink{12}{[12]}}
            \begin{lstlisting}
                 fun x -> app(x,x)
            \end{lstlisting} 
