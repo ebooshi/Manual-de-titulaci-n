@@ -102,7 +102,8 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
        
         $$(lam \ x \Rightarrow x)\ 5 :: Nat \to Nat$$
 
-        La expresión [$e$] es una construcción sintáctica para definir el tipo de una expresión $e$ del lenguaje y se lee como: ''el tipo de $e$''. Es importante aclarar que los tipos de la forma [$e$] no pueden figurar en el tipo resultante del algoritmo de unificación $\mu$.  
+        La expresión [$e$] es una construcción sintáctica para definir el tipo de una expresión del lenguaje y se lee como: ''el tipo de $e$''. Es importante aclarar que los tipos de la forma [$e$] no pueden figurar en el tipo resultante del algoritmo de unificación $\mu$.\\\\
+Esta construcción sintáctica es importante para declarar las restricciones de las expresiones $e$ que delimita. La encontraremos usualmente aplicada para estas de la siguiente forma: $$[e] = E $$
             
     \end{definition}
 
@@ -129,20 +130,22 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
             \]
             \item[Condicional]
             \[
-                \inference
-                    {c \mapsto R_1 & t \mapsto R_2 & e \mapsto R_3}
-                    {if(c,t,e) \mapsto R_1, R_2, R_3, [c] = Bool, [t] = [e], [if(c,t,e)] = [e], [if(c,t,e)] = [t]}
+	 	\scalemath{0.9}{
+                		\inference
+                    			{c \mapsto R_1 & t \mapsto R_2 & e \mapsto R_3}
+                    			{if(c,t,e) \mapsto R_1:R_2:R_3:[c] = Bool:[t] = [e]:[if(c,t,e)] = [e]:[if(c,t,e)] = [t]}
+		}
             \]
             \item[Asignaciones Locales]
             \[
                 \begin{array}{c}
                     \inference
                         {v \mapsto R_1 & b \mapsto R_2}
-                        {let(v,x_i.b) \mapsto R_1, R_2, X_i = [v], [let(v,x_i.b)] = [b]}\\
+                        {let(v,x_i.b) \mapsto R_1: R_2: X_i = [v]: [let(v,x_i.b)] = [b]}\\
                     \\
                     \inference
                         {v \mapsto R_1 & b \mapsto R_2}
-                        {recfun(v,x_i.b) \mapsto R_1, R_2, X_i = [v],[recfun(v,x_i.b)] = [b]}\\
+                        {recfun(v,f.x_i.b) \mapsto R_1: R_2: X_i = [v]:[recfun(v,f.x_i.b)] = [b]}\\
                 \end{array}
             \]
             \newpage
@@ -150,40 +153,40 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
             \[
                 \inference
                     {t \mapsto R}
-                    {lam(x_i.t) \mapsto R,[lam(x_i.t)] = X_i \to [t]}
+                    {lam(x_i.t) \mapsto R:[lam(x_i.t)] = X_i \to [t]}
             \]
             \item[Aplicación de función]
             \[
                 \inference
                     {f \mapsto R_1 & p \mapsto R_2}
-                    {app(f,p) \mapsto R_1, R_2, [f] = [p] \to [app(f,p)]}
+                    {app(f,p) \mapsto R_1: R_2: [f] = [p] \to [app(f,p)]}
             \]
             \item[Operadores]
             \[
                 \begin{array}{c}
                     \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        {sum(e_1 , e_2) \mapsto R_1,R_2, [e_1] = Nat, [e_2] = Nat, [sum(e_1 , e_2)] = Nat}\\
+                        {sum(e_1 , e_2) \mapsto R_1:R_2: [e_1] = Nat: [e_2] = Nat: [sum(e_1 , e_2)] = Nat}\\
                     \\
                      \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        { prod(e_1 , e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [prod(e_1 , e_2)] = Nat}\\
+                        { prod(e_1 , e_2) \mapsto R_1: R_2: [e_1] = Nat: [e_2] = Nat: [prod(e_1 , e_2)] = Nat}\\
                     \\
                      \inference
                         {e_1\mapsto R_1 & e_2 \mapsto R_2}
-                        { sub(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [sub(e_1,e_2)] = Nat}\\
+                        { sub(e_1,e_2) \mapsto R_1: R_2: [e_1] = Nat: [e_2] = Nat: [sub(e_1,e_2)] = Nat}\\
                     \\
                      \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        { eq(e_1,e_2) \mapsto R_1,R_2, [e_1] = Nat, [e_2] = Nat,[ig(e_1,e_2)] = Bool}\\
+                        { eq(e_1,e_2) \mapsto R_1:R_2:[e_1] = Nat: [e_2] = Nat:[ig(e_1,e_2)] = Bool}\\
                     \\
                     \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        {gt(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [gt(e_1,e_2)] = Bool}\\
+                        {gt(e_1,e_2) \mapsto R_1: R_2: [e_1] = Nat: [e_2] = Nat: [gt(e_1,e_2)] = Bool}\\
                         \\
                      \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        {lt(e_1,e_2) \mapsto R_1, R_2, [e_1] = Nat, [e_2] = Nat, [lt(e_1,e_2)]= Bool}\\\\
+                        {lt(e_1,e_2) \mapsto R_1: R_2: [e_1] = Nat: [e_2] = Nat: [lt(e_1,e_2)]= Bool}\\\\
                 \end{array}
             \]
         \end{description}
@@ -196,7 +199,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
     
 \bigskip
 
-    \begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es una composición de sustituciones en caso de que las restricciones se puedan resolver  (a esta composición de sustituciones la denotamos con la letra  $\mu$ y se le conoce como: ''unificador'')  o ${\sf fail}$ en caso contrario\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}.
+    \begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es una composición de sustituciones en caso de que las restricciones se puedan resolve o \textsf{Fail} en caso contrario.\\\\  A esta composición de sustituciones la denotamos con la letra  $\mu$ y se le conoce como: ''unificador''\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}.
 
         \[
             \begin{array}{rclr}
@@ -212,6 +215,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
            \end{array}
         \]
  
+    Este algoritmo compone el unificador general convirtiendo la restricción en la cabeza de la lista en una sustitución (cuando sea posible), aplicándola al resto de las sustituciones y concatenándo esta restricción a si mismo para generar el unificador general.
     \end{definition}
 
     \section{Algoritmo de inferencia de tipos}
@@ -392,7 +396,6 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
         \end{description}
     \end{exercise}
 
-\newpage
 
     \begin{exercise}
         Vamos a encontrar el tipo de la expresión:

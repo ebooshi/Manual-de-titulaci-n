@@ -24,35 +24,52 @@ leerlas mejor
 R. Página 64. El ejercicio ahora está indexado por itemize.
 
 p.69 explicar más sobre las reglas que involucran al fix
-R.
+R. Página 66. Un párrafo fue añadido para explicar la propiedad de no terminación que el operador fix introduce.
 
 p.70 posse --> posee
 def. 3.1 es necesario que esta propiedad se enuncie sin contexto para tipar t?
 porqué la preservación dices que potencialmente preserva su mismo tipo?
+R. Página 66. Porque depende de como se define el operador if. el tipo puede cambiar en la cláusula else pero este no
+es problema para MinHaskell porque por definición pedimos que ambas expresiones tengan el mismo tipo. El párrafo ya no
+contiene esa entrada.
 
 p.72 revisar la redacción del ejercicio 4.3, en particular la descripción del 
-operador case
+operador case.
+R. Página 67-68. El ejercicio fue reescrito.
 
 p.76 en la intro mencionas que darás algoritmos o procedimientos pero no veo 
-una descripción de ninguno de ellos para generar una expresión alpha-equivalente
+una descripción de ninguno de ellos para generar una expresión alpha-equivalente.
+R. Página 70. La introducción fue reescrita para no hacer mención de algoritmos o procedimientos,
+la aplicación de las alpha-equiivalencias es la misma para el Cálculo Lambda por lo que se omite
+la definición de esta.
 
 p.77 revisar def. 2.2 el uso de la tipografía para X y explicar mas [e]
+R. Página 72. Se corrigió el tipo de letra para X y se agergó una pequeña descripción de la representación para la construcción
+sintáctica [].
 
 p.78 están bien las reglas de los operadores, condicional y el resto? 
 me refiero al uso de la coma para separar tipos y las restricciones
 Además, cómo logras que se acumulen las restricciones de toda una expresión que 
 serán usadas para la unificación?
+R. Página 73. cada coma delimita una restricción en la lista de restricciones R, puedo cambiar el carácter separador por
+":" si lo crees conveniente para que se lea mejor.
+Con respecto a la acumulación de restricciones, El jucio funciona concatenando las restricciones generadas por cada elemento de la expresión al inicio seguido las nuevas restricciones formuladas a partir de la expresión que se está analizando. Al final se acumulan todas como si fuera una pila: las restricciones que ya estabas acarreando al inicio + las restricciones nuevas que estás analizando.
 
 p.79 falta un ejemplo de unificación (no me queda claro el algoritmo de la 
 def.3.1)
+R. Página 75. El ejercicio está incrustado en el del algoritmo de unificación, evité ponerlo aquí arriba porque son ejercicios de  3 páginas y al final se iba a aplicar en algoritmo de inferencia de tipos. Agregué una descripción para mitigar esto.
 
 p.80&81 ej4.1 
 porqué deberías renombrar si no hay conflicto en los nombres de vars?
 la primera restricción está mal
 sigo sin comprender cómo acumulas todas las restricciones usando |--> 
 tampoco veo cómo es que las reglas U definen un algoritmo
+R. Página 74. La primera instrucción del algoritmo es: "se encuentra la expresión e' con nombre de variables únicas" esta e' puede ser e misma si ya posee nombre de variables únicas.
+Se corrigió la restricción tenía un typo.
+La acumulación de restricciones se hace empezando por la última y concatenando de izquierda a derecha.
 
 p.84 recfun?
+R. Página 78. este operador en MinHS se llamaba "letrec" las notas fueron ajustadas para que se llame "recfun"
 
 p.96 turing --> Turing
 
