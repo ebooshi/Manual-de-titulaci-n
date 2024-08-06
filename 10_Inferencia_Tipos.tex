@@ -14,10 +14,10 @@
     \centerline{\includegraphics[scale=0.5]{assets/gatitos_tipados.PNG}}       
 \end{figure}
 
-Una característica de \textsf{Haskell} que quermos trasladar a \textsf{MinHS} es el mecanismo de inferencia de tipos. Este mecanismo provee una capa extra que permite trabajar con expresiones aún si estas no poseen un tipo explicito en cada uno de sus parámetros de entrada y valores de retorno. \\\\
-Para esto, vamos a formular un sistema de restricciones, la estandarización de variables y aplicación de la inferencia de tipos mediante el algoritmo de unificación de tipos para expresiones de \textsf{MinHS}.\\\\
-Anteriormente se defininieron mediante la semantíca estática las reglas para obtener el tipo de una expresión, no obstante este proceso no es suficiente para descartar expresiones del lenguaje bien formadas pero cuya evaluación se verá detenida debido a la inconsistencia de tipos durante la evaluación.\\\\
-Esta nueva capa aporta a que al lenguaje se vuelva seguro, es decir que si una expresión de \textsf{MinHS} está bien formada y ha sido tipificada siguiendo las diferentes reglas y etapas correctamente entonces nuestro programa nos regresará un valor.\\
+Una propiedad importante de \textsf{Haskell} que quermos trasladar a \textsf{MinHS} es el mecanismo de inferencia de tipos. Este mecanismo provee una capa extra que permite trabajar con expresiones aún si estas no poseen un tipo explicito en cada uno de sus parámetros de entrada y valores de retorno. \\\\
+Anteriormente se definió mediante la semantica estática las reglas para obtener el tipo de una expresión, no obstante este proceso es dependiente de las anotaciones explícitas del tipo que se encuentran incrustadas en la sintáxis del lenguaje.
+Esta nueva capa permite desacoplar las anotaciones explícitas de la sintáxis de \textsf{MinHS}.\\\\
+Con esto en mente, vamos a formular un sistema de restricciones derivadas de la estructura de la expresión que se desea tipificar, junto con el proceso de estandarización de variables para poder hacer uso de la inferencia de tipos mediante la aplicación del algoritmo para obtener el unificador general $\mu$ para expresiones de \textsf{MinHS}.\\
 
 \subsubsection{Objetivo}
 Definir el sistema de inferencia de tipos para \textsf{MinHS} que nos permita tipificar las expresiones para garantizar la seguridad del lenguaje. Para esto, el objetivo principal será proporcionar las definiciones para las condiciones que cada estructura particular de las expresiones sintácticas de \textsf{MinHS} generan, a estas se les conoce como restricciones de tipo. Adicionalmente se proporcionará la definción del algoritmo de unificación para aplicar la inferencia de tipos conocido como algoritmo  unificador \textbf{$\mu$}.
@@ -34,10 +34,10 @@ La semántica estática de \textsf{MinHS} y la de \textsf{EAB} se implementa de 
 En el contexto $\Gamma$ solo puede existir una sola aparición por variable, es decir, nunca podremos tener $\Gamma=\{x : Nat,\ x : Bool\}$ dado que $\Gamma$ es un conjunto de variables y tipos, tener la misma variable con dos tipos distintos es una inconsistencia dentro de nuestro programa y constituye un error en el tipificado de la expresión\footnote{Definición de semántica estática para \textsf{MinHS} formulada de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\\\
 Para evitar esta situación se define el proceso conocido como estandarización de variables que consiste en brindar una $\alpha$-equivalencia cuando dos variables ligadas tengan el mismo nombre.\\\\
 Tomemos como ejemplo la siguiente expresión:
-$$ \textsf{let } x = \textsf{True} \textsf{ in } x\ !=\ \textsf{ let } x = 5 \textsf{ in } x \leq x \textsf{ end } \textsf{ end }$$
+$$ \textsf{let } x = \textsf{True} \textsf{ in } \textsf{if } x \textsf{ then } \textsf{ let } x = 5 \textsf{ in } x \leq x \textsf{ end } \textsf{ end }$$
 En este caso la expresión está bien formada, no hay ninguna regla de la sintáxis concreta que esté mal aplicada para obtener nuestra expresión, la evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a a verdadero y luego se prosigue con la comparación de dos booleanos, sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
 El problema puede ser corregido utilizando una $\alpha$-equivalencia y renombrando las variables x por $x_0$ y $x_1$ respectivamente:
-$$ \textsf{let } x_0 = \textsf{True} \textsf{ in } x_0\ !=\ \textsf{ let } x_1 = 5 \textsf{ in } x_1 \leq x_1 \textsf{ end } \textsf{ end }$$
+$$ \textsf{let } x_0 = \textsf{True} \textsf{ in } \textsf{if } x_0\ \textsf{ then } \textsf{ let } x_1 = 5 \textsf{ in } x_1 \leq x_1 \textsf{ end } \textsf{ end }$$
 Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 
 \begin{exercise}
@@ -148,7 +148,7 @@ Esta construcción sintáctica es importante para declarar las restricciones de 
                         {recfun(v,f.x_i.b) \mapsto R_1: R_2: X_i = [v]:[recfun(v,f.x_i.b)] = [b]}\\
                 \end{array}
             \]
-            \newpage
+
             \item[Funciones]
             \[
                 \inference

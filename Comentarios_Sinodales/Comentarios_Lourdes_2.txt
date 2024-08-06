@@ -69,7 +69,7 @@ Se corrigió la restricción tenía un typo.
 La acumulación de restricciones se hace empezando por la última y concatenando de izquierda a derecha.
 
 p.84 recfun?
-R. Página 78. este operador en MinHS se llamaba "letrec" las notas fueron ajustadas para que se llame "recfun"
+R. Página 78. este operador en MinHS se llamaba "letrec" las notas fueron ajustadas para que el nombrado sea consistente siendo ahora: "recfun".
 
 p.96 turing --> Turing
 
