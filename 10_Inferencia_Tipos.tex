@@ -76,6 +76,63 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
     $$ \Gamma = \{ x_0 : Int,\ x_1 : Bool,\ x_2 : Bool \to Bool \}$$
 \end{exercise}
 
+        \begin{exercise} 
+	Propón una semántica estática que resuelva el proceso de estandarización de variables.
+    \end{exercise}
+	\begin{definition} Definición de la semántica estática para la estandarización de variables.\\\\
+	Representaremos la asignación serializada de nuevas variables con una lista de parejas conformada por: variable original y su nueva asignación mediante la aplicación del siguiente juicio: $$v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ e\ asa$$ 
+          Que se lee como: \\\\
+	''el árbol de sintáxis abstracta $e$ es congruente con la lista $v_n: x_n\ ...\ v_0:x_0$ bajo $\alpha$-equivalencia aplicando la(s) sustitución(es) sí existen en la lista''.\\
+
+            Variables
+            \[
+	     \begin{array}{ccc}	
+                \inference{x:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ x}{x_n}&\quad&
+	     \inference{x:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ y }{ y}
+                \end{array}
+            \]
+            Valores numéricos
+            \[
+                \inference{}{x:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ num[n]}
+            \]
+             Valores Booleanos
+             \[
+                \begin{array}{ccc}
+                    \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ \textit{False}}&\quad&
+                    \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ \textit{True}}
+                \end{array}
+            \]
+            Operadores
+            \[
+                    \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_1 & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_2}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ Op(t_1,t_2)}
+            \]
+            Condicional
+            \[
+                \inference{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_c & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_t & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_e}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  if(t_c,t_t,t_e)}
+            \]
+            Asignaciones Locales
+            \[
+                \begin{array}{ccc}
+                    \inference{v_{n}:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\  t_v &  y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\  t_b}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  let(t_v,y.t_b)}&\quad&
+                \end{array}
+            \]
+            Funciones
+            \[
+                \inference{y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t }{v_n:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\ fun(T,y.t)} \quad
+                \inference{f:f_{n+1}, y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t  }{x:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\ recfun(T \to S,f.y.t)}
+            \]
+            Aplicación de función
+            \[
+                \inference{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_f& v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_p}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ app(t_f,t_p)}
+            \]
+            Operador de punto fijo
+            \[
+                \inference{y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ fix(T,y.t)}
+            \]
+            Obsérvese que en el caso de $fix\,$ se está asumiendo el mismo tipo que se debe concluir.
+	\end{definition}
+
+
 \section{Generación de restricciones}
 
     Para poder tipificar una expresión bien formada de \textbf{MinHS}  sin utilizar las anotaciones de tipo explicitamente en los argumentos y valores de retorno es necesario definir un proceso que nos ayude a obtener información sobre la estructura que esta posee. \\\\
