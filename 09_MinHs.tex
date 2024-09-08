@@ -38,7 +38,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
             \mbox{\bf Expresiones}&e&::=&\; var\; | \; n\; |\; b\; |\; (e)\; |\; e_1\otimes \; e_2\; |\; e_1 \; e_2\\
             &&|& \textsf{if} \;e_1\;{\sf then}\;e_2\;{\sf else}\;e_3\\
             &&|& \textsf{let} \;x=\;e_1\;{\sf in}\;e_2\;{\sf end}\\
-            &&|& \textsf{lam} \; x :: \textit{T} \rightarrow e \\
+            &&|& \textsf{fun} \; x :: \textit{T} \rightarrow e \\
             &&|& \textsf{recfun} \;f :: (T_1\Rightarrow T_2)\; x \rightarrow \;e\\
             \mbox{\bf Tipos}&\textit{T}&::=&\; \textit{Bool}\;|\textit{Nat}\;|\;T_1\Rightarrow T_2 \\
             \mbox{\bf Variables}&var&::=&x\; |\; y \; | \; \dots\\
@@ -54,13 +54,13 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 
 	\begin{itemize}
 		\item Proporciona la definición de la función sucesor que recibe un número y regresa el sucesor: 
-			$$ \textsf{suc} =_{def} \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow x + 1$$
+			$$ \textsf{suc} =_{def} \textsf{fun}\; x\;::\; \textit{Nat} \rightarrow x + 1$$
 		\item Proporciona la definición de la función que recibe un número y decide si es cero:
-			 $$ \textsf{IsZero} =_{def} \textsf{lam}\; x\;::\; \textit{Nat} \rightarrow\; \textsf{if}\; (x\; =\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
+			 $$ \textsf{IsZero} =_{def} \textsf{fun}\; x\;::\; \textit{Nat} \rightarrow\; \textsf{if}\; (x\; =\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
 		\item Proporciona la definición de una función que recibe un número y regresa el factorial:
 			 $$ \textsf{fact} =_{def} \textsf{recfun}\; \textsf{fact}\; ::\; (\textit{Nat} \Rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero}(x)\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$$
 		\item Proporciona la definición de una función que recibe dos números y regresa su producto:
-			$$ \textsf{prod} =_{def} \textsf{lam}\; x\; ::\; Nat \rightarrow\; \textsf{lam}\; y\; ::\; Nat \rightarrow\; x*y$$
+			$$ \textsf{prod} =_{def} \textsf{fun}\; x\; ::\; Nat \rightarrow\; \textsf{fun}\; y\; ::\; Nat \rightarrow\; x*y$$
 	\end{itemize}
 
     \end{exercise}
@@ -104,7 +104,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
         \item[Definición de funciones]
         \[
             \begin{array}{c}
-                \inference{t\;asa}{lam(\textit{T},x.t)\;asa} \; \;
+                \inference{t\;asa}{fun(\textit{T},x.t)\;asa} \; \;
                 \inference{t\;asa}{recfun(T,f.x.t)\;asa}
             \end{array}
         \]
@@ -277,12 +277,12 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
                 \item[Aplicación de función]
                 \[
                     \begin{array}{ccc}
-                        \inference{}{app(lam(x.a_b),a_p)\to a_b[x:=a_p]}[\it app]&
-                    \end{array}
-                \]
-                \[
-                    \begin{array}{ccc}
                         \inference{a_f \to a_f'}{app(a_f,a_p)\to app(a_f',a_p)}[\it appL]\
+                    \end{array}
+                \]                
+	     \[
+                    \begin{array}{ccc}
+                        \inference{}{app(fun(x.a_b),a_p)\to a_b[x:=a_p]}[\it app]&
                     \end{array}
                 \]
                 \[
