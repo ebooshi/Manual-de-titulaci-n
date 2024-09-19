@@ -14,18 +14,19 @@
     \centerline{\includegraphics[scale=0.5]{assets/gatitos_tipados.PNG}}       
 \end{figure}
 
-Una propiedad importante de \textsf{Haskell} que quermos trasladar a \textsf{MinHS} es el mecanismo de inferencia de tipos. Este mecanismo provee una capa extra que permite trabajar con expresiones aún si estas no poseen un tipo explicito en cada uno de sus parámetros de entrada y valores de retorno. \\\\
-Anteriormente se definió mediante la semantica estática las reglas para obtener el tipo de una expresión, no obstante este proceso es dependiente de las anotaciones explícitas del tipo que se encuentran incrustadas en la sintáxis del lenguaje.
-Esta nueva capa permite desacoplar las anotaciones explícitas de la sintáxis de \textsf{MinHS}.\\\\
+Una propiedad importante de \textsf{Haskell} que queremos trasladar a \textsf{MinHS} es el mecanismo de inferencia de tipos. Este mecanismo provee una capa extra que permite trabajar con expresiones aún si estas no poseen un tipo explícito en cada uno de sus parámetros de entrada y valores de retorno. \\\\
+Anteriormente se definieron mediante la semántica estática las reglas para obtener el tipo de una expresión, no obstante este proceso es dependiente de las anotaciones explícitas de tipo que se encuentran definidas en la sintáxis del lenguaje.
+Con el mecanismo de inferencia de tipos se pretende desacoplar este conjunto de anotaciones de la sintáxis de \textsf{MinHS}.\\\\
 Con esto en mente, vamos a formular un sistema de restricciones derivadas de la estructura de la expresión que se desea tipificar, junto con el proceso de estandarización de variables para poder hacer uso de la inferencia de tipos mediante la aplicación del algoritmo para obtener el unificador general $\mu$ para expresiones de \textsf{MinHS}.\\
 
 \subsubsection{Objetivo}
-Definir el sistema de inferencia de tipos para \textsf{MinHS} que nos permita tipificar las expresiones para garantizar la seguridad del lenguaje. Para esto, el objetivo principal será proporcionar las definiciones para las condiciones que cada estructura particular de las expresiones sintácticas de \textsf{MinHS} generan, a estas se les conoce como restricciones de tipo. Adicionalmente se proporcionará la definción del algoritmo de unificación para aplicar la inferencia de tipos conocido como algoritmo  unificador \textbf{$\mu$}.
+Definir el sistema de inferencia de tipos para \textsf{MinHS} que nos permita tipificar las expresiones garantizando la seguridad del lenguaje. Para esto, el objetivo principal será proporcionar una definición de las restricciones que cada estructura particular de las expresiones sintácticas de \textsf{MinHS} generan. A estas se les conoce como restricciones de tipo. \\\\
+Adicionalmente se proporcionará la definción del algoritmo de unificación para aplicar la inferencia de tipos conocido como algoritmo para obtener el unificador general \textbf{$\mu$}.
 
 
 \subsubsection{Planteamiento}
 En este capítulo  revisaremos diferentes  procedimientos que se aplican a las expresiones de \textsf{MinHS} para poder garantizar la correcta  asignación de un tipo.
-Estudiaremos la estandarización de variables para obtener $\alpha\text{-equivalencias}$ entre las variables ligadas repetidas dentro de una expresión.
+Estudiaremos la estandarización de variables para obtener $\alpha\text{-equivalencias}$ entre las variables ligadas repetidas dentro de una expresión.\\\\
 Posteriormente vamos a revisar los juicios para generar las restricciones de tipo que cada expresión genera para finalmente definir el algoritmo unificador $\mu$.
 
 
@@ -34,20 +35,20 @@ La semántica estática de \textsf{MinHS} y la de \textsf{EAB} se implementa de 
 En el contexto $\Gamma$ solo puede existir una sola aparición por variable, es decir, nunca podremos tener $\Gamma=\{x : Nat,\ x : Bool\}$ dado que $\Gamma$ es un conjunto de variables y tipos, tener la misma variable con dos tipos distintos es una inconsistencia dentro de nuestro programa y constituye un error en el tipificado de la expresión\footnote{Definición de semántica estática para \textsf{MinHS} formulada de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\\\
 Para evitar esta situación se define el proceso conocido como estandarización de variables que consiste en brindar una $\alpha$-equivalencia cuando dos variables ligadas tengan el mismo nombre.\\\\
 Tomemos como ejemplo la siguiente expresión:
-$$ \textsf{let } x = \textsf{True} \textsf{ in } \textsf{if } x \textsf{ then } \textsf{ let } x = 5 \textsf{ in } x \leq x \textsf{ end } \textsf{ end }$$
-En este caso la expresión está bien formada, no hay ninguna regla de la sintáxis concreta que esté mal aplicada para obtener nuestra expresión, la evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a a verdadero y luego se prosigue con la comparación de dos booleanos, sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
-El problema puede ser corregido utilizando una $\alpha$-equivalencia y renombrando las variables x por $x_0$ y $x_1$ respectivamente:
-$$ \textsf{let } x_0 = \textsf{True} \textsf{ in } \textsf{if } x_0\ \textsf{ then } \textsf{ let } x_1 = 5 \textsf{ in } x_1 \leq x_1 \textsf{ end } \textsf{ end }$$
+$$ \textsf{let } x = \textsf{True} \textsf{ in } \textsf{if } x \textsf{ then } \textsf{ let } x = 5 \textsf{ in } x < x \textsf{ end } \textsf{ end }$$
+En este caso la expresión está bien formada, no hay ninguna regla de la sintáxis concreta que esté mal aplicada para obtener nuestra expresión, la evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a verdadero y luego se prosigue con la comparación de dos booleanos, sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
+El problema puede ser corregido utilizando una $\alpha$-equivalencia y renombrando las variables $x$ por $x_0$ y $x_1$ respectivamente:
+$$ \textsf{let } x_0 = \textsf{True} \textsf{ in } \textsf{if } x_0\ \textsf{ then } \textsf{ let } x_1 = 5 \textsf{ in } x_1 < x_1 \textsf{ end } \textsf{ end }$$
 Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 
 \begin{exercise}
     Para la siguiente expresión de \textsf{MinHS} expresando el contexto
-    $$\textsf{let } x = \textsf{False} \textsf{ in } x = (\textsf{let } x = 6 \textsf{ in } (x + x + x) \leq 10 \textsf{ end}) \textsf{ end }$$
+    $$\textsf{let } x = \textsf{False} \textsf{ in } x = (\textsf{let } x = 6 \textsf{ in } (x + x + x) > 10 \textsf{ end}) \textsf{ end }$$
     $$\Gamma=\{x : Nat,\ x : Bool\}$$
     
     Aplica la estandarización de variables:
     
-    $$\textsf{let } x_0 = \textsf{False} \textsf{ in } x_0 == (\textsf{let } x_1 = 6 \textsf{ in } (x_1 + x_1 + x_1) \leq 10 \textsf{ end}) \textsf{ end }$$
+    $$\textsf{let } x_0 = \textsf{False} \textsf{ in } x_0 = (\textsf{let } x_1 = 6 \textsf{ in } (x_1 + x_1 + x_1) > 10 \textsf{ end}) \textsf{ end }$$
     $$\Gamma=\{x_1 : Nat, x_0 : Bool\}$$
 
 \end{exercise} 
@@ -55,25 +56,25 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 \begin{exercise}    
     Para la siguiente expresión de \textsf{MinHS} expresando el contexto
 
-    $$ \textsf{let } x = \textsf{True} \textsf{ in } x \textsf{ or } (\textsf{let } x = 5 \textsf{ in } x == 5 \textsf{ end}) \textsf{ end} $$
+    $$ \textsf{let } x = \textsf{True} \textsf{ in } x \textsf{ or } (\textsf{let } x = 5 \textsf{ in } x < 5 \textsf{ end}) \textsf{ end} $$
     $$ \Gamma = \{x:Bool,\ x:Nat\}$$
     
     Aplica la estandarización de variables: 
     
-    $$ \textsf{let } x_0 = \textsf{True} \textsf{ in } x_0 \textsf{ or } (\textsf{let } x_1 = 5 \textsf{ in } x_1 = 5 \textsf{ end}) \textsf{ end} $$
+    $$ \textsf{let } x_0 = \textsf{True} \textsf{ in } x_0 \textsf{ or } (\textsf{let } x_1 = 5 \textsf{ in } x_1 < 5 \textsf{ end}) \textsf{ end} $$
     $$ \Gamma = \{x_1:Bool,\ x_0:Nat\}$$
 \end{exercise}
 
 \begin{exercise}    
     Para la siguiente expresión de \textsf{MinHS}, expresando el contexto
     
-    $$ \textsf{let } x = 1 \textsf{ in } (\textsf{let } x = \textsf{False} \textsf{ in } (\textsf{let } x = fun\ y :: Bool \to y  \textsf{ or } x \textsf{ end }) \textsf{ end}) \textsf{ end }$$
-    $$ \Gamma = \{ x : Int, x : Bool,\ x : Bool \to Bool \}$$
+    $$ \textsf{let } x = 1 \textsf{ in } (\textsf{let } x = \textsf{False} \textsf{ in } (\textsf{let } x = fun\ y :: Bool \to y  \textsf{ in } x \textsf{ end }) \textsf{ end}) \textsf{ end }$$
+    $$ \Gamma = \{ x : Nat, x : Bool,\ x : Bool \to Bool \}$$
     
     Aplica la estandarización de variables:
     
-    $$ \textsf{let } x_0 = 1 \textsf{ in } (\textsf{ let } x_1 = \textsf{False} \textsf{ in } (\textsf{let } x_2 = fun\ y :: Bool \to y  \textsf{ or } y \textsf{ end}) \textsf{ end}) \textsf{ end} $$
-    $$ \Gamma = \{ x_0 : Int,\ x_1 : Bool,\ x_2 : Bool \to Bool \}$$
+    $$ \textsf{let } x_0 = 1 \textsf{ in } (\textsf{ let } x_1 = \textsf{False} \textsf{ in } (\textsf{let } x_2 = fun\ y :: Bool \to y  \textsf{ in } x_2 \textsf{ end}) \textsf{ end}) \textsf{ end} $$
+    $$ \Gamma = \{ x_0 : Nat,\ x_1 : Bool,\ x_2 : Bool \to Bool \}$$
 \end{exercise}
 
         \begin{exercise} 
@@ -135,7 +136,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 \section{Generación de restricciones}
 
     Para poder tipificar una expresión bien formada de \textbf{MinHS}  sin utilizar las anotaciones de tipo explicitamente en los argumentos y valores de retorno es necesario definir un proceso que nos ayude a obtener información sobre la estructura que esta posee. \\\\
-    A esta información se le conoce como restricciones y nos ayuda a atar las condiciones que se deben cumplir para que una expresión esté bien tipificada.
+    A esta información se le conoce como restricciones y nos ayudan a ligar las condiciones que se deben cumplir para que una expresión esté bien tipificada.
 
     \begin{definition}[Conjunto de restricciones]
         Definimos el jucio para generar restricciones partiendo de una expresión válida $e$ representado como\footnote{Jucio para representar restricciones \hyperlink{123}{[123]},  \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}:
