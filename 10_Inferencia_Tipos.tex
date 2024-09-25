@@ -15,13 +15,13 @@
 \end{figure}
 
 Una propiedad importante de \textsf{Haskell} que queremos trasladar a \textsf{MinHS} es el mecanismo de inferencia de tipos. Este mecanismo provee una capa extra que permite trabajar con expresiones aún si estas no poseen un tipo explícito en cada uno de sus parámetros de entrada y valores de retorno. \\\\
-Anteriormente se definieron mediante la semántica estática las reglas para obtener el tipo de una expresión, no obstante este proceso es dependiente de las anotaciones explícitas de tipo que se encuentran definidas en la sintáxis del lenguaje.
-Con el mecanismo de inferencia de tipos se pretende desacoplar este conjunto de anotaciones de la sintáxis de \textsf{MinHS}.\\\\
+Anteriormente se definieron mediante la semántica estática las reglas para obtener el tipo de una expresión, no obstante este proceso es dependiente de las anotaciones explícitas de tipo que se encuentran definidas en la sintaxis del lenguaje.
+Con el mecanismo de inferencia de tipos se pretende desacoplar este conjunto de anotaciones de la sintaxis de \textsf{MinHS}.\\\\
 Con esto en mente, vamos a formular un sistema de restricciones derivadas de la estructura de la expresión que se desea tipificar, junto con el proceso de estandarización de variables para poder hacer uso de la inferencia de tipos mediante la aplicación del algoritmo para obtener el unificador general $\mu$ para expresiones de \textsf{MinHS}.\\
 
 \subsubsection{Objetivo}
 Definir el sistema de inferencia de tipos para \textsf{MinHS} que nos permita tipificar las expresiones garantizando la seguridad del lenguaje. Para esto, el objetivo principal será proporcionar una definición de las restricciones que cada estructura particular de las expresiones sintácticas de \textsf{MinHS} generan. A estas se les conoce como restricciones de tipo. \\\\
-Adicionalmente se proporcionará la definción del algoritmo de unificación para aplicar la inferencia de tipos conocido como algoritmo para obtener el unificador general \textbf{$\mu$}.
+Adicionalmente se proporcionará la definición del algoritmo de unificación para aplicar la inferencia de tipos conocido como algoritmo para obtener el unificador general \textbf{$\mu$}.
 
 
 \subsubsection{Planteamiento}
@@ -36,7 +36,7 @@ En el contexto $\Gamma$ solo puede existir una sola aparición por variable, es 
 Para evitar esta situación se define el proceso conocido como estandarización de variables que consiste en brindar una $\alpha$-equivalencia cuando dos variables ligadas tengan el mismo nombre.\\\\
 Tomemos como ejemplo la siguiente expresión:
 $$ \textsf{let } x = \textsf{True} \textsf{ in } \textsf{if } x \textsf{ then } \textsf{ let } x = 5 \textsf{ in } x < x \textsf{ end } \textsf{ end }$$
-En este caso la expresión está bien formada, no hay ninguna regla de la sintáxis concreta que esté mal aplicada para obtener nuestra expresión, la evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a verdadero y luego se prosigue con la comparación de dos booleanos, sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
+En este caso la expresión está bien formada, no hay ninguna regla de la sintaxis concreta que esté mal aplicada para obtener nuestra expresión, la evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a verdadero y luego se continúa con la comparación de dos valores booleanos, sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
 El problema puede ser corregido utilizando una $\alpha$-equivalencia y renombrando las variables $x$ por $x_0$ y $x_1$ respectivamente:
 $$ \textsf{let } x_0 = \textsf{True} \textsf{ in } \textsf{if } x_0\ \textsf{ then } \textsf{ let } x_1 = 5 \textsf{ in } x_1 < x_1 \textsf{ end } \textsf{ end }$$
 Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
@@ -83,7 +83,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 	\begin{definition} Definición de la semántica estática para la estandarización de variables.\\\\
 	Representaremos la asignación serializada de nuevas variables con una lista de parejas conformada por la variable original seguida de su nueva asignación mediante la aplicación del siguiente juicio: $$v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ e\ asa$$ 
           Que se lee como: \\\\
-	''El árbol de sintáxis abstracta $e$ es congruente con la lista $v_n: x_n\ ...\ v_0:x_0$ bajo $\alpha$-equivalencia aplicando la(s) sustitución(es) sí existen en la lista''.\\
+	''El árbol de sintaxis abstracta $e$ es congruente con la lista $v_n: x_n\ ...\ v_0:x_0$ bajo $\alpha$-equivalencia aplicando la(s) sustitución(es) sí existen en la lista''.\\
 
             Variables
             \[
@@ -135,11 +135,11 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 
 \section{Generación de restricciones}
 
-    Para poder tipificar una expresión bien formada de \textbf{MinHS}  sin utilizar las anotaciones de tipo explicitamente en los argumentos y valores de retorno es necesario definir un proceso que nos ayude a obtener información sobre la estructura que esta posee. \\\\
+    Para poder tipificar una expresión bien formada de \textbf{MinHS}  sin utilizar las anotaciones de tipo explícitamente en los argumentos y valores de retorno es necesario definir un proceso que nos ayude a obtener información sobre la estructura que esta posee. \\\\
     A esta información se le conoce como restricciones y nos ayudan a ligar las condiciones que se deben cumplir para que una expresión esté bien tipificada.
 
     \begin{definition}[Conjunto de restricciones]
-        Definimos el jucio para generar restricciones partiendo de una expresión válida $e$ representado como\footnote{Jucio para representar restricciones \hyperlink{123}{[123]},  \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}:
+        Definimos el juicio para generar restricciones partiendo de una expresión válida $e$ representado como\footnote{Juicio para representar restricciones \hyperlink{123}{[123]},  \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}:
     
         $$e\mapsto R$$
         
@@ -152,7 +152,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
         
         $$\ T\ ::=\ X\ |\ Nat\ |\ Bool\ |\ T_1\ \to T_2\ |\ \llbracket e \rrbracket$$
         
-        En donde $X$ es una variable de tipo. Estas variables nos ayudan en la definición de programas polimórficos, por ejemplo la función identidad:
+        En donde $X$ es una variable de tipo. Estas variables nos ayudan en la definición de programas polimorfos, por ejemplo la función identidad:
         
         $$fun\ x\Rightarrow x :: X \to X$$ 
         
@@ -161,7 +161,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
         $$(fun \ x \Rightarrow x)\ 5 :: Nat \to Nat$$
 
         La expresión $\llbracket e \rrbracket$ es una construcción sintáctica para definir el tipo de una expresión del lenguaje y se lee como: ''el tipo de $e$''.\\\\
-        Es importante aclarar que esta construcción no puede figurar como el tipo final asociado a la expresión y lo encontraremos usualmente aplicado de la siguiente forma: $$\llbracket e \rrbracket = E $$
+        Es importante aclarar que esta construcción no puede figurar como el tipo final asociado a la expresión y la encontraremos usualmente aplicada de la siguiente forma: $$\llbracket e \rrbracket = E $$
             
     \end{definition}
 
@@ -253,11 +253,11 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 \section{Algoritmo de unificación}
 
     Una vez obtenida la lista de restricciones asociadas a una expresión $e$ tenemos toda la información que necesitamos acerca de su estructura para comenzar a unificar los tipos aplicando las restricciones hasta encontrar el tipo más general de la expresión, o hasta encontrar un error de tipificado al asignar dos tipos distintos a un mismo elemento.\\\\
-    Para esto construiremos una composición de sustituciones tomando cada una de las restricciones y sustituyendo el tipo al cuál la expresión está ligada en dicha restricción. Al final se obtendrá la lista de sustituciones necesarias para hallar el tipo más general el cuál será la cabeza de la lista, en caso contrario quiere decir que la unficación falló.
+    Para esto construiremos una composición de sustituciones tomando cada una de las restricciones y sustituyendo el tipo al cuál la expresión está ligada en dicha restricción. Al final se obtendrá la lista de sustituciones necesarias para hallar el tipo más general el cuál será la cabeza de la lista, en caso contrario quiere decir que la unificación falló.
     
 \bigskip
 
-    \begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es una composición de sustituciones en caso de que las restricciones se puedan resolve o \textsf{Fail} en caso contrario.\\\\  A esta composición de sustituciones la denotamos con la letra  $\mu$ y se le conoce como: ''unificador''\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}.
+    \begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es una composición de sustituciones en caso de que las restricciones se puedan resolver o \textsf{Fail} en caso contrario.\\\\  A esta composición de sustituciones la denotamos con la letra  $\mu$ y se le conoce como: ''unificador''\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}.
 
         \[
             \begin{array}{rclr}
@@ -269,21 +269,21 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 U(T=X:R)&=&U(X=T:R)&\\
                 U(T=e:R)&=&U(e=T:R)&\\
                 U(St_1\to St_2=T_1\to T_2:R)&=&U(St_1=T_1:St_2=T_2:R)&\\
-                U(R)&=&{\sf fail}&\\
+                U(R)&=&{\sf Fail}&\\
            \end{array}
         \]
  
-    Este algoritmo compone el unificador general convirtiendo la restricción en la cabeza de la lista en una sustitución (cuando sea posible), aplicándola al resto de las sustituciones y concatenándo esta restricción a si mismo para generar el unificador general.
+    Este algoritmo compone el unificador general convirtiendo la restricción de la cabeza de la lista en una sustitución (cuando sea posible), aplicándola al resto de las restricciones y concatenándola para generar el unificador general.
     \end{definition}
 
     \section{Algoritmo de inferencia de tipos}
 
-    \begin{definition}[Algoritmo de Inferencia de tipos] Se define el algoritmo $\Ts(e)$ de inferencia de tipos que recibe una expresión $e$ de \textsf{MinHS} y regresa el tipo de esta expresión. El algoritmo se define con los siguientes pasos\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}:\\
+    \begin{definition}[Algoritmo de Inferencia de tipos] Se define el algoritmo $\Ts(e)$ de inferencia de tipos que recibe una expresión $e$ de \textsf{MinHS} y regresa el tipo de esta expresión como sigue:\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}:\\
 
         \begin{itemize}
             \item Se encuentra la expresión $e'$ con nombres de variables únicas.
-            \item Se encuentra el conjunto de restricciones $\R$ tal que $e'\mapsto\R$.
-            \item Utilizando la función $U$ se calcula el unificador general $\mu$ del conjunto de restricciones $\R$, tal que $U(\R)=\mu$.
+            \item Se encuentra el conjunto de restricciones $R$ tal que $e'\mapsto R$.
+            \item Utilizando la función $U$ se calcula el unificador general $\mu$ del conjunto de restricciones $R$, tal que $U(R)=\mu$.
             \item Se busca en $\mu$ la ecuación $e':= T$.
             \item T $\,$ es el tipo general de $e$, es decir, $\Ts(e)=T$.
 \bigskip
@@ -305,18 +305,18 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                   $$let(0,\ x.let(1,\ y.eq(x,\ y)))$$
         \item  Renombramiento de variables
                  $$let(0,x_0.let(1,x_1.eq(x_0,x_1)))$$
-         \item Generación de Restricciones:
+         \item Generación de restricciones:
             \begin{itemize}
                 \item$ 0 \mapsto  \llbracket 0 \rrbracket = Nat$
                 \item$ 1 \mapsto  \llbracket 1 \rrbracket = Nat$
                 \item$x_0\mapsto  \llbracket x_0 \rrbracket = X_0$
-                \item$x_1\mapsto  \llbracket x_1 \rrbracket = X_1$
-                \item$eq(x_0,\ x_1) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0,  \llbracket x_1 \rrbracket = X_1,  \llbracket x_0 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket eq(x_0,x_1) \rrbracket = Bool}_{\R_1} $
-                \item$let(1,\ x_1.eq(x_0,\ x_1)) \mapsto \underbrace{ \llbracket 1 \rrbracket = Nat, R_1, X_1 =  \llbracket 1 \rrbracket,  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket}_{\R_2}$
-                \item$let(0,\ x_0.let(1,\ x_1.eq(x_0,\ x_1))) \mapsto \\\underbrace{ \llbracket 0 \rrbracket = Nat, \R_2, X_0 =  \llbracket 0 \rrbracket,  \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket}_{\R_3}$
+                \item$x_1\mapsto  \llbracket x_1 \rrbracket = X_1$\\
+                \item$eq(x_0,\ x_1) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0,  \llbracket x_1 \rrbracket = X_1,  \llbracket x_0 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket eq(x_0,x_1) \rrbracket = Bool}_{R_1} $
+                \item$let(1,\ x_1.eq(x_0,\ x_1)) \mapsto \underbrace{ \llbracket 1 \rrbracket = Nat, R_1, X_1 =  \llbracket 1 \rrbracket,  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket}_{R_2}$
+                \item$let(0,\ x_0.let(1,\ x_1.eq(x_0,\ x_1))) \mapsto \\\underbrace{ \llbracket 0 \rrbracket = Nat, R_2, X_0 =  \llbracket 0 \rrbracket,  \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket}_{R_3}$
             \end{itemize}
 
-           \item Lista de restricciones de $\R$:
+           \item Lista de restricciones de $R$:
         
             \[
                 \begin{array}{rclr}
@@ -334,7 +334,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 \end{array}
             \]
             
-            \item Aplicación del algoritmo para encontrar el unificador general de $\R$:
+            \item Aplicación del algoritmo para encontrar el unificador general de $R$:
 
                 \begin{center}
                     \begin{longtable}{ | l | l | } 
@@ -450,7 +450,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 		\hline
                     \end{longtable}
                 \end{center}
-        De el proceso anterior se puede concluir que el tipo de la expresión es $Bool$
+        Del proceso anterior se puede concluir que el tipo de la expresión es $Bool$
         \end{description}
     \end{exercise}
 
@@ -466,29 +466,31 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
         \begin{description}
 	 \item Representación en sintáxis abstracta	
  	        $$app(recfun(fib.n.if(lt(n , 2), 1, sum(app(fib, (sub(n,1))),app(fib, (sub(n,2)))))),4)$$
+ \bigskip
             \item Renombramiento de variables
                 $$app(recfun(x_0.x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))),4)$$
-            \item Generación de Restricciones
+\bigskip
+            \item Generación de restricciones
+ \bigskip
             \begin{itemize}
-                \item $1 \mapsto  \llbracket 1 \rrbracket = Nat$
-                \item $2 \mapsto  \llbracket 2 \rrbracket = Nat$
-                \item $x_0 \to  \llbracket x_0 \rrbracket = X_0$
-                \item $x_1 \mapsto  \llbracket x_1 \rrbracket = \X_1$ 
-                \item $sub(x_1,1) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 1 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket sub(x_1,1) \rrbracket = Nat}_{R1}$
-                \item $sub(x_1,2) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 2 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket sub(x_1,2) \rrbracket = Nat}_{R2}$
+                \item $1 \mapsto  \llbracket 1 \rrbracket = Nat$\\
+                \item $2 \mapsto  \llbracket 2 \rrbracket = Nat$\\
+                \item $x_0 \to  \llbracket x_0 \rrbracket = X_0$\\
+                \item $x_1 \mapsto  \llbracket x_1 \rrbracket = X_1$\\ 
+                \item $sub(x_1,1) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 1 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket sub(x_1,1) \rrbracket = Nat}_{R_1}$
+                \item $sub(x_1,2) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 2 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket sub(x_1,2) \rrbracket = Nat}_{R_2}$
                 \item $app(x_0, sub(x_1,1)) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0, R_1,  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket }_{R_3}$
                 \item $app(x_0, sub(x_1,2)) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0, R_2,  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket }_{R_4}$
                 \item $sum(app(x_0, sub(x_1,1)), app(x_0, sub(x_1,2))) \mapsto \\ \underbrace{R_3, R_4.  \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat,  \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat,}_{R_5}$ \\ $\underbrace{  \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat}_{R_5}$
                 \item $lt(x_1 , 2) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 2 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket lt(x_1 , 2) \rrbracket = Bool}_{R_6}$
-                \item $if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto$ \\ $\underbrace{R_6,  \llbracket 1 \rrbracket = Nat, R_5,  \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1)))}_{R7}$, \\ $\underbrace{app(x_0, (sub(x_1,2)))) \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket }_{R7}$
+                \item $if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto$ \\ $\underbrace{R_6,  \llbracket 1 \rrbracket = Nat, R_5,  \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1)))}_{R_7}$, \\ $\underbrace{app(x_0, (sub(x_1,2)))) \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket }_{R_7}$
                 \item $recfun(x_0,\ x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_7,  X_1 =  \llbracket x_0 \rrbracket,  \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket}_{R_8}$
-
             \end{itemize}
-            Como resultado se obtiene la lista de restricciones $\R$:
-        
+
+           \item Como resultado se obtiene la lista de restricciones $R$:
             \[
                 \begin{array}{rclr}
-                \R&=&  \llbracket x_1 \rrbracket = X_1  \\
+                R&=&  \llbracket x_1 \rrbracket = X_1  \\
                 &&  \llbracket 2 \rrbracket = Nat\\
                 &&  \llbracket lt(x_1 , 2) \rrbracket = Bool\\
                 &&  \llbracket 1 \rrbracket = Nat\\
@@ -502,16 +504,18 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 &&  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket \\
                 &&  \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat \\
                 &&  \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat \\	
-	     &&   \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat \\
+	      &&   \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat \\
                 &&  \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket \\
                 &&  \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket\\
                 &&  \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket \\
                 &&  \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket \\
                 \end{array}
             \]
-            \item Unificación de $\R$
-             \begin{center}
-                    \begin{longtable}{ | l | l | } 
+
+           \item Aplicación del algoritmo para encontrar el unificador general de $R$:
+
+                \begin{center}
+                    \begin{longtable}[!h]{ | l | l | } 
                       \hline
                       Restricciones & Unificador $\mu$ \\ 
                         \hline
@@ -828,14 +832,50 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                     \hline
                 \end{longtable}
             \end{center}
-            De el proceso anterior se puede concluir que el tipo de la expresión es $Nat$
+            Del proceso anterior se puede concluir que el tipo de la expresión es $Nat$
         \end{description}
     \end{exercise}
 
     
     \section{Ejercicios para el lector}
 
-     \begin{exercise} Dada la siguiente expresión de MinHaskell, obten el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
+	\begin{exercise}
+		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
+		\[
+			\textsf{let $z$ = 0 in $z$ $\textless$ $z$  end}
+		\]
+		\begin{itemize}
+			\item obtén la representación en sintaxis abstracta.
+			\item obtén una expresión $\alpha$-equivalente
+			\item obtén la lista de variables con su tipo.
+		\end{itemize}
+	\end{exercise}
+
+	\begin{exercise}
+		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
+		\[
+			\textsf{fun x :: $Nat\ \rightarrow$ $x$ * ($x$ - 1) / ($x$ * $x$)}
+		\]
+		\begin{itemize}
+			\item obtén la representación en sintaxis abstracta.
+			\item obtén una expresión $\alpha$-equivalente
+			\item obtén la lista de variables con su tipo.
+		\end{itemize}
+	\end{exercise}
+
+	\begin{exercise}
+		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
+		\[
+			\textsf{let $x$ = True in let $x$ = False in if $x$ then let $y$ = 1 in $y$  end else let $y$ = 2 in $y$ end end end}
+		\]
+		\begin{itemize}
+			\item obtén la representación en sintaxis abstracta.
+			\item obtén una expresión $\alpha$-equivalente
+			\item obtén la lista de variables con su tipo.
+		\end{itemize}
+	\end{exercise}
+
+     \begin{exercise} Dada la siguiente expresión de MinHaskell, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
           \begin{lstlisting}
              (recfun factorial n => 
                  if (n < 0) 
@@ -845,15 +885,15 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
      \end{exercise}
 
 
-    \begin{exercise} Dada la siguiente expresión de MinHaskell, obten el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraído de \hyperlink{12}{[12]}}
+    \begin{exercise} Dada la siguiente expresión de MinHaskell, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraído de \hyperlink{12}{[12]}}
            \begin{lstlisting}
-                fun x -> app(x,x)
+                fun x :: Nat -> app(x,x)
            \end{lstlisting} 
     \end{exercise}
 
    \begin{exercise} Contesta las siguientes preguntas.\\
 	\begin{itemize}
 	    \item ¿ Cuál es la complejidad de cada fase del algoritmo para encontrar el unificador general $\mu$?\\
-               \item ¿ Cuál es la complejidad total del algoritmo para encontrar el unificador general $\mu$?
-	 \end{itemize}
+           \item ¿ Cuál es la complejidad total del algoritmo para encontrar el unificador general $\mu$?
+	\end{itemize}
    \end{exercise}
