@@ -16,19 +16,19 @@ En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alo
 
 
 \subsubsection{Objetivo}
-Revisar la composición del Cálculo Lambda mediante el estudio de la sintáxis, semántica operacional y la representación de tipos primitivos en este modelo de cómputo, así como las propiedades inherentes a la semántica del cálculo junto con los sistemas de recursión para la evaluación de $\lambda$-expresiones. \\ 
+Revisar la composición del Cálculo Lambda mediante el estudio de la sintaxis, semántica operacional y la representación de tipos primitivos en este modelo de cómputo, así como las propiedades inherentes a la semántica del cálculo junto con los sistemas de recursión para la evaluación de $\lambda$-expresiones. \\ 
 
 \subsubsection{Planteamiento}
-En este capítulo se revisará la sintáxis concreta del Cálculo Lámbda para generar $\lambda$-expresiones junto con
+En este capítulo se revisará la sintaxis concreta del Cálculo Lámbda para generar $\lambda$-expresiones junto con
 la semántica operacional del cálculo, basándonos en la operación de sustitución sintáctica ([variable := valor]) conocida como $\beta$-reducción.\\\\
-También se abordará la definición de los booleanos junto con los operadores lógicos, estructuras de datos (tuplas, proyecciones, listas) y los numerales de Chruch con operadores aritméticos mismos que se espera el lector pueda manipular, razonar y resolver en la sección de ejercicios. \\\\
+También se abordará la definición de los booleanos junto con los operadores lógicos, estructuras de datos (tuplas, proyecciones, listas) y los numerales de Church con operadores aritméticos mismos que se espera el lector pueda manipular, razonar y resolver en la sección de ejercicios. \\\\
 Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con los operadores de punto fijo.
 
 
-\section{Sintáxis del Cálculo Lambda}
-    El cálculo lambda es un modelo simple, su sintáxis comprende sólo tres categorías de términos\footnote{Definición extraída de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y \hyperlink{110}{[110]}}:
+\section{Sintaxis del Cálculo Lambda}
+    El cálculo lambda es un modelo simple, su sintaxis comprende sólo tres categorías de términos\footnote{Definición extraída de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y \hyperlink{110}{[110]}}:
     \begin{itemize}
-        \item Variables: los elementos de esta categoría pertenecen a un conjunto infinito de letras mínusculas, generalmente las últimas del alfabeto (y en ocasiones pueden estar numeradas, algunos ejemplos pueden ser: x, y, z, $x_1$, $z_2$, etc.) y son las expresiones lambda más simples.\\
+        \item Variables: los elementos de esta categoría pertenecen a un conjunto infinito de letras minúsculas, generalmente las últimas del alfabeto (y en ocasiones pueden estar numeradas, algunos ejemplos pueden ser: x, y, z, $x_1$, $z_2$, etc.) y son las expresiones lambda más simples.\\
         \item Abstracciones: esta categoría engloba los términos que definen a las funciones anónimas, compuestas por tres elementos: el primero es la letra griega ''$\lambda$'', el segundo es la variable que estará ligada en el cuerpo de la expresión y por último el cuerpo mismo de la función denotado como $e$, estas se representan de la forma ''$\lambda x.e$''.\\
         \item Aplicación: esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función ''$e_1\,e_2$'', donde $e_1$ es la definición de una función anónima y $e_2$ es el argumento  con el que se evaluará dicha función.
     \end{itemize}
@@ -159,13 +159,13 @@ A la operación de sustituir los términos que concuerden con la variable del op
 
     Para el operador \textsf{NOT} la lógica de ejecución es aplicar la función identidad al parámetro de entrada, si este es \textsf{True} entonces se regresará el primer argumento, en este caso la constante \textsf{False}: \[ (\lambda x.x (\textsf{False})(\textsf{True}))\textsf{True} \to_\beta^* \textsf{True}(\textsf{False})(\textsf{True}) \to_\beta^* \textsf{False}\] 
 	Sí al contrario el parámetro de entrada es \textsf{False} este regresará el segundo argumento, en este caso la constante \textsf{True}: \[ (\lambda x.x (\textsf{False})(\textsf{True}))\textsf{False} \to_\beta^* \textsf{False}(\textsf{False})(\textsf{True}) \to_\beta^* \textsf{True}\]
-    En el caso del operador \textsf{AND} la lógica subyacientes es que si el primer parámetro es un \textsf{False} no importa el segundo parámetro que reciba, siempre regresaremos la constante \textsf{False}:
+    En el caso del operador \textsf{AND} la lógica subyacentes es que si el primer parámetro es un \textsf{False} no importa el segundo parámetro que reciba, siempre regresaremos la constante \textsf{False}:
 \[ (\lambda x.\lambda y. xy (\textsf{False}))\ \textsf{False}\  w \to_\beta^* \textsf{False}\ w\ (\textsf{False}) \to_\beta^* \textsf{False}  \]
 Si recibe como primer parámetro la constante \textsf{True} entonces el resultado será el segundo parámetro:
 \[ (\lambda x.\lambda y. xy (\textsf{False}))\ \textsf{True}\  w \to_\beta^* \textsf{True}\ w\ (\textsf{False}) \to_\beta^* w  \]
 Notemos que la única forma de evaluar la instrucción \textsf{AND} como \textsf{True} es si se recibe esta constante dos veces.
 
-Para el Cálculo Lambda es desable entonces que los operadores anteriormente definidos, aplicando un número finito de veces la regla de $\to_\beta$ se obtengan los siguientes resultados:
+Para el Cálculo Lambda es deseable entonces que los operadores anteriormente definidos, aplicando un número finito de veces la regla de $\to_\beta$ se obtengan los siguientes resultados:
    \begin{center}
 
         \begin{itemize} \centering
@@ -362,7 +362,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
         \end{exercise}
 
         \subsubsection{Producto}
-        Para el producto de $m$ y $n$ la idea es anidar la operación: \textsf{sum} $\overline{n}\ \overline{n}$, m veces reemplazando las aparaciones de de la variable $s$ en el numeral m por \textsf{sum} $\overline{n}$. Esta operación está definida de la siguiente manera:
+        Para el producto de $m$ y $n$ la idea es anidar la operación: \textsf{sum} $\overline{n}\ \overline{n}$, m veces reemplazando las apariciones de de la variable $s$ en el numeral m por \textsf{sum} $\overline{n}$. Esta operación está definida de la siguiente manera:
 
         \begin{definition}[Definición del producto para los numerales de Church.]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
             $$\textsf{prod} =_{def}  \; \lambda m.\lambda n.m\; \bar{0} \; (\textsf{sum}\;n)$$
@@ -468,7 +468,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
             \subsection{Listas}
 
             \begin{definition}[Definición de listas en Cálculo Lambda]  Las listas en el Cálculo Lambda se apoyan del constructor de la tupla para ir añadiendo elementos anidando esta operación agregando una unidad por aplicación. \\\\
-            Para esta estrcutura la lista vacía será representada por una $\lambda$-expresión que sea $\alpha$-equivalente a la constante \textsf{False}.\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{113}{[113]}}\\\\
+            Para esta estructura la lista vacía será representada por una $\lambda$-expresión que sea $\alpha$-equivalente a la constante \textsf{False}.\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{113}{[113]}}\\\\
                 \text{Lista vacía}
                 $${\sf nil}  = \textsf{False}$$
                 \text{Constructor para listas}
@@ -479,13 +479,13 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                 $${\sf tail} = \textsf{snd}$$
             \end{definition}
 
-        \section{Propiedades semánitcas del Cálculo Lambda}
+        \section{Propiedades semánticas del Cálculo Lambda}
 
                 \subsection{No terminación}
                     Estudiamos la propiedad de terminación para las expresiones correctamente formadas de \textsf{EAB}, en donde estas se evaluarán a un valor en un número finito de pasos (cuando la evaluación ha llegado a este punto se le conoce como forma normal). 
                     No obstante esta propiedad no se cumple para el Cálculo Lambda como se puede ver a continuación:
                     \begin{exercise}
-                        Demuestra o da un contraejemplo de por qué la porpiedad de terminación para el Cálculo Lambda es válida\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}.\\\\
+                        Demuestra o da un contra ejemplo de por qué la propiedad de terminación para el Cálculo Lambda es válida\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}.\\\\
                         Consideremos el siguiente par de $\lambda$-expresiones:\\
                         $$ \omega = \lambda x.xx$$
                         $$ \Omega = \omega \omega$$
@@ -495,7 +495,7 @@ Para el Cálculo Lambda es desable entonces que los operadores anteriormente def
                     \end{exercise}
 
                 \subsection{No determinismo}
-                    En los lenguajes de programación una propiedad deseable es la propiedad determinista de los programas, es decir, que la evaluación que se haga para una expresión sea siempre la misma. El Cálculo Lambda carece de esta propiedad. Dependiendo del segmento que escogamos para aplicar la $\beta$-reducción el siguiente paso de la evaluación puede diferir\footnote{Definición formulada de \hyperlink{119}{[119]}}.\\
+                    En los lenguajes de programación una propiedad deseable es la propiedad determinista de los programas, es decir, que la evaluación que se haga para una expresión sea siempre la misma. El Cálculo Lambda carece de esta propiedad. Dependiendo del segmento que escogemos para aplicar la $\beta$-reducción el siguiente paso de la evaluación puede diferir\footnote{Definición formulada de \hyperlink{119}{[119]}}.\\
 		   Tomemos como ejemplo la siguiente $\lambda$-expresión\footnote{Ejemplo extraído de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
                     $$(\lambda z.(\lambda y.z)a)b$$
                     Si consideramos la aplicación para la expresión completa, se obtiene la siguiente evaluación: $$\underline{(\lambda z.(\lambda y.z)a)b} \rightarrow_\beta (\lambda y.b)a$$
@@ -516,10 +516,10 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
                     \end{corollary}
 
         \section{Combinadores de punto fijo}
-                    El Cálculo Lambda por si mísmo no posee un mecanisno iterativo que nos permita formar alguna secuencia de control como los ciclos \textsf{for} o \textsf{while} como en la mayoría de los lenguajes de programación modernos. Su naturaleza funcional nos hace preguntarnos si podemos emplear un mecanismo mas afín como la recursión para definir funciones que iteren sobre algún parámetro.\\\\
-                   Para este fin se precisa de la introducción de los combinadores de punto fijo que capturan la escencia del principio de recursión general en computación:
+                    El Cálculo Lambda por si mismo no posee un mecanismo iterativo que nos permita formar alguna secuencia de control como los ciclos \textsf{for} o \textsf{while} como en la mayoría de los lenguajes de programación modernos. Su naturaleza funcional nos hace preguntarnos si podemos emplear un mecanismo mas afín como la recursión para definir funciones que iteren sobre algún parámetro.\\\\
+                   Para este fin se precisa de la introducción de los combinadores de punto fijo que capturan la esencia del principio de recursión general en computación:
                     $$ rec\ F\ =\ F\ (rec\ F) $$
-                    De esta forma, si definimos una $\lambda$-expresión $rec$ que permita la ''autoaplicación'' de si misma a una función que tome como argumento, entonces podemos definir cualquier función recursiva aplicando n veces el mismo procedimiento.
+                    De esta forma, si definimos una $\lambda$-expresión $rec$ que permita la ''auto-aplicación'' de si misma a una función que tome como argumento, entonces podemos definir cualquier función recursiva aplicando n veces el mismo procedimiento.
                     $$rec\ F = F(rec\ F) = F(\ F(rec\ F)) =\ ...\ F(\ F(\ F(\ ...\ )))$$
                     
                     \begin{definition}[Combinador de punto fijo] Un $\lambda$-expresión cerrada $F$ es un combinador de punto fijo sí y sólo si cumple alguna de las siguientes condiciones\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{113}{[113]}}:
@@ -631,7 +631,7 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
 
 
                 \begin{exercise}
-                    Utilizando cualquiera de los combinadores de punto fijo implemeta la función recursiva \textsf{factorial} para los numerales de Church en el Cálculo Lambda.
+                    Utilizando cualquiera de los combinadores de punto fijo implementa la función recursiva \textsf{factorial} para los numerales de Church en el Cálculo Lambda.
                     \[ \textsf{factorial}\ 1\ =\ 1 \]
                     \[ \textsf{factorial}\ n\ =\ n\ *\ \textsf{factorial}\ n-1\]
                     Adicionalmente muestra la ejecución para n = $\overline{3}$
@@ -640,7 +640,7 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
 
 
                 \begin{exercise}
-                    Utilizando algún combinador de punto fijo implemeta la función recursiva \textsf{fibonacci} para los numerales de Church en el Cálculo Lambda.
+                    Utilizando algún combinador de punto fijo implementa la función recursiva \textsf{fibonacci} para los numerales de Church en el Cálculo Lambda.
                     \[ \textsf{fibonacci}\ 0\ =\ 0 \]
                     \[ \textsf{fibonacci}\ 1\ =\ 1 \]
                     \[ \textsf{fibonacci}\ n\ =\ \textsf{fibonacci}\ n-1\ +\ \textsf{fibonacci}\ n-2\]
@@ -679,7 +679,7 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
                 \begin{exercise}
                     Utilizando el combinador $Y$ contesta lo siguiente: \\
                     \begin{itemize}
-                    	\item Da una definición de la función de exponenciación para los numerales de Church.
+                    	\item Da una definición de la función exponencial para los numerales de Church.
                     	\item Resuelve la función para \textsf{exp} $\overline{4} \; \overline{2}$.
 		    \end{itemize}
                 \end{exercise}

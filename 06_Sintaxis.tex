@@ -20,7 +20,7 @@ Definir el lenguaje \textsf{EAB} junto con sus diferentes niveles sintácticos, 
 
 
 \subsection*{Planteamiento}
-Iniciaremos el estudio de este capítulo brindando las reglas de la sintaxis de \textsf{EAB}\footnote{Este lenguaje es una definición independiente a \textsf{EAL} vista en el \hyperref[sec:intro]{capítulo 1: Introducción}, dado que iremos extendiendo y agregando nuevas instrucciones durante el desarrollo de los siguientes capítulos.} junto con la definición de los nuevos niveles sintácticos; la sintaxis concreta y la sintaxis abstracta, misma que introduce una nueva estructura conocida como árbol de sintaxis abstracta que captura la jerarquía de opreación en las instrucciones que se definen en su representación como cadena válida del lenguaje derivada a partir de las reglas definidas en la sintaxis concreta. En particular estudiaremos el proceso mediante el cual una expresión de la sintaxis concreta se relaciona con un arbol de sintaxis abstracta conocido como análisis sintáctico. \\\\
+Iniciaremos el estudio de este capítulo brindando las reglas de la sintaxis de \textsf{EAB}\footnote{Este lenguaje es una definición independiente a \textsf{EAL} vista en el \hyperref[sec:intro]{capítulo 1: Introducción}, dado que iremos extendiendo y agregando nuevas instrucciones durante el desarrollo de los siguientes capítulos.} junto con la definición de los nuevos niveles sintácticos; la sintaxis concreta y la sintaxis abstracta, misma que introduce una nueva estructura conocida como árbol de sintaxis abstracta que captura la jerarquía de operación en las instrucciones que se definen en su representación como cadena válida del lenguaje derivada a partir de las reglas definidas en la sintaxis concreta. En particular estudiaremos el proceso mediante el cual una expresión de la sintaxis concreta se relaciona con un árbol de sintaxis abstracta conocido como análisis sintáctico. \\\\
 En este nuevo lenguaje vamos a ejemplificar como estos dos niveles sintácticos se relacionan entre sí extendiendo su definición para soportar a los operadores \texttt{if} y \texttt{let}. \\
 Posteriormente explicaremos la relación que el operador \texttt{let} introduce con las variables ligadas, variables libres, el alcance de una variable y estudiaremos los conceptos de sustitución y $\alpha$-equivalencia.
 
@@ -125,7 +125,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
 
     \bigskip
     
-    Ahora queremos extender EAB agregando instrucciones booleanas que permitan tener condicionales en nuestras expresiones de lenguaje. Es decir queremos agregar las constantes booleanas \texttt{True} y \texttt{False}, el operdador \texttt{if} ... \texttt{then} simple y el operador \texttt{if}... \texttt{then} ... \texttt{else} ... así como parentizado de expresiones para evitar condiciones de ''else colgante''\footnote{Éste problema es conocido en inglés como ''$dangling\ else$'' recurrente en la implementación de \textit{parsers} en el que una cláusula else opcional en una declaración if-then(-else) da como resultado que los condicionales anidados sean ambiguos. \hyperlink{90}{[90]}} y ambigüedad (esta regla puede ser modelada encerrando entre paréntesis la expresión inmediata a evaluar en la instrucción \texttt{then}).
+    Ahora queremos extender EAB agregando instrucciones booleanas que permitan tener condicionales en nuestras expresiones de lenguaje. Es decir queremos agregar las constantes booleanas \texttt{True} y \texttt{False}, el operador \texttt{if} ... \texttt{then} simple y el operador \texttt{if}... \texttt{then} ... \texttt{else} ... así como parentizado de expresiones para evitar condiciones de ''else colgante''\footnote{Éste problema es conocido en inglés como ''$dangling\ else$'' recurrente en la implementación de \textit{parsers} en el que una cláusula else opcional en una declaración if-then(-else) da como resultado que los condicionales anidados sean ambiguos. \hyperlink{90}{[90]}} y ambigüedad (esta regla puede ser modelada encerrando entre paréntesis la expresión inmediata a evaluar en la instrucción \texttt{then}).
 
     \bigskip
     
@@ -315,7 +315,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
     	\texttt{ end }&
     \end{align*}
 
-    Por cada subexpresión let en $e$ (inclusive) proporciona el alcance indicado o subrayando las variables ligadas.
+    Por cada subexpresión \textsf{let} en $e$ (inclusive) proporciona el alcance indicado o subrayando las variables ligadas.
 
     
     \begin{align*}

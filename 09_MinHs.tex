@@ -9,9 +9,9 @@
     \centerline{\includegraphics[scale=0.20]{assets/06_gatito_minHs.jpg}}       
 \end{figure}
 
-Con la teoría que hemos revisado hasta el momento en nuestro lenguaje \textsf{EAB} cuya definición engloba booleanos e instrucciones lógicas, a los números natures junto con sus operadores y la implementación del Cálculo Lambda, nos es natural preguntarnos  ¿cómo es la implementación de un lenguje de características similares en una computadora? \\ Para resolver esta pregunta definiremos un lenguaje que contenga un subconjunto de instrucciones de algún otro lenguaje cuya implementación ya exista para estas.  \\\\
+Con la teoría que hemos revisado hasta el momento en nuestro lenguaje \textsf{EAB} cuya definición engloba booleanos e instrucciones lógicas, a los números naturales junto con sus operadores y la implementación del Cálculo Lambda, nos es natural preguntarnos  ¿cómo es la implementación de un lenguaje de características similares en una computadora? \\ Para resolver esta pregunta definiremos un lenguaje que contenga un subconjunto de instrucciones de algún otro lenguaje cuya implementación ya exista para estas.  \\\\
 Por su naturaleza funcional tomaremos como caso de estudio una versión simplificada del lenguaje de programación \textsf{Haskell}. Este posee características importantes para el enfoque de este curso que serán de interés trasladar a \textsf{EAB}. \\\\
-Hasta el momento se ha trabajado con tipos de datos primitivos, pero no hemos hablado de las reglas de la semántica estática que asignan el tipo a las expersiones. Esto constituye un problema al poder escribir expresiones de \textsf{EAB} sintácticamente correctas pero cuya evaluación no termine en un valor puesto que la ejecución se detendría en algún momento al no hallar una regla de la semántica dinámica que nos permita continuar. \\\\
+Hasta el momento se ha trabajado con tipos de datos primitivos, pero no hemos hablado de las reglas de la semántica estática que asignan el tipo a las expresiones. Esto constituye un problema al poder escribir expresiones de \textsf{EAB} sintácticamente correctas pero cuya evaluación no termine en un valor puesto que la ejecución se detendría en algún momento al no hallar una regla de la semántica dinámica que nos permita continuar. \\\\
 Con esto en mente el objetivo de este capítulo será definir un lenguaje similar que nos permita tener todos los tipos de datos de \textsf{EAB}, el sistema de tipos de \textsf{Haskell} y las características más importante del mismo: evaluación perezosa, pureza funcional y asignación de tipos explícita y estática. 
 A este lenguaje lo llamaremos \textsf{MinHS} al ser una versión acotada de \textsf{Haskell} pero servirá para ilustrar los conceptos que introduciremos en este capítulo.
 
@@ -135,11 +135,11 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 
 \subsection{Semántica estática}
 
-    \textsf{Haskell} es un lenguaje de programación que implementa un sistema de verificación de tipos estático, esto quiere decir que la evaluación de las expresiones solo es posible cuando el programa es congruente con las reglas definidas por su sitema de tipos, descartando la evaluación de todas aquellas expresiones que estén bien formadas pero que no respeten las restricciones de este sistema\footnote{definición formulada a partir de \hyperlink{75}{[75]}}. 
+    \textsf{Haskell} es un lenguaje de programación que implementa un sistema de verificación de tipos estático, esto quiere decir que la evaluación de las expresiones solo es posible cuando el programa es congruente con las reglas definidas por su sistema de tipos, descartando la evaluación de todas aquellas expresiones que estén bien formadas pero que no respeten las restricciones de este sistema\footnote{definición formulada a partir de \hyperlink{75}{[75]}}. 
 
 
     \begin{definition}[Semántica estática]
-       La semántica estática nos ayuada a definir criterios para evaluar los programas de \textsf{MinHS} con la información que se pueda inferir acerca de los parámetros que una expresión toma como argumento o el tipo que esta regresa al concluir su evaluación. Para este propósito definimos el siguiente juicio\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}:
+       La semántica estática nos ayuda a definir criterios para evaluar los programas de \textsf{MinHS} con la información que se pueda inferir acerca de los parámetros que una expresión toma como argumento o el tipo que esta regresa al concluir su evaluación. Para este propósito definimos el siguiente juicio\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}:
     
     $$\Gamma\vdash t: T$$
     
@@ -202,7 +202,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
             \[
                 \inference{\Gamma,x:T\vdash t:T}{\Gamma\vdash fix(T,x.t):T}
             \]
-            Obsérvese que en el caso de $fix\,$ se está asumiendo el mismo tipo que se debe concluir.
+            Observe que en el caso de $fix\,$ se está asumiendo el mismo tipo que se debe concluir.
         \end{description}
     \end{definition}
 
@@ -319,8 +319,8 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
 \section{Propiedades de \textsf{MinHS}}
 
     \subsection{Seguridad del lenguaje}
-        Esta propiedad  proporciona un mecanismo para corroborar que derivado de la evaluación de una expresión que cumple las restricciones dictadas por el sistema de tipos del lenguaje, se obtendrá un valor. Vinculando las definiciones para la semánitca estática conciernente al tipo de las expresiones y la semánitca dinámica concerniente a la evaluación de las mismas\footnote{Definición formulada de \hyperlink{117}{[117]} y \hyperlink{118}{[118]}}.\\\\
-En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctamente construida y correctamente tipificada se le pueda aplicar alguna de las reglas definidas por la semantica dinámica (progreso). Adicionalmente nos interesa que el tipo de las expresiones sea único y que a cada paso en la evaluación este se conserve (preservación). A continuación daremos una definición formal para estas propiedades.
+        Esta propiedad  proporciona un mecanismo para corroborar que derivado de la evaluación de una expresión que cumple las restricciones dictadas por el sistema de tipos del lenguaje, se obtendrá un valor. Vinculando las definiciones para la semánitca estática concerniente al tipo de las expresiones y la semántica dinámica concerniente a la evaluación de las mismas\footnote{Definición formulada de \hyperlink{117}{[117]} y \hyperlink{118}{[118]}}.\\\\
+En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctamente construida y correctamente tipificada se le pueda aplicar alguna de las reglas definidas por la semántica dinámica (progreso). Adicionalmente nos interesa que el tipo de las expresiones sea único y que a cada paso en la evaluación este se conserve (preservación). A continuación daremos una definición formal para estas propiedades.
         
         \begin{itemize}
             \item Progreso: un programa que cumple con las restricciones del sistema de tipos no se bloquea. Este comportamiento está capturado en la definición de progreso enlistada a continuación para las expresiones de \textsf{MinHS}:
@@ -334,7 +334,7 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
              \end{definition}
 
 \bigskip
-            \item Preservación: un programa que cumple con las restricciones del sistema de tipos dará como resultado de la evaluación una expresión correctamente tipada. Esto se puede observar en las siguientes dos propiedades definidas para las expresiones de \textsf{MinHS}:
+            \item Preservación: un programa que cumple con las restricciones del sistema de tipos dará como resultado de la evaluación una expresión correctamente tipificada. Esto se puede observar en las siguientes dos propiedades definidas para las expresiones de \textsf{MinHS}:
                                     
                      \begin{definition}[Preservación de tipos]
                         Sí $\Gamma \vdash t : \textit{T}$ y $t \to t'$ entonces $\Gamma \vdash t' : \textit{T}$\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}  y \hyperlink{118}{[118]}}.
@@ -350,7 +350,7 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
         \textsf{MinHS} hereda un problema similar a lo que sucedió en el Cálculo Lambda con la introducción de los combinadores de punto fijo para implementar la recursión general. Este problema es la existencia de expresiones del lenguaje sintácticamente y semánticamente correctas que producen un estado conocido estado ciclado.
 
         \begin{exercise}
-            Demuestra o da un contraejemplo de la propiedad de terminación para \textsf{MinHS}\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}\\
+            Demuestra o da un contra ejemplo de la propiedad de terminación para \textsf{MinHS}\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}\\
 
             Considera la función identidad que recibe un parámetro y regresa el mismo representada como \textit{f.f} sí utilizamos esta expresión como el cuerpo de nuestro operador \textsf{fix} obtenemos la expresión:
             \[
@@ -363,7 +363,7 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
 \section{Ejercicios para el lector}
 
     \begin{exercise}
-        Queremos extender la definición de \textsf{MinHS} para agregar el tipo de dato algebráico tupla representado como \textsf{pair(x,y)}, donde ambos elementos no necesariamente tienen que tener el mismo tipo, así como las proyecciones \textsf{fst} y \textsf{snd}.\\
+        Queremos extender la definición de \textsf{MinHS} para agregar el tipo de dato algebraico tupla representado como \textsf{pair(x,y)}, donde ambos elementos no necesariamente tienen que tener el mismo tipo, así como las proyecciones \textsf{fst} y \textsf{snd}.\\
 
         Con  la descripción anterior responde los siguientes incisos:\\
         \begin{itemize}
@@ -392,7 +392,7 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
 \bigskip
 
     \begin{exercise}
-        Queremos definir el operador \textsf{Case} con la siguiente sintaxis\footnote{Ejercicio extraído de \hyperlink{121}{[121]}}: \[ \textsf{Case $x$ of $x.g_1 \rightarrow\ c1$ ; $x.g_2 \rightarrow\ c2$ ; ... end} \] Donde \textsf{Case} es la generlización de múltiples expresiones \textsf{if} \textsf{else} para evaluar un argumento de entrada con una condicional o ''guardia'' ($g_n$) para determinar el caso al que este es aplicado ($C_n$). De tal forma que se toma como resultado de la expresión la primera guardia que se evalúe a verdadero de izquierda a derecha (o de arriba hacia abajo como generalmente se escribe el operador \textsf{Case}). \\\\
+        Queremos definir el operador \textsf{Case} con la siguiente sintaxis\footnote{Ejercicio extraído de \hyperlink{121}{[121]}}: \[ \textsf{Case $x$ of $x.g_1 \rightarrow\ c1$ ; $x.g_2 \rightarrow\ c2$ ; ... end} \] Donde \textsf{Case} es la generalización de múltiples expresiones \textsf{if} \textsf{else} para evaluar un argumento de entrada con una condicional o ''guardia'' ($g_n$) para determinar el caso al que este es aplicado ($C_n$). De tal forma que se toma como resultado de la expresión la primera guardia que se evalúe a verdadero de izquierda a derecha (o de arriba hacia abajo como generalmente se escribe el operador \textsf{Case}). \\\\
         Adicionalmente queremos definir una expresión que por omisión sea el resultado de la evaluación de \textsf{Case} en caso de que ninguna de las guardias se evalúe a verdadero (en este caso se escribe como el último elemento representado como $c_d$): 
         $$ \textsf{ Case } x \textsf{ of } x.g_1 \rightarrow\ c_1\ ;\ x.g_2 \rightarrow\ c_2\ ;\ ...\ ;\ c_d\ \textsf{end} $$
 

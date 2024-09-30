@@ -19,7 +19,7 @@
 
     En el capítulo anterior se estudió la composición sintáctica de los lenguajes de programación mediante la definición de juicios lógicos que nos permiten construir expresiones válidas de \textsf{EAB} definiendo así la sintaxis 
     concreta de este lenguaje. También se estudió la estructura jerárquica de bajo nivel con la que se obtiene la representación única de las expresiones válidas de \textsf{EAB} conocida como árboles de sintaxis abstracta, este primer nivel de los lenguajes de programación está enfocado a la representación del lenguaje pero no a su significado.\\\\
-    En el presente capítulo nos ocuparemos de la semántica del lenguaje, que tiene como propósito responder a la pregunta ¿qué significa una expresión del lenguaje? y como podemos interpretar aquellas expresiones correctamente formuladas a partir de la sintáxis.\\\\
+    En el presente capítulo nos ocuparemos de la semántica del lenguaje, que tiene como propósito responder a la pregunta ¿qué significa una expresión del lenguaje? y como podemos interpretar aquellas expresiones correctamente formuladas a partir de la sintaxis.\\\\
     En el contexto de los lenguajes de programación podemos pensar de forma intuitiva que la respuesta al cómo interpretamos las instrucciones del lenguaje podría ser: ''el comportamiento que tiene la expresión en tiempo de ejecución al ser evaluada.'' 
     En particular  nos interesa obtener el valor que la expresión retorna al concluir su evaluación (semántica dinámica) y el tipo de esta (semántica estática).\footnote{Definición acuñada de \hyperlink{98}{[98]}, \hyperlink{99}{[99]} y \hyperlink{100}{[100]}}.\\\\
     Muchas veces en la documentación oficial de los lenguajes de programación la semántica está escrita en un manual el cual contiene una descripción de alto nivel
@@ -46,7 +46,7 @@
     \bigskip
     
     \begin{definition}Semántica estática para capturar expresiones con variables libres en \textsf{EAB}\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
-    Sea $\Delta$ un conjunto de variables y \textit{a} un árbol de sintáxis abstracta, decimos que \textit{a} no tiene variables libres bajo el conjunto $\Delta$ denotado como:
+    Sea $\Delta$ un conjunto de variables y \textit{a} un árbol de sintaxis abstracta, decimos que \textit{a} no tiene variables libres bajo el conjunto $\Delta$ denotado como:
         $$ \Delta\sim a\ ASA$$
     
     En particular nos interesa que todas las variables ligadas de \textit{a} estén presentes en $\Delta$.\\
@@ -211,14 +211,14 @@
     De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación generados de expresiones cerradas concluirán todas sus ramas con algún axioma (\textit{fvn, fvb  o fvv}). \\\\
 
     \section{Semántica dinámica}
-    La semántica dinámica constituye el siguiente eslabón del proceso de ejecución de un programa. Una vez verificada que la expresión en sintáxis concreta es una expresión válida y no posee variables libres, entonces se puede comenzar a discutir el como se ejecutará dicha expresión. \\\\\
+    La semántica dinámica constituye el siguiente eslabón del proceso de ejecución de un programa. Una vez verificada que la expresión en sintaxis concreta es una expresión válida y no posee variables libres, entonces se puede comenzar a discutir el como se ejecutará dicha expresión. \\\\\
    Existen diferentes paradigmas de ejecución que pueden ser aplicados para evaluar las expresiones de los lenguajes de programación según el interés de estudio (por ejemplo cambios en la memoria, el valor las variables del programa, el valor final al que evalúa una expresión, etc). En este capítulo nos centraremos en la semántica operacional que estudia el proceso de ejecución modelando cada configuración del programa como un estado y las transiciones entre estos.
     
     
     \subsection{Semántica operacional}
     En esta categoría se hace la distinción entre los dos paradigmas mas importantes para estudiar la semántica operacional de los lenguajes de programación\footnote{Definición acuñada de y  \hyperlink{2}{[2]}, \hyperlink{103}{[103] y  \hyperlink{104}{[104]}} }:
     \begin{itemize}
-        \item Semántica de paso pequeño: la cuál modela la ejecución de un programa describiendo las transiciones una a una mostrando los compútos generados de forma individual. 
+        \item Semántica de paso pequeño: la cuál modela la ejecución de un programa describiendo las transiciones una a una mostrando los cómputos generados de forma individual. 
         \item Semántica de paso grande: que contrasta con la de paso pequeño porque aquí no nos importa que estados sucedieron en la ejecución del programa, únicamente nos interesa el valor que regresa.
     \end{itemize}
 
@@ -255,7 +255,7 @@
 
 
     \begin{definition}Función de transición para semántica de paso pequeño\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]},  \hyperlink{12}{[12]} y \hyperlink{105}{[105]}  }: \\\\
-	Para definir las reglas de transición para los computos siguiendo el paradigma de semántica de paso pequeño, primero vamos a evaluar el argumento más a la izquierda dentro de las expresiones que denotan un operador hasta obtener un valor. Posteriormente evaluaremos el argumento a la derecha. \\
+	Para definir las reglas de transición para los cómputos siguiendo el paradigma de semántica de paso pequeño, primero vamos a evaluar el argumento más a la izquierda dentro de las expresiones que denotan un operador hasta obtener un valor. Posteriormente evaluaremos el argumento a la derecha. \\
 
     \begin{description}
         \item[Suma]
@@ -362,7 +362,7 @@
 
 
     \begin{exercise}
-        Dada la siguiente expresion de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
+        Dada la siguiente expresión de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
         \[
             \texttt{if (}\texttt{False} \texttt{ then } 4 * \texttt{let } x = 99 * 99 \texttt{ in } x + x \texttt{ end} \texttt{ else } 0 \texttt{)}
         \] 
@@ -453,16 +453,16 @@
 
     \begin{theorem}Equivalencia entre semántica de paso pequeño y paso grande: Decimos que para cualquier expresión $e$ del lenguaje \textsf{EAB} se cumple:
         $$e \rightarrow^*v \longleftrightarrow e \Downarrow v$$
-        Es decir, las semánticas que hemos definido son equivalentes\footnote{La demostración se puede hacer por inducción estructural sobre cada insturcción de \textsf{EAB}, esta queda fuera del alcance del presente manual de caracter práctico pero si se desea consultarla esta está disponible en \hyperlink{106}{[106]}}.
+        Es decir, las semánticas que hemos definido son equivalentes\footnote{La demostración se puede hacer por inducción estructural sobre cada instrucción de \textsf{EAB}, esta queda fuera del alcance del presente manual de carácter práctico pero si se desea consultarla esta está disponible en \hyperlink{106}{[106]}}.
     \end{theorem}
 
     \begin{exercise}
         Dada la siguiente expresión de \textsf{EAB} evalúala utilizando semántica de paso grande. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
-        Síntaxis concreta:
+        Sintaxis concreta:
         \[
             \texttt{let } x \text{ = } \texttt{let } y \texttt{ =  False} \texttt{ in} \texttt{ if(} y \texttt{ then } 0 \texttt{ else } 1 \texttt{)}  \texttt{ end} \texttt{ in } x + 1 \texttt{ end}
         \]
-        Síntaxis abstracta:
+        Sintaxis abstracta:
         \[
             \textit{let}( \textit{let}( F,y.\textit{if}(y, 0, 1\text{)}\text{)} , x.\textit{sum}(x, 1\text{))}
         \]
@@ -492,7 +492,7 @@
 
     \begin{exercise}
          Dada la siguiente expresión de \textsf{EAB} evalúa utilizando la semántica de paso grande, adicionalmente proporciona la representación como árbol de sintaxis abstracta.\\\\
-        Síntaxis concreta:
+        Sintaxis concreta:
         \[
             \texttt{((7 + 4) * 4) + ((8 + 3) * 2)}
         \]
@@ -547,7 +547,7 @@
 
     \begin{exercise}
         Dada la siguiente expresión de \textsf{EAB} evalúa utilizando la semántica de paso grande, adicionalmente proporciona la representación en sintaxis abstracta.\\\\
-        Síntaxis concreta:
+        Sintaxis concreta:
         \[
             \texttt{if(False } \texttt{then } (3 * 7) + 1 \texttt{ else } (2 * 7) + 1 \text{)} 
         \]
@@ -627,7 +627,7 @@
     \end{exercise}
 
     \begin{exercise}
-        Una cálculadora de Notación Polaca Reversa (\texttt{NPR})\footnote{Ejercicio extraído de \hyperlink{107}{[107]}.} es una calculadora que no requiere de parentizado para evaluar las expresiones que son pasadas como argumento.\\
+        Una calculadora de Notación Polaca Reversa (\texttt{NPR})\footnote{Ejercicio extraído de \hyperlink{107}{[107]}.} es una calculadora que no requiere de parentizado para evaluar las expresiones que son pasadas como argumento.\\
         Esta se apoya de una pila para ''empujar'' los operandos y los operadores así como de la notación post-fija, es decir el operador se escribe después de los operandos, por ejemplo:
         $$7\ +\ 1\ =\ 7\ 1\ + $$ 
         $$7\ -\ (3\ +\ 2)\ =\ 7\ 3\ 2\ +\ -$$
@@ -642,8 +642,8 @@
 
 	 \begin{itemize}
         		\item Proporciona un conjunto de reglas para definir la semántica estática que pueda analizar una expresión $e$ y nos diga si es una expresión perteneciente a \texttt{NPR} denotando el juicio como: $\vdash e \ Ok$.
-        		\item Proporciona un conjunto de reglas para definir la semántica de paso pequeño que evalúen las expresiónes de \texttt{NPR}.
-        		\item Proporciona un conjunto de reglas para definir la semántica de paso grande que evalúen las expresiónes de \texttt{NPR}.
+        		\item Proporciona un conjunto de reglas para definir la semántica de paso pequeño que evalúen las expresiones de \texttt{NPR}.
+        		\item Proporciona un conjunto de reglas para definir la semántica de paso grande que evalúen las expresiones de \texttt{NPR}.
 	\end{itemize}
     \end{exercise}
 
