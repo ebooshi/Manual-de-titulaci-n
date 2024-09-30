@@ -457,11 +457,11 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 
     \begin{exercise}
         Vamos a encontrar el tipo de la expresión:
-            \begin{lstlisting}
-             recfun fib n => 
-                 if (n < 2) 
-                    then 1
-                 else fib (n - 1) + fib (n-2)
+            \begin{lstlisting}[ mathescape=true ]
+             $\textsf{recfun}$ $fib$ $n$ $\rightarrow$ 
+                 $\textsf{if}$ ($n$ < 2) 
+                    $\textsf{then}$ 1
+                 $\textsf{else}$ $fib$ ($n$-1) + $fib$ ($n$-2)
            \end{lstlisting}
         \begin{description}
 	 \item Representación en sintáxis abstracta	
@@ -854,7 +854,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 	\begin{exercise}
 		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
 		\[
-			\textsf{fun x :: $Nat\ \rightarrow$ $x$ * ($x$ - 1) / ($x$ * $x$)}
+			\textsf{fun $x$ :: $Nat\ \rightarrow$ $x$ * ($x$ - 1) / ($x$ * $x$)}
 		\]
 		\begin{itemize}
 			\item obtén la representación en sintaxis abstracta.
@@ -875,25 +875,39 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 		\end{itemize}
 	\end{exercise}
 
-     \begin{exercise} Dada la siguiente expresión de MinHaskell, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
-          \begin{lstlisting}
-             (recfun factorial n => 
-                 if (n < 0) 
-                    then 1
-                 else factorial (n - 1) * n  ) 9
+    \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraído de \hyperlink{12}{[12]}}
+          \[
+                \textsf{fun $x$ ::$Bool$ $\rightarrow$ (if $x$ then 1 else 0) True}
+	\]
+    \end{exercise}
+
+
+    \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraído de \hyperlink{12}{[12]}}
+           \begin{lstlisting}[ mathescape=true ]
+                $\textsf{fun}$ $x$ :: $Nat$ $\rightarrow$ $\textsf{app}$($x$,$x$)
+           \end{lstlisting} 
+    \end{exercise}
+
+
+   \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
+	\[
+		\textsf{let $x = 0$ in fun $y$ :: $Nat \rightarrow$  $y$ + $x$ end}
+	\]
+   \end{exercise}
+
+     \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
+          \begin{lstlisting}[ mathescape=true ]
+             ($\textsf{recfun}$ $factorial$ $n$  $\rightarrow$
+                 $\textsf{if}$ ($n$ < 0) 
+                    $\textsf{then}$ 1
+                 $\textsf{else } $ $factorial$ ($n$-1)*$n$)9
            \end{lstlisting}
      \end{exercise}
 
 
-    \begin{exercise} Dada la siguiente expresión de MinHaskell, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraído de \hyperlink{12}{[12]}}
-           \begin{lstlisting}
-                fun x :: Nat -> app(x,x)
-           \end{lstlisting} 
-    \end{exercise}
-
    \begin{exercise} Contesta las siguientes preguntas.\\
 	\begin{itemize}
-	    \item ¿ Cuál es la complejidad de cada fase del algoritmo para encontrar el unificador general $\mu$?\\
-           \item ¿ Cuál es la complejidad total del algoritmo para encontrar el unificador general $\mu$?
+	    \item ¿Cuál es la complejidad de cada fase del algoritmo para encontrar el unificador general $\mu$?\\
+           \item ¿Cuál es la complejidad total del algoritmo para encontrar el unificador general $\mu$?
 	\end{itemize}
    \end{exercise}
