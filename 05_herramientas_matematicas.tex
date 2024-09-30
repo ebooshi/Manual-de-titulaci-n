@@ -11,14 +11,14 @@
     \label{fig 1. Mapa para clasificar los lenguajes de programación.}        
 \end{figure}
 
-Para estudiar a los lenguajes de programación es necesario definir una estructura que nos permita capturar su escencia matemática y nos proporcione un mecanismo para demostrar características y propiedades asociadas a estos. \\\\
-Una manera de definir formalmente un lenguaje de programación es mediante el uso de juicios lógicos\footnote{En lógica el equivalente a un juicio lógico son los predicados que denominan una característica que se cumple en una proposición.} para definir propiedades, pertenencia de los elementos de nuestra estructura a un conjunto, relación entre diferentes elementos de una misma estructura, etc\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintáxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, estructuras recursivas, reglas de inferencia e inducción estructural. }. \\
+Para estudiar a los lenguajes de programación es necesario definir una estructura que nos permita capturar su esencia matemática y nos proporcione un mecanismo para demostrar características y propiedades asociadas a estos. \\\\
+Una manera de definir formalmente un lenguaje de programación es mediante el uso de juicios lógicos\footnote{En lógica el equivalente a un juicio lógico son los predicados que denominan una característica que se cumple en una proposición.} para definir propiedades, pertenencia de los elementos de nuestra estructura a un conjunto, relación entre diferentes elementos de una misma estructura, etc\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, estructuras recursivas, reglas de inferencia e inducción estructural. }. \\
 \subsection*{Objetivo}
 Estudiar las estructuras matemáticas que utilizaremos para familiarizarnos con el concepto de inducción estructural. En particular centraremos nuestra atención a estructuras recursivas como listas de tipo A y árboles binarios balanceados de tipo A\footnote{donde A es un conjunto o una colección de elementos.} junto con las reglas que nos permiten construir estas estructuras.\\\\
 Este tipo de mecanismos es particularmente útil para ilustrar las propiedades de los lenguajes que definiremos a lo largo de los capítulos de este manual.
 
 \subsection*{Planteamiento}
-En este capítulo exploraremos diferentes estructuras empezando por los juicios lógicos que consituyen las entidades fundamentales sobre las cuales iniciaremos el estudio de los lenguajes.
+En este capítulo exploraremos diferentes estructuras empezando por los juicios lógicos que constituyen las entidades fundamentales sobre las cuales iniciaremos el estudio de los lenguajes.
 También estudiaremos brevemente estructuras recursivas como cadenas y listas para enunciar el principio de inducción que nos permite demostrar propiedades sobre dichas estructuras. Por último estudiaremos un sistema de transición para modelar los estados y reglas de evaluación de la instancia de un juego.
 
 %    Sección 1: Juicios lógicos.
@@ -43,7 +43,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
 
     % Ejercicio 1.3
     \begin{exercise}
-	Proporciona un listado de juicios sobre objetos matemáticos (Puedes suponer definidos con anterioridad elementos como $\mathbb{N}$, $\mathbb{Q}$, Bool, \textit{String}, funciones, relaciones de orden, operadores arítmeticos, etc).
+	Proporciona un listado de juicios sobre objetos matemáticos (Puedes suponer definidos con anterioridad elementos como $\mathbb{N}$, $\mathbb{Q}$, Bool, \textit{String}, funciones, relaciones de orden, operadores aritméticos, etc).
 	\begin{center}
 		\begin{tabular}{rl}
 			 ''Hola Mundo'' \textbf{$String$} & La cadena  ''Hola Mundo'' es de tipo $String$.  \\
@@ -118,7 +118,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
     \end{definition}
     La característica mas importante que las estructuras recursivas poseen es el principio de inducción. Esta propiedad nos permite demostrar que una proposición o propiedad es válida para cualquier elemento de la estructura mediante su aplicación de la siguiente forma:
     \begin{itemize}
-        \item Se demuestra la validéz de la proposición para los elementos primitivos.
+        \item Se demuestra la validez de la proposición para los elementos primitivos.
         \item Posteriormente se asume que la propiedad es válida para cualquier instancia. 
         \item Por último se demuestra la propiedad aplicada para los constructores que generan instancias más grandes aplicando la hipótesis del inciso anterior.
     \end{itemize}
@@ -312,7 +312,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
         \textbf{Caso Base} $t = \emptyset$, $k=0$\\\\
             $n_n(\emptyset) = 2^0 -1 $ = $1 -1$ = 0.\\\\
         \textbf{Hipótesis Inductiva} $n_n(t) = 2^k - 1$ para todo árbol binario de tipo A $t$ donde $k$ es la altura del mismo. \\\\
-        \textbf{Paso Inductivo} Por demostrar para $t = node(a,t_1,t_2)$ donde $t_1$ y $t_2$ son árboles binarios balnceados de altura $k-1$ se cumple que $n_n(node(a,t_1,t_2)) = 2^k - 1$ donde $k$ es la altura asociada al árbol $t$. \\\\
+        \textbf{Paso Inductivo} Por demostrar para $t = node(a,t_1,t_2)$ donde $t_1$ y $t_2$ son árboles binarios balanceados de altura $k-1$ se cumple que $n_n(node(a,t_1,t_2)) = 2^k - 1$ donde $k$ es la altura asociada al árbol $t$. \\\\
             $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \quad \quad \quad \quad \quad \quad \ \ \ \   (Por definición de $n_n(t)$) \\
             = $1 + (2^{k-1} - 1) + (2^{k-1} - 1)$ \qquad \qquad \qquad \qquad \qquad \qquad  (Por la hipótesis inductiva) \\
             = $1 + 2(2^{k-1} - 1)$ = $2^k - 2 + 1$ = $2^k - 1$
@@ -326,7 +326,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
     Estructuras similares se han estudiado en cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } donde adicionalmente se define el alfabeto y se considera la lectura de un carácter para obtener una configuración distinta. En este caso omitiremos estos elementos y nos concentraremos únicamente en los estados y las reglas de transición.\\
     \begin{exercise}
     
-        Supón que se quiere modelar una partida de pinpón donde hay 2 jugadores A y B (el jugador A siempre empieza primero), y un marcador que cuenta el número de puntos de A y B representado como: jugador en turno, puntuación de A, puntuación de B. \\ 
+        Supón que se quiere modelar una partida de pimpón donde hay 2 jugadores A y B (el jugador A siempre empieza primero), y un marcador que cuenta el número de puntos de A y B representado como: jugador en turno, puntuación de A, puntuación de B. \\ 
    
         De tal forma que cada estado indica la información del juego hasta ese punto. Por ejemplo si el jugador B anota, el estado se modelaría como (B,X,Y) $\rightarrow$ (B,X,Y+1)  ya que el jugador que anota un punto vuelve a tirar la pelota en el siguiente turno.\\
     
@@ -502,11 +502,11 @@ Demuestra utilizando la inducción estructural sobre árboles binarios balancead
     \end{exercise}
 
 
-    Para finalizar esta sección vamos a revisar dos ejercicios prácticos que implementaremos en \texttt{Haskell}. Estos ejercicios combinan las definiciones de las funciones que hemos estudiado hasta este punto para listas y que ejemplifican las propiedades recursivas de estas estructuras en un lenguaje de programación funcional\footnote{Los ejercicios 4.11 y 4.12 fueron extraidos de \hyperlink{75}{[75]}.}.
+    Para finalizar esta sección vamos a revisar dos ejercicios prácticos que implementaremos en \texttt{Haskell}. Estos ejercicios combinan las definiciones de las funciones que hemos estudiado hasta este punto para listas y que ejemplifican las propiedades recursivas de estas estructuras en un lenguaje de programación funcional\footnote{Los ejercicios 4.11 y 4.12 fueron extraídos de \hyperlink{75}{[75]}.}.
 
 
     \begin{exercise}
-        La validación del número de una tarjeta de crédito se hace implementando un algoritmo \texttt{checkSum} obteniendo información de los digitos que la componen. Para eso implementaremos nuestro propio validador de tarjetas de crédito como sigue:\\
+        La validación del número de una tarjeta de crédito se hace implementando un algoritmo \texttt{checkSum} obteniendo información de los dígitos que la componen. Para eso implementaremos nuestro propio validador de tarjetas de crédito como sigue:\\
     
         Los dígitos que están una posición impar (empezando por el índice 0 de derecha a izquierda) se deben duplicar. \\\\
         Posteriormente se suman todos los dígitos de los números que componen la tarjeta (aquellos números que fueron duplicados deben de ser sumados junto con el resto que no se modificaron).\\\\

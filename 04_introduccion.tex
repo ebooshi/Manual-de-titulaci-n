@@ -19,7 +19,7 @@ Iniciaremos el estudio de este manual planteando los conceptos claves que nos pe
 Por último analizaremos sus propiedades y estudiaremos sus características más importantes para poder dar una implementación robusta aplicando las definiciones que iremos presentando en el desarrollo de esta introducción.\\
 
 \subsection*{Objetivo}
-    Comenzar el estudio formal de los lenguajes de programación brindando un primer acercamiento a la construcción básica de uno, partiendo de las definiciones de conceptos que componen un lenguaje, específicamente: sintáxis, semánitca, y pragmática. Así como a la clasificación que agrupa y distingue a los diferentes lenguajes computacionales en la actualidad\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintáxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, estructuras recursivas, reglas de inferencia e inducción estructural. }.
+    Comenzar el estudio formal de los lenguajes de programación brindando un primer acercamiento a la construcción básica de uno, partiendo de las definiciones de conceptos que componen un lenguaje, específicamente: sintaxis, semántica, y pragmática. Así como a la clasificación que agrupa y distingue a los diferentes lenguajes computacionales en la actualidad\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, estructuras recursivas, reglas de inferencia e inducción estructural. }.
 
 \subsection*{Planteamiento}
     Este capítulo inicia con el estudio de los lenguajes de programación definiendo diferentes gramáticas para generar lenguajes pequeños y familiarizarnos con los elementos que los conforman.\\\\
@@ -35,7 +35,7 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
 
     % Ejercicio 1.2
     \begin{exercise}
-        Explica que es la sintáxis  de un lenguaje.     \\\\
+        Explica que es la sintaxis  de un lenguaje.     \\\\
         ''En el contexto de las ciencias de la computación, la sintaxis de un lenguaje son las reglas que definen las combinaciones de símbolos que se consideran declaraciones o expresiones correctamente estructuradas. Esto se aplica tanto a los lenguajes de programación, donde el documento representa el código fuente, como a los lenguajes de marcado, donde el documento representa datos. ''\footnote{Definición extraída de  \hyperlink{29}{[29]}, \hyperlink{30}{[30]} y \hyperlink{31}{[31]}}
         
     \end{exercise}
@@ -52,8 +52,8 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
     \begin{exercise}
         Explica que es la pragmática de un lenguaje.   \\\\
          ''En lingüística y campos relacionados, la pragmática es el estudio de cómo el contexto contribuye al significado. ''\footnote{Definición extraída de  \hyperlink{36}{[36]} y \hyperlink{37}{[37]}}\\\\
-        Particularmente en ciencias de la computación la prágmatica se refiere a todos aquellos elementos del lenguaje que nos permiten obtener el significado de una expresión bajo un determinado contexto.
-        Un ejemplo de ésto son las bibliotecas que nos permiten importar métodos previamente definidos, así la interpretación de una instrucción de esta biblioteca solo tiene un significado válido bajo el contexto que la importa\footnote{Extraido de  \hyperlink{1}{[1]},  \hyperlink{5}{[5]} y   \hyperlink{12}{[12]}}.
+        Particularmente en ciencias de la computación la pragmática se refiere a todos aquellos elementos del lenguaje que nos permiten obtener el significado de una expresión bajo un determinado contexto.
+        Un ejemplo de ésto son las bibliotecas que nos permiten importar métodos previamente definidos, así la interpretación de una instrucción de esta biblioteca solo tiene un significado válido bajo el contexto que la importa\footnote{Extraído de  \hyperlink{1}{[1]},  \hyperlink{5}{[5]} y   \hyperlink{12}{[12]}}.
     \end{exercise} 
 
     \bigskip
@@ -62,7 +62,7 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
 \section{Gramáticas y semántica de expresiones}
 
     Los lenguajes (no solo los de programación) requieren de un conjunto de reglas que nos permita formar las expresiones que pertenecen a ellos y un método de interpretación que nos diga el significado de las expresiones formadas a partir de dicho conjunto de reglas.\\\\
-    En cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } se revisan este tipo de estructuras y las reglas que las generan conocidas como sintáxis del  lenguaje pueden ser definidas mediante juicios lógicos o gramáticas. \\\\
+    En cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } se revisan este tipo de estructuras y las reglas que las generan conocidas como sintaxis del  lenguaje pueden ser definidas mediante juicios lógicos o gramáticas. \\\\
     Adicionalmente se necesita una función de evaluación que nos permita obtener el valor asociado a la expresión. A esta rama se le conoce como semántica del lenguaje\footnote{
     Más adelante en este curso revisaremos a profundidad las reglas semánticas y como evaluar expresiones correctas.}.
 
@@ -89,7 +89,7 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
     \end{exercise}
 
     % Definición del lenguaje EAB
-    \begin{definition}[]Sintaxis de {\sf Expresiones aritmetico-lógicas: EAL}
+    \begin{definition}[]Sintaxis de {\sf Expresiones aritmético-lógicas: EAL}
         \[
             \begin{array}{rll}
                 e & ::= &  n\quad |\quad {\tt true}\quad |\quad {\tt false}\quad |\quad e + e\quad |\quad e*e\quad |\quad e<e\quad 
@@ -174,7 +174,7 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
     \end{exercise}
 
     \begin{definition}
-        Sea \textit{G} una gramátca libre de contexto, decimos que que \textit{G} es una gramática ambigua si existe una cadena para la cual se pueda tener más de una derivación a la izquierda\footnote{Definición extraída de \hyperlink{5}{[5]}. \hyperlink{12}{[12]}, \hyperlink{40}{[40]} y \hyperlink{41}{[41]}.}.
+        Sea \textit{G} una gramática libre de contexto, decimos que que \textit{G} es una gramática ambigua si existe una cadena para la cual se pueda tener más de una derivación a la izquierda\footnote{Definición extraída de \hyperlink{5}{[5]}. \hyperlink{12}{[12]}, \hyperlink{40}{[40]} y \hyperlink{41}{[41]}.}.
     \end{definition}
 
 
@@ -204,9 +204,9 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
 
     % Ejercicio 2.7
     \begin{exercise}
-        ¿Cómo eliminarías la ambiguedad de esta gramática?    \\\\                    
+        ¿Cómo eliminarías la ambigüedad de esta gramática?    \\\\                    
             Con la introducción de paréntesis para marcar la precedencia de las operaciones. 
-            En el ejemplo anterior la ambiguedad queda eliminada en su totalidad:
+            En el ejemplo anterior la ambigüedad queda eliminada en su totalidad:
             \begin{center}
                 $(3 + (4 * 5))$  ó $((3 + 4 )* 5)$
             \end{center}
@@ -216,17 +216,17 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
 % Sección 3: Clasificación de los lenguajes.
 \section{Clasificación de los lenguajes de programación}
 
-    En computación existen diferentes clasificaciones que nos permiten agrupar lenguajes según sus características principales, paradigma de programación al que pertenecen, tecnología involucrada en el proceso de traducción a lenguaje de máquina, etc. A continuación enlistamos algunas de estas categorías: 
+    En computación existen diferentes clasificaciones que nos permiten agrupar lenguajes según sus características principales, paradigma de programación al que pertenecen, tecnología involucrada en el proceso de traducción a lenguaje de máquina, etc. A continuación enlistados algunas de estas categorías: 
 
     \begin{itemize}
         \item Lenguajes compilados,  que como el nombre lo indica precisan de un compilador para traducir el código de alto nivel a instrucciones de máquina que el procesador pueda ejecutar. Generalmente suelen ser mas lentos al momento de ejecutarse que el resto de las categorías  ya que requieren de un sistema sofisticado de inferencia de tipos, optimizaciones en la traducción de las instrucciones y en ocasiones entornos especiales para la ejecución de los programas como la máquina virtual de Java (\textit{JVM} por sus siglas en inglés)\footnote{Información obtenida de \hyperlink{43}{[43]}, \hyperlink{44}{[44]}, \hyperlink{45}{[45]}, \hyperlink{46}{[46]}}.\\
 
         \item Lenguajes interpretados, en donde las instrucciones son mapeadas a su traducción equivalente en el lenguaje de máquina cuando la línea que contiene dicha instrucción se vaya a ejecutar por el procesador\footnote{También es posible interpretar las expresiones de un lenguaje como el valor asociado a dicha expresión una vez que se evalúa. En este curso estudiaremos este proceso en el \hyperref[sec:semantics]{capítulo 4: Semántica}.}. Generalmente son menos robustos a la hora de encontrar errores de tipo, errores en la tipografía, carácteres faltantes, etc. Sin embargo este tipo de lenguajes de programación resultan particularmente útiles por que permiten el modelado y la realización de programas mucho más rápido que los lenguajes compilados\footnote{Información obtenida de \hyperlink{43}{[43]}, \hyperlink{44}{[44]}, \hyperlink{45}{[45]}, \hyperlink{46}{[46]}}.\\
 
-        \item También se pueden clasificar por paradigma como en el caso de los lenguajes funcionales que se enfocan en la especificación de un problema mediante condiciones en lugar de la solución teniendose la siguiente definición: 
+        \item También se pueden clasificar por paradigma como en el caso de los lenguajes funcionales que se enfocan en la especificación de un problema mediante condiciones en lugar de la solución teniéndose la siguiente definición: 
          ''La programación funcional es un paradigma de programación en el que los programas se construyen aplicando y componiendo funciones. Íntimamente relacionado con el paradigma de programación declarativa en el que las definiciones de funciones son árboles de expresiones que asignan valores a otros valores, en lugar de una secuencia de declaraciones imperativas que actualizan el estado de ejecución del programa. ''\footnote{Definición extraída de \hyperlink{51}{[51]} y \hyperlink{52}{[52]}}\\
 
-        \item  La programación imperativa contrasta con la clasificación anterior por su naturaleza secuencial, podemos encapsular sus características más importanets en la siguiente definición: 
+        \item  La programación imperativa contrasta con la clasificación anterior por su naturaleza secuencial, podemos encapsular sus características más importantes en la siguiente definición: 
          ''Un paradigma de programación de software que utiliza declaraciones que cambian el estado de un programa. De la misma manera que el modo imperativo en los lenguajes naturales expresa órdenes, un programa imperativo consta de órdenes que debe ejecutar la computadora. La programación imperativa se centra en describir cómo funciona un programa paso a paso\footnote{[\hyperlink{53}{[53]}} en lugar de descripciones de alto nivel de sus resultados esperados. ''\footnote{Extraído de \hyperlink{53}{[53]}, \hyperlink{54}{[54]}, \hyperlink{55}{[55]} y \hyperlink{56}{[56]}}\\\\
         El término se utiliza con frecuencia como un contrapunto de la programación declarativa, siendo el primero un conjunto de instrucciones para solucionar un determinado problema mientras que el segundo se centra en la especificación del problema mismo.\\
 
