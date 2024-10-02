@@ -1,0 +1,631 @@
+%    Octavo Capítulo: Máquinas Abstractas.
+%    Ejercicios por Barón L. Miguel.
+%    Teoría por Javier Enríquez Mendoza.
+%    Empezado el 5/6/23
+%    Concluido el 19/6/23
+
+%Gatito lambda
+\begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.6]{assets/11_gatito_abstracto.jpg}}
+\end{figure}
+
+\bigskip
+
+Una máquina abstracta define una colección de estados y reglas de transición que nos permiten obtener información acerca de la ejecución de un programa por cada cómputo que este realiza.
+Este tipo de mecanismos de evaluación ya han sido revisados en cursos previos, específicamente en Autómatas y Lenguajes de programación, donde se estudian las máquinas de turing, los autómatas y los autómatas de pila que son los modelos mas importantes de este tipo de sistemas. \\\\
+En este capítulo introduciremos un sistema similar mezclando las ideas para definir un sistema de ejecución para \textsf{MinHS} conocidas como las máquinas $\Hs$ y $\Js$.
+
+\subsubsection{Objetivo}
+En este capítulo exploraremos la definición de la máquina $\Hs$ definiendo la colección de estados, cómputos y los axiomas de transición que nos permitan visualizar el proceso de evaluación de un expresión cerrada de \textsf{MinHS}. \\\\
+Ejemplos de programas válidos serán revisados para ilustrar los cómputos. De forma similar la pila de ejecución será introducida para controlar aquellos que se quedan pendientes de evaluación hasta obtener un valor que pueda ser regresado al computo en el tope de la pila para continuar con la ejecución del programa. Posteriormente abstraeremos el manejo de variables para extender la abstracción definiendo así la máquina $\Js$
+\subsubsection{Planteamiento}
+
+El capítulo está estructurado para presentar los estados y axiomas de reglas de transición para definir las máquinas $\Hs$ y $\Js$ seguido de la ejecución detallada paso a paso de programas correctos de \textsf{MinHS} para ilustrar ambas definiciones.\\
+Finalmente se introducen los conceptos de alcance y cerradura\footnote{Las definiciones de este capítulo fueron extendidas para presentar operadores genéricos para las reglas de transición, el extracto original pertenece a: Enríquez Mendoza J., Lenguajes de Programación Notas de clase: Máquinas Abstractas. Universidad Nacional Autónoma de México, 2022.}.
+
+\section{La máquina $\Hs$}
+ Para la implementación de este modelo es necesaria la introducción de los marcos que representan los cómputos pendientes que encontramos en la expresión de \textsf{MinHS} que queremos evaluar. Adicionalmente se presenta la pila de ejecución para llevar un control de dichos cómputos que serán utilizados como $placeholders$.\\\\
+ Cada marco será empujado al tope de la pila para evaluar las subexpresiones asociados a él. Una vez concluida la evaluación de las subexpresiones de éste computo, el valor obtenido es empujado a la pila y detenido hasta que todas las subexpresiones hayan sido evaluadas ó es utilizado para ejecutar la instrucción en el tope de la pila (según sea el caso aplicable por axioma). \\\\
+Esta implementación resulta particularmente cómoda para seguir la ejecución de un programa de una manera simple y amigable sin embargo posteriores optimizaciones serán propuestas con la introducción de la máquina $\Js$\\
+
+\bigskip
+
+ \subsection{Marcos y la pila de control}
+ \begin{definition}[Marcos] Los marcos son esqueletos estructurales que registran los cómputos pendientes de una expresión. En nuestra definición, el símbolo $\square$ indica el lugar en donde se está llevando acabo la evaluación actual.
+    \begin{description}
+        \item[Operadores primitivos]
+            \[
+                \begin{array}{ccc}
+                    \inference{}
+                    {O(\square,e_2)\ $marco$ }&
+                    \qquad&
+                    \inference{}
+                    {\O(v_1,\square)\ $marco$}
+                \end{array}
+            \]
+            El resto de los operadores binarios son definidos análogamente.
+        \item[Condicional] 
+            \[
+                \begin{array}{c}
+                    \inference{}
+                    {if(\square,e_2,e_3)\ $marco$}
+                \end{array}
+            \]
+        \item[Aplicación de función] 
+            \[
+                    \inference{}
+                    {app(\square,e_2)\ $marco$}
+            \] 
+    \end{description}
+\bigskip
+\end{definition}
+
+\begin{definition}[Pila de control] Una pila de control está formada a partir de marcos, y se define inductivamente como sigue:
+
+    \[
+        \begin{array}{ccc}
+            \inference{}{\diamond \ pila}[{\sf vacia}]&
+            \qquad&
+            \inference{$m$ \ marco& $P$ \ pila}{$m$;$P$\ pila}[{\sf top}]
+        \end{array}
+    \]
+
+\bigskip
+\end{definition}
+\subsection{Estados}
+\begin{definition}[Estados de la máquina $\Hs$] Los estados están compuestos de una pila de control $P$ y una expresión $e$ cerrada y son de alguna de las siguientes formas:
+\begin{itemize}
+    \item {\bf Estados de evaluación}: Se evalúa $e$ siendo $P$ la pila de control y lo denotamos como $P\succ e$
+    \item {\bf Estados de retorno}: Devuelve el valor $v$ a la pila de control $P$, que denotamos como $P\prec v$
+\end{itemize}
+En donde se distinguen dos tipos de estados en particular:
+\begin{itemize}
+    \item {\bf Estados iniciales}: comienzan la evaluación con la pila vacía denotados como $\diamond\succ e$.
+    \item {\bf Estados finales}: regresan un valor a la pila vacía y se denota $\diamond\prec v$
+\end{itemize}
+\bigskip
+\end{definition}
+
+\subsection{Transiciones}
+\begin{definition}[Transiciones para la máquina $\Hs$]
+Las transiciones se definen por medio de la relación $\rightarrow_{h}$ y es de la forma:
+
+$$P \succ e\rightarrow_{h} P' \succ e'$$
+
+en donde los símbolos $\succ$ se pueden sustituir en ambos casos por $\prec$.
+
+Las reglas para las expresiones de \textsf{MinHS} son:
+
+\begin{description}
+    \item[Valores] Los valores del lenguaje son números, booleanos y funciones y la evaluación de un valor simplemente lo regresa como resultado a la pila, pues un valor ya finalizo su proceso de evaluación.
+    \[
+        \inference{}{P \succ v\rightarrow_{h} P \prec v}
+    \]
+    \item[Operaciones] Definimos el proceso para evaluar cualquier operador de la siguiente forma: Para evaluar $O(e_1,e_2)$ agregamos el marco $O(\square,e_2)$ a la pila y evaluamos $e_1$.
+    \[
+        \inference{}{P\succ O(e_1,e_2)\rightarrow_{h}O(\square,e_2);P\succ e_1}
+    \]
+
+    Si tenemos en el tope de la pila el marco $O(\square,e_2)$ y se regresa como resultado un valor $v$, entonces, evaluamos $e_2$ y sustituimos el tope de la pila por el marco $O(v_1,\square)$.
+    \[
+        \inference{}{O(\square,e_2);P\prec v_1\rightarrow_{h}O(v_1,\square);P\succ e_2}
+    \]
+    Si se devuelve un valor a la pila que tiene como tope el marco $O(v_1,\square)$ entonces podemos devolver al resto de la pila el resultado de la suma de ambos valores.
+    \[
+        \inference{}{O(v_1,\square);P \prec v_2 \rightarrow_{h} P \prec v_1\ O\ v_2}
+    \]
+    \item[Condicional] Para evaluar la expresión $if(e_1,e_2,e_3)$ agregamos el marco $if(\square,e_2,e_3)$ al tope de la pila y evaluamos $e_1$.
+    \[
+        \inference{}{P \succ if(e_1,e_2,e_3)\rightarrow_{h}if(\square,e_2,e_3);P \succ e_1}
+    \]
+    Si se regresa\textsf{True} a la pila con el marco $if(\square,e_2,e_3)$ en el tope, entonces evaluamos $e_2$ con el resto de la pila.
+    \[
+        \inference{}{if(\square,e_2,e_3);P \prec\textsf{True} \rightarrow_{h}P\succ e_2}
+    \]
+    Si se regresa\textsf{False} a la pila con el marco $if(\square,e_2,e_3)$ en el tope, entonces evaluamos $e_3$ con el resto de la pila.
+    \[
+        \inference{}{if(\square,e_2,e_3);P\prec\textsf{False}\rightarrow_{h}P\succ e_3}
+    \]
+    \item[Asignaciones locales] Si se quiere evaluar la expresión $let(e_1,x.e_2)$ con la pila $P$ entonces se evalúa $e_2$ en donde se sustituyen las apariciones de $x$ por $e_1$ con la misma pila.
+    \[
+        \inference{}{P\succ let(e_1,x.e_2)\rightarrow_{h}P\succ e_2[x:=e_1]}
+    \]
+    % Si se quiere evaluar la expresión $\letrec(f.e_1,f.e_2)$ con la pila $P$ entonces se evalúa $e_2$ en donde se sustituyen las apariciones de $f$ por $\fix(f.e_1)$ con la misma pila.
+    % \[
+    %     \inference{}{P\succ\letrec(f.e_1,f.e_2)\rightarrow_{h}P\succ e_2[f:=\fix(f.e_1)]}
+    % \]
+    \item[Aplicación de función] Para evaluar una aplicación $app(e_1,e_2)$ en una pila $P$ se agrega el marco $app(\square,e_2)$ como tope y se evalúa $e_1$.
+    \[
+        \inference{}{P\succ app(e_1,e_2)\rightarrow_{h}app(\square,e_2);P\succ e_1}
+    \]
+    Si se regresa un valor $ fun(x.e_1)$ a la pila con tope $app(\square,e_2)$ entonces se quita el tope  y se evalúa $e_1$ sustituyendo $x$ por $e_2$.
+    \[
+        \inference{}{app(\square,e_2);P\prec fun(x.e_1)\rightarrow_{h}P\succ e_1[x:=e_2]}
+    \]
+    Si se regresa un valor $ recfun(f.x.e_1)$ a la pila con tope $app(\square,e_2)$ entonces se quita el tope  y se evalúa $e_1$ sustituyendo $f$ por su punto fijo y $x$ por $e_2$.
+    \[
+        \inference{}{app(\square,e_2);P\prec recfun(f.x.e_1)\rightarrow_{h}P\succ e_1[f:= fix(f.x.e_1),x:=e_2]}
+    \]
+    % Si en el tope de la pila tenemos el marco $app( fun(x.e),\square)$ y re regresa el valor $v$ entonces evaluamos $e$ sustituyendo las apariciones de $x$ por $v$ en el resto de la pila.
+    % \[
+    %     \inference{}{app( fun(x.e_1),\square);P\prec v\rightarrow_{h}P\succ e[x:=v]}
+    % \]
+    \item[El operador de punto fijo] Para evaluar la expresión $ fix(f.e)$ en la pila $P$ se evalúa $e$ sustituyendo $f$ por $ fix(f.e)$.
+    \[
+        \inference{}{P\succ fix(f.e)\rightarrow_{h}P\succ e[f:= fix(f.e)]}
+    \]
+\end{description}
+\bigskip
+\end{definition}
+
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+
+
+Con las definiciones discutidas anteriormente tenemos una primera implementación de un modelo de ejecución para \textsf{MinHS}. Este modelo nos es de gran utilidad para ilustrar paso a paso el estado de nuestro programa haciendo explícitas las operaciones pendientes de evaluar en nuestra pila y la expresión que se está evaluando en el paso.\\\\
+La única entidad que podemos regresar a los marcos contenidos en la pila son los valores dado que no se pueden reducir a ningún otro estado, desahogando la pila y continuando con la evaluación de los marcos restantes.\\\\
+A continuación presentamos dos ejemplos para ilustrar los marcos, estados y reglas de evaluación definidas anteriormente.\\
+
+
+\begin{exercise}[Ejecución máquina $\Js$ con {\it cerraduras}] Para ver el funcionamiento de la máquina $\Js$ vamos a evaluar la siguiente expresión:
+
+\begin{lstlisting}
+    let x = false in
+        let y = 4 in
+           if ( x then y + 1 else y - 1) 
+        end
+    end
+\end{lstlisting}
+En sintaxis abstracta:
+$$let(\textsf{False},x.let(4,y.if(x,sum(y,1),sub(y,1)))))$$
+La evaluamos en la máquina $\Js$.
+
+\[
+    \begin{array}{rcl}
+        \diamond & \succ & let(\textsf{False},x.let(4,y.if(x,sum(y,1),sub(y,1)))) \\
+        \diamond & \succ & let(4,y.if(x,sum(y,1),sub(y,1)))[x:=\textsf{False}] \\
+        \diamond & \succ & let(4,y.if(x,sum(y,1),sub(y,1)))[x:=\textsf{False}] \\
+        \diamond & \succ & let(4,y.if(\textsf{False},sum(y,1),sub(y,1))) \\
+        \diamond & \succ & let(4,y.if(\textsf{False},sum(y,1),sub(y,1))) \\
+        \diamond & \succ & if(\textsf{False},sum(y,1),sub(y,1))[y := 4] \\
+        \diamond & \succ & if(\textsf{False},sum(4,1),sub(4,1)) \\
+        if(\square,sum(4,1),sub(4,1)):\diamond & \succ &\textsf{False} \\
+        if(\square,sum(4,1),sub(4,1)):\diamond & \prec &\textsf{False} \\
+        \diamond & \succ & sub(4,1) \\
+        sub(\square,1):\diamond & \succ & 4 \\
+        sub(\square,1):\diamond & \prec & 4 \\
+        sub(4,\square):\diamond & \succ & 1 \\
+        sub(4,\square):\diamond & \prec & 1 \\
+        \diamond & \succ & 4 - 1 \\
+        \diamond & \prec & 3 \\
+    \end{array}
+\]
+
+\end{exercise}
+
+\bigskip
+\bigskip
+
+\begin{exercise}[Ejecución máquina $\Js$ con {\it cerradura}] Para ver el funcionamiento de la máquina $\Js$ vamos a evaluar la siguiente expresión:
+
+\begin{lstlisting}
+    let x = fun z -> z + 1 in
+        let y = 4 in
+           x y
+        end
+    end
+\end{lstlisting}
+En sintaxis abstracta:
+$$let(lam(z.sum(z,1)),x.let(4,y.app(x,y)))$$
+La evaluamos en la máquina $\Js$.
+
+\[
+    \begin{array}{rcl}
+         \diamond & \succ & let(lam(z.sum(z,1)),x.let(4,y.app(x,y))) \\
+         \diamond & \succ & let(4,y.app(x,y))[ x := lam(z.sum(z,1))] \\
+         \diamond & \succ & let(4,y.app(lam(z.sum(z,1)),y)) \\
+         \diamond & \succ & app(lam(z.sum(z,1)),y)[y := 4] \\
+         \diamond & \succ & app(lam(z.sum(z,1)),4) \\
+         app(\square, 4)\ : \diamond & \succ & lam(z.sum(z,1)) \\
+         app(\square, 4)\ : \diamond & \prec & lam(z.sum(z,1)) \\
+         \diamond & \succ & sum(z,1)[z := 4] \\
+         \diamond & \succ & sum(4,1) \\
+         sum(\square,1) : \diamond & \succ & 4 \\
+         sum(\square,1) : \diamond & \prec & 4 \\
+         sum(4,square) : \diamond & \succ & 1 \\
+         sum(4,square) : \diamond & \prec & 1 \\
+         \diamond & \succ & 4 + 1 \\
+         \diamond & \prec & 5 \\
+
+    \end{array}
+\]
+\end{exercise}
+
+\bigskip
+
+\section{La máquina $\Js$}
+
+La máquina $\Js$ es una extensión de la máquina $\Hs$ con la introducción de un contexto para las variables al que denominamos entorno, este entorno será el encargado de registrar los nombres de las variables así como sus valores para ser referidas en las operaciones de sustitución (\textsf{let}, \textsf{lam}, \textsf{fix}, \textsf{fun}, \textsf{app}).\\\\
+Ésto con el objetivo de tener una implementación eficiente para la sustitución, operación que hasta el momento posee una complejidad lineal sobre el tamaño de la expresión que queremos evaluar.\\\\
+Con pequeños ajustes podemos redefinir este nuevo modelo partiendo de las reglas definidas para $\Hs$ los cuales discutiremos a continuación.
+
+\bigskip
+
+\begin{remark} La implementación de la máquina $\Js$ cambiará el paradigma de evaluación por uno de tipo ansioso para simplificar los cómputos almacenados en los marcos.
+\end{remark}
+
+\bigskip
+
+\subsection{Marcos}
+
+\begin{definition}[Marcos] En la máquina $\Js$ se usa el mismo conjunto de marcos que los presentados para la máquina $\Hs$ con el siguiente cambio para los operadores \textsf{let} y \textsf{app} para el conjunto de marcos de la máquina $\Js$ :
+
+\begin{description}
+
+    \item[Asignaciones locales] 
+            \[
+                \begin{array}{ccc}
+                    \inference{}
+                    {let(\square,x.e_2)\ marco}
+                \end{array}
+            \]
+    \item[Aplicación de función] 
+            \[
+                \inference{}
+                    {app(f,\square)\ marco}
+            \]
+\end{description}
+
+De esta forma la evaluación ansiosa obtendrá el valor a sustituir en la expresión para posteriormente evaluarla.
+\bigskip
+
+\end{definition}
+
+
+
+\subsection{Ambientes}
+
+\begin{definition}[Ambientes] Un ambiente es una estructura que almacena asignaciones de variables con su valor y la definimos inductivamente como:
+    \[
+        \begin{array}{ccc}
+            \inference{}{\bullet \ env}[{\sf vacio}]&
+            \qquad&
+            \inference{x\;\;{\sf var}&v\;\;{\sf valor}&\bullet \ env}{x\leftarrow v\ ;\ \bullet \ env}[{\sf asig}]
+        \end{array}
+    \]
+    La forma de acceder a los elementos del ambiente es mediante el nombre de la variable, entonces si el ambiente $\E$ tiene la asignación $x\leftarrow v$. Podemos acceder al valor de $x$ como $\E[x]$ y el resultado es $v$. \\
+
+    En caso de tener mas de una asignación sobre el mismo nombre de variable $\E [x]$ nos regresa la primera aparición de $x$ en el ambiente. Por ejemplo en el ambiente $\E  =_{def} x\leftarrow v_1;x\leftarrow v_2;\E$ la operación $\E [x]$ nos arroja como resultado $v_1$.
+\bigskip
+\end{definition}
+
+\subsection{Estados}
+
+\begin{definition}[Estados de la máquina $\Js$]
+Los estados ahora son una relación ternaria de una pila de control $P$ un ambiente $\bullet $ y una expresión $e$, denotados como:\\
+\begin{itemize}
+    \item {\bf Estados de evaluación}:$P\ |\ \E \succ e$
+    \item {\bf Estados de retorno}:$P\ |\ \E \prec e$\\
+\end{itemize}
+
+Un estado inicial es de la forma:
+$$\diamond\ |\ \bullet \succ e$$\\
+
+Mientras que los estados finales son de la forma:
+
+$$\diamond\ |\ \E \prec v$$
+
+Notemos que en los estados finales no importa que está guardado en el ambiente solo importa que la pila de control esté vacía.
+\bigskip
+\end{definition}
+
+\subsection{Transiciones}
+
+\begin{definition}[Transiciones de variables en la máquina $\Js$] Se definen las transiciones de la máquina sin utilizar la operación de sustitución.\\
+
+\begin{description}
+    \item[Variables] En la máquina $\Hs$ una variable representaba un estado bloqueado, pues la única forma de llegar a ella era que se tratara de una variable libre. En la máquina $\Js$ como no aplicamos sustitución tenemos que evaluar las variables buscándolas en el ambiente. Lo que definimos con la siguiente regla:
+
+    \[
+        \inference{}{P\ |\ \E \succ x \to_{j} P\ |\ \E \prec\E [x]}
+    \]
+\end{description}
+\bigskip
+\end{definition}
+
+Nuestro contexto nos ayuda a registrar variables y sus valores asociados de tal forma que cuando ejecutamos una instrucción que necesita sustituir el valor de una variable en otra expresión. Dicha expresión define un alcance para la variable como podemos ver en el siguiente ejemplo:
+
+$$let(e_1,x.e_2 )$$
+
+\bigskip
+Se debe agregar al ambiente la asignación $x\leftarrow e_1$ y evaluar $e_2$ para obtener el resultado. Pero una vez que termine la evaluación de la aplicación de función esta asignación debe quitarse del ambiente pues ya terminó su alcance.\\
+Para lograrlo es necesario extender la definición de la pila de ejecución para que guarde no sólo marcos sino también ambientes. 
+
+\begin{definition}[Pila de control para $\Js$] 
+\bigskip
+    \[
+        \begin{array}{ccccc}
+            \inference{}{P\ pila}[{\sf vacia}]&
+            \quad&
+            \inference{m\ marco&P\ pila}{m;P\ pila}[{\sf top}]&
+            \quad&
+            \inference{\E \ env&P\ pila}{\E\ ;\ P\ pila}[{\sf top}]
+        \end{array}
+    \]
+\bigskip
+
+De esta forma cuando evaluemos una expresión que genera un alcance distinto se agrega el ambiente anterior a la pila de control y se definen las nuevas asignaciones dentro del ambiente actual. Una vez que termine la ejecución y se regrese un valor a la pila con un ambiente en el tope, continuamos con la ejecución del programa tomando ese ambiente como actual.
+\end{definition}
+
+
+\begin{definition}[Transiciones con alcance en la máquina $\Js$] Ahora reescribimos los casos que involucran usar sustitución para su evaluación.\\
+\begin{description}
+    \item[Asignaciones locales]
+    \[  
+        \begin{array}{c}
+            \inference{}{P\ |\ \E \succ let(e_1,x.e_2) \to_{j} let(\square,x.e_2);P\ |\ \E \succ e_1}\\
+            \\
+            \inference{}{let(\square,x.e_2)\ ;\ P\ |\ \E \prec v\to_{j} \bullet\ ;\ P\ |\ x\leftarrow v\ ;\ \E \succ e_2}
+        \end{array}
+    \]
+    \item[Aplicación de función] 
+    \[
+    \begin{array}{c}
+        \inference{}{app(\square,e_2);P\ |\ \E \prec v_1\to_{j} app(v_1,\square);P\ |\ \E \succ e_2}\\
+        \\
+        \inference{}{app(fun(x.e_1),\square)\ ;\ P\ |\ \E \prec v_2 \to_{j} \E\ ;\ P\ |\ x\leftarrow v_2; \E \succ e_1}\\
+        \\
+        \inference{}{app(recfun(f.x.e_1),\square);P | E \prec v_2\to_{j} \E ;P | f\leftarrow fix(f.x.e_1) ; x\leftarrow v_2; \E \succ e_1}\\
+    \end{array}
+    \]
+    \item[Liberación del ambiente] Esta regla se agrega para liberar el ambiente de la pila de control.
+    \[
+        \inference{}{\E ;P\ |\ \E_1\prec v\to_{j}P\ |\ \E \prec v}
+    \]
+
+Observemos como la evaluación del valor a almacenar en las asignaciones locales se volvió un punto estricto pues los ambientes solo almacenan valores.
+\end{description}
+\bigskip
+\end{definition}
+
+\begin{exercise}{Ejecución de la máquina $\Js$}
+Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
+    \begin{lstlisting}
+            let f = fun x => x + y + z in
+                let y = 4 in
+                    let z = 10 in
+                        f 1
+                    end    
+                end
+            end    
+    \end{lstlisting}
+
+    La cual nos da la siguiente representación en sintaxis abstracta:
+
+    $$ let(lam(y.sum(x,sum(y,z)),f.let(4,y.let(10,z.app(f,1)))) $$
+
+    La evaluación en la máquina $\Js$ es de la siguiente forma:
+
+    \[
+    \scalemath{0.65}{
+        \begin{array}{rcl}
+            \diamond\ |\ \bullet & \succ & let(lam(y ... ))\\
+            let(\square, f.let( ...)) : \diamond\ |\ \bullet & \succ & lam(y.sum(x,sum(y,z)))\\
+            let(\square, f.let( ...)) : \diamond\ |\ \bullet & \prec & lam(y.sum(x,sum(y,z)))\\
+            \diamond\ |\ f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & let(4,y.let(10,z.app(f,1))) \\
+            \diamond\ | f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & let(4,y.let(10,z.app(f,1))) \\
+            let(\square,y.let(10,z.app(f,1))) : \diamond\ |\ f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & 4 \\
+            let(\square,y.let(10,z.app(f,1))) : \diamond\ |\ \underline{f \leftarrow lam(x.sum(x,sum(y,z))) :\ \bullet}_{E_1} & \prec & 4 \\
+            E_1\ :\ \diamond\ |\ y \leftarrow 4\ :\ f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & let(10,z.app(f,1)) \\
+            let(\square, z,app(f,1)) : E_1 : \diamond\ |\ y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & 10 \\
+            let(\square, z,app(f,1)) : E_1\ : \diamond\ |\  \underline{y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet}_{E_2} & \prec & 10 \\
+            E_2 : E_1 : \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & app(f,1) \\
+            app(\square,1) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & f \\
+            app(\square,1) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & lam(x.sum(x,sum(y,z)))\\
+            app(\square,1) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \prec & lam(x.sum(x,sum(y,z)))\\
+            app(lam(y.sum(x,sum(y,z))),\square) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & 1\\
+            app(lam(y.sum(x,sum(y,z))),\square) : E_2 : E_1 :\ \diamond\ |\ \underline{z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet}_{E_3} & \prec & 1\\
+            E_3 : E_2 : E_1 :\ \diamond\ |\ y \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(y.sum(x,sum(y,z))) : \bullet & \prec & sum(x,sum(y,z))\\
+            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \prec & x\\
+            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \prec & 1\\
+            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & 1\\
+            sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \prec & sum(y,z)\\
+            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \prec & y\\
+            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \prec & 4\\
+            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & 4\\
+            sum (4, \square): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \succ & z\\
+            sum (4, \square): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \prec & 10\\
+            sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \prec & 4 + 10\\
+            E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow lam(x.sum(x,sum(y,z))) : \bullet & \prec & 14 + 1\\
+            E_2 : E_1 :\ \diamond\ |\ E:3 : \bullet & \prec & 14 + 1\\
+            E_1 :\ \diamond\ |\ E_2 : \bullet & \prec & 15\\
+            \diamond\ |\ E_1 : \bullet & \prec & 15\\
+        \end{array}
+    }
+\]
+
+\end{exercise}
+
+\subsection{Alcance}
+    Es importante detenernos a estudiar los diferentes alcances que la máquina $\Hs$ y la máquina $\Js$ introducen con su definición. Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
+
+    \begin{lstlisting}
+            let x = 0 in
+                let x = 1in
+                    sum(x,1)    
+                end
+            end    
+    \end{lstlisting}
+
+    Si evaluamos la expresión utilizando la definición de la máquina $\Hs$ el resultado será 1, dado que el alcance de esta máquina es estático, es decir, está limitado por la definición de los marcadores \textsf{in} y \textsf{let}. Esta implementación utiliza la operación de sustitución al evaluar un operador \textsf{let} por lo que obtendremos \textsf{sum(0,1) = 1}.\\\\
+    Si por el contrario evaluamos la expresión con la definición de la máquina $\Js$ el resultado será 2 dado que esta máquina implementa un alcance dinámico, es decir, el alcance de las variables que definimos para ser sustituidas es todo el programa, así cuando encontramos una aparición de dicha variable se extrae del contexto el primer valor que coincida con el nombre. en este caso en el contexto tendremos $E= x \leftarrow 1 : x \leftarrow 0$ y la suma se evaluará como \textsf{sum(1,1) = 2}.
+
+    \begin{definition}[Alcance estático] En un lenguaje con alcance estático, el alcance de una variable es la región en la cual se encuentra definida.
+    \end{definition}
+    
+    \begin{definition}[Alcance dinámico] En un lenguaje con alcance dinámico, el alcance de un identificador es todo el programa, es decir, se toma la última asignación hecha al mismo.
+    \end{definition}
+
+\subsection{Cerraduras}
+    La descripción de alcances discutida anteriormente nos muestra un problema en la implementación de nuestras máquinas dado que los resultados obtenidos al evaluar la misma expresión son distintos. Esto se debe de corregir para la definición de la máquina $\Js$ mediante la definición de cerraduras que encapsulan el contexto de evaluación y la expresión para la que dicho contexto será aplicado cuando se evalúe.\\\\
+    Los cerraduras nos ayudan a imitar la definición de un alcance estático en la implementación de $\Js$, para ésto deberemos modificar las reglas de evaluación.\\
+    
+    \begin{definition}[Cerraduras]
+        Una {\it cerradura } es una pareja de una expresión de función de \textsf{MinHS} y un ambiente que se denota como:
+        
+        $$\ll \E,f \gg$$
+        
+        y se interpreta como, que el ambiente adecuado para evaluar la función $f$ es $\E$, de esta forma se respeta el ambiente en el que se define una función para usar el mismo en su ejecución y de esta forma definir una evaluación con alcance estático.
+        \bigskip
+    \end{definition}
+        
+        Ahora se modifican las transiciones definidas en la sección anterior para que usen {\it cerraduras} y modelen una evaluación con alcance estático, en lugar de la evaluación con alcance dinámico presentada anteriormente.
+        
+        \begin{definition}[Transición para funciones] En lugar de regresar las funciones como una expresión, se guardará como una pareja de la expresión y el ambiente en el que fue definido.
+        \bigskip
+        
+        \[
+            \begin{array}{c}
+                \inference{}{P\ |\ \E \succ fun(x.e) \rightarrow_{j} P\ |\ \E \prec \ll \E,x.e \gg}\\
+                \\
+                \inference{}{app(\square,e_2); P\ |\ \E \prec \ll \E_f,x.e_1 \gg \rightarrow_{j} app(\ll \E_f,x.e_1\gg,\square); P\ |\ \E \succ e_2}\\
+                \\
+                \inference{}{app(\ll \E_f,x.e_1 \gg,\square); P\ |\ \E \prec v \rightarrow_{j} \E ; P\ |\ x\leftarrow v; \E_f \succ e_1}\\
+                \\
+                \inference{}{P\ |\ \E \succ recfun(f.x.e) \leftarrow_{j} P\ |\ \E \prec fix(f.\ll \E,x.e \gg)}\\
+                \\
+                \inference{}{app(\square,e_2); P | \E \prec fix(f.\ll ec_f,x.e_1\gg)\rightarrow_{j} appt(fix(f.\ll ec_f,x.e_1\gg),\square); P\ |\ \E \succ e_2}\\
+                \\
+                \inference{}{app(fix(f.\ll ec_f,x.e_1\gg),\square); P\ |\ \E \prec v \rightarrow_{j} \E; P\ |\ x\leftarrow v;f\leftarrow fix(f.closure{ec_f,x.e_1});ec_f\succ e_1}
+            \end{array}
+        \]
+        \bigskip
+        
+        Con estas reglas se general los {\it cerraduras} en la evaluación de una función para que de esta forma el ambiente con el que se ejecutan en la aplicación sea el mismo ambiente en el que se definió la función y las variables tomen el valor esperado según el alcance estático.
+        \bigskip
+    \end{definition}
+
+    \begin{exercise}
+            \begin{lstlisting}
+                let y = 4 in
+                    let z = 10 in
+                        let f = fun x => x + y + z in
+                            f 1
+                        end    
+                    end
+                end    
+            \end{lstlisting}
+    
+        La cual nos da la siguiente representación en sintaxis abstracta:
+    
+        $$ let(4,y.let(10,z.let(lam(x.sum(x,sum(y,z)),f.app(f,1))))) $$
+    
+        La evaluación en la máquina $\Js$ es de la siguiente forma:
+        \[
+            \scalemath{0.55}{
+                \begin{array}{rcl}
+                    \diamond\ |\ \bullet & \succ &  let(4,y.let(10,z.let(lam(x.sum(x,sum(y,z)),f.app(f,1)))) \\
+                    let(\square,y.let ... ) : \diamond\ |\ \bullet & \succ & 4 \\
+                    let(\square,y.let ... ) : \diamond\ |\ \bullet & \prec & 4 \\
+                    \bullet : \diamond\ |\ y \leftarrow 4 : \bullet & \succ & let(10,z.let(lam(x.sum(x,sum(y,z)),f.app(f,1))) \\
+                    let(\square,z.let ... ) : \bullet : \diamond\ |\ y \leftarrow 4 : \bullet & \succ & 10 \\
+                    let(\square,z.let ... ) : \bullet : \diamond\ |\ \underline{y \leftarrow 4 : \bullet}_{\ E_1} & \prec & 10 \\
+                    E_1 : \bullet : \diamond\ |\ z \leftarrow 10 : E_1 & \succ & let(lam(x.sum(x,sum(y,z)),f.app(f,1)) \\
+                    let(\square, f.app ...): E_1 : \bullet : \diamond\ |\ z \leftarrow 10 : E_1 & \succ & lam(x.sum(x,sum(y,z))) \\
+                    let(\square, f.app ...): E_1 : \bullet : \diamond\ |\ \underline{z \leftarrow 10 : E_1}_{\ E_2} & \prec &  \ll E_2, lam(x.sum(x,sum(y,z))) \gg \\
+                    E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, lam(x.sum(x,sum(y,z))) \gg  : E_2 & \prec & app(f,1) \\
+                    app(\square, 1) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, lam(x.sum(x,sum(y,z))) \gg  : E_2 & \succ & f \\
+                    app(\square, 1) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, lam(x.sum(x,sum(y,z))) \gg  : E_2 & \succ &  \ll E_2, lam(x.sum(x,sum(y,z))) \gg  \\
+                    app(\square, 1) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, lam(x.sum(x,sum(y,z))) \gg  : E_2 & \prec &  \ll E_2, lam(x.sum(x,sum(y,z))) \gg  \\
+                    app(\ll E_2, lam(y.sum(x,sum(y,z))) \gg, \square) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, lam(x.sum(x,sum(y,z))) \gg  : E_2 & \succ &  1   \\
+                    app(\ll E_2, lam(y.sum(x,sum(y,z))) \gg, \square) :  E_2 : E_1 : \bullet : \diamond\ |\  \underline{f \leftarrow  \ll E_2, lam(x.sum(x,sum(y,z))) \gg  : E_2}_{\ E_3} & \prec &  1   \\
+                    E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & sum(x,sum(y,z)) \\
+                    sum(\square, sum(y,z)) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & x \\
+                    sum(\square, sum(y,z)) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & x \\
+                    sum(\square, sum(y,z)) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \prec & 1 \\
+                    sum(1, \square ) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\ : x \leftarrow 1  E_2 & \succ & sum(y,z) \\
+                    sum(\square, z) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ y \\
+                    sum(\square, z) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \prec 4 \\
+                    sum(4, \square) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ z \\
+                    sum(4, \square) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \prec 10 \\
+                    sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\ : x \leftarrow 1 : E_2 & \prec 10 + 4 \\
+                    E_3 :  E_2 : E_1 : \bullet : \diamond\ |\ : x \leftarrow 1 : E_2 & \prec 14 + 1 \\
+                    E_2 : E_1 : \bullet : \diamond\ |\ E_3 & \prec 15 \\
+                    E_1 : \bullet : \diamond\ |\  E_2 & \prec 15 \\
+                    \bullet : \diamond\ |\ E_1 & \prec 15 \\
+                    \diamond\ |\ \bullet & \prec 15 \\
+                    
+                \end{array}
+            }
+        \]
+         
+            Como podemos observar el resultado obtenido ahora es el mismo en ambas máquinas, evaluando a 15.
+    \end{exercise}
+
+    \bigskip
+    
+    De esta forma concluimos el estudio de la implementación de las máquinas abstractas para \textsf{MinHS}. A continuación se encuentran los ejercicios de comprensión para el lector.
+
+
+    \section{Ejercicios para el lector}
+
+    \begin{exercise}
+        Dada la siguiente expresión de \textsf{MinHS} contesta lo siguiente:
+            \begin{lstlisting}
+                let x = False in
+                    let y = fun z => leq(z,0) in
+                        let x = True in
+                            if x then y 0 else False
+                        end
+                    end
+                end  
+            \end{lstlisting}
+
+             \begin{itemize}
+                 \item Evalúa la expresión de acuerdo a la definición de la máquina $\Hs$.
+                 \item Evalúa la expresión de acuerdo a la definición de la máquina $\Js$.
+                 \item Los resultados obtenidos son los mismos o son diferentes?.
+                 \item Evalúa la expresión utilizando la definición extendida para la máquina $\Js$ con cerraduras
+                 \item El resultado obtenido es el mismo?.
+             \end{itemize}
+    \end{exercise}
+
+    \begin{exercise}
+        Dada la siguiente expresión de \textsf{MinHS} contesta lo siguiente:
+            \begin{lstlisting}
+                let recfun pow x = 
+                    if x = 0 then 1 else x * pow x - 1 in
+                        pow 3
+                end        
+            \end{lstlisting}
+
+             \begin{itemize}
+                 \item Evalúa la expresión de acuerdo a la definición de la máquina $\Hs$.
+                 \item Evalúa la expresión de acuerdo a la definición de la máquina $\Js$.
+                 \item Los resultados obtenidos son los mismos o son diferentes?.
+                 \item Evalúa la expresión utilizando la definición extendida para la máquina $\Js$ con cerraduras.
+                 \item El resultado obtenido es el mismo?.
+             \end{itemize}
+    \end{exercise}
+
+    \begin{exercise}
+        Dada la siguiente expresión de \textsf{MinHS} contesta lo siguiente:
+            \begin{lstlisting}
+                let x = True in
+                    let x = False in
+                        if x then 1 else 0
+                    end
+                end   
+            \end{lstlisting}
+
+             \begin{itemize}
+                 \item Evalúa la expresión de acuerdo a la definición de la máquina $\Hs$.
+                 \item Evalúa la expresión de acuerdo a la definición de la máquina $\Js$.
+                 \item Los resultados obtenidos son los mismos o son diferentes?.
+                 \item Evalúa la expresión utilizando la definición extendida para la máquina $\Js$ con cerraduras.
+                 \item El resultado obtenido es el mismo?.
+             \end{itemize}
+    \end{exercise}   

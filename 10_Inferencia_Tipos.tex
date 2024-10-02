@@ -14,6 +14,8 @@
     \centerline{\includegraphics[scale=0.5]{assets/gatitos_tipados.PNG}}       
 \end{figure}
 
+\bigskip
+
 Una propiedad importante de \textsf{Haskell} que queremos trasladar a \textsf{MinHS} es el mecanismo de inferencia de tipos. Este mecanismo provee una capa extra que permite trabajar con expresiones aún si estas no poseen un tipo explícito en cada uno de sus parámetros de entrada y valores de retorno. \\\\
 Anteriormente se definieron mediante la semántica estática las reglas para obtener el tipo de una expresión, no obstante este proceso es dependiente de las anotaciones explícitas de tipo que se encuentran definidas en la sintaxis del lenguaje.
 Con el mecanismo de inferencia de tipos se pretende desacoplar este conjunto de anotaciones de la sintaxis de \textsf{MinHS}.\\\\
@@ -851,6 +853,8 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 		\end{itemize}
 	\end{exercise}
 
+\bigskip
+
 	\begin{exercise}
 		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
 		\[
@@ -862,6 +866,8 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 			\item obtén la lista de variables con su tipo.
 		\end{itemize}
 	\end{exercise}
+
+\bigskip
 
 	\begin{exercise}
 		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
@@ -875,12 +881,15 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 		\end{itemize}
 	\end{exercise}
 
+\bigskip
+
     \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraído de \hyperlink{12}{[12]}}
           \[
                 \textsf{fun $x$ ::$Bool$ $\rightarrow$ (if $x$ then 1 else 0) True}
 	\]
     \end{exercise}
 
+\bigskip
 
     \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraído de \hyperlink{12}{[12]}}
            \begin{lstlisting}[ mathescape=true ]
@@ -888,12 +897,15 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
            \end{lstlisting} 
     \end{exercise}
 
+\bigskip
 
    \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
 	\[
 		\textsf{let $x = 0$ in fun $y$ :: $Nat \rightarrow$  $y$ + $x$ end}
 	\]
    \end{exercise}
+
+\newpage
 
      \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
           \begin{lstlisting}[ mathescape=true ]
@@ -904,6 +916,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
            \end{lstlisting}
      \end{exercise}
 
+\bigskip
 
    \begin{exercise} Contesta las siguientes preguntas.\\
 	\begin{itemize}
