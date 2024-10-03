@@ -12,76 +12,87 @@
 \bigskip
 
 Una máquina abstracta define una colección de estados y reglas de transición que nos permiten obtener información acerca de la ejecución de un programa por cada cómputo que este realiza.
-Este tipo de mecanismos de evaluación ya han sido revisados en cursos previos, específicamente en Autómatas y Lenguajes de programación, donde se estudian las máquinas de turing, los autómatas y los autómatas de pila que son los modelos mas importantes de este tipo de sistemas. \\\\
-En este capítulo introduciremos un sistema similar mezclando las ideas para definir un sistema de ejecución para \textsf{MinHS} conocidas como las máquinas $\Hs$ y $\Js$.
+Este tipo de mecanismos de evaluación ya han sido revisados en cursos previos, específicamente en autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. }, donde se estudian sistemas de transición como autómatas y las máquinas de Turing. \\\\
+En este capítulo introduciremos un sistema de cómputo mezclando las ideas de los sistemas de transición para definir una máquina de ejecución para \textsf{MinHS}, conocidas como las máquinas $\Hs$ y $\Js$.
 
 \subsubsection{Objetivo}
-En este capítulo exploraremos la definición de la máquina $\Hs$ definiendo la colección de estados, cómputos y los axiomas de transición que nos permitan visualizar el proceso de evaluación de un expresión cerrada de \textsf{MinHS}. \\\\
-Ejemplos de programas válidos serán revisados para ilustrar los cómputos. De forma similar la pila de ejecución será introducida para controlar aquellos que se quedan pendientes de evaluación hasta obtener un valor que pueda ser regresado al computo en el tope de la pila para continuar con la ejecución del programa. Posteriormente abstraeremos el manejo de variables para extender la abstracción definiendo así la máquina $\Js$
+En este capítulo exploraremos la definición de las máquinas $\Hs$ y $\Js$ implementando la colección de estados, cómputos y los axiomas de transición que nos permitan visualizar el proceso de evaluación de un expresión cerrada de \textsf{MinHS}, ejemplos de programas válidos serán revisados para ilustrar los cómputos. 
+
 \subsubsection{Planteamiento}
 
-El capítulo está estructurado para presentar los estados y axiomas de reglas de transición para definir las máquinas $\Hs$ y $\Js$ seguido de la ejecución detallada paso a paso de programas correctos de \textsf{MinHS} para ilustrar ambas definiciones.\\
-Finalmente se introducen los conceptos de alcance y cerradura\footnote{Las definiciones de este capítulo fueron extendidas para presentar operadores genéricos para las reglas de transición, el extracto original pertenece a: Enríquez Mendoza J., Lenguajes de Programación Notas de clase: Máquinas Abstractas. Universidad Nacional Autónoma de México, 2022.}.
+El capítulo está estructurado para definir los estados, marcos y reglas de transición de las máquinas $\Hs$ y $\Js$ seguido de la ejecución detallada paso a paso de programas correctamente formados de \textsf{MinHS} para ilustrar la ejecución de ambas máquinas. \\\\
+De forma similar, la pila de ejecución será introducida para controlar aquellos cómputos que se quedan pendientes de evaluación, hasta obtener un valor que pueda ser regresado como argumento a la última llamada contenida en el tope de la misma, y progresar en la ejecución del programa. Posteriormente extenderemos la definición de la máquina $\Hs$  para abstraer el manejo de variables definiendo así la máquina $\Js$.\\\\
+Finalmente se estudian los conceptos de alcance estático y dinámico que cada una de estas implementa junto con el concepto de cerradura.
 
 \section{La máquina $\Hs$}
- Para la implementación de este modelo es necesaria la introducción de los marcos que representan los cómputos pendientes que encontramos en la expresión de \textsf{MinHS} que queremos evaluar. Adicionalmente se presenta la pila de ejecución para llevar un control de dichos cómputos que serán utilizados como $placeholders$.\\\\
- Cada marco será empujado al tope de la pila para evaluar las subexpresiones asociados a él. Una vez concluida la evaluación de las subexpresiones de éste computo, el valor obtenido es empujado a la pila y detenido hasta que todas las subexpresiones hayan sido evaluadas ó es utilizado para ejecutar la instrucción en el tope de la pila (según sea el caso aplicable por axioma). \\\\
+ Para la implementación de este modelo es necesaria la introducción de los marcos que representan los cómputos pendientes que encontramos en la expresión de \textsf{MinHS} que queremos evaluar. Adicionalmente se presenta la pila de ejecución para llevar un control de dichos cómputos que serán utilizados como marcadores de lugar (en inglés se conocen como $frames$ pero en esta nota les llamaremos "marcos"\footnote{Este término es una traducción directa de \hyperlink{126}{[126]}}).\\\\
+ Cada marco será empujado al tope de la pila para evaluar las subexpresiones asociados a el. Una vez concluida la evaluación de las subexpresiones de éste computo, el valor obtenido es empujado a la pila y detenido hasta que todas las subexpresiones hayan sido evaluadas ó es utilizado para ejecutar la instrucción en el tope de la pila (según sea el caso aplicable por axioma). \\\\
 Esta implementación resulta particularmente cómoda para seguir la ejecución de un programa de una manera simple y amigable sin embargo posteriores optimizaciones serán propuestas con la introducción de la máquina $\Js$\\
 
 \bigskip
 
  \subsection{Marcos y la pila de control}
- \begin{definition}[Marcos] Los marcos son esqueletos estructurales que registran los cómputos pendientes de una expresión. En nuestra definición, el símbolo $\square$ indica el lugar en donde se está llevando acabo la evaluación actual.
+ \begin{definition}[Marcos] Los marcos son marcadores estructurales que registran los cómputos pendientes de una expresión. En nuestra definición, el símbolo $\square$ indica el lugar en donde se está llevando acabo la evaluación actual\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }. \\
     \begin{description}
         \item[Operadores primitivos]
             \[
                 \begin{array}{ccc}
                     \inference{}
-                    {O(\square,e_2)\ $marco$ }&
+                    {O(\square,e_2)\ marco }&
                     \qquad&
                     \inference{}
-                    {\O(v_1,\square)\ $marco$}
+                    {O(v_1,\square)\ marco}
                 \end{array}
             \]
-            El resto de los operadores binarios son definidos análogamente.
         \item[Condicional] 
             \[
                 \begin{array}{c}
                     \inference{}
-                    {if(\square,e_2,e_3)\ $marco$}
+                    {if(\square,e_2,e_3)\ marco}
                 \end{array}
             \]
         \item[Aplicación de función] 
             \[
                     \inference{}
-                    {app(\square,e_2)\ $marco$}
-            \] 
+                    {app(e_1,\square)\ marco}
+            \]
+        \item[Asignaciones locales] 
+            \[
+                    \inference{}
+                    {let(\square, x.e_1)\ marco}
+            \]  
+
+
+	Notemos que los operadores \textsf{fix}, \textsf{fun} y \textsf{recfun} no tienen una definición con un marco. Esto es porque estas expresiones solo pueden ser aplicadas con la expresión \textsf{app} que define el marcador de cómputo pendiente para el argumento de la función.
     \end{description}
-\bigskip
 \end{definition}
 
-\begin{definition}[Pila de control] Una pila de control está formada a partir de marcos, y se define inductivamente como sigue:
+\bigskip
+
+\begin{definition}[Pila de control] Una pila de control está formada a partir de marcos, y se define inductivamente como siguel\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }:
 
     \[
         \begin{array}{ccc}
-            \inference{}{\diamond \ pila}[{\sf vacia}]&
+            \inference{}{\diamond \ pila}[{vacia}]&
             \qquad&
-            \inference{$m$ \ marco& $P$ \ pila}{$m$;$P$\ pila}[{\sf top}]
+            \inference{$m$ \ marco& $p$ \ pila}{$m$;$p$\ pila}[{top}]
         \end{array}
     \]
 
 \bigskip
 \end{definition}
 \subsection{Estados}
-\begin{definition}[Estados de la máquina $\Hs$] Los estados están compuestos de una pila de control $P$ y una expresión $e$ cerrada y son de alguna de las siguientes formas:
+\begin{definition}[Estados de la máquina $\Hs$] Los estados están compuestos de una pila de control $P$ y una expresión $e$ cerrada y son de alguna de las siguientes formas\footnote{Definición formulada de  \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+\bigskip
 \begin{itemize}
     \item {\bf Estados de evaluación}: Se evalúa $e$ siendo $P$ la pila de control y lo denotamos como $P\succ e$
     \item {\bf Estados de retorno}: Devuelve el valor $v$ a la pila de control $P$, que denotamos como $P\prec v$
 \end{itemize}
+\bigskip
 En donde se distinguen dos tipos de estados en particular:
 \begin{itemize}
-    \item {\bf Estados iniciales}: comienzan la evaluación con la pila vacía denotados como $\diamond\succ e$.
-    \item {\bf Estados finales}: regresan un valor a la pila vacía y se denota $\diamond\prec v$
+    \item {\bf Estados iniciales}: comienzan la evaluación con la pila vacía denotados como \\$\diamond\succ e$.
+    \item {\bf Estados finales}: regresan un valor a la pila vacía y se denota\\ $\diamond\prec v$
 \end{itemize}
 \bigskip
 \end{definition}
@@ -463,10 +474,10 @@ Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
     Si evaluamos la expresión utilizando la definición de la máquina $\Hs$ el resultado será 1, dado que el alcance de esta máquina es estático, es decir, está limitado por la definición de los marcadores \textsf{in} y \textsf{let}. Esta implementación utiliza la operación de sustitución al evaluar un operador \textsf{let} por lo que obtendremos \textsf{sum(0,1) = 1}.\\\\
     Si por el contrario evaluamos la expresión con la definición de la máquina $\Js$ el resultado será 2 dado que esta máquina implementa un alcance dinámico, es decir, el alcance de las variables que definimos para ser sustituidas es todo el programa, así cuando encontramos una aparición de dicha variable se extrae del contexto el primer valor que coincida con el nombre. en este caso en el contexto tendremos $E= x \leftarrow 1 : x \leftarrow 0$ y la suma se evaluará como \textsf{sum(1,1) = 2}.
 
-    \begin{definition}[Alcance estático] En un lenguaje con alcance estático, el alcance de una variable es la región en la cual se encuentra definida.
+    \begin{definition}[Alcance estático] En los lenguajes que implementan el alcance estático, la porción del programa donde una variable está definida es la región en la cual se encuentra enmarcada\footnote{Los marcadores pueden ser bloques de indentación, marcadores de lugar como el operador \textsf{let, in, end}, cuerpo de una función etc.}. \footnote{Definición extraída de \hyperlink{2}{[2]} y \hyperlink{107}{[107]}}.
     \end{definition}
     
-    \begin{definition}[Alcance dinámico] En un lenguaje con alcance dinámico, el alcance de un identificador es todo el programa, es decir, se toma la última asignación hecha al mismo.
+    \begin{definition}[Alcance dinámico] En un lenguaje con alcance dinámico, el alcance de un identificador es todo el programa, es decir, se toma la última asignación hecha al mismo\footnote{Definición extraída de  \hyperlink{2}{[2]} y \hyperlink{107}{[107]}}.
     \end{definition}
 
 \subsection{Cerraduras}
@@ -629,3 +640,9 @@ Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
                  \item El resultado obtenido es el mismo?.
              \end{itemize}
     \end{exercise}   
+
+
+%http://www.dcc.ic.uff.br/~isabel/LP/D.Watt.pdf
+%file:///C:/Users/luismun/Downloads/Modern-Programming-Languages-A-Practical-Introduction%20(1).pdf
+%file:///C:/Users/luismun/3D%20Objects/Desktop/Titulacion/Benjamin_C._Pierce-Types_and_Programming_Languages-The_MIT_Press(2002).pdf 
+%file:///C:/Users/luismun/3D%20Objects/Desktop/Titulacion/Practical%20Foundations%20for%20Programming.pdf
