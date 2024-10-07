@@ -25,20 +25,23 @@ De forma similar, la pila de ejecución será introducida para controlar aquello
 Finalmente se estudian los conceptos de alcance estático y dinámico que cada una de estas implementa junto con el concepto de cerradura.
 
 \section{La máquina $\Hs$}
- Para la implementación de este modelo es necesaria la introducción de los marcos que representan los cómputos pendientes que encontramos en la expresión de \textsf{MinHS} que queremos evaluar. Adicionalmente se presenta la pila de ejecución para llevar un control de dichos cómputos que serán utilizados como marcadores de lugar (en inglés se conocen como $frames$ pero en esta nota les llamaremos "marcos"\footnote{Este término es una traducción directa de \hyperlink{126}{[126]}}).\\\\
- Cada marco será empujado al tope de la pila para evaluar las subexpresiones asociados a el. Una vez concluida la evaluación de las subexpresiones de éste computo, el valor obtenido es empujado a la pila y detenido hasta que todas las subexpresiones hayan sido evaluadas ó es utilizado para ejecutar la instrucción en el tope de la pila (según sea el caso aplicable por axioma). \\\\
-Esta implementación resulta particularmente cómoda para seguir la ejecución de un programa de una manera simple y amigable sin embargo posteriores optimizaciones serán propuestas con la introducción de la máquina $\Js$\\
+ Para la implementación de este máquina de estados es necesaria la introducción de marcos. Los marcos representan un programa con marcadores de los cómputos pendientes que necesitamos para continuar con la evaluación de un determinado estado en la expresión de \textsf{MinHS} que queremos evaluar. Adicionalmente se presenta la pila de ejecución para llevar un control de dichos cómputos (en inglés se conocen como $frames$ pero en esta nota les llamaremos "marcos"\footnote{Este término es una traducción directa de \hyperlink{126}{[126]}}).\\\\
+Esta implementación resulta particularmente cómoda para seguir la ejecución de un programa de una manera simple y legible. Sin embargo, posteriores optimizaciones serán propuestas con la introducción de la máquina $\Js$
 
 \bigskip
 
  \subsection{Marcos y la pila de control}
+  Los marcos (o $frames$ en inglés) son estructuras sintácticas que denotan cómputos pendientes en la evaluación de un programa. Por ejemplo, para el caso de los operadores, si ambos operandos no han sido evaluados exhaustivamente hasta ser reducidos a un valor, la ejecución del operador no puede continuar.
+ Es aquí cuando los marcos resultan útiles para indicar que no se continuará con la evaluación del programa hasta no resolver los cómputos pendientes en dicho marco.\\\\
+Adicionalmente tendremos una pila en la que almacenaremos todos los marcos pendientes para conservar el orden en el que se fueron encontrando en el programa.  Cada marco será empujado al tope de la pila para evaluar las subexpresiones asociados a el. \\
+Una vez concluida la evaluación de las subexpresiones de éste computo, el valor obtenido es empujado al siguiente marco en el tope de la pila y detenido hasta que todas las subexpresiones hayan sido terminadas de evaluar, ó se regresa como valor final si la pila está vacía (según sea el caso aplicable por axioma). \\\\
  \begin{definition}[Marcos] Los marcos son marcadores estructurales que registran los cómputos pendientes de una expresión. En nuestra definición, el símbolo $\square$ indica el lugar en donde se está llevando acabo la evaluación actual\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }. \\
     \begin{description}
         \item[Operadores primitivos]
             \[
                 \begin{array}{ccc}
                     \inference{}
-                    {O(\square,e_2)\ marco }&
+                    {O(\square,e_2)\ marco }& 
                     \qquad&
                     \inference{}
                     {O(v_1,\square)\ marco}
@@ -67,9 +70,8 @@ Esta implementación resulta particularmente cómoda para seguir la ejecución d
     \end{description}
 \end{definition}
 
-\bigskip
 
-\begin{definition}[Pila de control] Una pila de control está formada a partir de marcos, y se define inductivamente como siguel\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }:
+\begin{definition}[Pila de control] Una pila de control está formada a partir de marcos, y se define recursivamente como sigue\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }:
 
     \[
         \begin{array}{ccc}
@@ -82,6 +84,8 @@ Esta implementación resulta particularmente cómoda para seguir la ejecución d
 \bigskip
 \end{definition}
 \subsection{Estados}
+Los estados para la máquina $\Hs$ estarán agrupados en dos categorías; de evaluación y de retorno. Los estados de evaluación exhaustarán una expresión hasta obtener un valor y los de retorno empujarán dicho valor a la pila de control (los valores pueden ser retornados a un marco o regresados como valores finales).\\\\
+Los estados iniciales comenzarán la evaluación de una expresión con una pila vacía y los estados finales retornarán un valor a una pila vacía.
 \begin{definition}[Estados de la máquina $\Hs$] Los estados están compuestos de una pila de control $P$ y una expresión $e$ cerrada y son de alguna de las siguientes formas\footnote{Definición formulada de  \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
 \bigskip
 \begin{itemize}
@@ -90,6 +94,7 @@ Esta implementación resulta particularmente cómoda para seguir la ejecución d
 \end{itemize}
 \bigskip
 En donde se distinguen dos tipos de estados en particular:
+\bigskip
 \begin{itemize}
     \item {\bf Estados iniciales}: comienzan la evaluación con la pila vacía denotados como \\$\diamond\succ e$.
     \item {\bf Estados finales}: regresan un valor a la pila vacía y se denota\\ $\diamond\prec v$
@@ -99,14 +104,14 @@ En donde se distinguen dos tipos de estados en particular:
 
 \subsection{Transiciones}
 \begin{definition}[Transiciones para la máquina $\Hs$]
-Las transiciones se definen por medio de la relación $\rightarrow_{h}$ y es de la forma:
+Las transiciones se definen por medio de la relación $\rightarrow_{h}$ y es de la forma\footnote{Definición formulada de  \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}} :
 
 $$P \succ e\rightarrow_{h} P' \succ e'$$
 
 en donde los símbolos $\succ$ se pueden sustituir en ambos casos por $\prec$.
 
 Las reglas para las expresiones de \textsf{MinHS} son:
-
+\bigskip
 \begin{description}
     \item[Valores] Los valores del lenguaje son números, booleanos y funciones y la evaluación de un valor simplemente lo regresa como resultado a la pila, pues un valor ya finalizo su proceso de evaluación.
     \[
@@ -166,14 +171,7 @@ Las reglas para las expresiones de \textsf{MinHS} son:
         \inference{}{P\succ fix(f.e)\rightarrow_{h}P\succ e[f:= fix(f.e)]}
     \]
 \end{description}
-\bigskip
 \end{definition}
-
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-
 
 
 Con las definiciones discutidas anteriormente tenemos una primera implementación de un modelo de ejecución para \textsf{MinHS}. Este modelo nos es de gran utilidad para ilustrar paso a paso el estado de nuestro programa haciendo explícitas las operaciones pendientes de evaluar en nuestra pila y la expresión que se está evaluando en el paso.\\\\
@@ -216,9 +214,6 @@ La evaluamos en la máquina $\Js$.
 \]
 
 \end{exercise}
-
-\bigskip
-\bigskip
 
 \begin{exercise}[Ejecución máquina $\Js$ con {\it cerradura}] Para ver el funcionamiento de la máquina $\Js$ vamos a evaluar la siguiente expresión:
 
