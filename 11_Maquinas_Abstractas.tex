@@ -35,7 +35,7 @@ Esta implementación resulta particularmente cómoda para seguir la ejecución d
  Es aquí cuando los marcos resultan útiles para indicar que no se continuará con la evaluación del programa hasta no resolver los cómputos pendientes en dicho marco.\\\\
 Adicionalmente tendremos una pila en la que almacenaremos todos los marcos pendientes para conservar el orden en el que se fueron encontrando en el programa.  Cada marco será empujado al tope de la pila para evaluar las subexpresiones asociados a el. \\
 Una vez concluida la evaluación de las subexpresiones de éste computo, el valor obtenido es empujado al siguiente marco en el tope de la pila y detenido hasta que todas las subexpresiones hayan sido terminadas de evaluar, ó se regresa como valor final si la pila está vacía (según sea el caso aplicable por axioma). \\\\
- \begin{definition}[Marcos] Los marcos son marcadores estructurales que registran los cómputos pendientes de una expresión. En nuestra definición, el símbolo $\square$ indica el lugar en donde se está llevando acabo la evaluación actual\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }. \\
+ \begin{definition}[Marcos] Los marcos son marcadores estructurales que registran los cómputos pendientes de una expresión. En nuestra definición, el símbolo $\square$ indica el lugar en donde se está llevando acabo la evaluación actual\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]}, \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }. \\
     \begin{description}
         \item[Operadores primitivos]
             \[
@@ -71,7 +71,7 @@ Una vez concluida la evaluación de las subexpresiones de éste computo, el valo
 \end{definition}
 
 
-\begin{definition}[Pila de control] Una pila de control está formada a partir de marcos, y se define recursivamente como sigue\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }:
+\begin{definition}[Pila de control] Una pila de control está formada a partir de marcos, y se define recursivamente como sigue\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }:
 
     \[
         \begin{array}{ccc}
@@ -86,7 +86,7 @@ Una vez concluida la evaluación de las subexpresiones de éste computo, el valo
 \subsection{Estados}
 Los estados para la máquina $\Hs$ estarán agrupados en dos categorías; de evaluación y de retorno. Los estados de evaluación exhaustarán una expresión hasta obtener un valor y los de retorno empujarán dicho valor a la pila de control (los valores pueden ser retornados a un marco o regresados como valores finales).\\\\
 Los estados iniciales comenzarán la evaluación de una expresión con una pila vacía y los estados finales retornarán un valor a una pila vacía.
-\begin{definition}[Estados de la máquina $\Hs$] Los estados están compuestos de una pila de control $P$ y una expresión $e$ cerrada y son de alguna de las siguientes formas\footnote{Definición formulada de  \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+\begin{definition}[Estados de la máquina $\Hs$] Los estados están compuestos de una pila de control $P$ y una expresión $e$ cerrada y son de alguna de las siguientes formas\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]} }:
 \bigskip
 \begin{itemize}
     \item {\bf Estados de evaluación}: Se evalúa $e$ siendo $P$ la pila de control y lo denotamos como $P\succ e$
@@ -103,20 +103,22 @@ En donde se distinguen dos tipos de estados en particular:
 \end{definition}
 
 \subsection{Transiciones}
+
+La función de transición vincula la pila de ejecución con los marcos, definiendo las transiciones posibles entre cada uno de los estados.\\\\
+Sí el cómputo pendiente de un marco ha terminado su evaluación, el valor regresa al marcador de lugar y se continúa con el resto de los cómputos. Sí todos los cómputos han sido resueltos entonces se evalúa lo operación con los valores retornados al marco.
+
 \begin{definition}[Transiciones para la máquina $\Hs$]
-Las transiciones se definen por medio de la relación $\rightarrow_{h}$ y es de la forma\footnote{Definición formulada de  \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}} :
+Las transiciones se definen por medio de la relación $\rightarrow_{h}$ y es de la forma\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}} :
 
 $$P \succ e\rightarrow_{h} P' \succ e'$$
 
-en donde los símbolos $\succ$ se pueden sustituir en ambos casos por $\prec$.
-
-Las reglas para las expresiones de \textsf{MinHS} son:
 \bigskip
 \begin{description}
-    \item[Valores] Los valores del lenguaje son números, booleanos y funciones y la evaluación de un valor simplemente lo regresa como resultado a la pila, pues un valor ya finalizo su proceso de evaluación.
+    \item[Valores] Los valores del lenguaje son números, booleanos y funciones. La evaluación de un valor simplemente lo regresa como resultado a la pila, pues un valor ya finalizó su proceso de evaluación.
     \[
         \inference{}{P \succ v\rightarrow_{h} P \prec v}
     \]
+\medskip
     \item[Operaciones] Definimos el proceso para evaluar cualquier operador de la siguiente forma: Para evaluar $O(e_1,e_2)$ agregamos el marco $O(\square,e_2)$ a la pila y evaluamos $e_1$.
     \[
         \inference{}{P\succ O(e_1,e_2)\rightarrow_{h}O(\square,e_2);P\succ e_1}
@@ -126,25 +128,35 @@ Las reglas para las expresiones de \textsf{MinHS} son:
     \[
         \inference{}{O(\square,e_2);P\prec v_1\rightarrow_{h}O(v_1,\square);P\succ e_2}
     \]
-    Si se devuelve un valor a la pila que tiene como tope el marco $O(v_1,\square)$ entonces podemos devolver al resto de la pila el resultado de la suma de ambos valores.
+\medskip
+    Si se devuelve un valor a la pila que tiene como tope el marco $O(v_1,\square)$ entonces podemos devolver al resto de la pila el resultado de la operación de ambos valores.
     \[
         \inference{}{O(v_1,\square);P \prec v_2 \rightarrow_{h} P \prec v_1\ O\ v_2}
     \]
+\medskip
     \item[Condicional] Para evaluar la expresión $if(e_1,e_2,e_3)$ agregamos el marco $if(\square,e_2,e_3)$ al tope de la pila y evaluamos $e_1$.
     \[
         \inference{}{P \succ if(e_1,e_2,e_3)\rightarrow_{h}if(\square,e_2,e_3);P \succ e_1}
     \]
-    Si se regresa\textsf{True} a la pila con el marco $if(\square,e_2,e_3)$ en el tope, entonces evaluamos $e_2$ con el resto de la pila.
+    Si se regresa \textsf{True} a la pila con el marco $if(\square,e_2,e_3)$ en el tope, entonces evaluamos $e_2$ con el resto de la pila.
     \[
         \inference{}{if(\square,e_2,e_3);P \prec\textsf{True} \rightarrow_{h}P\succ e_2}
     \]
-    Si se regresa\textsf{False} a la pila con el marco $if(\square,e_2,e_3)$ en el tope, entonces evaluamos $e_3$ con el resto de la pila.
+    Si se regresa \textsf{False} a la pila con el marco $if(\square,e_2,e_3)$ en el tope, entonces evaluamos $e_3$ con el resto de la pila.
     \[
         \inference{}{if(\square,e_2,e_3);P\prec\textsf{False}\rightarrow_{h}P\succ e_3}
     \]
-    \item[Asignaciones locales] Si se quiere evaluar la expresión $let(e_1,x.e_2)$ con la pila $P$ entonces se evalúa $e_2$ en donde se sustituyen las apariciones de $x$ por $e_1$ con la misma pila.
+    \item[Asignaciones locales] Si se quiere evaluar la expresión $let(v,x.e)$ con la pila $P$ entonces se evalúa $e$ en donde se sustituyen las apariciones de $x$ por $v$.
     \[
-        \inference{}{P\succ let(e_1,x.e_2)\rightarrow_{h}P\succ e_2[x:=e_1]}
+        \inference{}{P\succ let(e_1,x.e_2)\rightarrow_{h}let(\square,x.e_2);P \succ e_1}
+    \]
+\medskip
+    \[
+        \inference{}{let(\square,x.e);P\prec v \rightarrow_{h}P \succ let(v,x.e)}
+    \]
+\medskip
+    \[
+        \inference{}{P\succ let(v,x.e)\rightarrow_{h}P\succ e[x:=v]}
     \]
     % Si se quiere evaluar la expresión $\letrec(f.e_1,f.e_2)$ con la pila $P$ entonces se evalúa $e_2$ en donde se sustituyen las apariciones de $f$ por $\fix(f.e_1)$ con la misma pila.
     % \[
@@ -172,12 +184,6 @@ Las reglas para las expresiones de \textsf{MinHS} son:
     \]
 \end{description}
 \end{definition}
-
-
-Con las definiciones discutidas anteriormente tenemos una primera implementación de un modelo de ejecución para \textsf{MinHS}. Este modelo nos es de gran utilidad para ilustrar paso a paso el estado de nuestro programa haciendo explícitas las operaciones pendientes de evaluar en nuestra pila y la expresión que se está evaluando en el paso.\\\\
-La única entidad que podemos regresar a los marcos contenidos en la pila son los valores dado que no se pueden reducir a ningún otro estado, desahogando la pila y continuando con la evaluación de los marcos restantes.\\\\
-A continuación presentamos dos ejemplos para ilustrar los marcos, estados y reglas de evaluación definidas anteriormente.\\
-
 
 \begin{exercise}[Ejecución máquina $\Js$ con {\it cerraduras}] Para ver el funcionamiento de la máquina $\Js$ vamos a evaluar la siguiente expresión:
 
