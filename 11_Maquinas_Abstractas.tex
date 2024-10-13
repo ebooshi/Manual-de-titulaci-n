@@ -202,7 +202,7 @@ $$let(\textsf{False},x.let(4,y.if(x,sum(y,1),sub(y,1)))))$$
 La evaluamos en la máquina $\Js$.
 
 \[
- \scalemath{0.9}{
+ \scalemath{0.85}{
     \begin{array}{rccl}
         \diamond & \succ & let(\textsf{False},x.let(4,y.if(x,sum(y,1),sub(y,1)))) & \rightarrow_{h} \\
 	  let(\square,x.let(4,y.if(x,sum(y,1),sub(y,1)))):\diamond & \succ & \textsf{False} & \rightarrow_{h} \\
@@ -242,6 +242,7 @@ $$let(fun(z.sum(z,1)),x.let(4,y.app(x,y)))$$
 La evaluamos en la máquina $\Js$.
 
 \[
+ \scalemath{0.95}{
     \begin{array}{rccl}
          \diamond & \succ & let(fun(z.sum(z,1)),x.let(4,y.app(x,y))) & \rightarrow_{h} \\
 	   let(\square,x.let(4,y.app(x,y))):\diamond & \prec & fun(z.sum(z,1)) & \rightarrow_{h} \\
@@ -265,6 +266,7 @@ La evaluamos en la máquina $\Js$.
          \diamond & \prec & 5  \\
 
     \end{array}
+}
 \]
 \end{exercise}
 
@@ -272,52 +274,28 @@ La evaluamos en la máquina $\Js$.
 
 \section{La máquina $\Js$}
 
-La máquina $\Js$ es una extensión de la máquina $\Hs$ con la introducción de un contexto para las variables al que denominamos entorno, este entorno será el encargado de registrar los nombres de las variables así como sus valores para ser referidas en las operaciones de sustitución (\textsf{let}, \textsf{lam}, \textsf{fix}, \textsf{fun}, \textsf{app}).\\\\
-Ésto con el objetivo de tener una implementación eficiente para la sustitución, operación que hasta el momento posee una complejidad lineal sobre el tamaño de la expresión que queremos evaluar.\\\\
+La máquina $\Js$ es una extensión de la máquina $\Hs$ con la adición de un $cache$ para almacenar variables y sus valores al que denominamos entorno. Este entorno será el encargado de regresar el valor asociado a un atributo en las operaciones de sustitución (\textsf{let}, \textsf{lam}, \textsf{fix}, \textsf{fun}, \textsf{app}).
+Esto con el objetivo de tener una implementación eficiente para la sustitución, operación que hasta el momento posee una complejidad lineal sobre el tamaño de la expresión que queremos evaluar.\\\\
 Con pequeños ajustes podemos redefinir este nuevo modelo partiendo de las reglas definidas para $\Hs$ los cuales discutiremos a continuación.
 
 \bigskip
 
-\begin{remark} La implementación de la máquina $\Js$ cambiará el paradigma de evaluación por uno de tipo ansioso para simplificar los cómputos almacenados en los marcos.
-\end{remark}
-
-\bigskip
 
 \subsection{Marcos}
 
-\begin{definition}[Marcos] En la máquina $\Js$ se usa el mismo conjunto de marcos que los presentados para la máquina $\Hs$ con el siguiente cambio para los operadores \textsf{let} y \textsf{app} para el conjunto de marcos de la máquina $\Js$ :
-
-\begin{description}
-
-    \item[Asignaciones locales] 
-            \[
-                \begin{array}{ccc}
-                    \inference{}
-                    {let(\square,x.e_2)\ marco}
-                \end{array}
-            \]
-    \item[Aplicación de función] 
-            \[
-                \inference{}
-                    {app(f,\square)\ marco}
-            \]
-\end{description}
-
-De esta forma la evaluación ansiosa obtendrá el valor a sustituir en la expresión para posteriormente evaluarla.
-\bigskip
-
+\begin{definition}[Marcos] En la máquina $\Js$ se usa el mismo conjunto de marcos que los presentados para la máquina $\Hs$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}.
 \end{definition}
 
 
 
 \subsection{Ambientes}
 
-\begin{definition}[Ambientes] Un ambiente es una estructura que almacena asignaciones de variables con su valor y la definimos inductivamente como:
+\begin{definition}[Ambientes] Un ambiente es una estructura que almacena asignaciones de variables con su valor y la definimos recursivamente como\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}:
     \[
         \begin{array}{ccc}
-            \inference{}{\bullet \ env}[{\sf vacio}]&
+            \inference{}{\bullet \ env}[{\ vacio}]&
             \qquad&
-            \inference{x\;\;{\sf var}&v\;\;{\sf valor}&\bullet \ env}{x\leftarrow v\ ;\ \bullet \ env}[{\sf asig}]
+            \inference{x\;\;{\ var}&v\;\;{\ valor}&\bullet \ env}{x\leftarrow v\ ; \bullet \ env}[{\ asig}]
         \end{array}
     \]
     La forma de acceder a los elementos del ambiente es mediante el nombre de la variable, entonces si el ambiente $\E$ tiene la asignación $x\leftarrow v$. Podemos acceder al valor de $x$ como $\E[x]$ y el resultado es $v$. \\
@@ -329,46 +307,40 @@ De esta forma la evaluación ansiosa obtendrá el valor a sustituir en la expres
 \subsection{Estados}
 
 \begin{definition}[Estados de la máquina $\Js$]
-Los estados ahora son una relación ternaria de una pila de control $P$ un ambiente $\bullet $ y una expresión $e$, denotados como:\\
+Los estados ahora son una relación ternaria de una pila de control $P$ un ambiente $\bullet $ y una expresión $e$, denotados como\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}:\\
 \begin{itemize}
-    \item {\bf Estados de evaluación}:$P\ |\ \E \succ e$
-    \item {\bf Estados de retorno}:$P\ |\ \E \prec e$\\
+    \item { Estados de evaluación: }$P\ |\ \E \succ e$
+    \item { Estados de retorno: }$P\ |\ \E \prec e$\\
 \end{itemize}
 
 Un estado inicial es de la forma:
 $$\diamond\ |\ \bullet \succ e$$\\
-
 Mientras que los estados finales son de la forma:
-
 $$\diamond\ |\ \E \prec v$$
-
 Notemos que en los estados finales no importa que está guardado en el ambiente solo importa que la pila de control esté vacía.
 \bigskip
 \end{definition}
 
 \subsection{Transiciones}
 
-\begin{definition}[Transiciones de variables en la máquina $\Js$] Se definen las transiciones de la máquina sin utilizar la operación de sustitución.\\
+\begin{definition}Transiciones de variables en la máquina $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}:\\
 
 \begin{description}
-    \item[Variables] En la máquina $\Hs$ una variable representaba un estado bloqueado, pues la única forma de llegar a ella era que se tratara de una variable libre. En la máquina $\Js$ como no aplicamos sustitución tenemos que evaluar las variables buscándolas en el ambiente. Lo que definimos con la siguiente regla:
-
+    \item[Variables] En la máquina $\Hs$ una variable representa un estado bloqueado, pues no hay forma de continuar la evaluación del programa si no se aplica una operación de sustitución sobre la misma.\\\\
+                            En la máquina $\Js$ no está definida la operación de sustitución. Tenemos que evaluar las variables buscándolas en el ambiente, lo que definimos con la siguiente regla:
     \[
         \inference{}{P\ |\ \E \succ x \to_{j} P\ |\ \E \prec\E [x]}
     \]
 \end{description}
-\bigskip
 \end{definition}
 
-Nuestro contexto nos ayuda a registrar variables y sus valores asociados de tal forma que cuando ejecutamos una instrucción que necesita sustituir el valor de una variable en otra expresión. Dicha expresión define un alcance para la variable como podemos ver en el siguiente ejemplo:
+Queremos utilizar los ambientes para introducir el concepto de alcance de una variable\footnote{Exploraremos de manera formal este concepto mas adelante en este capítulo.}. De manera informal el alcance de una variable es la porción del programa donde la definición de dicha variable es válida, por ejemplo en la expresión:
 
 $$let(e_1,x.e_2 )$$
 
-\bigskip
-Se debe agregar al ambiente la asignación $x\leftarrow e_1$ y evaluar $e_2$ para obtener el resultado. Pero una vez que termine la evaluación de la aplicación de función esta asignación debe quitarse del ambiente pues ya terminó su alcance.\\
-Para lograrlo es necesario extender la definición de la pila de ejecución para que guarde no sólo marcos sino también ambientes. 
-
-\begin{definition}[Pila de control para $\Js$] 
+El alcance de $x$ solo estará definido para el cuerpo de la expresión $e_2$, una vez que se termine de evaluar la expresión $let$ queremos eliminar el ambiente donde la variable $x$ tiene una asignación para evitar repetir la misma en futuras evaluaciones pues el alcance donde es válida ya se ha terminado.\\\\
+Para esto debemos extender la pila de los marcos para que pueda almacenar ambientes y deshacerse de ellos.
+\begin{definition}Pila de control para $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}} 
 \bigskip
     \[
         \begin{array}{ccccc}
@@ -376,12 +348,13 @@ Para lograrlo es necesario extender la definición de la pila de ejecución para
             \quad&
             \inference{m\ marco&P\ pila}{m;P\ pila}[{\sf top}]&
             \quad&
-            \inference{\E \ env&P\ pila}{\E\ ;\ P\ pila}[{\sf top}]
+            \inference{\E \ env&P\ pila}{\E\ ; P\ pila}[{\sf top}]
         \end{array}
     \]
 \bigskip
 
-De esta forma cuando evaluemos una expresión que genera un alcance distinto se agrega el ambiente anterior a la pila de control y se definen las nuevas asignaciones dentro del ambiente actual. Una vez que termine la ejecución y se regrese un valor a la pila con un ambiente en el tope, continuamos con la ejecución del programa tomando ese ambiente como actual.
+De esta forma cuando evaluemos una expresión que genera un ambiente distinto (llamémosle ambiente B), se guarda el ambiente actual en la pila de control (llamémosle ambiente A) y se definen las nuevas asignaciones dentro del ambiente B.\\\\
+Una vez que termine la ejecución y se regrese un valor a la pila, recuperamos el ambiente A y continuamos con la ejecución del programa.
 \end{definition}
 
 
