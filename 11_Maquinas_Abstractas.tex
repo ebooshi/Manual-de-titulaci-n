@@ -304,6 +304,7 @@ Con pequeños ajustes podemos redefinir este nuevo modelo partiendo de las regla
 \bigskip
 \end{definition}
 
+
 \subsection{Estados}
 
 \begin{definition}[Estados de la máquina $\Js$]
@@ -334,12 +335,17 @@ Notemos que en los estados finales no importa que está guardado en el ambiente 
 \end{description}
 \end{definition}
 
+        \bigskip
+
 Queremos utilizar los ambientes para introducir el concepto de alcance de una variable\footnote{Exploraremos de manera formal este concepto mas adelante en este capítulo.}. De manera informal el alcance de una variable es la porción del programa donde la definición de dicha variable es válida, por ejemplo en la expresión:
 
 $$let(e_1,x.e_2 )$$
 
 El alcance de $x$ solo estará definido para el cuerpo de la expresión $e_2$, una vez que se termine de evaluar la expresión $let$ queremos eliminar el ambiente donde la variable $x$ tiene una asignación para evitar repetir la misma en futuras evaluaciones pues el alcance donde es válida ya se ha terminado.\\\\
 Para esto debemos extender la pila de los marcos para que pueda almacenar ambientes y deshacerse de ellos.
+
+        \bigskip
+
 \begin{definition}Pila de control para $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}} 
 \bigskip
     \[
@@ -357,8 +363,14 @@ De esta forma cuando evaluemos una expresión que genera un ambiente distinto (l
 Una vez que termine la ejecución y se regrese un valor a la pila, recuperamos el ambiente A y continuamos con la ejecución del programa.
 \end{definition}
 
+\bigskip
 
-\begin{definition}[Transiciones con alcance en la máquina $\Js$] Ahora reescribimos los casos que involucran usar sustitución para su evaluación.\\
+Finalmente enlistaremos las transiciones para la máquina $\Js$ que difieren con la máquina $\Hs$. El resto de transiciones que no aparecen en esta definición se heredan directamente de esta última máquina. \\\\
+Estas reglas permiten manipular los entornos para guardar, definir y sustituir variables durante la ejecución del programa. Una vez conlcuida los entornos serán descartados hasta liberar la pila de ejecución para retornar el valor final.
+
+\newpage
+
+\begin{definition}Transiciones con alcance en la máquina $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}.\\
 \begin{description}
     \item[Asignaciones locales]
     \[  
@@ -368,6 +380,7 @@ Una vez que termine la ejecución y se regrese un valor a la pila, recuperamos e
             \inference{}{let(\square,x.e_2)\ ;\ P\ |\ \E \prec v\to_{j} \bullet\ ;\ P\ |\ x\leftarrow v\ ;\ \E \succ e_2}
         \end{array}
     \]
+\bigskip
     \item[Aplicación de función] 
     \[
     \begin{array}{c}
@@ -378,20 +391,26 @@ Una vez que termine la ejecución y se regrese un valor a la pila, recuperamos e
         \inference{}{app(recfun(f.x.e_1),\square);P | E \prec v_2\to_{j} \E ;P | f\leftarrow fix(f.x.e_1) ; x\leftarrow v_2; \E \succ e_1}\\
     \end{array}
     \]
-    \item[Liberación del ambiente] Esta regla se agrega para liberar el ambiente de la pila de control.
+\bigskip
+    \item[Liberación del ambiente] 
     \[
         \inference{}{\E ;P\ |\ \E_1\prec v\to_{j}P\ |\ \E \prec v}
     \]
 
-Observemos como la evaluación del valor a almacenar en las asignaciones locales se volvió un punto estricto pues los ambientes solo almacenan valores.
-\end{description}
 \bigskip
+
+   Esta regla se agrega para liberar el ambiente de la pila de control.
+
+\end{description}
 \end{definition}
+
+\bigskip
 
 \begin{exercise}{Ejecución de la máquina $\Js$}
 Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
+\bigskip
     \begin{lstlisting}
-            let f = fun x => x + y + z in
+            let f = fun y => x + y + z in
                 let y = 4 in
                     let z = 10 in
                         f 1
@@ -399,92 +418,96 @@ Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
                 end
             end    
     \end{lstlisting}
+\bigskip
 
     La cual nos da la siguiente representación en sintaxis abstracta:
 
+\bigskip
     $$ let(fun(y.sum(x,sum(y,z)),f.let(4,y.let(10,z.app(f,1)))) $$
 
+\bigskip
     La evaluación en la máquina $\Js$ es de la siguiente forma:
 
     \[
-    \scalemath{0.65}{
-        \begin{array}{rcl}
-            \diamond\ |\ \bullet & \succ & let(fun(y ... ))\\
-            let(\square, f.let( ...)) : \diamond\ |\ \bullet & \succ & fun(y.sum(x,sum(y,z)))\\
-            let(\square, f.let( ...)) : \diamond\ |\ \bullet & \prec & fun(y.sum(x,sum(y,z)))\\
-            \diamond\ |\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & let(4,y.let(10,z.app(f,1))) \\
-            \diamond\ | f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & let(4,y.let(10,z.app(f,1))) \\
-            let(\square,y.let(10,z.app(f,1))) : \diamond\ |\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 4 \\
-            let(\square,y.let(10,z.app(f,1))) : \diamond\ |\ \underline{f \leftarrow fun(x.sum(x,sum(y,z))) :\ \bullet}_{E_1} & \prec & 4 \\
-            E_1\ :\ \diamond\ |\ y \leftarrow 4\ :\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & let(10,z.app(f,1)) \\
-            let(\square, z,app(f,1)) : E_1 : \diamond\ |\ y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 10 \\
-            let(\square, z,app(f,1)) : E_1\ : \diamond\ |\  \underline{y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet}_{E_2} & \prec & 10 \\
-            E_2 : E_1 : \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & app(f,1) \\
-            app(\square,1) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & f \\
-            app(\square,1) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & fun(x.sum(x,sum(y,z)))\\
-            app(\square,1) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & fun(x.sum(x,sum(y,z)))\\
-            app(fun(y.sum(x,sum(y,z))),\square) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 1\\
-            app(fun(y.sum(x,sum(y,z))),\square) : E_2 : E_1 :\ \diamond\ |\ \underline{z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet}_{E_3} & \prec & 1\\
-            E_3 : E_2 : E_1 :\ \diamond\ |\ y \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(y.sum(x,sum(y,z))) : \bullet & \prec & sum(x,sum(y,z))\\
-            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & x\\
-            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 1\\
-            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 1\\
-            sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & sum(y,z)\\
-            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & y\\
-            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 4\\
-            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 4\\
-            sum (4, \square): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & z\\
-            sum (4, \square): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 10\\
-            sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 4 + 10\\
-            E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 14 + 1\\
-            E_2 : E_1 :\ \diamond\ |\ E:3 : \bullet & \prec & 14 + 1\\
-            E_1 :\ \diamond\ |\ E_2 : \bullet & \prec & 15\\
-            \diamond\ |\ E_1 : \bullet & \prec & 15\\
+\begin{turn}{90}
+    \scalemath{0.9}{
+        \begin{array}{rccl}
+            \diamond\ |\ \bullet & \succ & let(fun(y ... )) & \rightarrow_{j}\\
+            let(\square, f.let( ...)) : \diamond\ |\ \bullet & \succ & fun(y.sum(x,sum(y,z))) & \rightarrow_{j} \\
+            let(\square, f.let( ...)) : \diamond\ |\ \bullet & \prec & fun(y.sum(x,sum(y,z))) & \rightarrow_{j} \\
+            \diamond\ |\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & let(4,y.let(10,z.app(f,1))) & \rightarrow_{j} \\
+            let(\square,y.let(10,z.app(f,1))) : \diamond\ |\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 4 & \rightarrow_{j} \\
+            let(\square,y.let(10,z.app(f,1))) : \diamond\ |\ \underline{f \leftarrow fun(x.sum(x,sum(y,z))) :\ \bullet}_{E_1} & \prec & 4 & \rightarrow_{j} \\
+            E_1\ :\ \diamond\ |\ y \leftarrow 4\ :\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & let(10,z.app(f,1)) & \rightarrow_{j} \\
+            let(\square, z,app(f,1)) : E_1 : \diamond\ |\ y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 10 & \rightarrow_{j} \\
+            let(\square, z,app(f,1)) : E_1\ : \diamond\ |\  \underline{y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet}_{E_2} & \prec & 10 & \rightarrow_{j} \\
+            E_2 : E_1 : \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & app(f,1) & \rightarrow_{j} \\
+            app(\square,1) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & f & \rightarrow_{j} \\
+            app(\square,1) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & fun(x.sum(x,sum(y,z))) & \rightarrow_{j} \\
+            app(\square,1) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & fun(x.sum(x,sum(y,z))) & \rightarrow_{j} \\
+            app(fun(y.sum(x,sum(y,z))),\square) : E_2 : E_1 :\ \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 1& \rightarrow_{j} \\
+            app(fun(y.sum(x,sum(y,z))),\square) : E_2 : E_1 :\ \diamond\ |\ \underline{z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet}_{E_3} & \prec & 1 & \rightarrow_{j}\\
+            E_3 : E_2 : E_1 :\ \diamond\ |\ y \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(y.sum(x,sum(y,z))) : \bullet & \prec & sum(x,sum(y,z)) & \rightarrow_{j} \\
+            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & x & \rightarrow_{j} \\
+            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 1 & \rightarrow_{j} \\
+
+            sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & sum(y,z) & \rightarrow_{j} \\
+            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & y & \rightarrow_{j} \\
+            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 4 & \rightarrow_{j} \\
+
+            sum (4, \square): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & z & \rightarrow_{j} \\
+            sum (4, \square): sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 10 & \rightarrow_{j} \\
+            sum(1,\square) : E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 4 + 10 & \rightarrow_{j} \\
+            E_3 : E_2 : E_1 :\ \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 14 + 1 & \rightarrow_{j} \\
+            E_2 : E_1 :\ \diamond\ |\ E_3 : \bullet & \prec & 14 + 1 & \rightarrow_{j} \\
+            E_1 :\ \diamond\ |\ E_2 : \bullet & \prec & 15 & \rightarrow_{j} \\
+            \diamond\ |\ E_1 : \bullet & \prec & 15 & \rightarrow_{j} \\
         \end{array}
     }
+\end{turn}
 \]
 
 \end{exercise}
 
 \subsection{Alcance}
-    Es importante detenernos a estudiar los diferentes alcances que la máquina $\Hs$ y la máquina $\Js$ introducen con su definición. Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
+   De manera superficial el alcance es la porción del programa donde una variable toma efecto y altera el valor que esta posee. La implementación del alcance difiere para la máquina $\Hs$ y la máquina $\Js$. Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
 
     \begin{lstlisting}
             let x = 0 in
-                let x = 1in
+                let x = 1 in
                     sum(x,1)    
                 end
             end    
     \end{lstlisting}
 
     Si evaluamos la expresión utilizando la definición de la máquina $\Hs$ el resultado será 1, dado que el alcance de esta máquina es estático, es decir, está limitado por la definición de los marcadores \textsf{in} y \textsf{let}. Esta implementación utiliza la operación de sustitución al evaluar un operador \textsf{let} por lo que obtendremos \textsf{sum(0,1) = 1}.\\\\
-    Si por el contrario evaluamos la expresión con la definición de la máquina $\Js$ el resultado será 2 dado que esta máquina implementa un alcance dinámico, es decir, el alcance de las variables que definimos para ser sustituidas es todo el programa, así cuando encontramos una aparición de dicha variable se extrae del contexto el primer valor que coincida con el nombre. en este caso en el contexto tendremos $E= x \leftarrow 1 : x \leftarrow 0$ y la suma se evaluará como \textsf{sum(1,1) = 2}.
+    Si por el contrario evaluamos la expresión con la definición de la máquina $\Js$ el resultado será 2 dado que esta máquina implementa un alcance dinámico, es decir, el alcance de las variables que definimos para ser sustituidas es todo el programa, así cuando encontramos una aparición de dicha variable, se extrae del contexto el primer valor que coincida con el nombre. En este caso en el contexto tendremos $\E= x \leftarrow 1 : x \leftarrow 0$ y la suma se evaluará como \textsf{sum(1,1) = 2}.
 
-    \begin{definition}[Alcance estático] En los lenguajes que implementan el alcance estático, la porción del programa donde una variable está definida es la región en la cual se encuentra enmarcada\footnote{Los marcadores pueden ser bloques de indentación, marcadores de lugar como el operador \textsf{let, in, end}, cuerpo de una función etc.}. \footnote{Definición extraída de \hyperlink{2}{[2]} y \hyperlink{107}{[107]}}.
+    \begin{definition}[Alcance estático] En los lenguajes que implementan el alcance estático, la porción del programa donde una variable está enmarcada es la región en la cual se encuentra definida. \\\\ Los marcadores pueden ser bloques de indentación, marcadores de lugar como el operador \textsf{let, in, end}, cuerpo de una función etc\footnote{Definición extraída de \hyperlink{2}{[2]} y \hyperlink{107}{[107]}}.
     \end{definition}
     
-    \begin{definition}[Alcance dinámico] En un lenguaje con alcance dinámico, el alcance de un identificador es todo el programa, es decir, se toma la última asignación hecha al mismo\footnote{Definición extraída de  \hyperlink{2}{[2]} y \hyperlink{107}{[107]}}.
+    \begin{definition}[Alcance dinámico] En un lenguaje con alcance dinámico, el alcance de una variable es todo el programa y se toma la última asignación hecha a la misma cuando se requiera evaluar\footnote{Definición extraída de  \hyperlink{2}{[2]} y \hyperlink{107}{[107]}}.
     \end{definition}
 
 \subsection{Cerraduras}
-    La descripción de alcances discutida anteriormente nos muestra un problema en la implementación de nuestras máquinas dado que los resultados obtenidos al evaluar la misma expresión son distintos. Esto se debe de corregir para la definición de la máquina $\Js$ mediante la definición de cerraduras que encapsulan el contexto de evaluación y la expresión para la que dicho contexto será aplicado cuando se evalúe.\\\\
-    Los cerraduras nos ayudan a imitar la definición de un alcance estático en la implementación de $\Js$, para ésto deberemos modificar las reglas de evaluación.\\
+    Los alcances de las máquinas $\Hs$ y $\Js$ suponen un problema dado que los resultados obtenidos al evaluar la misma expresión son distintos.\\\\ Esto se debe de corregir para la definición de la máquina $\Js$ mediante la introducción de cerraduras, que encapsulan el contexto de evaluación y la expresión para la que dicho contexto será aplicado cuando se evalúe.\\\\
+    Las cerraduras nos ayudan a imitar la definición de un alcance estático en la implementación de $\Js$, para esto deberemos modificar las reglas de evaluación.\\
     
     \begin{definition}[Cerraduras]
-        Una {\it cerradura } es una pareja de una expresión de función de \textsf{MinHS} y un ambiente que se denota como:
+        Una  cerradura  es una pareja de una expresión de función de \textsf{MinHS} y un ambiente que se denota\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}:
         
         $$\ll \E,f \gg$$
         
-        y se interpreta como, que el ambiente adecuado para evaluar la función $f$ es $\E$, de esta forma se respeta el ambiente en el que se define una función para usar el mismo en su ejecución y de esta forma definir una evaluación con alcance estático.
+        Cuya interpretación es que el ambiente adecuado para evaluar la función $f$ es $\E$. \\\\De esta forma se respeta el ambiente en el que se define una función para usar el mismo en su ejecución y tener una evaluación con alcance estático.
         \bigskip
     \end{definition}
         
-        Ahora se modifican las transiciones definidas en la sección anterior para que usen {\it cerraduras} y modelen una evaluación con alcance estático, en lugar de la evaluación con alcance dinámico presentada anteriormente.
+        \subsection{Transiciones con cerradura para $\Js$}
         
-        \begin{definition}[Transición para funciones] En lugar de regresar las funciones como una expresión, se guardará como una pareja de la expresión y el ambiente en el que fue definido.
-        \bigskip
+        \begin{definition}[Transición para funciones] En lugar de regresar las funciones como una expresión, se guardará como una pareja de la expresión y el ambiente en el que fue definido\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}.
         
         \[
+    \scalemath{0.8}{
             \begin{array}{c}
                 \inference{}{P\ |\ \E \succ fun(x.e) \rightarrow_{j} P\ |\ \E \prec \ll \E,x.e \gg}\\
                 \\
@@ -494,10 +517,11 @@ Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
                 \\
                 \inference{}{P\ |\ \E \succ recfun(f.x.e) \leftarrow_{j} P\ |\ \E \prec fix(f.\ll \E,x.e \gg)}\\
                 \\
-                \inference{}{app(\square,e_2); P | \E \prec fix(f.\ll ec_f,x.e_1\gg)\rightarrow_{j} appt(fix(f.\ll ec_f,x.e_1\gg),\square); P\ |\ \E \succ e_2}\\
+                \inference{}{app(\square,e_2); P | \E \prec fix(f.\ll \E_f,x.e_1\gg)\rightarrow_{j} app(fix(f.\ll \E_f,x.e_1\gg),\square); P\ |\ \E \succ e_2}\\
                 \\
-                \inference{}{app(fix(f.\ll ec_f,x.e_1\gg),\square); P\ |\ \E \prec v \rightarrow_{j} \E; P\ |\ x\leftarrow v;f\leftarrow fix(f.closure{ec_f,x.e_1});ec_f\succ e_1}
+                \inference{}{app(fix(f.\ll \E_f,x.e_1\gg),\square); P\ |\ \E \prec v \rightarrow_{j} \E; P\ |\ x\leftarrow v;f\leftarrow fix(f.\ll \E_f,x.e_1 \gg );ec_f\succ e_1}
             \end{array}
+}
         \]
         \bigskip
         
