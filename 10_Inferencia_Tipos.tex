@@ -843,9 +843,11 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 
 	\begin{exercise}
 		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
+\bigskip
 		\[
 			\textsf{let $z$ = 0 in $z$ $\textless$ $z$  end}
 		\]
+\bigskip
 		\begin{itemize}
 			\item obtén la representación en sintaxis abstracta.
 			\item obtén una expresión $\alpha$-equivalente
@@ -857,9 +859,11 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 
 	\begin{exercise}
 		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
+\bigskip
 		\[
 			\textsf{fun $x$ :: $Nat\ \rightarrow$ $x$ * ($x$ - 1) / ($x$ * $x$)}
 		\]
+\bigskip
 		\begin{itemize}
 			\item obtén la representación en sintaxis abstracta.
 			\item obtén una expresión $\alpha$-equivalente
@@ -871,6 +875,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 
 	\begin{exercise}
 		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
+\bigskip
 		\[
 			\textsf{let $x$ = True in let $x$ = False in if $x$ then let $y$ = 1 in $y$  end else let $y$ = 2 in $y$ end end end}
 		\]
@@ -905,8 +910,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 	\]
    \end{exercise}
 
-\newpage
-
+\bigskip
      \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
           \begin{lstlisting}[ mathescape=true ]
              ($\textsf{recfun}$ $factorial$ $n$  $\rightarrow$

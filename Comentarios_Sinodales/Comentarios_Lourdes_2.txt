@@ -39,9 +39,8 @@ R. Página 67-68. El ejercicio fue reescrito.
 
 p.76 en la intro mencionas que darás algoritmos o procedimientos pero no veo 
 una descripción de ninguno de ellos para generar una expresión alpha-equivalente.
-R. Página 70. La introducción fue reescrita para no hacer mención de algoritmos o procedimientos,
-la aplicación de las alpha-equiivalencias es la misma para el Cálculo Lambda por lo que se omite
-la definición de esta.
+R. Página 73, se introdujeron reglas de semántica estática para obtener expresiones alpha-equivalentes.
+Con esto damos un procedimiento para derivar las mismas.
 
 p.77 revisar def. 2.2 el uso de la tipografía para X y explicar mas [e]
 R. Página 72. Se corrigió el tipo de letra para X y se agergó una pequeña descripción de la representación para la construcción
@@ -57,7 +56,7 @@ Con respecto a la acumulación de restricciones, El jucio funciona concatenando 
 
 p.79 falta un ejemplo de unificación (no me queda claro el algoritmo de la 
 def.3.1)
-R. Página 75. El ejercicio está incrustado en el del algoritmo de unificación, evité ponerlo aquí arriba porque son ejercicios de  3 páginas y al final se iba a aplicar en algoritmo de inferencia de tipos. Agregué una descripción para mitigar esto.
+R. Página 75. El ejercicio está puesto dentro del bloque del algoritmo de unificación, evité ponerlo aquí arriba porque son ejercicios de  tres páginas y al final se iba a aplicar en algoritmo de inferencia de tipos. Agregué una descripción para mitigar esto.
 
 p.80&81 ej4.1 
 porqué deberías renombrar si no hay conflicto en los nombres de vars?
@@ -72,26 +71,35 @@ p.84 recfun?
 R. Página 78. este operador en MinHS se llamaba "letrec" las notas fueron ajustadas para que el nombrado sea consistente siendo ahora: "recfun".
 
 p.96 turing --> Turing
+R. Página 90, el typo fue corregido.
 
 p.99 la def.1.4 le falta un símbolo en la primera frase
 creo que también falta un símbolo en la 3a regla
+R. Página 93, si, faltaba un símbolo \succ, este fue arreglado y el párrafo removido.
 
 p.100 recfun?
+R. Página 94, este operador en MinHS se llamaba "letrec" las notas fueron ajustadas para que el nombrado sea consistente siendo ahora: "recfun".
 
 p.101 ejemplo1.1 mencionas closures pero creo que no han sido propiamente 
 definidos
 porqué se repiten algunos pasos en la evaluación?
+R. Página 95. se omitió la mención de las cerraduras hasta su definición mas adelante en el mismo capítulo. La repetición de pasos fue una omisión de mi parte, ya fue corregida.
 
 p.102 qué importancia tiene cambiar de evaluación perezosa a ansiosa?
+R. Página 97. La evaluación perezosa permite omitir cómputos que no son necesarios hasta que la evaluación requiere de estos. Aquí las definiciones fueron ajustadas para
+incluir el ambiente que es la principal diferencia entre ambas máquinas.
 
 p.103 revisar def.2.2 y def.2.3, creo que el bullet denota al ambiente vacío y 
-no a cualquier ambiente E
+no a cualquier ambiente E.
+R. Página 97. Correcto, aquí en lugar del \bullet era \E, esto.s
 
 p.106&107 
 aquí no se usa la alpha equivalencia?
+R. página 101, este ejemplo estaba mal, la alpha equivalencia evitaba el caso que se quería demostrar, este ejemplo fue removido.
 
 p.110 todos deben llamarse ejercicio y no ejemplo
 en el 3.2 recfun?
+R. página 104. La etiqueta fue cambiada por ejercicio. 
 
 p.113 revisar redacción del 3er párrafo
 
