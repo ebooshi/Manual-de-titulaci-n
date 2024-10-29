@@ -1,0 +1,511 @@
+%    Noveno Capítulo: TinyC.
+%    Ejercicios por Barón L. Miguel.
+%    Teoría por Javier Enríquez Mendoza.
+%    Empezado el 20/6/23
+%    Concluido el 19/7/23
+
+\begin{figure}[htbp]
+    \centerline{\includegraphics[scale=.35]{assets/09_Dennis_Ritchie_gato.jpg}}
+\end{figure}
+
+\bigskip
+
+\textsf{MinHs} nos fue de utilidad para ilustrar el paradigma funcional. La realidad es que muchos de los lenguajes que utilizamos actualmente no se implementan de esta forma.\\\\
+Es aquí cuando haremos un cambio abrupto en nuestro caso de estudio para poner nuestra atención en el paradigma procedimental cuyo primer ejemplo sera una implementación de un lenguaje de programación basado en \textsf{C} conocido como \textsf{TinyC}.\\\\
+Este tipo de lenguajes requieren del manejo de estados los cuales son afectados por el contexto del programa, los cambios en la memoria y las instrucciones que se ejecutan en un determinado momento. Similar a un autómata o a una máquina de estados.
+
+
+\subsubsection{Objetivo}
+En este capítulo comenzamos el estudio del paradigma procedimental, para esto nuestra interés principal será el de definir el primer caso de estudio conocido como \textsf{TinyC}. Proporcionando su sintaxis, reglas de transición y manejo de memoria.
+
+\subsubsection{Planteamiento}
+Se revisarán los componentes básicos de este lenguaje, a saber la semántica operacional mediante la implementación de la máquina $C$. \\\\
+Proporcionaremos una definición completa incluyendo sus marcos, estados y transiciones.\\
+Adicionalmente se discutirá la semántica estática de \textsf{TinyC} para asignar un tipo a los programas de este lenguaje.
+
+\section{Sintaxis}
+
+\begin{definition}Sintaxis Concreta de \textsf{TinyC}l\footnote{Definición formulada de \hyperlink{127}{[127]}, y \hyperlink{128}{[128]} }.
+
+    \[
+        \begin{array}{rcl}
+            \textsf{progam} &::=&\textsf{global-decs }\;\textsf{stmt}\\
+            \textsf{global-decs} &::=&\varepsilon\ |\ \textsf{global-dec }\ \ \textsf{global-decs}\\
+            \textsf{global-dec}&::=&\textsf{fun-dec}\ |\ \textsf{var-dec}\\
+            \textsf{var-decs} &::=&\varepsilon\ |\ \textsf{var-dec }\;\textsf{var-decs}\\
+            \textsf{var-dec}&::=&\textsf{type}\ \ \textsf{ident}=\textsf{expr };\\
+            \textsf{fun-dec}&::=&\textsf{type}\ \ \textsf{ident}\;(\textsf{arguments})\ \ \textsf{stmt };\\
+            \textsf{stmt}&::=&\textsf{expr };\ |\ \textsf{if}\ \ \textsf{expr }\ {\tt then}\ \ \textsf{stmt }{\tt else}\ \ \textsf{stmt };\ |\ \textsf{if}\ \ \textsf{expr }\ {\tt then}\ \ \textsf{stmt};\\
+            &&\ | \textsf{return}\ \ \textsf{expr };\ |\ \{\textsf{var-decs }\ \textsf{stmts }\}\ |\ \textsf{while}\ \ (\textsf{expr})\ \ \textsf{stmt}\\
+            \textsf{stmts} &::=&\varepsilon\ |\ \textsf{stmt }\ \ \textsf{stmts}\\
+            \textsf{expr} &::=&\textsf{num}\ |\ \textsf{ident}\ |\ \textsf{asig}\ |\ \textsf{expr} + \textsf{expr}\ |\ \textsf{expr}\ -\ \textsf{expr}\\
+            &&\ |\ \textsf{expr} > \textsf{expr}\ |\ \textsf{expr}\ <\ \textsf{expr}\ |\ \textsf{ident }(\textsf{exprs})\\
+            \textsf{asig} &::=&\textsf{ident}=\textsf{expr}\\
+            \textsf{exprs} &::=&\textsf{expr}\ |\ \textsf{expr},\textsf{exprs}\\
+            \textsf{arguments} &::=&\varepsilon\ | \textsf{type}\ \ \textsf{ident},\textsf{arguments}\\
+            \textsf{type}&::=&\textit{Int}\ |\ \textit{Bool}
+        \end{array}
+    \]
+
+	De esta definición es importante notar la omisión entera de apuntadores dado que el \\
+	tema escapa del enfoque de este capítulo quedándonos únicamente con un subconjunto \\
+	de expresiones del lenguaje de programación \textsf{C}.
+\bigskip
+\end{definition}
+
+\bigskip
+
+
+En \textsf{TinyC} tendremos las declaraciones de variables y funciones que se pueden identificar por nombre, las expresiones aritméticas y booleanas para construir la lógica de los programas y por último las sentencias encargadas de la ejecución y control del estado del programa.\\\\
+También es importante remarcar la diferencia que la introducción de las variables en este paradigma suponen para el estado de un programa, dado que el valor que contienen puede ser modificando alterando así el estado mismo del programa en cualquier punto.  Cosa que no ocurría con la introducción de las variables en la sintaxis de orden superior para \textsf{MinHs}.
+
+\bigskip
+
+\begin{exercise}
+    Escribe un programa en \textbf{TinyC} que implemente una función que nos permita calcular el \textbf{n-ésimo} número de la sucesión de Fibonacci.\\
+    \begin{lstlisting}
+        fibonacci(Int n){
+        
+            Int i = ;
+            Int pre = 1;
+            Int post = 1;
+            Int fib;
+            
+            while(i < n){
+                fib = aux2 + aux1;
+                pre = post;
+                post = fib;
+            }
+            return fib;
+        };
+
+        Int result = fibonacci(9);
+    \end{lstlisting}
+\end{exercise}
+
+
+        Observes que omitimos la definición entera de la \textbf{sintaxis abstracta}. El lector debe interpretar que cada programa escrito en \textbf{TinyC} tiene un mapeo a una representación con un árbol de sintaxis abstracta que representaremos con la introducción de \textbf{marcos}.
+
+
+\section{Semánitca operacional}
+
+\subsection{La Máquina C}
+Para la semántica operacional de \textbf{TinyC} vamos a definir una máquina abstracta siguiendo la misma línea del capítulo anterior, donde contaremos con una pila para guardar los marcos de ejecución y cómputos pendientes y un contexto para las variables y los valores asignados a éstas.
+
+\subsection{Marcos}
+Para la sección de expresiones vamos a tener un mapeo directo con los marcos para los operadores de la máquina $\Js$ dado que la categoría $expr$ de \textbf{TinyC} también regresa un valor al ser evaluadas.\\\\
+Una diferencia importante a notar es la manera en la que las funciones son declaradas en \textbf{MinHs}. Aquí la declaración se hace mediante funciones anónimas que pueden ir en cualquier parte del programa, mientras que en \textbf{TinyC} y en \textbf{C} deben ser declaradas antes de ser llamadas. Adicionalmente estas declaraciones de funciones pueden ser multiplicadoras mientras que en \textbf{TinyC} solo pueden declarase un valor a la vez.\\
+
+\begin{definition}[Marcos para la pila de control de la máquina $\Cs$] Se definen los siguientes marcos que usaremos en la pila de control de la máquina $\Cs$
+    \begin{description}
+        \item[Declaraciones] 
+            \[
+                \begin{array}{c}
+                    \inference{}{vardec(T,x,\square)\ marco}
+                \end{array}
+            \]
+        \item[Asignaciones] 
+            \[
+                \begin{array}{c}
+                    \inference{}{asig(x,\square)\ marco}
+                \end{array}
+            \]
+        \item[Secuencia]
+            \[
+                \begin{array}{c}
+                    \inference{}{secu(\square,e_2)\ marco}
+                \end{array}
+            \]
+        \item[Condicionales]
+            \[
+                \begin{array}{ccc}
+                    \inference{}{if(\square,e_2,e_3)\ marco}&
+                    \qquad&
+                    \inference{}{if(\square,e_2)\ marco}
+                \end{array}
+            \]
+        \item[Return]
+            \[
+                \begin{array}{c}
+                    \inference{}{\ return(\square)\ marco}
+                \end{array}
+            \]
+        \item[Llamada a función]
+            \[
+                \begin{array}{ccc}
+                    \inference{}{\ call(f,\square,e_2,\dots,e_n)\ marco}&
+                    \cdots&
+                    \inference{}{\ call(f,v_1,v_2,\dots,\square)\ marco}
+                \end{array}
+            \]
+    \end{description}
+\end{definition}
+
+\subsection{Estados}
+Esta Categoría supone una diferencia sustancial con las máquinas abstractas hasta ahora estudiadas. Tendremos una categoría para la pila de compútos pendientes y dos categorías para el contexto de evaluación de las variables, el primero local representando el alcance de las variables declaradas en el cuerpo de una función y uno global para aquellas declaraciones cuyo contexto sea todo el programa.\\\\
+\begin{definition}[Estados de la máquina $\Cs$] Los estados de la máquina $\Cs$ son de la siguiente forma:
+    $$P \ |\ L \  |\ G \succ e\qquad\qquad P\ |\ L\ |\ G \prec e$$
+    En donde $P$ es una pila de control, $L$ y $G$ son ambientes de variables y $e$ es una expresión del lenguaje.
+\end{definition}
+
+\begin{definition}[Consulta al ambiente] Definido recursivamente como sigue:
+\[
+    \begin{array}{ccccc}
+        \inference{}{\bullet[x]=\ fail}&
+        \quad&
+        \inference{}{x\leftarrow v;\E[x] = v}&
+        \quad&
+        \inference{}{y\leftarrow v;\E[x] = \E[x]}
+    \end{array}
+\]
+\end{definition}
+
+\begin{definition}[Modificación al ambiente] Definido recursivamente como sigue:
+\[
+    \begin{array}{ccc}
+        \inference{}{\bullet[x \rightarrowtail v]= fail}&
+        \quad&
+        \inference{}{x\leftarrow u;\E[x \rightarrowtail v] = x\leftarrow v\;\E}
+    \end{array}
+\]
+\[
+    \begin{array}{c}
+        \inference{}{y\leftarrow u;\E[x \rightarrowtail v] = \E[x \rightarrowtail v]}
+    \end{array}
+\]
+\end{definition}
+
+\subsection{Transiciones}
+
+\begin{definition}[Transiciones de la máquina Cs] Las transiciones de la máquina Cs se definen en términos de los programas que se están evaluando. Como vimos en secciones anteriores en el caso de tinyc un programa no tiene un resultado final, es decir no se reduce a un valor. Por lo que se agrega un programa especifico que indica el final de la ejecución, este programa es el programa vacío y se denota como:
+
+$$\bot$$
+
+y define el final del proceso de evaluación de una sentencia, por lo que los estados finales de la máquina $\Cs$ son los que tienen la forma siguiente:
+
+$$ \diamond\ |\ L\ |\ G\ \prec\ \bot$$
+
+Con lo que se definen las transiciones con las siguientes reglas:
+\begin{description}
+    \item[Declaraciones]
+        \[
+            \begin{array}{c}
+            \inference{}{P\ |\ L\ |\ G\ \succ\ vardec(T,x,e)\rightarrow_C vardec(T,x,\square);\ P \ |\ L\ |\ G\ \succ e}\\
+            \\
+            \inference{G[x]=fail}{vardec(\T,x,\square);P\ |\ L\ |\ G\ \prec v \rightarrow_C\ P\ |\ L\ | x \leftarrow v; G \prec \bot}\\
+            \\
+            \scalemath{0.9}{
+                \inference{}{P | L | G \succ fundec(T,f,x_1:T_1.\cdots.x_n:T_n.e)\rightarrow_C P | L | f\leftarrow x_1.\cdots.x_n.e; G \prec \bot}
+            }
+            \\
+            \end{array}
+        \]
+    \item[Asignación]
+        \[
+            \begin{array}{c}
+            \inference{}{P\ |\ L\ |\ G \succ asig(x,e) \rightarrow_C\ asig(x,\square);P |\ L\ |\ G\ \succ e}\\
+            \\
+            \inference{G[x\rightarrowtail v]=G'}{asig(x,\square);P\ |\ L\ |\ G\ \prec v \rightarrow_C P\ |\ L\ |\ G' \prec \bot}\\
+            \\
+            \inference{G[x\rightarrowtail v]= fail& L[x\rightarrowtail v]=L'}{asig(x,\square);P\ |\ L\ |\ G\ \prec v \rightarrow_C P\ |\ L'\ |\ G \prec \bot}\\
+            \\
+            \end{array}
+        \]
+    \item[Variables]
+        \[
+            \begin{array}{c}
+                \inference{G[x]=v}{P\ |\ L\ |\ G \succ x \rightarrow_C P\ |\ L\ |\ G \prec v}\\
+                \\
+                \inference{G[x]=fail&L[x]=v}{P\ |\ L\ |\ G \succ x \rightarrow_C P\ |\ L\ |\ G\ \prec v}\\
+                \\
+            \end{array}
+        \]
+    \item[Secuencia]
+        \[
+            \begin{array}{c}
+                \inference{}{P\ |\ L\ |\ G\ \succ secu(e_1,e_2) \rightarrow_C secu(\square,e_2);P\ |\ L\ |\ G\ \succ e_1}\\
+                \\
+                \inference{}{secu(\square,e_2);P\ |\ L\ |\ G\ \prec \bot \rightarrow_C\ P\ |\ L\ |\ G\ \succ e_2}\\
+                \\
+            \end{array}
+        \]
+    \item[Condicionales]
+        \[
+            \begin{array}{c}
+                \inference{}{P\ |\ L\ |\ G\ \succ if(e_1,e_2,e_3) \rightarrow_C  if(\square,e_2,e_3);P\ |\ L\ |\ G\ \succ e_1}\\
+                \\
+                \inference{}{ if(\square,e_2,e_3);P\ |\ L\ |\ G\ \prec true \rightarrow_C P\ |\ L\ |\ G\ \succ e_2}\\
+                \\
+                \inference{}{ if(\square,e_2,e_3);P\ |\ L\ |\ G\ \prec false \rightarrow_C P\ |\ L\ |\ G\ \succ e_3}\\
+                \\
+                \inference{}{P\ |\ L\ |\ G\ \succ if(e_1,e_2) \rightarrow_C  if(\square,e_2);P\ |\ L\ |\ G\ \succ e_1}\\
+                \\
+                \inference{}{ if(\square,e_2);P\ |\ L\ |\ G\ \prec true \rightarrow_C P\ |\ L\ |\ G\ \succ e_2}\\
+                \\
+                \inference{}{ if(\square,e_2);P\ |\ L\ |\ G\ \prec false \rightarrow_C P\ |\ L\ |\ G\ \prec\bot}\\
+                \\
+            \end{array}
+        \]
+    \item[While]
+        \[
+            \begin{array}{c}
+                \inference{}{P\ |\ L\ |\ G\ \succ while(e_1,e_2) \rightarrow_C P\ |\ L\ |\ G\ \succ  if(e_1, secu(e_2, while(e_1,e_2)))}\\
+            \end{array}
+        \]
+        Esta regla traduce la evaluación de un $while\,$ a un $ if\,$ con un solo caso. Modela la siguiente regla equivalencia entre programas:
+
+        $$while(e_1)\{e_2\} \equiv if\,(e_1)\,\{\,e_2\,;\,while\,(e_1)\{\,e_2\,\}\}$$
+
+        Obsérvese como la expresión $while\,$ sigue apareciendo en el lado derecho. De esta forma se desdobla el ciclo tantas veces como se cumpla la condición.
+    \item[Llamada a función]
+        \[
+            \begin{array}{c}
+                \scalemath{0.9}{
+                    \inference{}{P\ |\ L\ |\ G\ \succ call(f,e_1,\cdots,e_n) \rightarrow_C call(\square,e_1,\cdots,e_n);P\ |\ L\ |\ G\ \succ f}
+                }
+                
+                \scalemath{0.8}{
+                    \inference{}{call(\square,e_1,\cdots,e_n);P\ |\ L\ |\ G\ \prec v \rightarrow_C  call(v,\square,e_2,\cdots,e_n);P\ |\ L\ |\ G\ \succ e_1}
+                }
+                
+                \vdots\\
+                \scalemath{0.8}{
+                    \inference{}{call(x_1.\cdots x_n.e,v_1,\cdots,\square);P\ |\ L\ |\ G\ \prec v_n \rightarrow_C  P\ |\ G\ \bigstar L \ |\  x_1\leftarrow v_1;\cdots;x_n\leftarrow v_n;E \succ e}
+                }
+            \end{array}
+        \]
+        Para la evaluación de una llamada a función, primero es necesario evaluar cada uno de los parámetros con los que se llama. Una vez que todos son valores, entonces se ejecuta el cuerpo de la función usando un ambiente vacío como ambiente principal y agregando a él los parámetros de la llamada. Y guardamos el ambiente principal anterior con un símbolo especial ($\bigstar$) que sirve como separado para saber en donde termina uno y comienza el otro.
+
+        % \[
+        %     \inference{}{\call(x_1.\cdots x_n.e,v_1,\cdots,\square);P\ |\ L\ |\ G\ \prec v_n \rightarrow_C  \pc\opc\gc\bigstar\lc\opc x_1\leftarrow v_1;\cdots;x_n\leftarrow v_n;\ee\succ e}
+        % \]
+
+        % Si el ambiente local no era vacío esto significa que hay llamadas a función anidadas, por lo cual no se puede hacer simplemente el swap de los ambientes ya que evaluaríamos la segunda llamada con el ambiente global. Entonces guardamos ambos ambientes con un símbolo especial ($\bigstar$) que sirve como separado para saber en donde termina uno y comienza el otro y definimos un nuevo ambiente local vacío como principal.
+    \item[Return]
+        El constructor $return\,$ indica el final de la ejecución de una llamada a función.
+        \[
+            \begin{array}{c}
+                \inference{}{P\ |\ L\ |\ G\ \succ return(e) \rightarrow_C return(\square);\ P\ |\ L\ |\ G\ \succ e}\\
+                \\
+                \inference{}{return(\square); P\ |\ G\ \bigstar L_1\ |\ L_2 \prec v \rightarrow_C P\ |\ L_1\ |\ G\ \prec v}\\
+                \\
+                % \inference{}{\return(\square);\pc\opc\gc\opc\lc\prec v \rightarrow_C \pc\opc\ee\opc\gc\prec v}
+            \end{array}
+        \]
+        Cuando termina la ejecución de una llamada a función. Se restaura el ambiente global y nos deshacemos del local pues solo era necesario dentro del cuerpo de la función.
+    \end{description}
+\end{definition}
+
+\begin{exercise}[Ejecución de la máquina C]
+    Dado el siguiente programa de \textbf{TinyC} contesta lo siguiente:
+    \begin{lstlisting}
+        fibonacci(Int n){
+        
+            Int i = ;
+            Int pre = 1;
+            Int post = 1;
+            Int fib = 0;
+            
+            while(i < n){
+                fib = pre + post;
+                pre = post;
+                post = fib;
+                i++;
+            }
+            return fib;
+        };
+
+        Int result = fibonacci(3);
+    \end{lstlisting}
+
+    \textbf{A)} Evalúa el programa para obeter el resultado de acuerdo a las reglas de transición y estados definidos en la sección anterior.\\
+
+    Para facilitar la representación y la evaluación de la máquina C vamos a seccionar el programa para tener fragmenos de este, definimos entonces:
+    \[
+        A = secu(vardec(Int, i, 1), secu(vardec(Int, pre, 1), secu(vardec(Int, post, 1), vardec(Int, fib, 0))))
+    \]
+    \[
+        B = secu(assig(fib, sum(pre,post)), secu(asig(pre,post), secu(asig(i,sum(i+1), asig(post,fib)))
+    \]
+    \[
+        W = while(lt(i,n),B))
+    \]
+    \[
+        F = fundec(Int, fibonacci,n\ :\ Int.secu(A,secu(W, return(fib))
+    \]
+    \[
+        P = secu(F,vardec(Int, result, call(fibonacci, 3)))
+    \]
+    Se procede a evaluar el programa con la pila y ambos contextos de variables vac
+
+\[
+    \scalemath{0.45}{
+        \begin{array}{rcl} 
+            \diamond\ |\ \bullet\ |\ \bullet & \succ & secu(F,vardec(Int, result, call(fibonacci, 3))) \\
+            secu(\square,vardec(Int, result, call(fibonacci, 3))):\diamond\ |\ \bullet\ |\ \bullet & \succ & fundec(Int, fibonacci,n:Int.secu(A,secu(W, return(fib))) \\
+            secu(\square,vardec(Int, result, call(fibonacci, 3))):\diamond\ |\ \bullet\ |\ fibonacci \leftarrow n.secu(A,secu(W ...)) \bullet & \prec & \bot \\
+            \diamond\ |\ \bullet\ |\ fibonacci \leftarrow n.secu(A,secu(W ...)) \bullet & \succ & vardec(Int, result, call(fibonacci, 3)) \\
+            vardec(Int, result, \square) : \diamond\ |\ \bullet\ |\ fibonacci \leftarrow n.secu(A,secu(W ...)) \bullet & \succ & call(fibonacci, 3)\\
+            call(\square, 3) : vardec(Int, result, \square) : \diamond\ |\ \bullet\ |\ fibonacci \leftarrow n.secu(A,secu(W ...)) : \bullet & \succ & fibonacci \\
+            call(\square, 3) : vardec(Int, result, \square) : \diamond\ |\ \bullet\ |\ fibonacci \leftarrow n.secu(A,secu(W ...)) : \bullet & \prec & n.secu(A,secu(W ...)) \\
+            call(n.secu(A,secu(W ...)), \square) : vardec(Int, result, \square) : \diamond\ |\ \bullet\ |\ fibonacci \leftarrow n.secu(A,secu(W ...)) : \bullet & \succ & 3 \\
+            call(n.secu(A,secu(W ...)), \square) : vardec(Int, result, \square) : \diamond\ |\ \bullet\ |\ \underline{fibonacci \leftarrow n.secu(A,secu(W ...)) : \bullet}_{L_1} & \prec & 3 \\
+            vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ n \leftarrow 3 : \bullet & \succ & secu(A,secu(W ...)) \\
+            secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ n \leftarrow 3 : \bullet & \succ &  secu(vardec(Int, i, 1), ...) \\
+            secu(\square, secu(vardec(Int, pre ... ))) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ n \leftarrow 3 : \bullet & \succ &  vardec(Int, i, 1) \\
+            vardec(Int, i, \square): secu(\square, secu(vardec(Int, pre ... ))) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ n \leftarrow 3 : \bullet & \succ &  1 \\
+            secu(\square, secu(vardec(Int, pre ... ))) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ i \leftarrow 1 : n \leftarrow 3 : \bullet & \prec &  \bot \\
+            secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & secu(vardec(Int, pre ... )) \\
+            secu(\square, secu(vardec(Int, post ...))):secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & vardec(Int, pre, 1) \\
+            vardec(Int, pre, \square) : secu(\square, secu(vardec(Int, post ...))):secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & 1 \\
+            secu(\square, secu(vardec(Int, post ...))):secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ pre \leftarrow 1 : i \leftarrow 1 : n \leftarrow 3 : \bullet & \prec & \bot \\
+            secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ pre \leftarrow 1 :i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & secu(vardec(Int, post ...))) \\
+            secu(\square, vardec(Int, fib ... )) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ pre \leftarrow 1 :i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & vardec(Int, post, 1) \\
+            vardec(Int, post, \square) : secu(\square, vardec(Int, fib ... )) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ pre \leftarrow 1 :i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & 1 \\
+            secu(\square, vardec(Int, fib ... )) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ post \leftarrow 1 : pre \leftarrow 1 :i \leftarrow 1 : n \leftarrow 3 : \bullet & \prec & \bot \\
+            secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ post \leftarrow 1 : pre \leftarrow 1 : i \leftarrow 1 : n \leftarrow 3 : \succ & \succ & vardec(Int, fib, 0) \\
+            vardec(Int, fib, \square) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ post \leftarrow 1 : pre \leftarrow 1 : i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & 0 \\
+            secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 0 : post \leftarrow 1 : pre \leftarrow 1 : i \leftarrow 1 : n \leftarrow 3 : \bullet}_{L_2} & \prec & \bot \\
+            vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & secu(while(lt(i,n),B), return(fib)) \\
+
+            %Aqui hay un desface con la secuencia del while y return fib hay que arreglarlo
+            secu(\square, returnt(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & while(lt(i,n),B) \\
+            secu(\square, returnt(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & if (lt(i,n), secu(B,while(...))) \\
+            if(\square, secu(...)) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & lt(i,n) \\
+            if(\square, secu(...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & lt(i,n) \\
+            lt(\square,n):if(\square, secu(...)) : secu(\square, returnt(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & i \\
+            lt(\square,n):if(\square, secu(...)) : secu(\square, returnt(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \prec & 1 \\
+            lt(1,\square):if(\square, secu(...)) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & n \\
+            lt(1, \square):if(\square, secu(...)) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \prec & 3 \\
+            if(\square, secu(...)) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \prec & true \\
+            secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\  L_2 & \succ & secu(B,while(...))) \\
+            secu(\square,while(...))) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & secu(asig(fib,sum(pre,post) ...)) \\
+            secu(\square , secu(asig(pre,post),...))) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & asig(fib,sum(pre,post)) \\
+            asig(fib,\square) : secu(\square , secu(asig(pre,post),...))) : secu(\square,while(...))) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & sum(pre,post) \\
+            sum(\square,post): asig(fib,\square) : secu(\square , secu(asig(pre,post),...))) : secu(\square,while(...))) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & pre \\
+            sum(\square,post): asig(fib,\square) : secu(\square , secu(asig(pre,post),...))) : secu(\square,while(...))) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \prec & 1 \\
+            sum(1,\square): asig(fib,\square) : secu(\square , secu(asig(pre,post),...))) : secu(\square,while(...))) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & post \\
+            sum(1,\square): asig(fib,\square) : secu(\square , secu(asig(pre,post),...))) : secu(\square,while(...))) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \prec & 1 \\
+            asig(fib,\square) : secu(\square , secu(asig(pre,post),...))) : secu(\square,while(...))) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \prec & 2 \\
+            secu(\square , secu(asig(pre,post),...))) : secu(\square, returnt(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 2 : post \leftarrow 1 : pre \leftarrow 1 : i \leftarrow 1 : n \leftarrow 3 : \bullet}_{L_3} & \prec & \bot  \\
+            secu(\square,while(...))) : secu(\square, return(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \succ & secu(asig(pre,post),...)))  \\
+            secu(\square, secu(asig(i...))) : secu(\square,while(...))) : secu(\square, return(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ fib \leftarrow 2 : post \leftarrow 1 : pre \leftarrow 1 : i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & asig(pre,post)  \\
+            assig(pre,\square):secu(\square, secu(asig(i...))) : secu(\square,while(...))) : secu(\square, return(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \succ & post \\
+            assig(pre,\square):secu(\square, secu(asig(i...))) : secu(\square,while(...))) : secu(\square, return(fib)) :  vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \prec & 1 \\
+            secu(\square, secu(asig(i...))) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \prec & \bot \\
+            secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \succ & secu(assig(i,sum(i,1)), asig(post,fib)) \\
+            secu(\square, asig(post,fib)) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \succ & assig(i,sum(i,1)) \\
+            assig(i,\square) : secu(\square, asig(post,fib)) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \succ & sum(i,1) \\
+            sum(\square, 1):assig(i,\square) : secu(\square, asig(post,fib)) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \succ & i \\
+            sum(\square, 1):assig(i,\square) : secu(\square, asig(post,fib)) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \prec & 1 \\
+            sum(1, \square):assig(i,\square) : secu(\square, asig(post,fib)) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \succ & 1 \\
+            sum(1, \square) : assig(i,\square) : secu(\square, asig(post,fib)) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \prec & 1 \\
+            assig(i,\square) : secu(\square, asig(post,fib)) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_3 & \prec & 2 \\
+            secu(\square, asig(post,fib)) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 2 : post \leftarrow 1 : pre \leftarrow 1 : i \leftarrow 2 : n \leftarrow 3 : \bullet}_{L_4} & \prec & \bot \\
+            secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_4 & \succ & asig(post,fib)\\
+            asig(post,\square) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_4 & \succ & fib\\
+            asig(post,\square) : secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_4 & \prec & 2\\
+            secu(\square,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 2 : post \leftarrow 2 : pre \leftarrow 1 : i \leftarrow 2 : n \leftarrow 3 : \bullet}_{L_5} & \prec & \bot\\
+            secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & while(lt(i,n),B) \\
+            secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & if(lt(i,n), secu(B,while(...))) \\
+            if(\square, secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & lt(i,n) \\
+            lt(\square, n):if(\square, secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & i \\
+            lt(\square, n):if(\square, secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \prec & 2 \\
+            lt(2, \square):if(\square, secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & n \\
+            lt(2, \square):if(\square, secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \prec & 3 \\
+            if(\square, secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \prec & True \\
+            secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & secu(B,while(...))) \\
+            secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & secu(assig(fib,sum(pre,post),secu(...)) \\
+            secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & assig(fib,sum(pre,post)) \\
+            assig(fib,\square) : secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & sum(pre,post) \\
+            sum(\square,post):assig(fib,\square) : secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & pre \\
+            sum(\square,post):assig(fib,\square) : secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \prec & 1 \\
+            sum(\square,post):assig(fib,\square) : secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \prec & 1 \\
+        \end{array}
+    } 
+\]
+
+\[
+    \scalemath{0.45}{
+        \begin{array}{rcl}
+            sum(\square,post):assig(fib,\square) : secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \prec & 1 \\
+            sum(1,post):assig(fib,\square) : secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \succ & post \\
+            sum(1,post):assig(fib,\square) : secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \prec & 2 \\
+            assig(fib,\square) : secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \prec & 3 \\
+            secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 3 : post \leftarrow 2 : pre \leftarrow 1 : i \leftarrow 2 : n \leftarrow 3 : \bullet}_{L_6} & \prec & \bot \\
+            secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \prec & \bot \\
+            secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \succ & secu(asig(pre,post), secu(asig(i, sum(i+1), ...))) \\
+            secu(\square, secu(asig(i, sum(i+1), ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \succ & asig(pre,post) \\
+            asig(pre,\square): secu(\square, secu(asig(i, sum(i+1), ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \succ & post \\
+            asig(pre,\square): secu(\square, secu(asig(i, sum(i+1), ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \prec & 2 \\
+            secu(\square, secu(asig(i, sum(i+1), ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 3 : post \leftarrow 2 : pre \leftarrow 2 : i \leftarrow 2 : n \leftarrow 3 : \bullet}_{L_7} & \prec & \bot \\
+            secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \succ & secu(asig(i, sum(i,1), asig(post,fib))) \\
+            secu(\square, asig(post,fib))): secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \succ & asig(i, sum(i,1)) \\
+            asig(i, \square) : secu(\square, asig(post,fib))): secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \succ & sum(i,1) \\
+            asig(i, \square) : secu(\square, asig(post,fib))): secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \succ & sum(i,1) \\
+            asig(i, \square) : secu(\square, asig(post,fib))): secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \succ & sum(i,1) \\
+            sum(\square,1) : asig(i, \square) : secu(\square, asig(post,fib))): secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \succ & 2 \\
+            sum(i,1) : asig(i, \square) : secu(\square, asig(post,fib))): secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \prec & 2 \\
+            sum(2,\square) : asig(i, \square) : secu(\square, asig(post,fib))): secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \prec & 1 \\
+            asig(i, \square) : secu(\square, asig(post,fib))): secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \prec & 3 \\
+            secu(\square, asig(post,fib))): secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ 
+            \underline{fib \leftarrow 3 : post \leftarrow 2 : pre \leftarrow 2 : i \leftarrow 3 : n \leftarrow 3 : \bullet}_{L_8} & \prec & \top \\
+            secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ 
+            L_8 & \succ & asig(post,fib) \\
+            asig(post, \square) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ 
+            L_8 & \succ & fib \\
+            asig(post, \square) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ 
+            L_8 & \prec & 3 \\
+            secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 3 : post \leftarrow 3 : pre \leftarrow 2 : i \leftarrow 3 : n \leftarrow 3 : \bullet}_{L_9} & \prec & \bot \\
+            secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_9 & \succ & while(lt(i,n),B) \\
+            secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_9 & \succ & if(lt(i,n),secu(B,while(...))) \\
+            if(\square,secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_9 & \succ & lt(i,n) \\
+            lt(\square, n) : if(\square,secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_9 & \succ & i \\
+            lt(\square, n) : if(\square,secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_9 & \prec & 3 \\
+            lt(i, \square) : if(\square,secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_9 & \succ & n \\
+            lt(i, \square) : if(\square,secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_9 & \prec & 3 \\
+            if(\square,secu(B,while(...))) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_9 & \prec & false \\    
+            secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_9 & \prec & \bot \\   
+            vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_9 & \succ & return(fib) \\  
+            return(\square) : vardec(Int, result, \square) : \diamond\ |\ \bullet\ |\ \L_1 & \succ & fib\\ 
+            return(\square) : vardec(Int, result, \square) : \diamond\ |\ \bullet\ |\ L_1 & \prec & 3\\ 
+            vardec(Int, result, \square) : \diamond\ |\ \bullet\ |\ L_1 & \prec & 3\\ 
+            \diamond\ |\  \bullet\ |\ result \leftarrow 3 : L_1 & \prec & \bot\\ 
+        \end{array}
+    }
+\]
+\end{exercise}
+
+\bigskip
+\bigskip
+\bigskip
+
+Obsérvese que no regresamos el resultado al final de la evaluación si no que lo almacenamos en una de las variables que queda "impresa" en el contexto final. \\
+Nuestra atención está no en el resultado que se obtiene en el último paso ($\bot$) mas bien el estado de la memoria.\\\\
+También es importante fijar nuestra atención en la notación que utilizamos durante toda la evaluación siendo de vital importancia el renombrado de los contextos para acortar la pila de variables.\\\\
+Se pueden omitir pasos cuyas evaluaciones nos sean familiares\footnote{Como las que estudiamos en el capítulo: \textbf{Máquinas Abstractas} correspondientes a las operaciones aritméticas/lógicas y expresiones de \textbf{TinyC.}}.
+En este caso la ejecución fue lo mas explícita posible para ilustrar el proceso pero el lector puede convencerse de que es tedioso y pesado por lo que permitiremos la omisión de dichas.\\
+
+\newpage
+
+\section{Ejercicios para el lector}
+
+\begin{exercise}
+    Utilizando la sintáxis definida para \textbf{TinyC} responde siguiente: \\
+    \begin{itemize}
+        \item Da la definición de un programa que dados dos enteros n y m revise que n es múltiplo de m.
+        \item Da le definición de un programa que dado un número n revise su paridad.
+        \item Da la definición de un programa que dados dos números n y m nos regrese el resultado de $n^m$.
+    \end{itemize}
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la definición de la máquina C evalúa las expresiones del inciso anterior con los siguientes valores:
+    \begin{itemize}
+        \item 3 y 9
+        \item 4
+        \item 3 y 2
+    \end{itemize}
+\end{exercise}
