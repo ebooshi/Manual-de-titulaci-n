@@ -8,8 +8,6 @@
     \centerline{\includegraphics[scale=.35]{assets/09_Dennis_Ritchie_gato.jpg}}
 \end{figure}
 
-\bigskip
-
 \textsf{MinHs} nos fue de utilidad para ilustrar el paradigma funcional. La realidad es que muchos de los lenguajes que utilizamos actualmente no se implementan de esta forma.\\\\
 Es aquí cuando haremos un cambio abrupto en nuestro caso de estudio para poner nuestra atención en el paradigma procedimental cuyo primer ejemplo sera una implementación de un lenguaje de programación basado en \textsf{C} conocido como \textsf{TinyC}.\\\\
 Este tipo de lenguajes requieren del manejo de estados los cuales son afectados por el contexto del programa, los cambios en la memoria y las instrucciones que se ejecutan en un determinado momento. Similar a un autómata o a una máquina de estados.
@@ -19,7 +17,7 @@ Este tipo de lenguajes requieren del manejo de estados los cuales son afectados 
 En este capítulo comenzamos el estudio del paradigma procedimental, para esto nuestra interés principal será el de definir el primer caso de estudio conocido como \textsf{TinyC}. Proporcionando su sintaxis, reglas de transición y manejo de memoria.
 
 \subsubsection{Planteamiento}
-Se revisarán los componentes básicos de este lenguaje, a saber la semántica operacional mediante la implementación de la máquina $C$. \\\\
+Se revisarán los componentes básicos de este lenguaje, a saber la semántica operacional mediante la implementación de la máquina $\Cs$. \\\\
 Proporcionaremos una definición completa incluyendo sus marcos, estados y transiciones.\\
 Adicionalmente se discutirá la semántica estática de \textsf{TinyC} para asignar un tipo a los programas de este lenguaje.
 
@@ -62,7 +60,7 @@ También es importante remarcar la diferencia que la introducción de las variab
 \bigskip
 
 \begin{exercise}
-    Escribe un programa en \textbf{TinyC} que implemente una función que nos permita calcular el \textbf{n-ésimo} número de la sucesión de Fibonacci.\\
+    Escribe un programa en \textsf{TinyC} que implemente una función que nos permita calcular el enésimo número de la sucesión de Fibonacci.\\
     \begin{lstlisting}
         fibonacci(Int n){
         
@@ -84,19 +82,19 @@ También es importante remarcar la diferencia que la introducción de las variab
 \end{exercise}
 
 
-        Observes que omitimos la definición entera de la \textbf{sintaxis abstracta}. El lector debe interpretar que cada programa escrito en \textbf{TinyC} tiene un mapeo a una representación con un árbol de sintaxis abstracta que representaremos con la introducción de \textbf{marcos}.
+        Observe que omitimos la definición entera de la sintaxis abstracta. El lector debe interpretar que cada programa escrito en \textsf{TinyC} tiene un mapeo a una representación con un árbol de sintaxis abstracta que estudiaremos con la introducción de los  marcos.
 
 
-\section{Semánitca operacional}
+\section{Semántica operacional}
 
-\subsection{La Máquina C}
-Para la semántica operacional de \textbf{TinyC} vamos a definir una máquina abstracta siguiendo la misma línea del capítulo anterior, donde contaremos con una pila para guardar los marcos de ejecución y cómputos pendientes y un contexto para las variables y los valores asignados a éstas.
+\subsection{La Máquina $\Cs$}
+Para la semántica operacional de \textsf{TinyC} vamos a definir una máquina abstracta siguiendo la misma línea del capítulo anterior, donde contaremos con una pila para guardar los marcos de ejecución y cómputos pendientes y un contexto para las variables y los valores asignados a éstas.
 
 \subsection{Marcos}
-Para la sección de expresiones vamos a tener un mapeo directo con los marcos para los operadores de la máquina $\Js$ dado que la categoría $expr$ de \textbf{TinyC} también regresa un valor al ser evaluadas.\\\\
-Una diferencia importante a notar es la manera en la que las funciones son declaradas en \textbf{MinHs}. Aquí la declaración se hace mediante funciones anónimas que pueden ir en cualquier parte del programa, mientras que en \textbf{TinyC} y en \textbf{C} deben ser declaradas antes de ser llamadas. Adicionalmente estas declaraciones de funciones pueden ser multiplicadoras mientras que en \textbf{TinyC} solo pueden declarase un valor a la vez.\\
+Para la sección de expresiones vamos a tener un mapeo directo con los marcos para los operadores de la máquina $\Js$ dado que la categoría $expr$ de \textsf{TinyC} también regresa un valor al ser evaluadas.\\\\
+Una diferencia importante a notar es la manera en la que las funciones son declaradas en \textsf{MinHs}. Aquí la declaración se hace mediante funciones anónimas que pueden ir en cualquier parte del programa, mientras que en \textsf{TinyC} y en \textsf{C} deben ser declaradas antes de ser llamadas. Adicionalmente estas declaraciones de funciones pueden ser múltiples mientras que en \textsf{TinyC} solo pueden declarase un valor a la vez.\\
 
-\begin{definition}[Marcos para la pila de control de la máquina $\Cs$] Se definen los siguientes marcos que usaremos en la pila de control de la máquina $\Cs$
+\begin{definition}Se definen los siguientes marcos que usaremos en la pila de control de la máquina $\Cs$l\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }
     \begin{description}
         \item[Declaraciones] 
             \[
@@ -139,16 +137,17 @@ Una diferencia importante a notar es la manera en la que las funciones son decla
                 \end{array}
             \]
     \end{description}
+\bigskip
 \end{definition}
 
 \subsection{Estados}
-Esta Categoría supone una diferencia sustancial con las máquinas abstractas hasta ahora estudiadas. Tendremos una categoría para la pila de compútos pendientes y dos categorías para el contexto de evaluación de las variables, el primero local representando el alcance de las variables declaradas en el cuerpo de una función y uno global para aquellas declaraciones cuyo contexto sea todo el programa.\\\\
-\begin{definition}[Estados de la máquina $\Cs$] Los estados de la máquina $\Cs$ son de la siguiente forma:
+Esta Categoría supone una diferencia sustancial con las máquinas abstractas hasta ahora estudiadas. Tendremos una categoría para la pila de cómputos pendientes y dos categorías para el contexto de evaluación de las variables, el primero local representando el alcance de las variables declaradas en el cuerpo de una función y uno global para aquellas declaraciones cuyo contexto sea todo el programa.\\\\
+\begin{definition}Los estados de la máquina $\Cs$ son de la siguiente forma\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }:
     $$P \ |\ L \  |\ G \succ e\qquad\qquad P\ |\ L\ |\ G \prec e$$
     En donde $P$ es una pila de control, $L$ y $G$ son ambientes de variables y $e$ es una expresión del lenguaje.
 \end{definition}
 
-\begin{definition}[Consulta al ambiente] Definido recursivamente como sigue:
+\begin{definition} Definimos la referencia de variables en el ambiente recursivamente como sigue\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }:
 \[
     \begin{array}{ccccc}
         \inference{}{\bullet[x]=\ fail}&
@@ -160,12 +159,14 @@ Esta Categoría supone una diferencia sustancial con las máquinas abstractas ha
 \]
 \end{definition}
 
-\begin{definition}[Modificación al ambiente] Definido recursivamente como sigue:
+\bigskip
+
+\begin{definition}Definimos la modificación del ambiente recursivamente como sigue\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }:
 \[
     \begin{array}{ccc}
         \inference{}{\bullet[x \rightarrowtail v]= fail}&
         \quad&
-        \inference{}{x\leftarrow u;\E[x \rightarrowtail v] = x\leftarrow v\;\E}
+        \inference{}{x\leftarrow u;\E[x \rightarrowtail v] = x\leftarrow v ;\E}
     \end{array}
 \]
 \[
@@ -177,7 +178,7 @@ Esta Categoría supone una diferencia sustancial con las máquinas abstractas ha
 
 \subsection{Transiciones}
 
-\begin{definition}[Transiciones de la máquina Cs] Las transiciones de la máquina Cs se definen en términos de los programas que se están evaluando. Como vimos en secciones anteriores en el caso de tinyc un programa no tiene un resultado final, es decir no se reduce a un valor. Por lo que se agrega un programa especifico que indica el final de la ejecución, este programa es el programa vacío y se denota como:
+\begin{definition}[Transiciones de la máquina $\Cs$] Las transiciones de la máquina $\Cs$ se definen en términos de los programas que se están evaluando. Como vimos en secciones anteriores en el caso de \textsf{TinyC} un programa no tiene un resultado final, es decir no se reduce a un valor. Por lo que se agrega un programa especifico que indica el final de la ejecución, este programa es el programa vacío y se denota como\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }:
 
 $$\bot$$
 
@@ -256,25 +257,41 @@ Con lo que se definen las transiciones con las siguientes reglas:
 
         $$while(e_1)\{e_2\} \equiv if\,(e_1)\,\{\,e_2\,;\,while\,(e_1)\{\,e_2\,\}\}$$
 
-        Obsérvese como la expresión $while\,$ sigue apareciendo en el lado derecho. De esta forma se desdobla el ciclo tantas veces como se cumpla la condición.
+        Observe como la expresión $while\,$ sigue apareciendo en el lado derecho. De esta forma se desdobla el ciclo tantas veces como se cumpla la condición.
     \item[Llamada a función]
         \[
             \begin{array}{c}
                 \scalemath{0.9}{
                     \inference{}{P\ |\ L\ |\ G\ \succ call(f,e_1,\cdots,e_n) \rightarrow_C call(\square,e_1,\cdots,e_n);P\ |\ L\ |\ G\ \succ f}
                 }
-                
+          \end{array}
+        \]
+
+        \[
+	\begin{array}{c}
                 \scalemath{0.8}{
                     \inference{}{call(\square,e_1,\cdots,e_n);P\ |\ L\ |\ G\ \prec v \rightarrow_C  call(v,\square,e_2,\cdots,e_n);P\ |\ L\ |\ G\ \succ e_1}
                 }
-                
+          \end{array}
+        \]
+     
+        \[        
+	\begin{array}{c}
                 \vdots\\
-                \scalemath{0.8}{
+           
+	     \scalemath{0.8}{
                     \inference{}{call(x_1.\cdots x_n.e,v_1,\cdots,\square);P\ |\ L\ |\ G\ \prec v_n \rightarrow_C  P\ |\ G\ \bigstar L \ |\  x_1\leftarrow v_1;\cdots;x_n\leftarrow v_n;E \succ e}
                 }
-            \end{array}
-        \]
-        Para la evaluación de una llamada a función, primero es necesario evaluar cada uno de los parámetros con los que se llama. Una vez que todos son valores, entonces se ejecuta el cuerpo de la función usando un ambiente vacío como ambiente principal y agregando a él los parámetros de la llamada. Y guardamos el ambiente principal anterior con un símbolo especial ($\bigstar$) que sirve como separado para saber en donde termina uno y comienza el otro.
+          	   \end{array}
+	\]
+
+	\bigskip
+
+        Para la evaluación de una llamada a función, primero es necesario evaluar cada uno de los parámetros con los que se llama.\\\\
+        Una vez que todos son valores, entonces se ejecuta el cuerpo de la función usando un ambiente vacío como ambiente principal y agregando a el los parámetros de la llamada. \\\\
+        Guardamos el ambiente principal anterior con un símbolo especial ($\bigstar$) que sirve como separado para saber en donde termina uno y comienza el otro.
+
+	\bigskip
 
         % \[
         %     \inference{}{\call(x_1.\cdots x_n.e,v_1,\cdots,\square);P\ |\ L\ |\ G\ \prec v_n \rightarrow_C  \pc\opc\gc\bigstar\lc\opc x_1\leftarrow v_1;\cdots;x_n\leftarrow v_n;\ee\succ e}
@@ -476,9 +493,6 @@ Con lo que se definen las transiciones con las siguientes reglas:
 \]
 \end{exercise}
 
-\bigskip
-\bigskip
-\bigskip
 
 Obsérvese que no regresamos el resultado al final de la evaluación si no que lo almacenamos en una de las variables que queda "impresa" en el contexto final. \\
 Nuestra atención está no en el resultado que se obtiene en el último paso ($\bot$) mas bien el estado de la memoria.\\\\
@@ -486,7 +500,6 @@ También es importante fijar nuestra atención en la notación que utilizamos du
 Se pueden omitir pasos cuyas evaluaciones nos sean familiares\footnote{Como las que estudiamos en el capítulo: \textbf{Máquinas Abstractas} correspondientes a las operaciones aritméticas/lógicas y expresiones de \textbf{TinyC.}}.
 En este caso la ejecución fue lo mas explícita posible para ilustrar el proceso pero el lector puede convencerse de que es tedioso y pesado por lo que permitiremos la omisión de dichas.\\
 
-\newpage
 
 \section{Ejercicios para el lector}
 
