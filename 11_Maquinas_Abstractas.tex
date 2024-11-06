@@ -25,7 +25,7 @@ De forma similar, la pila de ejecución será introducida para controlar aquello
 Finalmente se estudian los conceptos de alcance estático y dinámico que cada una de estas implementa junto con el concepto de cerradura.
 
 \section{La máquina $\Hs$}
- Para la implementación de este máquina de estados es necesaria la introducción de marcos. Los marcos representan un programa con marcadores de los cómputos pendientes que necesitamos para continuar con la evaluación de un determinado estado en la expresión de \textsf{MinHS} que queremos evaluar. Adicionalmente se presenta la pila de ejecución para llevar un control de dichos cómputos (en inglés se conocen como $frames$ pero en esta nota les llamaremos "marcos"\footnote{Este término es una traducción directa de \hyperlink{126}{[126]}}).\\\\
+ Para la implementación de este máquina de estados es necesaria la introducción de marcos. Los marcos representan un programa con marcadores de los cómputos pendientes que necesitamos para continuar con la evaluación de un determinado estado en la expresión de \textsf{MinHS} que queremos evaluar. Adicionalmente se presenta la pila de ejecución para llevar un control de dichos cómputos (en inglés se conocen como $frames$ pero en esta nota les llamaremos "marcos"\footnote{Este término es una traducción directa de \hyperlink{return}{[122]}}).\\\\
 Esta implementación resulta particularmente cómoda para seguir la ejecución de un programa de una manera simple y legible. Sin embargo, posteriores optimizaciones serán propuestas con la introducción de la máquina $\Js$
 
 \bigskip
@@ -35,7 +35,7 @@ Esta implementación resulta particularmente cómoda para seguir la ejecución d
  Es aquí cuando los marcos resultan útiles para indicar que no se continuará con la evaluación del programa hasta no resolver los cómputos pendientes en dicho marco.\\\\
 Adicionalmente tendremos una pila en la que almacenaremos todos los marcos pendientes para conservar el orden en el que se fueron encontrando en el programa.  Cada marco será empujado al tope de la pila para evaluar las subexpresiones asociados a el. \\
 Una vez concluida la evaluación de las subexpresiones de éste computo, el valor obtenido es empujado al siguiente marco en el tope de la pila y detenido hasta que todas las subexpresiones hayan sido terminadas de evaluar, ó se regresa como valor final si la pila está vacía (según sea el caso aplicable por axioma). \\\\
- \begin{definition}[Marcos] Los marcos son marcadores estructurales que registran los cómputos pendientes de una expresión. En nuestra definición, el símbolo $\square$ indica el lugar en donde se está llevando acabo la evaluación actual\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]}, \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }. \\
+ \begin{definition}[Marcos] Los marcos son marcadores estructurales que registran los cómputos pendientes de una expresión. En nuestra definición, el símbolo $\square$ indica el lugar en donde se está llevando acabo la evaluación actual\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]}, \hyperlink{12}{[12]}, y \hyperlink{122}{[122]} }. \\
     \begin{description}
         \item[Operadores primitivos]
             \[
@@ -71,7 +71,7 @@ Una vez concluida la evaluación de las subexpresiones de éste computo, el valo
 \end{definition}
 
 
-\begin{definition}[Pila de control] Una pila de control está formada a partir de marcos, y se define recursivamente como sigue\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} \hyperlink{12}{[12]}, y \hyperlink{126}{[126]} }:
+\begin{definition}[Pila de control] Una pila de control está formada a partir de marcos, y se define recursivamente como sigue\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} \hyperlink{12}{[12]}, y \hyperlink{122}{[122]} }:
 
     \[
         \begin{array}{ccc}

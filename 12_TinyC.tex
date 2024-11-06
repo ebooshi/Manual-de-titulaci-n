@@ -5,10 +5,10 @@
 %    Concluido el 19/7/23
 
 \begin{figure}[htbp]
-    \centerline{\includegraphics[scale=.35]{assets/09_Dennis_Ritchie_gato.jpg}}
+    \centerline{\includegraphics[scale=.35]{assets/09_Gatito_C.png}}
 \end{figure}
 
-\textsf{MinHs} nos fue de utilidad para ilustrar el paradigma funcional. La realidad es que muchos de los lenguajes que utilizamos actualmente no se implementan de esta forma.\\\\
+Hasta este punto en el manual hemos discutido la implementación de diferentes modelos de cómputo como \textsf{MinHs}, que nos fue de utilidad para ilustrar el paradigma funcional. La realidad es que muchos de los lenguajes que utilizamos actualmente no se implementan de esta forma.\\\\
 Es aquí cuando haremos un cambio abrupto en nuestro caso de estudio para poner nuestra atención en el paradigma procedimental cuyo primer ejemplo sera una implementación de un lenguaje de programación basado en \textsf{C} conocido como \textsf{TinyC}.\\\\
 Este tipo de lenguajes requieren del manejo de estados los cuales son afectados por el contexto del programa, los cambios en la memoria y las instrucciones que se ejecutan en un determinado momento. Similar a un autómata o a una máquina de estados.
 
@@ -21,11 +21,11 @@ Se revisarán los componentes básicos de este lenguaje, a saber la semántica o
 Proporcionaremos una definición completa incluyendo sus marcos, estados y transiciones.\\
 Adicionalmente se discutirá la semántica estática de \textsf{TinyC} para asignar un tipo a los programas de este lenguaje.
 
-\section{Sintaxis}
+\subsection{Sintaxis}
 
 En \textsf{TinyC} tendremos las declaraciones de variables y funciones que se pueden identificar por nombre, las expresiones aritméticas y booleanas para construir la lógica de los programas y por último las sentencias encargadas de la ejecución y control del estado del programa.\\
 
-\begin{definition}Sintaxis Concreta de \textsf{TinyC}l\footnote{Definición formulada de \hyperlink{127}{[127]}, y \hyperlink{128}{[128]} }.
+\begin{definition}Sintaxis Concreta de \textsf{TinyC}l\footnote{Definición formulada de \hyperlink{126}{[126]}, y \hyperlink{127}{[127]} }.
 \\*[11pt]
 	De esta definición es importante notar la omisión entera de apuntadores dado que el \\
 	tema escapa del enfoque de este capítulo quedándonos únicamente con un subconjunto \\
@@ -49,7 +49,7 @@ En \textsf{TinyC} tendremos las declaraciones de variables y funciones que se pu
             \textsf{type}&::=&\textit{Int}\ |\ \textit{Bool}
         \end{array}
     \]
-\\*[5pt]
+
 \end{definition}
 
 \bigskip
@@ -81,9 +81,8 @@ También es importante remarcar la diferencia que la introducción de las variab
     \end{lstlisting}
 \end{exercise}
 
-\section{Semántica operacional}
+\section{La Máquina $\Cs$}
 
-\subsection{La Máquina $\Cs$}
 Para la semántica operacional de \textsf{TinyC} vamos a definir una máquina abstracta siguiendo la misma línea del capítulo anterior, donde contaremos con una pila para guardar los marcos de ejecución y cómputos pendientes y un contexto para las variables y los valores asignados a éstas.
 
 \subsection{Marcos}
@@ -331,7 +330,6 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
 \end{definition}
 
 \newpage
-
 \begin{exercise}[Ejecución de la máquina C]
     Dado el siguiente programa de \textsf{TinyC}  Evalúa el programa para obeter el resultado de acuerdo a las reglas de transición y estados definidos en la sección anterior para la máquina $\Cs$:
     \begin{lstlisting}
@@ -543,21 +541,73 @@ Nuestra atención está no en el resultado que se obtiene en el último paso ($\
 \section{Ejercicios para el lector}
 
 \begin{exercise}
-    Utilizando la sintáxis definida para \textbf{TinyC} responde siguiente: \\
-    \begin{itemize}
-        \item Da la definición de un programa que dados dos enteros n y m revise que n es múltiplo de m.
-        \item Da le definición de un programa que dado un número n revise su paridad.
-        \item Da la definición de un programa que dados dos números n y m nos regrese el resultado de $n^m$.
-    \end{itemize}
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición de un programa que dados dos enteros n y m revise que n es múltiplo de m.
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-    Utilizando la definición de la máquina C evalúa las expresiones del inciso anterior con los siguientes valores:
-    \begin{itemize}
-        \item 3 y 9
-        \item 4
-        \item 3 y 2
-    \end{itemize}
+    Utilizando la definición de la máquina C evalúa el ejercicio anterior con los valores 3 y 9.
 \end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición de un programa que dado un número n revise su paridad.
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el valor 4
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición de un programa que dados dos números n y m nos regrese el resultado de $n^m$.
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la definición de la máquina C evalúa el ejercicio anterior con los valores 3 y 2.
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición del algoritmo mergeSort.
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el arreglo [7,5,1,3]
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición del algoritmo binarySearch.
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el arreglo [8,4,1,2,7] y 2
+\end{exercise}
+
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición de un programa que calcule el n-ésimo término de la sucesión de Cataluña.
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el arreglo 7
+\end{exercise}
+
