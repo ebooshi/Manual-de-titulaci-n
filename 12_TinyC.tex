@@ -39,7 +39,7 @@ En \textsf{TinyC} tendremos las declaraciones de variables y funciones que se pu
             \textsf{var-dec}&::=&\textsf{type}\ \ \textsf{ident}=\textsf{expr };\\
             \textsf{fun-dec}&::=&\textsf{type}\ \ \textsf{ident}\;(\textsf{arguments})\ \ \textsf{stmt };\\
             \textsf{stmt}&::=&\textsf{expr };\ |\ \textsf{if}\ \ \textsf{expr }\ {\tt then}\ \ \textsf{stmt }{\tt else}\ \ \textsf{stmt };\ |\ \textsf{if}\ \ \textsf{expr }\ {\tt then}\ \ \textsf{stmt};\\
-            &&\ | \ \textsf{return}\ \ \textsf{expr };\ |\ \{\textsf{var-decs }\ \textsf{stmts }\}\ |\ \textsf{while}\ \ (\textsf{expr})\ \ \textsf{stmt}\\
+            &&\ | \ \textsf{return}\ \ \textsf{expr };\ |\ \{\textsf{var-decs }\ \textsf{stmts}\}\ |\ \textsf{while}\ (\textsf{expr})\ \ \textsf{stmt}\\
             \textsf{stmts} &::=&\varepsilon\ |\ \textsf{stmt }\ \ \textsf{stmts}\\
             \textsf{expr} &::=&\textsf{num}\ |\ \textsf{ident}\ |\ \textsf{asig}\ |\ \textsf{expr} + \textsf{expr}\ |\ \textsf{expr}\ -\ \textsf{expr}\\
             &&\ |\ \textsf{expr} > \textsf{expr}\ |\ \textsf{expr}\ <\ \textsf{expr}\ |\ \textsf{ident }(\textsf{exprs})\\
@@ -54,8 +54,7 @@ En \textsf{TinyC} tendremos las declaraciones de variables y funciones que se pu
 
 \bigskip
 
-
-También es importante remarcar la diferencia que la introducción de las variables en este paradigma suponen para el estado de un programa, dado que el valor que contienen puede ser modificando alterando así el estado mismo del programa en cualquier punto.  Esto no ocurría con la introducción de las variables en la sintaxis de orden superior para \textsf{MinHs}.
+Es importante remarcar el impacto que la introducción de las variables en este paradigma tiene en el estado de un programa, dado que el valor que contienen puede ser modificando alterando así el estado mismo del programa en cualquier punto.  Esto no ocurría con la introducción de las variables en la sintaxis de orden superior para \textsf{MinHs}.
 
 \bigskip
 
@@ -145,7 +144,7 @@ Esta categoría introduce una diferencia sustancial con las máquinas abstractas
 	     \\*[11pt]
 		Los estados de la máquina $\Cs$ son de la siguiente forma:
 			$$P \ |\ L \  |\ G \succ e\qquad\qquad P\ |\ L\ |\ G \prec e$$
-		En donde $P$ es una pila de control, $L$ y $G$ son ambientes de variables y $e$ es una expresión del lenguaje.
+		En donde $P$ es una pila de control, $L$ y $G$ son ambientes de variables y $e$ es una expresión del lenguaje. Esta relación nos permite almacenar marcos de cómputos pendientes en $P$, ambientes previos en $L$ y evaluar la expresión $e$ con el ambiente $G$.
 	\end{definition}
 
 \subsection{Ambientes}
@@ -165,6 +164,8 @@ A continuación vamos a definir las funciones para hacer referencia al valor de 
         \inference{}{y\leftarrow v;\E[x] = \E[x]}
     \end{array}
 \]
+\\*[11pt]
+Esta función simplemente itera sobre la lista de variables contenidas en el ambiente hasta encontrar un $match$. Sí la búsqueda llega hasta la pila vacía sin encontrar nada regresamos un $fail$.
 
 \end{definition}
 
@@ -184,7 +185,8 @@ A continuación vamos a definir las funciones para hacer referencia al valor de 
         \inference{}{y\leftarrow u;\E[x \rightarrowtail v] = \E[x \rightarrowtail v]}
     \end{array}
 \]
-
+\\*[11pt]
+Esta función itera sobre la lista hasta hacer un $match$ y actualiza el valor contenido en esta variable. Sí la búsqueda llega hasta la pila vacía sin encontrar nada regresamos un $fail$.
 \end{definition}
 
 
@@ -235,15 +237,6 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
             \\
             \end{array}
         \]
-    \item[Variables]
-        \[
-            \begin{array}{c}
-                \inference{G[x]=v}{P\ |\ L\ |\ G \succ x \rightarrow_C P\ |\ L\ |\ G \prec v}\\
-                \\
-                \inference{G[x]=fail&L[x]=v}{P\ |\ L\ |\ G \succ x \rightarrow_C P\ |\ L\ |\ G\ \prec v}\\
-                \\
-            \end{array}
-        \]
     \item[Condicionales]
         \[
             \begin{array}{c}
@@ -258,6 +251,15 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
                 \inference{}{ if(\square,e_2);P\ |\ L\ |\ G\ \prec true \rightarrow_C P\ |\ L\ |\ G\ \succ e_2}\\
                 \\
                 \inference{}{ if(\square,e_2);P\ |\ L\ |\ G\ \prec false \rightarrow_C P\ |\ L\ |\ G\ \prec\bot}\\
+                \\
+            \end{array}
+        \]
+    \item[Variables]
+        \[
+            \begin{array}{c}
+                \inference{G[x]=v}{P\ |\ L\ |\ G \succ x \rightarrow_C P\ |\ L\ |\ G \prec v}\\
+                \\
+                \inference{G[x]=fail&L[x]=v}{P\ |\ L\ |\ G \succ x \rightarrow_C P\ |\ L\ |\ G\ \prec v}\\
                 \\
             \end{array}
         \]
@@ -329,7 +331,6 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
     \end{description}
 \end{definition}
 
-\newpage
 \begin{exercise}[Ejecución de la máquina C]
     Dado el siguiente programa de \textsf{TinyC}  Evalúa el programa para obeter el resultado de acuerdo a las reglas de transición y estados definidos en la sección anterior para la máquina $\Cs$:
     \begin{lstlisting}
@@ -373,8 +374,6 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
 
 	En la escritura de los ejercicios también se optó por el renombramiento de los contextos cuando se necesita almacenar, modificar o agregar alguna definición de variable o función. \\
 	El contexto puede ser renombrado utilizando la notación $$\underline{v_1 \rightarrow n_1, ... , v_n \rightarrow n_k}_{L_n}$$
-	Se pueden omitir los pasos para cuyas evaluaciones nos sean familiares (como las operaciones aritméticas o el retorno de valores numéricos, etc.)\\\\
-	 En este caso la ejecución fue lo mas explícita posible para ilustrar el proceso pero el lector puede convencerse de que la notación puede sobrecargar el espacio de las páginas por lo que permitiremos la omisión de dichas instrucciones en la sección de ejercicios para el lector.\\
 
 \[
 \begin{turn}{90}
@@ -577,7 +576,7 @@ Nuestra atención está no en el resultado que se obtiene en el último paso ($\
 \bigskip
 
 \begin{exercise}
-    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición del algoritmo mergeSort.
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición del algoritmo $merge sort$.
 \end{exercise}
 
 \bigskip
@@ -589,13 +588,13 @@ Nuestra atención está no en el resultado que se obtiene en el último paso ($\
 \bigskip
 
 \begin{exercise}
-    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición del algoritmo binarySearch.
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición del algoritmo $binary search$.
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el arreglo [8,4,1,2,7] y 2
+    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el arreglo [8,4,1,2,7] y búsca el número 2.
 \end{exercise}
 
 
@@ -608,6 +607,6 @@ Nuestra atención está no en el resultado que se obtiene en el último paso ($\
 \bigskip
 
 \begin{exercise}
-    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el arreglo 7
+    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el número 7
 \end{exercise}
 

@@ -102,17 +102,22 @@ en el 3.2 recfun?
 R. página 104. La etiqueta fue cambiada por ejercicio. 
 
 p.113 revisar redacción del 3er párrafo
+R. Página 108. Se corrigió la redacción.
 
 p.114 def.2.1 
 vardec ya no tiene --
-call no fue definida y tampoco return 
+call no fue definida y tampoco return.
+R. Página 107 y 109 la sintáxis tenía un error de parseo al construir el PDF, este error fue corregido.
 
 p.115 explicar las nociones de las definiciones 2.2 2.3 y 2.4
+R. Páginas 109 y 110, se agregó una descripción a cada función.
 
 p.116 vardec y fundec ya no tienen --
 secu no fue definida
+R. Página 107. secu es la instrucción que encierrra estatements entre corchetes {} en la sintaxis.
 
 p.117 while y call no están definidas
+R. Página 107, la sintaxis tenía un error de parseo al construir el PDF, este error fue corregido.
 
 p.124 indicar que el polimorfismo de la OO es diferente al de Haskell
 
