@@ -1,4 +1,4 @@
-%    Noveno Capítulo: Subtipado.
+%    Noveno Capítulo: subtipificado.
 %    Ejercicios por Barón L. Miguel.
 %    Teoría por Javier Enríquez Mendoza.
 %    Empezado el 19/7/23
@@ -9,69 +9,73 @@
     \centerline{\includegraphics[scale=.5]{assets/10_gatitos_familia.jpg}}
 \end{figure}
 
-En este capítulo vamos a revisar el último paradigma de programación que estudiaremos en este manual, la orientación a objetos y sus características más importantes, la herencia y los subtipos.\\\\
+En este capítulo vamos a revisar el último paradigma de programación que estudiaremos en este manual, la orientación a objetos y sus características más importantes; la herencia y los subtipos.\\\\
 La introducción del paradigma de la orientación a objetos presenta una ventaja al momento de reutilizar código que ya hemos definido anteriormente y que durante los últimos años supuso una revolución en la forma en la que se escriben y desarrollan los programas que corren en nuestros teléfonos y computadoras personales.\\\\
 Lenguajes como \textsf{Java},  \textsf{Python}, \textsf{Ruby}, \textsf{Golang}, \textsf{Swift}, \textsf{C\#} entre muchos otros implementan la herencia, en donde métodos, constructores y variables de la clase padre puede ser reutilizadas por otra clase hija.\\\\
 Más aún, en este tipo de lenguajes la flexibilidad no solo se extiende a hacer uso de código previamente definido y heredado si no que se puede extender y sobrecargar sobre lo ya existente, proporcionando una mecanismo modular para desarrollar software y evitar la redefinición de clases, métodos y variables. 
 
 \subsubsection{Objetivo}
-El objetivo de este capítulo es proporcionar una definición de los conceptos principales de la orientación objetos y su aplicación a la herencia y el subtipado en el paradigma procedimental para las diferentes categorías definidas en la sintaxis de \textsf{TinyC}.
+El objetivo de este capítulo es proporcionar una definición de los conceptos principales de la orientación objetos y su aplicación a la herencia y el subtipificado en el paradigma procedimental para las diferentes categorías definidas en la sintaxis de \textsf{TinyC}.
 
 \subsubsection{Planteamiento}
 En este capítulo se presentan las definiciones principales del paradigma de la orientación a objetos como clase, objeto y subtipo, así como las reglas que nos permiten inferir el tipo de una expresión.\\\\
-Finalmente se concluye el capítulo introduciendo el concepto de $casting$ junto con los juicios que nos permiten transformar el tipo de una expresión. 
+Finalmente se concluye el capítulo introduciendo el concepto de $casting$ (en español conversión) junto con los juicios que nos permiten transformar el tipo de una expresión. 
 
 \section{Orientación a objetos}
 La orientación a objetos tiene como fundamento la abstracción de los elementos mas importantes de las entidades que se desean modelar en la computadora, su identidad, su comportamiento, relaciones, etc. Para este propósito se utiliza una abstracción conocida como clase. 
 
-\begin{definition}[Definición de clase]
+\begin{definition}Definición para clases\footnote{Definición formulada de \hyperlink{128}{[128]} y \hyperlink{133}{[133]} }. \\\\
     Una clase es una abstracción de una entidad, elemento u objeto que define sus características más importantes como el nombre, los atributos, variables y métodos que describen su comportamiento.
 \end{definition}
+
 \bigskip
-\begin{definition}[Definición de objeto]
+
+\begin{definition}Definición de objeto\footnote{Definición formulada de \hyperlink{128}{[128]} y \hyperlink{133}{[133]} }. \\\\
     Un objeto es una instancia de una clase.
 \end{definition}
 
-Las características que se comparten entre los lenguajes que implementan este paradigma incluyen:
+\bigskip
+
+Las características que se comparten entre los lenguajes que implementan este paradigma incluyen\footnote{Definición formulada de \hyperlink{133}{[133]}} :
+\bigskip
 
 \begin{itemize}
     \item Herencia:
-	 permite la definición única de una clase dejando que esta sea extendida o sobrecargada por las clases que heredan de ella, constituyendo un mecanismo para reutilizar código previamente escrito y adaptarlo al contexto particular donde se desean instanciar los objetos.\\
+	 permite la definición de una clase original dejando que esta sea extendida o sobrecargada por las clases que heredan de ella, constituyendo un mecanismo para reutilizar código previamente escrito y adaptarlo al contexto particular donde se desean instanciar los objetos.\\
 
-    \item Encapsulamiento de datos: Esta característica comprende la seguridad de la información contenida en las variables y métodos de una clase, permitiendo que solo el objeto mismo sea el encargado de alterar la información contenida en él, proporcionando seguridad y consistencia.\\
+    \item Encapsulamiento de datos: esta característica comprende la seguridad de la información contenida en las variables y métodos de una clase. Permitiendo que solo el objeto mismo sea el encargado de alterar la información contenida en el, proporcionando seguridad y consistencia.\\
 
-    \item  Polimorfismo: Esta característica permite que un objeto que ha heredado de una clase pueda ser identificado por cualquiera de los tipos que posea la cadena de herencia, pudiendo este ser, su mismo tipo o cualquiera de los tipos de la clase o clases padres.\\
+    \item  Polimorfismo: esta característica permite que un objeto que ha heredado de una clase pueda ser identificado por cualquiera de los tipos que posea la cadena de herencia, pudiendo este ser su mismo tipo, o cualquiera de los tipos de la clase o clases padres.\\
 
-    \item  Representaciones múltiples: Esta característica permite que dos objetos de una misma clase puedan presentar comportamiento distinto pues éste puede cambiar según el estado que posea cada uno.\\
+    \item  Representaciones múltiples: esta característica permite que dos objetos de una misma clase puedan presentar comportamiento distinto pues éste puede cambiar según el estado que posea cada uno.\\
 
-    \item Recursión abierta: Un objeto es capaz de invocarse a si mismo dentro de la definición de los métodos de su propia clase, utilizando las palabras reservadas como \textsf{self} o \textsf{this}.
+    \item Recursión abierta: un objeto es capaz de invocarse a si mismo dentro de la definición de los métodos de su propia clase, utilizando las palabras reservadas como \textsf{self} o \textsf{this}.
 \end{itemize}
 
 
 \section{Subtipos}
 
-Los sistemas de tipos que hemos estudiado hasta este momento son restrictivos en el sentido de que muchas operaciones que parecerían intuitivas al desarrollar un programa no serían aceptadas por dicho sistema.\\
-Particularmente operaciones como la suma (+) entre los tipos \textbf{Int} y \textbf{Float} por ejemplo.\\\\
-Necesitamos relajar este sistema para tener mas flexibilidad sobre este tipo de casos, por esto se incluye la relación A $\leq$ B que simboliza: "A es subtipo de B".
+Los sistemas de tipos que hemos estudiado hasta este momento son restrictivos en el sentido de que muchas operaciones que parecerían intuitivas al desarrollar un programa no serían aceptadas por dicho sistema.
+Particularmente operaciones como la suma (+) entre los tipos $Int$ y $Float$ por ejemplo.\\\\
+Necesitamos ''relajar'' este sistema para tener mas flexibilidad sobre este tipo de casos. En particular necesitamos construir la relación de subtipificado; A $\leq$ B que simboliza:''A es subtipo de B''.
 
-\begin{definition}[Relación de subtipado] La relación de subtipado nos permite intercambiar a discresión un tipo A donde se espera un parámetro de tipo B 
-    
-        Esta relación tiene las siguientes propiedades:
+\begin{definition}Relación de subtipificado\footnote{Definición formulada de \hyperlink{130}{[130]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} } \\
+
         \begin{description}
         	\item[Reflexividad]
-        	$$\inference{}{T \leq T}$$
+        	$$\inference{}{A \leq A}$$
         	\item[Transitividad]
-        	$$\inference{R\leq S & S \leq T}{R \leq T}$$
+        	$$\inference{A\leq B & B \leq C}{A \leq C}$$
         	\item[Subsunción]
-        	$$\inference{\Gamma \vdash e:S & S \leq T}{\Gamma\vdash e:T}$$
-        	Esta propiedad expresa que si una expresión tiene tipo  S$\,$ y S$\,$ es subtipo de T$\,$ entonces puede usarse en cualquier contexto en donde sea necesaria una expresión de tipo T.
+        	$$\inference{\Gamma \vdash e:A & A \leq B}{\Gamma\vdash e:B}$$
+        	Esta propiedad expresa que si una expresión tiene tipo  A$\,$ y A$\,$ es subtipo de B$\,$ entonces puede usarse en cualquier contexto en donde sea necesaria una expresión de tipo B.
         \end{description}
     \end{definition}
     
- \begin{exercise}[Suma con subtipado] Para este ejemplo consideremos la expresión:
+ \begin{exercise} Para este ejemplo consideremos la expresión:
     
     $$ 5.5 + 2$$
-    Donde podemos observar que $5.5:Float$ y $2:Int$, suponemos entonces que los tipos \textbf{Float} e \textbf{Int} están relacionados bajo la relación de subtipado como 
+    Donde podemos observar que $5.5:Float$ y $2:Int$, suponemos entonces que los tipos $Float$ e $Int$ están relacionados bajo la relación de subtipificado como 
     $$Int\ \leq\ Float$$
     por lo que la derivación de tipos de la expresión anterior queda como sigue:
     \[
@@ -88,18 +92,25 @@ Necesitamos relajar este sistema para tener mas flexibilidad sobre este tipo de 
     	{\varnothing\vdash 5.5+3:Float}
     \]
     
-    Gracias a la propiedad de subsunción podemos reemplazar \textbf{Int} por \textbf{Float} en la derivación de los tipos conservando la propiedad de ser una expresión válida.
+    Gracias a la propiedad de subsunción podemos reemplazar $Int$ por $Float$ en la derivación de los tipos conservando la propiedad de ser una expresión válida.
 \end{exercise}
 
-La relación de subtipado puede ser interpretada principalmente de dos formas:\\\\
-\textbf{Interpretación por subconjuntos} \\\\
-    Sí \textbf{S} $\leq$ \textbf{T} entonces toda expresión de tipo \textbf{S} también es una expresión de tipo \textbf{T} pues \textbf{S} está contenido en \textbf{T}.\\\\
-    \textbf{Interpretación por Coerción}\\\\
-    Entendemos coerción como la acción de ejercer presión sobre un objeto para forzar su conducta. Esta acción aplicada al contexto de software nos permite modelar el siguiente comportamiento: si s es de tipo \textbf{S} y \textbf{S} $\leq$ \textbf{T} entonces s se puede convertir de forma única a una expresión de tipo \textbf{T}, es decir forzamos el cambio de tipo mediante una conversión explícita.\\\\
-    En el ejemplo anterior teníamos 2 : \textbf{Int} el cuál fue coercido a 2.0 : \textbf{Float}.\\
+\bigskip
+
+La relación de subtipificado puede ser aplicada a partir de dos interpretaciones diferentes\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} } .
+\begin{itemize}
+
+\item Interpretación por subconjuntos: \\
+    Sí A $\leq$ B entonces toda expresión de tipo A también es una expresión de tipo B pues A está contenido en B.\\
+\item Interpretación por coerción:\\
+    Entendemos coerción como la acción de ejercer presión sobre un objeto para forzar su conducta. Esta acción aplicada al contexto de software nos permite modelar el siguiente comportamiento: si s es de tipo A y A $\leq$ B entonces s se puede convertir de forma única a una expresión de tipo B, es decir forzamos el cambio de tipo mediante una conversión explícita.\\\\
+    En el ejemplo anterior teníamos 2 : $Int$ el cuál fue coercido a 2.0 : $Float$.\\
+
+\end{itemize}
+
     
-\subsection{Subtipado de tipos primitivos}
-    Las reglas para definir la relación de subtipado entre los tipos primitivos proporcionados en la definición de los lenguajes de programación constituyen los axiomas de dicho sistema y con ellos se pude derivar el resto de las reglas utilizando las propiedades de subsunción y transitividad.\\\\
+\subsection{Subtipificado de tipos primitivos}
+    Las reglas para definir la relación de subtipificado entre los tipos primitivos proporcionados en la definición de los lenguajes de programación constituyen los axiomas de dicho sistema y con ellos se pude derivar el resto de las reglas utilizando las propiedades de subsunción y transitividad.\\\\
     Para ilustrar este punto se agrega el tipo \textbf{Float} junto con los axiomas:
     
     \[
@@ -108,24 +119,24 @@ La relación de subtipado puede ser interpretada principalmente de dos formas:\\
     	\end{array}
     \]
 
-\subsection{Subtipado de funciones}
+\subsection{subtipificado de funciones}
 
     Definamos el siguiente tipo de para una función $f$ como $f:Int \to Int$, entonces se tiene que $f\,n : Int$ cuando recibe cualquier argumento de tipo $n:Int$, así  $f\,n: Float$ por la regla de subsunción que revisamos en la sección anterior, por consiguiente se tiene que:
     $$Int \to Int \leq Int \to Float$$ es una derivación de tipo válida.
-    Es decir la relación de subtipado original se preserva en el codominio de la función. En tal caso se dice que esta posición es covariante.
+    Es decir la relación de subtipificado original se preserva en el codominio de la función. En tal caso se dice que esta posición es covariante.
     
-    Por otro lado si definimos el tipo de nuestra función como $f: Float \to Int$. Tenemos que como todas las expresiones $e:\textbf{Int}$ son también de tipo \textbf{Float}  podemos utilizar la relación de subtipado "en sentido opuesto" para restringir el dominio (de forma inversa a como se usó en el caso anterior), así podemos introducir elementos de tipo \textbf{Int} en el dominio de f. Por lo que se cumple la siguiente relación de subtipado:
+    Por otro lado si definimos el tipo de nuestra función como $f: Float \to Int$. Tenemos que como todas las expresiones $e:\textbf{Int}$ son también de tipo \textbf{Float}  podemos utilizar la relación de subtipificado "en sentido opuesto" para restringir el dominio (de forma inversa a como se usó en el caso anterior), así podemos introducir elementos de tipo \textbf{Int} en el dominio de f. Por lo que se cumple la siguiente relación de subtipificado:
     $$Float \to Int \leq Int \to Int$$ 
     Es decir, la relación de subtipos original $Int \leq Float$ usada en la primera derivación se invierte para este caso, decimos entonces que este argumento es contravariante.
     
-    Finalmente, usando la propiedad de transitividad tenemos la siguiente relación de subtipado
+    Finalmente, usando la propiedad de transitividad tenemos la siguiente relación de subtipificado
     $$Float \to Int \leq Int \to Int \leq Int \to Float $$
-    De esta forma podemos definir la regla de subtipado para el caso general de los tipos función como sigue:
+    De esta forma podemos definir la regla de subtipificado para el caso general de los tipos función como sigue:
     $$\inference{T_1 \leq S_1 & S_2 \leq T_2}{S_1 \to S_2 \leq T_1 \to T_2}$$
 
     
-\subsection{Subtipado para suma y producto}
-    Para esta aplicación la relación de subtipado se comporta como contravariante, es decir la dirección de la relación se preserva como es de esperar, de tal forma que se introducen las siguientes reglas al sistema de tipos.
+\subsection{subtipificado para suma y producto}
+    Para esta aplicación la relación de subtipificado se comporta como contravariante, es decir la dirección de la relación se preserva como es de esperar, de tal forma que se introducen las siguientes reglas al sistema de tipos.
     
     \[
     	\begin{array}{ccc}
@@ -134,18 +145,18 @@ La relación de subtipado puede ser interpretada principalmente de dos formas:\\
     	\end{array}
     \]
     
-\subsection{Subtipado para registros}
+\subsection{subtipificado para registros}
 
     Los registros como hemos estudiado en secciones anteriores son la generalización de una \textbf{tupla} permitiendo entender el concepto para n elementos, asociados a éstos existen las \textbf{proyecciones} para recuperar el n-ésimo elemento contenido en ésta.
 
-    Veremos brevemente las características asociadas al tipo de esta estructura una vez se introduce la relación de subtipado.
+    Veremos brevemente las características asociadas al tipo de esta estructura una vez se introduce la relación de subtipificado.
     
     \begin{description}
     	\item[Amplitud] Dados dos registros A y B donde A posee una cantidad menor de elementos que B, decimos que el tipo del registro A es subtipo del registro B representado de la siguiente forma:
     
     	$$\inference{}{(l_1:\T_1,\dots,l_{n+k}:\T_{n+k})\leq(l_1:\T_1,\dots,l_{n}:\T_{n})}$$
     
-    	\item[Profundidad] Esta propiedad es la aplicación de la contravarianza de la relación de subtipado, aplicandose a cada uno de los campos contenidos en el registro:
+    	\item[Profundidad] Esta propiedad es la aplicación de la contravarianza de la relación de subtipificado, aplicandose a cada uno de los campos contenidos en el registro:
     
     	$$\inference{T_1 \leq S_1 & \cdots & T_n \leq S_n}{(l_1:T_1,\dots,l_{n}:T_{n})\leq(l_1:S_1,\dots,l_{n}:S_{n})}$$
     
@@ -174,14 +185,14 @@ La relación de subtipado puede ser interpretada principalmente de dos formas:\\
 
     En lenguajes de programación como Java hemos hecho uso de este mecanismo para cambiar el tipo de un dato o variable por otro. \\\\
     Similar al ejemplo que tenemos para pasar de 2:\textbf{Int} a 2.0:\textbf{Float}.
-    La relación de subtipado nos provee la regla de subsunción sin embargo definiremos el mecanismo para ambos sentidos de la relación conocidos como \textbf{Upcasting} y \textbf{Downcasting}\\
+    La relación de subtipificado nos provee la regla de subsunción sin embargo definiremos el mecanismo para ambos sentidos de la relación conocidos como \textbf{Upcasting} y \textbf{Downcasting}\\
 
     \subsection{\em Upcasting}
         En este tipo de casting (también conocido como "casting hacia arriba") el objetivo es que de un término dado se le atribuye un supertipo del tipo esperado. De esta forma en presencia de subtipos si se tiene $T \leq R$ entonces podemos concluir, usando subsunción que $\Gamma \vdash \< R \> \,e:R$, en donde $\<R\>$ es la notación para el {\it casting} explícito. representado como:
         $$\inference{\Gamma\vdash e:T & T \leq R}{\Gamma\vdash\<R\>\,e:R}$$
 
     \subsection{\em Downcasting}
-        En este tipo de casting (también conocido como "casting hacía abajo") la asignación de tipos es arbitraria, la relación de subtipado no necesariamente se tiene que cumplir.\\\\
+        En este tipo de casting (también conocido como "casting hacía abajo") la asignación de tipos es arbitraria, la relación de subtipificado no necesariamente se tiene que cumplir.\\\\
         Ésto supone una amenaza a la consistencia de tipos en el programa que se escribe con esta instrucción, el lenguaje está forzado a aceptar el downcasting en tiempo de compilación pero en tiempo de ejecución un futuro conjunto de chequeos deben de ser ejecutados para verificar que el tipo asignado no supone un error. Esta regla se representa de la siguiente manera: 
 
         $$\inference{\Gamma\vdash e:T}{\Gamma\vdash\< R\>\,e: R}$$
@@ -208,7 +219,7 @@ La relación de subtipado puede ser interpretada principalmente de dos formas:\\
     \bigskip
 
     \begin{exercise}
-        Dada la siguiente expresión utiliza las reglas de subtipado para funciones para cambiar la firma de la función y que reciba \textbf{Float}.
+        Dada la siguiente expresión utiliza las reglas de subtipificado para funciones para cambiar la firma de la función y que reciba \textbf{Float}.
         $$ fun(x:\textbf{Int} \rightarrow \ x + 1\ ) : \textbf{Int}  \rightarrow \textbf{Int} $$
     \end{exercise}
 
