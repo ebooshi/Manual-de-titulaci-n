@@ -1,0 +1,130 @@
+-----
+CAMBIOS NECESARIOS EN TODO EL ARCHIVO
+
+el pdf tiene (meta)nombre como de un template, revisa los metadatos del .tex
+
+revisar acentos
+
+revisar uso de comillas porque modifica la letra siguiente o genera caracteres 
+raros
+
+
+-----
+COMENTARIOS PARTICULARES
+
+--------------------------------------------- Capítulo 1: Introducción ---------------------------------------------------
+
+p.I hay un repositorio o página en donde se puedan consultar las notas de 
+Javier?
+R: Agregué el link al repositorio, está en el item [5] en la bibliografía.
+
+p.3 la definición 2.2 tiene incompleto el codominio
+R: Página 4, agregada la unión con los Booleanos en la firma de la función.
+
+p.4 en la def.2.2 usas t y f pero en la evaluación usas True y False 
+R: Página 4. Corregido, ahora ambas (función de evaluación y función recursiva eval) utilizan "True" y "False".
+
+p.5 revisar def. 2.3
+R: Página 5. Esta definición fue refraseada en la versión final.
+
+p.7 ej4.1. a qué te refieres con el tipo de regla del ; ?
+R: Página 8. agregué la anotación para que el lector pueda escoger entre: sintáctica, semántica y pragmática.
+
+--------------------------------------- Capítulo 2: Herramientas Matemáticas -------------------------------------------
+
+
+p.10 definición inductiva vs definición recursiva
+estructura inductiva vs estructura recursiva
+revisa estos conceptos
+R: Página 12. Cambié el título de la sección y refraseé por completo esa parte para incluir las definiciones que me pediste en este punto :-)
+
+p.11 ej1.3 creo que hacen falta algunos símbolos matemáticos(?)
+R: Página 10, ejercicio 1.3) La idea de este ejercicio es listar algunas entidades matemáticas y los símbolos que utilizamos para referirnos a las propiedadeso que poseen o grupos a los que pertenecen, no es una lista exhaustiva pero si lo consideras puedo agregar varios más.
+
+p.11 en las reglas, pueden haber varios juicios en la parte inferior?
+no has dicho qué es una hipótesis en una regla.
+R: Página 11. Refactoricé este párrafo para incluir esta información.
+
+p.15 def.2.4 revisar nombre de función que cuenta el número de nodos
+R: Página 15. ejercicio 3.4 
+
+p.16 puedes interpretar (describir en español) la secuencia del inciso D del 
+ejercicio 3.1?
+
+p.17 cómo debe ser el tipo de f en la definición 4.1 de los ejercicios?
+
+p.17 ejercicios 4.3, 4.4 y 4.5 indica la gramática a usarse
+
+p.17 ejercicios 4.6 y 4.7 indica la def. de árboles a usarse
+
+p.18 ejercicio 4.11 cuando duplicas un dígito, no necesariamente tendrá dos 
+dígitos 
+
+p.19&20 revisa los footnotes
+
+p.21 el principio de inducción sólo se tiene cuando la definición del lenguaje 
+fue dada por recursión... este comentario tiene que ver con el que hice sobre 
+la p.10
+
+
+Cap.3 revisar diferencias entre AS y CS
+eg. consultar 
+https://www.inf.ed.ac.uk/teaching/courses/epl/2016/lectures/lec1.pdf
+
+
+p.34 si hay variables libres, no se puede suponer que existe un estado de la 
+memoria donde se pueda obtener información sobre esas variables libres?
+
+p.35 hablas de variables no definidas y parace que las igualas a las variables 
+libres, pero... son lo mismo?
+
+p.36 def. 2.1 esta bien la def de conjuntos de estados?
+
+p.37 secc.2.2 revisar el estilo del texto entre comillas
+
+p.41 puedes dar una bosquejo de la demostración del teorema?
+
+p.43 la extensión de lógica proposicional con cuantificadores esta rara, no? 
+Cómo funcionan los cuantificadores sobre las proposiciones?
+
+p.46 l.1 una --> un 
+
+p.47 footnote1 Alan Turing
+
+p.47 Zermelo y Russell también utiliza sus nombres completos  y revisa los 
+apellidos de todos
+
+p.48 def.1.1 utilizas l para las expresiones y en todo lo demás usas e's 
+
+p.48 en la descripción de los ejemplos, en lugar de ejemplo n) utiliza caso n. 
+el caso 4. devuelve el valor constante correspondiente a la variable y
+el caso 7. sobre la currificación, falta decir que es definir funciones de 
+múltiples argumentos que se procesan de uno por uno
+Revisa la diferencia entre argumento y parámetro en funciones...
+
+p.49 revisa footnote4 
+
+p.50 ejercicio3.3 utiliza más paréntesis para enfatizar las sustituciones
+
+p.50 sec4. las funciones no son tipos primitivos, son objetos primitivos y de 
+orden superior para poder ser usados como argumentos o como resultados 
+
+p.51 def.4.2 está incompleta la definición, además no se ha dado el término 
+para el if
+
+p.52 revisar def.5.1,  numeral no lleva acento
+
+p.54 la definición de suma está definida recursivamente 
+
+p.54 regleja --> refleja 
+pimero --> primer
+
+p.55 revisar explicación de la multiplicación
+p.55 ej5.7 utiliza más paréntesis para enfatizar las aplicaciones, puedes usar 
+\big o \Big antes de los paréntesis para hacerlos más grandes
+
+p.57   contsturctores --> constructores
+
+p.59 ej8.1 quién es g?
+
+

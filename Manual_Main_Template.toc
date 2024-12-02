@@ -1,0 +1,24 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {spanish}{}\relax 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {2}Herramientas matemáticas}{2}{chapter.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}Sintaxis}{3}{chapter.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}Semántica}{4}{chapter.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}Cálculo Lambda}{5}{chapter.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {6}MinHs}{6}{chapter.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {7}Inferencia de tipos}{7}{chapter.7}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {8}Máquinas abstractas}{8}{chapter.8}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {9}TinyC}{9}{chapter.9}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {10}Herencia y subtipos}{10}{chapter.10}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {11}Java Peso Pluma}{11}{chapter.11}%

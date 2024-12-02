@@ -172,7 +172,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
     \end{description} 
 \end{definition}
 
-\subsection{Elementos máximos para el sistema de tipos}
+\subsection{Elementos máximos}
  
         En nuestra implementación para el sistema de tipos es importante contar con un elemento máximo, en donde elemento de tipo distinto al elemento máximo es subtipo de este. \\Aquí  introducimos $Top$ que cumple exactamente con esta característica representada de la siguiente forma:
 
@@ -194,54 +194,74 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 \section{Conversión de tipos}
 
     En lenguajes de programación como Java hemos hecho uso de este mecanismo para cambiar el tipo de un dato o variable por otro. \\\\
-    Similar al ejemplo que tenemos para pasar de 2:\textbf{Int} a 2.0:\textbf{Float}.
-    La relación de subtipificado nos provee la regla de subsunción sin embargo definiremos el mecanismo para ambos sentidos de la relación conocidos como \textbf{Upcasting} y \textbf{Downcasting}\\
+    Similar al ejemplo que tenemos para pasar de 2 :\textit{ Int} a 2.0 :\textit{ Float}.
+    La relación de subtipificado nos provee la regla de subsunción sin embargo definiremos el mecanismo para ambos sentidos de la relación conocidos como conversión ascendiente (\textit{Upcasting}) y conversión descendiente (\textit{Downcasting}).\\
 
-    \subsection{\em Upcasting}
-        En este tipo de casting (también conocido como "casting hacia arriba") el objetivo es que de un término dado se le atribuye un supertipo del tipo esperado. De esta forma en presencia de subtipos si se tiene $T \leq R$ entonces podemos concluir, usando subsunción que $\Gamma \vdash \< R \> \,e:R$, en donde $\<R\>$ es la notación para el {\it casting} explícito. representado como:
+    \subsection{Conversión ascendiente \it (Upcasting)}
+        En este tipo de casting (también conocido como ''casting hacia arriba'') el objetivo es que al tipificar un término, a este se le atribuye un supertipo esperado. \\\\
+	  De esta forma  para los subtipos donde $T \leq R$ entonces usando subsunción podemos concluir que $\Gamma \vdash \< R \> \,e:R$, en donde $\<R\>$ es la notación para el {\it casting} explícito, representado como:
+	\begin{definition}Definición para Conversión ascendiente\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
         $$\inference{\Gamma\vdash e:T & T \leq R}{\Gamma\vdash\<R\>\,e:R}$$
+	\end{definition}
+    \subsection{Conversión descendiente \it (Downcasting)}
+        En este tipo de casting (también conocido como ''casting hacía abajo'') la asignación de tipos es arbitraria, la relación de subtipificado no necesariamente se tiene que cumplir.\\\\
+        Ésto supone una amenaza a la consistencia de tipos en el programa que se escribe con esta instrucción, el lenguaje está forzado a aceptar el \textit{downcasting} en tiempo de compilación pero en tiempo de ejecución un futuro conjunto de verificaciones deben de ser ejecutados para corroborar que el tipo asignado no supone un error. Esta regla se representa de la siguiente manera: 
 
-    \subsection{\em Downcasting}
-        En este tipo de casting (también conocido como "casting hacía abajo") la asignación de tipos es arbitraria, la relación de subtipificado no necesariamente se tiene que cumplir.\\\\
-        Ésto supone una amenaza a la consistencia de tipos en el programa que se escribe con esta instrucción, el lenguaje está forzado a aceptar el downcasting en tiempo de compilación pero en tiempo de ejecución un futuro conjunto de chequeos deben de ser ejecutados para verificar que el tipo asignado no supone un error. Esta regla se representa de la siguiente manera: 
-
+	\begin{definition}Definición para conversión  descendiente\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
         $$\inference{\Gamma\vdash e:T}{\Gamma\vdash\< R\>\,e: R}$$
-	El primer paso es verificar que e esté correctamente tipada y el segundo es asignar el tipo sin ninguna restricción.
-
+	\end{definition}
 
 \section{Ejercicios para el lector}
 
 
     \begin{exercise}
-        Dada la siguiente expresión utiliza las reglas de tipado para suma y producto para derivar el tipado de la misma.
-        $$ (4.0\ x\ 1)\ -\ 3.0\ : \ \textbf{Float}$$
+        Dada la siguiente expresión utiliza las reglas de tipificado para suma y producto, deriva el tipo de la misma.
+        $$ (4.0\ *\ 1)\ -\ 3.0\ : \ \textit{Float}$$
     \end{exercise}
 
     \bigskip
 
     \begin{exercise}
-        Dada la siguiente expresión utiliza las reglas de tipado para suma y producto para derivar el tipado de la misma.
-        $$ (3\ x\ 3.0)\ +\ (4\ x\ 4)\ : \ \textbf{Float}$$
+        Dada la siguiente expresión utiliza las reglas de tipificado para suma y producto, deriva el tipo de la misma.
+        $$ (3\ *\ 3.0)\ +\ (4\ *\ 4)\ : \ \textit{Float}$$
+    \end{exercise}
+    \bigskip
+
+    \begin{exercise}
+        Dada la siguiente expresión utiliza las reglas de tipificado para el operador \textit{if}, deriva el tipo de la misma.
+        $$ \textsf{if } (7\ *\ 0.0) < 0 \textsf{ then } 1 \textsf{ else } 0 : \ \textit{Float}$$
+    \end{exercise}
+    \bigskip
+
+    \begin{exercise}
+        Dada la siguiente expresión utiliza las reglas de tipificado para el operador \textit{while}, deriva el tipo de la misma.
+        $$ Int\ i\ =\ 0;\ while(i < 10)\{i + 1;\}\ \textsf{return } i;\ :\ Int$$
+    \end{exercise}
+    \bigskip
+
+    \begin{exercise}
+        Dada la siguiente expresión utiliza las reglas de tipificado para el operador \textit{fun}, deriva el tipo de la misma.
+        $$ fun(x:\textit{Int} \rightarrow \ x + 1\ ) : \textit{Int}  \rightarrow \textit{Int} $$
     \end{exercise}
 
     \bigskip
 
     \begin{exercise}
-        Dada la siguiente expresión utiliza las reglas de subtipificado para funciones para cambiar la firma de la función y que reciba \textbf{Float}.
-        $$ fun(x:\textbf{Int} \rightarrow \ x + 1\ ) : \textbf{Int}  \rightarrow \textbf{Int} $$
+        Utiliza la regla de \textit{Upcasting} para obtener el tipo de la siguiente expresión basado en las reglas para tipos primitivos.
+        $$ fun(x:\textit{Int} \rightarrow if( x \leq 0\ then\ (x - 1.0) \ else\ x  ) ) : \textit{Int}  \rightarrow \textit{Int} $$
     \end{exercise}
 
     \bigskip
 
     \begin{exercise}
-        Utiliza la regla de \textbf{Upcasting} para obtener el tipo de la siguiente expresión basado en las reglas para tipos primitivos.
-        $$ fun(x:\textbf{Int} \rightarrow if( x \leq 0\ then\ (x - 1.0) \ else\ x  ) ) : \textbf{Int}  \rightarrow \textbf{Int} $$
+        Utiliza las reglas de elementos máximos para obtener la derivación del tipificado para la siguiente expresión.
+        $$ fun(x:\textit{Int} \rightarrow if( x \leq 0\ then\ (x - 1.0) \ else\ x  ) ) : \textit{Bot} $$
     \end{exercise}
-
-    \bigskip
+	
+	\bigskip
 
     \begin{exercise}
-        Utiliza las reglas de elementos máximos para obtener la derivación del tipado para la siguiente expresión.
-        $$ fun(x:\textbf{Int} \rightarrow if( x \leq 0\ then\ (x - 1.0) \ else\ x  ) ) : \textbf{Bot} $$
+        Utiliza las reglas de elementos máximos para obtener la derivación del tipificado para la siguiente expresión.
+        $$ fun(x:\textit{Int} \rightarrow if( x \leq 0\ then\ (x - 1.0) \ else\ x  ) ) : \textit{Top} $$
     \end{exercise}
  
