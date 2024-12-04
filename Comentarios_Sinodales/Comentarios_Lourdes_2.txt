@@ -120,8 +120,10 @@ p.117 while y call no están definidas
 R. Página 107, la sintaxis tenía un error de parseo al construir el PDF, este error fue corregido.
 
 p.124 indicar que el polimorfismo de la OO es diferente al de Haskell
+R. Página 121. Se añadió un párrafo para explicar la diferencia
 
 p.128 chequeos --> verificaciones
+R. Página 125. Se cambió la palabra.
 
 cap.11 revisar en las definiciones la tipografía utilizada 
 

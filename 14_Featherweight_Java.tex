@@ -1,0 +1,451 @@
+%    Noveno Capítulo: Subtipado.
+%    Ejercicios por Barón L. Miguel.
+%    Teoría por Javier Enríquez Mendoza.
+%    Empezado el 19/7/23
+%    Concluido el /7/23
+
+%Gatito lambda
+\begin{figure}[htbp]
+    \centerline{\includegraphics[scale=.4]{assets/11_gatito_cayendo.jpg}}
+\end{figure} 
+\bigskip
+
+El presente capítulo constituye el final de este manual. Aquí proporcionaremos la última implementación que revisaremos de un lenguaje orientado a objetos para estudiar las propiedades listadas en el capítulo 10: \textbf{Herencia y Subtipado}.
+Para éllo vamos a aproximar una definición al lenguaje orientado a objetos al que más atención hemos prestado a lo largo de materias como \textbf{Introducción a Ciencias de la Computación}: \textbf{Java}.\\\\
+Estudiar lenguajes de programación que no pertenecen al paradigma funcional es una tarea no trivial, dado que la compaginación entre la sintáxis, semántica y manejo de la memoria no es intuitva con en el caso de \textbf{MinHs} donde el mapeo es uno a uno entre la definición y la implementación\\\\
+
+\subsubsection{Objetivo}
+Para propositos de este manual tomaremos una acercamiento reducido a la implementación de \textbf{Java} conservando sus características mas importantes, esta implementación se conoce como: \textbf{Java Peso Pluma}.\\
+Nuestro principal interés será entonces la definición de la sintáxis, semántica estática y semántica dinámica de \textbf{Java Peso Pluma}.\footnote{Las definiciones que estudiaremos en este capítulo fueron extraidas de: Enríquez Mendoza J., Lenguajes de Programación Notas de clase: Java Peso Pluma. Universidad Nacional Autónoma de México, 2022.}\\
+
+\subsubsection{Planteamiento}
+Siguiendo la misma estructura de los capítulos anteriores comenzaremos el estudio de \textbf{Java Peso Pluma} proporcionando la definición para la sintáxis concreta de los programas que escribiremos en este lenguaje, la semánitca dinámica para evaluarlos y la semántica estática para explorar el sistema de tipos y su relación con la \textbf{herencia}, \textbf{métodos} y \textbf{subtipos}. Por último se estudiará brevemente la seguridad de este lenguaje.
+
+\section{Sintáxis de Java Peso Pluma}
+A continuación presentamos la tabla con la definición de la sintáxis concreta para este lenguaje. Notemos que en esta definición se encapsulan las principales características de interés de los lenguajes orientados a objetos: clases, objectos, métodos, atributos, herencia, polimorfismo y subtipado junto con la recursión abierta.\\
+
+\begin{definition}[Sintaxis de JPP] Se presenta la sintaxis del lenguaje separado en categorías y usando las siguientes metavariables:
+\begin{itemize}
+	\item Nombres de variables: {\tt x,y,z}
+	\item Nombres de atributos: {\tt f,g}
+	\item Nombres de clases: {\tt C,A,B}
+	\item Nombres de métodos: {\tt m}
+\end{itemize}
+\begin{description}
+	\item[Expresiones]
+	\[
+		\begin{array}{rclr}
+			{\tt e}&::=& {\tt x}&\mbox{Variables}\\
+			&&{\tt e.f}&\mbox{Acceso a atributo}\\
+			&&{\tt e.m}(\vec{\tt{e}})&\mbox{Invocación de método}\\
+			&&{\tt new\;C}(\vec{\tt{e}})&\mbox{Instancia de objeto}\\
+			&&{\tt (C)\;e}&\mbox{Casting}\\
+		\end{array}
+	\]
+	\item[Valores]
+	\[
+		\begin{array}{rclr}
+			{\tt v}&::=&{\tt new\;C}(\vec{\tt{v}}) &\mbox{Instancia de objeto}\\
+		\end{array}
+	\]
+	\item[Métodos y Clases]
+	\[
+		\begin{array}{rclr}
+			{\tt K}&::=& {\tt C}\,(\vec{\tt{C}}\,\vec{\tt{x}})\;\{\;{\tt super}(\vec{\tt{x}});{\tt this.}\vec{\tt{f}}=\vec{\tt{x}}\;\}&\mbox{Constructores}\\
+			{\tt M}&::=& {\tt C\;m}\,(\vec{\tt{C}}\,\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}&\mbox{Métodos}\\
+			{\tt L}&::=& {\tt class\;C\;extends\;B}\;\{\;\vec{\tt{A}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}&\mbox{Clases}\\
+		\end{array}
+	\]
+\end{description}
+En las definiciones dadas previamente hacemos abuso de notación donde $\vec{\tt{t}}$ se conoce como notación vectoral y se interpreta como: 
+$$\vec{\tt{t}} =_{def} \tt{t}_1,\tt{t}_2,\dots,\tt{t}_n$$
+Represnta entonces una sucesión de n términos.\\
+
+Cuando se tienen dos vectores sin separación, esta notación se interpreta como el intercalado entre un valor del primero y uno del segundo separando el siguiente par de elementos por una coma:
+$$\vec{\tt{C}}\,\vec{\tt{x}} =_{def} \tt{C}_1\,\tt{x}_1,\tt{C}_2\,\tt{x}_2,\dots,\tt{C}_n\,\tt{x}_n$$
+
+
+Para los constructores los vectores de atributo y valores se pueden escribir de la siguiente forma:
+$${\tt this.}\vec{\tt{f}}=\vec{\tt{x}}=_{def} {\tt this.}\tt{f}_1=\tt{x}_1;{\tt this.}\tt{f}_2=\tt{x}_2;\dots;{\tt this.}\tt{f}_n=\tt{x}_n$$
+Donde la correspondencia entre cada atributo y valor es uno a uno, de manera implícita denotando la misma cardinalidad en ambos vectores.
+\end{definition}
+
+Esta definición contempla varias restricciones que enlistaremos a continuación:
+
+\begin{itemize}
+    \item Las clases siempre extienden a una super clase (puede ser \textbf{Object})
+    \item Los constructores se declaran explícitamente. 
+    \item Los constructores siempre llaman al constructor de la superclase que se hereda mediante le instrucción \textbf{super()}.
+    \item El objeto el cual hace referencia a sus atributos tiene que ser enunciado de forma explícita.
+    \item Los métodos están constituidos únicamente por expresiones \textbf{return}.
+    \item Los constructores solo pueden definir al constructor trivial de la clase, recibiendo y asignando un valor por cada atributo de la clase.
+    \item Solo puede existir un único constructor por clase.
+    \item En la definición de clase los atributos solo pueden ser declarados sin asignar ningún valor.
+\end{itemize}
+
+Revisemos la sintáxis concreta de \textbf{Java Peso Pluma} con los siguientes ejemplos.
+
+\begin{exercise}
+    Proporciona la definición de una clase \textbf{TrianguloRec} que modele un triángulo rectángulo y calcule su perímetro (puedes suponer la existencia de la clase \textbf{Nat} con la suma implementada). 
+    \begin{verbatim}
+    
+    class TrianguloRec extends Object {
+        Nat adyacente;
+        Nat opuesto;
+        Nat hipotenusa;
+    
+        Pair (Nat adyacente, Nat opuesto, Nat hipotenusa){
+            super();
+            this.adyacente = adyacente;
+            this.opuesto = opuesto;
+            this.hipotenusa = hipotenusa;
+        }
+    
+        Nat perimetro (){
+            return this.adyacente + this.opuesto + this.hipotenusa;
+        }
+    
+    }
+    \end{verbatim}
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Proporciona la definición de una clase para definir la dirección de una persona, puedes dar por definida la clase \textbf{String}
+    \begin{verbatim}
+    
+    class Direccion extends Object {
+        String calle
+        String colonia
+        String ciudad
+        Nat numero
+        Nat telefono
+    
+        Direccion (String calle, String colonia, 
+            String ciudad, Nat numero, Nat telefono){
+            super();
+            this.calle = calle;
+            this.colonia = colonia;
+            this.ciudad = ciudad;
+            this.numero = numero
+        }
+    }
+    \end{verbatim}
+    
+\end{exercise}
+
+\section{Tablas de clases}
+
+Los programas de \textbf{Featherwaight Java} son pares constituidas por una expresión $e$ y una \textbf{tabla de clases} $T$ cuya generación no es explícita, \\\\
+Como su nombre indica, esta tabla contiene la información específicada en la declaración de clase, con élla podemos recuperar sus atributos, la firma de los métodos y su cuerpo.\\\\
+A continuación ilustramos las reglas para operar la \textbf{tabla de clase}
+
+\begin{definition}[Tabla de Clases] Una tabla de clases es una función finita que asigna clases a nombres de clase, en otras palabras, $T$ es una sucesión finita de declaraciones de clase de la forma
+
+$$T({\tt C})={\tt class\;C\;extends\;B}\;\{\;\vec{\tt{A}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}$$
+
+
+\begin{description}
+	\item[Búsqueda de Atributos]
+	\[
+		\begin{array}{c}
+			\inference{}{fields(object)=\varnothing}\\
+			\\
+			\inference{T({\tt C})={\tt class\;C\;extends\;B}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
+			({\tt B})=\vec{\tt{B}}\,\vec{\tt{g}}
+			}{({\tt C})=\vec{\tt{B}}\,\vec{\tt{g}},\vec{\tt{C}}\,\vec{\tt{f}}}
+		\end{array}
+	\]
+	\item[Búsqueda del tipo de un método]
+	\[
+		\begin{array}{c}
+			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
+			{\tt B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}\mbox{ figura en }\vec{\tt{M}}
+			}{
+			({\tt m,C}) = \vec{\tt{B}}\to\tt{B}
+			}
+			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
+			{\tt m}\mbox{ no figura en }\vec{\tt{M}}
+			}{
+			({\tt m,C}) = ({\tt m,D}) 
+			}
+		\end{array}
+	\]
+
+	\item[Búsqueda del cuerpo de un método]
+	\[
+		\begin{array}{c}
+			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
+			{\tt B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}\mbox{ figura en }\vec{\tt{M}}
+			}{
+			({\tt m,C}) = (\vec{\tt{x}},\tt{e})
+			}\\
+			\\
+			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
+			{\tt m}\mbox{ no figura en }\vec{\tt{M}}
+			}{
+			({\tt m,C}) =({\tt m,D}) 
+			}
+		\end{array}
+	\]
+
+\end{description}
+\end{definition}
+
+\section{Semántica dinámica}
+    En esta sección vamos a revisar las reglas para poder evaluar expresiones de \textbf{Java Peso Pluma}.\\\\
+    La semántica operacional de este lenguaje se representa como: $\rightarrow_{fj}$ y está basada en la \textbf{tabla de clase} para llevar acabo la evaluación. Aunque la utilización de la tabla sea de forma implícita siempre está presente en la aplicación de cada una de las reglas.\\\\
+    \textbf{Nota:} En la dfinición de \textbf{Java Peso Pluma} los únicos valores permitidos son aquellos objetos instanciados usando la instrucción \textbf{new}, ésto se verá reflejado en la manera en la que las reglas interactúan con dicha instancia de clase. 
+
+    \bigskip
+    
+    \begin{definition}[Semántica Operacional de \textbf{Java Peso Pluma}] Presentamos entonces las reglas de evaluación de \textbf{Featherwieght Java}\\
+        
+        \begin{description}
+        	\item[Selección de Atributos] 
+        	\[
+        		\inference
+        		{fields({\tt C})=\vec{\tt{C}}\,\vec{\tt{f}}}
+        		{({\tt new\,C}\,(\vec{\tt{v}})).{\tt f_i}\rightarrow_{fj}{\tt v_i}}
+        	\]
+        
+                \bigskip
+         
+        	\item[Invocación de métodos]
+        	\[
+        		\inference
+        		{mbody({\tt m,C})=(\vec{\tt{x}},{\tt e})}
+        		{({\tt new\,C}\,(\vec{\tt{v}})){\tt .m}(\vec{\tt{w}})\rightarrow_{fj} e[\vec{\tt{x}},{\tt this}:=\vec{\tt{w}},({\tt new\,C}\,(\vec{\tt{v}}))]}
+        	\]
+        	
+                \bigskip
+         
+        	\item[Casting]
+        	\[
+        		\inference
+        		{{\tt C \leq D}}
+        		{{\tt (D)}\;({\tt new\,C}\,(\vec{\tt{v}}))\rightarrow_{fj} {\tt new\,C}\,(\vec{\tt{v}})}
+        	\]
+        
+                \bigskip
+         
+        	\item[Reglas de congruencia] Siguiendo el estándar de evaluación de derecha a izquierda tenemos las siguientes reglas de evaluación para expresiones:
+        	\[
+        		\begin{array}{c}
+        			\inference
+        			{{\tt e \rightarrow_{fj} e'}}
+        			{{\tt e.f \rightarrow_{fj} e'.f}}\\
+        			\\
+        			\inference
+        			{{\tt e \rightarrow_{fj} e'}}
+        			{{\tt e.m}(\vec{\tt{e}})\rightarrow_{fj}{\tt e'.m}(\vec{\tt{e}})}\\
+        			\\
+                    \end{array}
+                    \begin{array}{c}
+        			\inference
+        			{{\tt e_i \rightarrow_{fj} e_i'}}
+        			{{\tt e.m(\dots,e_i,\dots)\rightarrow_{fj} e.m(\dots,e_i',\dots)}}\\
+        			\\
+        			\inference
+        			{{\tt e_i \rightarrow_{fj} e_i'}}
+        			{{\tt new\;C(\dots,e_i,\dots)\rightarrow_{fj} new\;C(\dots,e_i',\dots)}}\\
+        			\\
+        			\inference
+        			{{\tt e\rightarrow_{fj} e'}}
+        			{{\tt (C)\;e\rightarrow_{fj} (C)\;e'}}\\
+        			\\
+        		\end{array}
+        	\]
+    	
+        \end{description}
+    \end{definition}
+
+
+\section{Semántica estática}
+El sistema de tipos de \textbf{Java Peso Pluma} no cuenta con tipos primitivos, es decir que todos los tipos con los que trabajemos tendrán que ser definidos mediante su respectiva clase. \\\\
+En este lenguaje el tipo \textbf{Top} será Object y este no tendrá que ser definido pues representa el tipo más primitivo con el cual podemos definir construcciones más complejas, este constituye también una palabra reservada en la definición que propusimos de la sintáxis. 
+
+\bigskip
+
+\begin{definition}[Semántica Estática de \textbf{Java Peso Pluma}] A continuación enunciamos las reglas de tipado\\
+
+\begin{description}
+	\item[Reglas de Subtipado]
+	\[
+		\inference
+		{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}}
+		{{\tt C\leq D}}
+	\]
+	Es decir, si la clase {\tt C} extiende a la clase {\tt D} entonces {\tt C} es subtipo de {\tt D}.\\\\
+        En este lenguaje las propiedades de \textbf{reflexividad} y \textbf{transitividad} deben de mantenerse aplicables.
+
+        \bigskip
+        
+	\item[Reglas de Tipado]
+    
+	\[
+            \scalemath{0.8}{
+    		\begin{array}{cr}
+    		\inference
+    		{}
+    		{\Gamma,x: C\vdash x:C}&\mbox{Variables}\\
+    		&\\
+    		\inference
+    		{\Gamma\vdash e:C & fields(C)=\vec{C}\,\vec{\tt{f}}}
+    		{\Gamma\vdash e.{\tt f_1 : C_i}}&\mbox{Acceso a atributos}\\
+    		&\\
+    		\inference
+    		{\Gamma\vdash e_0:C_0 & \Gamma \vdash \vec{e}:\vec{C}& mtype({\tt m},C_0)=\vec{D}\rightarrow C&\vec{C}\leq\vec{D}}
+    		{\Gamma\vdash e_0.{\tt m}(\vec{e}):C}&\mbox{Invocación de métodos}\\
+    		&\\
+    		\inference
+    		{\Gamma\vdash\vec{e}:\vec{C}& fields(C)=\vec{D}\,\vec{\tt{f}}&\vec{C}\leq\vec{D}}
+    		{\Gamma\vdash {\tt new\;C}(\vec{e}):C}&\mbox{Creación de objetos}
+    		\end{array}
+            }
+	\]
+
+	\item[Reglas de casting]
+	\[
+		\begin{array}{cr}
+		\inference
+		{\Gamma\vdash e:D & D\leq C}
+		{\Gamma\vdash (C)\;e:C}&\mbox{{\it Upcasting}}\\
+		&\\
+		\inference
+		{\Gamma\vdash e:D & C \leq D& C \neq D}
+		{\Gamma\vdash (C)\;e:C}&\mbox{{\it Downcasting}}\\
+		&\\
+		\inference
+		{\Gamma\vdash e:D&C\nleq D& D\nleq C&\mbox{{\sf stupid warning}}}
+		{\Gamma\vdash (C)\;e:C}&\mbox{{\it Casting} estúpido}
+		\end{array}
+	\]
+        
+	Esta última regla es un tecnicismo necesario para poder probar la preservación de tipos con la semántica operacional estructural.
+
+        \bigskip
+ 
+	\item[Formación de Clases] Introducimos tres juicios para denotar la correcta formación de una clase: ${\tt M\;ok}\;{\sf in}\;C$ para indicar que el método {\tt M} está bien formado en la clase C, $C\;ok$ que indica que la clase C está bien formada y el juicio $T\;ok$ para decir que la tabla de clases $T$ está bien formada.
+	\[
+		\inference
+		{{\tt K}= {\tt C}\,(\vec{\tt{D}}\,\vec{\tt{y}},\vec{\tt{C}}\,\vec{\tt{x}})\;\{\;{\tt super}(\vec{\tt{y}});{\tt this.}\vec{\tt{f}}=\vec{\tt{x}}\;\}\\
+		fields(D)=\vec{D}\;\vec{\tt{g}}\\
+		\vec{\tt{M}}\;ok\;{\sf in}\;C}
+		{{\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\;ok}
+	\]
+
+	\item[Formación de métodos]
+
+	\[
+		\inference
+		{
+			T(C)={\tt class\;C\;extends\;D\,\{\dots\}}\\
+			mtype({\tt m},D)=\vec{C}\to C_0\\
+			\vec{x}:\vec{C},{\tt this}:C\vdash {\tt e}:C_0'\\
+			C_0'\leq C_0 
+		}
+		{C_0\;{\tt m}\,(\vec{C}\,\vec{x})\{\;{\tt return\;e;}\;\}\;ok\;{\sf in}\;C}
+	\]
+
+	\item[Formación de Tablas] Decimos que una tabla de clases está bien formada si todas las clases declaradas en ella están bien formadas, modelado con la regla:
+
+	\[
+		\inference
+		{\forall C\in{\sf dom}(T),T(C)\;ok}
+		{T\;ok}
+	\]
+    \end{description}
+\end{definition}
+
+\section{Propiedades de Java Peso Pluma}
+
+    Como hemos acostumbrado en el estudio de cada uno de los lenguajes definidos en este manual brevemente mencionaremos las dos propiedades que más interesan en este curso: \textbf{progreso de la función} $\rightarrow_{fj}$ y \textbf{ preservación de tipos}.
+
+\subsection{Preservación de tipos}
+La preservación de tipos que hemos estudiado en implementaciones anteriores difiere en que ahora tenemos que considerar su relación con el mecanismo de herencia y los castings que no son correctos. Esto se puede observar en la siguiente regla.
+\begin{definition}[Preservación de tipos]\label{preservacion} Si $T$ es una tabla de clases bien formada, $\Gamma\vdash e:C$ y $e\rightarrow_{fj} e'$, entonces existe $C'$ tal que $C'\leq C$ y $\Gamma\vdash e' : C'$
+\end{definition}
+
+\subsection{Progreso}
+Esta propiedad tiene un pequeño detalle cuando se utiliza dentro del contexto de \textbf{Java Peso Pluma}, En general la propiedad es válida salvo en el caso único en el que no se puede computar un downcasting.
+
+\begin{definition}[Progreso de la relación $\rightarrow_{fj}$]\label{progreso} Sea $T$ una tabla de clases bien formada, si $\varnothing\vdash e:C$ entonces sucede una y solo una de las siguientes condiciones:
+\begin{itemize}
+	\item $e$ es un valor.
+	\item $e$ contiene una expresión de la forma $(C)\;{\tt new}\;D (\vec{\tt{v}})$ en donde $D \leq C$, es decir, no se puede realizar el {\it downcast}.
+	\item Existe $e'$ tal que $e\rightarrow_{fj} e'$.
+\end{itemize}
+\end{definition}
+
+\subsection{Seguridad}
+Combinando las dos propiedades anteriores obtenemos la relga de seguridad, esta enuncia que si dada una expresión $e$ de \textbf{Java Peso Pluma} se obtiene una expresión en su forma normal, o bien es un valor o encontramos un $downcasting$ incorrecto.
+
+\begin{definition}[Seguridad de \textbf{Java Peso Pluma}] Si $T$ es una tabla de clases bien formada, $\varnothing\vdash e:C$ y $e \rightarrow_{fj}^\star e'$ con $e'$ en forma normal, entonces se cumple una y solo una de las siguientes condiciones:
+\begin{itemize}
+	\item $e'$ es un valor $v$ tal que $\varnothing\vdash v: D$ y $D\leq C$.
+	\item $e'$ contiene como subexpresión $(C)\;{\tt new}\;D(\vec{\tt{v}})$ en donde $D \leq C$.
+\end{itemize}
+Dado cualquier expresión e, o bien esta eventualmente llega a ser evaluada como un valor o se bloquea en un downcasting que no se puede resolver.
+\end{definition}
+
+\section{Cómo se relaciona Java Peso Pluma con Java?}
+
+\textbf{Java Peso Pluma} es un lenguaje con propósitos ilustrativos, muchas de las características que rebostucen a \textbf{Java} y que son englobadas por el paradigma de la \textbf{OOP}\footnote{Objecto Oriented Programming por sus siglas en inglés.} se dejan fuera del enfoque de la definición del mismo. Es natural entonces preguntarse por la relación que guardan ambos lenguajes, qué sucede cuando escribimos un lenguaje en \textbf{Java Peso Pluma} y lo queremos ejecutar en la \textbf{JVM}\footnote{Java Virtual Machine.}. \\\\
+Para dar respuesta a esta pregunta presentamos las siguientes proposiciones que hacen explícita la correspondencia entre ambos lenguajes.
+
+\begin{definition}
+    Cada programa sintácticamente correcto en \textbf{Java Peso Pluma} es también sintácticamente correcto en \textbf{Java}.
+\end{definition}
+
+\bigskip
+
+\begin{definition} Un programa sintácticamente correcto es tipable en \textbf{Java Peso Pluma} si y sólo si es tipable en \textbf{Java}.
+\end{definition}
+
+\bigskip
+
+\begin{definition}\label{3}La ejecución de un programa bien tipado en \textbf{Java Peso Pluma} se comporta de la misma forma en \textbf{Java}.
+\end{definition}
+
+\bigskip
+
+\begin{definition} La evaluación de un programa en \textbf{Java Peso Pluma} no termina si y sólo si compilarlo y ejecutarlo en \textbf{Java} causa no terminación.
+\end{definition}
+
+\bigskip
+
+La demostración de estas últimas cuatro proposiciones no es posible dado que no hay una formalización de \textbf{Java} que nos permita razonar sobre si mismo, sin embargo enunciar estas proposiciones ilustra la importancia de estudiar los lenguajes de programación formalmente para inferir propiedades y características deseadas bajo un modelo de razonamiento lógico.
+
+\newpage
+
+\section{Ejercicios para el lector}
+
+\begin{exercise}
+    Dada la definición de \textbf{Java Peso Pluma} proporciona un programa para modelar árboles binarios cuyo contenido de sus nodos sean enteros (Puedes dar por definido el tipo \textbf{Int}).
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Dada la definición de \textbf{Java Peso Pluma} proporciona un programa para modelar un nuevo objeto llamado \textbf{Empleado} que contenga un campo de clase para su dirección, su número de seguridad social (NSS) y su salario (puedes dar por definidas las clases \textbf{Int}, \textbf{String} y \textbf{Direccion} del ejemplo 1.2).
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Dadas las reglas para la sintáxis y las reglas de la semántica dinámica y estática de \textbf{Featherwieght Java}, Demuestra la proposición 5.1: \textbf{Preservación de tipos}.
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+   Dadas las reglas para sintáxis y las reglas de la semántica dinámica y estática de \textbf{Featherwieght Java}, Demuestra la proposición 5.2: \textbf{Progreso}.
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+   Dadas las reglas para sintáxis y las reglas de la semántica dinámica y estática de \textbf{Featherwieght Java}, Demuestra la proposición 5.3: \textbf{Seguridad}.
+\end{exercise}
