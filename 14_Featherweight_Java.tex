@@ -10,27 +10,29 @@
 \end{figure} 
 \bigskip
 
-El presente capítulo constituye el final de este manual. Aquí proporcionaremos la última implementación que revisaremos de un lenguaje orientado a objetos para estudiar las propiedades listadas en el capítulo 10: \textbf{Herencia y Subtipado}.
-Para éllo vamos a aproximar una definición al lenguaje orientado a objetos al que más atención hemos prestado a lo largo de materias como \textbf{Introducción a Ciencias de la Computación}: \textbf{Java}.\\\\
-Estudiar lenguajes de programación que no pertenecen al paradigma funcional es una tarea no trivial, dado que la compaginación entre la sintáxis, semántica y manejo de la memoria no es intuitva con en el caso de \textbf{MinHs} donde el mapeo es uno a uno entre la definición y la implementación\\\\
+El presente capítulo constituye el final de este manual, aquí proporcionaremos la última implementación que revisaremos de un lenguaje orientado a objetos para estudiar las propiedades listadas en el capítulo 10: herencia y subtipificado.
+Para ello vamos a definir al lenguaje orientado a objetos \textsf{Java Peso Pluma} (en inglés a este lenguaje se le conoce como $Featherweight\ Java$), que contiene un subconjunto de expresiones del lenguaje de programación \textsf{Java}.\\\\
+Estudiar lenguajes de programación que no pertenecen al paradigma funcional es una tarea no trivial, dado que la compaginación entre la sintaxis, semántica y manejo de la memoria se implementa de forma distinta en comparación a \textsf{MinHS} donde el mapeo es uno a uno entre la definición y la implementación de definiciones, funciones y entidades.\\\\
 
 \subsubsection{Objetivo}
-Para propositos de este manual tomaremos una acercamiento reducido a la implementación de \textbf{Java} conservando sus características mas importantes, esta implementación se conoce como: \textbf{Java Peso Pluma}.\\
-Nuestro principal interés será entonces la definición de la sintáxis, semántica estática y semántica dinámica de \textbf{Java Peso Pluma}.\footnote{Las definiciones que estudiaremos en este capítulo fueron extraidas de: Enríquez Mendoza J., Lenguajes de Programación Notas de clase: Java Peso Pluma. Universidad Nacional Autónoma de México, 2022.}\\
+Estudiar la implementación de \textsf{Java Peso Pluma} definiendo y discutiendo sus características mas importantes.\\
 
 \subsubsection{Planteamiento}
-Siguiendo la misma estructura de los capítulos anteriores comenzaremos el estudio de \textbf{Java Peso Pluma} proporcionando la definición para la sintáxis concreta de los programas que escribiremos en este lenguaje, la semánitca dinámica para evaluarlos y la semántica estática para explorar el sistema de tipos y su relación con la \textbf{herencia}, \textbf{métodos} y \textbf{subtipos}. Por último se estudiará brevemente la seguridad de este lenguaje.
+Siguiendo la misma estructura de los capítulos anteriores comenzaremos el estudio de \textsf{Java Peso Pluma} proporcionando la definición para la sintaxis concreta de los programas que escribiremos en este lenguaje. \\\\
+En seguida discutiremos la semántica dinámica para evaluarlos y la semántica estática para explorar el sistema de tipos y su relación con la herencia, métodos y la relación de subtipificado.\\\\
+Por último se estudiará brevemente la propiedad de seguridad aplicada en este lenguaje.
 
-\section{Sintáxis de Java Peso Pluma}
-A continuación presentamos la tabla con la definición de la sintáxis concreta para este lenguaje. Notemos que en esta definición se encapsulan las principales características de interés de los lenguajes orientados a objetos: clases, objectos, métodos, atributos, herencia, polimorfismo y subtipado junto con la recursión abierta.\\
+\section{Sintaxis de Java Peso Pluma}
+A continuación presentamos la definición de \textsf{Java Peso Pluma}en donde se encapsulan las principales características de interés de los lenguajes orientados a objetos: clases, objectos, métodos, atributos, herencia, polimorfismo y subtipificado junto con la recursión abierta.\\
 
-\begin{definition}[Sintaxis de JPP] Se presenta la sintaxis del lenguaje separado en categorías y usando las siguientes metavariables:
+\begin{definition}[Sintaxis de \textsf{JPP}] Se presenta la sintaxis del lenguaje separado en categorías y usando las siguientes meta-variables\footnote{Definición formulada de \hyperlink{128}{[128]} y \hyperlink{129}{[129]} }\\
 \begin{itemize}
 	\item Nombres de variables: {\tt x,y,z}
 	\item Nombres de atributos: {\tt f,g}
 	\item Nombres de clases: {\tt C,A,B}
 	\item Nombres de métodos: {\tt m}
 \end{itemize}
+\bigskip
 \begin{description}
 	\item[Expresiones]
 	\[
@@ -57,6 +59,7 @@ A continuación presentamos la tabla con la definición de la sintáxis concreta
 		\end{array}
 	\]
 \end{description}
+\bigskip
 En las definiciones dadas previamente hacemos abuso de notación donde $\vec{\tt{t}}$ se conoce como notación vectoral y se interpreta como: 
 $$\vec{\tt{t}} =_{def} \tt{t}_1,\tt{t}_2,\dots,\tt{t}_n$$
 Represnta entonces una sucesión de n términos.\\
@@ -67,52 +70,26 @@ $$\vec{\tt{C}}\,\vec{\tt{x}} =_{def} \tt{C}_1\,\tt{x}_1,\tt{C}_2\,\tt{x}_2,\dots
 
 Para los constructores los vectores de atributo y valores se pueden escribir de la siguiente forma:
 $${\tt this.}\vec{\tt{f}}=\vec{\tt{x}}=_{def} {\tt this.}\tt{f}_1=\tt{x}_1;{\tt this.}\tt{f}_2=\tt{x}_2;\dots;{\tt this.}\tt{f}_n=\tt{x}_n$$
-Donde la correspondencia entre cada atributo y valor es uno a uno, de manera implícita denotando la misma cardinalidad en ambos vectores.
+Donde la correspondencia entre cada atributo y valor es uno a uno, de manera implícita denotando la misma cardinalidad en ambos vectores. 
+\bigskip
 \end{definition}
-
-Esta definición contempla varias restricciones que enlistaremos a continuación:
+Esta definición presenta algunas restricciones que no existen en \textsf{Java}:
 
 \begin{itemize}
-    \item Las clases siempre extienden a una super clase (puede ser \textbf{Object})
+    \item Las clases siempre extienden a una super-clase (puede ser \textsf{Object}).
     \item Los constructores se declaran explícitamente. 
-    \item Los constructores siempre llaman al constructor de la superclase que se hereda mediante le instrucción \textbf{super()}.
+    \item Los constructores siempre llaman al constructor de la super-clase que se hereda mediante le instrucción \textsf{super()}.
     \item El objeto el cual hace referencia a sus atributos tiene que ser enunciado de forma explícita.
-    \item Los métodos están constituidos únicamente por expresiones \textbf{return}.
+    \item Los métodos están constituidos únicamente por expresiones \textsf{return}.
     \item Los constructores solo pueden definir al constructor trivial de la clase, recibiendo y asignando un valor por cada atributo de la clase.
     \item Solo puede existir un único constructor por clase.
     \item En la definición de clase los atributos solo pueden ser declarados sin asignar ningún valor.
 \end{itemize}
-
-Revisemos la sintáxis concreta de \textbf{Java Peso Pluma} con los siguientes ejemplos.
-
-\begin{exercise}
-    Proporciona la definición de una clase \textbf{TrianguloRec} que modele un triángulo rectángulo y calcule su perímetro (puedes suponer la existencia de la clase \textbf{Nat} con la suma implementada). 
-    \begin{verbatim}
-    
-    class TrianguloRec extends Object {
-        Nat adyacente;
-        Nat opuesto;
-        Nat hipotenusa;
-    
-        Pair (Nat adyacente, Nat opuesto, Nat hipotenusa){
-            super();
-            this.adyacente = adyacente;
-            this.opuesto = opuesto;
-            this.hipotenusa = hipotenusa;
-        }
-    
-        Nat perimetro (){
-            return this.adyacente + this.opuesto + this.hipotenusa;
-        }
-    
-    }
-    \end{verbatim}
-\end{exercise}
-
 \bigskip
+Revisemos la sintaxis concreta de \textsf{Java Peso Pluma} con los siguientes ejemplos.
 
 \begin{exercise}
-    Proporciona la definición de una clase para definir la dirección de una persona, puedes dar por definida la clase \textbf{String}
+    Proporciona la definición de una clase para definir la dirección de una persona, puedes dar por definida la clase \textsf{String}
     \begin{verbatim}
     
     class Direccion extends Object {
@@ -134,6 +111,34 @@ Revisemos la sintáxis concreta de \textbf{Java Peso Pluma} con los siguientes e
     \end{verbatim}
     
 \end{exercise}
+
+\bigskip
+
+\begin{exercise}
+    Proporciona la definición de una clase \textsf{TrianguloRec} que modele un triángulo rectángulo y calcule su perímetro (puedes suponer la existencia de la clase \textsf{Nat} con la suma implementada). 
+    \begin{verbatim}
+    
+    class TrianguloRec extends Object {
+        Nat adyacente;
+        Nat opuesto;
+        Nat hipotenusa;
+    
+        Pair (Nat adyacente, Nat opuesto, Nat hipotenusa){
+            super();
+            this.adyacente = adyacente;
+            this.opuesto = opuesto;
+            this.hipotenusa = hipotenusa;
+        }
+    
+        Nat perimetro (){
+            return this.adyacente + this.opuesto + this.hipotenusa;
+        }
+    }
+    \end{verbatim}
+\end{exercise}
+
+\bigskip
+
 
 \section{Tablas de clases}
 
