@@ -23,9 +23,9 @@ En seguida discutiremos la semántica dinámica para evaluarlos y la semántica 
 Por último se estudiará brevemente la propiedad de seguridad aplicada en este lenguaje.
 
 \section{Sintaxis de Java Peso Pluma}
-A continuación presentamos la definición de \textsf{Java Peso Pluma}en donde se encapsulan las principales características de interés de los lenguajes orientados a objetos: clases, objectos, métodos, atributos, herencia, polimorfismo y subtipificado junto con la recursión abierta.\\
+A continuación presentamos la definición de \textsf{Java Peso Pluma}en donde se encapsulan las principales características de interés de los lenguajes orientados a objetos: clases, objectos, métodos, atributos, herencia, polimorfismo y subtipificado junto con la recursión abierta.
 
-\begin{definition}[Sintaxis de \textsf{JPP}] Se presenta la sintaxis del lenguaje separado en categorías y usando las siguientes meta-variables\footnote{Definición formulada de \hyperlink{128}{[128]} y \hyperlink{129}{[129]} }\\
+\begin{definition}[Sintaxis de \textsf{Java Peso Pluma}] Se presenta la sintaxis del lenguaje separado en categorías y usando las siguientes meta-variables\footnote{Definición formulada de \hyperlink{128}{[128]} y \hyperlink{129}{[129]} }\\
 \begin{itemize}
 	\item Nombres de variables: {\tt x,y,z}
 	\item Nombres de atributos: {\tt f,g}
@@ -58,11 +58,12 @@ A continuación presentamos la definición de \textsf{Java Peso Pluma}en donde s
 			{\tt L}&::=& {\tt class\;C\;extends\;B}\;\{\;\vec{\tt{A}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}&\mbox{Clases}\\
 		\end{array}
 	\]
+	\bigskip
 \end{description}
 \bigskip
-En las definiciones dadas previamente hacemos abuso de notación donde $\vec{\tt{t}}$ se conoce como notación vectoral y se interpreta como: 
+En las definiciones dadas previamente hacemos abuso de notación donde $\vec{\tt{t}}$ se conoce como notación vectorial y se interpreta como: 
 $$\vec{\tt{t}} =_{def} \tt{t}_1,\tt{t}_2,\dots,\tt{t}_n$$
-Represnta entonces una sucesión de n términos.\\
+Representa entonces una sucesión de n términos.\\
 
 Cuando se tienen dos vectores sin separación, esta notación se interpreta como el intercalado entre un valor del primero y uno del segundo separando el siguiente par de elementos por una coma:
 $$\vec{\tt{C}}\,\vec{\tt{x}} =_{def} \tt{C}_1\,\tt{x}_1,\tt{C}_2\,\tt{x}_2,\dots,\tt{C}_n\,\tt{x}_n$$
@@ -76,7 +77,7 @@ Donde la correspondencia entre cada atributo y valor es uno a uno, de manera imp
 Esta definición presenta algunas restricciones que no existen en \textsf{Java}:
 
 \begin{itemize}
-    \item Las clases siempre extienden a una super-clase (puede ser \textsf{Object}).
+    \item Las clases siempre extienden a una super clase (puede ser \textsf{Object}).
     \item Los constructores se declaran explícitamente. 
     \item Los constructores siempre llaman al constructor de la super-clase que se hereda mediante le instrucción \textsf{super()}.
     \item El objeto el cual hace referencia a sus atributos tiene que ser enunciado de forma explícita.
@@ -89,18 +90,18 @@ Esta definición presenta algunas restricciones que no existen en \textsf{Java}:
 Revisemos la sintaxis concreta de \textsf{Java Peso Pluma} con los siguientes ejemplos.
 
 \begin{exercise}
-    Proporciona la definición de una clase para definir la dirección de una persona, puedes dar por definida la clase \textsf{String}
+    Proporciona la definición de una clase para definir la dirección de una persona, puedes dar por definida las clases \textsf{String} y \textsf{Integer}
     \begin{verbatim}
     
     class Direccion extends Object {
         String calle
         String colonia
         String ciudad
-        Nat numero
-        Nat telefono
+        Integer numero
+        Integer telefono
     
-        Direccion (String calle, String colonia, 
-            String ciudad, Nat numero, Nat telefono){
+        Direccion(String calle, String colonia, 
+            String ciudad, Integer numero, Integer telefono){
             super();
             this.calle = calle;
             this.colonia = colonia;
@@ -112,25 +113,24 @@ Revisemos la sintaxis concreta de \textsf{Java Peso Pluma} con los siguientes ej
     
 \end{exercise}
 
-\bigskip
 
 \begin{exercise}
-    Proporciona la definición de una clase \textsf{TrianguloRec} que modele un triángulo rectángulo y calcule su perímetro (puedes suponer la existencia de la clase \textsf{Nat} con la suma implementada). 
+    Proporciona la definición de una clase \textsf{TrianguloRec} que modele un triángulo rectángulo y calcule su perímetro (puedes suponer la existencia de la clase \textsf{Integer} incluyendo operaciones aritméticas). 
     \begin{verbatim}
     
     class TrianguloRec extends Object {
-        Nat adyacente;
-        Nat opuesto;
-        Nat hipotenusa;
+        Integer adyacente;
+        Integer opuesto;
+        Integer hipotenusa;
     
-        Pair (Nat adyacente, Nat opuesto, Nat hipotenusa){
+        TrianguloRec(Integer adyacente, Integer opuesto, Integer hipotenusa){
             super();
             this.adyacente = adyacente;
             this.opuesto = opuesto;
             this.hipotenusa = hipotenusa;
         }
     
-        Nat perimetro (){
+        Integer perimetro (){
             return this.adyacente + this.opuesto + this.hipotenusa;
         }
     }
@@ -140,61 +140,68 @@ Revisemos la sintaxis concreta de \textsf{Java Peso Pluma} con los siguientes ej
 \bigskip
 
 
-\section{Tablas de clases}
+\section{Tablas de clase}
 
-Los programas de \textbf{Featherwaight Java} son pares constituidas por una expresión $e$ y una \textbf{tabla de clases} $T$ cuya generación no es explícita, \\\\
-Como su nombre indica, esta tabla contiene la información específicada en la declaración de clase, con élla podemos recuperar sus atributos, la firma de los métodos y su cuerpo.\\\\
-A continuación ilustramos las reglas para operar la \textbf{tabla de clase}
+Los programas de \textsf{Java Peso Pluma} son pares constituidos por una expresión $e$ y una tabla de clases $T$ cuya generación no es explícita. \\\\
+Como su nombre indica, esta tabla contiene la información especificada en la declaración de clase. con esta podemos recuperar sus atributos, la firma de los métodos y su definición.\\\\
+A continuación ilustramos las reglas para operar la tabla de clase.
+\\
+\begin{definition}[Tabla de Clase] Una tabla de clase es una función finita que mapea el nombre de una clase con su definición\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{129}{[129]} }. Es decir $T$ es una sucesión finita de declaraciones de la forma
 
-\begin{definition}[Tabla de Clases] Una tabla de clases es una función finita que asigna clases a nombres de clase, en otras palabras, $T$ es una sucesión finita de declaraciones de clase de la forma
+$$T({\tt C})={\tt class\;C\;extends\;B}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}$$
 
-$$T({\tt C})={\tt class\;C\;extends\;B}\;\{\;\vec{\tt{A}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}$$
-
+En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la variable de clase y su nombre y  $\vec{\tt{M}}$ representa la lista de métodos definidos para la clase $C$ de la forma $\tt{B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\}$
+ 
 
 \begin{description}
 	\item[Búsqueda de Atributos]
 	\[
 		\begin{array}{c}
-			\inference{}{fields(object)=\varnothing}\\
-			\\
+			\inference{}{fields(object)=\varnothing} \quad
 			\inference{T({\tt C})={\tt class\;C\;extends\;B}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
-			({\tt B})=\vec{\tt{B}}\,\vec{\tt{g}}
-			}{({\tt C})=\vec{\tt{B}}\,\vec{\tt{g}},\vec{\tt{C}}\,\vec{\tt{f}}}
+			fields({\tt B})=\vec{\tt{B}}\,\vec{\tt{g}}
+			}{fields({\tt C})=\vec{\tt{B}}\,\vec{\tt{g}},\vec{\tt{C}}\,\vec{\tt{f}}}
 		\end{array}
 	\]
+	\bigskip
 	\item[Búsqueda del tipo de un método]
 	\[
+	 \scalemath{0.92}{
 		\begin{array}{c}
 			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
 			{\tt B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}\mbox{ figura en }\vec{\tt{M}}
 			}{
-			({\tt m,C}) = \vec{\tt{B}}\to\tt{B}
-			}
+			type({\tt m,C}) = \vec{\tt{B}}\to\tt{B}
+			} 
+			\quad
 			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
 			{\tt m}\mbox{ no figura en }\vec{\tt{M}}
 			}{
-			({\tt m,C}) = ({\tt m,D}) 
+			type({\tt m,C}) = type({\tt m,D}) 
 			}
 		\end{array}
+	}
 	\]
-
+	\bigskip
 	\item[Búsqueda del cuerpo de un método]
 	\[
+	 \scalemath{0.92}{
 		\begin{array}{c}
 			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
 			{\tt B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}\mbox{ figura en }\vec{\tt{M}}
 			}{
-			({\tt m,C}) = (\vec{\tt{x}},\tt{e})
-			}\\
-			\\
+			body({\tt m,C}) = \tt{e}
+			}
+			\quad
 			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
 			{\tt m}\mbox{ no figura en }\vec{\tt{M}}
 			}{
-			({\tt m,C}) =({\tt m,D}) 
+			body({\tt m,C}) = body({\tt m,D}) 
 			}
 		\end{array}
+	}
 	\]
-
+	\bigskip
 \end{description}
 \end{definition}
 
@@ -423,7 +430,6 @@ Para dar respuesta a esta pregunta presentamos las siguientes proposiciones que 
 
 La demostración de estas últimas cuatro proposiciones no es posible dado que no hay una formalización de \textbf{Java} que nos permita razonar sobre si mismo, sin embargo enunciar estas proposiciones ilustra la importancia de estudiar los lenguajes de programación formalmente para inferir propiedades y características deseadas bajo un modelo de razonamiento lógico.
 
-\newpage
 
 \section{Ejercicios para el lector}
 
