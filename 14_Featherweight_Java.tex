@@ -15,11 +15,11 @@ Para ello vamos a definir al lenguaje orientado a objetos \textsf{Java Peso Plum
 Estudiar lenguajes de programación que no pertenecen al paradigma funcional es una tarea no trivial, dado que la compaginación entre la sintaxis, semántica y manejo de la memoria se implementa de forma distinta en comparación a \textsf{MinHS} donde el mapeo es uno a uno entre la definición y la implementación de definiciones, funciones y entidades.\\\\
 
 \subsubsection{Objetivo}
-Estudiar la implementación de \textsf{Java Peso Pluma} definiendo y discutiendo sus características mas importantes.\\
+Estudiar la implementación de \textsf{Java Peso Pluma} definiendo y discutiendo sus características mas importantes, como: herencia, subtipado, clases, objetos así como la sintaxis del lenguaje, la semántica estática y dinámica.\\
 
 \subsubsection{Planteamiento}
 Siguiendo la misma estructura de los capítulos anteriores comenzaremos el estudio de \textsf{Java Peso Pluma} proporcionando la definición para la sintaxis concreta de los programas que escribiremos en este lenguaje. \\\\
-En seguida discutiremos la semántica dinámica para evaluarlos y la semántica estática para explorar el sistema de tipos y su relación con la herencia, métodos y la relación de subtipificado.\\\\
+En seguida discutiremos la semántica dinámica para evaluarlos y la semántica estática para explorar el sistema de tipos y su relación con la herencia, métodos y la relación de subtipificado.
 Por último se estudiará brevemente la propiedad de seguridad aplicada en este lenguaje.
 
 \section{Sintaxis de Java Peso Pluma}
@@ -143,16 +143,16 @@ Revisemos la sintaxis concreta de \textsf{Java Peso Pluma} con los siguientes ej
 \section{Tablas de clase}
 
 Los programas de \textsf{Java Peso Pluma} son pares constituidos por una expresión $e$ y una tabla de clases $T$ cuya generación no es explícita. \\\\
-Como su nombre indica, esta tabla contiene la información especificada en la declaración de clase. con esta podemos recuperar sus atributos, la firma de los métodos y su definición.\\\\
-A continuación ilustramos las reglas para operar la tabla de clase.
-\\
-\begin{definition}[Tabla de Clase] Una tabla de clase es una función finita que mapea el nombre de una clase con su definición\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{129}{[129]} }. Es decir $T$ es una sucesión finita de declaraciones de la forma
+Como su nombre indica, esta tabla contiene la información especificada en la declaración de clase. con esta podemos recuperar sus atributos, la firma de los métodos y su definición.
+
+\begin{definition}[Tabla de clase] Una tabla de clase es una función finita que mapea el nombre de una clase con su definición\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{129}{[129]} }. Es decir $T$ es una sucesión finita de declaraciones de la forma
 
 $$T({\tt C})={\tt class\;C\;extends\;B}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}$$
-
+$$$$
 En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la variable de clase y su nombre y  $\vec{\tt{M}}$ representa la lista de métodos definidos para la clase $C$ de la forma $\tt{B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\}$
- 
+\end{definition}
 
+\begin{definition}[Operaciones de búsqueda para la tabla de clase]A continuación enunciamos las reglas para retribuir elementos de la tabla de clase\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }
 \begin{description}
 	\item[Búsqueda de Atributos]
 	\[
@@ -190,7 +190,7 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
 			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
 			{\tt B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}\mbox{ figura en }\vec{\tt{M}}
 			}{
-			body({\tt m,C}) = \tt{e}
+			body({\tt m,C}) = (\vec{\tt{x}},\tt{e})
 			}
 			\quad
 			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
@@ -206,13 +206,12 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
 \end{definition}
 
 \section{Semántica dinámica}
-    En esta sección vamos a revisar las reglas para poder evaluar expresiones de \textbf{Java Peso Pluma}.\\\\
-    La semántica operacional de este lenguaje se representa como: $\rightarrow_{fj}$ y está basada en la \textbf{tabla de clase} para llevar acabo la evaluación. Aunque la utilización de la tabla sea de forma implícita siempre está presente en la aplicación de cada una de las reglas.\\\\
-    \textbf{Nota:} En la dfinición de \textbf{Java Peso Pluma} los únicos valores permitidos son aquellos objetos instanciados usando la instrucción \textbf{new}, ésto se verá reflejado en la manera en la que las reglas interactúan con dicha instancia de clase. 
+    La semántica operacional de \textsf{Java Peso Pluma} se representa como: $\rightarrow_{fj}$ y está basada en la tabla de clase para llevar acabo la evaluación (aún cuando la utilización de la tabla de clase sea de forma implícita siempre está presente en la aplicación de cada una de las reglas).\\\\
+  En la definición de \textsf{Java Peso Pluma} los únicos valores permitidos son aquellos objetos instanciados usando la instrucción \textsf{new}, esto se verá reflejado en la manera en la que las reglas interactúan con dicha instancia de clase. 
 
     \bigskip
     
-    \begin{definition}[Semántica Operacional de \textbf{Java Peso Pluma}] Presentamos entonces las reglas de evaluación de \textbf{Featherwieght Java}\\
+    \begin{definition}[Semántica Operacional de \textsf{Java Peso Pluma}] Presentamos entonces las reglas de evaluación para el lenguaje como sigue\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{129}{[129]} }:\\
         
         \begin{description}
         	\item[Selección de Atributos] 
@@ -275,12 +274,12 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
 
 
 \section{Semántica estática}
-El sistema de tipos de \textbf{Java Peso Pluma} no cuenta con tipos primitivos, es decir que todos los tipos con los que trabajemos tendrán que ser definidos mediante su respectiva clase. \\\\
-En este lenguaje el tipo \textbf{Top} será Object y este no tendrá que ser definido pues representa el tipo más primitivo con el cual podemos definir construcciones más complejas, este constituye también una palabra reservada en la definición que propusimos de la sintáxis. 
+El sistema de tipos de \textsf{Java Peso Pluma} no cuenta con tipos primitivos, es decir que todos los tipos con los que trabajemos tendrán que ser definidos mediante su respectiva clase. \\\\
+En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido pues representa el tipo más primitivo con el cual podemos definir construcciones más complejas, este constituye también una palabra reservada en la definición que propusimos de la sintaxis. 
 
 \bigskip
 
-\begin{definition}[Semántica Estática de \textbf{Java Peso Pluma}] A continuación enunciamos las reglas de tipado\\
+\begin{definition}[Semántica Estática de \textsf{Java Peso Pluma}] A continuación enunciamos las reglas de tipificado\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{128}{[128]}, \hyperlink{129}{[129]} y \hyperlink{132}{[132]} }\\
 
 \begin{description}
 	\item[Reglas de Subtipado]
@@ -290,11 +289,11 @@ En este lenguaje el tipo \textbf{Top} será Object y este no tendrá que ser def
 		{{\tt C\leq D}}
 	\]
 	Es decir, si la clase {\tt C} extiende a la clase {\tt D} entonces {\tt C} es subtipo de {\tt D}.\\\\
-        En este lenguaje las propiedades de \textbf{reflexividad} y \textbf{transitividad} deben de mantenerse aplicables.
+        En este lenguaje las propiedades de reflexividad y transitividad deben de mantenerse aplicables.
 
         \bigskip
         
-	\item[Reglas de Tipado]
+	\item[Reglas de Tipificado]
     
 	\[
             \scalemath{0.8}{
@@ -339,7 +338,8 @@ En este lenguaje el tipo \textbf{Top} será Object y este no tendrá que ser def
 
         \bigskip
  
-	\item[Formación de Clases] Introducimos tres juicios para denotar la correcta formación de una clase: ${\tt M\;ok}\;{\sf in}\;C$ para indicar que el método {\tt M} está bien formado en la clase C, $C\;ok$ que indica que la clase C está bien formada y el juicio $T\;ok$ para decir que la tabla de clases $T$ está bien formada.
+	\item[Formación de Clases] \\Φ
+	Introducimos tres juicios para denotar la correcta formación de una clase: ${\tt M\;ok}\;{\sf in}\;C$ para indicar que el método {\tt M} está bien formado en la clase C, $C\;ok$ que indica que la clase C está bien formada y el juicio $T\;ok$ para decir que la tabla de clases $T$ está bien formada.
 	\[
 		\inference
 		{{\tt K}= {\tt C}\,(\vec{\tt{D}}\,\vec{\tt{y}},\vec{\tt{C}}\,\vec{\tt{x}})\;\{\;{\tt super}(\vec{\tt{y}});{\tt this.}\vec{\tt{f}}=\vec{\tt{x}}\;\}\\
