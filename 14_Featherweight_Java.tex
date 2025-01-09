@@ -338,7 +338,8 @@ En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido
 
         \bigskip
  
-	\item[Formación de Clases] \\Φ
+	\item[Formación de Clases] 
+$$$$
 	Introducimos tres juicios para denotar la correcta formación de una clase: ${\tt M\;ok}\;{\sf in}\;C$ para indicar que el método {\tt M} está bien formado en la clase C, $C\;ok$ que indica que la clase C está bien formada y el juicio $T\;ok$ para decir que la tabla de clases $T$ está bien formada.
 	\[
 		\inference
@@ -361,7 +362,9 @@ En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido
 		{C_0\;{\tt m}\,(\vec{C}\,\vec{x})\{\;{\tt return\;e;}\;\}\;ok\;{\sf in}\;C}
 	\]
 
-	\item[Formación de Tablas] Decimos que una tabla de clases está bien formada si todas las clases declaradas en ella están bien formadas, modelado con la regla:
+	\item[Formación de Tablas]
+$$$$
+ Decimos que una tabla de clases está bien formada si todas las clases declaradas en ella están bien formadas, modelado con la regla:
 
 	\[
 		\inference
@@ -373,90 +376,90 @@ En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido
 
 \section{Propiedades de Java Peso Pluma}
 
-    Como hemos acostumbrado en el estudio de cada uno de los lenguajes definidos en este manual brevemente mencionaremos las dos propiedades que más interesan en este curso: \textbf{progreso de la función} $\rightarrow_{fj}$ y \textbf{ preservación de tipos}.
+    Como hemos acostumbrado en el estudio de cada uno de los lenguajes definidos en este manual brevemente mencionaremos las dos propiedades que más interesan en este curso: progreso de la función $\rightarrow_{fj}$ y  preservación de tipos.
 
 \subsection{Preservación de tipos}
 La preservación de tipos que hemos estudiado en implementaciones anteriores difiere en que ahora tenemos que considerar su relación con el mecanismo de herencia y los castings que no son correctos. Esto se puede observar en la siguiente regla.
-\begin{definition}[Preservación de tipos]\label{preservacion} Si $T$ es una tabla de clases bien formada, $\Gamma\vdash e:C$ y $e\rightarrow_{fj} e'$, entonces existe $C'$ tal que $C'\leq C$ y $\Gamma\vdash e' : C'$
+\begin{definition}[Preservación de tipos]\label{preservación} Si $T$ es una tabla de clases bien formada, $\Gamma\vdash e:C$ y $e\rightarrow_{fj} e'$, entonces existe $C'$ tal que $C'\leq C$ y $\Gamma\vdash e' : C'$\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }
 \end{definition}
 
 \subsection{Progreso}
-Esta propiedad tiene un pequeño detalle cuando se utiliza dentro del contexto de \textbf{Java Peso Pluma}, En general la propiedad es válida salvo en el caso único en el que no se puede computar un downcasting.
+Esta propiedad tiene un pequeño detalle cuando se utiliza dentro del contexto de \textsf{Java Peso Pluma}, En general la propiedad es válida salvo en el caso único en el que no se puede computar un downcasting.
 
 \begin{definition}[Progreso de la relación $\rightarrow_{fj}$]\label{progreso} Sea $T$ una tabla de clases bien formada, si $\varnothing\vdash e:C$ entonces sucede una y solo una de las siguientes condiciones:
 \begin{itemize}
 	\item $e$ es un valor.
 	\item $e$ contiene una expresión de la forma $(C)\;{\tt new}\;D (\vec{\tt{v}})$ en donde $D \leq C$, es decir, no se puede realizar el {\it downcast}.
-	\item Existe $e'$ tal que $e\rightarrow_{fj} e'$.
+	\item Existe $e'$ tal que $e\rightarrow_{fj} e'$\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }.
 \end{itemize}
 \end{definition}
 
 \subsection{Seguridad}
-Combinando las dos propiedades anteriores obtenemos la relga de seguridad, esta enuncia que si dada una expresión $e$ de \textbf{Java Peso Pluma} se obtiene una expresión en su forma normal, o bien es un valor o encontramos un $downcasting$ incorrecto.
+Combinando las dos propiedades anteriores obtenemos la relga de seguridad, esta enuncia que si dada una expresión $e$ de \textsf{Java Peso Pluma} se obtiene una expresión en su forma normal, o bien es un valor o encontramos un $downcasting$ incorrecto.
 
-\begin{definition}[Seguridad de \textbf{Java Peso Pluma}] Si $T$ es una tabla de clases bien formada, $\varnothing\vdash e:C$ y $e \rightarrow_{fj}^\star e'$ con $e'$ en forma normal, entonces se cumple una y solo una de las siguientes condiciones:
+\begin{definition}[Seguridad de \textsf{Java Peso Pluma}] Si $T$ es una tabla de clases bien formada, $\varnothing\vdash e:C$ y $e \rightarrow_{fj}^\star e'$ con $e'$ en forma normal, entonces se cumple una y solo una de las siguientes condiciones:
 \begin{itemize}
 	\item $e'$ es un valor $v$ tal que $\varnothing\vdash v: D$ y $D\leq C$.
 	\item $e'$ contiene como subexpresión $(C)\;{\tt new}\;D(\vec{\tt{v}})$ en donde $D \leq C$.
 \end{itemize}
-Dado cualquier expresión e, o bien esta eventualmente llega a ser evaluada como un valor o se bloquea en un downcasting que no se puede resolver.
+Dado cualquier expresión e, o bien esta eventualmente llega a ser evaluada como un valor o se bloquea en un downcasting que no se puede resolver\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }.
 \end{definition}
 
 \section{Cómo se relaciona Java Peso Pluma con Java?}
 
-\textbf{Java Peso Pluma} es un lenguaje con propósitos ilustrativos, muchas de las características que rebostucen a \textbf{Java} y que son englobadas por el paradigma de la \textbf{OOP}\footnote{Objecto Oriented Programming por sus siglas en inglés.} se dejan fuera del enfoque de la definición del mismo. Es natural entonces preguntarse por la relación que guardan ambos lenguajes, qué sucede cuando escribimos un lenguaje en \textbf{Java Peso Pluma} y lo queremos ejecutar en la \textbf{JVM}\footnote{Java Virtual Machine.}. \\\\
+\textsf{Java Peso Pluma} es un lenguaje con propósitos ilustrativos, muchas de las características que rebostucen a \textsf{Java} y que son englobadas por el paradigma de la orientaciön a objetos se dejan fuera del enfoque de la definición del mismo. \\\\
+ Es natural entonces preguntarse por la relación que guardan ambos lenguajes, qué sucede cuando escribimos un lenguaje en \textsf{Java Peso Pluma} y lo queremos ejecutar en la \textsf{JVM}\footnote{Java Virtual Machine.}. \\\\
 Para dar respuesta a esta pregunta presentamos las siguientes proposiciones que hacen explícita la correspondencia entre ambos lenguajes.
 
-\begin{definition}
-    Cada programa sintácticamente correcto en \textbf{Java Peso Pluma} es también sintácticamente correcto en \textbf{Java}.
-\end{definition}
+\begin{itemize}
+    \item Cada programa sintácticamente correcto en \textsf{Java Peso Pluma} es también sintácticamente correcto en \textsf{Java}.
+    \item Un programa sintácticamente correcto es tipable en \textsf{Java Peso Pluma} si y sólo si es tipable en \textsf{Java}.
+    \item La ejecución de un programa bien tipado en \textsf{Java Peso Pluma} se comporta de la misma forma en \textsf{Java}.
+    \item La evaluación de un programa en \textsf{Java Peso Pluma} no termina si y sólo si compilarlo y ejecutarlo en \textsf{Java} causa no terminación.
+\end{itemize}
 
-\bigskip
-
-\begin{definition} Un programa sintácticamente correcto es tipable en \textbf{Java Peso Pluma} si y sólo si es tipable en \textbf{Java}.
-\end{definition}
-
-\bigskip
-
-\begin{definition}\label{3}La ejecución de un programa bien tipado en \textbf{Java Peso Pluma} se comporta de la misma forma en \textbf{Java}.
-\end{definition}
-
-\bigskip
-
-\begin{definition} La evaluación de un programa en \textbf{Java Peso Pluma} no termina si y sólo si compilarlo y ejecutarlo en \textbf{Java} causa no terminación.
-\end{definition}
-
-\bigskip
-
-La demostración de estas últimas cuatro proposiciones no es posible dado que no hay una formalización de \textbf{Java} que nos permita razonar sobre si mismo, sin embargo enunciar estas proposiciones ilustra la importancia de estudiar los lenguajes de programación formalmente para inferir propiedades y características deseadas bajo un modelo de razonamiento lógico.
+La demostración de estas últimas cuatro proposiciones no es posible dado que no hay una formalización de \textsf{Java} que nos permita razonar sobre si mismo, sin embargo enunciar estas proposiciones ilustra la importancia de estudiar los lenguajes de programación formalmente para inferir propiedades y características deseadas bajo un modelo de razonamiento lógico.
 
 
 \section{Ejercicios para el lector}
 
 \begin{exercise}
-    Dada la definición de \textbf{Java Peso Pluma} proporciona un programa para modelar árboles binarios cuyo contenido de sus nodos sean enteros (Puedes dar por definido el tipo \textbf{Int}).
+    Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar árboles binarios cuyo contenido de sus nodos sean enteros (Puedes dar por definido el tipo \textsf{Int}).
+\end{exercise}
+
+\bigskip
+
+
+\begin{exercise}
+    Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar Tries junto con las operaciones para insertar y buscar palabras (Puedes dar por definido el tipo \textsf{Char}).
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-    Dada la definición de \textbf{Java Peso Pluma} proporciona un programa para modelar un nuevo objeto llamado \textbf{Empleado} que contenga un campo de clase para su dirección, su número de seguridad social (NSS) y su salario (puedes dar por definidas las clases \textbf{Int}, \textbf{String} y \textbf{Direccion} del ejemplo 1.2).
+    Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar LinkedList junto con las operaciones para insertar, eliminar y obtener elementos dado un índice.
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-    Dadas las reglas para la sintáxis y las reglas de la semántica dinámica y estática de \textbf{Featherwieght Java}, Demuestra la proposición 5.1: \textbf{Preservación de tipos}.
+    Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar un nuevo objeto llamado \textsf{Empleado} que contenga un campo de clase para su dirección, su número de seguridad social (NSS) y su salario (puedes dar por definidas las clases $Int$, $String$ y \textsf{Direccion} del ejemplo 1.2).
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-   Dadas las reglas para sintáxis y las reglas de la semántica dinámica y estática de \textbf{Featherwieght Java}, Demuestra la proposición 5.2: \textbf{Progreso}.
+    Dadas las reglas para la sintáxis y las reglas de la semántica dinámica y estática de \textsf{Java Peso Pluma}, Demuestra la proposición 5.1: Preservación de tipos.
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-   Dadas las reglas para sintáxis y las reglas de la semántica dinámica y estática de \textbf{Featherwieght Java}, Demuestra la proposición 5.3: \textbf{Seguridad}.
+   Dadas las reglas para sintáxis y las reglas de la semántica dinámica y estática de \textsf{Java Peso Pluma}, Demuestra la proposición 5.2: Progreso.
+\end{exercise}
+
+\bigskip
+
+\begin{exercise}
+   Dadas las reglas para sintáxis y las reglas de la semántica dinámica y estática de \textsf{Java Peso Pluma}, Demuestra la proposición 5.3: Seguridad.
 \end{exercise}
