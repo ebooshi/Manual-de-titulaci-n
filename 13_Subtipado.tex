@@ -197,19 +197,19 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 
     En lenguajes de programación como Java hemos hecho uso de este mecanismo para cambiar el tipo de un dato o variable por otro. \\\\
     Similar al ejemplo que tenemos para pasar de 2 :\textit{ Int} a 2.0 :\textit{ Float}.
-    La relación de subtipificado nos provee la regla de subsunción sin embargo definiremos el mecanismo para ambos sentidos de la relación conocidos como conversión ascendiente (\textit{Upcasting}) y conversión descendiente (\textit{Downcasting}).\\
+    La relación de subtipificado nos provee la regla de subsunción sin embargo definiremos el mecanismo para ambos sentidos de la relación conocidos como conversión ascendente (\textit{Upcasting}) y conversión descendente (\textit{Downcasting}).\\
 
-    \subsection{Conversión ascendiente \it (Upcasting)}
+    \subsection{Conversión ascendente \it (Upcasting)}
         En este tipo de casting (también conocido como ''casting hacia arriba'') el objetivo es que al tipificar un término, a este se le atribuye un supertipo esperado. \\\\
 	  De esta forma  para los subtipos donde $T \leq R$ entonces usando subsunción podemos concluir que $\Gamma \vdash \< R \> \,e:R$, en donde $\<R\>$ es la notación para el {\it casting} explícito, representado como:
-	\begin{definition}Definición para Conversión ascendiente\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
+	\begin{definition}Definición para Conversión ascendente\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
         $$\inference{\Gamma\vdash e:T & T \leq R}{\Gamma\vdash\<R\>\,e:R}$$
 	\end{definition}
-    \subsection{Conversión descendiente \it (Downcasting)}
+    \subsection{Conversión descendente \it (Downcasting)}
         En este tipo de casting (también conocido como ''casting hacía abajo'') la asignación de tipos es arbitraria, la relación de subtipificado no necesariamente se tiene que cumplir.\\\\
         Ésto supone una amenaza a la consistencia de tipos en el programa que se escribe con esta instrucción, el lenguaje está forzado a aceptar el \textit{downcasting} en tiempo de compilación pero en tiempo de ejecución un futuro conjunto de verificaciones deben de ser ejecutados para corroborar que el tipo asignado no supone un error. Esta regla se representa de la siguiente manera: 
 
-	\begin{definition}Definición para conversión  descendiente\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
+	\begin{definition}Definición para conversión  descendente\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
         $$\inference{\Gamma\vdash e:T}{\Gamma\vdash\< R\>\,e: R}$$
 	\end{definition}
 
