@@ -129,7 +129,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 \section{Semántica de \textsf{MinHs}}
 
     \subsection{Sistemas de tipos}
-    Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contentido específico que estos pudieran tener.\\\\
+    Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contenido específico que estos pudieran tener.\\\\
     En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones, qué valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos\footnote{definición formulada a partir de \hyperlink{96}{[96]}}.\\\\
     Este sistema estará definido en la siguiente capa de \textsf{MinHS} de forma similar como fue trabajado con anterioridad con el lenguaje \textsf{EAB}, dicho nivel es la semántica estática que define un conjunto de juicios para brindar la seguridad de evaluación a las expresiones.
 
@@ -319,7 +319,7 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
 \section{Propiedades de \textsf{MinHS}}
 
     \subsection{Seguridad del lenguaje}
-        Esta propiedad  proporciona un mecanismo para corroborar que derivado de la evaluación de una expresión que cumple las restricciones dictadas por el sistema de tipos del lenguaje, se obtendrá un valor. Vinculando las definiciones para la semánitca estática concerniente al tipo de las expresiones y la semántica dinámica concerniente a la evaluación de las mismas\footnote{Definición formulada de \hyperlink{117}{[117]} y \hyperlink{118}{[118]}}.\\\\
+        Esta propiedad  proporciona un mecanismo para corroborar que derivado de la evaluación de una expresión que cumple las restricciones dictadas por el sistema de tipos del lenguaje, se obtendrá un valor. Vinculando las definiciones para la semántica estática concerniente al tipo de las expresiones y la semántica dinámica concerniente a la evaluación de las mismas\footnote{Definición formulada de \hyperlink{117}{[117]} y \hyperlink{118}{[118]}}.\\\\
 En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctamente construida y correctamente tipificada se le pueda aplicar alguna de las reglas definidas por la semántica dinámica (progreso). Adicionalmente nos interesa que el tipo de las expresiones sea único y que a cada paso en la evaluación este se conserve (preservación). A continuación daremos una definición formal para estas propiedades.
         
         \begin{itemize}
@@ -411,7 +411,7 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
         Dada la siguiente expresión \textsf{Case}: 
         $$ \textsf{Case } n \textsf{ of }  n\ \textless\ 0 \rightarrow \textsf{ True } ; n = 0 \rightarrow \textsf{ True } ; \textsf{ False }$$
         \begin{itemize}
-            \item Evalúala utilizando las reglas de semántica dinámica definidas en el inciso anterior.
+            \item Evalúa utilizando las reglas de semántica dinámica definidas en el inciso anterior.
             \item Sí $\Gamma = \{n:\textit{Nat}\}$ utiliza las reglas de semántica estática definidas en el inciso anterior para obtener el tipo de la expresión.
         \end{itemize}
     \end{exercise}

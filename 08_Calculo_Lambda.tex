@@ -19,7 +19,7 @@ En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alo
 Revisar la composición del Cálculo Lambda mediante el estudio de la sintaxis, semántica operacional y la representación de tipos primitivos en este modelo de cómputo, así como las propiedades inherentes a la semántica del cálculo junto con los sistemas de recursión para la evaluación de $\lambda$-expresiones. \\ 
 
 \subsubsection{Planteamiento}
-En este capítulo se revisará la sintaxis concreta del Cálculo Lámbda para generar $\lambda$-expresiones junto con
+En este capítulo se revisará la sintaxis concreta del Cálculo Lambda para generar $\lambda$-expresiones junto con
 la semántica operacional del cálculo, basándonos en la operación de sustitución sintáctica ([variable := valor]) conocida como $\beta$-reducción.\\\\
 También se abordará la definición de los booleanos junto con los operadores lógicos, estructuras de datos (tuplas, proyecciones, listas) y los numerales de Church con operadores aritméticos mismos que se espera el lector pueda manipular, razonar y resolver en la sección de ejercicios. \\\\
 Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con los operadores de punto fijo.
@@ -47,7 +47,7 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
 \bigskip
 
     \begin{exercise}
-        Para las siguientes $\lambda-$expresiones anota a la derecha a que categoría de la sintáxis del Cálculo Lambda corresponde dicho término.
+        Para las siguientes $\lambda-$expresiones anota a la derecha a que categoría de la sintaxis del Cálculo Lambda corresponde dicho término.
        \begin{center}
           \begin{tabular}{ c c c }
 
@@ -65,7 +65,7 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
       \end{center}
     \end{exercise}
 
-    En el ejemplo anterior, el tercer caso corresponde a la función identidad que regresa el mismo argumento que recibe. El cuarto caso corresponde a la función constante que siempre regresa el mismo valor sin importar el argumento que recibe. El séptimo caso es la ilustración de como se puede anidar dos funciones anónimas para construir una sola de dos parámetros\footnote{A este proceso se le conoce como currificación en honor a Haskell Curry y nos permite anidar tantas funciones como parámetros necesitemos.}. 
+    En el ejemplo anterior, el tercer caso corresponde a la función identidad que regresa el mismo argumento que recibe. El cuarto caso corresponde a la función constante que siempre regresa el mismo valor sin importar el argumento que recibe. El séptimo caso es la ilustración de como se puede anidar dos funciones anónimas para construir una sola de dos parámetros\footnote{A este proceso se le conoce como ''currificación'' en honor a Haskell Curry y nos permite anidar tantas funciones como parámetros necesitemos.}. 
 
 \section{$\alpha$-equivalencia en el Cálculo Lambda}
 
@@ -572,7 +572,7 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
 
 
                 \begin{exercise}
-                    Verifica las propiedas de la semántica operacional para cada operador booleano según la definición 4.2:
+                    Verifica las propiedades de la semántica operacional para cada operador booleano según la definición 4.2:
 
                         $$\mathsf{IF}\,\textsf{true}\,e_1\,e_2 \to_\beta^* e_1$$ 
                         $$\mathsf{IF}\,\textsf{false}\,e_1\,e_2 \to_\beta^* e_2$$ 
@@ -640,10 +640,10 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
 
 
                 \begin{exercise}
-                    Utilizando algún combinador de punto fijo implementa la función recursiva \textsf{fibonacci} para los numerales de Church en el Cálculo Lambda.
-                    \[ \textsf{fibonacci}\ 0\ =\ 0 \]
-                    \[ \textsf{fibonacci}\ 1\ =\ 1 \]
-                    \[ \textsf{fibonacci}\ n\ =\ \textsf{fibonacci}\ n-1\ +\ \textsf{fibonacci}\ n-2\]
+                    Utilizando algún combinador de punto fijo implementa la función recursiva \textsf{Fibonacci} para los numerales de Church en el Cálculo Lambda.
+                    \[ \textsf{Fibonacci}\ 0\ =\ 0 \]
+                    \[ \textsf{Fibonacci}\ 1\ =\ 1 \]
+                    \[ \textsf{Fibonacci}\ n\ =\ \textsf{Fibonacci}\ n-1\ +\ \textsf{Fibonacci}\ n-2\]
                     Adicionalmente muestra la ejecución para n = $\overline{3}$
                 \end{exercise}
 
@@ -707,7 +707,7 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
 		\end{exercise}
 
 %https://blog.brunobonacci.com/2017/10/08/lambda-calculus-and-boolean-logic/
-%https://stackoverflow.com/questions/52548280/implementing-fibonacci-sequence-using-pure-lambda-calculus-and-church-numerals-i
+%https://stackoverflow.com/questions/52548280/implementing-Fibonacci-sequence-using-pure-lambda-calculus-and-church-numerals-i
 %https://drive.google.com/file/d/1MM6Lu417pwH_zKl0kITA0EzSfJL8grP9/view
 % https://cs.stackexchange.com/questions/96922/encoding-binary-trees-using-lambda-calculus
                     

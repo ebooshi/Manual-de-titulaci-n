@@ -84,7 +84,7 @@ Una vez concluida la evaluación de las subexpresiones de éste computo, el valo
 \bigskip
 \end{definition}
 \subsection{Estados}
-Los estados para la máquina $\Hs$ estarán agrupados en dos categorías; de evaluación y de retorno. Los estados de evaluación exhaustarán una expresión hasta obtener un valor y los de retorno empujarán dicho valor a la pila de control (los valores pueden ser retornados a un marco o regresados como valores finales).\\\\
+Los estados para la máquina $\Hs$ estarán agrupados en dos categorías; de evaluación y de retorno. Los estados de evaluación exhaustan una expresión hasta obtener un valor y los de retorno empujarán dicho valor a la pila de control (los valores pueden ser retornados a un marco o regresados como valores finales).\\\\
 Los estados iniciales comenzarán la evaluación de una expresión con una pila vacía y los estados finales retornarán un valor a una pila vacía.
 \begin{definition}[Estados de la máquina $\Hs$] Los estados están compuestos de una pila de control $P$ y una expresión $e$ cerrada y son de alguna de las siguientes formas\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]} }:
 \bigskip
@@ -366,7 +366,7 @@ Una vez que termine la ejecución y se regrese un valor a la pila, recuperamos e
 \bigskip
 
 Finalmente enlistaremos las transiciones para la máquina $\Js$ que difieren con la máquina $\Hs$. El resto de transiciones que no aparecen en esta definición se heredan directamente de esta última máquina. \\\\
-Estas reglas permiten manipular los entornos para guardar, definir y sustituir variables durante la ejecución del programa. Una vez conlcuida los entornos serán descartados hasta liberar la pila de ejecución para retornar el valor final.
+Estas reglas permiten manipular los entornos para guardar, definir y sustituir variables durante la ejecución del programa. Una vez concluida los entornos serán descartados hasta liberar la pila de ejecución para retornar el valor final.
 
 \newpage
 
@@ -470,7 +470,7 @@ Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
 \end{exercise}
 
 \subsection{Alcance}
-   El alcance de una variable es la porción del programa en la cual esta está definida. Dependiendo de la implentación del lenguaje este alcance puede ser estático o dinámico.\\
+   El alcance de una variable es la porción del programa en la cual esta está definida. Dependiendo de la implementación del lenguaje este alcance puede ser estático o dinámico.\\
 
     \begin{definition}[Alcance estático] Para los programas que implementan alcance estático, las variables solo estarán definidas en un área delimitada por bloques de indentación, marcadores de lugar como el operador \textsf{let, in, end}, cuerpo de una función etc\footnote{Definición extraída de \hyperlink{2}{[2]} y \hyperlink{107}{[107]}}.
     \end{definition}
@@ -522,7 +522,7 @@ Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
 
 \bigskip
 
-	Para finalizar el capítulo presentamos un ejemplo de la evaluación en la máquiina $\Js$ con las nuevas reglas para mostrar como ahora se pueden guardar ambientes y sustituirlos según se necesite durante el proceso de evaluación.\\\\
+	Para finalizar el capítulo presentamos un ejemplo de la evaluación en la máquina $\Js$ con las nuevas reglas para mostrar como ahora se pueden guardar ambientes y sustituirlos según se necesite durante el proceso de evaluación.\\\\
 	Esto nos da la flexibilidad de capturar un ambiente para una porción específica del programa sin perder el resto de las asignaciones contenidas en el.\\\\
  	Una vez concluida la evaluación de la instrucción para la cual un ambiente fue guardado, se restaura el ambiente general para continuar con el resto del programa.
 

@@ -339,7 +339,7 @@
 
 
     \begin{exercise}
-        Dada la siguiente expresion de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
+        Dada la siguiente expresión de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
         \[
             \texttt{let } k = (3 + 1) \texttt{ in } (7 * k) + 1 \texttt{ end} 
         \]
@@ -378,7 +378,7 @@
     Del ejercicio anterior podemos notar la ventaja de la evaluación perezosa. Dado que nuestro valor de control es \texttt{False} no es necesario evaluar la expresión $e_1$ y directamente nos saltaremos a evaluar $e_2$ por la regla $if_F$ que en este caso es el valor 0.\\
     
     \begin{exercise}
-        Dada la siguiente expresion de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
+        Dada la siguiente expresión de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
         \[
             \texttt{let } x = \texttt{ if(True} \texttt{ then } 42 \texttt{ else } 0 \texttt{)} \texttt{ in } \texttt{if(False} \texttt{ then } 41 \texttt{ else } x \texttt{)}
         \]  
@@ -457,7 +457,7 @@
     \end{theorem}
 
     \begin{exercise}
-        Dada la siguiente expresión de \textsf{EAB} evalúala utilizando semántica de paso grande. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
+        Dada la siguiente expresión de \textsf{EAB} evalúa utilizando semántica de paso grande. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
         Sintaxis concreta:
         \[
             \texttt{let } x \text{ = } \texttt{let } y \texttt{ =  False} \texttt{ in} \texttt{ if(} y \texttt{ then } 0 \texttt{ else } 1 \texttt{)}  \texttt{ end} \texttt{ in } x + 1 \texttt{ end}
@@ -628,7 +628,7 @@
 
     \begin{exercise}
         Una calculadora de Notación Polaca Reversa (\texttt{NPR})\footnote{Ejercicio extraído de \hyperlink{107}{[107]}.} es una calculadora que no requiere de parentizado para evaluar las expresiones que son pasadas como argumento.\\
-        Esta se apoya de una pila para ''empujar'' los operandos y los operadores así como de la notación post-fija, es decir el operador se escribe después de los operandos, por ejemplo:
+        Esta se apoya de una pila para ''empujar'' los operandos y los operadores así como de la notación pos-fija, es decir el operador se escribe después de los operandos, por ejemplo:
         $$7\ +\ 1\ =\ 7\ 1\ + $$ 
         $$7\ -\ (3\ +\ 2)\ =\ 7\ 3\ 2\ +\ -$$
         Esta calculadora empuja símbolos a la pila hasta encontrar un operador, en tal caso, los dos símbolos más próximos al tope de la pila son extraídos de la pila y el resultado de la operación es empujado nuevamente.\\\\

@@ -12,15 +12,16 @@
 
 %Introducción
 La sintaxis de un lenguaje de programación permite delimitar el conjunto de las cadenas que pertenecen a este y al mismo tiempo constituye una herramienta de razonamiento para demostrar propiedades utilizando el principio de inducción aplicado a los juicios o reglas que lo definen. \\\\
-De forma similar la sintaxis marca la pauta para la definición de funciones como la función de evaluación para obtener el valor asociado a una expresión correctamente construida de un lenguaje de programación y al mismo tiempo será en esta misma estructura donde nos apoyaremos para definir los procesos de análisis para determinar la validez y el tipo de dichas expresiones.\\\\
-Para poder comenzar a estudiar los niveles sintácticos de un lenguaje de programación utilizaremos la definición de un nuevo lenguaje el cuál extenderemos con instrucciones a lo largo del desarrollo del manual y lo denominaremos como \textsf{EAB} (expresiones aritmético-booleanas). A partir de la definición de este lenguaje mediante la gramática para generar expresiones y las reglas de inferencia equivalentes abordaremos la construcción y diferencias que existen entre la sintaxis concreta y sintaxis abstracta que se introducen para \textsf{EAB}.\\
+De forma similar la sintaxis marca la pauta para la definición de funciones, como la función de evaluación para obtener el valor asociado a una expresión correctamente construida de un lenguaje de programación.  Al mismo tiempo será en esta estructura donde nos apoyaremos para definir los procesos de análisis para determinar la validez y el tipo de dichas expresiones.\\\\
+Para poder comenzar a estudiar los niveles sintácticos de un lenguaje de programación, utilizaremos la definición de un nuevo lenguaje el cuál extenderemos con instrucciones a lo largo del desarrollo del manual y lo denominaremos como \textsf{EAB} (expresiones aritmético-booleanas). A partir de la definición de este lenguaje, mediante la gramática para generar expresiones y las reglas de inferencia equivalentes abordaremos la construcción y diferencias que existen entre la sintaxis concreta y sintaxis abstracta que se introducen para \textsf{EAB}.\\
 
 \subsection*{Objetivo}
-Definir el lenguaje \textsf{EAB} junto con sus diferentes niveles sintácticos, mostrando las principales diferencias que existen entre la sintaxis concreta y abstracta así como estudiar cómo se relacionan proporcionando las reglas para implementar el analizador sintáctico de este mismo.
+Definir el lenguaje \textsf{EAB} junto con sus diferentes niveles sintácticos, mostrando las principales diferencias que existen entre la sintaxis concreta y abstracta así como estudiar cómo se relacionan, proporcionando las reglas para implementar el analizador sintáctico de este mismo.
 
 
 \subsection*{Planteamiento}
-Iniciaremos el estudio de este capítulo brindando las reglas de la sintaxis de \textsf{EAB}\footnote{Este lenguaje es una definición independiente a \textsf{EAL} vista en el \hyperref[sec:intro]{capítulo 1: Introducción}, dado que iremos extendiendo y agregando nuevas instrucciones durante el desarrollo de los siguientes capítulos.} junto con la definición de los nuevos niveles sintácticos; la sintaxis concreta y la sintaxis abstracta, misma que introduce una nueva estructura conocida como árbol de sintaxis abstracta que captura la jerarquía de operación en las instrucciones que se definen en su representación como cadena válida del lenguaje derivada a partir de las reglas definidas en la sintaxis concreta. En particular estudiaremos el proceso mediante el cual una expresión de la sintaxis concreta se relaciona con un árbol de sintaxis abstracta conocido como análisis sintáctico. \\\\
+Iniciaremos el estudio de este capítulo brindando las reglas de la sintaxis de \textsf{EAB}\footnote{Este lenguaje es una definición independiente a \textsf{EAL} vista en el \hyperref[sec:intro]{capítulo 1: Introducción}, dado que iremos extendiendo y agregando nuevas instrucciones durante el desarrollo de los siguientes capítulos.} junto con la definición de los nuevos niveles sintácticos; la sintaxis concreta y la sintaxis abstracta, misma que introduce una nueva estructura conocida como árbol de sintaxis abstracta.\\\\
+ Esta estructura captura la jerarquía de operación de las cadena válidas del lenguaje, derivadas a partir de las reglas definidas en la sintaxis concreta. En particular estudiaremos el proceso mediante el cual una expresión de la sintaxis concreta se relaciona con un árbol de sintaxis abstracta conocido como análisis sintáctico. \\\\
 En este nuevo lenguaje vamos a ejemplificar como estos dos niveles sintácticos se relacionan entre sí extendiendo su definición para soportar a los operadores \texttt{if} y \texttt{let}. \\
 Posteriormente explicaremos la relación que el operador \texttt{let} introduce con las variables ligadas, variables libres, el alcance de una variable y estudiaremos los conceptos de sustitución y $\alpha$-equivalencia.
 
@@ -28,9 +29,8 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
 %    Section 1: sintaxis concreta y sintaxis abstracta 
 \section{Sintaxis concreta}
 
-    La sintaxis concreta se relaciona con la representación gráfica de las cadenas del lenguaje y comúnmente es denotada por una gramática libre de contexto. Esta gramática está pensada para el usuario final, es decir una persona. \\
-    A esta capa se le denomina de ''alto nivel'' dado que es un ser humano y no una computadora quien se requiere pueda leer y escribir programas siguiendo las reglas de construcción del lenguaje en cuestión\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{76}{[76]}}. Vamos a denotar las expresiones del lenguaje con la letra ''\textit{E}''.\\
-    Definimos entonces el lenguaje \textsf{EAB}\footnote{Iniciaremos definiendo las instrucciones aritméticas primero y posteriormente agregaremos instrucciones lógico-booleanas con el operador \texttt{if}.} con el siguiente conjunto de juicios: \\
+    La sintaxis concreta se relaciona con la representación gráfica de las cadenas del lenguaje y comúnmente es denotada por una gramática libre de contexto. Esta gramática está pensada para el usuario final, es decir una persona. \\\\
+    A esta capa se le denomina de ''alto nivel'' dado que es un ser humano y no una computadora quien se requiere pueda leer y escribir programas siguiendo las reglas de construcción del lenguaje en cuestión\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{76}{[76]}}.
     
     %\begin{definition}
     %    Definición de la grámatica en forma BNF de \textsf{EAB}\footnote{Esta definición fue acuñada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]} adaptada para las instrucciones que nos interesa ejemplificar en este capítulo.}:
@@ -76,10 +76,10 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
 
     \section{Sintaxis abstracta}
 
-    La sintaxis abstracta por otra parte como su nombre lo indica se relaciona con la abstracción de la estructura del lenguaje y comúnmente es definida mediante reglas de inferencia para construir un árbol sintáctico donde cada nodo corresponde a una instrucción o operador
+    La sintaxis abstracta se relaciona con la abstracción de la estructura del lenguaje y comúnmente es definida mediante reglas de inferencia para construir un árbol sintáctico, donde cada nodo corresponde a una instrucción ó operador,
      y los hijos a los parámetros que recibe dicha instrucción\footnote{Definición formulada a partir de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{77}{[77]}, \hyperlink{78}{[78]} y \hyperlink{79}{[79]}.}. \\\\
-    Las hojas de los árboles sintácticos corresponden a los tipos primitivos del lenguaje (enteros, booleanos, caracteres, etc.). En este capítulo vamos a denotar a un árbol de sintaxis abstracta como ''\textit{ASA}''.\\\\
-    Los árboles sintácticos son útiles para definir la jerarquía de las operaciones a realizar durante la evaluación de una expresión bien formada de un lenguaje y eliminar la ambigüedad del mismo dado que un árbol de sintaxis abstracta es único sin importar la representación que una expresión tenga en sintaxis concreta. \\\\ 
+    Las hojas de los árboles sintácticos corresponden a los valores de los tipos primitivos del lenguaje (enteros, booleanos, caracteres, etc.). En este capítulo vamos a denotar a un árbol de sintaxis abstracta como ''\textit{ASA}''.\\\\
+    Los árboles sintácticos son útiles para definir la jerarquía de las operaciones a realizar durante la evaluación de una expresión bien formada y eliminar la ambigüedad del mismo, dado que un árbol de sintaxis abstracta es único sin importar la representación que una expresión tenga en sintaxis concreta. \\\\ 
     %Como mencionamos, existe una representación en sintaxis abstracta para cada expresión bien formada de nuestro lenguaje \textsf{EAB}. Vamos a denotar como ''\textit{ASA}'' a dicha estructura, la cual está definida por el siguiente conjunto de reglas que nos permiten construir el árbol sintáctico correspondiente a dicha expresión. \\
 
     \begin{definition}
