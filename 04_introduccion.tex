@@ -15,11 +15,11 @@
 
 En el contexto de la computación, los lenguajes de programación fungen como una interfaz entre programador y procesador para establecer una comunicación sobre lo que queremos que la computadora ejecute por nosotros.\\\\
 Diferentes paradigmas de lenguajes de programación, estilos, reglas y convenciones se han adoptado en las últimas décadas para ajustarse al mejor planteamiento posible de un problema, mantener un estándar declarativo, un nombramiento homogéneo de variables y métodos, o un estilo idéntico compartido entre los diferentes programas que se agrupan en estas categorías.\\\\
-Iniciaremos el estudio de este manual planteando los conceptos claves que nos permitirán definir, clasificar y analizar a los lenguajes de programación que existen en el contexto de las ciencias de la computación. Estos conceptos nos permitirán definir nuestro propio lenguaje de programación desde cero, creando las estructuras y reglas necesarias para cada tipo, variable e instrucción del mismo.\\\\
+Iniciaremos el estudio de este manual planteando los conceptos claves que nos permitirán definir, clasificar y analizar a los lenguajes de programación que existen en el contexto de las ciencias de la computación. Estos conceptos nos permitirán definir nuestro propio lenguaje de programación desde cero.\\\\
 Por último analizaremos sus propiedades y estudiaremos sus características más importantes para poder dar una implementación robusta aplicando las definiciones que iremos presentando en el desarrollo de esta introducción.\\
 
 \subsection*{Objetivo}
-    Comenzar el estudio formal de los lenguajes de programación brindando un primer acercamiento a la construcción básica de uno, partiendo de las definiciones de conceptos que componen un lenguaje, específicamente: sintaxis, semántica, y pragmática. Así como a la clasificación que agrupa y distingue a los diferentes lenguajes computacionales en la actualidad\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}.\\ Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, estructuras recursivas, reglas de inferencia e inducción estructural. }.
+    Comenzar el estudio formal de los lenguajes de programación brindando un primer acercamiento a la construcción básica de uno, partiendo de las definiciones de conceptos que componen un lenguaje, específicamente: sintaxis, semántica, y pragmática. Así como a la clasificación que agrupa y distingue a los diferentes lenguajes computacionales en la actualidad\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}.\\ Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, reglas de inferencia e inducción estructural. }.
 
 \subsection*{Planteamiento}
     Este capítulo inicia con el estudio de los lenguajes de programación definiendo diferentes gramáticas para generar lenguajes pequeños y familiarizarnos con los elementos que los conforman.\\\\
@@ -52,7 +52,7 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
     \begin{exercise}
         Explica que es la pragmática de un lenguaje.   \\
          En el contexto de las ciencias de la computación la pragmática se refiere a todos aquellos elementos del lenguaje que nos permiten obtener el significado de una expresión bajo un determinado contexto.
-        Un ejemplo de esto son las bibliotecas que nos permiten importar métodos previamente definidos, así la interpretación de una instrucción de esta biblioteca solo tiene un significado válido bajo el contexto que la importa\footnote{Extraído de \hyperlink{36}{[36]} y   \hyperlink{37}{[37]}}.
+        Un ejemplo de esto son las bibliotecas que nos permiten importar métodos previamente definidos. Así la interpretación de una instrucción de esta biblioteca solo tiene un significado válido bajo el contexto que la importa\footnote{Extraído de \hyperlink{36}{[36]} y   \hyperlink{37}{[37]}}.
     \end{exercise} 
 
     \bigskip
@@ -61,29 +61,28 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
 \section{Gramáticas y semántica de expresiones}
 
     Los lenguajes (no solo los de programación) requieren de un conjunto de reglas que nos permita formar las expresiones que pertenecen a ellos y un método de interpretación que nos diga el significado de las expresiones formadas a partir de dicho conjunto de reglas.\\\\
-    En cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } se revisan este tipo de estructuras y las reglas que las generan conocidas como sintaxis del  lenguaje. Estas reglas pueden ser definidas mediante juicios lógicos o gramáticas. \\\\
-    Adicionalmente se necesita una función de evaluación que nos permita obtener el valor asociado a la expresión. A esta rama se le conoce como semántica del lenguaje\footnote{
-    Más adelante en este curso revisaremos a profundidad las reglas semánticas y como evaluar expresiones correctas.}.
+    En cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } se revisan este tipo de estructuras y las reglas que las generan conocidas como sintaxis del  lenguaje. Estas reglas pueden ser definidas mediante juicios lógicos o gramáticas. \\
 
     % Ejercicio 2.1
     \begin{exercise}
-        Define la gramática para las cadenas de la forma $(ab)^*$.     \\\\
+        Define la gramática para las cadenas de la forma $(ab)^*$.     \\
             $S$ ::= ab $S$ $|$ $\varepsilon$
     \end{exercise}
 
     % Ejercicio 2.2
     \begin{exercise}
-        Define la gramática para números enteros.  \\\\
-            $S$ ::= $D$ $|$ $D$ $S$     \\
+        Define la gramática para generar n tal que, n $\in \ \N$ .  \\
+            $N$ ::= $D$ $|$ $D$$N$     \\
             $D$ ::= 0 $|$1 $|$ 2 $|$ 3 $|$ 4 $|$ 5 $|$ 6 $|$ 7 $|$ 8 $|$ 9
     \end{exercise}
 
+%https://cs.stackexchange.com/questions/97794/what-is-a-non-ambiguous-cfg-for-generating-the-set-of-natural-numbers
 
     %Ejercicio 2.3
     \begin{exercise}
-        Define la gramática para las listas de dígitos.     \\\\
-            $S$ ::= [ $DL$ ] $|$ [ $\varepsilon$ ]    \\
-            $DL$ ::= $D$ $|$ $D$ , $DL$  \\
+        Define la gramática para las listas de dígitos.     \\
+            $L$ ::= [ $N$ ] $|$ $\varepsilon$    \\
+            $N$ ::= $D$ $|$ $DN$ $|$ $N, N$  \\
             $D$ ::= 0 $|$ 1 $|$ 2 $|$ 3 $|$ 4 $|$ 5 $|$ 6 $|$ 7 $|$ 8 $|$ 9
     \end{exercise}
 

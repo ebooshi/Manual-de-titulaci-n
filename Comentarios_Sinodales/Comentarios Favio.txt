@@ -1,0 +1,134 @@
+Comentarios generales:
+
+Pocos ejercicios o muy pobres
+
+Sí acentuado en condicionales no va.
+
+Unificar tamaños diferentes para que queden iguales.
+
+Unificar la notación True y False.
+
+Bibliografía en orden alfabético y asegurarse que los links sean vigentes.
+
+
+
+Capítulo 1
+
+2.3 Lista Vacio Epsilon.
+
+2.5 Expresion EAL mal formada
+
+2.7 Como eliminarias a ambiguedad de esta gramatica, dar la gramatica y aclarar porque como una pregunta/
+
+4.4 Typo con j.
+
+4.5 Definicion e lenguajes en notacion de conjuntos.
+
+4.10 Usa una lista en lugar de un arreglo.
+
+2.2 Semantica denotativa 
+
+
+
+
+
+Capitulo 2
+
+1.3 Proporcionar mas detalle al ejercicio con la notación
+
+3 Estructuras recursivas e inducción (varios elementos, varios funciones constructoras)
+
+Formato de diferentes tamaños voltearlos no escalar.
+
+Quitar la notación de conjuntos en los juicios, \in (A*)
+
+Definición 3.2 especificación está mal, Sí no lleva acento, nada más está contando caracteres.
+
+Ejercicio 3.3 Utiliza la inducción estructural sobre el parámetro s, funciona? Paso inductivo s´ (invierte los nombres) y agrega para toda s y para t en la hypothesis inductiva.
+
+Definición 3 las epsilon son distintas.
+
+len(rev(s))
+
+y falta la prima en s <a, s>
+
+3.4 son todas por son todos.
+
+4 Sistemas de transición dos clases de estados, no dos estados especiales,
+
+los estados no están definidos, di que son ternas, el uso de la flecha 
+
+Estados escritos por comprensión y marca los paréntesis para que sea una terna, hay muchos términos que no son congruentes.
+introduce los elementos antes de definirlos.
+
+5.6 Cambiar el ejercicio porque es resultado directo de 
+
+pagina 19 4.11 y 4.12 no tienen referencia al ejercicio.
+
+quitar la palabra puzzle, o rompecabezas, explicación de los pivotes, especificar mas el problema.
+
+
+
+Capítulo 3
+
+Definición de sintaxis solo tiene expresiones aritméticas.
+
+Ejercicio 2.1 en la guardia solo hay booleanos c, hay que corregirlo
+
+Ejercicio 2.2 necesita comas en el ASA.
+
+Ejercicio 3.1 corregir la especificación de E.
+
+Ejercicio 3.2 var[x] no se necesita, 
+
+Definición 3.4 O() decir que representa
+
+pagina 27 esta va con acento
+
+Ejercicio 3.8, tabla en lugar del español
+
+resolviendo esta operación para dar variable a la variable, 
+
+en el Ejercicio 3.10 la expresión e especificar a cual expresión.
+
+Sección 4, alpha-equivalencia
+
+definición 4.2 alfa-equivalencia para el último caso, la sustitución siempre se puede definir.
+
+Ejercicio 4.1 diferenciar el problema de la solución parecen
+
+Ejercicio 5.9 encerrar entre paréntesis todo el let.
+
+Página 32 la última definición de fun está mal, la e no contempla el cambio de variable en e, corregir.
+
+
+
+Capítulo 4
+
+Página 34. al para evaluar cambiar.
+
+Planteamiento, solo ciertas expresiones pueden ser tipadas no todas.
+
+Definición 1.1, el ASA del juicio sobra
+
+Falta la notación para false
+
+Ejercicio 1.1 checar los nombres de las reglas están mal aplicadas.
+
+cambiar B Bool o T Bool por bool[b] que si es un asa.
+
+la notación a veces usa a o a veces usas puras es
+
+Ejercicio 2.2 paréntesis en la expresión quitarlo
+
+Definición 2.4 hay una t en la notació, quítala, 
+
+Definición 2.7 B Bool está mal.
+
+Definición 3.1 no la usas quítala.
+
+Ejercicio 4.2 notación de los cuantificadores como abstracción.
+
+4.3 notación poloca redacción está rara.
+
+Ejercicio 4.5 quitar el ejercicio.
