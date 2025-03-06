@@ -19,41 +19,38 @@ Iniciaremos el estudio de este manual planteando los conceptos claves que nos pe
 Por último analizaremos sus propiedades y estudiaremos sus características más importantes para poder dar una implementación robusta aplicando las definiciones que iremos presentando en el desarrollo de esta introducción.\\
 
 \subsection*{Objetivo}
-    Comenzar el estudio formal de los lenguajes de programación brindando un primer acercamiento a la construcción básica de uno, partiendo de las definiciones de conceptos que componen un lenguaje, específicamente: sintaxis, semántica, y pragmática. Así como a la clasificación que agrupa y distingue a los diferentes lenguajes computacionales en la actualidad\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}.\\ Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, reglas de inferencia e inducción estructural. }.
+    Comenzar el estudio formal de los lenguajes de programación brindando un primer acercamiento a la construcción básica de uno. Partiendo de las definiciones de los conceptos que componen un lenguaje, específicamente sintaxis, semántica, y pragmática. Así como a la clasificación que agrupa y distingue a los diferentes lenguajes computacionales en la actualidad\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, reglas de inferencia e inducción estructural. }.
 
 \subsection*{Planteamiento}
-    Este capítulo inicia con el estudio de los lenguajes de programación definiendo diferentes gramáticas para generar lenguajes pequeños y familiarizarnos con los elementos que los conforman.\\\\
+    Este capítulo inicia con el estudio de los lenguajes de programación, definiendo diferentes gramáticas para generar lenguajes pequeños y familiarizarnos con los elementos que los conforman.\\\\
     Es de particular interés analizar nuestro primer caso de estudio, el lenguaje \textsf{EAL}: Expresiones aritmético-lógicas proporcionando la gramática y esbozando como podemos interpretar las expresiones que pertenecen al mismo mediante la función de evaluación \texttt{eval}.\\\\
     Para cerrar el capítulo se discute brevemente la clasificación de los lenguajes de programación mas importantes de la actualidad basados en las características y paradigma de programación al que pertenecen. 
 
 %    Sección 1: Composición de los lenguajes
-\section{Reglas de los lenguajes}
+\section{Las partes del lenguaje}
 
     La lingüística tiene como propósito definir una serie de reglas que rijan la estructura fundamental que compone un lenguaje.
 Las reglas que estudian dicha composición pueden ser clasificadas en sintácticas (estructura gramatical), semánticas (significado) y pragmáticas (contexto de uso).\\
 
     % Ejercicio 1.2
-    \begin{exercise}
-        Explica que es la sintaxis  de un lenguaje.     \\
+    \begin{definition}(Sintaxis).
         En el contexto de las ciencias de la computación, la sintaxis de un lenguaje son las reglas que definen las combinaciones de símbolos que se consideran declaraciones o expresiones correctamente estructuradas\footnote{Definición extraída de  \hyperlink{29}{[29]}, \hyperlink{30}{[30]} y \hyperlink{31}{[31]}}.
         
-    \end{exercise}
+    \end{definition}
 
 \bigskip
 
     % Ejercicio 1.1
-    \begin{exercise}
-       Explica que es la semántica de un lenguaje.    \\
+    \begin{definition}(Semántica).
         En el contexto de las ciencias de la computación, la semántica describe los procesos que sigue una computadora al ejecutar un programa en un lenguaje específico. Esto se puede mostrar describiendo la relación entre la entrada y la salida de un programa, o una explicación de cómo se ejecutará el programa en una determinada plataforma, creando así un modelo de cálculo\footnote{Definición extraída de \hyperlink{20}{[20]},  \hyperlink{21}{[21]} y \hyperlink{28}{[28]}}.
-    \end{exercise} 
+    \end{definition} 
 
 
     % Ejercicio 1.3
-    \begin{exercise}
-        Explica que es la pragmática de un lenguaje.   \\
-         En el contexto de las ciencias de la computación la pragmática se refiere a todos aquellos elementos del lenguaje que nos permiten obtener el significado de una expresión bajo un determinado contexto.
-        Un ejemplo de esto son las bibliotecas que nos permiten importar métodos previamente definidos. Así la interpretación de una instrucción de esta biblioteca solo tiene un significado válido bajo el contexto que la importa\footnote{Extraído de \hyperlink{36}{[36]} y   \hyperlink{37}{[37]}}.
-    \end{exercise} 
+    \begin{definition}(Pragmática).
+         En el contexto de las ciencias de la computación la pragmática se refiere a todos aquellos elementos del lenguaje que nos permiten obtener el significado de una expresión bajo un determinado contexto.\\\\
+        Un ejemplo de esto son las bibliotecas, que nos permiten importar métodos previamente definidos. Así, la interpretación de una instrucción de esta biblioteca solo tiene un significado válido bajo el contexto que la importa\footnote{Extraído de \hyperlink{36}{[36]} y   \hyperlink{37}{[37]}}.
+    \end{definition} 
 
     \bigskip
 
@@ -61,75 +58,96 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
 \section{Gramáticas y semántica de expresiones}
 
     Los lenguajes (no solo los de programación) requieren de un conjunto de reglas que nos permita formar las expresiones que pertenecen a ellos y un método de interpretación que nos diga el significado de las expresiones formadas a partir de dicho conjunto de reglas.\\\\
-    En cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } se revisan este tipo de estructuras y las reglas que las generan conocidas como sintaxis del  lenguaje. Estas reglas pueden ser definidas mediante juicios lógicos o gramáticas. \\
+Las gramáticas de los lenguajes de programación consta de dos niveles: la sintaxis concreta y la sintaxis abstracta. Estudiaremos con especial atención la primera mientras que las sintaxis abstracta será presentada a detalle en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}.\\\\
+En cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } se revisan este tipo de estructuras y las reglas que las generan, éstas usualmente son representadas como gramáticas libres de contexto. A continuación revisaremos algunos ejemplos aplicados para estructuras 
+matemáticas.
 
-    % Ejercicio 2.1
-    \begin{exercise}
-        Define la gramática para las cadenas de la forma $(ab)^*$.     \\
-            $S$ ::= ab $S$ $|$ $\varepsilon$
+	%ejercicio 2.1
+	\begin{exercise}
+        Dado el alfabeto $A=\{a, b\}$ define la gramática para generar $\{a^nb^n\ |\ n \in \N\}$\footnote{Ejercicio consultado de \hyperlink{135}{[135]}}. 
+           \begin{align*}
+				S & ::= aSb \ | \ \varepsilon 
+			\end{align*}
     \end{exercise}
 
     % Ejercicio 2.2
     \begin{exercise}
-        Define la gramática para generar n tal que, n $\in \ \N$ .  \\
-            $N$ ::= $D$ $|$ $D$$N$     \\
-            $D$ ::= 0 $|$1 $|$ 2 $|$ 3 $|$ 4 $|$ 5 $|$ 6 $|$ 7 $|$ 8 $|$ 9
+        Define la gramática para generar n tal que, n $\in \ \N$\footnote{Ejercicio consultado de \hyperlink{134}{[134]}}. 
+           \begin{align*}
+				S & ::= BT \ | \ A \\
+				T & ::= AT \ | \ A \\
+				A & ::= B \ | \ 0 \\
+				B & ::= 1 \ | \ 2 \ | \ 3 \ | \ 4 \ | \ 5 \ | \ 6 \ | \ 7 \ | \ 8 \ | \ 9
+			\end{align*}
     \end{exercise}
+
+	%ejercicio 2.3
+	\begin{exercise}
+        Define la gramática para generar expresiones aritméticas parentizadas con notación infija para el operador ''+''\footnote{Ejercicio consultado de \hyperlink{136}{[136]}}.  (puedes suponer definidos los números naturales a partir del ejercicio anterior)\footnote{Aquí hacemos abuso de la notación en la última regla puesto que $\N$ no es un elemento de la gramática por si mismo, este hace referencia a los número naturales generados del ejercicio 2.2.}.
+			 \begin{align*}
+				S & ::= S \ + \ A \ | \ A \\
+				A & ::= (S) \ | \ \N
+			\end{align*}
+    \end{exercise}
+
+
 
 %https://cs.stackexchange.com/questions/97794/what-is-a-non-ambiguous-cfg-for-generating-the-set-of-natural-numbers
 
-    %Ejercicio 2.3
-    \begin{exercise}
-        Define la gramática para las listas de dígitos.     \\
-            $L$ ::= [ $N$ ] $|$ $\varepsilon$    \\
-            $N$ ::= $D$ $|$ $DN$ $|$ $N, N$  \\
-            $D$ ::= 0 $|$ 1 $|$ 2 $|$ 3 $|$ 4 $|$ 5 $|$ 6 $|$ 7 $|$ 8 $|$ 9
-    \end{exercise}
+%https://repositorium.sdum.uminho.pt/bitstream/1822/53514/1/OASIcs-SLATE-2016-10.pdf
 
+%https://web.stanford.edu/class/archive/cs/cs103/cs103.1164/lectures/18/Slides18.pdf
+
+%https://www.cs.bu.edu/fac/snyder/cs320/Review%20and%20Practice%20Problems/Practice%20Problems%2007.html
+
+
+\subsection{El lenguaje EAL}
+
+	Vamos a definir la base del lenguaje que utilizaremos para el resto del manual, este  se denomina \textsf{EAL} (expresiones aritméticas y lógicas). Poco a poco iremos extendiendo y agregando instrucciones para hacerlo más robusto, por el momento nos limitaremos a definir los operadores aritméticos básicos: ''+'', ''-'',''*'' y los operadores lógicos: ''$<$'', ''isZero'' y ''not''. De igual forma definimos las constantes \texttt{true}, \texttt{false} y los números naturales. 
     % Definición del lenguaje EAB
-    \begin{definition}[]Sintaxis de {\sf Expresiones aritmético-lógicas: EAL}
+    \begin{definition}[Sintaxis de {\sf Expresiones aritmético-lógicas: EAL}]
         \[
             \begin{array}{rll}
-                e & ::= &  n\quad |\quad {\tt true}\quad |\quad {\tt false}\quad |\quad e + e\quad |\quad e*e\quad |\quad e<e\quad 
+                e & ::= &  n\quad |\quad {\tt true}\quad |\quad {\tt false}\quad |\quad e + e\quad |\quad e - e\quad |\quad e*e\quad |\quad e<e\quad 
             \end{array}
        \]
        \[
 	 \begin{array}{rll}
-		|\quad {\tt iszero}\;e\quad |\quad {\tt not}\;e
+		|\quad {\tt isZero}\;e\quad |\quad {\tt not}\;e
 	\end{array}
         \]
-        En donde $n\in\mathbb{N}$ y las constantes \textsf{true} y \textsf{false} son cadenas del lenguaje (nótese que no son elementos de $Bool$ aún)\footnote{Definición formulada de  \hyperlink{1}{[1]},  \hyperlink{5}{[5]}.  \hyperlink{12}{[12]},  \hyperlink{26}{[26]} y  \hyperlink{39}{[39]}.}.
+        Nuevamente hacemos abuso en la notación para $n$, en donde $n\in\mathbb{N}$\footnote{Definición formulada de  \hyperlink{1}{[1]},  \hyperlink{5}{[5]}.  \hyperlink{12}{[12]},  \hyperlink{26}{[26]} y  \hyperlink{39}{[39]}.}.
     \end{definition}
-
-    \bigskip
         
     % Definición de la función semanticá para EAB
     \begin{definition}[Semántica de \textsf{EAL}] Función de evaluación para el lenguaje de expresiones aritmético-lógicas.
         $$\llbracket\cdot\rrbracket:{\sf EAL}\to\mathbb{N} \cup \textit{Bool}$$
-         Esto quiere decir que la función de evaluación recibe una expresión del lenguaje \textsf{EAL} y regresa un número natural ó una constante booleana y se define de la siguiente forma:
+         Esto quiere decir que la función de evaluación recibe una expresión del lenguaje \textsf{EAL} y regresa un número natural ó un booleano
         \[
             \begin{array}{rll}
                 \llbracket n\rrbracket&=&n\\
-                \llbracket {\tt true}\rrbracket&=&{\tt True}\\
-                \llbracket {\tt false}\rrbracket&=&{\tt False}\\
+                \llbracket {\tt true}\rrbracket&=&{\tt true}\\
+                \llbracket {\tt false}\rrbracket&=&{\tt false}\\
                 \llbracket e_1 + e_2\rrbracket&=&\llbracket e_1\rrbracket+_\mathbb{N}\llbracket e_2\rrbracket\\
+ \llbracket e_1 - e_2\rrbracket&=&\llbracket e_1\rrbracket-_\mathbb{N}\llbracket e_2\rrbracket\\
                 \llbracket e_1*e_2\rrbracket&=&\llbracket e_1\rrbracket\times_\mathbb{N}\llbracket e_2\rrbracket\\
                 \llbracket e_1<e_2\rrbracket&=&\llbracket e_1\rrbracket<_\mathbb{N}\llbracket e_2\rrbracket\\
-                \llbracket {\tt iszero}\;e\rrbracket&=&{\sf zero}_\mathbb{N}\llbracket e\rrbracket\\
+                \llbracket {\tt isZero}\;e\rrbracket&=&{\sf zero}_\mathbb{N}\llbracket e\rrbracket\\
                 \llbracket {\tt not}\;e\rrbracket&=&\lnot\llbracket e\rrbracket
             \end{array}
         \]
-        En donde $ n \in \mathbb{N}$ es un natural y las constantes $\tt False$, $\tt True \in $ $Bool$.\\\\
-        Los operadores $+_\mathbb{N},\times_\mathbb{N},<_\mathbb{N}$ y ${\sf zero}_\mathbb{N}$ representan las funciones de suma, producto, menor y el \textit{test} de cero definidas para los naturales respectivamente, mientras que $\lnot$ es la negación lógica para $Bool$\footnote{Definición extraída de \hyperlink{1}{[1]},  \hyperlink{5}{[5]}.  \hyperlink{12}{[12]},  \hyperlink{26}{[26]} y  \hyperlink{39}{[39]}.}.
+        En donde $ n \in \mathbb{N}$ y las constantes $\tt false$, $\tt true \in $ $Bool$.\\
+        Los operadores $+_\mathbb{N},\times_\mathbb{N},<_\mathbb{N}$ y ${\sf zero}_\mathbb{N}$ representan las funciones de suma, producto, menor que y el \textit{test} de cero definidas para los naturales respectivamente, mientras que $\lnot$ es la negación lógica para $Bool$\footnote{Definición extraída de \hyperlink{1}{[1]},  \hyperlink{5}{[5]}.  \hyperlink{12}{[12]},  \hyperlink{26}{[26]} y  \hyperlink{39}{[39]}.}.
     \end{definition}
 
     A partir de la definición anterior se puede implementar un intérprete para expresiones del lenguaje \textsf{EAL} mediante una función recursiva $\tt eval$ como sigue:
     \vskip 1em
     \begin{lstlisting}
         eval n          = n
-        eval true       = True
-        eval false      = False
+        eval true       = true
+        eval false      = false
         eval (e1 + e2)  = eval e1 + eval e2
+        eval (e1 - e2)  = eval e1 - eval e2
         eval (e1 * e2)  = eval e1 * eval e2
         eval (e1 < e2)  = (eval e1) < (eval e2)
         eval (not e)    = not (eval e)
@@ -149,8 +167,8 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
                 not(eval(3) <  eval(5) + eval(7)) =   
                 not(3 < 5 + 7)  =                                                                            
                 not(3 < 12)  =               	                                                                                                 
-                not(True)  =
-                False
+                not(true)  =
+                false
         \end{lstlisting}
         
     \end{exercise}
@@ -164,10 +182,9 @@ Las reglas que estudian dicha composición pueden ser clasificadas en sintáctic
             eval(3 * true > 8)        =                              
             eval(3 * true) > eval(8)  =            
             eval(3) * eval(true) >  8 =                                                  
-            3 * True > 8              =  
-            error
+            3 * true > 8              
         \end{lstlisting}
-        Expresión de \textsf{EAL} mal formada.
+        En este caso, aún cuando la expresión \textsf{EAL} está bien formada, no existe una regla en nuestro intérprete que nos permita evaluar más, por lo tanto esta expresión no tiene resultado. Más adelante estudiaremos mecanismos para evitar que casos como este figuren en la evaluación de un lenguaje.
 
     \end{exercise}
 

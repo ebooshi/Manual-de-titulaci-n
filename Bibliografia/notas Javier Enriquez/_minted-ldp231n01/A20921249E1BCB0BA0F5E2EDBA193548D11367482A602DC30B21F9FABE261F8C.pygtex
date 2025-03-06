@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{fn} \PYG{n+nf}{quick\PYGZus{}sort}\PYG{p}{(}\PYG{n}{param\PYGZus{}int\PYGZus{}array}: \PYG{k+kp}{\PYGZam{}}\PYG{n+nc}{mut}\PYG{+w}{ }\PYG{p}{[}\PYG{k+kt}{i32}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{start}: \PYG{k+kt}{usize}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{end}: \PYG{k+kt}{usize}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{start}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{n}{end}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{p}{;}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{k+kd}{let}\PYG{+w}{ }\PYG{n}{pivot}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{partition}\PYG{p}{(}\PYG{n}{param\PYGZus{}int\PYGZus{}array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{start}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{end}\PYG{p}{);}
+
+\PYG{+w}{    }\PYG{n}{quick\PYGZus{}sort}\PYG{p}{(}\PYG{n}{param\PYGZus{}int\PYGZus{}array}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{start}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{pivot}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{k+kt}{usize}\PYG{p}{);}
+\PYG{+w}{    }\PYG{n}{quick\PYGZus{}sort}\PYG{p}{(}\PYG{n}{param\PYGZus{}int\PYGZus{}array}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{pivot}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{k+kt}{usize}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{end}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

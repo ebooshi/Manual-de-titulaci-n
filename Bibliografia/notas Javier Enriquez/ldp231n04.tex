@@ -1,0 +1,413 @@
+
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\addto\shorthandsspanish{\spanishdeactivate{~<>.}}
+
+\title{\LARGE
+Lenguajes de Programación 2023-1\\ 
+Nota de clase 4: Semántica\\
+\color{Orchid} Introducción}
+\author{Javier Enríquez Mendoza}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+Hasta este punto se han formalizado los conceptos relacionados a la sintaxis de los lenguajes de programación, es momento de estudiar la semántica de éstos y como podemos dar una especificación formal de ella.
+
+\section{Semántica de lenguajes de programación}
+
+La semántica de un lenguaje de programación es la encargada de darle un significado a las expresiones que pertenecen a él. Un ejemplo de semántica para un lenguaje es el comportamiento que tiene en tiempo de ejecución, es decir, como se evalúan las expresiones del lenguaje, esta semántica es principalmente en la que nos concentraremos en esta nota de clase, sin embargo no es la única como veremos mas adelante. 
+
+Es común encontrar que la semántica de un lenguaje se especifica de manera informal utilizando manuales o documentación en lenguaje natural. Si bien este tipo de especificación es útil para las personas que quieren aprender o utilizar el lenguaje, también es importante formalizar la especificación de la semántica ya que resulta de utilidad en el diseño de lenguajes pues nos permite encontrar ambigüedades y detalles imprevistos en constructores del lenguaje.
+
+El desarrollo y uso de herramientas matemáticas de formalización semántica pueden sugerir nuevos estilos programación o mejoras a los ya existentes. Quizá el ejemplo mas importante de esto sea la influencia que el Cálculo Lambda y la teoría de categorías han tenido en los lenguajes de programación funcional.
+
+\subsection{Niveles de Semántica}
+Normalmente en la literatura se divide la semántica en dos niveles. En donde cada nivel se encarga de abstraer el significado de una expresión utilizando criterios distintos. Estos dos niveles son:
+\begin{itemize}
+    \item {\bf Semántica Estática}: determina cuando un programa es correcto mediante criterios sintácticos.
+    \item {\bf Semántica Dinámica}: determina el valor o evaluación de un programa.
+\end{itemize}
+\subsubsection{Semántica Estática}
+Este nivel de semántica incluye todas las propiedades de un programa que pueden verificarse en tiempo de compilación. La definición  de estas propiedades, así como qué tanta información obtiene el compilador de ellas dependen del lenguaje de programación.
+
+En general este nivel semántico se relaciona con propiedades sobre las reglas de tipado o alcance de un lenguaje. Sin embargo en algunos lenguajes, el tipo de una expresión o el alcance de una variable solo se puede determinar hasta tiempo de ejecución, por lo que ya no pertenecerían a la semántica estática.
+
+\begin{definition}[Semántica estática para capturar expresiones con variables libres en {\tt EA}] En el lenguaje de expresiones aritméticas con el que hemos estado trabajando, las expresiones de la forma:
+    \begin{verbatim}
+        let x = y in x + x end
+    \end{verbatim}
+    \noindent
+    son sintácticamente correctas pero semánticamente incorrectas, pues la variable \lstinline{y} está libre en la expresión por lo que no podría evaluarse. 
+    \vspace{1em}
+    
+    Ésta es una de las propiedades de las que se encarga la semántica estática, así que daremos un conjunto de reglas para definir una semántica estática encargada de evitar estos errores. Para esto se define un juicio 
+
+    $$ \Delta\sim e$$
+
+    En donde $\Delta$ es un conjunto de variables en donde se guardan las variables previamente definidas y $e$ una expresión del lenguaje en sintaxis abstracta, y se lee como $e$ no tiene variables libres bajo el conjunto $\Delta$ de variables definidas. Entonces se definen las reglas de semántica estática como:
+
+\[
+    \begin{array}{ccc}
+        \inference{x\in\Delta}{\Delta\sim x}[{\sf fvv}]&\inference{}{\Delta\sim\num[n]}[{\sf fvn}]&\inference{\Delta,x\sim e}{\Delta\sim x.e}[{\sf fva}]\\
+        &&\\
+        &\inference{\Delta\sim e_1&\cdots&\Delta\sim e_n}{\Delta\sim O(e_1,\cdots,e_n)}[{\sf fvo}]&
+    \end{array}
+\]
+
+Para garantizar que una expresión $e$ no tiene variables libres se inicia con el conjunto vacío de variables definidas y se debe probar $\varnothing\sim e$ usando las reglas anteriores.
+\end{definition}
+
+\begin{example}[Ejemplo del uso de la semántica estática] Veamos como funcionan las reglas de semántica estática para reconocer expresiones sin variables libres con la siguiente expresión:
+    $$\lett(y,x.\suma(x,x))$$
+\noindent
+la derivación queda como sigue:
+    \[
+        \inference
+            {
+                \inference
+                    {\color{red}{\tt error}}
+                    {\{\}\sim y}&
+                \inference
+                    {
+                        \inference
+                            {
+                                \inference
+                                    {x\in\{x\}}
+                                    {\{x\}\sim x}&
+                                \inference
+                                    {x\in\{x\}}
+                                    {\{x\}\sim x}
+                            }
+                            {\{x\}\sim \suma(x,x)}[{\sf fvo}]
+                    }
+                    {\{\}\sim x.\suma(x,x)}[{\sf fva}]&
+            }
+            {\{\}\sim\lett(y,x.\suma(x,x))}[{\sf fvo}]
+    \]
+Como una de las ramas del árbol de derivación terminó en error, se puede concluir la expresión no es correcta pues la variable $y$ aparece libre.
+\end{example}
+
+\begin{definition}[Expresión cerrada] Se dice que una expresión $e$ del lenguaje es cerrada si no tiene apariciones de variables libres, es decir, $e$ es cerrada si y sólo si $\varnothing\sim e$.
+\end{definition}
+
+La semántica estática se utiliza también para definir restricciones de tipos sobre las expresiones del lenguaje, esto será estudiado en el curso con mas detalle en notas posteriores una vez que tengamos un lenguaje con un sistema de tipos mas rico. En está nota nos concentraremos principalmente en el otro nivel semántico, la semántica dinámica.
+\section{Semántica Dinámica}
+
+La semántica dinámica de un lenguaje de programación conecta la sintaxis del lenguaje a algún modelo comunicacional capaz de evaluarlo. Existen diferentes técnicas para definir la semántica dinámica: semántica axiomática, semántica denotativa y semántica operacional. A continuación explicamos brevemente cada una de ellas:
+\begin{description}
+    \item[Semántica denotativa] Con este estilo de semántica nos concentramos en el efecto que genera la ejecución del programa, modelándolo con objetos matemáticos como funciones con los siguientes criterios:
+    \begin{itemize}
+        \item El efecto de una secuencia de instrucciones se define como la composición de las funciones que modelan el efecto de cada instrucción individualmente.
+        \item El efecto de una instrucción se define como una función que modela los cambios que ésta generó en la memoria.
+    \end{itemize}
+    En esta semántica el objeto de interés es el resultado de la ejecución de un programa y no el proceso de ejecución. La principal ventaja de este estilo es que abstrae el comportamiento del programa fuera de la ejecución de este, por lo que se vuelve sencillo razonar sobre programas como simples objetos matemáticos, sin embargo es importante establecer una base matemática sólida para la semántica denotativa lo cual no siempre es una tarea sencilla.
+    \item[Semántica axiomática] También conocida como Lógica de Hoare-Floyd, en este estilo se estudia la correctud parcial de los programas, la cual es dada por un conjunto de pre-condiciones y uno de post-condiciones. Si el estado inicial (es decir, el estado antes de la ejecución del programa) cumple las pre-condiciones y si al termino de la ejecución del programa el estado resultante cumple las post-condiciones decimos que el programa es parcialmente correcto. Por ejemplo:
+    $${\tt\{x=n\land y=m\}\quad z:=x; x:=y; y:=z\quad \{x=m\land y=n\}}$$
+    \noindent
+    en donde ${\tt\{x=n\land y=m\}}$ es el conjunto de pre-condiciones y ${\tt\{x=m\land y=n\}}$ es el conjunto de post-condiciones. Se puede observar que el programa es parcialmente correcto bajo estas condiciones.
+    Esta semántica provee un sistema lógico para probar ciertas propiedades de los programas individuales de manera sencilla. En la mayoría de los casos ha sido posible de automatizar este razonamiento, permitiendo que sea una computadora la que pruebe estas propiedades.
+    \item[Semántica Operacional] En este estilo de semántica el significado de un programa será el {\it cómo} se ejecuta en una máquina. Se estudia el proceso de ejecución de un programa y no el resultado que produce. Para esto se modela el computo producido en un sistema de transición o {\it máquina abstracta} en donde los estados son expresiones del lenguaje y las transiciones se definen con el proceso de ejecución de estas expresiones. Esta semántica es útil cuando se quiere estudiar propiedades de la ejecución en si del programa.
+\end{description}
+
+En este curso nos concentraremos únicamente en el estudio de la semántica operacional de un lenguaje. Si se quiere profundizar mas en el estudio de los otros estilos puede consultarse 
+\ref{swann}
+ y llevar como curso optativo Semántica y Verificación.
+\subsection{Semántica Operacional}
+Como vimos anteriormente la semántica operacional define la ejecución de un programa a partir de un sistema de transición que modela los cómputos realizados en el proceso de ejecución. Se tienen dos enfoques para definir la semántica operacional de un lenguaje:
+\begin{itemize}
+    \item {\bf Semántica Estructural}: se le conoce también con los nombres de semántica de paso pequeño o de transición. Describe paso a paso la ejecución mostrando los cómputos que genera cada paso individualmente.
+    \item {\bf Semántica Natural}: también conocida como semántica de paso grande. En este enfoque el objetivo es describir de forma general cómo se obtiene el resultado de una ejecución.
+\end{itemize}
+Para este curso se usará en general un enfoque de semántica de paso pequeño, sin embargo, a continuación se mostrarán las definiciones de ambos enfoques para el lenguaje \ea. Para esto se define un sistema de transición a partir de las expresiones del lenguaje como sigue.
+
+\begin{definition}[Sistema de transición para semántica operacional de \ea]\label{sistemaT} Se define la semántica operacional del lenguaje de expresiones aritméticas utilizando el sistema de transición siguiente:
+\vspace{1em}
+    \begin{description}
+        \item[Conjunto de estados] $S=\{a\;|\;a\;\asa\}$, es decir, los estados del sistema son las expresiones bien formadas del lenguaje en sintaxis abstracta. Esta definición corresponde a la regla de inferencia:
+        $$\inference{a\;\asa}{a\;\estado}[\sf state]$$
+        \item[Estados Iniciales] $I=\{a\;|\;a\;\asa,\;\varnothing\sim a\}$, los estados iniciales son todas las expresiones cerradas del lenguaje, es decir, expresiones sin variables libres. Correspondiente a la regla:
+        $$\inference{a\;\asa&\varnothing\sim a}{a\;\inicial}[\sf init]$$
+        \item[Estados Finales] se definen como las expresiones que representan a los posibles resultados finales de un proceso de evaluación. Para poder modelarlos definimos una categoría de valores los cuales son un subconjunto de expresiones que ya se han terminado de evaluar y no pueden reducirse más, con el juicio $v\;\valor$. Para el caso de \ea el único valor son los números, formalmente definido con la regla:
+        $$\inference{}{\num[n]\;\valor}[\sf vnum]$$
+        Entonces se define el conjunto de estados finales $F=\{a\;|\;a\;\valor\}$, correspondiente a la regla:
+        $$\inference{a\;\valor}{a\;\final}[\sf fin]$$
+        \item[Transiciones] la definición de las transiciones se da de acuerdo al enfoque de semántica operacional que se utiliza por lo que se darán una para cada enfoque en secciones siguientes.
+    \end{description}
+\end{definition}
+
+Formalmente para la definición de cada enfoque de semántica es necesario definir un  sistema de transición distinto, en este caso la única diferencia entre los enfoques es la función de transición del sistema, por lo que definimos de forma general el conjunto de estados y a continuación se da la definición de cada función de transición según el enfoque utilizado.
+\subsubsection{Semántica estructural o de paso pequeño}
+En el caso de la semántica de paso pequeño el sistema de transición abstrae paso a paso la evaluación de la expresión mediante la función de transición. 
+
+Recordemos que los estados del sistema son expresiones del lenguaje, entonces definimos  la relación $e_1\to e_2$ como la transición del estado $e_1$ al estado $e_2$ si y sólo si en un paso de evaluación se puede reducir $e_1$ a $e_2$. En esta relación $e_1$ es llamado {\it redex} mientras que $e_2$ es el {\it reducto}.
+
+\begin{remark} No es posible definir transiciones en donde algún estado final sea {\it redex}. Es decir, no hay transiciones desde estados finales.
+\end{remark}
+
+\begin{definition}[Estado bloqueado] Un estado $s$ está bloqueado si no existe otro estado $s'$ tal que $s\to s'$ y lo denotamos como $s\not\to$.
+\end{definition}
+
+Con la definición de la relación $\to$ se define la semántica operacional de paso pequeño como sigue.
+
+\begin{definition}[Función de transición para semántica de paso pequeño]\label{pasopequeno} Se da la definición de la función de transición para completar la definición de la semántica operacional de paso pequeño con el sistema de transición \ref{sistemaT} mediante las siguientes reglas de inferencia:
+    \begin{description}
+        \item[Suma]
+
+        \[
+            \begin{array}{c}
+                \inference{}{\suma(\num[n],\num[m])\to\num[n+_\N m]}[\sf sumaf]\\
+                \quad
+            \end{array}
+        \]
+        \[
+            \begin{array}{ccc}
+                \inference{a_1\to a_1'}{\suma(a_1,a_2)\to\suma(a_1',a_2)}[\sf suma1]&
+                \quad&
+                \inference{a_2\to a_2'}{\suma(\num[n],a_2)\to\suma(\num[n],a_2')}[\sf suma2]\\
+                \quad&&
+            \end{array}
+        \]
+        \item[Producto]
+
+        \[
+            \begin{array}{c}
+                \inference{}{\produ(\num[n],\num[m])\to\num[n\times_\N m]}[\sf prodf]\\
+                \quad
+            \end{array}
+        \]
+        \[
+            \begin{array}{ccc}
+                \inference{a_1\to a_1'}{\produ(a_1,a_2)\to\produ(a_1',a_2)}[\sf prod1]&
+                \quad&
+                \inference{a_2\to a_2'}{\produ(\num[n],a_2)\to\produ(\num[n],a_2')}[\sf prod2]\\
+                \quad&&
+            \end{array}
+        \]
+        \item[Asignaciones locales]
+        \[
+            \begin{array}{ccc}
+                \inference{v\;\valor}{\lett(v,x.a_2)\to a_2[x:=v]}[\sf letf]&
+                \quad&
+                \inference{a_1\to a_1'}{\lett(a_1,x.a_2)\to\lett(a_1',x.a_2)}[\sf let1]
+            \end{array}
+        \]
+    \end{description}
+    Hay que observar que en las transiciones están modelando paso a paso la reducción de las expresiones hasta encontrar un valor. 
+\end{definition}
+
+La forma en la que se definen la semántica operacional en la definición anterior \ref{pasopequeno} es la manera en la que estaremos definiendo la semántica para los lenguajes que estudiemos en el curso para poder estudiar las propiedades de la ejecución de los programas mediante la relación $\to$. 
+
+\begin{example}[Uso de la semántica operacional de paso pequeño]\label{ssex} Para ejemplificar el funcionamiento de la semántica estructural se evalúa la expresión:
+\begin{lstlisting}
+    let x = 3 + (2 * 3) in (x + 2) * 4
+\end{lstlisting}
+\[
+    \begin{array}{cl}
+        &\lett(\suma(3,\produ(2,3)),x.\produ(\suma(x,2),4))\\
+        \to&\lett(\suma(3,6),x.\produ(\suma(x,2),4))\\
+        \to&\lett(9,x.\produ(\suma(x,2),4))\\
+        \to&\produ(\suma(x,2),4)[x:=9]\\
+        =&\produ(\suma(9,2),4)\\
+        \to&\produ(11,4)\\
+        \to&44\\
+    \end{array}
+\]
+ Es importante observar que se usa una mezcla de sintaxis concreta y abstracta para simplificar la notación.
+\end{example}
+
+\subsubsection{La relación de transición}
+
+Dada la relación de transición $\to$ con la que se definió la semántica estructural del lenguaje, se definen inductivamente las siguientes relaciones derivadas que serán de suma importancia para el estudio de la semántica del lenguaje:
+
+\begin{definition}[Cerradura transitiva y reflexiva] La cerradura reflexiva y transitiva se denota como $\to^*$ y se define con la siguientes reglas:
+    \[
+        \begin{array}{ccc}
+            \inference{}{s\to^*s}&
+            \quad&
+            \inference{s_1\to s_2&s_2\to^*s_3}{s_1\to^*s_3}
+        \end{array}
+    \]
+    Intuitivamente la relación $s_1\to^*s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos  de la relación de transición $\to$, posiblemente 0.
+\end{definition}
+
+\newpage
+
+\begin{definition}[Cerradura transitiva] La cerradura transitiva se denota como $\to^+$ y se define con la siguientes reglas:
+    \[
+        \begin{array}{ccc}
+            \inference{s_1\to s_2}{s_1\to^+s_2}&
+            \quad&
+            \inference{s_1\to s_2&s_2\to^+s_3}{s_1\to^+s_3}
+        \end{array}
+    \]
+    Intuitivamente la relación $s_1\to^+s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en un número finito de pasos estrictamente mayor a cero de la relación de transición $\to$. Es decir, se llega de $s_1$ a $s_2$ en al menos un paso.
+\end{definition}
+
+\begin{definition}[Iteración en $n$ pasos] la iteración en $n$ pasos se denota como $\to^n$ con $n\in\N$ y se define con la siguientes reglas:
+    \[
+        \begin{array}{ccc}
+            \inference{}{s\to^0s}&
+            \quad&
+            \inference{s_1\to s_2&s_2\to^ns_3}{s_1\to^{n+1}s_3}
+        \end{array}
+    \]
+    Intuitivamente la relación $s_1\to^ns_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en exactamente $n$ pasos de la relación de transición $\to$.
+\end{definition}
+
+\subsubsection{Semántica natural o de paso grande}
+
+Durante este curso estaremos estudiando la semántica de los lenguajes de programación a través de la semántica operacional de paso pequeño. Pero a modo de ejemplo se define también una semántica operacional de paso grande para el lenguaje \ea, en esta semántica se definen de forma general los cómputos realizados por la ejecución de un programa utilizando una relación de transición similar a la definida con anterioridad. 
+
+La relación de transición usada es $e\Downarrow v$ en donde se relaciona una expresión $e$ con un valor $v$, a diferencia de la relación $\to$ en donde se relacionaban dos expresiones. $\Downarrow$ se lee como {\it se evalúa a}.
+
+\begin{definition}[La relación $\Downarrow$ para \ea] Se define la transición sobre los estados definidos en \ref{sistemaT} para la semántica operacional de paso grande de \ea mediante las siguientes reglas de inferencia:
+    \begin{description}
+        \item[Números] Para este enfoque si es necesario definir una regla de transición para los valores del lenguaje, pues es necesaria para el correcto funcionamiento del resto de las reglas. 
+        $$\inference{}{\num[n]\Downarrow\num[n]}[\sf bsnum]$$
+        \item[Suma] 
+        $$\inference{e_1\Downarrow\num[n]&e_2\Downarrow\num[m]}{\suma(e_1,e_2)\Downarrow\num[n+_\N m]}[\sf bssum]$$
+        \item[Producto] 
+        $$\inference{e_1\Downarrow\num[n]&e_2\Downarrow\num[m]}{\produ(e_1,e_2)\Downarrow\num[n\times_\N m]}[\sf bsprod]$$
+        \item[Asignaciones locales] 
+        $$\inference{e_1\Downarrow v_1&e_2[x:=v_1]\Downarrow v_2}{\lett(e_1,x.e_2)\Downarrow v_2}[\sf bslet]$$
+    \end{description}
+\end{definition}
+
+\begin{example}[Ejemplo de uso de semántica de paso grande]\label{bsex} Para ejemplificar el funcionamiento de la semántica natural se evalúa la expresión:
+\begin{lstlisting}
+    let x = 3 + (2 * 3) in (x + 2) * 4
+\end{lstlisting}
+    \[
+        \inference
+            {
+                \inference
+                    {
+                        \inference
+                            {}
+                            {3\Downarrow 3}&
+                        \inference
+                            {
+                                \inference
+                                    {}
+                                    {2\Downarrow 2}&
+                                    \inference
+                                    {}
+                                    {3\Downarrow 3}
+                            }
+                            {\produ(2,3)\Downarrow6}
+                    }
+                    {\suma(3,\produ(2,3))\Downarrow 9}&
+                \inference
+                    {
+                        \inference
+                            {
+                                \inference
+                                    {}
+                                    {9\Downarrow 9}&
+                                    \inference
+                                    {}
+                                    {2\Downarrow 2}
+                            }
+                            {\suma(9,2)\Downarrow11}&
+                        \inference
+                            {}
+                            {4\Downarrow4}
+                    }
+                    {\produ(\suma(x,2),4)[x:=9]\Downarrow 44}
+            }
+            {\lett(\suma(3,\produ(2,3)),x.\produ(\suma(x,2),4))\Downarrow 44}
+    \]
+\end{example}
+Como se ve en los ejemplos \ref{ssex} y \ref{bsex} el resultado de la evaluación usando ambos enfoques de la semántica operacional es el mismo, esto se puede generalizar en el siguiente teorema:
+\begin{theorem}[Equivalencia entre semántica estructural y natural] Para cualquier expresión $e$ del lenguaje \ea se cumple:
+$$e\to^*v\mbox{ si y sólo si } e\Downarrow v$$
+Es decir, la semántica de paso pequeño es equivalente a la semántica de paso grande.
+\end{theorem}
+\begin{proof}
+La demostración de este teorema es por inducción sobre los constructores del lenguaje y queda fuera del alcance de este curso, pero es importante que el alumno se convenza de la equivalencia entre las semánticas.
+\end{proof}
+\section{Propiedades de la semántica dinámica}
+La relación de transición $\to$ con la que se definió la semántica de paso pequeño cumple las siguientes propiedades:
+
+\begin{proposition}[Bloqueo de valores] Si $v\;\valor$ entonces $v\not\to$, es decir $v$ está bloqueado.
+\end{proposition}
+\begin{proof}
+Análisis de casos sobre el juicio $v\;\valor$.
+
+En este caso el único valor del lenguaje es $\num[n]$ como se ve en \ref{sistemaT} por lo que baste verificar que $\num[n]\not\to$, esto se cumple pues en la definición de la función de transición \ref{pasopequeno} no se define ninguna regla sobre el constructor $\num\,$ por lo que no tiene transiciones definidas, de ahí entonces $\num[n]\not\to$.
+\end{proof}
+
+\begin{proposition}[Determinismo de la relación $\to$] Si $e\to e_1$ y $e\to e_2$ entonces $e_1=e_2$.
+\end{proposition}
+\begin{proof}
+Inducción sobre la relación $e\to e_1$
+\begin{description}
+    \item[Caso Base:] {\sf sumaf} 
+
+    Esta regla da la única transición definida para el estado $\suma(\num[n],\num[m])$, por lo que es determinista.
+
+    \item[Casos Base:] {\sf prodf} y {\sf letf} son análogos al anterior.
+    \item[Paso inductivo:] {\sf suma1} 
+
+    {\bf Hipótesis de Inducción:} $a_1\to a_2$ es determinista.
+
+    Veamos que en la transición $\suma(a_1,a_2)\to\suma(a_1',a_2)$ la única reducción aplicada a la expresión se da por el cambio de $a_1$ hacia $a_1'$. Por lo que basta ver que la transición $a_1\to a_2$ es determinista, que es exactamente la Hipótesis de Inducción.
+    \item[Pasos inductivos:] El razonamiento sobre el resto de las reglas es análogo al presentado en el caso anterior.
+\end{description}
+$\therefore$ la relación $\to$ es determinista.
+\end{proof}
+
+\begin{corollary}[Determinismo de la relación $\to^*$]\label{detref} Si $e\to^* e_1$ y $e\to^* e_2$, con $e_1\not\to$ y $e_2\not\to$ entonces $e_1=e_2$.
+\end{corollary}
+
+\begin{remark} Es importante aclarar que las propiedades anteriores se cumplen en el caso particular del de la semántica dinámica para el lenguaje \ea, en los casos de semánticas para otros lenguajes no necesariamente se van a cumplir estas propiedades y es importante verificar cuales de se conservan y cuales no. Mas adelante en el curso trabajaremos con lenguajes en donde las propiedades de la semántica dinámica cambiarán.
+\end{remark}
+
+\subsection{Función de evaluación}
+
+Para evaluar las expresiones del lenguaje se define una función de evaluación a partir de la semántica dinámica, como sigue.
+
+\begin{definition}[Función de evaluación] Se define la función \lstinline{eval} en términos de la semántica dinámica del lenguaje como sigue:
+$$\evalt(e)=e_f\mbox{ si y sólo si } e\to ^*e_f\mbox{ y }e_f\not\to$$
+\end{definition}
+
+Gracias al corolario \ref{detref} sabemos que la función \evalt$\,$ es determinista, sin embargo no sabemos si se trata de una función total, es decir, no sabemos si para toda expresión $e$ la expresión $\evalt(e)$ exista pues podría ser que el proceso de evaluación no termine. En los lenguajes de programación reales no se puede garantizar la terminación sin embargo en el caso de \ea si.
+
+
+\begin{proposition}[Terminación] Para cada expresión $e$ del lenguaje existe una expresión $e_f$  tal que $e\to ^*e_f$ y $e_f\not\to$, es decir, para cada expresión $e$ del lenguaje, la función $\evalt(e)$ termina.
+\end{proposition}
+\begin{proof}
+Esta demostración es compleja debido al constructor $\lett\,$ y el desarrollo de la misma queda fuera del alcance del curso.
+\end{proof}
+
+\begin{thebibliography}{9}
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+
+\bibitem{notasGabrielle}
+Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+\bibitem{notasKarla}
+Ramírez Pulido K., Soto Romero M., Enríquez Mendoza J., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+
+\bibitem{swann}\label{swann}
+Nielson F., Nielson F., Semantics with Applications: An Appetizer, Springer Publishing, 2007
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+
+\end{thebibliography}
+
+
+\end{document}

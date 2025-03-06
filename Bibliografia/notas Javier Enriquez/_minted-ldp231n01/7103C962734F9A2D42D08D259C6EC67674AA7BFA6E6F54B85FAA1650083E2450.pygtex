@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nf}{quicksort}\PYG{+w}{ }\PYG{o+ow}{::}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{Ord}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{)}\PYG{+w}{ }\PYG{o+ow}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{[}\PYG{n}{a}\PYG{p}{]}\PYG{+w}{ }\PYG{o+ow}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{p}{[}\PYG{n}{a}\PYG{p}{]}
+\PYG{n+nf}{quicksort}\PYG{+w}{ }\PYG{k+kt}{[]}\PYG{+w}{     }\PYG{o+ow}{=}\PYG{+w}{ }\PYG{k+kt}{[]}
+\PYG{n+nf}{quicksort}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{x}\PYG{k+kt}{:}\PYG{n}{xs}\PYG{p}{)}\PYG{+w}{ }\PYG{o+ow}{=}\PYG{+w}{ }\PYG{n}{quicksort}\PYG{+w}{ }\PYG{n}{less}\PYG{+w}{ }\PYG{o}{++}\PYG{+w}{ }\PYG{n}{x}\PYG{k+kt}{:}\PYG{p}{(}\PYG{n}{quicksort}\PYG{+w}{ }\PYG{n}{more}\PYG{p}{)}
+\PYG{+w}{ }\PYG{k+kr}{where}\PYG{+w}{ }\PYG{n}{less}\PYG{+w}{ }\PYG{o+ow}{=}\PYG{+w}{ }\PYG{n}{filter}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{\PYGZlt{}}\PYG{n}{x}\PYG{p}{)}\PYG{+w}{  }\PYG{n}{xs}
+\PYG{+w}{       }\PYG{n}{more}\PYG{+w}{ }\PYG{o+ow}{=}\PYG{+w}{ }\PYG{n}{filter}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{\PYGZgt{}=}\PYG{n}{x}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{xs}
+\end{Verbatim}

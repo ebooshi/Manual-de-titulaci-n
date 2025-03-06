@@ -1,0 +1,608 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\usepackage{chronology}
+
+\title{\LARGE 
+Lenguajes de Programación 2023-1\\ 
+Nota de clase 6: {\sf MinHs} \\
+\color{SeaGreen} Funcional ($\lambda$)}
+\author{Javier Enríquez Mendoza }
+\date{\today}
+
+\begin{document}
+
+\maketitle 
+
+En esta nota de clase se presenta un lenguaje de programación funcional basado en {\sf Haskell}, este lenguaje es \minhs. Este lenguaje sirve como base teórica para la formalización y estudio de los lenguajes de programación funcionales al implementar en él conceptos primordiales del lenguaje Haskell, como lo son: evaluación perezosa, tipado estático, tipado explícito, pureza funcional, entre otros. 
+
+\section{Anotaciones de tipos}
+
+Consideremos la siguiente expresión:
+
+\begin{center}
+\mintinline{haskell}{if 5 < True then 2 else 6}
+\end{center}
+
+% $$\ift\,5<\truet\,{\tt then}\,2\,{\tt else}\,6$$ 
+
+Esta expresión puede ser sintacticamente correcta, sin embargo la evaluación de ésta no va a regresar un valor como resultado, esto se debe a que la subexpresión \mintinline{haskell}{5 < Truet} es incorrecta, ya que el operador $<$ se define para números y no para booleanos, sin embargo, en la expresión se usa con el valor \mintinline{haskell}{True}.
+
+En realidad, la expresión anterior tiene un error ya que estamos intentando aplicar una operación a una expresión sobre la cual no puede aplicarse, es decir, el tipo de los parámetros de la operación $<$ no corresponden con los esperados. Esto se trata de un error semántico, por lo que es necesario definir una semántica que capture estos errores. 
+
+Para corregir esto se busca definir un sistema de tipos, con el que podremos capturar los errores de tipos de las expresiones del lenguaje. El proceso de encontrar errores de tipos puede ser un proceso complicado, ya que en algunos casos es difícil saber si una expresión está bien tipada o no. Para facilitarlo se puede definir un lenguaje en donde su sintaxis incluya anotaciones de tipos, es decir, que algunos constructores del lenguaje indiquen los tipos con los que trabajan. 
+
+Ya con estas anotaciones, podemos encontrar los errores de tipos de forma meramente sintáctica, esto significa que podemos definir el proceso de verificación de tipos de una expresión como una semántica estática para el lenguaje.
+
+En \minhs se buscará tener un mínimo de anotaciones de tipos, esto es, que sólo se agreguen anotaciones en aquellos constructores en donde sea estrictamente necesario para verificar la correctud de su tipado, mientras que para los constructores en donde no sea necesaria la anotación, ésta será omitida.
+% Por lo que las expresiones del lenguaje contaran con anotaciones explicitas de tipos, lo que ayudará al sistema de tipos a saber que tipo le corresponde a cada expresión. Para esto utilizaremos tipificación á la Church, en donde las anotaciones de tipos se agregan en la definición de la variable. Por ejemplo:
+
+% \begin{center}
+% \mintinline{haskell}{let x : Nat = 5 in x + 1 end}
+% \end{center}
+
+% \noindent
+% En donde para definir la variable \mintinline{haskell}{x} se declara explícitamente que es de tipo \mintinline{haskell}{Nat}.
+
+% Primero vamos a agregar anotaciones explicitas de tipos a nuestro lenguaje, esto nos va a servir en la definición de las reglas de tipado para los constructores que trabajan con variables, pues pediremos a la persona que utilice el lenguaje que indique el tipo que tendrá esta variable en el momento de su definición. Para esto utilizaremos tipificación á la Church, en donde las anotaciones de tipos se agregan en la definición de la variable. Por ejemplo:
+
+
+\section{Sintaxis Concreta}
+
+A continuación se presenta la sintaxis concreta del lenguaje utilizando una gramática libre de contexto. 
+% \begin{definition}[Sintaxis Concreta de \minhs]
+%     \[
+%     \begin{array}{lrcl}
+%         \mbox{\bf Expresiones}&e&::=&var\opc n\opc b\opc (e)\opc e_1\otimes e_2\opc e_1\,e_2\\
+%         &&\opc&\ift\;e_1\;{\tt then}\;e_2\;{\tt else}\;e_3\\
+%         &&\opc&\lett\;var=\;e_1\;{\tt in}\;e_2\;{\tt end}\\
+%         &&\opc&\letrec\;var=\;e_1\;{\tt in}\;e_2\;{\tt end}\\
+%         &&\opc&\funt\;var \Rightarrow \;e\\
+%         \mbox{\bf Variables}&var&::=&x\opc y\opc \dots\\
+%         \mbox{\bf Números}&n&::=&0\opc1\opc\dots\\
+%         \mbox{\bf Booleanos}&b&::=&\truet\opc\falset\\
+%         \mbox{\bf Operadores Infijos}&\otimes&::=&+\opc*\opc-\opc=\opc<\opc>\opc\geq\opc\leq\\
+%     \end{array}
+%     \]
+% \end{definition}
+
+\begin{definition}[Sintaxis Concreta de \minhs] La sintaxis concreta para \minhs cuenta con anotaciones explicitas de tipos y se define con la siguiente gramática libre del contexto.
+    \[
+    \begin{array}{lrcl}
+        \mbox{\bf Expresiones}&e&::=&var\opc n\opc b\opc (e)\opc e_1\otimes e_2\opc e_1\,e_2\\
+        &&\opc&\ift\;e_1\;{\tt then}\;e_2\;{\tt else}\;e_3\\
+        &&\opc&\lett\;x =\;e_1\;{\tt in}\;e_2\;{\tt end}\\
+        % &&\opc&\letrec\;var : \T =\;e_1\;{\tt in}\;e_2\;{\tt end}\\
+        &&\opc&\funt\;x :: \T \Rightarrow \;e\\
+        &&\opc&\recfun\;f\;::\;(\T_1\to\T_2)\;x \Rightarrow \;e\\
+        \mbox{\bf Tipos}&\T&::=&\boolt\opc \nat\opc \T_1\to\T_2\\
+        % \mbox{\bf Variables}&var&::=&x\opc y\opc \dots\\
+        \mbox{\bf Números}&n&::=&0\opc1\opc\dots\\
+        \mbox{\bf Booleanos}&b&::=&\truet\opc\falset\\
+        \mbox{\bf Operadores Infijos}&\otimes&::=&+\opc*\opc-\opc=\opc<\opc>\opc\geq\opc\leq\\
+    \end{array}
+    \]
+\end{definition}
+
+
+\begin{remark} Es importante notar que la gramática anterior es ambigua, sin embargo por simplicidad se trabajará con ésta, sabiendo que la forma de quitar la ambigüedad  es haciendo explicita la precedencia y asociatividad de los operadores de forma similar a como se hizo con el lenguaje \ea.
+\end{remark}
+
+En esta definición del lenguaje la representación de funciones es algo peculiar, siendo mas cercana a una representación interna usada por un compilador, al separar las funciones sin recursión de aquellas que son recursivas.
+
+
+% esto debido a que todas las funciones son anónimas, es decir no tienen un nombre y tienen un solo parámetro, siendo una representación muy similar a la definición de funciones en el Cálculo Lambda.
+
+% De igual forma se agregan  definiciones de variables locales mediante los constructores \lett$\,$ y \letrec. La diferencia entre estos operadores es que \letrec$\,$ permite definiciones recursivas mientras que \lett$\,$ no.
+
+% Si queremos asignarle un nombre a una función podemos hacerlo con una combinación de los operadores de asignación local y los constructores de funciones. 
+
+\begin{remark} En \minhs tenemos dos tipos básicos \nat y \boolt y un constructor binario de tipos $\to$, que denota el tipo de una función. El constructor de tipos  función asocia a la derecha. Por ejemplo el tipo:
+$$\nat\to\boolt\to\nat$$
+\noindent
+es el mismo que
+$$\nat\to(\boolt\to\nat)$$
+Y representa a una función que recibe como parámetro una expresión de tipo \nat y regresa una función $\boolt\to\nat$. 
+
+De la misma forma que en el lenguaje de programación {\sf Haskell} el tipo:
+$$\nat\to\boolt\to\nat$$
+\noindent
+se puede pensar como una función que recibe un primer parámetro de tipo \nat y un segundo parámetro de tipo \boolt y regresa un valor de tipo \nat.
+\end{remark}
+
+\begin{examples} A continuación se presentan algunos ejemplos de expresiones válidas del lenguaje \minhs.
+    \begin{itemize}
+        \item Operaciones aritméticas: 
+        \begin{minted}{haskell}
+5 + 6
+        \end{minted}
+        \item El condicional \ift
+        \begin{minted}{haskell}
+if 5 > x then true else 8
+        \end{minted}
+        \item La función identidad sobre los naturales
+         \begin{minted}{haskell}
+let id (Nat -> Nat) = (fun x :: Nat => x) in id 5 end
+        \end{minted}
+        \item  La función factorial se define como:
+        \begin{minted}{haskell}
+recfun fact :: (Nat -> Nat) n => 
+    if (n == 0) 
+        then 1
+        else n * fact (n-1) 
+        \end{minted}
+        \item Una función de dos parámetros se puede definir como:
+         \begin{minted}{haskell}
+fun x :: Nat => fun y :: Bool => x + y
+        \end{minted}
+        es decir, mediante currificación.
+    \end{itemize}
+\end{examples}
+
+Es importante notar en los ejemplos anteriores como las anotaciones de tipo por si solas no son suficiente para evitar los errores de tipos, es por eso que es necesario un proceso de verificación de tipos que se define en secciones siguientes.
+\section{Sintaxis Abstracta}
+
+En esta sección se presenta la sintaxis abstracta de orden superior del lenguaje \minhs.
+
+\begin{definition}[Sintaxis abstracta de \minhs] La sintaxis abstracta se define con las siguientes reglas:
+
+\begin{description}
+    \item[Constantes]
+\[
+    \begin{array}{ccc}
+        \inference{n\in\N}{\num[n]\;\asa}&
+        \inference{}{\bool[\truet]\;\asa}&
+        \inference{}{\bool[\falset]\;\asa}
+    \end{array}
+\]
+\item[Operadores]
+\[
+    \begin{array}{c}
+        \inference{t_1\;\asa&\cdots&t_n\;\asa}{o(t_1,\dots,t_n)\;\asa}
+    \end{array}
+\]
+\item[Condicional]
+\[
+    \begin{array}{c}
+        \inference{t_1\;\asa&t_2\;\asa&t_3\;\asa}{\ift(t_1,t_2,t_3)\;\asa}
+    \end{array}
+\]
+\item[Asignaciones locales]
+\[
+    \begin{array}{c}
+        \inference{t_1\;\asa&t_2\;\asa}{\lett(t_1,x.t_2)\;\asa}
+        % \inference{t_1\;\asa&t_2\;\asa}{\letrec(x.t_1,x.t_2)\;\asa}
+    \end{array}
+\]
+\item[Definición de funciones]
+\[
+    \begin{array}{ccc}
+        \inference{t\;\asa}{\funt(\T,x.t)\;\asa}&\quad&
+        \inference{t\;\asa}{\recfun(\T,f.x.t)\;\asa}
+    \end{array}
+\]
+
+\item[Aplicación de función]
+\[
+    \begin{array}{c}
+        \inference{t_1\;\asa&t_2\;\asa}{\appt(t_1,t_2)\;\asa}
+    \end{array}
+\]
+\item[Operador de punto fijo]
+\[
+    \begin{array}{c}
+        \inference{t\;\asa}{\fix(\T,f.t)\;\asa}
+     \end{array}
+ \]
+ El operador de punto fijo \fix$\,$ es el único árbol de sintaxis abstracta que no corresponde a ninguna expresión de la sintaxis concreta, esto quiere decir que el usuario del lenguaje no puede definir expresiones \fix. Esto se debe a que este operador es de uso interno para la evaluación de expresiones, como se ve mas adelante en esta nota.
+\end{description}
+\end{definition}
+
+\begin{remark} Notemos que en el caso de las funciones recursivas con el operador \recfun$\,$ la variable definida se liga tanto en el cuerpo como en la expresión que le da valor a la variable. Esto es ya que permite las llamadas recursivas.
+\end{remark}
+
+\section{Sistema de tipos}
+
+\begin{definition}[Tipo]
+    Un tipo es una descripción abstracta de una colección de valores particulares.
+\end{definition}
+
+Un sistema de tipos es un conjunto de reglas que definen ciertas restricciones en la formación de programas. Las frases del lenguaje se clasifican mediante tipos que dictan cómo pueden usarse. Intuitivamente el tipo de una expresión define la forma de su valor, por ejemplo, la comparación de dos expresiones numéricas con el operador $<$ debe ser un valor booleano. 
+
+De esta forma si intentamos comparar una expresión numérica con una expresión booleana, como en el ejemplo de la sección anterior, debería generar un error de tipos.
+
+Para poder definir un sistema de tipos sobre un lenguaje, necesitamos un conjunto de tipos los cuales vamos a asociar a cada una de las expresiones del lenguaje mediante una colección de reglas de tipado.
+
+El uso de sistemas de tipos en el diseño de un lenguaje de programación tiene diferentes ventajas, como pueden ser:
+
+\begin{itemize}
+    \item Permite descubrir errores en expresiones tempranamente.
+    \item Ofrece seguridad, un programa correctamente tipado no puede funcionar mal.
+    \item Los tipos documentan un programa de manera mas simple y manejable que los comentarios.
+    \item Los lenguajes tipados pueden implementarse de manera más clara y eficiente.
+\end{itemize}
+
+\section{Semántica estática}
+
+Como habiamos visto con anterioridad la semántica estática determina qué expresiones del lenguaje están bien formadas de acuerdo a ciertos criterios sensibles al contexto como la resolución del alcance, al requerir que cada variable sea declarada antes de usarse (como la definida en la nota 4 mediante la relación $\Delta\sim e$).
+
+Por lo general la semántica estática consiste de dos fases:
+
+\begin{itemize}
+\item La resolución del alcance de variables.
+\item La verificación de correctud estática de un programa mediante el sistema de tipos.
+\end{itemize}
+
+Antes de definir el significado preciso de un programa, mediante su semántica operacional, es necesario eliminar los programas mal formados, en el caso de \minhs que es un lenguaje es fuertemente tipado su semántica dinámica sólo está definida si el programa en cuestión está bien formado respecto a su sistema de tipos.
+
+\begin{definition}[Semántica estática] Se define la semántica estática del lenguaje \minhs con el siguiente conjunto de reglas de tipado para los árboles de sintaxis abstracta de las expresiones del lenguaje mediante un juicio ternario entre expresiones
+$t$, tipos \T $\,$y contextos de declaraciones de variables tipadas $\Gamma$ denotado:
+
+$$\Gamma\vdash t: \T$$
+
+\noindent
+que se lee como {\it la expresión $t$ tiene tipo \T$\,$bajo el contexto $\Gamma$}. 
+En donde $\Gamma$ es un conjunto de asignaciones de tipos a variables de la forma $\{x_1:\T_1\dots x_n:\T_n\}$, en donde cada variable aparece una única vez en $\Gamma$, es decir, a cada variable se le asigna un sólo tipo en el contexto.\footnote{Se utiliza la notación $\Gamma, x:\T$ para indicar el conjunto $\Gamma \cup \{x:\T\}$}
+    \begin{description}
+        \item[Variables]
+        \[
+            \inference{}{\Gamma, x:\T\vdash x:\T}
+        \]
+        \item[Valores numéricos]
+        \[
+            \inference{}{\Gamma\vdash \num[n] : \nat}
+        \]
+         \item[Valores Booleanos]
+         \[
+            \begin{array}{ccc}
+                \inference{}{\Gamma\vdash \bool[\truet] : \boolt}&\quad&
+                \inference{}{\Gamma\vdash \bool[\truet] : \boolt}
+            \end{array}
+        \]
+        \item[Operadores]
+        \[
+            \begin{array}{ccc}
+                \inference{\Gamma\vdash t_1:\nat&\Gamma\vdash t_2:\nat}{\Gamma\vdash \suma(t_1,t_2) : \nat}&
+                \quad&
+                \inference{\Gamma\vdash t_1:\nat&\Gamma\vdash t_2:\nat}{\Gamma\vdash \produ(t_1,t_2) : \nat}\\
+                &&\\
+                \inference{\Gamma\vdash t_1:\nat&\Gamma\vdash t_2:\nat}{\Gamma\vdash \subs(t_1,t_2) : \nat}&
+                \quad&
+                \inference{\Gamma\vdash t_1:\nat&\Gamma\vdash t_2:\nat}{\Gamma\vdash \igu(t_1,t_2) : \boolt}\\
+                &&\\
+                \inference{\Gamma\vdash t_1:\nat&\Gamma\vdash t_2:\nat}{\Gamma\vdash \gt(t_1,t_2) : \boolt}&
+                \quad&
+                \inference{\Gamma\vdash t_1:\nat&\Gamma\vdash t_2:\nat}{\Gamma\vdash \lt(t_1,t_2) : \boolt}\\
+            \end{array}
+        \]
+        \item[Condicional]
+        \[
+            \inference{\Gamma\vdash t_c:\boolt&\Gamma\vdash t_t:\T&\Gamma\vdash t_e:\T}{\Gamma\vdash\ift(t_c,t_t,t_e):\T}
+        \]
+        \item[Asignaciones Locales]
+        \[
+            \begin{array}{c}
+                \inference{\Gamma\vdash t_v:\T&\Gamma,x:\T\vdash t_b:\St}{\Gamma\vdash \lett(t_v,x.t_b) : \St}
+                % &\quad&
+                % \inference{\Gamma,x:\T\vdash t_v:\T&\Gamma,x:\T\vdash t_b:\St}{\Gamma\vdash \letrec(\T,x.t_v,x.t_b) : \St}
+            \end{array}
+        \]
+        \item[Funciones]
+        \[
+            \begin{array}{ccc}
+                \inference{\Gamma,x:\T\vdash t:\St}{\Gamma\vdash\funt(\T,x.t): \T\to\St}&\quad&
+                \inference{\Gamma,f:\T\to\St,x:\T\vdash t:\St}{\Gamma\vdash \recfun(\T\to\St,f.x.t) : \T\to\St}
+            \end{array}
+        \]
+        \item[Aplicación de función]
+        \[
+            \inference{\Gamma\vdash t_f:\T\to\St&\Gamma\vdash t_p\T}{\Gamma\vdash\appt(t_f,t_p):\St}
+        \]
+        \item[Operador de punto fijo]
+        \[
+            \inference{\Gamma,x:\T\vdash t:\T}{\Gamma\vdash\fix(\T,x.t):\T}
+        \]
+        Obsérvese que en el caso de \fix$\,$ se está asumiendo el mismo tipo que se debe concluir.
+    \end{description}
+\end{definition}
+
+\begin{remark} En el conjunto de reglas anteriores, para las reglas que agregan variables al contexto (\lett,$\,$\letrec,$\,$\funt$\,$ y \fix) se tiene que verificar que conserven la estructura de $\Gamma$ en donde no puede haber dos presencias de la misma variable, esto se soluciona con el uso de $\alpha$-equivalencias pues en todos estos constructores las variables definidas están ligadas por lo que se puede cambiar su nombre. Mas adelante en el curso veremos estrategias automatizadas que son utilizadas por los compiladores para resolver esto.
+\end{remark}
+
+\begin{example}[Derivación de tipos.] Para ejemplificar el uso de la semántica estática del lenguaje \minhs se hará la verificación de tipos de la siguiente expresión.
+
+$$\lett\,x :\nat = 5\,{\tt in }\,\ift\,(x = 0)\,{\tt then}\,x*2\,{\tt else}\,x\,{\tt end}$$
+
+Que se ve en sintaxis abstracta como sigue:
+
+$$\lett(\nat,5,x.\ift(\igu(x,0),\produ(x,2),x))$$
+
+\[
+    \inference
+        {
+            \inference
+                {}
+                {\vdash 5:\nat}&
+            \inference
+                {
+                    \inference
+                        {
+                            \vdots
+                        }
+                        {x:\nat\vdash\igu(x,0):\boolt}&
+                    \inference
+                        {
+                           \vdots
+                        }
+                        {x:\nat\vdash\produ(x,2):\nat}&
+                    \inference
+                        {}
+                        {x:\nat\vdash x:\nat}
+                }
+                {x:\nat\vdash\ift(\igu(x,0),\produ(x,2),x):\nat}
+        }
+        {\vdash\lett(\nat,5,x.\ift(\igu(x,0),\produ(x,2),x)):\nat}
+\]
+
+\vspace{2em}
+La derivación para la condición del \ift se ve como sigue:
+\[
+                    \inference
+                        {
+                            \inference
+                                {}
+                                {x:\nat\vdash x:\nat}&
+                            \inference
+                                {}
+                                {x:\nat\vdash0:\nat}
+                        }
+                        {x:\nat\vdash\igu(x,0):\boolt}
+\]
+
+\vspace{2em}
+Mientras que la derivación para el caso {\tt then} se muestra a continuación.
+\[
+                    \inference
+                        {
+                            \inference
+                                {}
+                                {x:\nat\vdash x:\nat}&
+                            \inference
+                                {}
+                                {x:\nat\vdash2:\nat}
+                        }
+                        {x:\nat\vdash\produ(x,2):\nat}
+\]
+\end{example}
+
+\section{Semántica Dinámica}
+
+Como mencionamos anteriormente \minhs es un lenguaje basado en {\sf Haskell}, de hecho su nombre significa mini {\sf Haskell}, es por esto que este lenguaje sigue muchas de convenciones utilizadas en {\sf Haskell}. 
+
+Quizá una de las caracteristicas mas representativas de {\sf Haskell} sea el uso de una estrategia de evaluación perezosa, por esta razón, la semántica operacional definida para \minhs se define de esta misma forma.
+% \subsection{Estrategias de evaluación}
+
+% Un programa es una colección de expresiones, y para obtener el resultado de su evaluación es necesario evaluar estas expresiones, la forma en la que van a ser evaluadas se define mediante una estrategia de evaluación, que es un conjunto de reglas que determinan el proceso de evaluación de un programa.
+
+% Las estrategias de evaluación que son de interés en esta nota son las que determinan el momento en el que una expresión de un programa va a ser evaluada, y con este fin se tiene dos estrategias: evaluación perezosa y evaluación ansiosa. 
+
+% \begin{example}[Diferencias entre las estrategias de evaluación] Consideremos la siguiente expresión:
+
+%     \begin{lstlisting}
+%     let succ = fun x => x + 1 in succ (2 * 4) end
+%     \end{lstlisting}
+
+%     Para evaluar esta expresión tenemos dos alternativas:
+%     \begin{itemize}
+%         \item Primero reducir el argumento de la función a un valor.
+
+%         \lstinline{succ (2 * 4)} $\to$ 
+
+%         \lstinline{succ 8} $\to$ 
+
+%         \lstinline{8 + 1} $\to$ 
+
+%         \lstinline{9}
+%         \item Resolver primero la aplicación de función pasando el argumento tal cual aparece.
+
+%         \lstinline{succ (2 * 4)} $\to$ 
+
+%         \lstinline{(2 * 4) + 1} $\to$ 
+
+%         \lstinline{8 + 1} $\to$ 
+
+%         \lstinline{9}
+%     \end{itemize}
+%     La diferencia entre ambas evaluaciones es el momento en el que \lstinline{(2 * 4)} es evaluado, en la primera evaluación la expresión se evalúa inmediatamente mientras que en la segunda estrategia es evaluado hasta que es necesario operar con ella.
+
+% \end{example}
+%  La primera ejecución del ejemplo utiliza una estrategia de evaluación ansiosa, en donde las expresiones son evaluadas lo antes posible. 
+
+% Mientras que la segunda reducción utiliza una estrategia de evaluación perezosa, en donde una expresión solo será evaluada hasta que sea estrictamente necesario.
+
+% \begin{remark} Es importante convencernos de que sin importar la estrategia de evaluación utilizada el resultado será el mismo en un lenguaje puramente funcional, como lo es \minhs. Esto no es necesariamente cierto en cualquier lenguaje de programación, considerese un lenguaje imperativo en donde se puede modificar el estado, con modificaciones al estado el momento en el que se evalúe una expresión puede cambiar su resultado.
+% \end{remark}
+
+% Hasta este punto del curso todas las reglas de semántica operacional estudiadas han sido definidas siguiendo la estrategia de evaluación ansiosa, es decir, las expresiones del lenguaje siempre se evaluaban inmediatamente.
+
+% Para definir la semántica operacional de \minhs se utilizara una estrategia de evaluación perezosa.
+
+\begin{definition}[Semántica Operacional de paso pequeño perezosa] Se define la semántica dinámica de \minhs mediante el siguiente sistema de transición:
+
+    \begin{itemize}
+        \item Conjunto de estados $S=\{a\;|\;a\;\asa\}$
+        \item Estados Iniciales $I=\{a\;|\;a\;\asa,\;\varnothing\sim a\}$
+        \item Estados Finales $F = \{\num[n],\bool[\truet],\bool[\falset],\funt(x.t)\}$
+        \item Transiciones, dadas por las siguientes reglas:
+        \begin{description}
+            \item[Condicional]
+
+            \[
+                \begin{array}{ccc}
+                    \inference{}{\ift(\bool[\truet],a_t,a_e)\to a_t}[\sf ifT]&\quad&
+                    \inference{}{\ift(\bool[\falset],a_t,a_e)\to a_e}[\sf ifF]
+                    \quad
+                \end{array}
+            \]
+            \[
+                \begin{array}{c}
+                    \inference{a_c\to a_c'}{\ift(a_c,a_t,a_e)\to\ift(a_c',a_t,a_e)}[\sf if]
+                    \quad
+                \end{array}
+            \]
+
+            \item[Asignaciones locales]
+
+            \[
+                \begin{array}{c}
+                    \inference{}{\lett(a_1,x.a_2)\to a_2[x:=a_1]}[\sf let]
+                    % \\\quad\\
+                    % \inference{}{\letrec(f.a_1,f.a_2)\to a_2[f:=\fix(f.a_1)]}[\sf letrec]
+                \end{array}
+            \]
+
+            \item[Aplicación de función]
+            \[
+                \begin{array}{c}
+                    \inference{a_f \to a_f'}{\appt(a_f,a_p)\to \appt(a_f',a_p)}[\sf app]\\
+                    \quad\\
+                    \inference{}{\appt(\funt(\T,x.a_b),a_p)\to a_b[x:=a_p]}[\sf appL]\\
+                    \quad\\
+                    \inference{}{\appt(\recfun(\T,f.x.a_b),a_p)\to a_b[f:=\fix(\T,f.x.a_b),x:=a_p]}[\sf appR]\\
+                    \quad\\
+                    \inference{}{\appt(\fix(\T,f.x.a_b),a_p)\to a_b [f:=\fix(\T,f.x.a_b),x:=a_p]}[\sf appF]
+                \end{array}
+            \]
+            \item[Operador de punto fijo]
+            \[
+                \begin{array}{c}
+                    \inference{}{\fix(\T,f.a)\to a[f := \fix(\T,f.a)]}[\sf fix]
+                \end{array}
+            \]
+        \end{description}
+        El resto de las reglas de transición se heredan directamente del lenguaje \ea o se definen de forma análoga a las dadas para los operadores de suma y producto dentro de ese lenguaje. 
+    \end{itemize}
+\end{definition}
+\begin{remark} La pereza de la semántica operacional se puede ver en las reglas de evaluación de asignaciones locales y aplicación de función en donde los valores se sustituyen directamente en el cuerpo sin evaluarlos previamente.
+\end{remark}
+
+% \begin{example}[Evaluación de una expresión en \minhs] Para ejemplificar el uso de la semántica operacional de \minhs se evalúa la siguiente expresión.
+
+% \begin{lstlisting}
+% letrec fact =  
+%     fun x => if (x = 0) then 1 else x * (fact (x-1))
+%     in fact 1 end
+% \end{lstlisting}
+
+% Que corresponde al árbol de sintaxis abstracta:
+
+% $$\letrec(fact.\funt(x.\ift(\eqt(x,0),1,\produ(x,\appt(fact,x-1)))),fact.\appt(fact,1))$$
+
+% Y el proceso de evaluación es el siguiente:
+
+% \[
+%     \begin{array}{rl}
+%         &\letrec(fact.\funt(x.\ift(\eqt(x,0),1,\produ(x,\appt(fact,x-1)))),fact.\appt(fact,1))\\
+%         \to&\appt(fact,1)[fact := \fix(fact.\funt(x.\ift(\eqt(x,0),1,\produ(x,\appt(fact,x-1)))))]\\
+%         =&\appt(\fix(fact.\funt(x.\ift(\eqt(x,0),1,\produ(x,\appt(fact,x-1))))),1)\\
+%         &\{\mbox{ Sea }\fact = fact.\funt(x.\ift(\eqt(x,0),1,\produ(x,\appt(fact,x-1))))\,\}\\
+%         \to&\appt(\funt(x.\ift(\eqt(x,0),1,\produ(x,\appt(fact,x-1))))[fact := \fix(\fact)],1)\\
+%         =&\appt(\funt(x.\ift(\eqt(x,0),1,\produ(x,\appt(\fix(\fact),x-1)))),1)\\
+%         \to&\ift(\eqt(x,0),1,\produ(x,\appt(\fix(\fact),x-1)))[x := 1]\\
+%         =&\ift(\eqt(1,0),1,\produ(1,\appt(\fix(\fact),1-1)))\\
+%         \to&\ift(\falset,1,\produ(1,\appt(\fix(\fact),1-1)))\\
+%         \to&\produ(1,\appt(\fix(\fact),1-1))\\
+%         \to&\produ(1,\appt(\funt(x.\ift(\eqt(x,0),1,\produ(x,\appt(fact,x-1))))[fact := \fix(\fact)],1-1))\\
+%         =&\produ(1,\appt(\funt(x.\ift(\eqt(x,0),1,\produ(x,\appt(\fix(\fact),x-1)))),1-1))\\
+%         \to&\produ(1,\ift(\eqt(x,0),1,\produ(x,\appt(\fix(\fact),x-1)))[x:= 1-1])\\
+%         =&\produ(1,\ift(\eqt((1-1),0),1,\produ((1-1),\appt(\fix(\fact),(1-1)-1))))\\
+%         \to&\produ(1,\ift(\eqt(0,0),1,\produ((1-1),\appt(\fix(\fact),(1-1)-1))))\\
+%         \to&\produ(1,\ift(\truet,1,\produ((1-1),\appt(\fix(\fact),(1-1)-1))))\\
+%         \to&\produ(1,1)\\
+%         \to&1\\
+
+%     \end{array}
+% \]
+
+% \end{example}
+
+% \subsection{Ambientes y Closures}
+\section{Propiedades del lenguaje}
+
+En esta sección únicamente se estudiará la propiedad de terminación de \minhs, el resto de las propiedades serán estudiadas en la nota siguiente después de agregar anotaciones de tipos al lenguaje.
+
+\subsection{No terminación de \minhs}
+
+Podemos observar que en la semántica operacional definida para el operador \fix$\,$ se sustituye su argumento por la misma expresión que se desea evaluar, lo que modela una recursión general. 
+
+$$\fix(f.a)\to a[f := \fix(f.a)]$$
+
+A esta operación se le conoce como el desdoblamiento de la definición recursiva. 
+
+Esta definición puede generar programas con ciclos infinitos, lo que hace que se pierda la propiedad de terminación para el lenguaje \minhs. 
+
+\begin{example}[Ciclo infinito en \minhs] Para la expresión $\fix(x.x)$ se tiene el siguiente proceso de evaluación:
+
+$$\fix(x.x)\to x[x := \fix(x.x)] = \fix(x.x) \to \fix(x.x) \to \fix(x.x) \dots$$
+\end{example}
+
+\subsection{Seguridad del lenguaje}
+
+Una propiedad fundamental de los sistemas de tipos es la llamada seguridad o correctud del sistema la cual dice lo siguiente : los programas correctamente tipados no pueden funcionar mal.
+
+Como vimos al principio de la nota un programa es erróneo si su evaluación se bloquea, es decir termina en una expresión que no es un valor simple y no puede seguir evaluándose.
+
+La seguridad del sistema de tipos relaciona a la semántica estática con la semántica dinámica y se prueba generalmente en dos partes: 
+
+\begin{itemize}
+    \item {\bf Progreso} Un programa correctamente tipado no se bloquea.
+    \item {\bf Preservación}: Si un programa correctamente tipado se ejecuta entonces la expresión resultante está correctamente tipada y en muchos casos el tipo de ambos coincide.
+\end{itemize}
+
+Veamos estas propiedades para el sistema de tipos de \minhs que acabamos de definir.
+
+\begin{proposition}[Unicidad del tipado] Para cualesquiera contexto $\Gamma$ y expresión $t$ de \minhs, existe a lo mas un tipo \T$\,$ tal que se cumple la relación:
+$$\Gamma\vdash t:\T$$ Es decir, cada expresión del lenguaje tiene unicamente un tipo correspondiente.
+\end{proposition}
+\begin{proof}
+La demostración es por inducción sobre $t$.
+\end{proof}
+
+\begin{proposition}[Preservación de tipos] Si $\Gamma\vdash t:\T$ y $t\to t'$ entonces $\Gamma\vdash t':\T$
+\end{proposition}
+\begin{proof}
+La demostración es por inducción sobre $\Gamma\vdash t:\T$.
+\end{proof}
+
+\begin{proposition}[Progreso] Si $\vdash t:\T$ para algun tipo \T$\,$, es decir  se puede derivar el tipo de $e$ desde el contexto vacío,  entonces se cumple unicamente una de las siguientes condiciones:
+    \begin{itemize}
+        \item $t$ es un valor.
+        \item Existe una expresión $t'$ tal que $t\to t'$
+    \end{itemize}
+\end{proposition}
+\begin{proof} La demostración es por inducción sobre $\vdash t:\T$
+\end{proof}
+
+
+\begin{thebibliography}{9}
+\bibitem{notasGabrielle}
+Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+\bibitem{notasKarla}
+Ramírez Pulido K., Soto Romero M., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+
+\end{thebibliography}
+
+
+\end{document}

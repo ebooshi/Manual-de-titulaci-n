@@ -1,0 +1,557 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\addto\shorthandsspanish{\spanishdeactivate{~<>.}}
+
+\title{\LARGE
+Lenguajes de Programación 2023-1\\ 
+Nota de clase 2: Herramientas Matemáticas\\
+\color{Orchid} Introducción}
+\author{Javier Enríquez Mendoza}
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+
+Para el estudio formal de los Lenguajes de Programación es necesario definirlos de tal forma que sea sencillo abstraer sus características y propiedades de con el fin de razonar sobre éstas. La forma de hacerlo es mediante metalenguajes de formalización matemática, estos metalenguajes se van a elegir dependiendo de las propiedades que se quieran estudiar sobre el lenguaje de programación. 
+
+En esta nota se estudiaran diferentes herramientas y técnicas que nos ayudarán a definir lenguajes de programación formalmente y a estudiar sus diferentes características así como probar propiedades de estos.
+
+\section{Objetos y juicios}
+Como primera instancia es necesario indicar que un elemento cumple cierta propiedad, para esto se utilizan {\bf objetos} y {\bf juicios} que se tratan de una notación muy simple similar a la pertenencia de conjuntos ($n \in \mathbb{N}$) para indicar que un individuo cumple una propiedad.
+
+\begin{definition}[Objeto] Son entidades primitivas y previamente definidas. Algunos ejemplos pueden ser: números, tipos, caracteres, listas, valores, entre otros.
+\end{definition}
+
+\begin{definition}[Juicios] Un juicio es una afirmación acerca de un objeto particular. Los juicios pueden expresar: la pertenencia a un conjunto, que un objeto cumple cierta propiedad, que dos o mas objetos pertenecen a una relación, que un valor tiene cierto tipo, entre otros.
+\end{definition}
+
+En general se utiliza notación postfija para indicar que un objeto $x$ cumple una propiedad ${\sf P}$ y se escribe como $x\;{\sf P}$. Si el juicio involucra una relación binaria, entonces se usa notación infija por ejemplo $x = y$ para indicar la relación de igualdad.
+
+\newpage
+\begin{examples}\leavevmode
+Algunos ejemplos de juicios son:
+    \begin{center}
+        \begin{tabular}{rl}
+          $n\;\mathbb{N}$ & $n$ es un número natural \\
+          $n=m+k$   & $n$ es la suma de $m$ con $k$  \\
+          $t\;${\sf asa} & $t$ es un árbol sintáctico \\
+          $3+4*5\;${\sf ExpAr} & $3+4*5\;$ es una expresión aritmética
+          válida \\
+          0.1234$\;${\sf float} & 0.1234 es un valor flotante\\
+          ``aba'' {\sf pal} &   ``aba'' es una cadena palíndroma\\
+          $T\;${\sf type} & $T$ es un tipo \\
+          $e:T$ &  La expresión $e$ tiene tipo $T$ \\
+          $e\to e'$ & la expresión $e$ se reduce a $e'$ \\
+          $e\Downarrow v$ & la expresión $e$ se evalua al valor $v$.
+        \end{tabular}
+    \end{center}
+\end{examples}
+
+\noindent
+Se puede observar que los juicios son predicados en lógica escritos en otra notación.
+
+Nuestro propósito es usar juicios para definir conjuntos, pero por sí solos pueden resultar aburridos y hasta cierto punto inútiles. La mayoría de los conjuntos que nos interesan modelar tienen un número infinito de elementos y enunciarlos todos mediante juicios resultaría imposible. Podemos definir sistemáticamente conjuntos y sus propiedades usando {\bf reglas de inferencia}.
+
+\section{Reglas de Inferencia}
+Las {\bf reglas de inferencia} son un esquema o forma lógica que consta de una serie de premisas (o hipótesis) y una conclusión. Tanto las premisas como la conclusión se modelan como {\bf juicios} que se combinan para obtener nuevos juicios mas complejos. El esquema se ve de la siguiente forma:
+
+\[
+\inference{J_1&J_2&\ldots&J_n}{J}
+\]
+
+\noindent
+En donde los juicios $J_1,J_2,\ldots,J_n$ son las premisas y el juicio $J$ es la conclusión. Si no hay premisas entonces la regla es un axioma. Esta regla se lee como: {\it Para que se cumpla $J$ es necesario que se cumplan $J_1,J_2,\ldots,J_n$}.
+
+\begin{example}[Números Naturales] En este ejemplo se define el conjunto de los números naturales utilizando reglas de inferencia.
+\vspace{1em}
+
+    \[
+        \begin{array}{lcl}
+         \inference{}{0\;{\sf Nat}}[zero] &\qquad& \inference{n\;{\sf Nat}}{s(n)\;{\sf Nat}}[suc]
+         \end{array}
+    \]
+\vspace{1em}
+
+Estas reglas indican que $0$ es un número natural y esta regla es un axioma. Y que $s(n)$ es un número natural siempre y cuando $n$ también lo sea.
+\end{example}
+
+\newpage
+\begin{example}[Funciones de paridad] Para este ejemplo vamos a definir las funciones que nos dicen si un número natural es par o impar mediante reglas de inferencia.
+\vspace{1em}
+
+    \[
+        \begin{array}{lcl}
+         \inference{}{0\;{\sf par}}[parB] &\qquad& \inference{n\;{\sf impar}}{s(n)\;{\sf par}}[parR]\\ && \\
+         \inference{}{s(0)\;{\sf impar}}[imparB] &\qquad& \inference{n\;{\sf par}}{s(n)\;{\sf impar}}[imparR]
+         \end{array}
+    \]
+\vspace{1em}
+
+Los axiomas indican que $0$ es par y $s(n)$ impar, mientras que las otras reglas definen la (im)paridad de un número respecto a (im)paridad de su predecesor.
+\end{example}
+
+Mediante el uso de reglas de inferencia se definió al conjunto de números naturales y las funciones de paridad sobre estos. La pregunta ahora sería como podemos usar estas definiciones para saber si un objeto es en realidad un número natural, o para saber si es un número par o impar. 
+
+Las reglas de inferencia funcionan en dos formas, podemos usarlas para definir una propiedad y también para probar que esta propiedad se cumple.
+
+Para probar un juicio $J$ tenemos que encontrar la regla que tenga a $J$ como conclusión si esta regla es una axioma entonces ya terminamos con la prueba. Pero si la regla tiene premisas, entonces tenemos que construir una prueba para cada premisa aplicando la misma estrategia recursivamente. Este proceso se conoce como una derivación y el resultado se muestra en forma estructural como un árbol, al que llamamos {\bf árbol de derivación}.
+
+\begin{example} Como ejemplo de derivación probaremos que el $s(s(0))$ es un número natural construyendo el árbol de derivación para el juicio $s(s(0))\;{\sf Nat}$. Buscamos en nuestras reglas la que tenga como conclusión el juicio que queremos probar. Se puede observar que la regla que corresponde es suc, por lo que ahora basta probar el juicio $s(0)\;{\sf Nat}$ y repetimos el proceso hasta llegar a un axioma, lo cual resulta en el siguiente árbol:
+\vspace{1em}
+
+    \[
+        \inference
+        {
+            \inference
+            {
+                \inference
+                {}
+                {0\;{\sf Nat}}[zero]
+            }
+            {s(0)\; {\sf Nat}}[suc]
+        }
+        {s(s(0))\;{\sf Nat}}[suc]
+    \]
+\vspace{1em}
+
+En la derivación anterior se llego al axioma $0\;{\sf Nat}$, y con eso se cerraron todas las ramas, que en este caso solo se trata de una, por lo que podemos concluir que el juicio $s(s(0))\;{\sf Nat}$ es válido.
+\end{example}
+
+\begin{remark}
+
+Las reglas de inferencia son puramente sintácticas, es decir, no es posible probar la validez del juicio $2\;{\sf Nat}$ a pesar de que sabemos que $2$ es equivalente a $s(s(0))$ ya que ese conocimiento no se puede aplicar en la derivación pues no existe una regla que nos permita hacerlo. Las derivaciones simplemente nos permiten manipular términos mecánicamente de acuerdo a las reglas.
+
+\end{remark}
+
+\subsection{Reglas derivables y admisibles}
+
+No todas las reglas de inferencia mediante las cuales se define un conjunto o un lenguaje son necesarias, en algunos casos se pude prescindir de algunas reglas sin alterar los elementos definidos. Las reglas derivables y admisibles son reglas prescindibles en la definición de un conjunto.
+
+\begin{definition}[Regla derivable] Una regla de inferencia $\mathcal{R}$ es derivable respecto a un conjunto de reglas $\Delta =\{\mathcal{R}_1,..., \mathcal{R}_k\}$, si y sólo si puede obtenerse usando las reglas primitivas de $\Delta$.
+\end{definition}
+
+Consideremos el siguiente conjunto de reglas para definir cadenas de paréntesis balanceados.
+
+\begin{definition}[Lenguaje de Dyck] Reglas de inferencia que definen el lenguaje Dyck en donde todas las palabras son cadenas de paréntesis bien balanceados:
+\vspace{1em}
+
+    \[
+        \begin{array}{c}
+         \inference{}{\varepsilon\;{\sf Dyck}}[eps] \\
+         \\
+         \inference{s_1\;{\sf Dyck}&s_2\;{\sf Dyck}}{s_1s_2\;{\sf Dyck}}[con] \\
+         \\
+         \inference{s\;{\sf Dyck}}{(s)\;{\sf Dyck}}[par] 
+         \end{array}
+    \]
+
+Con estas reglas se pueden construir las cadenas:
+    \[
+        ()\qquad (())\qquad ()() \qquad (()())\qquad ()(())
+    \]
+\noindent
+entre otras.
+\vspace{1em}
+
+\end{definition}
+
+Ahora analicemos que es lo que sucede si agregamos al conjunto de reglas anterior la siguiente regla:
+
+    \[
+      \inference{s\;{\sf Dyck}}{((s))\;{\sf Dyck}}[dob]
+    \]
+
+Al agregar una nueva regla, podría pensarse que aumentó la expresividad del lenguaje. Esto es, si existe una cadena $s$ la cual se pueda derivar $s\;{\sf Dyck}$ usando forzosamente la regla dob.
+
+Esto suena muy poco probable, pues lo único que está haciendo la nueva regla es agregar dos pares de paréntesis a una cadena que ya estaba balanceada, y en el sistema original se puede lograr el mismo efecto aplicando dos veces la regla par.
+
+    \[
+        \begin{array}{lcl}
+            \inference
+                {\inference
+                    {s\;{\sf Dyck}}
+                    {(s)\;{\sf Dyck}}}
+                {((s))\;{\sf Dyck}}
+            & \equiv &
+            \inference
+                {s\;{\sf Dyck}}
+                {((s))\;{\sf Dyck}}
+        \end{array}
+    \]
+
+Esto quiere decir que la regla dob es derivable de las reglas originales.
+
+\begin{definition}[Regla Admisible] Una regla $\mathcal{R}$ es admisible respecto a un conjunto de reglas $\Delta =\{\mathcal{R}_1,..., \mathcal{R}_k\}$ si y sólo si el hecho de que sus premisas sean derivables respecto a $\Delta$ implica que su conclusión también es derivable en $\Delta$.
+\end{definition}
+
+
+
+Ahora pensemos en agregar  al conjunto de reglas que definen el lenguaje de Dyck la siguiente regla:
+
+    \[
+        \inference{()s\;{\sf Dyck}}{s\;{\sf Dyck}}[red]
+    \]
+Ésta regla es diferente al resto de las reglas que hemos visto, pues la cadena que se tiene en la conclusión es estructuralmente más simple que la de la premisa. Esta nueva regla no agrega nuevas cadenas a {\sf Dyck}, es decir, si agregamos la regla red podemos derivar las mismas cadenas que si no estuviera.
+
+Adicionalmente, la nueva regla no es derivable ya que no es posible obtenerla a partir de las reglas originales. Veamos como se derivaría la premisa de la nueva regla con el conjunto original.
+
+    \[
+        \inference
+            {
+                \inference
+                    {
+                        \inference
+                            {}
+                            {\varepsilon\;{\sf Dyck}}
+                    }
+                    {()\;{\sf Dyck}}
+                &
+                \inference
+                {\vdots}
+                {s\;{\sf Dyck}}
+            }
+            {()s\;{\sf Dyck}}
+    \]
+
+Podemos observar que para derivar $()s\;{\sf Dyck}$ es necesario derivar $s\;{\sf Dyck}$, es decir, para derivar la premisa de red se debe derivar su conclusión. Por lo tanto, la regla red es admisible.
+
+\begin{remark}
+Una regla derivable siempre es admisible, mas al revés no siempre es cierto.
+\end{remark}
+
+Las reglas de inferencia pueden utilizarse en diferentes ámbitos, por ejemplo en lógica se usan para definir consecuencias lógicas. En este curso las emplearemos para modelar distintos aspectos de lenguajes de programación, en general estas características se definen de forma inductiva. En la siguiente sección se habla sobre definiciones inductivas así como el uso de las reglas de inferencia para este fin.
+\section{Definiciones Inductivas}
+
+Se dice que una regla de inferencia es inductiva si al menos una de sus premisas es un juicio de la misma forma que el juicio de su conclusión, es decir, si se refieren a la misma propiedad. Por ejemplo la regla suc de la definición de los números naturales
+
+    \[
+        \inference
+            {n\;{\sf Nat}}
+            {s(n)\;{\sf Nat}}
+            [suc]
+    \]
+\noindent
+Se trata de una regla inductiva pues el juicio $n\;{\sf Nat}$ es de la misma forma que la conclusión $s(n)\;{\sf Nat}$, ambos hablan de la propiedad de pertenencia al conjunto de naturales.
+
+\begin{definition}[Definición Inductiva] Un conjunto finito de reglas de inferencia $\Delta=\{\mathcal{R}_1,..., \mathcal{R}_k\}$ es una definición inductiva si y sólo si al menos una $\mathcal{R}_i\in\Delta$ es una regla inductiva. 
+\end{definition}
+
+Hasta ahora hemos visto ya un par de ejemplos de definiciones inductivas, los números naturales y el lenguaje de Dyck, veamos un par de ejemplos mas:
+
+\begin{example}[El lenguaje {\sf Scratches}] En este ejemplo se da una definición inductiva para el lenguaje {\sf Scratches} también conocido como números de cavernícolas, mediante el siguiente conjunto de reglas de inferencia:
+\vspace{1em}
+
+    \[
+        \begin{array}{c}
+             \inference{}{|\;{\sf Sc}}[one] \\
+             \\
+             \inference{s\;{\sf Sc}}{s|\;{\sf Sc}}[next]  
+         \end{array}
+    \]
+\vspace{1em}
+
+Se trata de una definición inductiva ya que la regla next es inductiva, pues la premisa y la conclusión se definen como juicios de la misma forma. 
+\vspace{1em}
+
+Con estas reglas se pueden construir las cadenas:
+    \[
+        |\qquad ||\qquad ||| \qquad ||||\qquad |||||\qquad \cdots
+    \]
+\vspace{1em}
+\end{example}
+
+\begin{example}[Listas] Se define el conjunto de listas de elementos de $A$ como una definición inductiva mediante el siguiente conjunto de reglas de inferencia:
+\vspace{1em}
+
+    \[
+        \begin{array}{c}
+             \inference{}{nil\;{\sf List_A}}[nil] \\
+             \\
+             \inference{x\;A&xs\;{\sf List_A}}{cons(x,xs)\;{\sf List_A}}[cons]  
+         \end{array}
+    \]
+\vspace{1em}
+
+Este conjunto de reglas es una definición inductiva pues la regla cons es inductiva.
+\vspace{1em}
+
+Las reglas anterior representan inductivamente, la definición recursiva clásica de las listas de elementos de $A$, que dice:
+\vspace{1em}
+
+\begin{itemize}
+    \item $nil$ es una lista de elementos de $A$.
+    \item Si $x$ es un elemento de $A$ y $xs$ es una lista de elementos de $A$, entonces $cons(x,xs)$ es una lista de elementos de $A$.
+    \item Son todas.
+\end{itemize}
+
+\end{example}
+\section{Inducción Estructural}
+
+La deducción natural por si sola no es un herramienta muy poderosa para probar propiedades ya que, como vimos en secciones anteriores, se trata de un mecanismo puramente sintáctico. Por esta razón es necesario contar con otra técnica que nos permita demostrar propiedades sobre los conjuntos o relaciones definidas con las reglas de inferencia, para esto usaremos {\bf inducción}.
+
+En las clases de álgebra superior se estudia la inducción matemática o inducción sobre naturales, este es un caso particular de un principio de inducción mas general, la {\bf Inducción Estructural}.
+
+\begin{definition}[Principio de Inducción Estructural] Sea $A$ una propiedad o relación definida inductivamente por un conjunto de reglas de inferencia $\Delta$, para probar que una propiedad $\mathcal{P}$ es válida para todos los elementos de $A$ basta probar que para cada regla $\mathcal{R}\in\Delta$ de la forma 
+
+    \[
+        \inference
+        {x_1\;A&\cdots&x_n\;A}
+        {x\;A}
+    \]
+
+se cumple que:
+\begin{center}
+Si $\mathcal{P}$ es válida para $x_1,\cdots,x_n$ entonces $\mathcal{P}$ es válida para $x$.
+\end{center}
+
+Otra forma de verlo es probar que cada regla:
+
+    \[
+        \inference
+        {x_1\;\mathcal{P}&\cdots&x_n\;\mathcal{P}}
+        {x\;\mathcal{P}}
+    \]
+
+\noindent
+Obtenidas al sustituir $A$ por $\mathcal{P}$ en las reglas de $\Delta$, es una fórmula válida.
+\vspace{1em}
+
+Y el anterior es el principio de inducción estructural para $A$.
+\end{definition}
+
+Con cada definición inductiva se genera su propio principio de inducción estructural. 
+
+\begin{example}[Principio de inducción estructural para el lenguaje de Dyck]
+Retomando el ejemplo del lenguaje de Dyck, definido inductivamente como sigue:
+\vspace{1em}
+
+    \[
+        \begin{array}{c}
+         \inference{}{\varepsilon\;{\sf Dyck}}[eps] \\
+         \\
+         \inference{s_1\;{\sf Dyck}&s_2\;{\sf Dyck}}{s_1s_2\;{\sf Dyck}}[con] \\
+         \\
+         \inference{s\;{\sf Dyck}}{(s)\;{\sf Dyck}}[par] 
+         \end{array}
+    \]
+\vspace{1em}
+
+Si queremos probar que una propiedad $\mathcal{P}$ se cumple para todas las cadenas en {\sf Dyck} mediante inducción estructural, basta probar que $s\;{\sf Dyck}$ implica $s\;\mathcal{P}$, y como sabemos que existe una derivación para $s\;{\sf Dyck}$, entonces solo tenemos que probar:
+\vspace{1em}
+
+    \begin{itemize}
+        \item $\varepsilon\;\mathcal{P}$
+        \item Si $s_1\;\mathcal{P}$ y $s_2\;\mathcal{P}$ entonces $s_1s_2\;\mathcal{P}$
+        \item Si $s\;\mathcal{P}$  entonces $(s)\;\mathcal{P}$
+    \end{itemize}
+\vspace{1em}
+
+\noindent
+Es decir, se tiene que probar la validez del siguiente conjunto de reglas:
+\vspace{1em}
+
+    \[
+        \begin{array}{c}
+         \inference{}{\varepsilon\;\mathcal{P}} \\
+         \\
+         \inference{s_1\;\mathcal{P}&s_2\;\mathcal{P}}{s_1s_2\;\mathcal{P}} \\
+         \\
+         \inference{s\;\mathcal{P}}{(s)\;\mathcal{P}}
+         \end{array}
+    \]
+\vspace{1em}
+
+\end{example}
+
+Para ejemplificar el uso de la inducción estructural probaremos la siguiente proposición:
+
+\begin{proposition} Si $s\;{\sf Dyck}$ entonces $s$ tiene el mismo número de paréntesis izquierdos y derechos. Es decir, ${\tt izq\;}s={\tt der\;}s$ en donde ${\tt izq}$ y ${\tt der}$ son las funciones que calculan el número de paréntesis izquierdos y derechos respectivamente.
+\end{proposition}
+\begin{proof} Inducción estructural sobre el lenguaje de Dyck
+    \begin{description}
+        \item[Caso Base](eps)
+            $${\tt izq\;}\varepsilon=0={\tt der\;}\varepsilon$$
+            Por lo que $\varepsilon$ tiene el mismo número de paréntesis izquierdos y derechos.
+        \item[Paso Inductivo](con) 
+
+            Por demostrar: Si ${\tt izq\;}s_1={\tt der\;}s_1$ y ${\tt izq\;}s_2={\tt der\;}s_2$ entonces ${\tt izq\;}s_1s_2={\tt der\;}s_1s_2$
+
+            \begin{itemize}
+                \item Hipótesis de Inducción 1: ${\tt izq\;}s_1={\tt der\;}s_1$
+                \item Hipótesis de Inducción 2: ${\tt izq\;}s_2={\tt der\;}s_2$
+            \end{itemize}
+            \[
+                \begin{array}{cc}
+                    & {\tt izq\;}s_1s_2={\tt der\;}s_1s_2 \\
+                    = & \{\mbox{Propiedad de }izq \} \\
+                      & {\tt izq\;}s_1 + {\tt izq\;}s_2 = {\tt der\;}s_1s_2 \\
+                    = & \{\mbox{Hipótesis de Inducción 1} \} \\
+                    & {\tt der\;}s_1 + {\tt izq\;}s_2 = {\tt der\;}s_1s_2 \\
+                    = & \{\mbox{Hipótesis de Inducción 2}\} \\
+                    & {\tt der\;}s_1 + {\tt der\;}s_2 = {\tt der\;}s_1s_2 \\
+                    = &\{\mbox{Propiedad de }der\} \\
+                    & {\tt der\;}s_1s_2 = {\tt der\;}s_1s_2
+                \end{array}
+            \]
+            \item[Paso Inductivo](par)
+
+            Por demostrar: Si ${\tt izq\;}s={\tt der\;}s$ entonces ${\tt izq\;}(s)={\tt der\;}(s)$
+
+            \begin{itemize}
+                \item Hipótesis de Inducción: ${\tt izq\;}s={\tt der\;}s$
+            \end{itemize}
+            \[
+                \begin{array}{cc}
+                    & {\tt izq\;}(s)={\tt der\;}(s) \\
+                    = & \{\mbox{Definición de }izq \} \\
+                      & 1 + {\tt izq\;}s) = {\tt der\;}(s) \\
+                    = & \{\mbox{Propiedad de }izq \} \\
+                    & 1 + {\tt izq\;}s = {\tt der\;}(s) \\
+                    = & \{\mbox{Hipótesis de Inducción}\} \\
+                    & 1 + {\tt der\;}s = {\tt der\;}(s) \\
+                    = &\{\mbox{Definición de }der\} \\
+                    & 1 + {\tt der\;}s = 1 + {\tt der\;}(s\\
+                    = & \{\mbox{Propiedad de }der \} \\
+                    & 1 + {\tt der\;}s = 1 + {\tt der\;}s 
+                \end{array}
+            \]
+    \end{description}
+\end{proof}
+
+\section{Sistemas de Transición}
+Un sistema de transición es un mecanismo que nos ayuda a  modelar el comportamiento de la ejecución de un programa mediante un dispositivo de cómputo abstracto. Es decir, que se simula la ejecución de un programa mediante un modelo teórico de computo.
+
+\begin{definition}[Sistema de Transición] Un sistema de transición es un modelo de computo abstracto con los siguientes componentes:
+
+\begin{itemize}
+    \item Un conjunto $\Gamma$ de estados.
+    \item Una función de transición que depende principalmente del estado actual y la instrucción del programa que se está ejecutando. Esta función define el comportamiento del sistema.
+    \item Un conjunto finito $I$ de estados iniciales. Tal que $I\subseteq\Gamma$
+\end{itemize}
+
+Existen sistemas de transición con un mayor número de componentes, sin embargo estos son los mínimos necesarios.
+\end{definition}
+
+Se puede utilizar reglas de inferencia para definir sistemas de transición de la siguiente forma:
+
+    \begin{itemize}
+        \item Se definen los estados mediante juicios $s\;{\sf estado}$.
+        \[
+            \inference{}{s\;{\sf estado}}
+        \]
+        \item Los estados iniciales se modelan con juicios $s\;{\sf inicial}$
+        \[
+            \inference{s\;{\sf estado}}{s\;{\sf inicial}}
+        \]
+        En donde la única premisa es que $s$ también sea un estado.
+        \item Para definir las transiciones se usan juicios $s_1\to s_2$ que indica que del estado $s_1$ se transita al estado $s_2$
+        \[
+            \inference{s_1\;{\sf estado}&s_2\;{\sf estado}}{s_1\to s_2}
+        \]
+    \end{itemize}
+
+\begin{example}[Sistema de transición] Se define un sistema de transición para el siguiente programa:
+
+\begin{code2}
+\begin{minted}{c}
+    x := 0;
+    while (x < 2) do
+        x := x + 1;
+    end;
+    x := 25
+\end{minted}
+\end{code2}
+
+El sistema de transición es el siguiente:
+
+    \begin{itemize}
+        \item Estados: $\Gamma = \{S_0,S_1,S_2,S_F\}$
+        \item Estados Iniciales: $I = \{S_0\}$
+        \item Función de transición: la función está definida por los cambios en el valor de la variable {\tt x}. Y se define con el siguiente conjunto de transiciones $\{S_0\to S_1,S_1\to S_2,S_2\to S_F\}$
+    \end{itemize}
+
+También se define el sistema como un conjunto de reglas de inferencia.
+
+    \begin{description}
+        \item[Estados:]
+        \vspace{1em}
+
+            \[
+                \begin{array}{cccc}
+                    \inference{}{S_0\;{\sf estado}}&
+                    \inference{}{S_1\;{\sf estado}}&
+                    \inference{}{S_2\;{\sf estado}}&
+                    \inference{}{S_F\;{\sf estado}}
+                \end{array}
+            \]
+        \item[Estados iniciales:]
+        \vspace{1em}
+
+            \[
+                \begin{array}{c}
+                    \inference{S_0\;{\sf estado}}{S_0\;{\sf inicial}}
+                \end{array}
+            \]
+        \item[Función de transición:]
+        \vspace{1em}
+
+            \[
+                \begin{array}{ccc}
+                    \inference{S_0\;{\sf estado}&S_1\;{\sf estado}}{S_0\to S_1}&
+                    \inference{S_1\;{\sf estado}&S_2\;{\sf estado}}{S_1\to S_2}&
+                    \inference{S_2\;{\sf estado}&S_F\;{\sf estado}}{S_2\to S_F}
+                \end{array}
+            \]
+    \end{description}
+
+Un sistema de transición puede representar de forma gráfica, de manera similar a como se hace con los autómatas.
+
+    \begin{center}
+        \begin{tikzpicture}{->,>=stealth',auto,node distance=10cm, scale= 1,transform shape}
+            \node[state, initial] (s0) {$S_0$};
+            \node[state, right of=s0] (s1) {$S_1$};
+            \node[state, right of=s1] (s2) {$S_2$};
+            \node[state, right of=s2] (sf) {$S_F$};
+            \draw (s0) edge (s1)
+                (s1) edge (s2)
+                (s2) edge (sf);
+        \end{tikzpicture}
+    \end{center}
+
+\end{example}
+
+\vspace{3em}
+
+Todas las herramientas matemáticas estudiadas en esta nota de clase nos serán de utilidad a lo largo del curso, para poder formalizar la estructura y el comportamiento de los lenguajes de programación que estudiaremos así como los programas escritos en ellos.
+
+
+\begin{thebibliography}{9}
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+
+\bibitem{notasKarla}
+Ramírez Pulido K., Soto Romero M., Enríquez Mendoza J., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+
+\bibitem{notasGabrielle}
+Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+\bibitem{notasMarcello}
+Fiore M., Class Notes from the course Discrete Mathematics II, Department of Computer Science and Technology, University of Cambridge, England, Fall 2013.
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+
+\end{thebibliography}
+
+
+\end{document}
