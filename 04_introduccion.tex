@@ -149,9 +149,9 @@ matemáticas.
         eval (e1 + e2)  = eval e1 + eval e2
         eval (e1 - e2)  = eval e1 - eval e2
         eval (e1 * e2)  = eval e1 * eval e2
-        eval (e1 < e2)  = (eval e1) < (eval e2)
-        eval (not e)    = not (eval e)
-        eval (iszero e) = (eval e) == 0
+        eval (e1 < e2)  = eval e1 < eval e2
+        eval (not e)    = not eval e
+        eval (iszero e) = eval e == 0
      \end{lstlisting}
 
     Con esta definición ahora podemos evaluar algunas expresiones pertenecientes a nuestro lenguaje \textsf{EAL}.
@@ -161,13 +161,13 @@ matemáticas.
         Evalúa la expresión: \texttt{not} 3 $\textless$ 5 + 7  haciendo uso de la implementación del intérprete anteriormente definido para \textsf{EAL}.
         \vskip 1em
         \begin{lstlisting}
-                eval(not 3 < 5 + 7)  =   	                                                                
-                not(eval(3 < 5 + 7))  =          	                                                               
-                not(eval(3) < eval(5 + 7))  =
-                not(eval(3) <  eval(5) + eval(7)) =   
-                not(3 < 5 + 7)  =                                                                            
-                not(3 < 12)  =               	                                                                                                 
-                not(true)  =
+                eval not 3 < 5 + 7  =   	                                                                
+                not eval 3 < 5 + 7  =          	                                                               
+                not eval 3 < eval 5 + 7  =
+                not eval 3 <  eval 5 + eval 7 =   
+                not 3 < 5 + 7  =                                                                            
+                not 3 < 12  =               	                                                                                                 
+                not true  =
                 false
         \end{lstlisting}
         
@@ -179,12 +179,12 @@ matemáticas.
         Evalúa la expresión: $3$ * $\texttt{true}$ $ \textgreater$  $8$  haciendo uso de la implementación del intérprete anteriormente definido para \textsf{EAL}.
         \vskip 1em
         \begin{lstlisting}
-            eval(3 * true > 8)        =                              
-            eval(3 * true) > eval(8)  =            
-            eval(3) * eval(true) >  8 =                                                  
+            eval 3 * true > 8       =                              
+            eval 3 * true > eval 8  =            
+            eval 3 * eval true >  8 =                                                  
             3 * true > 8              
         \end{lstlisting}
-        En este caso, aún cuando la expresión \textsf{EAL} está bien formada, no existe una regla en nuestro intérprete que nos permita evaluar más, por lo tanto esta expresión no tiene resultado. Más adelante estudiaremos mecanismos para evitar que casos como este figuren en la evaluación de un lenguaje.
+        En este caso, aún cuando la expresión \textsf{EAL} está bien formada, no existe una regla en nuestro intérprete que nos permita continuar con la evaluación, por lo tanto, no se puede obtener un resultado. Más adelante estudiaremos mecanismos para evitar que casos como este figuren en la evaluación de un lenguaje.
 
     \end{exercise}
 
@@ -193,37 +193,43 @@ matemáticas.
     \end{definition}
 
 
-    \begin{exercise}
-        ¿La gramática definida para \textsf{EAL} es ambigua? Argumenta tu respuesta.                          \\
-             Sí porque podemos derivar de dos formas distintas la cadena: $3 + 4 * 5$                            
-             \begin{center}
-                 \textit{e} $\rightarrow$ \\
-                 \textit{e} + \textit{e} $\rightarrow$ \\
-                 3 + \textit{e} $\rightarrow$ \\
-                 3 + \textit{e} * \textit{e} $\rightarrow$ \\
-                 3 + 4 * \textit{e} $\rightarrow$ \\
-                 3 + 4 * 5.  \\
-                 
-                 \bigskip
-                 
-                 \textit{e} $\rightarrow$ \\
-                 \textit{e} * \textit{e} $\rightarrow$ \\
-                 \textit{e} * 5 $\rightarrow$ \\
-                 \textit{e} + \textit{e} * 5 $\rightarrow$ \\
-                 \textit{e} + 4 * 5 $\rightarrow$ \\
-                 3 + 4 * 5.
-             \end{center}
-    \end{exercise}
+\begin{exercise}
+    ¿La gramática definida para \textsf{EAL} es ambigua? Argumenta tu respuesta. \\
+    Sí porque podemos derivar de dos formas distintas la cadena: $3 + 4 * 5$                             
+    \[
+        \begin{array}{rcl}
+            \textit{e} & \rightarrow & \textit{e} + \textit{e} \\
+            & \rightarrow & 3 + \textit{e}   \\
+            & \rightarrow &  3 + \textit{e} * \textit{e}  \\
+            & \rightarrow & 3 + 4 * \textit{e} \\
+            & \rightarrow & 3 + 4 * 5 \\
+            \\
+            \textit{e} & \rightarrow &  \textit{e} * \textit{e} \\
+           & \rightarrow & \textit{e} * 5 \\
+           & \rightarrow & \textit{e} + \textit{e} * 5\\
+           & \rightarrow & \textit{e} + 4 * 5\\
+           & \rightarrow & 3 + 4 * 5
+        \end{array}
+    \]
+\end{exercise}
 
     \bigskip
 
     % Ejercicio 2.7
     \begin{exercise}
         ¿Cómo eliminarías la ambigüedad de esta gramática?    \\\\                    
-            Con la introducción de paréntesis para marcar la precedencia de las operaciones. 
-            En el ejemplo anterior la ambigüedad queda eliminada en su totalidad:
+           Para eliminar la ambigüedad, se requiere de la introducción de paréntesis para los operadores binarios. Este cambio			permite la asociatividad y hace explícita la precedencia en la cual las operaciones se tienen que evaluar.  La 		gramática de \textsf{EAL} es entonces modificada como sigue:
+		   \[
+			    \begin{array}{rll}
+			        e & ::= & n \quad |\quad {\tt true} \quad |\quad {\tt false} \quad |\quad (e + e) \quad |\quad (e - e) \quad |\quad (e * e) \\
+			          &     & |\quad (e < e) \quad |\quad {\tt isZero}\; e \quad |\quad {\tt not}\; e
+			    \end{array}
+		    \]
+	
+
+            En el ejemplo anterior la ambigüedad queda eliminada en su totalidad al forzar la asociatividad de los operadores dependiendo de cuál se quiera resolver primero:
             \begin{center}
-                $(3 + (4 * 5))$  ó $((3 + 4 )* 5)$
+                $(3 + (4 * 5))$  ó $((3 + 4 )* 5)$ 
             \end{center}
     \end{exercise}
 
@@ -231,24 +237,24 @@ matemáticas.
 % Sección 3: Clasificación de los lenguajes.
 \section{Clasificación de los lenguajes de programación}
 
-    En computación existen diferentes clasificaciones que nos permiten agrupar lenguajes según sus características principales, paradigma de programación al que pertenecen, tecnología involucrada en el proceso de traducción a lenguaje de máquina, etc. A continuación se enlistan algunas de estas categorías: 
+    En computación existen diferentes clasificaciones que nos permiten agrupar lenguajes de programación según sus características principales, paradigma de programación al que pertenecen, tecnología involucrada en el proceso de traducción a lenguaje de máquina, etc. A continuación se enlistan algunas de estas categorías: 
 
     \begin{itemize}
-        \item Lenguajes compilados,  que como el nombre lo indica precisan de un compilador para traducir el código de alto nivel a instrucciones de máquina que el procesador pueda ejecutar. Generalmente suelen ser mas lentos al momento de ejecutarse que el resto de las categorías  ya que requieren de un sistema sofisticado de inferencia de tipos, optimizaciones en la traducción de las instrucciones y en ocasiones entornos especiales para la ejecución de los programas como la máquina virtual de Java (\textit{JVM} por sus siglas en inglés)\footnote{Información obtenida de \hyperlink{43}{[43]}, \hyperlink{44}{[44]}, \hyperlink{45}{[45]}, \hyperlink{46}{[46]}}.\\
+        \item \textbf{Lenguajes compilados}:  que como el nombre lo indica precisan de un compilador para traducir el código de alto nivel a instrucciones de máquina que el procesador pueda ejecutar. Generalmente suelen ser mas lentos al momento de ejecutarse que el resto de las categorías  ya que requieren de un sistema sofisticado de inferencia de tipos, optimizaciones en la traducción de las instrucciones y en ocasiones entornos especiales para la ejecución de los programas como la máquina virtual de Java (\textit{JVM} por sus siglas en inglés)\footnote{Información obtenida de \hyperlink{43}{[43]}, \hyperlink{44}{[44]}, \hyperlink{45}{[45]}, \hyperlink{46}{[46]}}.\\
 
-        \item Lenguajes interpretados, en donde las instrucciones son mapeadas a su traducción equivalente en el lenguaje de máquina cuando la línea que contiene dicha instrucción se vaya a ejecutar por el procesador\footnote{También es posible interpretar las expresiones de un lenguaje como el valor asociado a dicha expresión una vez que se evalúa. En este curso estudiaremos este proceso en el \hyperref[sec:semantics]{capítulo 4: Semántica}.}. Generalmente son menos robustos a la hora de encontrar errores de tipo, errores en la tipografía, caracteres faltantes, etc. Sin embargo este tipo de lenguajes de programación resultan particularmente útiles por que permiten el modelado y la realización de programas mucho más rápido que los lenguajes compilados\footnote{Información obtenida de \hyperlink{43}{[43]}, \hyperlink{44}{[44]}, \hyperlink{45}{[45]}, \hyperlink{46}{[46]}}.\\
+        \item \textbf{Lenguajes interpretados}: en donde las instrucciones son mapeadas a su traducción equivalente en el lenguaje de máquina cuando la línea que contiene dicha instrucción se vaya a ejecutar por el procesador\footnote{También es posible interpretar las expresiones de un lenguaje como el valor asociado a dicha expresión una vez que se evalúa. En este curso estudiaremos este proceso en el \hyperref[sec:semantics]{capítulo 4: Semántica}.}. Generalmente son menos robustos a la hora de encontrar errores de tipo, errores en la tipografía, caracteres faltantes, etc. Sin embargo este tipo de lenguajes de programación resultan particularmente útiles por que permiten el modelado y la realización de programas mucho más rápido que los lenguajes compilados\footnote{Información obtenida de \hyperlink{43}{[43]}, \hyperlink{44}{[44]}, \hyperlink{45}{[45]}, \hyperlink{46}{[46]}}.\\
 
-        \item También se pueden clasificar por paradigma como en el caso de los lenguajes funcionales que se enfocan en la especificación de un problema mediante condiciones en lugar de la solución teniéndose la siguiente definición: 
-         ''La programación funcional es un paradigma de programación en el que los programas se construyen aplicando y componiendo funciones. Íntimamente relacionado con el paradigma de programación declarativa en el que las definiciones de funciones son árboles de expresiones que asignan valores a otros valores, en lugar de una secuencia de declaraciones imperativas que actualizan el estado de ejecución del programa. ''\footnote{Definición extraída de \hyperlink{51}{[51]} y \hyperlink{52}{[52]}}\\
+        \item \textbf{Lenguajes funcionales}: este tipo de lenguajes se enfocan en la especificación de un problema mediante condiciones. 
+         La programación funcional es un paradigma de programación en el que los programas se construyen aplicando y componiendo funciones. Íntimamente relacionado con el paradigma de programación declarativa en el que las definiciones de funciones son árboles de expresiones que asignan valores a otros valores, en lugar de una secuencia de declaraciones imperativas que actualizan el estado de ejecución del programa\footnote{Definición extraída de \hyperlink{51}{[51]} y \hyperlink{52}{[52]}}.\\
 
-        \item  La programación imperativa contrasta con la clasificación anterior por su naturaleza secuencial, podemos encapsular sus características más importantes en la siguiente definición: 
+        \item  \textbf{Lenguajes imperativos}: que contrastan con la clasificación anterior por su naturaleza secuencial, podemos encapsular sus características más importantes en la siguiente definición: 
          ''Un paradigma de programación de software que utiliza declaraciones que cambian el estado de un programa. De la misma manera que el modo imperativo en los lenguajes naturales expresa órdenes, un programa imperativo consta de órdenes que debe ejecutar la computadora. La programación imperativa se centra en describir cómo funciona un programa paso a paso\footnote{[\hyperlink{53}{[53]}} en lugar de descripciones de alto nivel de sus resultados esperados. ''\footnote{Extraído de \hyperlink{53}{[53]}, \hyperlink{54}{[54]}, \hyperlink{55}{[55]} y \hyperlink{56}{[56]}}\\\\
         El término se utiliza con frecuencia como un contrapunto de la programación declarativa, siendo el primero un conjunto de instrucciones para solucionar un determinado problema mientras que el segundo se centra en la especificación del problema mismo.\\
 
-        \item     Otra clasificación que es muy socorrida en la computación es la llamada orientada a objetos que modela las entidades de un programa con su identidad, métodos, variables y que brindan características deseables como la herencia, el polimorfismo y el encapsulamiento de datos.\\\\
+        \item \textbf{Lenguajes orientados a objetos} que modelan las entidades de un programa con su identidad, métodos, variables y que brindan características deseables como la herencia, el polimorfismo y el encapsulamiento de datos.\\\\
         Esta clasificación pertenece al paradigma imperativo dado que se trabaja estrechamente con el estado del programa en cada paso de la ejecución, sus direcciones de memoria y sus sentencias de control\footnote{Definición extraída de \hyperlink{47}{[47]}, \hyperlink{48}{[48]}, \hyperlink{49}{[49]}}.\\
     
-        \item     Por último mencionaremos brevemente la clasificación de los lenguajes lógicos. Los programas que pertenecen a esta categoría se pueden definir de la siguiente forma:  ''Un programa, base de datos o base de conocimientos en un lenguaje de programación lógica es un conjunto de oraciones en forma lógica que expresan hechos y reglas sobre un dominio específico. ''\footnote{Definición extraída de \hyperlink{57}{[57]}} \\\\
+        \item \textbf{Lenguajes lógicos}: los programas que se escriben en esta categoría de lenguajes se pueden definir de la siguiente forma:  ''Un programa, base de datos o base de conocimientos en un lenguaje de programación lógica es un conjunto de oraciones, predicados o afirmaciones que expresan hechos y reglas sobre un dominio específico.''\footnote{Definición extraída de \hyperlink{57}{[57]}} \\\\
         Generalmente este tipo de programas se apoyan definiendo predicados y objetos a los cuales estos predicados pueden ser aplicados así como instrucciones y operadores lógicos para dar solución a los problemas planteados en este modelo.
 
     
@@ -275,7 +281,7 @@ matemáticas.
 
  % Ejercicio 3.1
     \begin{exercise}
-        Da una implementación del algoritmo \texttt{selectionSort} en programación imperativa.
+        Da una implementación del algoritmo \texttt{selectionSort} para arreglos en algún lenguaje de programación imperativa.
 
 	\begin{lstlisting}[language=C++]
 	void swap(int *xp, int *yp){
@@ -300,7 +306,7 @@ matemáticas.
 
       % Ejercicio 3.2
     \begin{exercise}
-        Da una implementación del algoritmo \texttt{selectionSort} en programación declarativa.
+        Da una implementación del algoritmo \texttt{selectionSort} para listas en algún lenguaje de programación declarativa.
 	\begin{lstlisting}[language=Haskell] import Data.List (minimum, delete)
 		ssort :: Ord t => [t] -> [t]
 		ssort [] = []
@@ -318,14 +324,12 @@ matemáticas.
         El uso del carácter especial ';' al terminar una instrucción de programa en lenguajes de programación como \textsf{C} y \textsf{Java} ¿a qué tipo de regla corresponde (sintáctica, semántica o pragmática)?
     \end{exercise}
 
-\bigskip
 
     % Ejercicio 4.2
     \begin{exercise}
         Ejemplifica la aplicación de la pragmática aplicada en el contexto de los lenguajes de programación.
     \end{exercise}
 
-\bigskip
 
      % Ejercicio 4.3
     \begin{exercise}
@@ -333,54 +337,58 @@ matemáticas.
         Explica por qué esto no es una semántica formal.
     \end{exercise}
 
-\bigskip
-
     % Ejercicio 4.4
     \begin{exercise}
-        Escribe una gramática para el alfabeto $\Sigma = \{a,b\}$ y el lenguaje
-        \[L=\{a^n b^m\ \textbar\ n \textgreater 0, m \geq n \}\]
+        Escribe una gramática libre de contexto para generar cada uno de los siguientes lenguajes\footnote{Ejercicio extraído de \hyperlink{138}{[138]} y \hyperlink{138}{[138]}}.
+        \[
+		 \begin{array}{rcl}
+		   L_1 &  = &\{a^n b^m\ | \ n\ \textgreater \ 0,\ m\ \geq \ n \}\\
+	        L_2 &  =  &\{ u a w b\ |\ u, w\ \in \{ a, b \}^*, \, |u| = |w| \}\\
+              L_3 & = & \{ a^m b^n c^p d^q\ |\ m + n = p + q \} 
+		\end{array}
+	  \]
     \end{exercise}
 
-\bigskip
 
      % Ejercicio 4.5
     \begin{exercise}
-        Escribe una gramática para el alfabeto $\Sigma = \{a,b\}$ y el lenguaje  
-        \[L= \text{cadenas palíndromas} \]
+        Escribe una gramática libre de contexto para el lenguaje  
+        \[L= \{ w \in \{a, b\}^* \mid w = w^R \} \]
+	En donde $w^R$ representa la reversa de la cadena $w$.
     \end{exercise}
 
-\bigskip
     % Ejercicio 4.6
     \begin{exercise}
-        Escribe una gramática para el alfabeto  $\Sigma = \{(,)\}$ y el lenguaje \[ L= \text{cadenas de paréntesis balanceados} \]
-    \end{exercise}
+        Escribe una gramática libre de contexto para el siguiente lenguaje:
+		\[ L=\{ w \in \{ (, ) \}^* \ |\ \forall i \in \{1, 2, \dots, |w|\}, \ \#_i( w ) \geq 0, \ \#_i( w ) = 0 \text{ si y solo si } i = |w| \} \]
+	 En donde $\#_i(w)$ denota el número de paréntesis abiertos menos el número de paréntesis cerrados hasta la posición $i$ en la cadena $w$.  
+ \end{exercise}
 
-\bigskip
 
     % Ejercicio 4.7
     \begin{exercise}
-        Evalúa la expresión del lenguaje \textsf{EAL} utilizando la función \texttt{eval}. \\ \\ 
-        $$7 * 8 < 3 * 9$$
+        Evalúa la expresión del lenguaje \textsf{EAL} utilizando la función \texttt{eval}. \\ 
+        $$(7 * (8 < 3) * 9)$$
+	  Es posible obtener un resultado de la evaluación la expresión anterior? argumenta tu respuesta.
     \end{exercise}
 
-\bigskip
 
     % Ejercicio 4.8
     \begin{exercise}
-        Evalúa la expresión del lenguaje \textsf{EAL} utilizando la función \texttt{eval}. \\ \\
+        Evalúa la expresión del lenguaje \textsf{EAL} utilizando la función \texttt{eval}. \\ 
             $$\texttt{not(iszero}( (7 * 4) + (1 * 0)))$$
+ Es posible obtener un resultado de la evaluación la expresión anterior? argumenta tu respuesta.
     \end{exercise}
 
-\bigskip
 
     % Ejercicio 4.9
     \begin{exercise}
-        Escribe el algoritmo de la búsqueda binaria en un arreglo ordenado en el paradigma de programación imperativo.
+        Escribe el algoritmo de la búsqueda binaria sobre una lista ordenada en el paradigma de programación imperativa.
     \end{exercise}
-\bigskip
+
     % Ejercicio 4.10
     \begin{exercise}
-        Escribe el algoritmo de la búsqueda binaria en un arreglo ordenado en el paradigma de programación declarativo.
+        Escribe el algoritmo de la búsqueda binaria sobre una lista ordenada en el paradigma de programación declarativa.
     \end{exercise}
 
 % https://opendsa-server.cs.vt.edu/OpenDSA/Books/PIFLAS21/html/IntroGrammarEx.html
