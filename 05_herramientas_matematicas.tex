@@ -12,49 +12,52 @@
 \end{figure}
 
 Para estudiar a los lenguajes de programación es necesario definir una estructura que nos permita capturar su esencia matemática y nos proporcione un mecanismo para demostrar características y propiedades asociadas a estos. \\\\
-Una manera de definir formalmente un lenguaje de programación es mediante el uso de juicios lógicos para definir propiedades, pertenencia de los elementos de nuestra estructura a un conjunto, relación entre diferentes elementos de una misma estructura, etc\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, estructuras recursivas, reglas de inferencia e inducción estructural. }. \\
+Una manera de definir formalmente un lenguaje de programación es mediante la aplicación de juicios lógicos para definir propiedades, pertenencia de los elementos de la estructura a un conjunto, relaciones entre diferentes elementos, etc\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, reglas de inferencia e inducción estructural. }. \\
 \subsection*{Objetivo}
 Estudiar las estructuras matemáticas que utilizaremos para familiarizarnos con el concepto de inducción estructural. En particular centraremos nuestra atención a estructuras recursivas como listas de tipo A y árboles binarios balanceados de tipo A\footnote{donde A es un conjunto o una colección de elementos.} junto con las reglas que nos permiten construir estas estructuras.\\\\
 Este tipo de mecanismos es particularmente útil para ilustrar las propiedades de los lenguajes que definiremos a lo largo de los capítulos de este manual.
 
 \subsection*{Planteamiento}
-En este capítulo exploraremos diferentes estructuras empezando por los juicios lógicos que constituyen las entidades fundamentales sobre las cuales iniciaremos el estudio de los lenguajes.
+En este capítulo exploraremos diferentes estructuras matemáticas, empezando por los juicios lógicos. Estos constituyen las entidades fundamentales sobre las cuales iniciaremos el estudio de los lenguajes.
 También estudiaremos brevemente estructuras recursivas como cadenas y listas para enunciar el principio de inducción que nos permite demostrar propiedades sobre dichas estructuras.\\\\ Por último estudiaremos un sistema de transición para modelar los estados y reglas de evaluación de la instancia de un juego.
 
 %    Sección 1: Juicios lógicos.
 \section{Juicios lógicos}
 
     Una parte fundamental del razonamiento matemático es la capacidad de determinar si una afirmación es verdadera o falsa basado en la información que poseemos sobre los elementos que son mencionados en dicha afirmación. \\\\
-    Para poder aplicar un juicio sobre algún elemento, objeto o entidad para determinar su veracidad primero debemos definir dichos elementos, a continuación vamos a introducir los conceptos necesarios para poder formalizar esta noción y como aplicarla. Esto será de utilidad para definir características, reglas de construcción y reglas de evaluación en los lenguajes de programación y modelos de computo que discutiremos a lo largo del manual.\\
+    Para poder aplicar un juicio sobre algún elemento, objeto o entidad para determinar su veracidad primero debemos definir dichos elementos. A continuación vamos a introducir los conceptos necesarios para poder formalizar esta noción y como aplicarla. Esto será de utilidad para definir características, reglas de construcción y reglas de evaluación en los lenguajes de programación y modelos de computo que discutiremos a lo largo del manual.\\
 
     \bigskip
 
     % Ejercicio 1.1
-    \begin{exercise}
+    \begin{definition}
 	¿Qué es una entidad matemática? \\ 
 	  En el lenguaje habitual de las matemáticas, una entidad es cualquier cosa que ha sido (o podría ser) definida formalmente y con la que se pueden realizar razonamientos deductivos y pruebas matemáticas\footnote{Definición formulada de \hyperlink{58}{[58]}, \hyperlink{59}{[59]} y \hyperlink{60}{[60]}}.
-    \end{exercise}
+    \end{definition}
 
 \bigskip
 
     % Ejercicio 1.2
-    \begin{exercise}
+    \begin{definition}
 	¿Qué es un juicio? \\
          En lógica matemática, un juicio es una afirmación o enunciación de una característica o propiedad sobre un objecto o elemento de un dominio\footnote{Definición formulada de \hyperlink{61}{[61]} y \hyperlink{62}{[62]}}.
-    \end{exercise} 
+    \end{definition} 
 
 \bigskip
 
+Los juicios que denotan que un objeto $x$ cumple con la propiedad $P$ usualmente son escritos utilizando notación posfija, como $x\ P$.\\\\
+Aquellos juicios que se aplican sobre relaciones y operadores binarios, usualmente son escritos con notación infija como en el caso de la relación de igualdad  $x\ =\ y$.
+
     % Ejercicio 1.3
     \begin{exercise}
-	Proporciona un listado de juicios sobre objetos matemáticos (Puedes suponer definidos con anterioridad elementos como $\mathbb{N}$, $\mathbb{Q}$, $Bool$, \textit{String}, funciones, relaciones de orden, operadores aritméticos, etc).
+	Proporciona un listado de juicios sobre objetos matemáticos (Puedes suponer definidos con anterioridad elementos como $\mathbb{N}$, $\mathbb{Q}$, $Bool$, \textit{String}, funciones, relaciones de orden, operadores aritméticos, etc). 
 	\begin{center}
 		\begin{tabular}{rl}
 			 ''Hola Mundo'' \textbf{$String$} & La cadena  ''Hola Mundo'' es de tipo $String$.  \\
 			L \textbf{$NP$} & El lenguaje L es $NP$. \\
 			\textit{a} $\textgreater$ \textit{b} & el número $a$ es más grande que el número $b$. \\
 			A $|$ B  & El evento A es independiente al evento B. \\
-			\textsf{true} $Bool$  & La constante \textsf{True} es de tipo $Bool$.  \\
+			\textsf{true} $Bool$  & La constante \textsf{true} es de tipo $Bool$.  \\
 			h = \( g \circ f \) & la función $h$ es la composición de la función $g$ con la función $f$.\\
 			3.1416... $\mathbb{I}$ & El número 3.1416... es  irracional \\
 			0 $\mathbb{N}$  & 0 es un Natural. \\
@@ -80,39 +83,78 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
     Los axiomas son las reglas de inferencia que carecen de hipótesis dado que siempre serán verdad y no es necesario suponer nada para concluirlas.\\\\
     Tomemos como ejemplo la definición de las cadenas binarias de tipo A (denominaremos a este tipo de dato como A*) para ilustrar las reglas de inferencia y sus partes anteriormente discutidas.
 
-    \newpage
+\bigskip
 
     % Definición: Cadenas Binarias y función de concatenación.
     \begin{definition}
-        Sea $\text{A} = \{ 0,1 \}$ un conjunto. Definimos el tipo de dato recursivo $\text{A}^*$ (cadenas binarias de tipo A)\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}} como sigue: \\
+        Sea $\text{A} = \{ 0,1 \}$, definimos el tipo de dato recursivo $\text{A}^*$ \footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}} como sigue: \\\\
             \[
                 \begin{array}{lcl}    
-                    \inference{}{\varepsilon \in \text{A}^*}[\textit{(eps)}] \qquad 
-                    \inference{a \in \text{A},\; s \in \text{A}^*}{\<a, s\> \in \text{A}^*}[\textit{(tup)}]
+                    \inference{}{\varepsilon \  \text{A}^*}[\textit{(eps)}] \qquad 
+                    \inference{a \ \text{A},\; s \ \text{A}^*}{\<a, s\> \ \text{A}^*}[\textit{(tup)}]
                 \end{array}
             \] 
 
+	\bigskip
 
             La regla \textit{eps} se lee como:  ''la cadena vacía es una cadena binaria de tipo A.'' Nótese que esta regla es un axioma dado que carece de premisas. \\\\
             La regla \textit{tup} se lee como:  ''si \textit{a} es de tipo A y \textit{s} es una cadena binaria de tipo A, entonces la construcción de una tupla con cabeza \textit{a} y cola \textit{s} es una cadena binaria de tipo A.''\\\\
-            Por ejemplo, la cadena 10101 se representa por la 5-tupla $\<1,\<0,\<1,\<0,\<1. \epsilon \>\>\>\>\>$ 
+            Por ejemplo, la cadena 10101 se representa por la 5-tupla $\<1,\<0,\<1,\<0,\<1,\ \epsilon \>\>\>\>\>$ 
     \end{definition}
 
+\bigskip
+
+Es importante notar que las reglas de inferencia son puramente sintácticas. Por ejemplo, el número "00011" no puede ser generado directamente por las reglas de A*. Su representación como cadena binaria si $\<0,\<0,\<0,\<1,\<1,\ \epsilon \>\>\>\>\>$, dado que el conjunto de reglas de inferencia de A* no posee alguna que nos ayude a formular los números binarios sin la aplicación de las tuplas. \\\\
+Ahora que hemos definido una estructura de datos con reglas de inferencia, es natural preguntarse "¿cómo razonar sobre esta?". Por ejemplo como demostrar que\footnote{Aquí estamos haciendo abuso de notación con la aplicación de $\in$ para hacer explícita la propiedad para el primer caso y denotar que para el segundo caso no es válida.}: $$\<0,\<0,\<0,\<1,\<1,\ \epsilon \>\>\>\>\> \in \text{A}^*$$   $$\<0,\<7,\<4,\<1,\ \epsilon \>\>\>\> \notin \text{A}^*$$\\
+Las reglas de inferencia pueden ser utilizadas tanto para definir una propiedad como para demostrar que esta propiedad se cumple. \\\\
+Si queremos demostrar que un juicio $J$ es válido, tenemos que encontrar una regla que tenga a $J$ como conclusión. Si la regla es un axioma entonces nuestra prueba está concluida. Si la regla contiene premisas $p_1, ..., p_n$ entonces hay que aplicar la misma estrategia de forma recursiva donde la premisa $p_x$ con $x \in \{1, .., n\}$ figure como conclusión de alguna regla. \\ \\
+Si en algún punto de la derivación no podemos aplicar ninguna regla, y esa premisa no se corresponde con un axioma entonces no se puede demostrar que la propiedad se cumple.\\\\\\
+Ejemplifiquemos esto con el siguiente ejercicio. 
+
     \bigskip
+
+\newpage
+% Ejercicio 2.2
+    \begin{exercise}
+        Utiliza las reglas (\textit{eps}) y (\textit{tup}) para derivar la cadena
+        \[
+             \<1,\<0,\<0,\varepsilon\>\>\>, \qquad
+             \<1,\<0,\<0\<1,\varepsilon\>\>\>\> \qquad y \qquad
+             \<1,\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\>\>
+        \] 
+        \bigskip
+
+
+\begin{turn}{90}
+        \scalemath{0.72}{
+            \begin{array}{cc}
+
+			\\ \\ \\ \\ \\  
+                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})] \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}^*}[(\textit{eps})]}{\<0, \varepsilon \> \in \text{A}^*}[(\textit{tup})]}{\<0,\<0,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})] \\ \\ \\ \\ \\ \\ \\
+        
+                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in v}[(\textit{ax})]& \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}}[(\textit{eps})]}{\<1,\varepsilon\> \in \text{A}^*}[(\textit{tup})]}{\<0\<1,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<0,\<0\<1,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0\<1,\varepsilon\>\>\>\> \in \text{A}^*}[(\textit{tup})] \\ \\ \\ \\ \\ \\ \\
+
+
+                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})] \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}^*}[(\textit{eps})]}{\<0,\varepsilon\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<0,\<1,\<0,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<1,\<0,\varepsilon\>\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\> \in \text{A}^*}[(\textit{tup})]}{ \<1,\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\>\> \in \text{A}^*}[(\textit{tup})]
+            \end{array}  
+        }
+
+\end{turn}
+    \end{exercise}
+
 
 \section{Estructuras recursivas e inducción estructural}
 
     Ahora discutamos un tipo de estructuras particulares que se relacionan de forma íntima con los conceptos anteriormente planteados; las estructuras recursivas\footnote{Definición formulada a partir de \hyperlink{91}{[91]}, \hyperlink{92}{[92]} y \hyperlink{93}{[93]}}. Estas se generan a partir de dos casos:
     \begin{itemize}
  
-        \item La estructura está compuesta por el elemento más primitivo que puede formar parte de esta.
-        Muchas veces este elemento constituye la clausula de escape para la recursión inducida por la definición y dará lugar a un axioma en su representación como regla de inferencia.
+        \item La estructura está compuesta por un elemento primitivo. Muchas veces estos elementos constituyen la clausula de escape para la recursión inducida por la definición y darán lugar a uno o más axiomas en su representación como regla de inferencia.
         \item La estructura está compuesta por una llamada a la función constructora con un elemento nuevo y la estructura misma que se desea definir como argumentos. 
     \end{itemize}
 
 
-    En el caso del tipo de dato A*, el elemento más primitivo que pertenece a esta estructura es la cadena vacía (denotada como $\varepsilon$) o bien una tupla con cabeza \textit{a} $\in $ A y cola de tipo A*.\\\\
-    Este principio se aplica tanto para definir la estructura recursiva como para las funciones que se quieran aplicar sobre la misma\footnote{Información obtenida de \hyperlink{94}{[94]} y \hyperlink{95}{[95]}}. Para ilustrar este punto definimos la función para concatenar dos elementos de A* de la siguiente forma: 
+    En el caso del tipo de dato A*, el elemento más primitivo que pertenece a esta estructura es la cadena vacía (denotada como $\varepsilon$) o bien una tupla con cabeza \textit{a} A y cola de tipo A*.\\\\
+    Este principio es válido tanto para definir la estructura recursiva como para las funciones que se quieran aplicar sobre la misma\footnote{Información obtenida de \hyperlink{94}{[94]} y \hyperlink{95}{[95]}}. Para ilustrar este punto definimos la función para concatenar dos elementos de A* de la siguiente forma: 
     \begin{definition}
         Definimos la concatenación de cadenas A* denotada como: $\bullet$ ::\ (A* $\rightarrow$\ A*) $\rightarrow$\ A* mediante la siguiente especificación\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]}}:
         \[
@@ -128,7 +170,6 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
         \item Posteriormente se asume que la propiedad es válida para cualquier instancia. 
         \item Por último se demuestra la propiedad aplicada para los constructores que generan instancias más grandes aplicando la hipótesis del inciso anterior.
     \end{itemize}
-
     \bigskip
 
     % Ejercicio 2.1
@@ -136,48 +177,14 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
         Utiliza la inducción estructural para demostrar: 
         \[ t \bullet \varepsilon = t\] 
             \textbf{Caso Base} t = $\varepsilon$ \\
+		 $t \bullet \varepsilon = \varepsilon \bullet \varepsilon$\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  \qquad \qquad \qquad  \qquad \qquad  (Por hipótesis)\\
             $\varepsilon \bullet \varepsilon$ =  $\varepsilon$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la definición de $\bullet$) \\
             $\varepsilon$ = $t$. \\\\
-            \textbf{Hipótesis Inductiva} $t \bullet \varepsilon = t$  para toda $t \in \text{A}^*$ \\\\
-            \textbf{Paso Inductivo} por demostrar $\<a,t\> \bullet \varepsilon = \<a,t\>$ para toda $a \in \text{A}$ y $t \in \text{A}^*$ \\
+            \textbf{Hipótesis Inductiva} $t \bullet \varepsilon = t$, $\forall$ $t \in \text{A}^*$ \\\\
+            \textbf{Paso Inductivo} por demostrar $\<a,t\> \bullet \varepsilon = \<a,t\>\ \forall\ a, t\ |\ a \in \text{A}$, $t \in \text{A}^*$ \\
             $\<a,t\> \bullet \varepsilon$ = $\<a, \<t \bullet \varepsilon \> \>$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad (Por la definición de $\bullet$) \\
             $\<t \bullet \varepsilon \> = t $ \qquad \qquad \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad\ (Por la hipótesis inductiva) \\
             $\<a,t\> \bullet \varepsilon = \<a, \<t \bullet \varepsilon \> \> = \<a, t\>$ \\ 
-    \end{exercise}
-
-
-    % Ejercicio 2.2
-    \begin{exercise}
-        utiliza las reglas (\textit{eps}) y (\textit{tup}) para derivar las cadenas: 
-        \[
-             \<1,\<0,\<0,\varepsilon\>\>\>, \qquad
-             \<1,\<0,\<0\<1,\varepsilon\>\>\>\> \qquad y \qquad
-             \<1,\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\>\>
-        \] 
-
-        \bigskip
-
-        \scalemath{0.9}{
-            \begin{array}{cc}
-                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})] \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}^*}[(\textit{eps})]}{\<0, \varepsilon \> \in \text{A}^*}[(\textit{tup})]}{\<0,\<0,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})]
-            \end{array}
-        }
-
-    \bigskip
-
-        \scalemath{0.7}{
-            \begin{array}{cc}
-                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in v}[(\textit{ax})]& \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}}[(\textit{eps})]}{\<1,\varepsilon\> \in \text{A}^*}[(\textit{tup})]}{\<0\<1,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<0,\<0\<1,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0\<1,\varepsilon\>\>\>\> \in \text{A}^*}[(\textit{tup})]
-            \end{array}     
-        }
-
-    \bigskip
-
-        \scalemath{0.49}{
-            \begin{array}{cc}
-                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})] \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}^*}[(\textit{eps})]}{\<0,\varepsilon\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<0,\<1,\<0,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<1,\<0,\varepsilon\>\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\> \in \text{A}^*}[(\textit{tup})]}{ \<1,\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\>\> \in \text{A}^*}[(\textit{tup})]
-            \end{array}  
-        }
     \end{exercise}
 
 
@@ -193,6 +200,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
                  \end{cases}
         \]
     \end{definition}
+Cuando se quiera aplicar el principio de inducción a una función o propiedad que recibe mas de un argumento, la inducción se tiene que fijar sobre alguno de sus parámetros. Ejemplifiquemos esto con el siguiente ejercicio.
 
     \bigskip
 

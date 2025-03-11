@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  8 MAR 2025 10:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  11 MAR 2025 09:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2395,251 +2395,267 @@ Underfull \hbox (badness 10000) in paragraph at lines 27--29
  []
 
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 55.
+Underfull \hbox (badness 10000) in paragraph at lines 48--50
 
-
-LaTeX Warning: Command \textgreater invalid in math mode on input line 55.
-
-
-Overfull \hbox (14.98094pt too wide) in paragraph at lines 52--65
- [] 
  []
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 76--82
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 58.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 58.
+
+
+Overfull \hbox (14.98094pt too wide) in paragraph at lines 55--68
+ [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--85
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 76--82
+Underfull \hbox (badness 10000) in paragraph at lines 79--85
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 76--82
+Underfull \hbox (badness 10000) in paragraph at lines 79--85
 
  []
 
 [12]
-Underfull \hbox (badness 10000) in paragraph at lines 87--88
+Underfull \hbox (badness 10000) in paragraph at lines 90--91
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 96--99
+Underfull \hbox (badness 10000) in paragraph at lines 90--91
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 96--99
+Underfull \hbox (badness 10000) in paragraph at lines 100--103
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 114--124
-
- []
-
-[13]
-Underfull \hbox (badness 10000) in paragraph at lines 137--146
+Underfull \hbox (badness 10000) in paragraph at lines 100--103
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--146
+Underfull \hbox (badness 10000) in paragraph at lines 107--108
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--146
+Underfull \hbox (badness 10000) in paragraph at lines 108--113
 
  []
 
 
-Overfull \hbox (1.26367pt too wide) in paragraph at lines 172--173
-[][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 205--209
+Underfull \hbox (badness 10000) in paragraph at lines 108--113
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 210--211
+Underfull \hbox (badness 10000) in paragraph at lines 108--113
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 212--214
+Underfull \hbox (badness 10000) in paragraph at lines 108--113
+
+ []
+
+[13] [14]
+Underfull \hbox (badness 10000) in paragraph at lines 156--166
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 215--219
-
- []
-
-[14{C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.e
-nc}]
-Underfull \hbox (badness 10000) in paragraph at lines 245--249
+Underfull \hbox (badness 10000) in paragraph at lines 178--188
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 250--251
+Underfull \hbox (badness 10000) in paragraph at lines 178--188
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--256
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 264--274
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 264--274
+Underfull \hbox (badness 10000) in paragraph at lines 178--188
 
  []
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 293--294
+Underfull \hbox (badness 10000) in paragraph at lines 213--217
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 297--298
+Underfull \hbox (badness 10000) in paragraph at lines 218--219
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 317--325
+Underfull \hbox (badness 10000) in paragraph at lines 220--222
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 317--325
+Underfull \hbox (badness 10000) in paragraph at lines 223--227
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 317--325
+Underfull \hbox (badness 10000) in paragraph at lines 253--257
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 317--325
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 317--325
+Underfull \hbox (badness 10000) in paragraph at lines 260--264
+
+ []
+
+[16{C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.e
+nc}]
+Underfull \hbox (badness 10000) in paragraph at lines 272--282
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 335--336
+Underfull \hbox (badness 10000) in paragraph at lines 272--282
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 337--338
+Underfull \hbox (badness 10000) in paragraph at lines 301--302
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--340
+Underfull \hbox (badness 10000) in paragraph at lines 305--306
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--342
+Underfull \hbox (badness 10000) in paragraph at lines 325--333
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 358--360
+Underfull \hbox (badness 10000) in paragraph at lines 325--333
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 369--370
+Underfull \hbox (badness 10000) in paragraph at lines 325--333
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 405--407
+Underfull \hbox (badness 10000) in paragraph at lines 325--333
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 330--409
+Underfull \hbox (badness 10000) in paragraph at lines 325--333
+
+ []
+
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 343--344
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 330--409
+Underfull \hbox (badness 10000) in paragraph at lines 345--346
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 330--409
+Underfull \hbox (badness 10000) in paragraph at lines 347--348
 
  []
 
-[16] [17
+
+Underfull \hbox (badness 10000) in paragraph at lines 349--350
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 366--368
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 377--378
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 413--415
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--417
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--417
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--417
+
+ []
+
+[18] [19
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.4.
 1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.409     \end{exercise}
+l.417     \end{exercise}
                         
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.4.
 1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.409     \end{exercise}
-                        ] [18]
-Underfull \hbox (badness 10000) in paragraph at lines 457--459
+l.417     \end{exercise}
+                        ]
+Underfull \hbox (badness 10000) in paragraph at lines 465--467
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 464--466
+Underfull \hbox (badness 10000) in paragraph at lines 472--474
+
+ []
+
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 479--481
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 471--473
+Underfull \hbox (badness 10000) in paragraph at lines 490--494
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 482--486
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 482--486
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 489--490
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 493--496
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 493--496
+Underfull \hbox (badness 10000) in paragraph at lines 490--494
 
  []
 
@@ -2648,111 +2664,44 @@ Underfull \hbox (badness 10000) in paragraph at lines 497--498
 
  []
 
-[19]
-Underfull \hbox (badness 10000) in paragraph at lines 515--516
+
+Underfull \hbox (badness 10000) in paragraph at lines 501--504
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 517--521
+Underfull \hbox (badness 10000) in paragraph at lines 501--504
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 517--521
+Underfull \hbox (badness 10000) in paragraph at lines 505--506
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 517--521
+Underfull \hbox (badness 10000) in paragraph at lines 523--524
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 521--522
+Underfull \hbox (badness 10000) in paragraph at lines 525--529
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 522--524
+Underfull \hbox (badness 10000) in paragraph at lines 525--529
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 524--526
+Underfull \hbox (badness 10000) in paragraph at lines 525--529
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 524--526
+Underfull \hbox (badness 10000) in paragraph at lines 529--530
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 526--528
-
- []
-
-
-Underfull \hbox (badness 2351) in paragraph at lines 526--528
-\OT1/lmr/m/n/10 Por ejem-plo: la lis-ta \OT1/lmtt/m/n/10 [1,3,4,8,1,5,4,8,9,9,9
-,8,6,5,3,5] \OT1/lmr/m/n/10 so-lo du-pli-car^^Sa
- []
-
-
-Underfull \hbox (badness 1137) in paragraph at lines 526--528
-\OT1/lmr/m/n/10 los n^^Sume-ros que est^^Sen en una po-si-ci^^Son im-par ob-te-
-nien-do co-mo re-sul-ta-do:
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 526--528
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 528--530
-
- []
-
-
-Underfull \hbox (badness 6063) in paragraph at lines 528--530
-\OT1/lmr/m/n/10 El ob-je-ti-vo de la im-ple-men-ta-ci^^Son de es-ta fun-ci^^Son
- es el de ob-te-ner
- []
-
-
-Underfull \hbox (badness 2689) in paragraph at lines 528--530
-\OT1/lmr/m/n/10 los d^^S^^Pgi-tos de los n^^Sume-ros ma-yo-res o igua-les a 10,
- de tal for-ma que
- []
-
-
-Underfull \hbox (badness 4995) in paragraph at lines 528--530
-\OT1/lmr/m/n/10 si te-ne-mos co-mo par^^Same-tro de en-tra-da pa-ra es-ta fun-c
-i^^Son a la lis-ta
- []
-
-
-Underfull \hbox (badness 2261) in paragraph at lines 528--530
-\OT1/lmtt/m/n/10 [1,6,4,16,1,10,4,16,9,18,9,16,6,10,6,5] \OT1/lmr/m/n/10 ob-ten
--ga-mos la si-guien-te co-mo
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 528--530
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 530--532
-
- []
-
-
-Underfull \hbox (badness 1303) in paragraph at lines 530--532
-\OT1/lmr/m/n/10 Esta fun-ci^^Son sim-ple-men-te su-ma los d^^S^^Pgi-tos con-te-
-ni-dos en la lis-ta (pue-des
  []
 
 
@@ -2765,20 +2714,102 @@ Underfull \hbox (badness 10000) in paragraph at lines 532--534
 
  []
 
-[20]
-Underfull \hbox (badness 10000) in paragraph at lines 539--540
+
+Underfull \hbox (badness 10000) in paragraph at lines 532--534
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 560--562
+Underfull \hbox (badness 10000) in paragraph at lines 534--536
 
  []
 
-) [21]
+
+Underfull \hbox (badness 2351) in paragraph at lines 534--536
+\OT1/lmr/m/n/10 Por ejem-plo: la lis-ta \OT1/lmtt/m/n/10 [1,3,4,8,1,5,4,8,9,9,9
+,8,6,5,3,5] \OT1/lmr/m/n/10 so-lo du-pli-car^^Sa
+ []
+
+
+Underfull \hbox (badness 1137) in paragraph at lines 534--536
+\OT1/lmr/m/n/10 los n^^Sume-ros que est^^Sen en una po-si-ci^^Son im-par ob-te-
+nien-do co-mo re-sul-ta-do:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 534--536
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 536--538
+
+ []
+
+
+Underfull \hbox (badness 6063) in paragraph at lines 536--538
+\OT1/lmr/m/n/10 El ob-je-ti-vo de la im-ple-men-ta-ci^^Son de es-ta fun-ci^^Son
+ es el de ob-te-ner
+ []
+
+
+Underfull \hbox (badness 2689) in paragraph at lines 536--538
+\OT1/lmr/m/n/10 los d^^S^^Pgi-tos de los n^^Sume-ros ma-yo-res o igua-les a 10,
+ de tal for-ma que
+ []
+
+
+Underfull \hbox (badness 4995) in paragraph at lines 536--538
+\OT1/lmr/m/n/10 si te-ne-mos co-mo par^^Same-tro de en-tra-da pa-ra es-ta fun-c
+i^^Son a la lis-ta
+ []
+
+
+Underfull \hbox (badness 2261) in paragraph at lines 536--538
+\OT1/lmtt/m/n/10 [1,6,4,16,1,10,4,16,9,18,9,16,6,10,6,5] \OT1/lmr/m/n/10 ob-ten
+-ga-mos la si-guien-te co-mo
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 536--538
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 538--540
+
+ []
+
+
+Underfull \hbox (badness 1303) in paragraph at lines 538--540
+\OT1/lmr/m/n/10 Esta fun-ci^^Son sim-ple-men-te su-ma los d^^S^^Pgi-tos con-te-
+ni-dos en la lis-ta (pue-des
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 538--540
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 540--542
+
+ []
+
+[21] [22]
+Underfull \hbox (badness 10000) in paragraph at lines 547--548
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 568--570
+
+ []
+
+) [23]
 Cap\'{\i }tulo 3.
 (06_Sintaxis.tex
-<assets/03_gatito_sintaxis.PNG, id=1098, 730.22812pt x 584.93532pt>
+<assets/03_gatito_sintaxis.PNG, id=1108, 730.22812pt x 584.93532pt>
 File: assets/03_gatito_sintaxis.PNG Graphic file (type png)
 <use assets/03_gatito_sintaxis.PNG>
 Package pdftex.def Info: assets/03_gatito_sintaxis.PNG  used on input line 9.
@@ -2798,7 +2829,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--17
 
  []
 
-[22
+[24
 
  <./assets/03_gatito_sintaxis.PNG>]
 Underfull \hbox (badness 10000) in paragraph at lines 23--27
@@ -2815,7 +2846,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 32--34
 
  []
 
-[23]
+[25]
 Underfull \hbox (badness 10000) in paragraph at lines 79--84
 
  []
@@ -2845,7 +2876,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 100--102
 
  []
 
-[24]
+[26]
 Overfull \hbox (5.12152pt too wide) detected at line 123
 []
  []
@@ -2855,7 +2886,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 158--159
 
  []
 
-[25]
+[27]
 Overfull \hbox (14.12737pt too wide) detected at line 188
 [] [] []
  []
@@ -2870,7 +2901,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 213--216
 
  []
 
-[26]
+[28]
 Underfull \hbox (badness 10000) in paragraph at lines 243--245
 
  []
@@ -2910,7 +2941,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 273--274
 
  []
 
-[27]
+[29]
 Underfull \hbox (badness 10000) in paragraph at lines 279--280
 
  []
@@ -2920,7 +2951,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 285--286
 
  []
 
-[28] [29]
+[30] [31]
 Underfull \hbox (badness 10000) in paragraph at lines 425--426
 
  []
@@ -2970,7 +3001,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 441--443
 
  []
 
-[30] [31] [32]
+[32] [33] [34]
 Underfull \hbox (badness 10000) in paragraph at lines 619--621
 
  []
@@ -2980,10 +3011,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 622--624
 
  []
 
-) [33]
+) [35]
 Cap\'{\i }tulo 4.
 (07_Semantica.tex
-<assets/04_gatito_semantica.jpg, id=1332, 717.68124pt x 337.26pt>
+<assets/04_gatito_semantica.jpg, id=1342, 717.68124pt x 337.26pt>
 File: assets/04_gatito_semantica.jpg Graphic file (type jpg)
 <use assets/04_gatito_semantica.jpg>
 Package pdftex.def Info: assets/04_gatito_semantica.jpg  used on input line 9.
@@ -3008,7 +3039,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 20--27
 
  []
 
-[34
+[36
 
  <./assets/04_gatito_semantica.jpg>]
 Underfull \hbox (badness 10000) in paragraph at lines 33--35
@@ -3030,7 +3061,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 43--45
 
  []
 
-[35] [36]
+[37] [38]
 Overfull \hbox (45.81816pt too wide) detected at line 206
 []
  []
@@ -3055,7 +3086,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 238--240
 
  []
 
-[37]
+[39]
 Underfull \hbox (badness 10000) in paragraph at lines 257--259
 
  []
@@ -3065,7 +3096,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 257--259
 
  []
 
-[38] [39]
+[40] [41]
 Underfull \hbox (badness 10000) in paragraph at lines 378--379
 
  []
@@ -3075,12 +3106,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 397--399
 
  []
 
-[40]
+[42]
 Underfull \hbox (badness 10000) in paragraph at lines 434--436
 
  []
 
-[41]
+[43]
 Underfull \hbox (badness 10000) in paragraph at lines 460--462
 
  []
@@ -3100,7 +3131,7 @@ Overfull \hbox (11.5637pt too wide) detected at line 586
 []
  []
 
-[42]
+[44]
 Underfull \hbox (badness 10000) in paragraph at lines 618--619
 
  []
@@ -3115,15 +3146,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 633--636
 
  []
 
-[43]
+[45]
 Underfull \hbox (badness 10000) in paragraph at lines 653--654
 
  []
 
-) [44]
+) [46]
 Cap\'{\i }tulo 5.
 (08_Calculo_Lambda.tex
-<assets/05_gatito_lambda.jpg, id=1494, 992.70876pt x 1284.8pt>
+<assets/05_gatito_lambda.jpg, id=1504, 992.70876pt x 1284.8pt>
 File: assets/05_gatito_lambda.jpg Graphic file (type jpg)
 <use assets/05_gatito_lambda.jpg>
 Package pdftex.def Info: assets/05_gatito_lambda.jpg  used on input line 9.
@@ -3138,7 +3169,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--16
 
  []
 
-[45
+[47
 
  <./assets/05_gatito_lambda.jpg>]
 Underfull \hbox (badness 10000) in paragraph at lines 19--20
@@ -3165,7 +3196,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 32--33
 
  []
 
-[46]
+[48]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 70.
@@ -3178,7 +3209,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 70.
 
-[47]
+[49]
 Underfull \hbox (badness 10000) in paragraph at lines 93--96
 
  []
@@ -3188,17 +3219,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 132--134
 
  []
 
-[48]
+[50]
 Underfull \hbox (badness 10000) in paragraph at lines 147--148
 
  []
 
-[49]
+[51]
 Underfull \hbox (badness 10000) in paragraph at lines 182--185
 
  []
 
-[50] [51] [52]
+[52] [53] [54]
 Overfull \hbox (5.98488pt too wide) detected at line 395
 []
  []
@@ -3208,27 +3239,27 @@ Overfull \hbox (6.71709pt too wide) detected at line 398
 []
  []
 
-[53]
-Underfull \hbox (badness 10000) in paragraph at lines 470--473
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 470--473
-
- []
-
-[54]
-Underfull \hbox (badness 10000) in paragraph at lines 488--490
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 488--490
-
- []
-
 [55]
+Underfull \hbox (badness 10000) in paragraph at lines 470--473
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 470--473
+
+ []
+
+[56]
+Underfull \hbox (badness 10000) in paragraph at lines 488--490
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 488--490
+
+ []
+
+[57]
 Underfull \hbox (badness 10000) in paragraph at lines 502--505
 
  []
@@ -3243,12 +3274,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 519--521
 
  []
 
-[56] [57]
+[58] [59]
 Underfull \hbox (badness 10000) in paragraph at lines 611--612
 
  []
 
-[58]
+[60]
 Underfull \hbox (badness 10000) in paragraph at lines 665--666
 
  []
@@ -3273,12 +3304,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 700--702
 
  []
 
-) [59]
+) [61]
 Cap\'{\i }tulo 6.
 LaTeX Font Info:    Font shape `OT1/lmss/b/n' in size <24.88> not available
 (Font)              Font shape `OT1/lmss/bx/n' tried instead on input line 58.
 (09_MinHs.tex
-<assets/06_gatito_minHs.jpg, id=1703, 992.70876pt x 1284.8pt>
+<assets/06_gatito_minHs.jpg, id=1713, 992.70876pt x 1284.8pt>
 File: assets/06_gatito_minHs.jpg Graphic file (type jpg)
 <use assets/06_gatito_minHs.jpg>
 Package pdftex.def Info: assets/06_gatito_minHs.jpg  used on input line 9.
@@ -3298,7 +3329,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 12--17
 
  []
 
-[60
+[62
 
  <./assets/06_gatito_minHs.jpg>]
 Underfull \hbox (badness 10000) in paragraph at lines 23--24
@@ -3312,7 +3343,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 28--30
 
  []
 
-[61]
+[63]
 Underfull \hbox (badness 10000) in paragraph at lines 53--54
 
  []
@@ -3327,7 +3358,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 123--126
 
  []
 
-[62]
+[64]
 Underfull \hbox (badness 10000) in paragraph at lines 132--135
 
  []
@@ -3337,12 +3368,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 132--135
 
  []
 
-[63]
+[65]
 Underfull \hbox (badness 10000) in paragraph at lines 146--151
 
  []
 
-[64]
+[66]
 Underfull \hbox (badness 10000) in paragraph at lines 210--216
 
  []
@@ -3411,7 +3442,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 314--316
 
  []
 
-[65] [66]
+[67] [68]
 Underfull \hbox (badness 10000) in paragraph at lines 322--324
 
  []
@@ -3420,7 +3451,7 @@ LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 3
 31.
 (C:\Users\luis_\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [67{C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.en
+) [69{C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.en
 c}]
 Underfull \hbox (badness 10000) in paragraph at lines 353--354
 
@@ -3460,7 +3491,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 399--401
 
  []
 
-[68]
+[70]
 
 LaTeX Warning: Command \textless invalid in math mode on input line 412.
 
@@ -3472,10 +3503,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 422--424
 
  []
 
-) [69]
+) [71]
 Cap\'{\i }tulo 7.
 (10_Inferencia_Tipos.tex
-<assets/07_gatitos_tipados.PNG, id=1828, 730.98094pt x 484.05844pt>
+<assets/07_gatitos_tipados.PNG, id=1838, 730.98094pt x 484.05844pt>
 File: assets/07_gatitos_tipados.PNG Graphic file (type png)
 <use assets/07_gatitos_tipados.PNG>
 Package pdftex.def Info: assets/07_gatitos_tipados.PNG  used on input line 14.
@@ -3495,7 +3526,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 19--23
 
  []
 
-[70
+[72
 
  <./assets/07_gatitos_tipados.PNG>]
 Underfull \hbox (badness 10000) in paragraph at lines 25--27
@@ -3527,7 +3558,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 40--43
 
  []
 
-[71]
+[73]
 Underfull \hbox (badness 10000) in paragraph at lines 85--86
 
  []
@@ -3548,12 +3579,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 86--89
 
  []
 
-[72]
+[74]
 Underfull \hbox (badness 10000) in paragraph at lines 140--142
 
  []
 
-[73]
+[75]
 Underfull \hbox (badness 10000) in paragraph at lines 165--166
 
  []
@@ -3563,7 +3594,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 175--176
 
  []
 
-[74]
+[76]
 Underfull \hbox (badness 10000) in paragraph at lines 257--259
 
  []
@@ -3573,7 +3604,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 262--263
 
  []
 
-[75]
+[77]
 Underfull \hbox (badness 10000) in paragraph at lines 283--284
 
  []
@@ -3605,7 +3636,7 @@ Overfull \hbox (50.7941pt too wide) in alignment at lines 342--453
  [] [] 
  []
 
-[76] [77] [78] [79]
+[78] [79] [80] [81]
 Overfull \hbox (6.23775pt too wide) detected at line 470
 \OML/lmm/m/it/10 app\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 recfun\OT1/lmr/m/n/10 (\O
 ML/lmm/m/it/10 fib:n:if\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 lt\OT1/lmr/m/n/10 (\OM
@@ -3683,7 +3714,7 @@ Overfull \hbox (48.4742pt too wide) in alignment at lines 738--835
  [] [] 
  []
 
-[80] [81] [82] [83] [84] [85] [86] [87]
+[82] [83] [84] [85] [86] [87] [88] [89]
 
 LaTeX Warning: Command \textless invalid in math mode on input line 848.
 
@@ -3698,12 +3729,12 @@ LaTeX Font Warning: Font shape `OML/lmss/m/n' undefined
 
 LaTeX Warning: Command \textless invalid in math mode on input line 848.
 
-[88]
+[90]
 Overfull \hbox (3.57794pt too wide) detected at line 881
 []
  []
 
-[89]
+[91]
 Underfull \hbox (badness 10000) in paragraph at lines 925--927
 
  []
@@ -3713,10 +3744,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 927--928
 
  []
 
-) [90]
+) [92]
 Cap\'{\i }tulo 8.
 (11_Maquinas_Abstractas.tex
-<assets/08_gatito_abstracto.jpg, id=2009, 399.74344pt x 392.21532pt>
+<assets/08_gatito_abstracto.jpg, id=2020, 399.74344pt x 392.21532pt>
 File: assets/08_gatito_abstracto.jpg Graphic file (type jpg)
 <use assets/08_gatito_abstracto.jpg>
 Package pdftex.def Info: assets/08_gatito_abstracto.jpg  used on input line 9.
@@ -3726,7 +3757,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--17
 
  []
 
-[91
+[93
 
  <./assets/08_gatito_abstracto.jpg>]
 Underfull \hbox (badness 10000) in paragraph at lines 23--26
@@ -3771,17 +3802,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--71
 
  []
 
-[92]
+[94]
 Underfull \hbox (badness 10000) in paragraph at lines 87--103
 
  []
 
-[93]
+[95]
 Underfull \hbox (badness 10000) in paragraph at lines 107--109
 
  []
 
-[94] [95]
+[96] [97]
 Overfull \hbox (12.0923pt too wide) detected at line 227
 []
  []
@@ -3791,7 +3822,7 @@ Overfull \hbox (3.10756pt too wide) detected at line 270
 []
  []
 
-[96
+[98
 
 ]
 
@@ -3812,7 +3843,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 300--302
 
  []
 
-[97]
+[99]
 Underfull \hbox (badness 10000) in paragraph at lines 311--313
 
  []
@@ -3832,7 +3863,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 330--332
 
  []
 
-[98]
+[100]
 Underfull \hbox (badness 10000) in paragraph at lines 344--346
 
  []
@@ -3847,17 +3878,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 368--370
 
  []
 
-[99]
+[101]
 Underfull \hbox (badness 10000) in paragraph at lines 373--375
 
  []
 
-[100]
+[102]
 Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
-[101]
+[103]
 Underfull \hbox (badness 10000) in paragraph at lines 483--485
 
  []
@@ -3900,7 +3931,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 497--498
 
  []
 
-[102]
+[104]
 Underfull \hbox (badness 10000) in paragraph at lines 525--528
 
  []
@@ -3910,10 +3941,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 525--528
 
  []
 
-[103] [104] [105]) [106]
+[105] [106] [107]) [108]
 Cap\'{\i }tulo 9.
 (12_TinyC.tex
-<assets/09_Gatito_C.png, id=2239, 605.26125pt x 779.16093pt>
+<assets/09_Gatito_C.png, id=2249, 605.26125pt x 779.16093pt>
 File: assets/09_Gatito_C.png Graphic file (type png)
 <use assets/09_Gatito_C.png>
 Package pdftex.def Info: assets/09_Gatito_C.png  used on input line 8.
@@ -3928,7 +3959,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 11--14
 
  []
 
-[107
+[109
 
  <./assets/09_Gatito_C.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 20--23
@@ -3940,7 +3971,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 26--27
 
  []
 
-[108]
+[110]
 Underfull \hbox (badness 10000) in paragraph at lines 62--63
 
  []
@@ -3968,7 +3999,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 91--96
 
  []
 
-[109]
+[111]
 Underfull \hbox (badness 10000) in paragraph at lines 141--142
 
  []
@@ -3978,7 +4009,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 141--142
 
  []
 
-[110]
+[112]
 Underfull \hbox (badness 10000) in paragraph at lines 152--154
 
  []
@@ -4013,7 +4044,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 327--331
 
  []
 
-[111] [112] [113]
+[113] [114] [115]
 Overfull \hbox (46.8812pt too wide) detected at line 362
 \OML/lmm/m/it/10 A \OT1/lmr/m/n/10 = \OML/lmm/m/it/10 secu\OT1/lmr/m/n/10 (\OML
 /lmm/m/it/10 vardec\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 Int; i; \OT1/lmr/m/n/10 1)
@@ -4042,12 +4073,12 @@ LaTeX Warning: Command \L invalid in math mode on input line 531.
 
 LaTeX Warning: Command \L invalid in math mode on input line 531.
 
-[114] [115] [116] [117]
+[116] [117] [118] [119]
 
 Package tcolorbox Warning: The upper box part has become overfull on input line
  534.
 
-[118]
+[120]
 Underfull \hbox (badness 10000) in paragraph at lines 537--539
 
  []
@@ -4057,10 +4088,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 537--539
 
  []
 
-[119]) [120]
+[121]) [122]
 Cap\'{\i }tulo 10.
 (13_subtipado.tex
-<assets/10_gatitos_familia.jpg, id=2383, 706.64pt x 534.99875pt>
+<assets/10_gatitos_familia.jpg, id=2394, 706.64pt x 534.99875pt>
 File: assets/10_gatitos_familia.jpg Graphic file (type jpg)
 <use assets/10_gatitos_familia.jpg>
 Package pdftex.def Info: assets/10_gatitos_familia.jpg  used on input line 9.
@@ -4080,7 +4111,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 12--16
 
  []
 
-[121
+[123
 
  <./assets/10_gatitos_familia.jpg>]
 Underfull \hbox (badness 10000) in paragraph at lines 21--23
@@ -4102,7 +4133,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 43--45
 
  []
 
-[122]
+[124]
 Underfull \hbox (badness 10000) in paragraph at lines 46--47
 
  []
@@ -4137,7 +4168,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 64--65
 
  []
 
-[123]
+[125]
 Underfull \hbox (badness 10000) in paragraph at lines 105--106
 
  []
@@ -4157,7 +4188,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 113--115
 
  []
 
-[124]
+[126]
 Underfull \hbox (badness 10000) in paragraph at lines 138--139
 
  []
@@ -4167,7 +4198,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 145--146
 
  []
 
-[125]
+[127]
 Underfull \hbox (badness 10000) in paragraph at lines 160--162
 
  []
@@ -4192,7 +4223,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 188--191
 
  []
 
-[126]
+[128]
 Underfull \hbox (badness 10000) in paragraph at lines 198--201
 
  []
@@ -4212,10 +4243,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 209--211
 
  []
 
-[127]) [128]
+[129]) [130]
 Cap\'{\i }tulo 11.
 (14_Featherweight_Java.tex
-<assets/11_gatito_cayendo.jpg, id=2508, 794.97pt x 614.295pt>
+<assets/11_gatito_cayendo.jpg, id=2518, 794.97pt x 614.295pt>
 File: assets/11_gatito_cayendo.jpg Graphic file (type jpg)
 <use assets/11_gatito_cayendo.jpg>
 Package pdftex.def Info: assets/11_gatito_cayendo.jpg  used on input line 9.
@@ -4240,7 +4271,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 18--19
 
  []
 
-[129
+[131
 
  <./assets/11_gatito_cayendo.jpg>]
 Underfull \hbox (badness 10000) in paragraph at lines 21--24
@@ -4257,7 +4288,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 65--67
 
  []
 
-[130] [131]
+[132] [133]
 Overfull \hbox (21.91025pt too wide) in paragraph at lines 126--126
 []        \OT1/lmtt/m/n/10 TrianguloRec(Integer adyacente, Integer opuesto, Int
 eger hipotenusa){[] 
@@ -4268,7 +4299,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 145--147
 
  []
 
-[132]
+[134]
 Underfull \hbox (badness 10000) in paragraph at lines 209--211
 
  []
@@ -4278,7 +4309,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 214--215
 
  []
 
-[133]
+[135]
 Underfull \hbox (badness 10000) in paragraph at lines 277--279
 
  []
@@ -4299,7 +4330,7 @@ Underfull \hbox (badness 1158) in paragraph at lines 290--293
 an-si-ti-vi-dad de-ben de
  []
 
-[134] [135]
+[136] [137]
 Underfull \hbox (badness 10000) in paragraph at lines 410--413
 
  []
@@ -4309,9 +4340,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 410--413
 
  []
 
-[136
+[138
 
-] [137]) (15_bibliografia.tex [138]
+] [139]) (15_bibliografia.tex [140]
 Underfull \hbox (badness 1975) in paragraph at lines 48--49
 \OT1/lmr/m/n/10 ne-gie Me-llon Uni-ver-sity Press, San Fran-cis-co, Ca-li-for-n
 ia, 2010. Dis-po-ni-ble en
@@ -4335,7 +4366,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 66--67
 da-calculus-
  []
 
-[139
+[141
 
 ]
 Underfull \hbox (badness 7362) in paragraph at lines 94--95
@@ -4385,7 +4416,7 @@ Underfull \hbox (badness 3189) in paragraph at lines 159--160
 /2023]. Dis-po-ni-ble en
  []
 
-[140]
+[142]
 Underfull \hbox (badness 10000) in paragraph at lines 214--215
 []\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Am-bi-guous g
 ram-mar\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-
@@ -4451,7 +4482,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 260--261
 []of[]object-
  []
 
-[141]
+[143]
 Underfull \hbox (badness 10000) in paragraph at lines 265--266
 []\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Pro-gra-ma-ci
 ^^Son por pro-ce-di-mien-tos\OT1/lmr/m/n/10 , Wi-ki-pe-dia,
@@ -4565,7 +4596,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 330--331
 is-po-ni-ble en
  []
 
-[142]
+[144]
 Underfull \hbox (badness 5832) in paragraph at lines 390--391
 []\OT1/lmr/m/n/10 Jessica S., \OT1/lmr/m/it/10 In-tro-duc-tion to Has-kell \OT1
 /lmr/m/n/10 (2013), [fe-cha de con-sul-ta: 4/11/2022].
@@ -4625,7 +4656,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 425--426
 is-po-ni-ble en
  []
 
-[143]
+[145]
 Underfull \hbox (badness 10000) in paragraph at lines 470--471
 []\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Mathe-ma-ti-c
 al in-duc-tion\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-
@@ -4661,7 +4692,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 516--517
 . Dis-po-ni-ble en
  []
 
-[144]
+[146]
 Underfull \hbox (badness 1097) in paragraph at lines 531--532
 \OT1/lmr/m/n/10 paign, IL, Es-ta-dos Uni-dos. 2020. [fe-cha de con-sul-ta 30/4/
 2024]. Dis-po-ni-ble en
@@ -4721,7 +4752,7 @@ Underfull \hbox (badness 4132) in paragraph at lines 571--572
 4]. Dis-po-ni-ble en
  []
 
-[145]
+[147]
 Underfull \hbox (badness 6592) in paragraph at lines 591--592
 []\OT1/lmr/m/n/10 Pohjola J., \OT1/lmr/m/it/10 COMP3161/9164 23T3 As-sign-ment 
 1\OT1/lmr/m/n/10 , UNSW On-li-ne Re-po-si-
@@ -4811,7 +4842,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 649--650
 . Dis-po-ni-ble en
  []
 
-[146]
+[148]
 Underfull \hbox (badness 10000) in paragraph at lines 689--690
 []\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Object-orient
 ed pro-gram-ming\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La
@@ -4871,7 +4902,7 @@ Underfull \hbox (badness 3989) in paragraph at lines 714--715
 all-2004-Packet/2-
  []
 
-) [147] (00_Manual_Main_Template.aux
+) [149] (00_Manual_Main_Template.aux
 LaTeX Info: Redefining \sptext on input line 12.
 LaTeX Info: Redefining \. on input line 12.
 LaTeX Info: Redefining \% on input line 12.
@@ -4900,10 +4931,10 @@ Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48790 strings out of 474486
- 965201 string characters out of 5743756
+ 48797 strings out of 474486
+ 965291 string characters out of 5743756
  2151542 words of memory out of 5000000
- 69088 multiletter control sequences out of 15000+600000
+ 69092 multiletter control sequences out of 15000+600000
  712924 words of font info for 154 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,33n,113p,997b,2358s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -4944,9 +4975,9 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (158 pages, 2321654 bytes).
+Output written on 00_Manual_Main_Template.pdf (160 pages, 2326640 bytes).
 PDF statistics:
- 3211 PDF objects out of 3580 (max. 8388607)
- 1179 named destinations out of 1200 (max. 500000)
+ 3221 PDF objects out of 3580 (max. 8388607)
+ 1182 named destinations out of 1200 (max. 500000)
  1089 words of extra memory for PDF output out of 10000 (max. 10000000)
 
