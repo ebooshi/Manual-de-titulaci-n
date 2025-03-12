@@ -73,21 +73,22 @@ Aquellos juicios que se aplican sobre relaciones y operadores binarios, usualmen
 %    Sección 2: Reglas de Inferencia, Inducción estructural.
 \section{Reglas de inferencia}
 
-    Las reglas de inferencia\footnote{En esta manual utilizaremos el término  ''regla de inferencia '' o  ''juicio lógico '' de forma indistinta.} son una representación de la aplicación de un juicio de la forma:  ''Si las premisas $p_1,p_2,\ ...\ p_n$ son verdaderas, entonces $c$ es verdadero .'' Visualmente esto se denota como:
-    \[
+    Las reglas de inferencia\footnote{En esta manual utilizaremos el término  ''regla de inferencia '' o  ''juicio lógico '' de forma indistinta.} son una representación de la aplicación de un juicio de la forma:  ''Si las premisas $p_1,p_2,\ ...\ p_n$ son verdaderas, entonces $c$ es verdadero .'' Visualmente esto se denota como:\\
+\[
         \inference{p_1,p_2,\ ...\ p_n}{\textit{c}}
     \]
+
     Podemos observar que las reglas de inferencia están compuestas por dos secciones: una sección superior y una inferior. 
     La sección superior es en donde se agrupan las condiciones necesarias para que la regla pueda ser aplicada (a los elementos enlistados en esta parte se les conoce como premisas o hipótesis), cada una de estas están separadas por una coma (',') y todas deben de cumplirse\footnote{El signo de puntuación (',') se puede interpretar como el operador $\wedge$ donde cada hipótesis es un argumento de dicho operador.}. \\\\
     La sección inferior de una regla de inferencia enlista el resultado de la aplicación de la regla a las premisas. Ocasionalmente la regla tendrá un nombre que ayuda a identificar cuál de ellas es aplicada cuando se trabaja con derivaciones y razonamientos\footnote{Definición formulada de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{9}{[9]}, \hyperlink{63}{[63]}, \hyperlink{64}{[64]} y \hyperlink{91}{[91]}.}. En esta sección de la regla puede haber uno o más elementos resultados de la aplicación pero no puede ser vacía. \\\\
-    Los axiomas son las reglas de inferencia que carecen de hipótesis dado que siempre serán verdad y no es necesario suponer nada para concluirlas.\\\\
+    Los axiomas son las reglas de inferencia que carecen de hipótesis dado que siempre serán verdad y no es necesario suponer nada para concluirlos.\\\\
     Tomemos como ejemplo la definición de las cadenas binarias de tipo A (denominaremos a este tipo de dato como A*) para ilustrar las reglas de inferencia y sus partes anteriormente discutidas.
 
 \bigskip
 
     % Definición: Cadenas Binarias y función de concatenación.
     \begin{definition}
-        Sea $\text{A} = \{ 0,1 \}$, definimos el tipo de dato recursivo $\text{A}^*$ \footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}} como sigue: \\\\
+        Sea $\text{A} = \{ 0,1 \}$ (\textit{def}), definimos el tipo de dato recursivo $\text{A}^*$ \footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}} como sigue: \\\\
             \[
                 \begin{array}{lcl}    
                     \inference{}{\varepsilon \  \text{A}^*}[\textit{(eps)}] \qquad 
@@ -108,7 +109,7 @@ Es importante notar que las reglas de inferencia son puramente sintácticas. Por
 Ahora que hemos definido una estructura de datos con reglas de inferencia, es natural preguntarse "¿cómo razonar sobre esta?". Por ejemplo como demostrar que\footnote{Aquí estamos haciendo abuso de notación con la aplicación de $\in$ para hacer explícita la propiedad para el primer caso y denotar que para el segundo caso no es válida.}: $$\<0,\<0,\<0,\<1,\<1,\ \epsilon \>\>\>\>\> \in \text{A}^*$$   $$\<0,\<7,\<4,\<1,\ \epsilon \>\>\>\> \notin \text{A}^*$$\\
 Las reglas de inferencia pueden ser utilizadas tanto para definir una propiedad como para demostrar que esta propiedad se cumple. \\\\
 Si queremos demostrar que un juicio $J$ es válido, tenemos que encontrar una regla que tenga a $J$ como conclusión. Si la regla es un axioma entonces nuestra prueba está concluida. Si la regla contiene premisas $p_1, ..., p_n$ entonces hay que aplicar la misma estrategia de forma recursiva donde la premisa $p_x$ con $x \in \{1, .., n\}$ figure como conclusión de alguna regla. \\ \\
-Si en algún punto de la derivación no podemos aplicar ninguna regla, y esa premisa no se corresponde con un axioma entonces no se puede demostrar que la propiedad se cumple.\\\\\\
+Si en algún punto de la derivación no podemos aplicar ninguna regla, y esa premisa no se corresponde con un axioma entonces no se puede demostrar que la propiedad se cumple.\\\\
 Ejemplifiquemos esto con el siguiente ejercicio. 
 
     \bigskip
@@ -126,16 +127,16 @@ Ejemplifiquemos esto con el siguiente ejercicio.
 
 
 \begin{turn}{90}
-        \scalemath{0.72}{
+        \scalemath{0.75}{
             \begin{array}{cc}
 
 			\\ \\ \\ \\ \\  
-                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})] \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}^*}[(\textit{eps})]}{\<0, \varepsilon \> \in \text{A}^*}[(\textit{tup})]}{\<0,\<0,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})] \\ \\ \\ \\ \\ \\ \\
+                \inference{\inference{}{1 \ \text{A}}[(\textit{def})] \inference{\inference{}{0 \  \text{A}}[(\textit{def})]& \inference{\inference{}{0 \ \text{A}}[(\textit{def})]& \inference{}{\varepsilon \ \text{A}^*}[(\textit{eps})]}{\<0, \varepsilon \>\  \text{A}^*}[(\textit{tup})]}{\<0,\<0,\varepsilon\>\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0,\varepsilon\>\>\> \ \text{A}^*}[(\textit{tup})] \\ \\ \\ \\ \\ \\ \\
         
-                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in v}[(\textit{ax})]& \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}}[(\textit{eps})]}{\<1,\varepsilon\> \in \text{A}^*}[(\textit{tup})]}{\<0\<1,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<0,\<0\<1,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0\<1,\varepsilon\>\>\>\> \in \text{A}^*}[(\textit{tup})] \\ \\ \\ \\ \\ \\ \\
+                \inference{\inference{}{1 \ \text{A}}[(\textit{def})]& \inference{\inference{}{0 \ \text{A}}[(\textit{def})]& \inference{\inference{}{0 \ \text{A}}[(\textit{def})]& \inference{\inference{}{1 \ \text{A}}[(\textit{def})]& \inference{}{\varepsilon \ \text{A}}[(\textit{eps})]}{\<1,\varepsilon\> \ \text{A}^*}[(\textit{tup})]}{\<0\<1,\varepsilon\>\> \ \text{A}^*}[(\textit{tup})]}{\<0,\<0\<1,\varepsilon\>\>\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0\<1,\varepsilon\>\>\>\> \ \text{A}^*}[(\textit{tup})] \\ \\ \\ \\ \\ \\ \\
 
 
-                \inference{\inference{}{1 \in \text{A}}[(\textit{ax})] \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]&  \inference{\inference{}{1 \in \text{A}}[(\textit{ax})]& \inference{\inference{}{0 \in \text{A}}[(\textit{ax})]& \inference{}{\varepsilon \in \text{A}^*}[(\textit{eps})]}{\<0,\varepsilon\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\varepsilon\>\> \in \text{A}^*}[(\textit{tup})]}{\<0,\<1,\<0,\varepsilon\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<1,\<0,\varepsilon\>\>\>\> \in \text{A}^*}[(\textit{tup})]}{\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\> \in \text{A}^*}[(\textit{tup})]}{ \<1,\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\>\> \in \text{A}^*}[(\textit{tup})]
+                \inference{\inference{}{1 \ \text{A}}[(\textit{def})] \inference{\inference{}{1 \ \text{A}}[(\textit{def})]&  \inference{\inference{}{1 \ \text{A}}[(\textit{def})]&  \inference{\inference{}{0 \  \text{A}}[(\textit{def})]&  \inference{\inference{}{1 \ \text{A}}[(\textit{def})]& \inference{\inference{}{0 \ \text{A}}[(\textit{def})]& \inference{}{\varepsilon \ \text{A}^*}[(\textit{eps})]}{\<0,\varepsilon\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<0,\varepsilon\>\> \ \text{A}^*}[(\textit{tup})]}{\<0,\<1,\<0,\varepsilon\>\>\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<1,\<0,\varepsilon\>\>\>\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\> \ \text{A}^*}[(\textit{tup})]}{ \<1,\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\>\> \ \text{A}^*}[(\textit{tup})]
             \end{array}  
         }
 
@@ -153,14 +154,14 @@ Ejemplifiquemos esto con el siguiente ejercicio.
     \end{itemize}
 
 
-    En el caso del tipo de dato A*, el elemento más primitivo que pertenece a esta estructura es la cadena vacía (denotada como $\varepsilon$) o bien una tupla con cabeza \textit{a} A y cola de tipo A*.\\\\
+    En el caso del tipo de dato A*, el elemento primitivo que pertenece a esta estructura es la cadena vacía (denotada como $\varepsilon$). Los elementos compuestos se generan por una tupla con cabeza \textit{a} A y cola de tipo A*.\\\\
     Este principio es válido tanto para definir la estructura recursiva como para las funciones que se quieran aplicar sobre la misma\footnote{Información obtenida de \hyperlink{94}{[94]} y \hyperlink{95}{[95]}}. Para ilustrar este punto definimos la función para concatenar dos elementos de A* de la siguiente forma: 
     \begin{definition}
         Definimos la concatenación de cadenas A* denotada como: $\bullet$ ::\ (A* $\rightarrow$\ A*) $\rightarrow$\ A* mediante la siguiente especificación\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]}}:
         \[
             \begin{array}{rcl}
-                \text{Caso base:}   & \varepsilon \bullet t  =   t &  (\textit{eps}) \\
-                \text{Constructor:} & \<a,s\> \bullet t  =  \<a,\<s \bullet t\>\> & (\textit{tup})
+                \text{Caso base:}   & \varepsilon \bullet t  =   t & \\
+                \text{Constructor:} & \<a,s\> \bullet t  =  \<a,\<s \bullet t\>\> & 
             \end{array}
         \]
     \end{definition}
@@ -190,17 +191,18 @@ Ejemplifiquemos esto con el siguiente ejercicio.
 
     % Definición 2.2: Función para contar caracteres
     \begin{definition}
-        Definimos la función para contar caracteres\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}} en una cadena denotada por $n_c$ :: A* $\rightarrow$ Int como sigue:
+        Definimos la función para contar ocurrencias de los carácteres 1 ó 0 en una cadena denotada por $numChar$ :: (A $\rightarrow$ A*) $\rightarrow$ Int como sigue\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}} :
         \[   
-            n_c(\<a,t\>) = 
+            numChar(c, \ \<a,t\>) = 
                 \begin{cases}
-                    n_c(\varepsilon) = 0 \\
-                    1 + n_c(t) & \text{Sí \textit{a} = c} \\
-                    n_c(t)     & \text{Sí \textit{a}} \neq c \\
+                    numChar(c, \ \varepsilon) = 0 \\
+                    1 + numChar(c, \ t) & \text{Sí \textit{a} = c} \\
+                    numChar(c, \ t)     & \text{Sí \textit{a}} \neq c \\
                  \end{cases}
         \]
     \end{definition}
-Cuando se quiera aplicar el principio de inducción a una función o propiedad que recibe mas de un argumento, la inducción se tiene que fijar sobre alguno de sus parámetros. Ejemplifiquemos esto con el siguiente ejercicio.
+Cuando se quiera aplicar el principio de inducción a una función o propiedad que recibe mas de un argumento, la inducción se tiene que fijar sobre alguno de sus parámetros. \\
+\\ Ejemplifiquemos esto con el siguiente ejercicio.
 
     \bigskip
 
