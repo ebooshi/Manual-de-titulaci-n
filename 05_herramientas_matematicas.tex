@@ -201,36 +201,35 @@ Ejemplifiquemos esto con el siguiente ejercicio.
                  \end{cases}
         \]
     \end{definition}
-Cuando se quiera aplicar el principio de inducción a una función o propiedad que recibe mas de un argumento, la inducción se tiene que fijar sobre alguno de sus parámetros. \\
-\\ Ejemplifiquemos esto con el siguiente ejercicio.
-
-    \bigskip
+Cuando se quiera aplicar el principio de inducción a una función o propiedad que recibe mas de un argumento, la inducción se tiene que fijar sobre alguno de sus parámetros. Ejemplifiquemos esto con el siguiente ejercicio.
 
     % Ejercicio 2.3
     \begin{exercise}
         Utiliza la inducción estructural para demostrar
 
-           \[ n_c(s \bullet t) = n_c(s) + n_c(t)  \]
+           \[ numChar(c, s \bullet t) = numChar(c, s) + numChar(c, t)  \]
 
-        \textbf{Caso Base} $s = \varepsilon$ \\\
-             $n_c(\varepsilon \bullet t) = n_c(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la definición de $\bullet$)\\
-             = $0 + n_c(t)$ = $n_c(\varepsilon) + n_c(t)$ \qquad \qquad \qquad \quad \qquad \qquad \qquad  \qquad\  (Por la definición de $n_c$)\\
-             = $n_c(s) + n_c(t)$\\
+	 \textbf{Demostración por inducción sobre }$s$.\\\\
+        \textbf{Caso Base} $s = \varepsilon$ \\
+		$numChar(c, s \bullet t) = numChar(c, \varepsilon \bullet t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad  (Por hipótesis)\\
+             $numChar(c, \varepsilon \bullet t) = numChar(c, t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad(Por la definición de $\bullet$)\\
+             $0 + numChar(c, t)$ = $numChar(c, \varepsilon) + numChar(c, t)$ \quad  (Por la definición de $numChar$)\\
+             = $numChar(c, s) + numChar(c, t)$\\
 
-        \textbf{Hipótesis Inductiva}  $n_c(s \bullet t) = n_c(s) + n_c(t) $ \\
+        \textbf{Hipótesis Inductiva}  $numChar(c, s \bullet t) = numChar(c, s) + numChar(c, t), \forall  s,t  \in $ A*\\
 
-        \textbf{Paso Inductivo} Por demostrar para $s = \<a,s'\>$\\
-            $n_c(\<a,s'\> \bullet t)$ = $n_c(\<a, s' \bullet t \>)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la definición de $\bullet$)\\
+        \textbf{Paso Inductivo} Por demostrar para $s' = \<a,s\>, a \in $ A, $s \in $A*\\
+            $numChar(c, \<a,s\> \bullet t)$ = $numChar(c, \<a, s \bullet t \>)$ \qquad \qquad \qquad \quad (Por la definición de $\bullet$)\\
             
         \textbf{Caso 1} $a = c$ entonces tenemos\\
-            = $n_c(\<a, s' \bullet t \>)$ = $1 + n_c( s' \bullet t ) $ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad\ (Por la definición de $n_c$) \\
-            = $1 +  n_c(s') +  n_c(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
-            = $(1 + n_c(s')) + n_c(t)$ = $n_c(\<a,s'\>) +  n_c(t)$ \qquad \qquad \qquad \quad \quad\ (Por la definición de $n_c$) \\
+             $numChar(c, \<a, s \bullet t \>)$ = $1 + numChar(c, s \bullet t ) $ \qquad \quad \quad (Por la definición de $numChar$) \\
+            = $1 +  numChar(c, s) +  numChar(c, t)$ \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
+	     = $numChar(c, \<a,s\>) +  numChar(c, t)$ \qquad \qquad \qquad \quad (Por la definición de $numChar$) \\
 
         \textbf{Caso 2} $a \neq c$ entonces tenemos \\
-            = $n_c(\<a, s' \bullet t \>)$ = $n_c( s' \bullet t )$ \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad \quad\ (Por la definición de $n_c$) \\
-            = $n_c(s') +  n_c(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
-            = $n_c(\<a,s'\>) +  n_c(t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad \quad \quad \quad \quad\ \ (Por la definición de $n_c$) 
+             $numChar(c, \<a, s \bullet t \>)$ = $numChar(c, s \bullet t )$ \qquad \qquad \quad  (Por la definición de $numChar$) \\
+            = $numChar(c, s) +  numChar(c, t)$ \qquad \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
+            = $numChar(c, \<a,s\>) +  numChar(c, t)$ \qquad \qquad \qquad \quad (Por la definición de $numChar$) 
             
     \end{exercise}
     
@@ -238,11 +237,11 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
     \begin{definition}
         Definimos las funciones $rev$ :: A* $\rightarrow$ A* y $len$ :: A* $\rightarrow$ Int para obtener la reversa y la longitud\footnote{Definición formulada a partir de \hyperlink{67}{[67]} y \hyperlink{70}{[70]} } de los elementos de A* respectivamente como:
         \[
-            rev(\varepsilon) = \epsilon  \qquad
+            rev(\varepsilon) = \varepsilon  \qquad
             rev(\<a,s\>) = rev(s) \bullet \<a, \varepsilon\>  
         \]
         \[
-            len(\varepsilon) = \epsilon \qquad
+            len(\varepsilon) = 0 \qquad
             len(\<a,s\>) = 1\ +\ len(s) 
         \]
     \end{definition}

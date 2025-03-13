@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  12 MAR 2025 07:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  13 MAR 2025 08:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2492,138 +2492,138 @@ Underfull \hbox (badness 10000) in paragraph at lines 179--189
  []
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 204--206
+Underfull \hbox (badness 10000) in paragraph at lines 212--218
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 215--219
+Underfull \hbox (badness 10000) in paragraph at lines 212--218
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 220--221
+Underfull \hbox (badness 10000) in paragraph at lines 219--220
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 222--224
+Underfull \hbox (badness 10000) in paragraph at lines 221--223
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--229
+Underfull \hbox (badness 10000) in paragraph at lines 224--228
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 255--259
+Underfull \hbox (badness 10000) in paragraph at lines 254--258
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 260--261
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 262--266
+Underfull \hbox (badness 10000) in paragraph at lines 261--265
 
  []
 
 [16{C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.e
 nc}]
-Underfull \hbox (badness 10000) in paragraph at lines 274--284
+Underfull \hbox (badness 10000) in paragraph at lines 273--283
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 274--284
+Underfull \hbox (badness 10000) in paragraph at lines 273--283
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 303--304
+Underfull \hbox (badness 10000) in paragraph at lines 302--303
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 307--308
+Underfull \hbox (badness 10000) in paragraph at lines 306--307
 
  []
 
 [17]
-Underfull \hbox (badness 10000) in paragraph at lines 327--335
+Underfull \hbox (badness 10000) in paragraph at lines 326--334
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--335
+Underfull \hbox (badness 10000) in paragraph at lines 326--334
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--335
+Underfull \hbox (badness 10000) in paragraph at lines 326--334
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--335
+Underfull \hbox (badness 10000) in paragraph at lines 326--334
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--335
+Underfull \hbox (badness 10000) in paragraph at lines 326--334
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 345--346
+Underfull \hbox (badness 10000) in paragraph at lines 344--345
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 347--348
+Underfull \hbox (badness 10000) in paragraph at lines 346--347
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 349--350
+Underfull \hbox (badness 10000) in paragraph at lines 348--349
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 351--352
+Underfull \hbox (badness 10000) in paragraph at lines 350--351
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 368--370
+Underfull \hbox (badness 10000) in paragraph at lines 367--369
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 379--380
+Underfull \hbox (badness 10000) in paragraph at lines 378--379
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 415--417
+Underfull \hbox (badness 10000) in paragraph at lines 414--416
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 340--419
+Underfull \hbox (badness 10000) in paragraph at lines 339--418
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 340--419
+Underfull \hbox (badness 10000) in paragraph at lines 339--418
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 340--419
+Underfull \hbox (badness 10000) in paragraph at lines 339--418
 
  []
 
@@ -2632,182 +2632,182 @@ pdfTeX warning (ext4): destination with the same identifier (name{equation.2.4.
 1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.419     \end{exercise}
+l.418     \end{exercise}
                         
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.4.
 1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.419     \end{exercise}
+l.418     \end{exercise}
                         ]
-Underfull \hbox (badness 10000) in paragraph at lines 467--469
+Underfull \hbox (badness 10000) in paragraph at lines 466--468
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 474--476
+Underfull \hbox (badness 10000) in paragraph at lines 473--475
 
  []
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 481--483
+Underfull \hbox (badness 10000) in paragraph at lines 480--482
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 492--496
+Underfull \hbox (badness 10000) in paragraph at lines 491--495
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 492--496
+Underfull \hbox (badness 10000) in paragraph at lines 491--495
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 499--500
+Underfull \hbox (badness 10000) in paragraph at lines 498--499
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 503--506
+Underfull \hbox (badness 10000) in paragraph at lines 502--505
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 503--506
+Underfull \hbox (badness 10000) in paragraph at lines 502--505
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 507--508
+Underfull \hbox (badness 10000) in paragraph at lines 506--507
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 525--526
+Underfull \hbox (badness 10000) in paragraph at lines 524--525
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 527--531
+Underfull \hbox (badness 10000) in paragraph at lines 526--530
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 527--531
+Underfull \hbox (badness 10000) in paragraph at lines 526--530
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 527--531
+Underfull \hbox (badness 10000) in paragraph at lines 526--530
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 531--532
+Underfull \hbox (badness 10000) in paragraph at lines 530--531
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 532--534
+Underfull \hbox (badness 10000) in paragraph at lines 531--533
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 534--536
+Underfull \hbox (badness 10000) in paragraph at lines 533--535
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 534--536
+Underfull \hbox (badness 10000) in paragraph at lines 533--535
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 536--538
+Underfull \hbox (badness 10000) in paragraph at lines 535--537
 
  []
 
 
-Underfull \hbox (badness 2351) in paragraph at lines 536--538
+Underfull \hbox (badness 2351) in paragraph at lines 535--537
 \OT1/lmr/m/n/10 Por ejem-plo: la lis-ta \OT1/lmtt/m/n/10 [1,3,4,8,1,5,4,8,9,9,9
 ,8,6,5,3,5] \OT1/lmr/m/n/10 so-lo du-pli-car^^Sa
  []
 
 
-Underfull \hbox (badness 1137) in paragraph at lines 536--538
+Underfull \hbox (badness 1137) in paragraph at lines 535--537
 \OT1/lmr/m/n/10 los n^^Sume-ros que est^^Sen en una po-si-ci^^Son im-par ob-te-
 nien-do co-mo re-sul-ta-do:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 536--538
+Underfull \hbox (badness 10000) in paragraph at lines 535--537
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--540
+Underfull \hbox (badness 10000) in paragraph at lines 537--539
 
  []
 
 
-Underfull \hbox (badness 6063) in paragraph at lines 538--540
+Underfull \hbox (badness 6063) in paragraph at lines 537--539
 \OT1/lmr/m/n/10 El ob-je-ti-vo de la im-ple-men-ta-ci^^Son de es-ta fun-ci^^Son
  es el de ob-te-ner
  []
 
 
-Underfull \hbox (badness 2689) in paragraph at lines 538--540
+Underfull \hbox (badness 2689) in paragraph at lines 537--539
 \OT1/lmr/m/n/10 los d^^S^^Pgi-tos de los n^^Sume-ros ma-yo-res o igua-les a 10,
  de tal for-ma que
  []
 
 
-Underfull \hbox (badness 4995) in paragraph at lines 538--540
+Underfull \hbox (badness 4995) in paragraph at lines 537--539
 \OT1/lmr/m/n/10 si te-ne-mos co-mo par^^Same-tro de en-tra-da pa-ra es-ta fun-c
 i^^Son a la lis-ta
  []
 
 
-Underfull \hbox (badness 2261) in paragraph at lines 538--540
+Underfull \hbox (badness 2261) in paragraph at lines 537--539
 \OT1/lmtt/m/n/10 [1,6,4,16,1,10,4,16,9,18,9,16,6,10,6,5] \OT1/lmr/m/n/10 ob-ten
 -ga-mos la si-guien-te co-mo
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--540
+Underfull \hbox (badness 10000) in paragraph at lines 537--539
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 540--542
+Underfull \hbox (badness 10000) in paragraph at lines 539--541
 
  []
 
 
-Underfull \hbox (badness 1303) in paragraph at lines 540--542
+Underfull \hbox (badness 1303) in paragraph at lines 539--541
 \OT1/lmr/m/n/10 Esta fun-ci^^Son sim-ple-men-te su-ma los d^^S^^Pgi-tos con-te-
 ni-dos en la lis-ta (pue-des
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 540--542
+Underfull \hbox (badness 10000) in paragraph at lines 539--541
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 542--544
+Underfull \hbox (badness 10000) in paragraph at lines 541--543
 
  []
 
 [21] [22]
-Underfull \hbox (badness 10000) in paragraph at lines 549--550
+Underfull \hbox (badness 10000) in paragraph at lines 548--549
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 570--572
+Underfull \hbox (badness 10000) in paragraph at lines 569--571
 
  []
 
@@ -4980,7 +4980,7 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (160 pages, 2326775 bytes).
+Output written on 00_Manual_Main_Template.pdf (160 pages, 2326828 bytes).
 PDF statistics:
  3221 PDF objects out of 3580 (max. 8388607)
  1182 named destinations out of 1200 (max. 500000)
