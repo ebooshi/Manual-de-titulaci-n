@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  13 MAR 2025 08:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  21 MAR 2025 18:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2517,39 +2517,39 @@ Underfull \hbox (badness 10000) in paragraph at lines 224--228
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 254--258
+Underfull \hbox (badness 10000) in paragraph at lines 252--259
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 259--260
+Underfull \hbox (badness 10000) in paragraph at lines 252--259
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 261--265
+Underfull \hbox (badness 10000) in paragraph at lines 260--261
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 262--266
 
  []
 
 [16{C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.e
 nc}]
-Underfull \hbox (badness 10000) in paragraph at lines 273--283
+Underfull \hbox (badness 10000) in paragraph at lines 274--284
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 273--283
+Underfull \hbox (badness 10000) in paragraph at lines 274--284
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 302--303
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 306--307
-
+Overfull \hbox (0.52316pt too wide) detected at line 310
+[]
  []
 
 [17]
@@ -2574,56 +2574,54 @@ Underfull \hbox (badness 10000) in paragraph at lines 326--334
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 326--334
+\OT1/lmr/b/n/10 Paso In-duc-ti-vo \OT1/lmr/m/n/10 Por de-mos-trar $\OML/lmm/m/i
+t/10 n[]\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 node\OT1/lmr/m/n/10 (\OML/lmm/m/it/10
+ a; t[]; t[]\OT1/lmr/m/n/10 )) \OMS/lmsy/m/n/10 ^^T \OT1/lmr/m/n/10 2[] \OMS/lm
+sy/m/n/10 ^^@ \OT1/lmr/m/n/10 1$ don-de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 326--334
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+Underfull \hbox (badness 10000) in paragraph at lines 326--334
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 346--347
+Underfull \hbox (badness 10000) in paragraph at lines 345--346
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 348--349
+Underfull \hbox (badness 10000) in paragraph at lines 346--348
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 350--351
+Underfull \hbox (badness 10000) in paragraph at lines 365--368
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 367--369
+Underfull \hbox (badness 10000) in paragraph at lines 365--368
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 378--379
+Underfull \hbox (badness 10000) in paragraph at lines 413--415
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 414--416
+Underfull \hbox (badness 10000) in paragraph at lines 338--417
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--418
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 339--418
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 339--418
+Underfull \hbox (badness 10000) in paragraph at lines 338--417
 
  []
 
@@ -2632,189 +2630,189 @@ pdfTeX warning (ext4): destination with the same identifier (name{equation.2.4.
 1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.418     \end{exercise}
+l.417     \end{exercise}
                         
 pdfTeX warning (ext4): destination with the same identifier (name{equation.2.4.
 1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.418     \end{exercise}
-                        ]
-Underfull \hbox (badness 10000) in paragraph at lines 466--468
+l.417     \end{exercise}
+                        ] [20]
+Underfull \hbox (badness 10000) in paragraph at lines 469--471
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 473--475
-
- []
-
-[20]
-Underfull \hbox (badness 10000) in paragraph at lines 480--482
+Underfull \hbox (badness 10000) in paragraph at lines 476--478
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 491--495
+Underfull \hbox (badness 10000) in paragraph at lines 483--485
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 491--495
+Underfull \hbox (badness 10000) in paragraph at lines 494--498
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 498--499
+Underfull \hbox (badness 10000) in paragraph at lines 494--498
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 502--505
+Underfull \hbox (badness 10000) in paragraph at lines 501--502
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 502--505
+Underfull \hbox (badness 10000) in paragraph at lines 505--508
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--507
+Underfull \hbox (badness 10000) in paragraph at lines 505--508
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 524--525
+Underfull \hbox (badness 10000) in paragraph at lines 509--510
+
+ []
+
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 527--528
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 526--530
+Underfull \hbox (badness 10000) in paragraph at lines 529--533
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 526--530
+Underfull \hbox (badness 10000) in paragraph at lines 529--533
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 526--530
+Underfull \hbox (badness 10000) in paragraph at lines 529--533
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 530--531
+Underfull \hbox (badness 10000) in paragraph at lines 533--534
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 531--533
+Underfull \hbox (badness 10000) in paragraph at lines 534--536
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 533--535
+Underfull \hbox (badness 10000) in paragraph at lines 536--538
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 533--535
+Underfull \hbox (badness 10000) in paragraph at lines 536--538
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 535--537
+Underfull \hbox (badness 10000) in paragraph at lines 538--540
 
  []
 
 
-Underfull \hbox (badness 2351) in paragraph at lines 535--537
+Underfull \hbox (badness 2351) in paragraph at lines 538--540
 \OT1/lmr/m/n/10 Por ejem-plo: la lis-ta \OT1/lmtt/m/n/10 [1,3,4,8,1,5,4,8,9,9,9
 ,8,6,5,3,5] \OT1/lmr/m/n/10 so-lo du-pli-car^^Sa
  []
 
 
-Underfull \hbox (badness 1137) in paragraph at lines 535--537
+Underfull \hbox (badness 1137) in paragraph at lines 538--540
 \OT1/lmr/m/n/10 los n^^Sume-ros que est^^Sen en una po-si-ci^^Son im-par ob-te-
 nien-do co-mo re-sul-ta-do:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 535--537
+Underfull \hbox (badness 10000) in paragraph at lines 538--540
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 537--539
+Underfull \hbox (badness 10000) in paragraph at lines 540--542
 
  []
 
 
-Underfull \hbox (badness 6063) in paragraph at lines 537--539
+Underfull \hbox (badness 6063) in paragraph at lines 540--542
 \OT1/lmr/m/n/10 El ob-je-ti-vo de la im-ple-men-ta-ci^^Son de es-ta fun-ci^^Son
  es el de ob-te-ner
  []
 
 
-Underfull \hbox (badness 2689) in paragraph at lines 537--539
+Underfull \hbox (badness 2689) in paragraph at lines 540--542
 \OT1/lmr/m/n/10 los d^^S^^Pgi-tos de los n^^Sume-ros ma-yo-res o igua-les a 10,
  de tal for-ma que
  []
 
 
-Underfull \hbox (badness 4995) in paragraph at lines 537--539
+Underfull \hbox (badness 4995) in paragraph at lines 540--542
 \OT1/lmr/m/n/10 si te-ne-mos co-mo par^^Same-tro de en-tra-da pa-ra es-ta fun-c
 i^^Son a la lis-ta
  []
 
 
-Underfull \hbox (badness 2261) in paragraph at lines 537--539
+Underfull \hbox (badness 2261) in paragraph at lines 540--542
 \OT1/lmtt/m/n/10 [1,6,4,16,1,10,4,16,9,18,9,16,6,10,6,5] \OT1/lmr/m/n/10 ob-ten
 -ga-mos la si-guien-te co-mo
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 537--539
+Underfull \hbox (badness 10000) in paragraph at lines 540--542
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 539--541
+Underfull \hbox (badness 10000) in paragraph at lines 542--544
 
  []
 
 
-Underfull \hbox (badness 1303) in paragraph at lines 539--541
+Underfull \hbox (badness 1303) in paragraph at lines 542--544
 \OT1/lmr/m/n/10 Esta fun-ci^^Son sim-ple-men-te su-ma los d^^S^^Pgi-tos con-te-
 ni-dos en la lis-ta (pue-des
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 539--541
+Underfull \hbox (badness 10000) in paragraph at lines 542--544
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 541--543
+Underfull \hbox (badness 10000) in paragraph at lines 544--546
 
  []
 
-[21] [22]
-Underfull \hbox (badness 10000) in paragraph at lines 548--549
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 551--552
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 569--571
+Underfull \hbox (badness 10000) in paragraph at lines 572--574
 
  []
 
 ) [23]
 Cap\'{\i }tulo 3.
 (06_Sintaxis.tex
-<assets/03_gatito_sintaxis.PNG, id=1108, 730.22812pt x 584.93532pt>
+<assets/03_gatito_sintaxis.PNG, id=1122, 730.22812pt x 584.93532pt>
 File: assets/03_gatito_sintaxis.PNG Graphic file (type png)
 <use assets/03_gatito_sintaxis.PNG>
 Package pdftex.def Info: assets/03_gatito_sintaxis.PNG  used on input line 9.
@@ -3019,7 +3017,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 622--624
 ) [35]
 Cap\'{\i }tulo 4.
 (07_Semantica.tex
-<assets/04_gatito_semantica.jpg, id=1342, 717.68124pt x 337.26pt>
+<assets/04_gatito_semantica.jpg, id=1356, 717.68124pt x 337.26pt>
 File: assets/04_gatito_semantica.jpg Graphic file (type jpg)
 <use assets/04_gatito_semantica.jpg>
 Package pdftex.def Info: assets/04_gatito_semantica.jpg  used on input line 9.
@@ -3159,7 +3157,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 653--654
 ) [46]
 Cap\'{\i }tulo 5.
 (08_Calculo_Lambda.tex
-<assets/05_gatito_lambda.jpg, id=1504, 992.70876pt x 1284.8pt>
+<assets/05_gatito_lambda.jpg, id=1518, 992.70876pt x 1284.8pt>
 File: assets/05_gatito_lambda.jpg Graphic file (type jpg)
 <use assets/05_gatito_lambda.jpg>
 Package pdftex.def Info: assets/05_gatito_lambda.jpg  used on input line 9.
@@ -3314,7 +3312,7 @@ Cap\'{\i }tulo 6.
 LaTeX Font Info:    Font shape `OT1/lmss/b/n' in size <24.88> not available
 (Font)              Font shape `OT1/lmss/bx/n' tried instead on input line 58.
 (09_MinHs.tex
-<assets/06_gatito_minHs.jpg, id=1713, 992.70876pt x 1284.8pt>
+<assets/06_gatito_minHs.jpg, id=1727, 992.70876pt x 1284.8pt>
 File: assets/06_gatito_minHs.jpg Graphic file (type jpg)
 <use assets/06_gatito_minHs.jpg>
 Package pdftex.def Info: assets/06_gatito_minHs.jpg  used on input line 9.
@@ -3511,7 +3509,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 422--424
 ) [71]
 Cap\'{\i }tulo 7.
 (10_Inferencia_Tipos.tex
-<assets/07_gatitos_tipados.PNG, id=1838, 730.98094pt x 484.05844pt>
+<assets/07_gatitos_tipados.PNG, id=1852, 730.98094pt x 484.05844pt>
 File: assets/07_gatitos_tipados.PNG Graphic file (type png)
 <use assets/07_gatitos_tipados.PNG>
 Package pdftex.def Info: assets/07_gatitos_tipados.PNG  used on input line 14.
@@ -3752,7 +3750,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 927--928
 ) [92]
 Cap\'{\i }tulo 8.
 (11_Maquinas_Abstractas.tex
-<assets/08_gatito_abstracto.jpg, id=2020, 399.74344pt x 392.21532pt>
+<assets/08_gatito_abstracto.jpg, id=2034, 399.74344pt x 392.21532pt>
 File: assets/08_gatito_abstracto.jpg Graphic file (type jpg)
 <use assets/08_gatito_abstracto.jpg>
 Package pdftex.def Info: assets/08_gatito_abstracto.jpg  used on input line 9.
@@ -3949,7 +3947,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 525--528
 [105] [106] [107]) [108]
 Cap\'{\i }tulo 9.
 (12_TinyC.tex
-<assets/09_Gatito_C.png, id=2249, 605.26125pt x 779.16093pt>
+<assets/09_Gatito_C.png, id=2263, 605.26125pt x 779.16093pt>
 File: assets/09_Gatito_C.png Graphic file (type png)
 <use assets/09_Gatito_C.png>
 Package pdftex.def Info: assets/09_Gatito_C.png  used on input line 8.
@@ -4096,7 +4094,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 537--539
 [121]) [122]
 Cap\'{\i }tulo 10.
 (13_subtipado.tex
-<assets/10_gatitos_familia.jpg, id=2394, 706.64pt x 534.99875pt>
+<assets/10_gatitos_familia.jpg, id=2408, 706.64pt x 534.99875pt>
 File: assets/10_gatitos_familia.jpg Graphic file (type jpg)
 <use assets/10_gatitos_familia.jpg>
 Package pdftex.def Info: assets/10_gatitos_familia.jpg  used on input line 9.
@@ -4251,7 +4249,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 209--211
 [129]) [130]
 Cap\'{\i }tulo 11.
 (14_Featherweight_Java.tex
-<assets/11_gatito_cayendo.jpg, id=2518, 794.97pt x 614.295pt>
+<assets/11_gatito_cayendo.jpg, id=2532, 794.97pt x 614.295pt>
 File: assets/11_gatito_cayendo.jpg Graphic file (type jpg)
 <use assets/11_gatito_cayendo.jpg>
 Package pdftex.def Info: assets/11_gatito_cayendo.jpg  used on input line 9.
@@ -4936,10 +4934,10 @@ Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48797 strings out of 474486
- 965291 string characters out of 5743756
+ 48804 strings out of 474486
+ 965004 string characters out of 5743756
  2151542 words of memory out of 5000000
- 69092 multiletter control sequences out of 15000+600000
+ 69095 multiletter control sequences out of 15000+600000
  712924 words of font info for 154 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,33n,113p,997b,2358s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -4980,9 +4978,9 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (160 pages, 2326828 bytes).
+Output written on 00_Manual_Main_Template.pdf (160 pages, 2329146 bytes).
 PDF statistics:
- 3221 PDF objects out of 3580 (max. 8388607)
- 1182 named destinations out of 1200 (max. 500000)
+ 3236 PDF objects out of 3580 (max. 8388607)
+ 1186 named destinations out of 1200 (max. 500000)
  1089 words of extra memory for PDF output out of 10000 (max. 10000000)
 

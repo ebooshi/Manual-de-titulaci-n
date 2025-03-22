@@ -250,18 +250,19 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
     \begin{exercise}
         Utiliza inducción estructural para demostrar
             \[ len(s \bullet t) = len(s) + len(t) \]
-    
-        \textbf{Caso Base } $s = \varepsilon$ \\
-            $len(\varepsilon \bullet t) = len(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \ (Por la definición de $\bullet$) \\
-            = $0 + len(t)$ = $len(\varepsilon) + len(t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad (Por la definición de $len$) \\
-            = $len(s) + len(t)$\\\
+    	\textbf{Demostración por inducción sobre } $s$.\\\\
+	        \textbf{Caso Base } $s = \varepsilon$ \\
+	   $len(s \bullet t) = len(\varepsilon \bullet t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  (Por la hipótesis)
+           $len(\varepsilon \bullet t) = len(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad (Por la definición de $\bullet$) \\
+           = $0 + len(t)$ = $len(\varepsilon) + len(t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad (Por la definición de $len$) \\
+           = $len(s) + len(t)$\\\
 
-        \textbf{Hipótesis inductiva }  $len(s \bullet t) = len(s) + len(t)$ \\  
+        \textbf{Hipótesis inductiva }  $len(s \bullet t) = len(s) + len(t) \ \forall s,t \in $ A*\\  
 
-        \textbf{Paso Inductivo } Por demostrar para $s = \<a,s'\>$\\
-            $len(\<a,s'\> \bullet t) = len(\<a,\<s' \bullet t\>\>)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad \ \ \ (Por la definición $\bullet$) \\
-            = $1 + len(s' \bullet t)$ = $1 + len(s') + len(t)$ \qquad \qquad \qquad \qquad \qquad (Por la hipótesis inductiva) \\
-            = $(1 + len(s')) + len(t)$ = $len(\<a,s'\>) + len(t)$ \\
+        \textbf{Paso Inductivo } Por demostrar para $s' = \<a,s\>$\\
+            $len(\<a,s\> \bullet t) = len(\<a,\<s \bullet t\>\>)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad \quad \ \ (Por la definición $\bullet$) \\
+            = $1 + len(s \bullet t)$ = $1 + len(s) + len(t)$ \qquad \qquad \qquad \qquad \qquad (Por la hipótesis inductiva) \\
+            = $(1 + len(s)) + len(t)$ = $len(\<a,s\>) + len(t)$ \\
     
     \end{exercise} 
 
@@ -271,43 +272,46 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
             \[ len(rev(s)) = len(s) \]
 
         \textbf{Caso Base} $s = \varepsilon$ \\
-            $len(rev(\varepsilon)) = len(\varepsilon)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \ \  (Por la definición de $rev$) \\
-            $len(rev(s)) = len(rev(\varepsilon)) = len(\varepsilon) = len(s)$. \\\\
-            \textbf{Hipótesis Inductiva} $len(rev(s)) = len(s)$ \\\\
-            \textbf{Paso Inductivo} $s = \<a, s\> $ \\
+            $len(rev(s)) = len(rev(\varepsilon)) = len(\varepsilon) = len(s)$.  \qquad \qquad \qquad \qquad  (Por la definición de $rev$) \\\\
+            \textbf{Hipótesis Inductiva} $len(rev(s)) = len(s) \ \forall s \in $ A* \\\\
+            \textbf{Paso Inductivo} $s' = \<a, s\> $ \\
             $len(rev(\<a, s\> )) = len(rev(s) \bullet \<a,\varepsilon\>)$ \qquad \qquad \qquad \qquad \qquad \ \ (Por la definición de $rev$)\\
-            $len(rev(s) \bullet \<a,\varepsilon\>) = len(rev(s)) + len(\<a,\varepsilon\>)$  \qquad \qquad \qquad (Por la propiedad anterior)\\
-            $len(rev(s)) + 1 + len(\< \varepsilon\>)$ = $len(rev(s)) + 1 + 0$\\
-            $ 1 + len(rev(s)) = 1 + len(s)$   \qquad \qquad \qquad \qquad \qquad \qquad \quad \ \ \ (Por la hipótesis inductiva) \\
-            $len(\<a,s\>)$ \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \ \ \ (Por definición de $len$) 
+            = $ len(rev(s)) + len(\<a,\varepsilon\>)$  \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la propiedad anterior)\\
+            = $len(rev(s)) + 1 + len(\varepsilon)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \ \ (Por la definición de len)\\ 
+	    = $len(rev(s)) + 1 + 0$\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  \quad \ \ \ (Por la definición de len)\\ 
+            = $ 1 + len(rev(s)) = 1 + len(s)$   \qquad \qquad \qquad \qquad \qquad \qquad \ \ \ (Por la hipótesis inductiva) \\
+            = $len(\<a,s\>)$ \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \ \ (Por definición de $len$) 
 
     \end{exercise}
 
     % Definición 2.4 Arboles binarios balanceados de altura K y tipo A, Función para contar los nodos de un árbol
     \begin{definition}
-        Definimos los árboles binarios de tipo A con las siguientes reglas\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
+        Definimos la estructura de datos árboles binarios de tipo A denotados como Tree A con las siguientes reglas\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
 
         \begin{enumerate}
-            \item $\emptyset$ es un árbol de tipo A.
-            \item Sí  $t_1$ y $t_2$ son árboles de tipo A y $a \in $A  entonces  $node(a,t_1,t_2)$ es un árbol binario de tipo A.
-            \item Son todas.
+            \item $\emptyset$ Tree A.
+            \item Si  $t_1$ Tree A y $t_2$ Tree A y $a \in $ A  entonces  $node(a,t_1,t_2)$ Tree A.
+            \item Son todos.
         \end{enumerate} 
 
-        \bigskip
 
         % $\text{1) $\emptyset$ es un árbol de tipo A}$ \\
         % $\text{2) Sí } t_1 \text{y } t_2 \text{ son árboles de tipo A y } a \in A \text{ entonces } node(a,t1,t2) \\
         % \text{es un árbol binario de tipo A}$.\\
+    \end{definition}
 
-        Decimos que un árbol binario de tipo A y altura $k$ es balanceado sí se cumple alguna de las siguientes dos condiciones:\\
-
-        \begin{enumerate}
-            \item t = $\emptyset$ y \textit{k} = 0 
-            \item t = $node(a,t_1,t_2)$ de altura \textit{k} donde $t_1$ y $t_2$ son árboles binarios balanceados de tipo A y altura \textit{k}-1. \\\
-        \end{enumerate}
-
-
-        Definimos la función que cuenta el número de nodos denotada $n_n(t)$ como:
+  \begin{definition}
+        Definimos la función para obtener la altura de los elementos de Tree A denotada $height(t)$ :: Tree A $\rightarrow$ Int,  como sigue:\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
+       \[
+            \begin{array}{rcl}
+            	height(\emptyset) & = & 0 \\
+           	height(node(a,t_1,t_2)) & = & max(h_1,h_2) + 1 \text{ donde } h_1 = height(t_1) \text{ y } h_2 = height(t_2)
+         \end{array}
+        \]
+    \end{definition}
+  
+    \begin{definition}
+        Definimos la función que cuenta el número de nodos de los elementos de Tree A denotada $n_n(t)$ :: Tree A $\rightarrow$ Int,  como\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
         \[
             \begin{array}{rcl}
                  n_n(\emptyset)     &  =  & 0  \\
@@ -315,40 +319,34 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
             \end{array}
         \]
 
-        % $n_n(\emptyset) = 0$ \\
-        % $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \\
     \end{definition}
 
-    \bigskip
-    
     % Ejercicio 2.6
     \begin{exercise}
-        Demuestra utilizando inducción estructural que si \textit{t} es un árbol binario de tipo A con altura \textit{k} entonces $n_n(t) = 2^k - 1$ \\\\
+        Demuestra utilizando inducción estructural que si \textit{t} es un árbol binario de tipo A con altura \textit{k} entonces $n_n(t) \leq 2^k - 1$ \\\\
         \textbf{Caso Base} $t = \emptyset$, $k=0$\\\\
-            $n_n(\emptyset) = 2^0 -1 $ = $1 -1$ = 0.\\\\
-        \textbf{Hipótesis Inductiva} $n_n(t) = 2^k - 1$ para todo árbol binario de tipo A $t$ donde $k$ es la altura del mismo. \\\\
-        \textbf{Paso Inductivo} Por demostrar para $t = node(a,t_1,t_2)$ donde $t_1$ y $t_2$ son árboles binarios balanceados de altura $k-1$ se cumple que $n_n(node(a,t_1,t_2)) = 2^k - 1$ donde $k$ es la altura asociada al árbol $t$. \\\\
-            $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \quad \quad \quad \quad \quad \quad \ \ \ \   (Por definición de $n_n(t)$) \\
-            = $1 + (2^{k-1} - 1) + (2^{k-1} - 1)$ \qquad \qquad \qquad \qquad \qquad \qquad  (Por la hipótesis inductiva) \\
-            = $1 + 2(2^{k-1} - 1)$ = $2^k - 2 + 1$ = $2^k - 1$
+            $n_n(\emptyset) = 0  \leq 2^0 -1 $ = $1 -1$ = 0.\\\\
+        \textbf{Hipótesis Inductiva} $n_n(t) \leq 2^k - 1$,  para todo $t$ Tree A, donde $height(t)=k$. \\\\
+        \textbf{Paso Inductivo} Por demostrar $n_n(node(a,t_1,t_2)) \leq 2^{k+1} - 1$ donde $height(node(a,t_1,t_2)) = k + 1$ y $height(t_1) = height(t_2) = k$.\\\\
+            $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \quad \quad \quad \quad \quad \quad \ \ \ \  (Por definición de $n_n(t)$) \\
+            $\leq 1 + (2^{k} - 1) + (2^{k} - 1)$ \qquad \qquad \qquad \qquad \qquad \qquad  \ \ (Por la hipótesis inductiva) \\
+            $= 1 + 2(2^{k} - 1)$ = $2^{k+1} - 2 + 1$ = $2^{k+1} - 1$\\
     \end{exercise}
-
 
 % Sección 3: sistemas de transición
 \section{Sistemas de transición}
-    En el contexto de las ciencias de la computación los sistemas de transición resultan particularmente útiles para obtener cualquier configuración de un programa en cada paso de su ejecución en forma de estados. En particular tendremos dos estados especiales para denotar la configuración inicial y la configuración final. Adicionalmente nos apoyaremos de un conjunto de reglas que nos permiten aplicar instrucciones y operadores para movernos de una configuración a otra\footnote{ Para el enfoque que seguimos en este manual definiremos las reglas de nuestros sistemas de transición como juicios lógicos.}.\\\\
-    Obtener todas las configuraciones posibles partiendo del estado inicial al estado final nos facilitará hacer el análisis de complejidad en tiempo y en espacio de nuestro programa.\\\\
-    Estructuras similares se han estudiado en cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } donde adicionalmente se define el alfabeto y se considera la lectura de un carácter para obtener una configuración distinta. En este caso omitiremos estos elementos y nos concentraremos únicamente en los estados y las reglas de transición.\\
+    En el contexto de las ciencias de la computación los sistemas de transición resultan particularmente útiles para obtener cualquier configuración de un programa en cada paso de su ejecución en forma de estados. En particular tendremos dos clases de estados especiales para denotar la configuración inicial y la configuración final. Adicionalmente nos apoyaremos de un conjunto de reglas que nos permiten aplicar instrucciones y operadores para movernos de una configuración a otra\footnote{ Para el enfoque que seguimos en este manual definiremos las reglas de nuestros sistemas de transición como juicios lógicos.}.\\\\
+    Obtener todas las configuraciones posibles partiendo de un estado inicial a un estado final nos facilitará hacer el análisis de complejidad en tiempo y en espacio de nuestros programas.\\\\
+    Estructuras similares se han estudiado en cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } donde adicionalmente se define el alfabeto y se considera la lectura de un carácter para obtener una configuración distinta. En este caso omitiremos estos elementos y nos concentraremos únicamente en los estados y las reglas de transición.
     \begin{exercise}
-    
-        Supón que se quiere modelar una partida de pimpón donde hay 2 jugadores A y B (el jugador A siempre empieza primero), y un marcador que cuenta el número de puntos de A y B representado como: jugador en turno, puntuación de A, puntuación de B. \\ 
    
-        De tal forma que cada estado indica la información del juego hasta ese punto. Por ejemplo si el jugador B anota, el estado se modelaría como (B,X,Y) $\rightarrow$ (B,X,Y+1)  ya que el jugador que anota un punto vuelve a tirar la pelota en el siguiente turno.\\
-    
-        La partida acaba cuando alguno de los dos logra anotar 10 puntos. \\\
+        Supón que se quiere modelar una partida de pimpón donde hay 2 jugadores A y B (el jugador A siempre empieza primero), y un marcador que cuenta el número de puntos de A y B representado como una terna: \[ \text{(jugador en turno, puntuación de A, puntuación de B)} \] 
+  
+        De tal forma que cada estado indica la información del juego hasta ese punto. \\\\
+        Para indicar la transición entre estados utilizamos la notación "$\rightarrow$". Por ejemplo si el jugador B anota, la transición se modela como: \[ (\text{B,X,Y}) \rightarrow (\text{B,X,Y+1}) \]  ya que el jugador que anota un punto vuelve a tirar la pelota en el siguiente turno.\\
+        La partida acaba cuando alguno de los dos logra anotar 10 puntos. \\
 
-        En base a la especificación dada anteriormente contesta lo siguiente:\\
-
+        En base a la especificación dada anteriormente contesta lo siguiente:
         \begin{enumerate}
             \item Define formalmente el conjunto de estados (indica estados iniciales con la letra  ''I'', finales con la letra  ''F'' y los intermedios con ''$\Gamma$''): 
 
@@ -357,14 +355,15 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
                  \end{equation}    
 
                  \begin{equation}
-                    \Gamma = \{\text{C},\text{X},\text{Y}\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y } 0 \leq \text{X},\text{Y} \leq 10\nonumber
+                    \Gamma = \{(\text{C},\text{X},\text{Y})\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y } 0 \leq \text{X},\text{Y} \leq 10\nonumber
                  \end{equation}
 
                 \begin{equation}
-                    \text{F} =  \{\text{C},\text{X},\text{Y}\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y } X \text{ o } Y = 10\nonumber
+                    \text{F} =  \{(\text{C},\text{X},\text{Y})\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y X o Y} = 10\nonumber
                 \end{equation}
 
-            \item  Define la función de transición (enlista cuales son los casos y como se comporta la función en cada uno de estos):\\\\
+            \item  Define la función de transición (enlista cuales son los casos y como se comporta la función en cada uno de estos).\\\\
+		Definimos la función de transición $f(s) :: \text{I} \cup \Gamma  \rightarrow \Gamma \cup \text{F}$ a partir de los siguientes casos:\\\\
                 Sí el jugador A puntúa: 
                 \[ f((\text{A},\text{X},\text{Y})) = (\text{A},\text{X}+1,\text{Y}) \]
                 Sí el jugador B puntúa: 
@@ -373,35 +372,35 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
                 \[ f((\text{A},\text{X},\text{Y})) = (\text{B},\text{X},\text{Y}) \]
                 Sí el jugador B no puntúa: 
                 \[ f((\text{B},\text{X},\text{Y})) = (\text{A},\text{X},\text{Y}) \]
-          	     Sí cualquier jugador hace un saque despúes de anotar: 
-                \[ f((\text{J},\text{X},\text{Y})) = (\text{J},\text{X},\text{Y}) \] 
-	\item Define con reglas de inferencia la función de transición escrita en el inciso anterior:\\
+	     Sí el jugador C $\in \{\text{A},\text{B}\}$ hace un saque: 
+                \[ f((\text{C},\text{X},\text{Y})) = (\text{C},\text{X},\text{Y}) \]
+	\item Define mediante reglas de inferencia la implementación para la función de transición para cada uno de los casos descritos en el ejercicio anterior.
                 \[
+                \scalemath{0.81}{
+                    \begin{array}{lcl}    
+                        \inference{(\text{A},\text{X},\text{Y})\ \text{ I} \cup \Gamma, & (\text{B},\text{X},\text{Y})\ \text{ I} \cup \Gamma}{(\text{A},\text{X},\text{Y})\rightarrow(\text{B},\text{X},\text{Y})\  \text{ I} \cup \Gamma}[$(\text{A})$] \qquad 
+                        \inference{(\text{B},\text{X},\text{Y})\ \text{ I} \cup \Gamma,& (\text{A},\text{X},\text{Y})\ \text{ I} \cup \Gamma}{(\text{B},\text{X},\text{Y})\rightarrow(\text{A},\text{X},\text{Y})\  \text{ I} \cup \Gamma}[$(\text{B})$] 
+                    \end{array}
+                }
+                \]
+\bigskip
+		\[
                 \scalemath{0.75}{
                     \begin{array}{lcl}    
-                        \inference{(\text{A},\text{X},\text{Y}) \text{ Estado},& (\text{A},\text{X}+1,\text{Y}) \text{ Estado}}{(\text{A},\text{X},\text{Y})\rightarrow(\text{A},\text{X}+1,\text{Y})  \text{ Estado}}[$(\text{A}+)$] \qquad 
-                        \inference{(\text{B},\text{X},\text{Y}) \text{ Estado},& (\text{B},\text{X},\text{Y}+1) \text{ Estado}}{(\text{B},\text{X},\text{Y})\rightarrow(\text{B},\text{X},\text{Y}+1)  \text{ Estado}}[$(\text{B}+)$] 
+                        \inference{(\text{A},\text{X},\text{Y})\ \text{ I} \cup \Gamma & (\text{A},\text{X}+1,\text{Y})\text{ } \Gamma \cup \text{F} }{(\text{A},\text{X},\text{Y})\rightarrow(\text{A},\text{X}+1,\text{Y})\ \text{ } \Gamma \cup \text{F}}[$(\text{A}+)$] \qquad 
+                        \inference{(\text{B},\text{X},\text{Y})\ \text{ I} \cup \Gamma ,& (\text{B},\text{X},\text{Y}+1)\ \text{ } \Gamma \cup \text{F}}{(\text{B},\text{X},\text{Y})\rightarrow(\text{B},\text{X},\text{Y}+1)\  \text{ } \Gamma \cup \text{F}}[$(\text{B}+)$] 
                     \end{array}
                 }
-                \]
+                \] 
                 \bigskip
                 \[
                 \scalemath{0.81}{
                     \begin{array}{lcl}    
-                        \inference{(\text{A},\text{X},\text{Y}) \text{ Estado},& (\text{B},\text{X},\text{Y}) \text{ Estado}}{(\text{A},\text{X},\text{Y})\rightarrow(\text{B},\text{X},\text{Y})  \text{ Estado}}[$(\text{A}-)$] \qquad 
-                        \inference{(\text{B},\text{X},\text{Y}) \text{ Estado},& (\text{A},\text{X},\text{Y}) \text{ Estado}}{(\text{B},\text{X},\text{Y})\rightarrow(\text{A},\text{X},\text{Y})  \text{ Estado}}[$(\text{B}-)$] 
-                    \end{array}
-                }
-                \]
-                \bigskip
-                \[
-                \scalemath{0.81}{
-                    \begin{array}{lcl}    
-                        \inference{(\text{J},\text{X},\text{Y}) \text{ Estado}}{(\text{J},\text{X},\text{Y})\rightarrow(\text{J},\text{X},\text{Y})  \text{ Estado}}[$(saque)$] 
+                        \inference{(\text{C},\text{X},\text{Y})\  \ \Gamma}{(\text{C},\text{X},\text{Y})\rightarrow(\text{C},\text{X},\text{Y})\  \ \Gamma}[$(saque)$] 
    
                     \end{array}
                 }
-                \]
+                \] 
             \item Muestra una ejecución donde gane el jugador B especificando cada estado desde el inicial hasta el final: 
                 \begin{center}
                     $ (\text{A},0,0) \rightarrow (\text{A},1,0) \rightarrow (\text{A},1,0) \rightarrow (\text{B},1,1) \rightarrow (\text{B},1,1) \rightarrow$ \\
@@ -451,7 +450,7 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
 
     %    Ejercicio 4.1
     \begin{exercise}
-        Demuestra utilizando la inducción estructural sobre las cadenas binarias de tipo A* que:
+        Demuestra utilizando la inducción estructural sobre el tipo de dato A* que:
         \[\textit{len} (\textit{map }\ f\ \<a,s\> ) =  \textit{len}(\<a,s\>)\]
     \end{exercise}
 
@@ -461,11 +460,15 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
         \[\textit{map } f\ \<a,s\> \bullet \<b,t\> = \textit{map } f\  \<a,s\> \bullet \textit{map } f\  \<b,t\>\]
     \end{exercise}
 
+	\begin{definition}
+Un árbol binario completo es un tipo de árbol binario en el que todos los niveles, excepto posiblemente el último, están completamente llenos, y todos los nodos están lo más a la izquierda posible\footnote{Definición extraída de: \hyperlink{68}{[68]}}.
+	\end{definition}
+
     %    Ejercicio 4.6
     \begin{exercise}
-        Demuestra utilizando la inducción estructural sobre árboles binarios balanceados de tipo A que se cumple la siguiente afirmación:\\\\
-        Sea \textit{t} un árbol binario balanceado de tipo A y altura \textit{h} entonces
-        \[ n_n(t) \leq 2^{h+1} - 1\]
+        Demuestra utilizando la inducción estructural sobre el tipo de dato Tree A que se cumple la siguiente afirmación:\\\\
+        Sea \textit{t} Tree A, tal que $t$ es completo \textit{height(t) = k} entonces:
+        \[ k = ceil(log_{2}(n_n(t)))\]
     \end{exercise}
 
     %    Ejercicio 4.7
