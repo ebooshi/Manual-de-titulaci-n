@@ -15,10 +15,10 @@
 \contentsline {section}{\numberline {1}Sintaxis concreta}{26}{section.3.1}%
 \contentsline {section}{\numberline {2}Sintaxis abstracta}{27}{section.3.2}%
 \contentsline {subsection}{\numberline {2.1}Analizador sintáctico}{28}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {2.2}El operdor \texttt {if}}{28}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {2.2}El operador \texttt {if}}{28}{subsection.3.2.2}%
 \contentsline {section}{\numberline {3}El operador let}{29}{section.3.3}%
 \contentsline {subsection}{\numberline {3.1}Clasificación de variables en el operador let}{31}{subsection.3.3.1}%
-\contentsline {section}{\numberline {4}Sustitución y $\alpha $-equivalencias}{33}{section.3.4}%
+\contentsline {section}{\numberline {4}Sustitución y $\alpha $-equivalencias}{34}{section.3.4}%
 \contentsline {section}{\numberline {5}Ejercicios para el lector}{35}{section.3.5}%
 \contentsline {chapter}{\numberline {4}Semántica}{37}{chapter.4}%
 \contentsline {section}{\numberline {1}Semántica estática}{38}{section.4.1}%

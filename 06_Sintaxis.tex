@@ -135,24 +135,30 @@ A las expresiones de \textsf{EAB} formuladas a partir de la sintaxis concreta, l
 	\item sí $e \ E \longleftrightarrow a_1 \ ASA$ y $e \ E \longleftrightarrow a_2 \ ASA $ entonces $a_1 = a_2$.
 \end{itemize}
 
-\subsection{El operdor \texttt{if}}
+\subsection{El operador \texttt{if}}
     Ahora queremos extender \textsf{EAB} agregando instrucciones booleanas que permitan tener condicionales en nuestras expresiones de lenguaje. \\\\
-El objetivo es introducir las constantes booleanas \texttt{true} y \texttt{false}, el operador \texttt{if}, \texttt{then} y el operador \texttt{if}  \texttt{then} \texttt{else}. Así como parentizado de expresiones para evitar condiciones de ''else colgante''\footnote{Éste problema es conocido en inglés como ''$dangling\ else$'' recurrente en la implementación de \textit{parsers} en el que una cláusula else opcional en una declaración if-then(-else) da como resultado que los condicionales anidados sean ambiguos. \hyperlink{90}{[90]}} y ambigüedad (esta regla puede ser modelada encerrando entre paréntesis la expresión inmediata a evaluar en la instrucción \texttt{then}).
+El objetivo es introducir las constantes \texttt{true} y \texttt{false}, el operador \texttt{if}, \texttt{then} y el operador \texttt{if}  \texttt{then} \texttt{else}. Tomando en cuenta el parentizado de expresiones para evitar condiciones de ''else colgante''\footnote{Éste problema es conocido en inglés como ''$dangling\ else$'' recurrente en la implementación de \textit{parsers} en el que una cláusula else opcional en una declaración if-then(-else) da como resultado que los condicionales anidados sean ambiguos. \hyperlink{90}{[90]}} y la ambigüedad que deriva de no marcar el alcance de las condicionales.\\\\
+Para este propósito, marcaremos con paréntesis la expresión inmediata a evaluar después del marcador \texttt{then}.
 
-    \bigskip
+    \newpage
     
     \begin{exercise}        
         Define la sintaxis concreta para extender nuestro lenguaje \textsf{EAB} con las instrucciones lógicas previamente discutidas\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }
         \[ 
-            \inference{}{\texttt{True} \text{ B}} \quad \inference{}{\texttt{False} \text{ B}}
+            \inference{}{\texttt{true} \text{ B}} \quad \inference{}{\texttt{false} \text{ B}}
         \]
         \[ 
-             \inference{c \text{ B } t \text{ LE }  c \text{ E}}{\texttt{if $c$ then $t$ else $e$ $E$}} \inference{c \text{ B } t \text{ LE}}{\texttt{if $c$ then $t$ E}} \inference{x \text{ B }}{x \text{ LE}}
+             \inference{c \text{ B } t \text{ E }  c \text{ E}}{\texttt{if $c$ then ($t$) else $e$} \text{ E}} \quad \inference{c \text{ B } t \text{ E}}{\texttt{if $c$ then ($t$) } \text{E}} \quad \inference{x \text{ B }}{x \text{ E}}
         \]
-        \[
-            \inference{e \text{ E}}{(e) \text{ LE}} \inference{e \text{ LE}}{ e \text{ E}}
-        \]
+        %\[
+         %   \inference{e \text{ E}}{(e) \text{ LE}} \inference{e \text{ LE}}{ e \text{ E}}
+        %\]
+	% Antes, la F era LE. lo cambie porque las F pueden usar el perentizado y comenté la regla de arriba para no repetir el mismo mecanismo pero creo que funciona.
     \end{exercise}
+
+Nótemos que con la sintáxis extendida ahora podemos tener expresiones que son sintácticamente correctas, pero que no tienen sentido como: \[ \texttt{true} + 1\]
+Por el momento permitiremos éste tipo de expresiones y en el siguiente capítulo: Semántica, introduciremos el concepto de "tipificado" para darle la vuelta a esta situación.
+
 
     \bigskip
 
@@ -169,8 +175,8 @@ El objetivo es introducir las constantes booleanas \texttt{true} y \texttt{false
     \begin{exercise}
         Define los juicios que componen la sintaxis abstracta para el operador \texttt{If}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }\\
         \[
-            \inference{\texttt{True} \text{ B} }{\textit{T} \textit{ ASA}}
-            \inference{\texttt{False} \text{ B} }{\textit{F} \textit{ ASA}}
+            \inference{\texttt{true} \text{ B} }{\text{T} \textit{ ASA}}
+            \inference{\texttt{false} \text{ B} }{\text{F} \textit{ ASA}}
         \]
         \[
             \inference{c \textit{ ASA } t \textit{ ASA  } e \textit{ ASA}}{ \textit{if} \text{(} \textit{c t e} \text{)} \textit{ ASA}} 
@@ -183,20 +189,20 @@ El objetivo es introducir las constantes booleanas \texttt{true} y \texttt{false
     \begin{exercise}
         Define las reglas del analizador sintáctico para el operador \texttt{If}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
         \[
-            \inference{}{\texttt{True} \text{ B} \longleftrightarrow \text{T} \textit{ ASA}}[\textit{(true)}] 
-            \inference{}{\texttt{False} \text{ B} \longleftrightarrow \text{F} \textit{ ASA}}[\textit{(false)}]
+            \inference{}{\texttt{true} \text{ B} \longleftrightarrow \text{T} \textit{ ASA}}[\textit{(true)}] 
+            \inference{}{\texttt{false} \text{ B} \longleftrightarrow \text{E} \textit{ ASA}}[\textit{(false)}]
         \]
         \[
-            \inference{\text{$c$ B} \longleftrightarrow \textit{c'}  \textit{ ASA } \quad \text{$t$ LE } \longleftrightarrow \text{$t'$ ASA } \quad \text{$e$ E } \longleftrightarrow \text{e'} \textit{ ASA }}{\texttt{if $c$ then $t$ else $e$ E } \longleftrightarrow \textit{if(c' t' e')} \textit{ ASA} }[$(if_e)$]
+            %\inference{ \text{$c$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{($e$) LE} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(parentB)}] \;
+            \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA}}{\text{$c$ E} \longleftrightarrow \textit{c'} \textit{ ASA}}[\textit{(bool)}] \;
+            %\inference{\text{$e$ LE} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{$e$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(exprB)}]
         \]
         \[
-            \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA} \quad \text{ $t$ LE} \longleftrightarrow \textit{t' ASA } }
-            { \texttt{if($c$ then $t$) E} \longleftrightarrow  \textit{if(c' t')} \textit{ ASA} }[$(if_s)$]
+            \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA} \quad \text{ $t$ E} \longleftrightarrow \textit{t' ASA } }
+            { \texttt{if $c$ then ($t$) E} \longleftrightarrow  \textit{if(c' t')} \textit{ ASA} }[$(if_s)$]
         \]
         \[
-            \inference{ \text{$c$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{($e$) LE} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(parentB)}] \;
-            \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA}}{\text{$c$ LE} \longleftrightarrow \textit{c'} \textit{ ASA}}[\textit{(bool)}] \;
-            \inference{\text{$e$ LE} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{$e$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(exprB)}]
+            \inference{\text{$c$ B} \longleftrightarrow \textit{c'}  \textit{ ASA } \quad \text{$t$ F} \longleftrightarrow \text{$t'$ ASA } \quad \text{$e$ E } \longleftrightarrow \text{e'} \textit{ ASA }}{\texttt{if $c$ then ($t$) else $e$ E } \longleftrightarrow \textit{if(c' t' e')} \textit{ ASA} }[$(if_e)$]
         \]
     \end{exercise}
 

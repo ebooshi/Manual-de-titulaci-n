@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  28 MAR 2025 08:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  31 MAR 2025 09:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2865,67 +2865,68 @@ Overfull \hbox (5.12152pt too wide) detected at line 129
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--141
+Underfull \hbox (badness 10000) in paragraph at lines 139--142
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--142
 
  []
 
 [28]
-Underfull \hbox (badness 10000) in paragraph at lines 170--171
+Overfull \hbox (2.17467pt too wide) in paragraph at lines 159--159
+[]\OT1/lmr/m/n/10 N^^Sote-mos que con la sint^^Saxis ex-ten-di-da aho-ra po-de-
+mos te-ner ex-pre-sio-nes que son sint^^Sacti-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--177
 
  []
 
 
-Overfull \hbox (14.12737pt too wide) detected at line 200
-[] [] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 211--212
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 225--228
+Underfull \hbox (badness 10000) in paragraph at lines 217--218
 
  []
 
 [29]
-Underfull \hbox (badness 10000) in paragraph at lines 255--257
+Underfull \hbox (badness 10000) in paragraph at lines 231--234
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 255--257
+Underfull \hbox (badness 10000) in paragraph at lines 261--263
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 263--265
+Underfull \hbox (badness 10000) in paragraph at lines 261--263
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 263--265
+Underfull \hbox (badness 10000) in paragraph at lines 269--271
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 271--272
+Underfull \hbox (badness 10000) in paragraph at lines 269--271
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 273--274
+Underfull \hbox (badness 10000) in paragraph at lines 277--278
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 283--284
+Underfull \hbox (badness 10000) in paragraph at lines 279--280
 
  []
 
 [30]
-Underfull \hbox (badness 10000) in paragraph at lines 285--286
+Underfull \hbox (badness 10000) in paragraph at lines 289--290
 
  []
 
@@ -2939,63 +2940,68 @@ Underfull \hbox (badness 10000) in paragraph at lines 297--298
 
  []
 
-[31] [32]
-Underfull \hbox (badness 10000) in paragraph at lines 437--438
+
+Underfull \hbox (badness 10000) in paragraph at lines 303--304
 
  []
 
-LaTeX Font Info:    Calculating math sizes for size <18> on input line 443.
+[31] [32]
+Underfull \hbox (badness 10000) in paragraph at lines 443--444
+
+ []
+
+LaTeX Font Info:    Calculating math sizes for size <18> on input line 449.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <18> on input line 443.
+(Font)              <18> on input line 449.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12.59995> on input line 443.
+(Font)              <12.59995> on input line 449.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 443.
+(Font)              <9> on input line 449.
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 443.
+(Font)              size <17.28> substituted on input line 449.
 
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <12.59995> not available
-(Font)              size <12> substituted on input line 443.
+(Font)              size <12> substituted on input line 449.
 
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 443.
+(Font)              size <17.28> substituted on input line 449.
 
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <12.59995> not available
-(Font)              size <12> substituted on input line 443.
+(Font)              size <12> substituted on input line 449.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 443.
+(hyperref)                removing `math shift' on input line 449.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\alpha' on input line 443.
+(hyperref)                removing `\alpha' on input line 449.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 443.
+(hyperref)                removing `math shift' on input line 449.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 446--448
+Underfull \hbox (badness 10000) in paragraph at lines 452--454
 
  []
 
 [33]
-Underfull \hbox (badness 10000) in paragraph at lines 453--455
+Underfull \hbox (badness 10000) in paragraph at lines 459--461
 
  []
 
 [34] [35]
-Underfull \hbox (badness 10000) in paragraph at lines 631--633
+Underfull \hbox (badness 10000) in paragraph at lines 637--639
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 634--636
+Underfull \hbox (badness 10000) in paragraph at lines 640--642
 
  []
 
@@ -4913,16 +4919,16 @@ LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `00_Manual_Main_Template.out' has not changed
 .
-(rerunfilecheck)             Checksum: C0CEE91D257BA950D1092D4A7584334B;18342.
+(rerunfilecheck)             Checksum: 3518581F809B81E862D18C2D44BF414E;18347.
 Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 \openout1 = `00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48824 strings out of 474486
- 965385 string characters out of 5743756
+ 48825 strings out of 474486
+ 965398 string characters out of 5743756
  2151542 words of memory out of 5000000
- 69109 multiletter control sequences out of 15000+600000
+ 69110 multiletter control sequences out of 15000+600000
  713234 words of font info for 155 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,33n,113p,997b,2379s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -4963,7 +4969,7 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (161 pages, 2414665 bytes).
+Output written on 00_Manual_Main_Template.pdf (161 pages, 2414716 bytes).
 PDF statistics:
  3253 PDF objects out of 3580 (max. 8388607)
  1192 named destinations out of 1200 (max. 500000)
