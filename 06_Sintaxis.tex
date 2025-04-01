@@ -148,7 +148,7 @@ Para este propósito, marcaremos con paréntesis la expresión inmediata a evalu
             \inference{}{\texttt{true} \text{ B}} \quad \inference{}{\texttt{false} \text{ B}}
         \]
         \[ 
-             \inference{c \text{ B } t \text{ E }  c \text{ E}}{\texttt{if $c$ then ($t$) else $e$} \text{ E}} \quad \inference{c \text{ B } t \text{ E}}{\texttt{if $c$ then ($t$) } \text{E}} \quad \inference{x \text{ B }}{x \text{ E}}
+             \inference{c \text{ B } t \text{ E }  e \text{ E}}{\texttt{if $c$ then ($t$) else $e$} \text{ E}} \quad \inference{c \text{ B } t \text{ E}}{\texttt{if $c$ then ($t$) } \text{E}} \quad \inference{x \text{ B }}{x \text{ E}}
         \]
         %\[
          %   \inference{e \text{ E}}{(e) \text{ LE}} \inference{e \text{ LE}}{ e \text{ E}}
@@ -156,8 +156,8 @@ Para este propósito, marcaremos con paréntesis la expresión inmediata a evalu
 	% Antes, la F era LE. lo cambie porque las F pueden usar el perentizado y comenté la regla de arriba para no repetir el mismo mecanismo pero creo que funciona.
     \end{exercise}
 
-Nótemos que con la sintáxis extendida ahora podemos tener expresiones que son sintácticamente correctas, pero que no tienen sentido como: \[ \texttt{true} + 1\]
-Por el momento permitiremos éste tipo de expresiones y en el siguiente capítulo: Semántica, introduciremos el concepto de "tipificado" para darle la vuelta a esta situación.
+Notemos que con la sintaxis extendida ahora podemos tener expresiones que son sintácticamente correctas, pero que no tienen sentido como: \[ \texttt{true} + 1\]
+Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo, introduciremos el concepto de "tipificado" $\ $ para añadir una capa de verificación antes de saltar directamente a la evaluación de expresiones.
 
 
     \bigskip
@@ -180,7 +180,7 @@ Por el momento permitiremos éste tipo de expresiones y en el siguiente capítul
         \]
         \[
             \inference{c \textit{ ASA } t \textit{ ASA  } e \textit{ ASA}}{ \textit{if} \text{(} \textit{c t e} \text{)} \textit{ ASA}} 
-            \inference{c \textit{ ASA } t \text{ ASA  }}{ \textit{if(} \textit{c t} \text{)} \textit{ ASA}} 
+            \inference{c \textit{ ASA } t \textit{ ASA  }}{ \textit{if(} \textit{c t} \text{)} \textit{ ASA}} 
         \]
     \end{exercise}
 
@@ -190,7 +190,7 @@ Por el momento permitiremos éste tipo de expresiones y en el siguiente capítul
         Define las reglas del analizador sintáctico para el operador \texttt{If}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
         \[
             \inference{}{\texttt{true} \text{ B} \longleftrightarrow \text{T} \textit{ ASA}}[\textit{(true)}] 
-            \inference{}{\texttt{false} \text{ B} \longleftrightarrow \text{E} \textit{ ASA}}[\textit{(false)}]
+            \inference{}{\texttt{false} \text{ B} \longleftrightarrow \text{F} \textit{ ASA}}[\textit{(false)}]
         \]
         \[
             %\inference{ \text{$c$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{($e$) LE} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(parentB)}] \;
@@ -202,7 +202,7 @@ Por el momento permitiremos éste tipo de expresiones y en el siguiente capítul
             { \texttt{if $c$ then ($t$) E} \longleftrightarrow  \textit{if(c' t')} \textit{ ASA} }[$(if_s)$]
         \]
         \[
-            \inference{\text{$c$ B} \longleftrightarrow \textit{c'}  \textit{ ASA } \quad \text{$t$ F} \longleftrightarrow \text{$t'$ ASA } \quad \text{$e$ E } \longleftrightarrow \text{e'} \textit{ ASA }}{\texttt{if $c$ then ($t$) else $e$ E } \longleftrightarrow \textit{if(c' t' e')} \textit{ ASA} }[$(if_e)$]
+            \inference{\text{$c$ B} \longleftrightarrow \textit{c'}  \textit{ ASA } \quad \text{$t$ E} \longleftrightarrow \text{$t'$ ASA } \quad \text{$e$ E } \longleftrightarrow \text{e'} \textit{ ASA }}{\texttt{if $c$ then ($t$) else $e$ E } \longleftrightarrow \textit{if(c' t' e')} \textit{ ASA} }[$(if_e)$]
         \]
     \end{exercise}
 
@@ -212,12 +212,11 @@ Por el momento permitiremos éste tipo de expresiones y en el siguiente capítul
     Ahora necesitamos extender aún mas \textsf{EAB} para incluir expresiones de tipo: 
     \[\texttt{let } \textit{ x } \text{=} \textit{ $e_1$ } \texttt{in} \textit{ $e_2$ }  \texttt{end}\]
 
-    Donde las apariciones de la variable \textit{x} serán sustituidas por $e_1$ en $e_2$.
-    
-    Para este propósito se tiene que definir la sintaxis del operador \texttt{let} y el concepto de ligado de variables. \\
-
+    Donde las apariciones de la variable \textit{x} serán sustituidas por $e_1$ en $e_2$.\\\\
+    Para definir al operador \texttt{let} en \textsf{EAB}, se tienen que definir los juicios lógicos para la sintaxis concreta y abstracta. Así como una categoría nueva para los identificadores de variables que en conjunto introducen un nuevo concepto, el de ligado de variable.\\\\
+Definamos entonces la sintaxis concreta de la nueva instrucción como sigue.
     \begin{exercise}
-        Proporciona las sintaxis concreta para agregar las instrucciones \texttt{let} de tal forma que sea congruente con las especificación mencionada anteriormente\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} }.
+        Proporciona las sintaxis concreta para agregar la instrucción \texttt{let} de tal forma que sea congruente con las especificación mencionada anteriormente\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} }.
 
         \[
             \inference{e \text{ identificador}}{e\text{ V}}[\textit{(var) }]
@@ -227,10 +226,19 @@ Por el momento permitiremos éste tipo de expresiones y en el siguiente capítul
         \]
     \end{exercise}
 
+Ahora queremos definir la sintaxis abstracta capturando el ligado de variable. Es natural pensar en proponer juicios como: 
+\[ 
+ \begin{array}{cc}
+           \inference{x \ \textsf{ identificador}}{var[x]\ ASA}& 
+            \inference{ var[x]\ ASA & a_1\ ASA & a_2 \ ASA}{let(var[x], a_1, a_2)\ ASA}
+        \end{array}
+\] 
 
-    La sintaxis abstracta de orden superior define un tratamiento especial para las variables que se introducen con el operador \texttt{let} así como el alcance y ligado de las mismas. Esta sintaxis abstrae estos niveles como parte del metalenguaje con el que se define el árbol de sintaxis abstracta, es decir vamos a delimitar el rango de aplicación de la variable con el árbol que definiremos para el operador mismo.\\\\
+\subsection{Sintaxis abstracta de orden superior}
+El problema con esta definición es que no captura el ligado de $var[x]$ en $a_2$, no hay una relación explícita entre ambos elementos. Para ello es necesario utilizar otra categoría conocida como sintaxis abstracta de orden superior.\\\\
+La sintaxis abstracta de orden superior, abstrae el ligado como parte del metalenguaje con el que se define el ASA, es decir el árbol mismo delimita el alcance de la variable ligada a este.\\\\
     Extenderemos nuestro lenguaje \textsf{EAB} agregando el árbol de sintaxis abstracta \textit{x.t} que indica que la variable \textit{x} está ligada
-    en el árbol \textit{t}, a este \textit{ASA} se le llama abstracción\footnote{Definición acuñada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}. Esto es importante dado que al introducir las variables ligadas y su alcance tenemos que delimitar la expresión en la que la sustitución ocurrirá.
+    en el árbol \textit{t}. A este ASA se le llama abstracción\footnote{Definición acuñada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}. 
 
     \begin{exercise}
         Proporciona las sintaxis Abstracta para agregar las instrucción \texttt{let}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} } considerando el \textit{ASA} \textit{x.t}.
