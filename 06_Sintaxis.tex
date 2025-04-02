@@ -159,9 +159,6 @@ Para este propósito, marcaremos con paréntesis la expresión inmediata a evalu
 Notemos que con la sintaxis extendida ahora podemos tener expresiones que son sintácticamente correctas, pero que no tienen sentido como: \[ \texttt{true} + 1\]
 Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo, introduciremos el concepto de "tipificado" $\ $ para añadir una capa de verificación antes de saltar directamente a la evaluación de expresiones.
 
-
-    \bigskip
-
 %  Definición alternativa
 %        \[ 
 %            \inference{\x \in \{a,b\} }{\text{ x Input}}
@@ -175,11 +172,11 @@ Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo
     \begin{exercise}
         Define los juicios que componen la sintaxis abstracta para el operador \texttt{If}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }\\
         \[
-            \inference{\texttt{true} \text{ B} }{\text{T} \textit{ ASA}}
+            \inference{\texttt{true} \text{ B} }{\text{T} \textit{ ASA}} \quad
             \inference{\texttt{false} \text{ B} }{\text{F} \textit{ ASA}}
         \]
         \[
-            \inference{c \textit{ ASA } t \textit{ ASA  } e \textit{ ASA}}{ \textit{if} \text{(} \textit{c t e} \text{)} \textit{ ASA}} 
+            \inference{c \textit{ ASA } t \textit{ ASA  } e \textit{ ASA}}{ \textit{if} \text{(} \textit{c t e} \text{)} \textit{ ASA}} \quad
             \inference{c \textit{ ASA } t \textit{ ASA  }}{ \textit{if(} \textit{c t} \text{)} \textit{ ASA}} 
         \]
     \end{exercise}
@@ -189,8 +186,8 @@ Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo
     \begin{exercise}
         Define las reglas del analizador sintáctico para el operador \texttt{If}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
         \[
-            \inference{}{\texttt{true} \text{ B} \longleftrightarrow \text{T} \textit{ ASA}}[\textit{(true)}] 
-            \inference{}{\texttt{false} \text{ B} \longleftrightarrow \text{F} \textit{ ASA}}[\textit{(false)}]
+            \inference{}{\texttt{true} \text{ B} \longleftrightarrow \textit{T} \textit{ ASA}}[\textit{(true)}]  \quad
+            \inference{}{\texttt{false} \text{ B} \longleftrightarrow \textit{F} \textit{ ASA}}[\textit{(false)}]
         \]
         \[
             %\inference{ \text{$c$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{($e$) LE} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(parentB)}] \;
@@ -229,8 +226,8 @@ Definamos entonces la sintaxis concreta de la nueva instrucción como sigue.
 Ahora queremos definir la sintaxis abstracta capturando el ligado de variable. Es natural pensar en proponer juicios como: 
 \[ 
  \begin{array}{cc}
-           \inference{x \ \textsf{ identificador}}{var[x]\ ASA}& 
-            \inference{ var[x]\ ASA & a_1\ ASA & a_2 \ ASA}{let(var[x], a_1, a_2)\ ASA}
+           \inference{x \ \text{ identificador}}{x\ ASA}& 
+            \inference{ x\ ASA & a_1\ ASA & a_2 \ ASA}{let(x, a_1, a_2)\ ASA}
         \end{array}
 \] 
 
@@ -241,19 +238,19 @@ La sintaxis abstracta de orden superior, abstrae el ligado como parte del metale
     en el árbol \textit{t}. A este ASA se le llama abstracción\footnote{Definición acuñada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}. 
 
     \begin{exercise}
-        Proporciona las sintaxis Abstracta para agregar las instrucción \texttt{let}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} } considerando el \textit{ASA} \textit{x.t}.
+        Proporciona las sintaxis abstracta para agregar las instrucción \texttt{let}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} } considerando el ASA \textit{x.t}.
         \[
-            \inference{\text{$x$ identificador}}{\text{var[$x$] \textit{ASA}}}[] 
+            %\inference{\text{$x$ identificador}}{\text{$x$ \textit{ASA}}}[] 
             \inference{\textit{$a_1$ \textit{ASA}} \quad \textit{$a_2$ \textit{ASA}} }{\text{\textit{let(}$a_1$, $x$.$a_2$\textit{)} \textit{ASA}}}[]
         \]
+\\\\
+    Es importante observar que para el juicio lógico que define al árbol de \texttt{let}, no se incluye una premisa para la variable de ligado, esta categoría se considera como primitiva y en esta regla está implicito que $x$ es una variable.
     \end{exercise}
-
-    \bigskip
 
     \begin{exercise}
          Define las reglas del analizador sintáctico para agregar las instrucción \texttt{let}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} }.
          \[
-            \inference{x \text{ identificador}}{\text{$x$ V} \longleftrightarrow \text{var[$x$] \textit{ASA}}}[\textit{ vara }]
+            \inference{x \text{ identificador}}{\text{$x$ V} \longleftrightarrow \text{$x$ \textit{ASA}}}[\textit{ vara }] \quad
             \inference{\text{$x$ V} \quad \text{$e_1$ E} \longleftrightarrow \textit{$a_1$ ASA} \quad \text{$e_2$ E} \longleftrightarrow \text{$a_2$ \textit{ASA}} }
                       {\texttt{let $x$ = $e_1$ in $e_2$ end E} \longleftrightarrow \textit{let($a_1$ $x$.$a_2$) \textit{ASA}}}[\textit{leta}]
          \]
@@ -269,24 +266,24 @@ La sintaxis abstracta de orden superior, abstrae el ligado como parte del metale
         Obtén la representación en sintaxis abstracta partiendo de la sintaxis concreta de las siguiente expresión: \\\\
         \texttt{let} $x$ = 1 \texttt{in} $x$ + 1 \texttt{end}\\
         \[
-            \textit{let(num[1], $x.$var[$x$]+1)}\ ASA
+            \textit{let(num[1], $x.x$+1)}\ ASA
         \]
     \end{exercise}
 
     \begin{exercise}
         Obtén la representación en sintaxis abstracta partiendo de la sintaxis concreta de las siguiente expresión: \\\\
-        \texttt{let} $y$ = \texttt{if} \texttt{True} \texttt{then} 1 \texttt{else} 0 \texttt{in} \texttt{if} $x$ \texttt{then} \texttt{False} \texttt{end}\\
+        \texttt{let} $y$ = \texttt{if} \texttt{true} \texttt{then} (1) \texttt{else} 0 \texttt{in} \texttt{if} $x$ \texttt{then} (\texttt{false}) \texttt{end}\\
         \[
-            \textit{let(if(T, num[1], num[0]), $y$.if(var[$x$], F))\ ASA}
+            \textit{let(if(T, num[1], num[0]), $y$.if($x$, F))\ ASA}
         \]
     \end{exercise}
 
     \begin{exercise}
         Obtén la representación en sintaxis abstracta partiendo de la sintaxis concreta de las siguiente expresión: \\
         
-        \texttt{let $x$ = False} \texttt{in} \texttt{if} $x$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} 4)) \texttt{else False} \texttt{end}\\
+        \texttt{let $x$ = false} \texttt{in} \texttt{if} $x$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} 4)) \texttt{else false} \texttt{end}\\
         \[
-            \textit{let(F, x.if(var[x], if(var[$\alpha$], if(var[$\alpha$], num[4])), F)) ASA}
+            \textit{let(F, x.if(x, if($\alpha$, if($\alpha$, num[4])), F)) ASA}
         \]        
     \end{exercise}
 
