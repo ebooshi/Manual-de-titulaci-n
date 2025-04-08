@@ -397,35 +397,45 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     \end{exercise}
 	
    \bigskip
+
+ \scalemath{0.81}{
 \begin{turn}{90}
-\begin{tabular}{ |p{8cm}|p{6cm}|p{3cm}|p{3cm}|  }
+\begin{tabular}{ |p{7.2cm}|p{5.7cm}|p{6.5cm}|p{6.5cm}|  }
  		\hline
  		\multicolumn{4}{|c|}{Expresiones \texttt{let} en \textsf{EAB}} \\
- 		\hline
+ 		\hline\xrowht[()]{20pt}
  		Expresión & Variable de ligado & Alcance & Variable ligada\\
-		\hline
+		\hline\xrowht[()]{90pt}
   		\makecell[l]{
+			\\
 		    $\texttt{let  } x = \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end} \texttt{ in }$ \\  
-		     \qquad \texttt{let } y = (x $\ast$ 2) + x \texttt{ in } \\
-		    \qquad \qquad (x $\ast$ y) + \texttt{let }z = 7 \texttt{ in }  y + z \\
+		     \qquad $\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
+		    \qquad \qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$\\
 		    \qquad \texttt{ end } \\ 
-		    \texttt{ end } 
-		} & hola1 & hola2  &   004\\
+		    \texttt{ end } \\
+		} & $\setulcolor{blue}\texttt{\ul{x}} = \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end}$ &  \makecell[l]{ $\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
+		     \qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$ \\
+		     \texttt{ end } }  & \makecell[l]{ $ \texttt{let } y = (\setulcolor{blue}\texttt{\ul{x}} \ast 2) + \setulcolor{blue}\texttt{\ul{x}} \texttt{ in }$ \\
+		     \qquad $(\setulcolor{blue}\texttt{\ul{x}} \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$\\
+		     \texttt{ end } }\\
+		\hline\xrowht[()]{30pt}
+	 	\makecell[l]{ \\ $\texttt{let } x = (2 + 4) \texttt{ in } x+1 \texttt{ end}$ \\
+		} &  $\setulcolor{purple}\texttt{\ul{x}} = (2 + 4)$  &  $x+1$   &  $\setulcolor{purple}\texttt{\ul{x}}+1$\\
+		\hline\xrowht[()]{60pt}
+ 		\makecell[l]{ 
+		 \\ 
+		 $\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
+		 \qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z$ \\
+		 \texttt{ end } 
+		 } &   $\setulcolor{green}\texttt{\ul{y}} = (x \ast 2) + x$  &  $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z$  &   $(x \ast  \setulcolor{green}\texttt{\ul{y}}) + \texttt{let }z = 7 \texttt{ in }   \setulcolor{green}\texttt{\ul{y}} + z$\\
+ 		\hline\xrowht[()]{40pt}
+		\makecell[l]{ 
+		\\
+		\texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end} }  &   \setulcolor{orange}\texttt{\ul{z}} = 7  & y + z &  y + \setulcolor{orange}\texttt{\ul{z}}\\
 		\hline
-	 	Aland Islands&   AX  & ALA   &248\\
-		\hline
- 		Albania &AL & ALB&  008\\
- 		\hline
-		Algeria    &DZ & DZA&  012\\
-		\hline
- 		American Samoa&   AS  & ASM&016\\
- 		\hline
-		Andorra& AD  & AND   &020\\
- 		\hline
-		Angola& AO  & AGO&024\\
- 		\hline
 \end{tabular}
 \end{turn}
+}
 
     \bigskip
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  7 APR 2025 09:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  8 APR 2025 08:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1547,14 +1547,41 @@ Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
 \c@nlinenum=\count504
 \TeXr@lab=\toks66
 )
+(C:\Users\luis_\AppData\Local\Programs\MiKTeX\tex/latex/stackengine\stackengine
+.sty
+Package: stackengine 2021/07/22 v4.11\ Stacking text and objects in convenient 
+ways
+
+(C:\Users\luis_\AppData\Local\Programs\MiKTeX\tex/latex/listofitems\listofitems
+.sty
+(C:\Users\luis_\AppData\Local\Programs\MiKTeX\tex/generic/listofitems\listofite
+ms.tex
+\loi_cnt_foreach_nest=\count505
+\loi_nestcnt=\count506
+)
+Package: listofitems 2024/03/09 v1.65 Grab items in lists using user-specified 
+sep char (CT)
+)
+\c@@stackindex=\count507
+\@boxshift=\skip111
+\stack@tmplength=\skip112
+\temp@stkl=\skip113
+\@stackedboxwidth=\skip114
+\@addedbox=\box164
+\@anchorbox=\box165
+\@insetbox=\box166
+\se@backgroundbox=\box167
+\stackedbox=\box168
+\@centerbox=\box169
+\c@ROWcellindex@=\count508
+)
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'spanish'.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
-5.
-
-(C:\Users\luis_\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
+7.
+ (C:\Users\luis_\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
@@ -1925,40 +1952,40 @@ LaTeX Warning: Label `' multiply defined.
 )
 \openout1 = `00_Manual_Main_Template.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Info: Redefining \. on input line 25.
-LaTeX Info: Redefining \% on input line 25.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Info: Redefining \. on input line 27.
+LaTeX Info: Redefining \% on input line 27.
 
 (C:\Users\luis_\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count505
+\scratchcounter=\count509
 \scratchdimen=\dimen332
-\scratchbox=\box164
-\nofMPsegments=\count506
-\nofMParguments=\count507
+\scratchbox=\box170
+\nofMPsegments=\count510
+\nofMParguments=\count511
 \everyMPshowfont=\toks67
-\MPscratchCnt=\count508
+\MPscratchCnt=\count512
 \MPscratchDim=\dimen333
-\MPnumerator=\count509
-\makeMPintoPDFobject=\count510
+\MPnumerator=\count513
+\makeMPintoPDFobject=\count514
 \everyMPtoPDFconversion=\toks68
 )
 (C:\Users\luis_\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
@@ -1978,11 +2005,11 @@ Package caption Info: rotating package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
 
-Package chemgreek Info: Activating mapping `default' on line 25.
+Package chemgreek Info: Activating mapping `default' on line 27.
 
-\c@lstlisting=\count511
-\c@mv@tabular=\count512
-\c@mv@boldtabular=\count513
+\c@lstlisting=\count515
+\c@mv@tabular=\count516
+\c@mv@boldtabular=\count517
 Package biblatex Info: Trying to load language 'spanish'...
 Package biblatex Info: ... file 'spanish.lbx' found.
 
@@ -1999,9 +2026,9 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file '00_Manual_Main_Template.bbl' not found.
 
 No file 00_Manual_Main_Template.bbl.
-Package biblatex Info: Reference section=0 on input line 25.
-Package biblatex Info: Reference segment=0 on input line 25.
-Package hyperref Info: Link coloring OFF on input line 25.
+Package biblatex Info: Reference section=0 on input line 27.
+Package biblatex Info: Reference segment=0 on input line 27.
+Package hyperref Info: Link coloring OFF on input line 27.
 (00_Manual_Main_Template.out) (00_Manual_Main_Template.out)
 \@outlinefile=\write6
 \openout6 = `00_Manual_Main_Template.out'.
@@ -2977,63 +3004,67 @@ Underfull \hbox (badness 10000) in paragraph at lines 312--313
 
  []
 
-[32] [33] [34]
-Underfull \hbox (badness 10000) in paragraph at lines 483--484
+[32] [33]
+Overfull \vbox (11.44762pt too high) has occurred while \output is active []
+
+
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 493--494
 
  []
 
-LaTeX Font Info:    Calculating math sizes for size <18> on input line 489.
+LaTeX Font Info:    Calculating math sizes for size <18> on input line 499.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <18> on input line 489.
+(Font)              <18> on input line 499.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12.59995> on input line 489.
+(Font)              <12.59995> on input line 499.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 489.
+(Font)              <9> on input line 499.
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 489.
+(Font)              size <17.28> substituted on input line 499.
 
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <12.59995> not available
-(Font)              size <12> substituted on input line 489.
+(Font)              size <12> substituted on input line 499.
 
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 489.
+(Font)              size <17.28> substituted on input line 499.
 
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <12.59995> not available
-(Font)              size <12> substituted on input line 489.
+(Font)              size <12> substituted on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 489.
+(hyperref)                removing `math shift' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\alpha' on input line 489.
+(hyperref)                removing `\alpha' on input line 499.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 489.
+(hyperref)                removing `math shift' on input line 499.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 492--494
+Underfull \hbox (badness 10000) in paragraph at lines 502--504
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 499--501
+Underfull \hbox (badness 10000) in paragraph at lines 509--511
 
  []
 
 [35] [36] [37]
-Underfull \hbox (badness 10000) in paragraph at lines 677--679
+Underfull \hbox (badness 10000) in paragraph at lines 687--689
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 680--682
+Underfull \hbox (badness 10000) in paragraph at lines 690--692
 
  []
 
@@ -3333,7 +3364,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 700--702
 ) [64]
 Cap\'{\i }tulo 6.
 LaTeX Font Info:    Font shape `OT1/lmss/b/n' in size <24.88> not available
-(Font)              Font shape `OT1/lmss/bx/n' tried instead on input line 58.
+(Font)              Font shape `OT1/lmss/bx/n' tried instead on input line 60.
 (09_MinHs.tex
 <assets/06_gatito_minHs.jpg, id=1762, 992.70876pt x 1284.8pt>
 File: assets/06_gatito_minHs.jpg Graphic file (type jpg)
@@ -4952,10 +4983,10 @@ Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 49047 strings out of 474486
- 968283 string characters out of 5743756
+ 49357 strings out of 474486
+ 973350 string characters out of 5743756
  2151542 words of memory out of 5000000
- 69322 multiletter control sequences out of 15000+600000
+ 69621 multiletter control sequences out of 15000+600000
  713234 words of font info for 155 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,33n,113p,997b,2379s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -4996,7 +5027,7 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (162 pages, 2419862 bytes).
+Output written on 00_Manual_Main_Template.pdf (162 pages, 2420166 bytes).
 PDF statistics:
  3268 PDF objects out of 3580 (max. 8388607)
  1196 named destinations out of 1200 (max. 500000)
