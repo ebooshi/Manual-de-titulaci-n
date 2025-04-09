@@ -298,7 +298,6 @@ La sintaxis abstracta de orden superior, abstrae el ligado como parte del metale
     \end{definition}
 
  
-
     \begin{definition}[Variable ligada] Una variable está ligada si se encuentra contenida dentro del alcance de una variable de ligado con su nombre\footnote{Definición formulada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}.\\\\
     De tal forma que si tenemos la siguiente expresión: \[ \texttt{let } x = 5 \texttt{ in }  \setulcolor{red}\textit{\ul{x}} + y \texttt{ end } \] Decimos que $x$ es la variable ligada en el cuerpo de la expresión \texttt{let}.
     \end{definition}
@@ -308,12 +307,10 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 	
 \end{definition}
 
-
     \begin{definition}Variable libre: una variable está libre en una expresión, si no se encuentra dentro del alcance de una variable de ligado con su nombre. Es decir, una variable es libre si no está ligada\footnote{Definición formulada de  \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}.\\\\
     De tal forma que si tenemos la siguiente expresión: \[ \texttt{let } x = e_1 \texttt{ in } \setulcolor{red}\textit{\ul{y}} \texttt{ end } \] Decimos que $y$ es una variable libre en nuestra expresión \texttt{let}.
     \end{definition}
 
-    \bigskip
     
     \begin{definition}Función para obtener las variables libres de una expresión: dado el árbol de sintaxis abstracta $a$  definimos el conjunto de variables libres de la expresión\footnote{Definición extraída de  \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}, denotado $FV(a)$ como sigue:
         \[
@@ -325,7 +322,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         \]
 	 Es importante remarcar que la expresión $O(a_1,\cdots,a_n)$, comprende un abuso de la notación para representar a todos los operadores aritméticos, booleanos y expresiones let de \textsf{EAB}.
     \end{definition}
-    \bigskip
+
 
     \begin{exercise}
     Dada la siguiente expresión \texttt{let} definida como:
@@ -342,9 +339,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     	\texttt{ end }&
     \end{align*}
 
-    Por cada subexpresión \textsf{let} en $e$ (inclusive) proporciona el alcance indicado o subrayando las variables ligadas.
-
-    
+    Por cada expresión \textsf{let} con un color diferente subraya la variable de ligado y las instancias donde esta aparece ligada.
     \begin{align*}
     	e=_{\text{def}}\texttt{let  }
     		\setulcolor{blue}\textit{\ul{x}}&= \texttt{let }\setulcolor{purple}\textit{\ul{x}} = (2 + 4) \texttt{ in } \setulcolor{purple}\textit{\ul{x}}+1 \texttt{ end }
@@ -360,45 +355,44 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     
     \end{exercise}
 
-    \bigskip
-
     \begin{exercise}
-    Escribe cada subexpresión let en $e$ (inclusive) indicando la variable de ligado y la expresión \texttt{let} para la cual la variable de ligado tiene alcance.
+    Por cada expresión \texttt{let} en $e$ escribe la variable de ligado, el alcance y las instancias ligadas.
     
-        \begin{align*}
-    	\texttt{let  }
-    		\setulcolor{blue}\textit{\ul{x}}&= \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end }
-    		\texttt{ in }\\
-    		 &\texttt{let }y=(x \ast 2)+x 
-    		 	\texttt{ in } \\
-    		 & \qquad(x\ast y) + \texttt{let }z=7 \texttt{ in } 
-    		 						y+z 
-    		 				\texttt{ end }\\
-    		 &\texttt{ end }\\
-    	\texttt{ end }&
-        \end{align*}
+        %\begin{align*}
+    	%\texttt{let  }
+    	%	\setulcolor{blue}\textit{\ul{x}}&= \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end }
+    	%	\texttt{ in }\\
+    	%	 &\texttt{let }y=(x \ast 2)+x 
+    	%	 	\texttt{ in } \\
+    	%	 & \qquad(x\ast y) + \texttt{let }z=7 \texttt{ in } 
+    	%	 						y+z 
+    	%	 				\texttt{ end }\\
+    	%	 &\texttt{ end }\\
+    	%\texttt{ end }&
+       % \end{align*}
 
-        La siguiente expresión \texttt{let} es la que le da su valor a la variable más externa definida en $e$ la cual se identifica como: 
-        \begin{align*}
-    		\texttt{let }\setulcolor{purple}\texttt{\ul{x}} = (2 + 4) \texttt{ in } x+1 \texttt{ end }
-        \end{align*}
+       % La siguiente expresión \texttt{let} es la que le da su valor a la variable más externa definida en $e$ la cual se identifica como: 
+        %\begin{align*}
+    %		\texttt{let }\setulcolor{purple}\texttt{\ul{x}} = (2 + 4) \texttt{ in } x+1 \texttt{ end }
+       % \end{align*}
 
-        La expresión \texttt{let} que continua está delimitada por los marcadores más externos \texttt{in} \texttt{end} en $e$ y se identifica como: 
-        \begin{align*}
-    	   &\texttt{let }\setulcolor{green}\texttt{\ul{y}}=(x \ast 2)+x  \texttt{ in } \\	 
-                        &\qquad(x\ast y) + \texttt{let }z=7 \texttt{ in } y+z \texttt{ end }\\
-    		 &\texttt{ end }\\
-        \end{align*}
+        %La expresión \texttt{let} que continua está delimitada por los marcadores más externos \texttt{in} \texttt{end} en $e$ y se identifica como: 
+        %\begin{align*}
+    	%   &\texttt{let }\setulcolor{green}\texttt{\ul{y}}=(x \ast 2)+x  \texttt{ in } \\	 
+             %           &\qquad(x\ast y) + \texttt{let }z=7 \texttt{ in } y+z \texttt{ end }\\
+    	%	 &\texttt{ end }\\
+        %\end{align*}
 
-        La útltima expresión \texttt{let} está delimitada por los marcadores \texttt{in} \texttt{end} de la expresión anterior y se identifica como: 
-        \begin{align*}
-                 &\texttt{let } \setulcolor{orange}\texttt{\ul{z}}=7 \texttt{ in } y+z \texttt{ end }\\
-        \end{align*}
+        %La útltima expresión \texttt{let} está delimitada por los marcadores \texttt{in} \texttt{end} de la expresión anterior y se identifica como: 
+        %\begin{align*}
+          %       &\texttt{let } \setulcolor{orange}\texttt{\ul{z}}=7 \texttt{ in } y+z \texttt{ end }\\
+        %\end{align*}
     \end{exercise}
 	
    \bigskip
 
- \scalemath{0.81}{
+\begin{center}
+ \scalemath{0.73}{
 \begin{turn}{90}
 \begin{tabular}{ |p{7.2cm}|p{5.7cm}|p{6.5cm}|p{6.5cm}|  }
  		\hline
@@ -436,11 +430,12 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 \end{tabular}
 \end{turn}
 }
+\end{center}
 
     \bigskip
 
     \begin{exercise}
-        La expresión $e$ se puede evaluar a un valor? si sí muestra el procedimiento para la evaluación informal (aún no definimos la manera en la que se va a evaluar la expresiones del lenguaje \textsf{EAB} pero se puede dar una idea de la evaluación partiendo de la descripción hecha en el capítulo).
+        La expresión $e$ se puede evaluar a un valor? si sí muestra el procedimiento para la evaluación informal (aún no definimos la semántica operacional para \texttt{let} en \textsf{EAB}, pero se esbozar el método de evaluación partiendo de la descripción hecha en el capítulo).
     
         \begin{align*}
         	e=_{\text{def}}\texttt{let  }
@@ -464,11 +459,11 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         \]
         Se sustituye este valor en el cuerpo de $e$ resultando en la siguiente expresión:
         \begin{align*}
-            &\texttt{let }y =(7 \ast 2)+7  \texttt{ in }\newline
-            &\qquad(7\ast y) + \texttt{let }z=7 \texttt{ in } y+z \texttt{ end }\newline
-            &\texttt{ end }
+           & \texttt{let }y =(7 \ast 2)+7  \texttt{ in } \\
+            & \qquad (7\ast y) + \texttt{let }z=7 \texttt{ in } y+z \texttt{ end }\\
+            & \texttt{ end }
         \end{align*}
-        Resolviendo la operación para dar variable a la variable y obtenemos el siguiente resultado: 
+        Resolviendo la operación para asignar un valor a la variable $y$ obtenemos el siguiente resultado: 
         \[
             y = (7 \ast 2) + 7 
             = (14) + 7 
@@ -487,8 +482,6 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 
     \end{exercise}
 
-    \bigskip
-    
     \begin{exercise}
         En nuestra expresión $e$ hay variables libres, argumenta por qué si o por qué no. \\
     
@@ -497,9 +490,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 
 
 \section{Sustitución y $\alpha$-equivalencias}
-    Para finalizar este capítulo se introduce el concepto de alfa equivalencia:
-
-    \begin{definition}$\alpha$-equivalencia: se dice que dos expresiones $e_1$ y $e_2$ son $\alpha$-equivalentes si y sólo si difieren únicamente en el nombre de las variables ligadas\footnote{La notación de la relación de $\alpha$-equivalencia fue extraída de \hyperlink{1}{[1]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}, la definición formulada a partir de \hyperlink{81}{[81]} y \hyperlink{89}{[89]}}.\\\\
+    \begin{definition}[$\alpha$-equivalencia] Se dice que dos expresiones $e_1$ y $e_2$ son $\alpha$-equivalentes si y sólo si difieren únicamente en el nombre de las variables ligadas\footnote{La notación de la relación de $\alpha$-equivalencia fue extraída de \hyperlink{1}{[1]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}, la definición formulada a partir de \hyperlink{81}{[81]} y \hyperlink{89}{[89]}}.\\\\
     Esta relación será denotada como: 
     \begin{center}
             $e_1\equiv_\alpha e_2$        

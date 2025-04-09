@@ -19,112 +19,112 @@
 \contentsline {section}{\numberline {3}El operador let}{29}{section.3.3}%
 \contentsline {subsection}{\numberline {3.1}Sintaxis abstracta de orden superior}{30}{subsection.3.3.1}%
 \contentsline {subsection}{\numberline {3.2}Clasificación de variables en el operador let}{31}{subsection.3.3.2}%
-\contentsline {section}{\numberline {4}Sustitución y $\alpha $-equivalencias}{35}{section.3.4}%
-\contentsline {section}{\numberline {5}Ejercicios para el lector}{37}{section.3.5}%
-\contentsline {chapter}{\numberline {4}Semántica}{39}{chapter.4}%
-\contentsline {section}{\numberline {1}Semántica estática}{40}{section.4.1}%
-\contentsline {section}{\numberline {2}Semántica dinámica}{42}{section.4.2}%
-\contentsline {subsection}{\numberline {2.1}Semántica operacional}{42}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {2.2}Semántica de paso pequeño}{43}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {2.3}Semántica de paso grande}{46}{subsection.4.2.3}%
-\contentsline {section}{\numberline {3}La función eval}{48}{section.4.3}%
-\contentsline {section}{\numberline {4}Ejercicios para el lector}{48}{section.4.4}%
-\contentsline {chapter}{\numberline {5}Cálculo Lambda}{50}{chapter.5}%
-\contentsline {subsubsection}{Objetivo}{51}{figure.caption.8}%
-\contentsline {subsubsection}{Planteamiento}{51}{figure.caption.8}%
-\contentsline {section}{\numberline {1}Sintaxis del Cálculo Lambda}{51}{section.5.1}%
-\contentsline {section}{\numberline {2}$\alpha $-equivalencia en el Cálculo Lambda}{52}{section.5.2}%
-\contentsline {section}{\numberline {3}Semántica operacional del Cálculo Lambda}{53}{section.5.3}%
-\contentsline {section}{\numberline {4}Definibilidad Lambda}{54}{section.5.4}%
-\contentsline {subsection}{\numberline {4.1}Booleanos y operadores lógicos}{54}{subsection.5.4.1}%
-\contentsline {section}{\numberline {5}Aritmética del Cálculo Lambda}{55}{section.5.5}%
-\contentsline {subsection}{\numberline {5.1}Numerales de Church}{55}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.2}Funciones aritméticas}{56}{subsection.5.5.2}%
-\contentsline {subsubsection}{Función sucesor}{56}{subsection.5.5.2}%
-\contentsline {subsubsection}{IsZero}{56}{exercise.5.5.2}%
-\contentsline {subsubsection}{Suma}{57}{exercise.5.5.4}%
-\contentsline {subsubsection}{Producto}{58}{exercise.5.5.6}%
-\contentsline {section}{\numberline {6}Datos estructurados en el Cálculo Lambda}{59}{section.5.6}%
-\contentsline {subsection}{\numberline {6.1}Tuplas}{59}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {6.2}Listas}{60}{subsection.5.6.2}%
-\contentsline {section}{\numberline {7}Propiedades semánticas del Cálculo Lambda}{60}{section.5.7}%
-\contentsline {subsection}{\numberline {7.1}No terminación}{60}{subsection.5.7.1}%
-\contentsline {subsection}{\numberline {7.2}No determinismo}{60}{subsection.5.7.2}%
-\contentsline {subsection}{\numberline {7.3}Confluencia}{61}{subsection.5.7.3}%
-\contentsline {section}{\numberline {8}Combinadores de punto fijo}{61}{section.5.8}%
-\contentsline {section}{\numberline {9}Ejercicios para el lector}{62}{section.5.9}%
-\contentsline {chapter}{\numberline {6}\textsf {MinHS}}{65}{chapter.6}%
-\contentsline {subsubsection}{Objetivo}{66}{figure.caption.9}%
-\contentsline {subsubsection}{Planteamiento}{66}{figure.caption.9}%
-\contentsline {section}{\numberline {1}Sintaxis de \textsf {MinHS}}{66}{section.6.1}%
-\contentsline {subsection}{\numberline {1.1}Sintaxis concreta}{66}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {1.2}Sintaxis abstracta}{67}{subsection.6.1.2}%
-\contentsline {section}{\numberline {2}Semántica de \textsf {MinHs}}{68}{section.6.2}%
-\contentsline {subsection}{\numberline {2.1}Sistemas de tipos}{68}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {2.2}Semántica estática}{68}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {2.3}Semántica dinámica}{71}{subsection.6.2.3}%
-\contentsline {section}{\numberline {3}Propiedades de \textsf {MinHS}}{72}{section.6.3}%
-\contentsline {subsection}{\numberline {3.1}Seguridad del lenguaje}{72}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {3.2}No terminación}{73}{subsection.6.3.2}%
-\contentsline {section}{\numberline {4}Ejercicios para el lector}{73}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Inferencia de tipos}{75}{chapter.7}%
-\contentsline {subsubsection}{Objetivo}{76}{figure.caption.10}%
-\contentsline {subsubsection}{Planteamiento}{76}{figure.caption.10}%
-\contentsline {section}{\numberline {1}Estandarización de variables}{76}{section.7.1}%
-\contentsline {section}{\numberline {2}Generación de restricciones}{78}{section.7.2}%
-\contentsline {section}{\numberline {3}Algoritmo de unificación}{80}{section.7.3}%
-\contentsline {section}{\numberline {4}Algoritmo de inferencia de tipos}{81}{section.7.4}%
-\contentsline {section}{\numberline {5}Ejercicios para el lector}{94}{section.7.5}%
-\contentsline {chapter}{\numberline {8}Máquinas abstractas}{96}{chapter.8}%
-\contentsline {subsubsection}{Objetivo}{97}{figure.caption.11}%
-\contentsline {subsubsection}{Planteamiento}{97}{figure.caption.11}%
-\contentsline {section}{\numberline {1}La máquina $\mathcal {H}$}{97}{section.8.1}%
-\contentsline {subsection}{\numberline {1.1}Marcos y la pila de control}{97}{subsection.8.1.1}%
-\contentsline {subsection}{\numberline {1.2}Estados}{98}{subsection.8.1.2}%
-\contentsline {subsection}{\numberline {1.3}Transiciones}{99}{subsection.8.1.3}%
-\contentsline {section}{\numberline {2}La máquina $\mathcal {J}$}{102}{section.8.2}%
-\contentsline {subsection}{\numberline {2.1}Marcos}{102}{subsection.8.2.1}%
-\contentsline {subsection}{\numberline {2.2}Ambientes}{103}{subsection.8.2.2}%
-\contentsline {subsection}{\numberline {2.3}Estados}{103}{subsection.8.2.3}%
-\contentsline {subsection}{\numberline {2.4}Transiciones}{103}{subsection.8.2.4}%
-\contentsline {subsection}{\numberline {2.5}Alcance}{107}{subsection.8.2.5}%
-\contentsline {subsection}{\numberline {2.6}Cerraduras}{107}{subsection.8.2.6}%
-\contentsline {subsection}{\numberline {2.7}Transiciones con cerradura para $\mathcal {J}$}{107}{subsection.8.2.7}%
-\contentsline {section}{\numberline {3}Ejercicios para el lector}{110}{section.8.3}%
-\contentsline {chapter}{\numberline {9}TinyC}{112}{chapter.9}%
-\contentsline {subsubsection}{Objetivo}{113}{figure.caption.12}%
-\contentsline {subsubsection}{Planteamiento}{113}{figure.caption.12}%
-\contentsline {section}{\numberline {1}Sintaxis}{113}{section.9.1}%
-\contentsline {section}{\numberline {2}La Máquina $\mathcal {C}$}{114}{section.9.2}%
-\contentsline {subsection}{\numberline {2.1}Marcos}{114}{subsection.9.2.1}%
-\contentsline {subsection}{\numberline {2.2}Estados}{115}{subsection.9.2.2}%
-\contentsline {subsection}{\numberline {2.3}Ambientes}{116}{subsection.9.2.3}%
-\contentsline {subsection}{\numberline {2.4}Transiciones}{116}{subsection.9.2.4}%
-\contentsline {section}{\numberline {3}Ejercicios para el lector}{124}{section.9.3}%
-\contentsline {chapter}{\numberline {10}Herencia y subtipos}{125}{chapter.10}%
-\contentsline {subsubsection}{Objetivo}{126}{figure.caption.13}%
-\contentsline {subsubsection}{Planteamiento}{126}{figure.caption.13}%
-\contentsline {section}{\numberline {1}Orientación a objetos}{126}{section.10.1}%
-\contentsline {section}{\numberline {2}Subtipos}{127}{section.10.2}%
-\contentsline {subsection}{\numberline {2.1}Subtipificado de tipos primitivos}{128}{subsection.10.2.1}%
-\contentsline {subsection}{\numberline {2.2}Subtipificado de funciones}{129}{subsection.10.2.2}%
-\contentsline {subsection}{\numberline {2.3}Subtipificado para suma y producto}{129}{subsection.10.2.3}%
-\contentsline {subsection}{\numberline {2.4}Subtipificado para registros}{130}{subsection.10.2.4}%
-\contentsline {subsection}{\numberline {2.5}Elementos máximos}{130}{subsection.10.2.5}%
-\contentsline {section}{\numberline {3}Conversión de tipos}{131}{section.10.3}%
-\contentsline {subsection}{\numberline {3.1}Conversión ascendente \it (Upcasting)}{131}{subsection.10.3.1}%
-\contentsline {subsection}{\numberline {3.2}Conversión descendente \it (Downcasting)}{131}{subsection.10.3.2}%
-\contentsline {section}{\numberline {4}Ejercicios para el lector}{132}{section.10.4}%
-\contentsline {chapter}{\numberline {11}Java Peso Pluma}{133}{chapter.11}%
-\contentsline {subsubsection}{Objetivo}{134}{figure.caption.14}%
-\contentsline {subsubsection}{Planteamiento}{134}{figure.caption.14}%
-\contentsline {section}{\numberline {1}Sintaxis de Java Peso Pluma}{134}{section.11.1}%
-\contentsline {section}{\numberline {2}Tablas de clase}{136}{section.11.2}%
-\contentsline {section}{\numberline {3}Semántica dinámica}{137}{section.11.3}%
-\contentsline {section}{\numberline {4}Semántica estática}{138}{section.11.4}%
-\contentsline {section}{\numberline {5}Propiedades de Java Peso Pluma}{140}{section.11.5}%
-\contentsline {subsection}{\numberline {5.1}Preservación de tipos}{140}{subsection.11.5.1}%
-\contentsline {subsection}{\numberline {5.2}Progreso}{140}{subsection.11.5.2}%
-\contentsline {subsection}{\numberline {5.3}Seguridad}{140}{subsection.11.5.3}%
-\contentsline {section}{\numberline {6}Cómo se relaciona Java Peso Pluma con Java?}{141}{section.11.6}%
-\contentsline {section}{\numberline {7}Ejercicios para el lector}{141}{section.11.7}%
+\contentsline {section}{\numberline {4}Sustitución y $\alpha $-equivalencias}{34}{section.3.4}%
+\contentsline {section}{\numberline {5}Ejercicios para el lector}{36}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Semántica}{38}{chapter.4}%
+\contentsline {section}{\numberline {1}Semántica estática}{39}{section.4.1}%
+\contentsline {section}{\numberline {2}Semántica dinámica}{41}{section.4.2}%
+\contentsline {subsection}{\numberline {2.1}Semántica operacional}{41}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {2.2}Semántica de paso pequeño}{42}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {2.3}Semántica de paso grande}{45}{subsection.4.2.3}%
+\contentsline {section}{\numberline {3}La función eval}{47}{section.4.3}%
+\contentsline {section}{\numberline {4}Ejercicios para el lector}{47}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Cálculo Lambda}{49}{chapter.5}%
+\contentsline {subsubsection}{Objetivo}{50}{figure.caption.8}%
+\contentsline {subsubsection}{Planteamiento}{50}{figure.caption.8}%
+\contentsline {section}{\numberline {1}Sintaxis del Cálculo Lambda}{50}{section.5.1}%
+\contentsline {section}{\numberline {2}$\alpha $-equivalencia en el Cálculo Lambda}{51}{section.5.2}%
+\contentsline {section}{\numberline {3}Semántica operacional del Cálculo Lambda}{52}{section.5.3}%
+\contentsline {section}{\numberline {4}Definibilidad Lambda}{53}{section.5.4}%
+\contentsline {subsection}{\numberline {4.1}Booleanos y operadores lógicos}{53}{subsection.5.4.1}%
+\contentsline {section}{\numberline {5}Aritmética del Cálculo Lambda}{54}{section.5.5}%
+\contentsline {subsection}{\numberline {5.1}Numerales de Church}{54}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.2}Funciones aritméticas}{55}{subsection.5.5.2}%
+\contentsline {subsubsection}{Función sucesor}{55}{subsection.5.5.2}%
+\contentsline {subsubsection}{IsZero}{55}{exercise.5.5.2}%
+\contentsline {subsubsection}{Suma}{56}{exercise.5.5.4}%
+\contentsline {subsubsection}{Producto}{57}{exercise.5.5.6}%
+\contentsline {section}{\numberline {6}Datos estructurados en el Cálculo Lambda}{58}{section.5.6}%
+\contentsline {subsection}{\numberline {6.1}Tuplas}{58}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {6.2}Listas}{59}{subsection.5.6.2}%
+\contentsline {section}{\numberline {7}Propiedades semánticas del Cálculo Lambda}{59}{section.5.7}%
+\contentsline {subsection}{\numberline {7.1}No terminación}{59}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {7.2}No determinismo}{59}{subsection.5.7.2}%
+\contentsline {subsection}{\numberline {7.3}Confluencia}{60}{subsection.5.7.3}%
+\contentsline {section}{\numberline {8}Combinadores de punto fijo}{60}{section.5.8}%
+\contentsline {section}{\numberline {9}Ejercicios para el lector}{61}{section.5.9}%
+\contentsline {chapter}{\numberline {6}\textsf {MinHS}}{64}{chapter.6}%
+\contentsline {subsubsection}{Objetivo}{65}{figure.caption.9}%
+\contentsline {subsubsection}{Planteamiento}{65}{figure.caption.9}%
+\contentsline {section}{\numberline {1}Sintaxis de \textsf {MinHS}}{65}{section.6.1}%
+\contentsline {subsection}{\numberline {1.1}Sintaxis concreta}{65}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {1.2}Sintaxis abstracta}{66}{subsection.6.1.2}%
+\contentsline {section}{\numberline {2}Semántica de \textsf {MinHs}}{67}{section.6.2}%
+\contentsline {subsection}{\numberline {2.1}Sistemas de tipos}{67}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {2.2}Semántica estática}{67}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {2.3}Semántica dinámica}{70}{subsection.6.2.3}%
+\contentsline {section}{\numberline {3}Propiedades de \textsf {MinHS}}{71}{section.6.3}%
+\contentsline {subsection}{\numberline {3.1}Seguridad del lenguaje}{71}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {3.2}No terminación}{72}{subsection.6.3.2}%
+\contentsline {section}{\numberline {4}Ejercicios para el lector}{72}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Inferencia de tipos}{74}{chapter.7}%
+\contentsline {subsubsection}{Objetivo}{75}{figure.caption.10}%
+\contentsline {subsubsection}{Planteamiento}{75}{figure.caption.10}%
+\contentsline {section}{\numberline {1}Estandarización de variables}{75}{section.7.1}%
+\contentsline {section}{\numberline {2}Generación de restricciones}{77}{section.7.2}%
+\contentsline {section}{\numberline {3}Algoritmo de unificación}{79}{section.7.3}%
+\contentsline {section}{\numberline {4}Algoritmo de inferencia de tipos}{80}{section.7.4}%
+\contentsline {section}{\numberline {5}Ejercicios para el lector}{93}{section.7.5}%
+\contentsline {chapter}{\numberline {8}Máquinas abstractas}{95}{chapter.8}%
+\contentsline {subsubsection}{Objetivo}{96}{figure.caption.11}%
+\contentsline {subsubsection}{Planteamiento}{96}{figure.caption.11}%
+\contentsline {section}{\numberline {1}La máquina $\mathcal {H}$}{96}{section.8.1}%
+\contentsline {subsection}{\numberline {1.1}Marcos y la pila de control}{96}{subsection.8.1.1}%
+\contentsline {subsection}{\numberline {1.2}Estados}{97}{subsection.8.1.2}%
+\contentsline {subsection}{\numberline {1.3}Transiciones}{98}{subsection.8.1.3}%
+\contentsline {section}{\numberline {2}La máquina $\mathcal {J}$}{101}{section.8.2}%
+\contentsline {subsection}{\numberline {2.1}Marcos}{101}{subsection.8.2.1}%
+\contentsline {subsection}{\numberline {2.2}Ambientes}{102}{subsection.8.2.2}%
+\contentsline {subsection}{\numberline {2.3}Estados}{102}{subsection.8.2.3}%
+\contentsline {subsection}{\numberline {2.4}Transiciones}{102}{subsection.8.2.4}%
+\contentsline {subsection}{\numberline {2.5}Alcance}{106}{subsection.8.2.5}%
+\contentsline {subsection}{\numberline {2.6}Cerraduras}{106}{subsection.8.2.6}%
+\contentsline {subsection}{\numberline {2.7}Transiciones con cerradura para $\mathcal {J}$}{106}{subsection.8.2.7}%
+\contentsline {section}{\numberline {3}Ejercicios para el lector}{109}{section.8.3}%
+\contentsline {chapter}{\numberline {9}TinyC}{111}{chapter.9}%
+\contentsline {subsubsection}{Objetivo}{112}{figure.caption.12}%
+\contentsline {subsubsection}{Planteamiento}{112}{figure.caption.12}%
+\contentsline {section}{\numberline {1}Sintaxis}{112}{section.9.1}%
+\contentsline {section}{\numberline {2}La Máquina $\mathcal {C}$}{113}{section.9.2}%
+\contentsline {subsection}{\numberline {2.1}Marcos}{113}{subsection.9.2.1}%
+\contentsline {subsection}{\numberline {2.2}Estados}{114}{subsection.9.2.2}%
+\contentsline {subsection}{\numberline {2.3}Ambientes}{115}{subsection.9.2.3}%
+\contentsline {subsection}{\numberline {2.4}Transiciones}{115}{subsection.9.2.4}%
+\contentsline {section}{\numberline {3}Ejercicios para el lector}{123}{section.9.3}%
+\contentsline {chapter}{\numberline {10}Herencia y subtipos}{124}{chapter.10}%
+\contentsline {subsubsection}{Objetivo}{125}{figure.caption.13}%
+\contentsline {subsubsection}{Planteamiento}{125}{figure.caption.13}%
+\contentsline {section}{\numberline {1}Orientación a objetos}{125}{section.10.1}%
+\contentsline {section}{\numberline {2}Subtipos}{126}{section.10.2}%
+\contentsline {subsection}{\numberline {2.1}Subtipificado de tipos primitivos}{127}{subsection.10.2.1}%
+\contentsline {subsection}{\numberline {2.2}Subtipificado de funciones}{128}{subsection.10.2.2}%
+\contentsline {subsection}{\numberline {2.3}Subtipificado para suma y producto}{128}{subsection.10.2.3}%
+\contentsline {subsection}{\numberline {2.4}Subtipificado para registros}{129}{subsection.10.2.4}%
+\contentsline {subsection}{\numberline {2.5}Elementos máximos}{129}{subsection.10.2.5}%
+\contentsline {section}{\numberline {3}Conversión de tipos}{130}{section.10.3}%
+\contentsline {subsection}{\numberline {3.1}Conversión ascendente \it (Upcasting)}{130}{subsection.10.3.1}%
+\contentsline {subsection}{\numberline {3.2}Conversión descendente \it (Downcasting)}{130}{subsection.10.3.2}%
+\contentsline {section}{\numberline {4}Ejercicios para el lector}{131}{section.10.4}%
+\contentsline {chapter}{\numberline {11}Java Peso Pluma}{132}{chapter.11}%
+\contentsline {subsubsection}{Objetivo}{133}{figure.caption.14}%
+\contentsline {subsubsection}{Planteamiento}{133}{figure.caption.14}%
+\contentsline {section}{\numberline {1}Sintaxis de Java Peso Pluma}{133}{section.11.1}%
+\contentsline {section}{\numberline {2}Tablas de clase}{135}{section.11.2}%
+\contentsline {section}{\numberline {3}Semántica dinámica}{136}{section.11.3}%
+\contentsline {section}{\numberline {4}Semántica estática}{137}{section.11.4}%
+\contentsline {section}{\numberline {5}Propiedades de Java Peso Pluma}{139}{section.11.5}%
+\contentsline {subsection}{\numberline {5.1}Preservación de tipos}{139}{subsection.11.5.1}%
+\contentsline {subsection}{\numberline {5.2}Progreso}{139}{subsection.11.5.2}%
+\contentsline {subsection}{\numberline {5.3}Seguridad}{139}{subsection.11.5.3}%
+\contentsline {section}{\numberline {6}Cómo se relaciona Java Peso Pluma con Java?}{140}{section.11.6}%
+\contentsline {section}{\numberline {7}Ejercicios para el lector}{140}{section.11.7}%
