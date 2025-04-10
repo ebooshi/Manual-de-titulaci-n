@@ -307,12 +307,12 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 	
 \end{definition}
 
-    \begin{definition}Variable libre: una variable está libre en una expresión, si no se encuentra dentro del alcance de una variable de ligado con su nombre. Es decir, una variable es libre si no está ligada\footnote{Definición formulada de  \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}.\\\\
+    \begin{definition}[Variable libre] Una variable está libre en una expresión si no se encuentra dentro del alcance de una variable de ligado con su nombre. Es decir, una variable es libre si no está ligada\footnote{Definición formulada de  \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}.\\\\
     De tal forma que si tenemos la siguiente expresión: \[ \texttt{let } x = e_1 \texttt{ in } \setulcolor{red}\textit{\ul{y}} \texttt{ end } \] Decimos que $y$ es una variable libre en nuestra expresión \texttt{let}.
     \end{definition}
 
     
-    \begin{definition}Función para obtener las variables libres de una expresión: dado el árbol de sintaxis abstracta $a$  definimos el conjunto de variables libres de la expresión\footnote{Definición extraída de  \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}, denotado $FV(a)$ como sigue:
+    \begin{definition}[Función para obtener las variables libres de una expresión] Dado el árbol de sintaxis abstracta $a$  definimos el conjunto de variables libres de la expresión\footnote{Definición extraída de  \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}, denotado $FV(a)$ como sigue:
         \[
             \begin{array}{lcl}
                 FV(x)&=&\{x\}\\
@@ -504,18 +504,18 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     \begin{definition}Función de sustitución: se define la función de sustitución\footnote{Esta definición está formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]} adaptada para las instrucciones que hemos revisado hasta este momento para \textsf{EAB}.} sobre los árboles de sintaxis abstracta de \textsf{EAB}:
         \[
             \begin{array}{lclr}
-                var[x][var[x]:=e]&=&e&\\
-                var[z][var[z]:=e]&=&var[z]&\\
-	     T\; [var[z]:=e]& =& T \\
-	     F\; [var[z]:=e] &=& F\\
-                num[n][var[x]:=e]&=&num[n]&\\
-                sum(a_1,a_2)[var[x]:=e]&=&sum(a_1[var[x]:=e],a_2[var[x]:=e])&\\
-                prod(a_1,a_2)[var[x]:=e]&=&prod(a_1[var[x]:=e],a_2[var[x]:=e])&\\
-                let(a_1,a_2)[var[x]:=e]&=&let(a_1[var[x]:=e],a_2[var[x]:=e])&\\
-                if(a_1,a_2)[var[x]:=e]&=&if(a_1[var[x]:=e],a_2[var[x]:=e])&\\
-                if(a_1,a_2,a_3)[var[x]:=e]&=&if(a_1[var[$x$]:=e],a_2[var[x]:=e],a_3[var[x]:=e])&\\
-                (z.a)[var[x]:=e]&=&z.(a[var[x]:=e]) \; \mbox{Si }x\neq z\mbox{ y }z\not\in FV(e)\\
-                (z.a)[var[x]:=e]&=&{\tt indefinido} \; \mbox{Si }z\in FV(e)\\
+                x[x :=e]&=&e&\\
+                z[z :=e]&=&z&\\
+	     \text{T}\; [z:=e]& =& \text{T} \\
+	     \text{F}\; [z:=e] &=& \text{F}\\
+                num[n][x:=e]&=&num[n]&\\
+                sum(a_1,a_2)[x:=e]&=&sum(a_1[x:=e],a_2[x:=e])&\\
+                prod(a_1,a_2)[x:=e]&=&prod(a_1[x:=e],a_2[x:=e])&\\
+                let(a_1,a_2)[x:=e]&=&let(a_1[x:=e],a_2[x:=e])&\\
+                if(a_1,a_2)[x:=e]&=&if(a_1[x:=e],a_2[x:=e])&\\
+                if(a_1,a_2,a_3)[x:=e]&=&if(a_1[x:=e],a_2[x:=e],a_3[x:=e])&\\
+                (z.a)[x:=e]&=&z.(a[x:=e]) \; \mbox{Si }x\neq z\mbox{ y }z\not\in FV(e)\\
+                (z.a)[x:=e]&=&{\tt indefinido} \; \mbox{Si }z\in FV(e)\\
             \end{array}
         \]
     \end{definition} 
@@ -524,10 +524,9 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 
     \begin{exercise}
         Proporciona una expresión $\alpha$-equivalente a la siguiente expresión:\\
-        $\texttt{let } x = \texttt{ let } y = \texttt{ False } \texttt{ in } \texttt{\texttt{ if } (y \texttt{then} 1 \texttt{else} 0)} \texttt{ in } (x + 2) * w \texttt{ end}$ 
-        \[
-            \texttt{let } k = \texttt{ let } j = \texttt{ False } \texttt{ in } \texttt{\texttt{ if } (j \texttt{then} 1 \texttt{else} 0)} \texttt{ in } (k + 2) * w \texttt{ end} 
-        \]
+	$$\texttt{let } x = \texttt{let } y = \texttt{false } \texttt{ in } \texttt{\texttt{ if } (y \texttt{then} 1 \texttt{else} 0)} \texttt{ in } (x + 2) * w \texttt{ end}$$
+	$$\equiv_{\alpha}$$
+           $$\texttt{let } k = \texttt{let } j = \texttt{false } \texttt{ in } \texttt{\texttt{ if } (j \texttt{then} 1 \texttt{else} 0)} \texttt{ in } (k + 2) * w \texttt{ end} $$
     \end{exercise}
 
     \bigskip
@@ -553,31 +552,19 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         \[
             \texttt{let } x = (w + 1) * 2 \texttt{ in} \texttt{ if (} \texttt{True } \texttt{ then } w \texttt{ else } (2 * x) \texttt{)} \texttt{ end }[w:=2]
         \]
-        \[
-            = \textit{let(prod(sum(var[w], 1), 2), if(T, var[w], prod(2, var[x])))\; [var[w] := 2]}
-        \]
-        \[
-            \scalemath{0.81}{
-             =  \textit{let(prod(sum(var[w], 1), 2) \; [var[w] := 2], if(T, var[w], prod(2, var[x]))\; [var[w] := 2] )}
-            }
-        \]
-        \[
-            \scalemath{0.6}{
-               =  \textit{let(prod(sum(var[w], 1) [var[w] := 2], 2 [var[w] := 2]), if(T [var[w] := 2], var[w] [var[w] := 2], prod(2, var[x])[var[w] := 2] ))}
-            }
-        \]
-        \[
-	\scalemath{0.7}{
-             =  \textit{let(prod(sum(var[w] [var[w] := 2] , 1[var[w] := 2]), 2), if(T, 2, prod(2 [var[w] := 2], var[x] [var[w] := 2])))}
- 	}
-        \]
-        \[
-	\scalemath{1}{
-             =  \textit{let(prod(sum(2, 1), 2), if(T, 2, prod(2, var[x])))}
- 	}
-        \]
+\end{exercise}
 
-    \end{exercise}
+        
+            $$\textit{let(prod(sum(w, num[1]), num[2]), if(T, w, prod(2, x))} \; [w  := num[2]]$$
+
+             $$\textit{let(prod(sum(w, num[1]), num[2])} \; [w := num[2]], \textit{if(T, w, prod(num[2], x))} \; [w := num[2]] )$$
+ 
+             $$\textit{let(prod(sum(w, num[1])} [w := num[2]], 2 [var[w] := 2]), \; \textit{if(} \text{T} [w := num[2]], w [w := num[2]], \textit{prod(}num[2], x\textit{)}[w := num[2]] ))$$
+
+             $$\textit{let(prod(sum(} w [w := num[2]] , num[1] [w  := num[2]] ), num[2]), \textit{if(} T,  num[2], \textit{prod(} num[2] [w := num[2]], x [w := num[2]])))$$
+
+             $$\textit{let(prod(sum(num[2], num[1]), num[2]), if(T, num[2], prod(num[2], x)))}$$
+
 
     
 \section{Ejercicios para el lector}

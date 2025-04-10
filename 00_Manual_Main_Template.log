@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  9 APR 2025 13:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  10 APR 2025 08:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3054,13 +3054,42 @@ Underfull \hbox (badness 10000) in paragraph at lines 500--502
 
  []
 
-[34] [35] [36]
-Underfull \hbox (badness 10000) in paragraph at lines 678--680
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 526--527
+
+ []
+
+[35]
+Overfull \hbox (134.49002pt too wide) detected at line 562
+[]\OT1/lmr/m/n/10 [\OML/lmm/m/it/10 w \OT1/lmr/m/n/10 := \OML/lmm/m/it/10 num\O
+T1/lmr/m/n/10 [2]]\OML/lmm/m/it/10 ; \OT1/lmr/m/n/10 2[\OML/lmm/m/it/10 var\OT1
+/lmr/m/n/10 [\OML/lmm/m/it/10 w\OT1/lmr/m/n/10 ] := 2])\OML/lmm/m/it/10 ;  [][]
+\OT1/lmr/m/n/10 [\OML/lmm/m/it/10 w \OT1/lmr/m/n/10 := \OML/lmm/m/it/10 num\OT1
+/lmr/m/n/10 [2]]\OML/lmm/m/it/10 ; w\OT1/lmr/m/n/10 [\OML/lmm/m/it/10 w \OT1/lm
+r/m/n/10 := \OML/lmm/m/it/10 num\OT1/lmr/m/n/10 [2]]\OML/lmm/m/it/10 ; []num\OT
+1/lmr/m/n/10 [2]\OML/lmm/m/it/10 ; x[]\OT1/lmr/m/n/10 [\OML/lmm/m/it/10 w \OT1/
+lmr/m/n/10 := \OML/lmm/m/it/10 num\OT1/lmr/m/n/10 [2]]))
+ []
+
+
+Overfull \hbox (124.81802pt too wide) detected at line 564
+[]\OML/lmm/m/it/10 w\OT1/lmr/m/n/10 [\OML/lmm/m/it/10 w \OT1/lmr/m/n/10 := \OML
+/lmm/m/it/10 num\OT1/lmr/m/n/10 [2]]\OML/lmm/m/it/10 ; num\OT1/lmr/m/n/10 [1][\
+OML/lmm/m/it/10 w \OT1/lmr/m/n/10 := \OML/lmm/m/it/10 num\OT1/lmr/m/n/10 [2]])\
+OML/lmm/m/it/10 ; num\OT1/lmr/m/n/10 [2])\OML/lmm/m/it/10 ; []T; num\OT1/lmr/m/
+n/10 [2]\OML/lmm/m/it/10 ; []num\OT1/lmr/m/n/10 [2][\OML/lmm/m/it/10 w \OT1/lmr
+/m/n/10 := \OML/lmm/m/it/10 num\OT1/lmr/m/n/10 [2]]\OML/lmm/m/it/10 ; x\OT1/lmr
+/m/n/10 [\OML/lmm/m/it/10 w \OT1/lmr/m/n/10 := \OML/lmm/m/it/10 num\OT1/lmr/m/n
+/10 [2]])))
+ []
+
+[36]
+Underfull \hbox (badness 10000) in paragraph at lines 665--667
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 681--683
+Underfull \hbox (badness 10000) in paragraph at lines 668--670
 
  []
 
@@ -5023,7 +5052,7 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (161 pages, 2418511 bytes).
+Output written on 00_Manual_Main_Template.pdf (161 pages, 2418416 bytes).
 PDF statistics:
  3264 PDF objects out of 3580 (max. 8388607)
  1195 named destinations out of 1200 (max. 500000)
