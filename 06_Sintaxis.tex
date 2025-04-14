@@ -547,6 +547,8 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         \end{align*}
     \end{exercise}
 
+	\newpage
+
     \begin{exercise}
         Desarrolla la sustitución aplicada a la siguiente expresión de acuerdo con la función de sustitución previamente definida.
         \[
@@ -554,37 +556,78 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         \]
 \end{exercise}
 
-        
-            $$\textit{let(prod(sum(w, num[1]), num[2]), if(T, w, prod(2, x))} \; [w  := num[2]]$$
+\noindent
+\begin{center}
+\begin{minipage}{0.5cm}
+\flushleft{
+	\rotatebox{90}{
+		\parbox{19cm}{
+  			$\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}, x.\textit{if(} \text{ T, } w, \textit{ prod(2, x))} \; [ w := \textit{num}[2]]$
+		}
+	}
+}
+\end{minipage}
+\hspace{1cm}
+\begin{minipage}{0.5cm}
+\flushleft{
+	\rotatebox{90}{
+		\parbox{19cm}{
+  			$\textit{let(prod(sum(w, num}[1] ),  \textit{num}[2]) \; [w := \textit{num}[2]], x.\textit{if(} \text{ T, } w, \textit{ prod(num}[2], x)) \; [w := \textit{num}[2]] )$
+		}
+	}
+}
+\end{minipage}
+\hspace{1cm}
+\begin{minipage}{0.5cm}
+\flushleft{
+	\rotatebox{90}{
+		\parbox{19cm}{
+  			$\textit{let(prod(sum(w, num[1])} [w := \textit{num}[2]], 2 [\textit{var}[w] := 2]), x.\textit{if(} \text{ T} [w := num[2]], w [w := \textit{num}[2]], \textit{ prod(num}[2], x\textit{)}[w := \textit{num}[2]] ))$
+		}
+	}
+}
+\end{minipage}
+\hspace{1cm}
+\begin{minipage}{0.5cm}
+\flushleft{
+	\rotatebox{90}{
+		\parbox{19cm}{
+			  $\textit{let(prod(sum(} w [w := \textit{num}[2]] , \textit{num}[1] [w := \textit{num}[2]] ), \textit{num}[2]), x.\textit{if(} \text{ T, } \textit{num}[2], \textit{ prod(num}[2] [w := \textit{num}[2]], x [w := \textit{num}[2]])))$
+		}
+	}
+}
+\end{minipage}
+\hspace{1cm}
+\begin{minipage}{0.5cm}
+\flushleft{
+	\rotatebox{90}{
+		\parbox{19cm}{
+ 			 $\textit{let(prod(sum(num}[2], \textit{num}[1]), \textit{num}[2]), x.\textit{if( } \text{ T, }  \textit{num}[2], \textit{ prod(num}[2], x)))$
+		}
+	}
+}
+\end{minipage}
+\end{center}
 
-             $$\textit{let(prod(sum(w, num[1]), num[2])} \; [w := num[2]], \textit{if(T, w, prod(num[2], x))} \; [w := num[2]] )$$
- 
-             $$\textit{let(prod(sum(w, num[1])} [w := num[2]], 2 [var[w] := 2]), \; \textit{if(} \text{T} [w := num[2]], w [w := num[2]], \textit{prod(}num[2], x\textit{)}[w := num[2]] ))$$
-
-             $$\textit{let(prod(sum(} w [w := num[2]] , num[1] [w  := num[2]] ), num[2]), \textit{if(} T,  num[2], \textit{prod(} num[2] [w := num[2]], x [w := num[2]])))$$
-
-             $$\textit{let(prod(sum(num[2], num[1]), num[2]), if(T, num[2], prod(num[2], x)))}$$
+    
 
 
     
 \section{Ejercicios para el lector}
 
     \begin{exercise}
-        Explica con tus palabras la diferencia entre la sintaxis abstracta y la sintaxis concreta.
+        Explica la diferencia entre la sintaxis abstracta y la sintaxis concreta.
     \end{exercise}
-
-    \bigskip
-
+\bigskip
     \begin{exercise}
-        Explica con tus palabras por que es necesaria la sintaxis abstracta de orden superior que se introduce con el árbol de sintáxis abstracta \textit{x.t}
+        Explica por que es necesaria la sintaxis abstracta de orden superior que se introduce con el árbol de sintáxis abstracta \textit{x.t}
     \end{exercise}
 
-    \bigskip
-
+\bigskip
     \begin{exercise}
         Proporciona el árbol de sintaxis abstracta para la siguiente expresión \texttt{let}
         \[ 
-            \texttt{let } z = 777 \texttt{ in } (w + h) * (z) + \texttt{ let } v = -33 \texttt{ in } (z * z) + v \texttt{ end } \texttt{ end } 
+            \texttt{let } z = 777 \texttt{ in } (w + h) * (z) + \texttt{let } v = -33 \texttt{ in } (z * z) + v \texttt{ end } \texttt{end } 
         \]
     \end{exercise}
 
@@ -593,7 +636,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     \begin{exercise}
         Proporciona el árbol de sintaxis abstracta para la siguiente expresión \texttt{if}
         \[
-            \texttt{if(} \texttt{True} \texttt{ then } \texttt{if(}  \texttt{False} \texttt{ then } 0) \texttt{ else } (2 * 7) - 1 \texttt{)}
+            \texttt{if(} \texttt{true} \texttt{ then } \texttt{if(}  \texttt{false} \texttt{ then } 0) \texttt{ else } (2 * 7) - 1 \texttt{)}
         \]
     \end{exercise}
 
@@ -602,7 +645,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     \begin{exercise}
         La siguiente expresión ¿es una expresión correcta de nuestro lenguaje? Explica por que si o porque no de acuerdo a las reglas de sintaxis concreta definidas.
         \[
-            \texttt{if(} \top \texttt{ then } \texttt{ let } x = True \texttt{ in } \texttt{ if (} x \texttt{ then } \bot \texttt{)} \texttt{ end} \text{)}
+            \texttt{if(} \top \texttt{ then } \texttt{ let } x = \text{True} \texttt{ in } \texttt{ if(} x \texttt{ then } \bot \texttt{)} \texttt{ end} \text{)}
         \]
     \end{exercise}
 
@@ -612,11 +655,11 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         Dada la siguiente expresión let definida como:
         \begin{align*}
         	e_1=_{\text{def}}\texttt{let  }
-        		x&= \texttt{let }x = 2 \texttt{ in } \texttt{ let } y = 3 \texttt{ in } y + x \texttt{ end } \texttt{ end }
+        		x&= \texttt{let }x = 2 \texttt{ in } \texttt{ let } y = 3 \texttt{ in } y + x \texttt{end } \texttt{end }
         		\texttt{ in }\\
         		 &\texttt{let }y=(x \ast 2) \ast 19 
         		 	\texttt{ in } \\
-        		 & \qquad(x + y) \ast \texttt{let } z = \texttt{ let } v = 8 \texttt{ in } z \texttt{ end } \texttt{ in } 
+        		 & \qquad(x + y) \ast \texttt{let } z = \texttt{ let } v = 8 \texttt{ in } z \texttt{end} \texttt{ in } 
         		 						(y + z) \ast v 
         		 				\texttt{ end }\\
         		 &\texttt{ end }\\
@@ -624,14 +667,15 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         \end{align*}
         Proporciona lo siguiente por cada subexpresión \texttt{let} definida en $e$:
         \begin{itemize}
-            \item Las variables ligadas
-            \item Las variables libres
+	 \item La variable de ligado
             \item El alcance de cada variable
+            \item Las variables ligadas
+	 \item Las variables libres
             \item El valor que se obtiene al desarrollar la expresión.
         \end{itemize}
     \end{exercise}
 
-    \bigskip
+\bigskip
     
     \begin{exercise}
         Proporciona una expresión $\alpha$-equivalente a $e_1$ del ejercicio anterior 
@@ -667,13 +711,13 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 
     De acuerdo a la especificación discutida anteriormente, contesta los siguiente incisos: \\
     \begin{itemize}
-        \item Define las reglas de inferencia para la sintaxis concreta de la gramática anterior.
-        \item Diseña una sintaxis abstracta apropiada para este lenguaje (Primero observa si es necesario alguna especie de ligado como el que define el operado \texttt{let} discutido en este capítulo).
-        \item Escribe las reglas para la relación de análisis sintáctico ($\longleftrightarrow$) del lenguaje.
-        \item Diseña un algoritmo de sustitución para este lenguaje.
-        \item La relación de $\alpha$-equivalencia en este lenguaje se da respecto al operador de definición de función $fun$. Se dice que dos expresiones son $\alpha$-equivalentes si solo difieren en el nombre de la variable del parámetro de la función. Por ejemplo:
+        \item Define las reglas de la sintaxis concreta de la gramática.
+        \item Define las reglas de sintaxis abstracta para la gramática (Es necesario especificar el alcance de ligado de las variables de la función).
+        \item Escribe las reglas del análisis sintáctico  para la relación $e \ \longleftrightarrow\ asa$ del lenguaje.
+        \item Define la función de sustitución para este lenguaje. \\\\
+        Se dice que dos expresiones son $\alpha$-equivalentes si y solo si difieren en el nombre de la variable del parámetro de la función. La relación de $\alpha$-equivalencia en este lenguaje se define con respecto al operador $fun$. Por ejemplo:
               \[ fun(x) \rightarrow e \equiv_\alpha fun(y) \rightarrow e \]
-              Demuestra que $\equiv_\alpha$ es una relación de equivalencia.
+             \item Demuestra que $\equiv_\alpha$ es una relación de equivalencia.
     \end{itemize}
 
    \end{exercise}
