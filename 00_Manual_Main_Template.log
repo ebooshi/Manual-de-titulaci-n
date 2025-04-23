@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  14 APR 2025 17:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  23 APR 2025 08:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2902,32 +2902,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 21--25
  []
 
 [26]
-Underfull \hbox (badness 10000) in paragraph at lines 87--92
+Underfull \hbox (badness 10000) in paragraph at lines 88--93
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 87--92
+Underfull \hbox (badness 10000) in paragraph at lines 88--93
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 101--104
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 108--110
+Underfull \hbox (badness 10000) in paragraph at lines 102--105
 
  []
 
 [27]
-Underfull \hbox (badness 10000) in paragraph at lines 139--142
+Underfull \hbox (badness 10000) in paragraph at lines 109--111
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--142
+Underfull \hbox (badness 10000) in paragraph at lines 140--143
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--143
 
  []
 
@@ -3095,7 +3095,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 717--719
 [37]) [38]
 Cap\'{\i }tulo 4.
 (07_Semantica.tex
-<assets/04_gatito_semantica.jpg, id=1391, 717.68124pt x 337.26pt>
+<assets/04_gatito_semantica.jpg, id=1390, 717.68124pt x 337.26pt>
 File: assets/04_gatito_semantica.jpg Graphic file (type jpg)
 <use assets/04_gatito_semantica.jpg>
 Package pdftex.def Info: assets/04_gatito_semantica.jpg  used on input line 9.
@@ -3235,7 +3235,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 653--654
 ) [49]
 Cap\'{\i }tulo 5.
 (08_Calculo_Lambda.tex
-<assets/05_gatito_lambda.jpg, id=1552, 992.70876pt x 1284.8pt>
+<assets/05_gatito_lambda.jpg, id=1551, 992.70876pt x 1284.8pt>
 File: assets/05_gatito_lambda.jpg Graphic file (type jpg)
 <use assets/05_gatito_lambda.jpg>
 Package pdftex.def Info: assets/05_gatito_lambda.jpg  used on input line 9.
@@ -3390,7 +3390,7 @@ Cap\'{\i }tulo 6.
 LaTeX Font Info:    Font shape `OT1/lmss/b/n' in size <24.88> not available
 (Font)              Font shape `OT1/lmss/bx/n' tried instead on input line 61.
 (09_MinHs.tex
-<assets/06_gatito_minHs.jpg, id=1762, 992.70876pt x 1284.8pt>
+<assets/06_gatito_minHs.jpg, id=1761, 992.70876pt x 1284.8pt>
 File: assets/06_gatito_minHs.jpg Graphic file (type jpg)
 <use assets/06_gatito_minHs.jpg>
 Package pdftex.def Info: assets/06_gatito_minHs.jpg  used on input line 9.
@@ -3582,7 +3582,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 422--424
 ) [74]
 Cap\'{\i }tulo 7.
 (10_Inferencia_Tipos.tex
-<assets/07_gatitos_tipados.PNG, id=1887, 730.98094pt x 484.05844pt>
+<assets/07_gatitos_tipados.PNG, id=1886, 730.98094pt x 484.05844pt>
 File: assets/07_gatitos_tipados.PNG Graphic file (type png)
 <use assets/07_gatitos_tipados.PNG>
 Package pdftex.def Info: assets/07_gatitos_tipados.PNG  used on input line 14.
@@ -3823,7 +3823,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 927--928
 ) [95]
 Cap\'{\i }tulo 8.
 (11_Maquinas_Abstractas.tex
-<assets/08_gatito_abstracto.jpg, id=2068, 399.74344pt x 392.21532pt>
+<assets/08_gatito_abstracto.jpg, id=2067, 399.74344pt x 392.21532pt>
 File: assets/08_gatito_abstracto.jpg Graphic file (type jpg)
 <use assets/08_gatito_abstracto.jpg>
 Package pdftex.def Info: assets/08_gatito_abstracto.jpg  used on input line 9.
@@ -4020,7 +4020,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 525--528
 [108] [109] [110]) [111]
 Cap\'{\i }tulo 9.
 (12_TinyC.tex
-<assets/09_Gatito_C.png, id=2298, 605.26125pt x 779.16093pt>
+<assets/09_Gatito_C.png, id=2297, 605.26125pt x 779.16093pt>
 File: assets/09_Gatito_C.png Graphic file (type png)
 <use assets/09_Gatito_C.png>
 Package pdftex.def Info: assets/09_Gatito_C.png  used on input line 8.
@@ -4167,7 +4167,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 537--539
 [123]) [124]
 Cap\'{\i }tulo 10.
 (13_subtipado.tex
-<assets/10_gatitos_familia.jpg, id=2438, 706.64pt x 534.99875pt>
+<assets/10_gatitos_familia.jpg, id=2437, 706.64pt x 534.99875pt>
 File: assets/10_gatitos_familia.jpg Graphic file (type jpg)
 <use assets/10_gatitos_familia.jpg>
 Package pdftex.def Info: assets/10_gatitos_familia.jpg  used on input line 9.
@@ -4322,7 +4322,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 209--211
 [131]) [132]
 Cap\'{\i }tulo 11.
 (14_Featherweight_Java.tex
-<assets/11_gatito_cayendo.jpg, id=2562, 794.97pt x 614.295pt>
+<assets/11_gatito_cayendo.jpg, id=2561, 794.97pt x 614.295pt>
 File: assets/11_gatito_cayendo.jpg Graphic file (type jpg)
 <use assets/11_gatito_cayendo.jpg>
 Package pdftex.def Info: assets/11_gatito_cayendo.jpg  used on input line 9.
@@ -5001,16 +5001,16 @@ LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `00_Manual_Main_Template.out' has not changed
 .
-(rerunfilecheck)             Checksum: 8FC6D9338A904DF7EC4C69466E266042;18602.
+(rerunfilecheck)             Checksum: 693506B72EE9441BFE36FFBCC818AFAF;18595.
 Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 \openout1 = `00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 49440 strings out of 474486
- 975273 string characters out of 5743756
+ 49441 strings out of 474486
+ 975290 string characters out of 5743756
  2151542 words of memory out of 5000000
- 69700 multiletter control sequences out of 15000+600000
+ 69701 multiletter control sequences out of 15000+600000
  713234 words of font info for 155 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,33n,113p,997b,2379s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -5051,9 +5051,9 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (162 pages, 2419068 bytes).
+Output written on 00_Manual_Main_Template.pdf (162 pages, 2418891 bytes).
 PDF statistics:
- 3268 PDF objects out of 3580 (max. 8388607)
+ 3267 PDF objects out of 3580 (max. 8388607)
  1196 named destinations out of 1200 (max. 500000)
  1110 words of extra memory for PDF output out of 10000 (max. 10000000)
 

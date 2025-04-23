@@ -11,7 +11,7 @@
 
 
 %Introducción
-La sintaxis de un lenguaje de programación permite delimitar el conjunto de las cadenas que pertenecen a este y al mismo tiempo constituye una herramienta de razonamiento para demostrar propiedades utilizando el principio de inducción aplicado a los juicios que la definen. \\\\
+La sintaxis de un lenguaje de programación permite delimitar el conjunto de las cadenas que pertenecen a este. Al mismo tiempo constituye una herramienta de razonamiento para demostrar propiedades utilizando el principio de inducción aplicado a los juicios que la definen. \\\\
 De forma similar la sintaxis marca la pauta para la definición de funciones, como la función de evaluación para obtener el valor asociado a una expresión\footnote{Este proceso de evaluación no siempre es posible aún cuando se aplica para cadenas correctamente formadas siguiendo las reglas de la sintaxis del lenguaje. Estudiaremos este caso más adelante en el siguiente capítulo.}.  Al mismo tiempo será en esta estructura donde nos apoyaremos para definir los procesos de análisis para determinar la validez de dichas expresiones.\\\\
 Para poder comenzar a estudiar los niveles sintácticos de un lenguaje de programación, utilizaremos la definición de un nuevo lenguaje el cuál extenderemos con instrucciones a lo largo del desarrollo del manual y lo denominaremos como \textsf{EAB} (expresiones aritmético-booleanas). A partir de la definición de este lenguaje, mediante la gramática para generar expresiones, abordaremos la construcción y diferencias que existen entre las diferentes categorías de sintaxis que se introducen para \textsf{EAB}.
 \subsection*{Objetivo}
@@ -26,12 +26,14 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
 %    Section 1: sintaxis concreta y sintaxis abstracta 
 \section{Sintaxis concreta}
 
-    La sintaxis concreta se relaciona con la representación gráfica de las cadenas del lenguaje y comúnmente es denotada por una gramática libre de contexto. Esta gramática está pensada para el usuario final, es decir una persona. Es por esto que a esta capa se le denomina de ''alto nivel'' dado que es un ser humano y no una computadora quien se requiere pueda leer y escribir programas siguiendo las reglas de construcción del lenguaje en cuestión\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{76}{[76]}}.
+    Esta nivel sintáctico está pensado para el usuario final, es decir una persona. Es por esto que a esta capa se le denomina de ''alto nivel'' dado que es un ser humano y no una computadora quien se requiere pueda leer y escribir programas siguiendo las reglas de construcción del lenguaje en cuestión\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{76}{[76]}}.
 
-\begin{definition}Definición de la gramática de \textsf{EAB}\footnote{Comenzaremos definiendo las operaciones aritméticas e iremos extendiendo las operaciones booleanas con las constantes \texttt{true}, \texttt{false} y los operadores \texttt{if}, \texttt{else} en el siguiente capítulo.} en su representación como una gramática libre de contexto\footnote{Definición de \hyperlink{12}{[12]}.}.
+\begin{definition}[Definición sintaxis concreta para expresiones aritméticas de EAB]]\footnote{Comenzaremos definiendo las operaciones aritméticas e iremos extendiendo las operaciones booleanas con las constantes \texttt{true}, \texttt{false} y los operadores \texttt{if}, \texttt{else} mas adelante en este capítulo.}  En su representación como una gramática libre de contexto\footnote{Definición de \hyperlink{12}{[12]}.}.
     \[
     \begin{array}{rll}
-        e & ::= &  n\quad |\quad e + e\quad |\quad e*e\quad  \\
+        e & ::= & t \quad |\quad e + t \\
+        t & ::= & f \quad |\quad t * f \\
+        f & ::= & n \quad |\quad (e)\\
         n & ::= & d \quad |\quad nd \\
         d & ::= & 0 \quad |\quad 1 \quad |\quad 2 \quad |\quad 3 \quad |\quad 4 \quad |\quad 5 \quad |\quad 6 \quad |\quad 7 \quad |\quad 8 \quad |\quad 9 
     \end{array}
@@ -54,8 +56,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
 
     %De forma equivalente, la gramática previamente mostrada tiene una representación en un conjunto de juicios lógicos.
      
-     \begin{definition}
-        Sintaxis concreta en forma de juicios lógicos para cada regla en nuestra gramática para \textsf{EAB}\footnote{ Definición de \hyperlink{12}{[12]}.}: 
+     \begin{definition}[Definición de la sintaxis concreta para expresiones ariméticas de EAB] En su representación como juicios lógicos\footnote{ Definición de \hyperlink{12}{[12]}.}: 
         \[
             \begin{array}{cccc}
             \inference{}{0\;{\text{D}}}&
@@ -72,7 +73,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
             \inference{n\;{\sf \text{N}}}{n\;{\sf \text{F}}}&
             \inference{e\;{\sf \text{E}}}{(e)\;{\sf \text{F}}}\\
             &\\
-            \inference{f\;{\sf \text{F}}}{\text{F}\;{\sf \text{T}}}&
+            \inference{f\;{\sf \text{F}}}{f\;{\sf \text{T}}}&
             \inference{t\;{\sf \text{T}}&f\;{\sf \text{F}}}{t*f\;{\sf \text{T}}}\\
             &\\
             \inference{t\;{\sf \text{T}}}{t\;{\sf \text{E}}}&
@@ -91,10 +92,10 @@ A las expresiones de \textsf{EAB} formuladas a partir de la sintaxis concreta, l
     %Como mencionamos, existe una representación en sintaxis abstracta para cada expresión bien formada de nuestro lenguaje \textsf{EAB}. Vamos a denotar como ''\textit{ASA}'' a dicha estructura, la cual está definida por el siguiente conjunto de reglas que nos permiten construir el árbol sintáctico correspondiente a dicha expresión. \\
 
     \begin{definition}
-        Sintaxis abstracta de \textsf{EAB}\footnote{Esta definición fue acuñada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]} adaptada para las instrucciones que nos interesa ejemplificar en este capítulo.}
+        Sintaxis abstracta de \textsf{EAB}\footnote{Esta definición fue acuñada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
         \[
             \begin{array}{ccc}
-                \inference{n\in\N}{num[n]\;\text{ASA}}&
+                \inference{n\in\N}{num[n]\;\textit{ASA}}&
                 \inference{t_1\;\textit{ASA}&t_2\;\textit{ASA}}{sum(t_1,t_2)\;\textit{ASA}}&
                 \inference{t_1\;\textit{ASA}&t_2\;\textit{ASA}}{prod(t_1,t_2)\;\textit{ASA}}
             \end{array}
@@ -104,14 +105,14 @@ A las expresiones de \textsf{EAB} formuladas a partir de la sintaxis concreta, l
         
     \end{definition}
 
-   \subsection{Analizador sintáctico}
+   \subsection{Análisis sintáctico}
     Al proceso mediante el cual se obtiene el árbol de sintaxis abstracta de una expresión en sintaxis concreta se le conoce como análisis sintáctico. Es importante notar que no siempre será posible encontrar el árbol de sintaxis abstracta.\\\\
     De tal forma que el objetivo ahora será definir formalmente la relación entre ambos niveles donde el siguiente juicio es válido:\footnote{La definición de esta relación fue formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}, se refiere a las siguientes publicaciones para un estudio en profundidad sobre los niveles sintácticos de los lenguajes de programación: \hyperlink{76}{[76]}, \hyperlink{77}{[77]}, \hyperlink{78}{[78]} y \hyperlink{79}{[79]}}
             \[ e\  E \longleftrightarrow a\ ASA \]
-    Esta relación se interpreta como: ''a es el árbol de sintaxis abstracta asociado a la expresión e'' (y viceversa). Definimos entonces las reglas para implementarla en \textsf{EAB} como sigue:
+    Esta relación se interpreta como: ''a es el árbol de sintaxis abstracta asociado a la expresión e'' (y viceversa). Definimos entonces las reglas para implementar este proceso en \textsf{EAB} como sigue:
 
     \begin{definition}
-        Analizador síntactico para expresiones de lenguaje de EAB\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
+        Analizador sintáctico para expresiones de lenguaje de EAB\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
         \[
             \begin{array}{ccc}
                 \inference{e\;{\sf N}&e\in\N}{e\;{\sf F}\longleftrightarrow num[e]\;\textit{ASA}}[\textit{(num)}]&
@@ -140,7 +141,6 @@ A las expresiones de \textsf{EAB} formuladas a partir de la sintaxis concreta, l
 El objetivo es introducir las constantes \texttt{true} y \texttt{false}, el operador \texttt{if}, \texttt{then} y el operador \texttt{if}  \texttt{then} \texttt{else}. Tomando en cuenta el parentizado de expresiones para evitar condiciones de ''else colgante''\footnote{Éste problema es conocido en inglés como ''$dangling\ else$'' recurrente en la implementación de \textit{parsers} en el que una cláusula else opcional en una declaración if-then(-else) da como resultado que los condicionales anidados sean ambiguos. \hyperlink{90}{[90]}} y la ambigüedad que deriva de no marcar el alcance de las condicionales.\\\\
 Para este propósito, marcaremos con paréntesis la expresión inmediata a evaluar después del marcador \texttt{then}.
 
-    \newpage
     
     \begin{exercise}        
         Define la sintaxis concreta para extender nuestro lenguaje \textsf{EAB} con las instrucciones lógicas previamente discutidas\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }
@@ -176,8 +176,8 @@ Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo
             \inference{\texttt{false} \text{ B} }{\text{F} \textit{ ASA}}
         \]
         \[
-            \inference{c \textit{ ASA } t \textit{ ASA  } e \textit{ ASA}}{ \textit{if} \text{(} \textit{c t e} \text{)} \textit{ ASA}} \quad
-            \inference{c \textit{ ASA } t \textit{ ASA  }}{ \textit{if(} \textit{c t} \text{)} \textit{ ASA}} 
+            \inference{c \textit{ ASA } t \textit{ ASA  }}{ \textit{if(} \textit{c,t} \text{)} \textit{ ASA}} 
+            \inference{c \textit{ ASA } t \textit{ ASA  } e \textit{ ASA}}{ \textit{if} \text{(} \textit{c,t,e} \text{)} \textit{ ASA}} \quad
         \]
     \end{exercise}
 
@@ -191,15 +191,15 @@ Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo
         \]
         \[
             %\inference{ \text{$c$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{($e$) LE} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(parentB)}] \;
-            \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA}}{\text{$c$ E} \longleftrightarrow \textit{c'} \textit{ ASA}}[\textit{(bool)}] \;
+            \inference{\text{$e$ B} \longleftrightarrow \textit{a} \textit{ ASA}}{\text{$e$ E} \longleftrightarrow \textit{a} \textit{ ASA}}[\textit{(bool)}] \;
             %\inference{\text{$e$ LE} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{$e$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(exprB)}]
         \]
         \[
-            \inference{\text{$c$ B} \longleftrightarrow \textit{c'} \textit{ ASA} \quad \text{ $t$ E} \longleftrightarrow \textit{t' ASA } }
-            { \texttt{if $c$ then ($t$) E} \longleftrightarrow  \textit{if(c' t')} \textit{ ASA} }[$(if_s)$]
+            \inference{\text{$e_1$ B} \longleftrightarrow \textit{$a_1$} \textit{ ASA} \quad \text{ $e_2$ E} \longleftrightarrow \textit{$a_2$ ASA } }
+            { \texttt{if $e_1$ then ($e_2$) E} \longleftrightarrow  \textit{if($a_1, a_2$)} \textit{ ASA} }[$(if_s)$]
         \]
         \[
-            \inference{\text{$c$ B} \longleftrightarrow \textit{c'}  \textit{ ASA } \quad \text{$t$ E} \longleftrightarrow \text{$t'$ ASA } \quad \text{$e$ E } \longleftrightarrow \text{e'} \textit{ ASA }}{\texttt{if $c$ then ($t$) else $e$ E } \longleftrightarrow \textit{if(c' t' e')} \textit{ ASA} }[$(if_e)$]
+            \inference{\text{$e_1$ B} \longleftrightarrow \textit{$a_1$}  \textit{ ASA } \quad \text{$e_2$ E} \longleftrightarrow \text{$a_2$ ASA } \quad \text{$e_3$ E } \longleftrightarrow \text{$a_3$} \textit{ ASA }}{\texttt{if $e_1$ then ($e_2$) else $e_3$ E } \longleftrightarrow \textit{if($a_1,a_2,a_3$)} \textit{ ASA} }[$(if_e)$]
         \]
     \end{exercise}
 
@@ -232,19 +232,19 @@ Ahora queremos definir la sintaxis abstracta capturando el ligado de variable. E
 \] 
 
 \subsection{Sintaxis abstracta de orden superior}
-El problema con esta definición es que no captura el ligado de $var[x]$ en $a_2$, no hay una relación explícita entre ambos elementos. Para ello es necesario utilizar otra categoría conocida como sintaxis abstracta de orden superior.\\\\
-La sintaxis abstracta de orden superior, abstrae el ligado como parte del metalenguaje con el que se define el ASA, es decir el árbol mismo delimita el alcance de la variable ligada a este.\\\\
+El problema con esta definición es que no captura el ligado de variable $x$ en $a_2$, no hay una relación explícita entre ambos elementos. Para ello es necesario utilizar otra categoría conocida como sintaxis abstracta de orden superior.\\\\
+La sintaxis abstracta de orden superior, abstrae el ligado como parte del metalenguaje con el que se define el \textit{ASA}, es decir el árbol mismo delimita el alcance de la variable ligada a este.\\\\
     Extenderemos nuestro lenguaje \textsf{EAB} agregando el árbol de sintaxis abstracta \textit{x.t} que indica que la variable \textit{x} está ligada
-    en el árbol \textit{t}. A este ASA se le llama abstracción\footnote{Definición acuñada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}. 
+    en el árbol \textit{t}. A este \textit{ASA} se le llama abstracción\footnote{Definición acuñada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}. 
 
     \begin{exercise}
-        Proporciona las sintaxis abstracta para agregar las instrucción \texttt{let}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} } considerando el ASA \textit{x.t}.
+        Proporciona las sintaxis abstracta para agregar las instrucción \texttt{let}\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} } considerando el \textit{ASA} \textit{x.t}.
         \[
             %\inference{\text{$x$ identificador}}{\text{$x$ \textit{ASA}}}[] 
             \inference{\textit{$a_1$ \textit{ASA}} \quad \textit{$a_2$ \textit{ASA}} }{\text{\textit{let(}$a_1$, $x$.$a_2$\textit{)} \textit{ASA}}}[]
         \]
 \\\\
-    Es importante observar que para el juicio lógico que define al árbol de \texttt{let}, no se incluye una premisa para la variable de ligado, esta categoría se considera como primitiva y en esta regla está implicito que $x$ es una variable.
+    Es importante observar que para el juicio lógico que define al árbol de \texttt{let}, no se incluye una premisa para la variable de ligado, esta categoría se considera como primitiva y en esta regla está implícito que $x$ es una variable.
     \end{exercise}
 
     \begin{exercise}
