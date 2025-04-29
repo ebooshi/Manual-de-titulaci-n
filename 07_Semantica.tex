@@ -18,7 +18,7 @@
 
 
     En el capítulo anterior se estudió la composición sintáctica de los lenguajes de programación mediante la definición de juicios lógicos que nos permiten construir expresiones válidas de \textsf{EAB} definiendo así la sintaxis 
-    concreta de este lenguaje. También se estudió la estructura jerárquica de bajo nivel con la que se obtiene la representación única de las expresiones válidas de \textsf{EAB} conocida como árboles de sintaxis abstracta, este primer nivel de los lenguajes de programación está enfocado a la representación del lenguaje pero no a su significado.\\\\
+    concreta de este lenguaje. También se estudió la estructura jerárquica de bajo nivel con la que se obtiene la representación única de las expresiones válidas de \textsf{EAB}, conocida como árboles de sintaxis abstracta. Este primer nivel de los lenguajes de programación está enfocado a la representación del lenguaje pero no a su significado.\\\\
     En el presente capítulo nos ocuparemos de la semántica del lenguaje, que tiene como propósito responder a la pregunta ¿qué significa una expresión del lenguaje? y como podemos interpretar aquellas expresiones correctamente formuladas a partir de la sintaxis.\\\\
     En el contexto de los lenguajes de programación podemos pensar de forma intuitiva que la respuesta al cómo interpretamos las instrucciones del lenguaje podría ser: ''el comportamiento que tiene la expresión en tiempo de ejecución al ser evaluada.'' 
     En particular  nos interesa obtener el valor que la expresión retorna al concluir su evaluación (semántica dinámica) y el tipo de esta (semántica estática).\footnote{Definición acuñada de \hyperlink{98}{[98]}, \hyperlink{99}{[99]} y \hyperlink{100}{[100]}}.\\\\
@@ -41,12 +41,10 @@
                 \texttt{let}\ \textit{x}\ =\ \textit{y}\ \texttt{in}\ \textit{x}\ +\ \textit{x}\ \texttt{end}
         \end{center}
     son sintácticamente correctas pero semánticamente incorrectas, pues la variable \textit{y} está libre en la expresión por lo que no podría evaluarse.\\\\
-    Esta es una de las propiedades de las que se encarga la semántica estática, así que daremos un conjunto de reglas para definir una semántica estática encargada de evitar estos errores. Para esto se define el siguiente juicio: 
+    Esta es una de las propiedades de las que se encarga la semántica estática, así que daremos un conjunto de reglas para definir una semántica estática encargada de evitar estos errores\footnote{Fragmento extraído de: \hyperlink{12}{[12]} }. Para esto se define el siguiente juicio: 
 
-    \bigskip
-    
-    \begin{definition}Semántica estática para capturar expresiones con variables libres en \textsf{EAB}\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
-    Sea $\Delta$ un conjunto de variables y \textit{a} un árbol de sintaxis abstracta, decimos que \textit{a} no tiene variables libres bajo el conjunto $\Delta$ denotado como:
+  \begin{definition}[Semántica estática para capturar expresiones con variables libres en \textsf{EAB}]
+    Sea $\Delta$ un conjunto de variables y \textit{a} un árbol de sintaxis abstracta, decimos que \textit{a} no tiene variables libres bajo el conjunto $\Delta$ denotado como\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         $$ \Delta\sim a\ ASA$$
     
     En particular nos interesa que todas las variables ligadas de \textit{a} estén presentes en $\Delta$.\\
@@ -70,23 +68,15 @@
     
     Para garantizar que una expresión $e$ no tiene variables libres se inicia con el conjunto vacío y se debe probar $\emptyset\sim e$ usando las reglas anteriores.
     \end{definition}
-
-    \bigskip
-
-    \begin{definition}Expresión cerrada de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}:
-    Sea $a$ un \textit{ASA} decimos que $a$ es cerrada si y sólo si $$ FV(a)\ =\ \emptyset $$
-    Es decir, $a$ es una expresión del lenguaje cerrada si no tiene apariciones de variables libres. 
-    \end{definition}
-
     \bigskip
 
     \begin{exercise}
-        Para la siguiente expresión realiza el análisis estático para encontrar variables libres mediante la derivación aplicando las reglas del juicio $\sim$
+        Para la siguiente expresión, aplica las reglas de la semántica estática definida para la relación $\sim$ y determina la presencia de variables libres.
         \[ 
             \texttt{let } x = 1 \texttt{ in } (y * x) + z \texttt{ end}
         \]
 	\[
-        \scalemath{0.8}{
+        \scalemath{0.85}{
 	            \inference
 	                {
 	                    \inference
@@ -117,7 +107,17 @@
 	                    {\emptyset \sim \textit{let(1,x.sum(prod(y,x),z))}}[\textit{(fva)}]
 	    }
         \]
+	
+	En este caso dos de las ramas en el árbol de derivación concluyeron en un error, pues si una variable es libre el jucio $\Delta\ \sim \ e$ no es válido. Concluimos entonces que la expresión no es correcta.
     \end{exercise}
+
+    \bigskip
+
+    \begin{definition}Expresión cerrada de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}:
+    Sea $a$ un \textit{ASA} decimos que $a$ es cerrada si y sólo si $$ FV(a)\ =\ \emptyset $$
+    Es decir, $a$ es una expresión del lenguaje cerrada si no tiene apariciones de variables libres. 
+    \end{definition}
+
 
     \bigskip
 
