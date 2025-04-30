@@ -48,7 +48,7 @@
         $$ \Delta\sim a\ ASA$$
     
     En particular nos interesa que todas las variables ligadas de \textit{a} estén presentes en $\Delta$.\\
-    Para construir este conjunto definimos las siguientes reglas que nos permitirán acrecentar $\Delta$ cada que encontremos una variable ligada en el árbol $x.t$. Definimos las reglas como sigue:
+    Para construir este conjunto definimos las siguientes reglas que nos permitirán acrecentar $\Delta$ cada que encontremos una variable ligada en el árbol $x.t$:
     \[
         \begin{array}{ccc}
             \inference{x\in \Delta}{\Delta \sim\ x}[\textit{(fvv)}]&
@@ -59,16 +59,18 @@
     \bigskip
     \[
         \begin{array}{cc}
-            \inference{}{\Delta\sim \textit{T}\ \text{ Bool}}[\textit{(fvb)}]&
+            \inference{}{\Delta\sim \textit{B}\ \text{ Bool}}[\textit{(fvb)}]&
             \inference{\Delta\sim e_1&\cdots&\Delta\sim e_n}{\Delta\sim O(e_1,\cdots,e_n)}[\textit{(fvo)}]
         \end{array}
     \]
 
     \bigskip
     
-    Para garantizar que una expresión $e$ no tiene variables libres se inicia con el conjunto vacío y se debe probar $\emptyset\sim e$ usando las reglas anteriores.
+    Para garantizar que una expresión $e$ no tiene variables libres se inicia con el conjunto vacío y se debe probar $\emptyset\sim e$ usando las reglas anteriores. \\\\
+Nuevamente hacemos abuso de la notación para denotar los operadores de \textsf{EAB}, representados como $ O(e_1,\cdots,e_n)$ y los booleanos $B\ Bool$
     \end{definition}
-    \bigskip
+
+\bigskip
 
     \begin{exercise}
         Para la siguiente expresión, aplica las reglas de la semántica estática definida para la relación $\sim$ y determina la presencia de variables libres.
@@ -108,27 +110,21 @@
 	    }
         \]
 	
-	En este caso dos de las ramas en el árbol de derivación concluyeron en un error, pues si una variable es libre el jucio $\Delta\ \sim \ e$ no es válido. Concluimos entonces que la expresión no es correcta.
+	\bigskip
+
+	En este caso dos de las ramas en el árbol de derivación concluyeron en un error, pues si una variable es libre el juicio $\Delta\ \sim \ e$ no es válido. Concluimos entonces que la expresión no es correcta.
     \end{exercise}
 
-    \bigskip
+	\bigskip
 
-    \begin{definition}Expresión cerrada de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}:
-    Sea $a$ un \textit{ASA} decimos que $a$ es cerrada si y sólo si $$ FV(a)\ =\ \emptyset $$
-    Es decir, $a$ es una expresión del lenguaje cerrada si no tiene apariciones de variables libres. 
-    \end{definition}
-
-
-    \bigskip
-
-    \begin{exercise}
+  \begin{exercise}
         Para la siguiente expresión realiza el análisis estático para encontrar variables libres mediante la derivación aplicando las reglas del juicio $\sim$
  
             \[
-                 \texttt{ if  } \texttt{True } \texttt{then } (1 + 1) * 2  \texttt{ else } 7 
+                 \texttt{ if  } \texttt{true } \texttt{then } ((1 + 1) * 2)  \texttt{ else } 7 
             \]
             \[
-	        \scalemath{0.7}{
+	        \scalemath{0.8}{
                     \inference
                          {
                              \inference
@@ -162,15 +158,15 @@
 
     \end{exercise}
 
-    \bigskip
+\bigskip
 
     \begin{exercise}
         Para la siguiente expresión realiza el análisis estático para encontrar variables libres mediante la derivación aplicando las reglas del juicio $\sim$
         \[
-            1 + \texttt{if(} \texttt{let } x = \texttt{True} \texttt{ in } x \texttt{ end} \texttt{ then } 2 \texttt{ else } 1 \texttt{)}
+            1 + \texttt{if(} \texttt{let } x = \texttt{true} \texttt{ in } x \texttt{ end} \texttt{ then } (2) \texttt{ else } 1 \texttt{)}
         \]
         \[
-            \scalemath{0.8}{
+            \scalemath{0.7}{
             	\inference
 			{
 				\inference
@@ -206,27 +202,27 @@
         \]
     \end{exercise}
 
-    \bigskip
+\bigskip
 
-    De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación generados de expresiones cerradas concluirán todas sus ramas con algún axioma (\textit{fvn, fvb  o fvv}). \\\\
+    \begin{definition}[Expresión cerrada de \textsf{EAB}]
+    Sea $a$ un \textit{ASA} decimos que $a$ es cerrada si y sólo si $$ FV(a)\ =\ \emptyset $$
+    Es decir, $a$ es una expresión del lenguaje cerrada si no tiene apariciones de variables libres\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}. 
+    \end{definition}
+De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación generados de expresiones cerradas concluirán todas sus ramas con algún axioma (\textit{fvn, fvb  o fvv}). 
 
-    \section{Semántica dinámica}
-    La semántica dinámica constituye el siguiente eslabón del proceso de ejecución de un programa. Una vez verificada que la expresión en sintaxis concreta es una expresión válida y no posee variables libres, entonces se puede comenzar a discutir el como se ejecutará dicha expresión. \\\\\
-   Existen diferentes paradigmas de ejecución que pueden ser aplicados para evaluar las expresiones de los lenguajes de programación según el interés de estudio (por ejemplo cambios en la memoria, el valor las variables del programa, el valor final al que evalúa una expresión, etc). En este capítulo nos centraremos en la semántica operacional que estudia el proceso de ejecución modelando cada configuración del programa como un estado y las transiciones entre estos.
-    
-    
-    \subsection{Semántica operacional}
+\section{Semántica dinámica}
+La semántica dinámica constituye el siguiente eslabón del proceso de ejecución de un programa. Una vez verificada que la expresión en sintaxis concreta es una expresión válida y no posee variables libres, entonces se puede comenzar a discutir el como se ejecutará dicha expresión. \\\\
+   Existen diferentes paradigmas de ejecución que pueden ser aplicados para evaluar las expresiones de los lenguajes de programación según el interés de estudio (por ejemplo cambios en la memoria, el valor que contienen las variables del programa, el valor final al que evalúa una expresión, etc). \\\\
+En este capítulo nos centraremos en la semántica operacional que estudia el proceso de ejecución modelando cada configuración del programa como un estado y las transiciones entre estos como los pasos en la evaluación.
+
+\subsection{Semántica operacional}
     En esta categoría se hace la distinción entre los dos paradigmas mas importantes para estudiar la semántica operacional de los lenguajes de programación\footnote{Definición acuñada de y  \hyperlink{2}{[2]}, \hyperlink{103}{[103] y  \hyperlink{104}{[104]}} }:
     \begin{itemize}
-        \item Semántica de paso pequeño: la cuál modela la ejecución de un programa describiendo las transiciones una a una mostrando los cómputos generados de forma individual. 
-        \item Semántica de paso grande: que contrasta con la de paso pequeño porque aquí no nos importa que estados sucedieron en la ejecución del programa, únicamente nos interesa el valor que regresa.
+        \item \textbf{Semántica de paso pequeño:} la cuál modela la ejecución de un programa describiendo las transiciones una a una mostrando los cómputos generados de forma individual. 
+        \item \textbf{Semántica de paso grande:} que contrasta con la de paso pequeño porque aquí no nos importa que estados sucedieron en la ejecución del programa, únicamente nos interesa el valor que regresa.
     \end{itemize}
-
-   % Como ambos enfoques solo difieren en el sistema de transición que emplean definiremos los estados de la máquina de transición para ambos a continuación.
-
-    \bigskip
     
-    \begin{definition}Sistema de transición para la semántica operacional de \textsf{EAB}\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} y \hyperlink{105}{[105]}  }:
+    \begin{definition}[Sistema de transición para la semántica operacional de \textsf{EAB}]\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} y \hyperlink{105}{[105]}  }:
     \vspace{1em}
         \begin{description}
             \item[Conjunto de estados] $S=\{a\ |\ a\ asa\}$\\
@@ -236,10 +232,13 @@
 	 Los estados iniciales son todas las expresiones cerradas del lenguaje y corresponde a la regla:
             $$\inference{a\ asa & \emptyset \sim a}{a\ inicial}[\textit{(init)}]$$ 
             \item[Estados Finales] Son las expresiones que no se pueden reducir mas obtenidas al final del proceso de evaluación.\\\\
-	 Definimos una categoría de valores los cuales son un subconjunto de expresiones de \textsf{EAB}, esta nueva categoría se representa con el juicio $v\ valor$. Para el caso de \textsf{EAB}  se denota con las reglas:
+	 Definimos una categoría de valores los cuales son un subconjunto de expresiones de \textsf{EAB}. Esta nueva categoría se representa con el juicio $v\ valor$. \\\\
+		Para el caso de \textsf{EAB}  se denota con las reglas:
             $$\inference{}{num[n]\ valor}[\textit{(vnum)}] \ \ \ \ \ \inference{}{\textit{B}\ \text{Bool}\ valor}[\textit{(vbool)}]$$
             Entonces se define el conjunto de estados finales $F=\{a\ |\ a\ valor\}$, correspondiente a la regla:
             $$\inference{a\ valor}{a\ final}[\textit{(fin)}]$$ 
+	\item[Transiciones] Para definir la semántica operacional es necesario puntualizar la constitución de un sistema de transición.
+	La semántica de paso pequeño y de paso grande comparten la definición de los estados difiriendo únicamente en la definición de la función de transición, esta será definida a continuación para cada enfoque.
 
         \end{description}
     \end{definition}
@@ -254,8 +253,8 @@
 	Donde $e_1$ es llamado ''$redex$'' y $e_2$ es llamado ''$reducto$''. Esta relación se interpreta cómo la transición entre $e_1$ y $e_2$ que existe si y solo sí en un paso de evaluación se puede reducir la expresión $e_1$ a la expresión $e_2$\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }.
 
 
-    \begin{definition}Función de transición para semántica de paso pequeño\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]},  \hyperlink{12}{[12]} y \hyperlink{105}{[105]}  }: \\\\
-	Para definir las reglas de transición para los cómputos siguiendo el paradigma de semántica de paso pequeño, primero vamos a evaluar el argumento más a la izquierda dentro de las expresiones que denotan un operador hasta obtener un valor. Posteriormente evaluaremos el argumento a la derecha. \\
+    \begin{definition}[Función de transición para semántica de paso pequeño]
+	Para definir las reglas de transición para los cómputos siguiendo el paradigma de semántica de paso pequeño, primero vamos a evaluar el argumento más a la izquierda dentro de las expresiones que denotan un operador hasta obtener un valor. Posteriormente evaluaremos el argumento a la derecha\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]},  \hyperlink{12}{[12]} y \hyperlink{105}{[105]}.}. \\
 
     \begin{description}
         \item[Suma]
