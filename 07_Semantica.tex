@@ -363,7 +363,7 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
     \begin{exercise}
         Dada la siguiente expresión de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
         \[
-            \texttt{if (}\texttt{False} \texttt{ then } 4 * \texttt{let } x = 99 * 99 \texttt{ in } x + x \texttt{ end} \texttt{ else } 0 \texttt{)}
+            \texttt{if (}\texttt{false} \texttt{ then } (4 * \texttt{let } x = 99 * 99 \texttt{ in } x + x \texttt{ end}) \texttt{ else } 0 \texttt{)}
         \] 
         \[
             \begin{array}{cl}
@@ -374,12 +374,12 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
         \]
     \end{exercise}
 
-    Del ejercicio anterior podemos notar la ventaja de la evaluación perezosa. Dado que nuestro valor de control es \texttt{False} no es necesario evaluar la expresión $e_1$ y directamente nos saltaremos a evaluar $e_2$ por la regla $if_F$ que en este caso es el valor 0.\\
+    Del ejercicio anterior podemos notar la ventaja de la evaluación perezosa. Dado que nuestro valor de control es \texttt{false} no es necesario evaluar la expresión $e_1$ y directamente nos saltaremos a evaluar $e_2$ por la regla $if_F$ que en este caso es el valor 0.\\
     
     \begin{exercise}
         Dada la siguiente expresión de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
         \[
-            \texttt{let } x = \texttt{ if(True} \texttt{ then } 42 \texttt{ else } 0 \texttt{)} \texttt{ in } \texttt{if(False} \texttt{ then } 41 \texttt{ else } x \texttt{)}
+            \texttt{let } x = \texttt{ if(true} \texttt{ then } (42) \texttt{ else } 0 \texttt{)} \texttt{ in } \texttt{if(false} \texttt{ then } (41) \texttt{ else } x \texttt{)}
         \]  
         \[
             \begin{array}{cl}
@@ -393,8 +393,13 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
         \]
     \end{exercise}
 
-    La relación de transición ($\rightarrow$)  define tres categorías importantes de aplicación las cuales se conocen como ''cerraduras'' y pueden ser:  reflexiva (un estado puede llegar a si mismo en 0 aplicaciones de pasos), transitiva (si un estado $e_1$ puede alcanzar un estado $e_2$ y $e_2$ puede alcanzar a $e_n$ en un número finito de pasos entonces $e_1$ puede llegar a $e_n$ en un número finito de pasos) ó positiva (la aplicación de las reglas de transición n veces con n $\geq$ 1).\\\\
-    A continuación enunciamos las cerraduras, la relación de transición y la iteración en n pasos.
+    La relación de transición ($\rightarrow$)  define tres categorías importantes de aplicación las cuales se conocen como ''cerraduras'' y pueden ser: 
+	\begin{itemize}
+		\item  \textbf{reflexiva} un estado puede llegar a si mismo en 0 aplicaciones de pasos.
+		\item \textbf{transitiva} si un estado $e_1$ puede alcanzar un estado $e_2$ y $e_2$ puede alcanzar a $e_n$ en un número finito de pasos entonces $e_1$ puede llegar a $e_n$ en un número finito de pasos.
+		\item \textbf{positiva} la aplicación de las reglas de transición n veces con n $\geq$ 1.
+	\end{itemize}	
+    A continuación enunciamos las caracterización de cada cerradura mediante la aplicación de la relación de transición y la iteración en n pasos.
 
     \begin{definition}Cerradura transitiva y reflexiva: se denota como $t\rightarrow^*$ y se define con las siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \[
@@ -444,8 +449,8 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
             \item[Asignaciones locales] 
             $$\inference{e_1\Downarrow v_1&e_2[x:=v_1]\Downarrow v_2}{let(e_1,x.e_2)\Downarrow v_2}[\textit{(bslet)}]$$
             \item[Sentencias de control]
-            $$\inference{e_0\Downarrow True & e_1 \Downarrow v_1}{if(e_0,e_1,e_2)\Downarrow v_1}[\textit{(bsift)}]
-              \inference{e_0\Downarrow False & e_2 \Downarrow v_2}{if(e_0,e_1,e_2)\Downarrow v_2}[\textit{(bsift)}]$$
+            $$\inference{e_0\Downarrow true & e_1 \Downarrow v_1}{if(e_0,e_1,e_2)\Downarrow v_1}[\textit{(bsift)}]
+              \inference{e_0\Downarrow false & e_2 \Downarrow v_2}{if(e_0,e_1,e_2)\Downarrow v_2}[\textit{(bsift)}]$$
         \end{description}
          Es importante destacar que los valores de tipo \textit{num}[$n$] y $B$  Bool si tienen reglas definidas  en esta semántica de paso grande.
     \end{definition}

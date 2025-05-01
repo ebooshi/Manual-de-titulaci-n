@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  1 MAY 2025 11:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  1 MAY 2025 11:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3172,53 +3172,48 @@ Underfull \hbox (badness 10000) in paragraph at lines 377--378
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 396--398
-
- []
-
 [45]
-Underfull \hbox (badness 10000) in paragraph at lines 433--435
+Underfull \hbox (badness 10000) in paragraph at lines 438--440
 
  []
 
 [46]
-Underfull \hbox (badness 10000) in paragraph at lines 459--461
+Underfull \hbox (badness 10000) in paragraph at lines 464--466
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 493--495
+Underfull \hbox (badness 10000) in paragraph at lines 498--500
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 548--550
+Underfull \hbox (badness 10000) in paragraph at lines 553--555
 
  []
 
 
-Overfull \hbox (11.5637pt too wide) detected at line 585
+Overfull \hbox (11.5637pt too wide) detected at line 590
 []
  []
 
 [47]
-Underfull \hbox (badness 10000) in paragraph at lines 617--618
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 632--635
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 632--635
+Underfull \hbox (badness 10000) in paragraph at lines 622--623
 
  []
 
 [48]
-Underfull \hbox (badness 10000) in paragraph at lines 652--653
+Underfull \hbox (badness 10000) in paragraph at lines 637--640
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 637--640
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 657--658
 
  []
 
@@ -4989,24 +4984,18 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were multiply-defined labels.
 
-
-Package rerunfilecheck Warning: File `00_Manual_Main_Template.out' has changed.
-
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `00_Manual_Main_Template.out':
-(rerunfilecheck)             Before: 8E36FC0732DF1B91EDB656D0E23346CD;18706
-(rerunfilecheck)             After:  693506B72EE9441BFE36FFBCC818AFAF;18595.
+Package rerunfilecheck Info: File `00_Manual_Main_Template.out' has not changed
+.
+(rerunfilecheck)             Checksum: 693506B72EE9441BFE36FFBCC818AFAF;18595.
 Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 \openout1 = `00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 49446 strings out of 474486
- 975476 string characters out of 5743756
+ 49445 strings out of 474486
+ 975459 string characters out of 5743756
  2151542 words of memory out of 5000000
- 69705 multiletter control sequences out of 15000+600000
+ 69704 multiletter control sequences out of 15000+600000
  713234 words of font info for 155 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,33n,113p,997b,2379s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -5047,7 +5036,7 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (163 pages, 2420181 bytes).
+Output written on 00_Manual_Main_Template.pdf (163 pages, 2420370 bytes).
 PDF statistics:
  3265 PDF objects out of 3580 (max. 8388607)
  1197 named destinations out of 1200 (max. 500000)
