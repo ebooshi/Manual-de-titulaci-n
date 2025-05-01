@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  30 APR 2025 08:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  1 MAY 2025 11:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2932,68 +2932,63 @@ Underfull \hbox (badness 10000) in paragraph at lines 140--143
  []
 
 [28]
-Overfull \hbox (2.17467pt too wide) in paragraph at lines 159--159
+Overfull \hbox (2.17467pt too wide) in paragraph at lines 161--161
 []\OT1/lmr/m/n/10 Notemos que con la sin-ta-xis ex-ten-di-da aho-ra po-de-mos t
 e-ner ex-pre-sio-nes que son sint^^Sacti-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--174
+Underfull \hbox (badness 10000) in paragraph at lines 175--176
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 212--224
+Underfull \hbox (badness 10000) in paragraph at lines 214--226
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 212--224
+Underfull \hbox (badness 10000) in paragraph at lines 214--226
 
  []
 
 [29]
-Underfull \hbox (badness 10000) in paragraph at lines 235--239
+Underfull \hbox (badness 10000) in paragraph at lines 237--241
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 235--239
+Underfull \hbox (badness 10000) in paragraph at lines 237--241
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 262--264
+Underfull \hbox (badness 10000) in paragraph at lines 264--266
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 262--264
+Underfull \hbox (badness 10000) in paragraph at lines 264--266
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 270--272
+Underfull \hbox (badness 10000) in paragraph at lines 272--274
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 270--272
+Underfull \hbox (badness 10000) in paragraph at lines 272--274
 
  []
 
 [30]
-Underfull \hbox (badness 10000) in paragraph at lines 278--279
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 280--281
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 290--291
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
 
  []
 
@@ -3003,87 +2998,92 @@ Underfull \hbox (badness 10000) in paragraph at lines 292--293
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 296--297
+Underfull \hbox (badness 10000) in paragraph at lines 294--295
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 301--303
+Underfull \hbox (badness 10000) in paragraph at lines 298--299
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 303--305
 
  []
 
 [31]
-Underfull \hbox (badness 10000) in paragraph at lines 307--308
+Underfull \hbox (badness 10000) in paragraph at lines 309--310
 
  []
 
 [32] [33]
-Underfull \hbox (badness 10000) in paragraph at lines 497--499
+Underfull \hbox (badness 10000) in paragraph at lines 499--501
 
  []
 
-LaTeX Font Info:    Calculating math sizes for size <18> on input line 503.
+LaTeX Font Info:    Calculating math sizes for size <18> on input line 505.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <18> on input line 503.
+(Font)              <18> on input line 505.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12.59995> on input line 503.
+(Font)              <12.59995> on input line 505.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 503.
+(Font)              <9> on input line 505.
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 503.
+(Font)              size <17.28> substituted on input line 505.
 
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <12.59995> not available
-(Font)              size <12> substituted on input line 503.
+(Font)              size <12> substituted on input line 505.
 
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 503.
+(Font)              size <17.28> substituted on input line 505.
 
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <12.59995> not available
-(Font)              size <12> substituted on input line 503.
+(Font)              size <12> substituted on input line 505.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 503.
+(hyperref)                removing `math shift' on input line 505.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\alpha' on input line 503.
+(hyperref)                removing `\alpha' on input line 505.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 503.
+(hyperref)                removing `math shift' on input line 505.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 504--506
+Underfull \hbox (badness 10000) in paragraph at lines 506--508
 
  []
 
 [34]
-Underfull \hbox (badness 10000) in paragraph at lines 511--513
+Underfull \hbox (badness 10000) in paragraph at lines 513--515
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 535--539
+Underfull \hbox (badness 10000) in paragraph at lines 537--541
 
  []
 
 [35] [36]
-Underfull \hbox (badness 10000) in paragraph at lines 716--718
+Underfull \hbox (badness 10000) in paragraph at lines 718--720
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 719--721
+Underfull \hbox (badness 10000) in paragraph at lines 721--723
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 724--726
+Underfull \hbox (badness 10000) in paragraph at lines 726--728
 
  []
 
@@ -4989,16 +4989,22 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `00_Manual_Main_Template.out' has not changed
-.
-(rerunfilecheck)             Checksum: 693506B72EE9441BFE36FFBCC818AFAF;18595.
+
+Package rerunfilecheck Warning: File `00_Manual_Main_Template.out' has changed.
+
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `00_Manual_Main_Template.out':
+(rerunfilecheck)             Before: 8E36FC0732DF1B91EDB656D0E23346CD;18706
+(rerunfilecheck)             After:  693506B72EE9441BFE36FFBCC818AFAF;18595.
 Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 \openout1 = `00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
  49446 strings out of 474486
- 975773 string characters out of 5743756
+ 975476 string characters out of 5743756
  2151542 words of memory out of 5000000
  69705 multiletter control sequences out of 15000+600000
  713234 words of font info for 155 fonts, out of 8000000 for 9000
@@ -5041,7 +5047,7 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (163 pages, 2420743 bytes).
+Output written on 00_Manual_Main_Template.pdf (163 pages, 2420181 bytes).
 PDF statistics:
  3265 PDF objects out of 3580 (max. 8388607)
  1197 named destinations out of 1200 (max. 500000)

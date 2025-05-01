@@ -238,7 +238,7 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
             Entonces se define el conjunto de estados finales $F=\{a\ |\ a\ valor\}$, correspondiente a la regla:
             $$\inference{a\ valor}{a\ final}[\textit{(fin)}]$$ 
 	\item[Transiciones] Para definir la semántica operacional es necesario puntualizar la constitución de un sistema de transición.
-	La semántica de paso pequeño y de paso grande comparten la definición de los estados difiriendo únicamente en la definición de la función de transición, esta será definida a continuación para cada enfoque.
+	La semántica de paso pequeño y de paso grande comparten la definición de los estados difiriendo únicamente en la definición de la función de transición, esta será enunciada a continuación para cada enfoque.
 
         \end{description}
     \end{definition}
@@ -252,9 +252,9 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
 	$$e_1 \rightarrow e_2$$ 
 	Donde $e_1$ es llamado ''$redex$'' y $e_2$ es llamado ''$reducto$''. Esta relación se interpreta cómo la transición entre $e_1$ y $e_2$ que existe si y solo sí en un paso de evaluación se puede reducir la expresión $e_1$ a la expresión $e_2$\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }.
 
+	Para definir las reglas de transición para los cómputos siguiendo el paradigma de semántica de paso pequeño, primero vamos a evaluar el argumento más a la izquierda dentro de las expresiones que denotan un operador hasta obtener un valor. Posteriormente evaluaremos el argumento a la derecha
 
-    \begin{definition}[Función de transición para semántica de paso pequeño]
-	Para definir las reglas de transición para los cómputos siguiendo el paradigma de semántica de paso pequeño, primero vamos a evaluar el argumento más a la izquierda dentro de las expresiones que denotan un operador hasta obtener un valor. Posteriormente evaluaremos el argumento a la derecha\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]},  \hyperlink{12}{[12]} y \hyperlink{105}{[105]}.}. \\
+    \begin{definition}[Función de transición para semántica de paso pequeño]\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]},  \hyperlink{12}{[12]} y \hyperlink{105}{[105]}.} \\
 
     \begin{description}
         \item[Suma]
@@ -332,7 +332,7 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
 
         
         \end{description}
-        La evaluación del operador \texttt{if} es una evaluación ''perezosa'', en donde no se evaluará el cuerpo hasta antes haber determinado el valor de la sentencia de control (\texttt{True} ó \texttt{False})
+        La evaluación del operador \texttt{if} es una evaluación ''perezosa'', en donde no se evaluará el cuerpo hasta antes haber determinado el valor de la sentencia de control (\texttt{true} ó \texttt{false})
         
     \end{definition}
 
