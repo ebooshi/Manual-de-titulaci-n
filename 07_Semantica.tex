@@ -401,7 +401,7 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
 	\end{itemize}	
     A continuación enunciamos las caracterización de cada cerradura mediante la aplicación de la relación de transición y la iteración en n pasos.
 
-    \begin{definition}Cerradura transitiva y reflexiva: se denota como $t\rightarrow^*$ y se define con las siguientes reglas\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}[Definición de cerradura transitiva y reflexiva]  Denotamos la aplicación de la función de transición n-veces como: $t\rightarrow^*$ que define las siguientes relaciones\footnote{Definición acuñada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}.}:
         \[
             \begin{array}{ccc}
                 \inference{}{s \rightarrow^*s}[\textit{(refl)}]&
@@ -431,14 +431,14 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
                 \inference{s_1  \rightarrow s_2&s_2  \rightarrow^n s_3}{s_1  \rightarrow^{n+1}s_3}[($iter_n$)]
             \end{array}
         \]
-        La relación $s_1 \rightarrow^n s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en exactamente $n$ pasos de la relación de transición $ \rightarrow$.
+        La relación $s_1 \rightarrow^n s_2$ modela que es posible llegar desde $s_1$ hasta $s_2$ en exactamente $n$ aplicaciones de la relación de transición $ \rightarrow$.
     \end{definition}
 
     \subsection{Semántica de paso grande}
     Este paradigma para definir la semántica dinámica encapsula de forma general el proceso de evaluación sin mostrar de forma explícita paso a paso como es que una expresión es evaluada (contrario a la semántica de paso pequeño).\\\\
     La relación de transición en este caso se denota como $e \Downarrow v$ donde $e$ es una expresión válida de nuestro lenguaje \textsf{EAB} y $v$ es un valor, esta se lee como ''la expresión $e$ se evalúa a $v$''.
 
-    \begin{definition}Semántica de paso grande para \textsf{EAB}: Se define la relación de transición  $\Downarrow$ mediante las siguientes reglas de inferencia\footnote{Definición formulada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
+    \begin{definition}[Definición de semántica de paso grande para \textsf{EAB}] Se define la relación de transición  $\Downarrow$ mediante las siguientes reglas de inferencia\footnote{Definición formulada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \begin{description}
             \item[Valores]
             $$\inference{}{num[n] \Downarrow num[n]}[\textit{(bsnum)}] \ \ \ \ \ \inference{}{B\ \text{Bool} \Downarrow B\ \text{Bool}}[\textit{(bsbool)}]$$
@@ -455,48 +455,79 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
          Es importante destacar que los valores de tipo \textit{num}[$n$] y $B$  Bool si tienen reglas definidas  en esta semántica de paso grande.
     \end{definition}
 
-    \begin{theorem}Equivalencia entre semántica de paso pequeño y paso grande: Decimos que para cualquier expresión $e$ del lenguaje \textsf{EAB} se cumple:
-        $$e \rightarrow^*v \longleftrightarrow e \Downarrow v$$
-        Es decir, las semánticas que hemos definido son equivalentes\footnote{La demostración se puede hacer por inducción estructural sobre cada instrucción de \textsf{EAB}, esta queda fuera del alcance del presente manual de carácter práctico pero si se desea consultarla esta está disponible en \hyperlink{106}{[106]}}.
-    \end{theorem}
-
     \begin{exercise}
-        Dada la siguiente expresión de \textsf{EAB} evalúa utilizando semántica de paso grande. Adicionalmente proporciona la representación en sintaxis abstracta.\\\\
-        Sintaxis concreta:
+        Dada la siguiente expresión de \textsf{EAB} evalúa utilizando semántica de paso grande. Adicionalmente proporciona la representación en sintaxis abstracta.
         \[
-            \texttt{let } x \text{ = } \texttt{let } y \texttt{ =  False} \texttt{ in} \texttt{ if(} y \texttt{ then } 0 \texttt{ else } 1 \texttt{)}  \texttt{ end} \texttt{ in } x + 1 \texttt{ end}
+            \texttt{let } x \text{ = } \texttt{let } y \texttt{ =  false} \texttt{ in} \texttt{ if(} y \texttt{ then } 0 \texttt{ else } 1 \texttt{)}  \texttt{ end} \texttt{ in } x + 1 \texttt{ end}
         \]
         Sintaxis abstracta:
         \[
             \textit{let}( \textit{let}( F,y.\textit{if}(y, 0, 1\text{)}\text{)} , x.\textit{sum}(x, 1\text{))}
         \]
         Evaluación paso grande:
-        \[
-            \scalemath{.75}{
+	\[
+	\rotatebox{90}{
+            \scalemath{.62}{
                 \inference
 		{ 
 			\inference
 				{ 
 				\inference
 					{}
-					{F \Downarrow F}[\textit{(bsbool)}]  & 
-				\inference
-					{}
-					{\textit{if}(y,0, 1\text{)}\text{)}[y:=F] \Downarrow 1}[\textit{(bsift)}]
+					{F \Downarrow F}[\textit{(bsbool)}]  \quad 
+					\inference
+						{
+							\inference
+							{
+								\inference
+									{}
+									{F \Downarrow F}[\textit{(bsbool)}] \quad 
+								\inference
+									{}
+									{1 \Downarrow 1}[\textit{(bsnum)}]
+							}
+							{
+								\textit{if}(F,0, 1\text{)}\text{)} \Downarrow 1
+							}[\textit{(bsift)}]
+					}
+					{
+						\textit{if}(y,0, 1\text{)}\text{)}[y:=F] \Downarrow 1
+					}[]
 				 }
-				{\textit{let}( F,\ y.\textit{if}(y, 0, 1\text{)}\text{)} \Downarrow 1}[\textit{(bslet)}] & 
-			\inference
-				{}
-				{ \textit{sum}(x,1\text{)} [x:=1] \Downarrow 2}[\textit{(bssum)}] 
+				 { 
+					\textit{let}( F,\ y.\textit{if}(y, 0, 1\text{)}\text{)} \Downarrow 1
+				}[\textit{(bslet)}] \quad
+				\inference
+					{
+						\inference
+							{
+								\inference
+									{}
+									{1 \Downarrow 1}[\textit{(bsnum)}]  \quad 
+								\inference
+									{}
+									{ 1 \Downarrow 1}[\textit{(bsnum)}] 
+							}
+							{
+								 \textit{sum}(1,1\text{)}  \Downarrow 2
+							}[\textit{(bssum)}] 
+					}
+					{
+						 \textit{sum}(x,1\text{)} [x:=1] \Downarrow 2
+					}[]
+				}
+				{
+					 \textit{let}( \textit{let}(F, y.\textit{if}(y,0,1\text{)}\text{)} ,x.\textit{sum}(x,1\text{))} \Downarrow 2
+				}[\textit{(bslet)}]
+            		}
 		}
-		{ \textit{let}( \textit{let}(F, y.\textit{if}(y,0,1\text{)}\text{)} ,x.\textit{sum}(x,1\text{))} \Downarrow 2}[\textit{(bslet)}]
-            }
         \]
-    \end{exercise}
+    	\end{exercise}
+
+	\bigskip
 
     \begin{exercise}
-         Dada la siguiente expresión de \textsf{EAB} evalúa utilizando la semántica de paso grande, adicionalmente proporciona la representación como árbol de sintaxis abstracta.\\\\
-        Sintaxis concreta:
+         Dada la siguiente expresión de \textsf{EAB} evalúa utilizando la semántica de paso grande. Adicionalmente proporciona la representación como árbol de sintaxis abstracta.
         \[
             \texttt{((7 + 4) * 4) + ((8 + 3) * 2)}
         \]
@@ -506,7 +537,8 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
         \]
         Evaluación paso grande:
         \[
-            \scalemath{0.48}{
+	\rotatebox{90}{
+            \scalemath{0.65}{
             	\inference
 			{
 				\inference
@@ -546,14 +578,16 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
 				}
 			{\textit{sum}( \textit{prod}( \textit{sum}( 7,4 \text{)}, 4 \text{)} , \textit{prod}( \textit{sum}( 8,3\text{)}, 2 \text{)}  \textit{)} \Downarrow 66}[\textit{(bssum)}]
             }
+}	
         \]
     \end{exercise}
 
+\bigskip
+
     \begin{exercise}
-        Dada la siguiente expresión de \textsf{EAB} evalúa utilizando la semántica de paso grande, adicionalmente proporciona la representación en sintaxis abstracta.\\\\
-        Sintaxis concreta:
+        Dada la siguiente expresión de \textsf{EAB} evalúa utilizando la semántica de paso grande. Adicionalmente proporciona la representación en sintaxis abstracta.
         \[
-            \texttt{if(False } \texttt{then } (3 * 7) + 1 \texttt{ else } (2 * 7) + 1 \text{)} 
+            \texttt{if(false } \texttt{then } (3 * 7) + 1 \texttt{ else } (2 * 7) + 1 \text{)} 
         \]
         Sintaxis abstracta:
         \[
@@ -589,7 +623,16 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
             }
         \]
     \end{exercise}
+	
+	Es importante notar que en estos ejercicios estamos haciendo abuso de la notación dado que las reglas para la función de transición de paso grande $\Downarrow$ están definidas para la sintáxis abstracta pero permitimos el uso de la sintáxis concreta para simplificar la notación.
+
     
+\begin{theorem}[Equivalencia entre semántica de paso pequeño y paso grande] Decimos que para cualquier expresión $e$ del lenguaje \textsf{EAB} se cumple:
+        $$e \rightarrow^*v \longleftrightarrow e \Downarrow v$$
+        Es decir, las semánticas que hemos definido son equivalentes\footnote{La demostración se puede hacer por inducción estructural sobre cada instrucción de \textsf{EAB}, esta queda fuera del alcance del presente manual de carácter práctico pero si se desea consultarla esta está disponible en \hyperlink{106}{[106]}}.
+    \end{theorem}
+
+
 \section{La función eval}
 
     Concluimos este capítulo con la definición de la función de evaluación para \textsf{EAB}, la cuál nos ayuda a vincular ambos paradigmas tratados para la semántica dinámica mediante la siguiente especificación.
@@ -600,7 +643,6 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
     \end{definition}
     
     La función \texttt{eval} será de utilidad para el resto de las secciones que visitaremos a lo largo del curso.
-
     
     \section{Ejercicios para el lector}
 
@@ -616,7 +658,6 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
         \end{itemize}    
 \end{exercise}
 
-    \bigskip
 
     \begin{exercise}
         Ahora supón que se quieren añadir cuantificadores y variables a nuestro lenguaje \texttt{Prop}\footnote{Ejercicio extraído de \hyperlink{107}{[107]}.} de la siguiente forma: \\
@@ -651,7 +692,6 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
 	\end{itemize}
     \end{exercise}
 
-	\bigskip
 
     \begin{exercise}
         Utilizando el analizador sintáctico y las reglas de semántica de paso pequeño y grande definidas en el ejercicio anterior contesta lo siguiente: \\
@@ -664,26 +704,25 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
 	\end{itemize}
     \end{exercise}
 
-	\bigskip
 
-    \begin{exercise}
-        Dada la siguiente expresión de \textsf{EAB} definida como:
-        \begin{align*}
-        	e = \textsf{let  }
-        		a&= \textsf{let }d = 2 \textsf{ in } d+1 \textsf{ end }
-        		\textsf{ in }\\
-        		 &\textsf{let }b=(a + 1)+a 
-        		 	\textsf{ in } \\
-        		 & \qquad(a + b) + \textsf{let }c=1 \textsf{ in } 
-        		 						b \ast c 
-        		 				\textsf{ end }\\
-        		 &\textsf{ end }\\
-        	\textsf{ end }&
-        \end{align*}
+   % \begin{exercise}
+     %   Dada la siguiente expresión de \textsf{EAB} definida como:
+        %\begin{align*}
+        	%e = \textsf{let  }
+        	%	a&= \textsf{let }d = 2 \textsf{ in } d+1 \textsf{ end }
+        	%	\textsf{ in }\\
+        	%	 &\textsf{let }b=(a + 1)+a 
+        	%	 	\textsf{ in } \\
+        	%	 & \qquad(a + b) + \textsf{let }c=1 \textsf{ in } 
+        	%	 						b \ast c 
+        	%	 				\textsf{ end }\\
+        	%	 &\textsf{ end }\\
+        	%\textsf{ end }&
+        %\end{align*}
 
-        \begin{itemize}
-            \item Utilizando el analizador sintáctico definido para \texttt{NPR} ($\sim$) decide si esta expresión es cerrada.
-            \item Utilizando la semántica dinámica de paso pequeño definida para \texttt{NPR} muestra la evaluación de la expresión hasta obtener un valor.
-            \item Utilizando la semántica dinámica de paso grande definida para \texttt{NPR} muestra la evaluación de la expresión hasta obtener un valor.
-        \end{itemize}
-    \end{exercise}
+        %\begin{itemize}
+           % \item Utilizando el analizador sintáctico definido para \texttt{NPR} ($\sim$) decide si esta expresión es cerrada.
+            %\item Utilizando la semántica dinámica de paso pequeño definida para \texttt{NPR} muestra la evaluación de la expresión hasta obtener un valor.
+            %\item Utilizando la semántica dinámica de paso grande definida para \texttt{NPR} muestra la evaluación de la expresión hasta obtener un valor.
+        %\end{itemize}
+   % \end{exercise}
