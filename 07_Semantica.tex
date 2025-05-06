@@ -27,10 +27,10 @@
 
     \subsection*{Objetivo}
         Definir los diferentes niveles semánticos de \textsf{EAB} mediante reglas de inferencia que dictaminen el proceso que se 
-        debe seguir al para evaluar o asignar un tipo a una expresión bien formada de este lenguaje.
+        debe seguir al evaluar una expresión bien formada de este lenguaje (cuando esto sea posible).
 
     \subsection*{Planteamiento}
-        Iniciaremos el estudio de este capítulo presentando las reglas para poder asignar un tipo a cada una de las expresiones bien formadas de \textsf{EAB}. Este nivel corresponde a la semántica estática y será de utilidad para fundamentar la seguridad del lenguaje\footnote{La seguridad de un lenguaje se relaciona con la asignación correcta de tipos y la vamos a estudiar mas adelante en este capítulo.} y garantizar que se pueda regresar un valor al final de la evaluación de la expresión a la que se pretende asignar el tipo.\\\\
+        Iniciaremos el estudio de este capítulo presentando las reglas para dictaminar si una expresión de \textsf{EAB} contiene variables libres. Así como los estados y transiciones de la semántica operacional del mismo. Este nivel corresponde a la semántica estática y será de utilidad para fundamentar la seguridad del lenguaje\footnote{Vamos a estudiar a profundidad esta y otras propiedades relacionadas con la ejecución de los programas en los siguientes capítulos.} y garantizar que se pueda regresar un valor al final de la evaluación de la expresión.\\\\
         Posteriormente se definirá el procedimiento para evaluar las expresiones bien formadas de \textsf{EAB}. Este mecanismo se conoce como semántica dinámica y se estudiará en dos paradigmas: de paso grande y de paso pequeño. Por último definiremos la función \texttt{eval} para \textsf{EAB}.
 
     \section{Semántica estática}
@@ -58,8 +58,9 @@
     \]
     \bigskip
     \[
-        \begin{array}{cc}
-            \inference{}{\Delta\sim \textit{B}\ \text{ Bool}}[\textit{(fvb)}]&
+        \begin{array}{ccc}
+            \inference{}{\Delta\sim \textit{T}}[\textit{(fvt)}]&
+		\inference{}{\Delta\sim \textit{F}}[\textit{(fvf)}]&
             \inference{\Delta\sim e_1&\cdots&\Delta\sim e_n}{\Delta\sim O(e_1,\cdots,e_n)}[\textit{(fvo)}]
         \end{array}
     \]
@@ -95,7 +96,7 @@ Nuevamente hacemos abuso de la notación para denotar los operadores de \textsf{
 	                                                {\{ x \} \sim y} \; 
 	                                            \inference
 	                                              {x \in \{x\}}
-	                                              {\{ x \} \sim x}[\textit{(fvn)}]
+	                                              {\{ x \} \sim x}[\textit{(fvv)}]
 	                                        }
 	                                         {\{ x \} \sim \textit{prod(x,y)}}[\textit{(fvo)}]& 
 	                                    \inference
@@ -104,9 +105,9 @@ Nuevamente hacemos abuso de la notación para denotar los operadores de \textsf{
 	                                }    
 	                               {\{ x \} \sim \textit{sum(prod(y, x), z)}}[\textit{(fvo)}]
 			      }
-	                           {\emptyset \sim \textit{x.sum(prod(y, x), z))} }
+	                           {\emptyset \sim \textit{x.sum(prod(y, x), z))} }[\textit{(fva)}]
 	                    }
-	                    {\emptyset \sim \textit{let(1,x.sum(prod(y,x),z))}}[\textit{(fva)}]
+	                    {\emptyset \sim \textit{let(1,x.sum(prod(y,x),z))}}[\textit{(fvo)}]
 	    }
         \]
 	
