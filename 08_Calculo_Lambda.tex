@@ -11,8 +11,8 @@
 
 
 %Introducción
-Cuando pensamos en las bases que sentaron los modelos de cómputo modernos podemos inmediatamente asociarlo con las máquinas de Turing, un sistema de transición que se ha estudiado con anterioridad en materias como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } siendo el más reconocido cuando se habla de conceptos como: computabilidad, algoritmo o complejidad, términos apenas formalizados en 1936.\\\\
-En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alonzo Church nos introduce en 1928 a su aproximación de un sistema formal basado en el concepto de ''función'' con las primitivas de ''abstracción'' y ''aplicación'' que fungiría como fundamento lógico para sustituir la teoría de conjuntos de Zermelo-Fraenkel y la teoría de tipos de Russell. Este sistema fue demostrado como inconsistente por sus dos alumnos Stephen Kleene y Barkley Russell pero no todo sería desechado, conservando la parte del manejo de funciones particularmente rica, consistente y sorprendentemente equivalente al modelo de Alan Turing, a este modelo se le conoce como Cálculo Lambda\footnote{Extraído de  \hyperlink{108}{[108]}}.\\
+Cuando pensamos en las bases que sentaron los modelos de cómputo modernos podemos inmediatamente asociarlo con las máquinas de Turing, un sistema de transición que se ha estudiado con anterioridad en materias como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } siendo el más reconocido cuando se habla de conceptos como: ''computabilidad'', ''algoritmo'' o ''complejidad'', términos apenas formalizados en 1936.\\\\
+En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alonzo Church nos introduce en 1928 a su aproximación de un sistema formal basado en el concepto de ''función'' con las primitivas de ''abstracción'' y ''aplicación'' que fungiría como fundamento lógico para sustituir la teoría de conjuntos de Zermelo-Fraenkel y la teoría de tipos de Russell. Este sistema fue demostrado como inconsistente por sus dos alumnos Stephen Kleene y Barkley Rosser pero no todo sería desechado, conservando la parte del manejo de funciones particularmente rica, consistente y sorprendentemente equivalente al modelo de Alan Turing. A este modelo se le conoce como Cálculo Lambda\footnote{Extraído de  \hyperlink{108}{[108]}}.\\
 
 
 \subsubsection{Objetivo}
@@ -21,25 +21,25 @@ Revisar la composición del Cálculo Lambda mediante el estudio de la sintaxis, 
 \subsubsection{Planteamiento}
 En este capítulo se revisará la sintaxis concreta del Cálculo Lambda para generar $\lambda$-expresiones junto con
 la semántica operacional del cálculo, basándonos en la operación de sustitución sintáctica ([variable := valor]) conocida como $\beta$-reducción.\\\\
-También se abordará la definición de los booleanos junto con los operadores lógicos, estructuras de datos (tuplas, proyecciones, listas) y los numerales de Church con operadores aritméticos mismos que se espera el lector pueda manipular, razonar y resolver en la sección de ejercicios. \\\\
+También se abordará la definición de los booleanos junto con los operadores lógicos, estructuras de datos (tuplas, proyecciones, listas) y los numerales de Church con operadores aritméticos, mismos que se espera el lector pueda manipular, razonar y resolver en la sección de ejercicios. \\\\
 Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con los operadores de punto fijo.
 
 
 \section{Sintaxis del Cálculo Lambda}
-    El cálculo lambda es un modelo simple, su sintaxis comprende sólo tres categorías de términos\footnote{Definición extraída de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y \hyperlink{110}{[110]}}:
+    El Cálculo Lambda es un modelo simple, su sintaxis comprende sólo tres categorías de términos\footnote{Definición extraída de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y \hyperlink{110}{[110]}}:
     \begin{itemize}
-        \item Variables: los elementos de esta categoría pertenecen a un conjunto infinito de letras minúsculas, generalmente las últimas del alfabeto (y en ocasiones pueden estar numeradas, algunos ejemplos pueden ser: x, y, z, $x_1$, $z_2$, etc.) y son las expresiones lambda más simples.\\
-        \item Abstracciones: esta categoría engloba los términos que definen a las funciones anónimas, compuestas por tres elementos: el primero es la letra griega ''$\lambda$'', el segundo es la variable que estará ligada en el cuerpo de la expresión y por último el cuerpo mismo de la función denotado como $e$, estas se representan de la forma ''$\lambda x.e$''.\\
-        \item Aplicación: esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función ''$e_1\,e_2$'', donde $e_1$ es la definición de una función anónima y $e_2$ es el argumento  con el que se evaluará dicha función.
+        \item \textbf{Variables:} los elementos de esta categoría pertenecen a un conjunto infinito de letras minúsculas, generalmente las últimas del alfabeto (y en ocasiones pueden estar numeradas, algunos ejemplos pueden ser: x, y, z, $x_1$, $z_2$, etc.) y son las expresiones lambda más simples.\\
+        \item \textbf{Abstracciones:} esta categoría engloba los términos que definen a las funciones anónimas, compuestas por tres elementos: el primero es la letra griega ''$\lambda$'', el segundo es la variable que estará ligada en el cuerpo de la expresión y por último el cuerpo mismo de la función denotado como $e$, estas se representan de la forma ''$\lambda x.e$''.\\
+        \item \textbf{Aplicación:} esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función ''$e_1\,e_2$'', donde $e_1$ es la definición de una función anónima y $e_2$ es el argumento  con el que se evaluará dicha función. La aplicación es asociativa a la izquierda de modo que una expresión como $e_1\ e_2\ e_3 $ se interpreta como $(e_1 e_2) e_3$.
     \end{itemize}
 
-    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $e \; \lambda$ que indica que $e$ es una expresión válida en el Cálculo Lambda. A estas expresiones las denominaremos  $\lambda-$expresiones\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{108}{[108]}, \hyperlink{109}{[109]}}.
+    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $e \; \lambda term$ que indica que $e$ es una expresión válida en el Cálculo Lambda. A estas expresiones las denominaremos  $\lambda-$expresiones\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{108}{[108]}, \hyperlink{109}{[109]}}.
     
         \[
             \begin{array}{ccccc}
-                \inference{x\;{\sf var}}{x\;\lambda}[$var$]&\quad&
-                \inference{x\;{\sf var}&e\;\lambda}{\lambda x.e\;\lambda}[$abs$]&\quad&
-                \inference{e_1\;\lambda&e_2\;\lambda}{e_1\,e_2\;\lambda}[$app$]
+                \inference{x\;{\sf var}}{x\;\lambda term}[$var$]&\quad&
+                \inference{x\;{\sf var}&e\;\lambda term}{\lambda x.e\;\lambda term}[$abs$]&\quad&
+                \inference{e_1\;\lambda term \ &e_2\;\lambda term}{e_1\,e_2\;\lambda term}[$app$]
             \end{array}
         \]
     \end{definition}
@@ -99,9 +99,14 @@ A la operación de sustituir los términos que concuerden con la variable del op
         \item $(\lambda y.t)[x:=r] = \lambda y.t[x:=r]$ donde $y\notin FV(r)$.
         \end{itemize}
 	\bigskip
-	Es importante remarcar que la asociatividad de la aplicación de la $\beta$-reducción es hacia la izquierda
+	%Es importante remarcar que la asociatividad de la aplicación de la $\beta$-reducción es hacia la izquierda
     \end{definition}
-    
+
+	    \begin{definition}[Forma Normal del Cálculo Lambda] Se dice que un $\lambda$ término está en forma normal si no existe otro término $e'$ tal que $e\to_\beta e'$\footnote{Ejercicio extraído de \hyperlink{5}{[5]}.}s.
+
+    De esta forma, si $e\to_\beta^*e_n$ y $e_n$ está en forma normal, decimos que $e_n$ es la forma normal de $e$. 
+    \end{definition}    
+
     \begin{exercise}
     Utiliza la definición de $\beta$-reducción para evaluar la siguiente $\lambda-$expresión.
     $$e= (\lambda x.z)y$$
@@ -119,11 +124,11 @@ A la operación de sustituir los términos que concuerden con la variable del op
     \end{exercise}
 
     \begin{exercise}
-        Utiliza la definición de $\beta$-reducción para evaluar la siguiente $\lambda-$expresión.
+        Utiliza la definición de $\beta$-reducción para evaluar la siguiente $\lambda-$expresión\footnote{Ejercicio extraído de \hyperlink{5}{[5]}.}.
         $$e= \big(\lambda x.\lambda y.xy\big)(\lambda z.z)(w)$$
         \[\big(\lambda x.\lambda y.xy\big)(\lambda z.z)(w) \rightarrow_\beta (\lambda y.xy[x := \lambda z.z])(w) \]
-        \[ =  (\lambda y.x[x := \lambda z.z]y[x := \lambda z.z])(w) = (\lambda y.(\lambda z.z)y)(w) \]
-        \[ \big(\lambda y.(\lambda z.z)y\big)(w) \rightarrow_\beta (\lambda y.z[z := y])(w) \]
+        \[ =  (\lambda y.x[x := \lambda z.z]y[x := \lambda z.z])(w) \]
+	 \[ = (\lambda y.(\lambda z.z)y)(w)  \rightarrow_\beta (\lambda y.z[z := y])(w) \]
         \[ = \big(\lambda y.y\big)(w) \rightarrow_\beta y[y := w] \]
         \[ = w \]
     \end{exercise}
