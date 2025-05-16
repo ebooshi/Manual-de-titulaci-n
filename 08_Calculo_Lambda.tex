@@ -137,6 +137,268 @@ A la operación de sustituir los términos que concuerden con la variable del op
     En el Cálculo Lambda las funciones son objetos primitivos de orden superior, esto brinda la flexibilidad de poder definir elementos y ser utilizados como argumentos entre sí para generar nuevas expresiones válidas para el sistema. Si extrapolamos esta idea para definir entidades primitivas nos encontraremos nombrando funciones para construir los elementos que pertenecen a esta categoría.\\\\
  En el contexto de los lenguajes de programación las entidades primitivas o tipos primitivos nos son proporcionados por la biblioteca estándar del lenguaje (\textsf{int}, \textsf{char}, \textsf{boo}l, etc.). En el Cálculo Lambda estos tipos primitivos serán definidos por funciones anónimas a las que convendremos un nombre para facilitar su representación\footnote{Información consultada de \hyperlink{108}{[108]} y  \hyperlink{109}{[109]}}.
 
+     \section{Aritmética del Cálculo Lambda}
+        En los lenguajes de programación uno de los tipos de de datos primitivos que es de vital importancia y que se nos es proporcionado por la biblioteca estándar son los números enteros.
+        Estas entidades tienen una representación en el Cálculo Lambda como funciones.\\\\
+        La construcción de los números naturales se obtiene al aplicar la función sucesor al cero, de tal forma que no tenemos el número dos, tenemos dos veces la aplicación de la función sucesor al cero: \textit{s(s(0))}, en Cálculo Lambda esta idea se mantiene vigente, los números serán la aplicación anidada de una función a la constante cero. 
+     \subsection{Numerales de Church}
+        Church introdujo los numerales como la abstracción de dos parámetros ''$s$'' y ''$z$'' en una función anónima, de tal forma que si se desea representar al n-ésimo número este será formado por la aplicación de $s$ a $z$, n veces\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}:
+
+    \begin{itemize}
+        \item $\bar{0}=_{def}\lambda s.\lambda z.z$
+        \item $\bar{1}=_{def}\lambda s.\lambda z.sz$
+        \item $\bar{2}=_{def}\lambda s.\lambda z.s(sz)$
+        \item $\bar{n}=_{def}\lambda s.\lambda z.\underbrace{s(\ldots(s}_{n\;veces} z)\ldots)$
+    \end{itemize}
+
+    \subsection{Funciones aritméticas}
+		Para los numerales de Church podemos difinir operadores aritméticos similares a los que se utilizan cuando trabajamos con los números enteros, estos operadores nos permitirán computar valores y estarán definidos como una función donde los operandos serán los argumentos de entrada.
+
+    \subsubsection{Función sucesor}
+        Comenzamos el estudio de las funciones aritméticas para el Cálculo Lambda definiendo la función \textsf{suc} para los numerales de Church, esta función recibe un numeral y construye el sucesor añadiendo un símbolo ''$s$'' al inicio.
+        \begin{definition}[Función sucesor para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
+            $$\textsf{suc} =_{def} \lambda n.\lambda z.\lambda s. s(n \; z \; s)$$
+        \end{definition}
+     
+        \begin{exercise}
+            Utiliza la definición de la función \textsf{suc} para evaluar la siguiente  $\lambda$-expresión
+            \[
+                \textsf{suc } \overline{2}
+            \]
+            \[
+                (\lambda n.\lambda z.\lambda s.s(n \; z \; s) ) \; \lambda z'.\lambda s'.s'(s'z') \rightarrow_\beta 
+            \]
+		\[
+			\lambda z.\lambda s.s((\lambda z'.\lambda s'.s'(s'z'))\ z \; s) \rightarrow_\beta 
+		\]	
+            \[
+                 \lambda z.\lambda s.s(\lambda s'.s'(s'z)\ s) \rightarrow_\beta
+            \]
+		\[
+			\lambda z.\lambda s.s(s(sz))
+		\]
+            \[
+                = \overline{3}
+            \]
+        \end{exercise}
+
+        \begin{exercise}
+            Utiliza la definición de la función \textsf{suc} para evaluar la siguiente  $\lambda$-expresión
+            \[
+                \textsf{suc } \overline{5}
+            \]
+            \[
+                (\lambda n.\lambda z.\lambda s.s(n\ z\ s)) \; \lambda z'.\lambda s'.s'(s'(s'(s'(s' \; z')))) \rightarrow_\beta
+            \]
+		\[
+			 \lambda z.\lambda s.s((\lambda z'.\lambda s'.s'(s'(s'(s'(s'z')))))\ z\ s)  \rightarrow_\beta	
+		\]
+            \[
+                \lambda z.\lambda s.s(\lambda s'.s'(s'(s'(s'(s\;z))))\ s) \rightarrow_\beta 
+            \]
+		\[
+			\lambda z.\lambda s.s(s(s(s(s(sz)))))
+		\]
+            \[
+                = \overline{6}
+            \]
+        \end{exercise}
+
+        \subsubsection{IsZero}
+        	Este operador está diseñado para regresar \textsf{True} cuando el numeral que recibe como parámetro corresponde al numeral $\overline{0}$. En caso contrario la función regresa \textsf{False} y está definida de la siguiente forma.
+        
+	\begin{definition}[Función IsZero para numerales de Church]\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
+            $$\textsf{IsZero} =_{def}  \; \lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})$$
+        \end{definition}
+
+        \begin{exercise}
+            Utiliza las definición de la función \textsf{IsZero} para evaluar la siguiente $\lambda$-expresión
+            \[
+                \textsf{IsZero}  \; \overline{2}
+            \]
+            \[
+                (\lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})) \; \lambda z.\lambda s.s(s\;z) \rightarrow_\beta 
+            \]
+		\[
+			(\lambda z.\lambda s.s(s\:z)) \; \textsf{True} \; (\lambda x.\textsf{False})  \rightarrow_\beta 
+		\]
+            \[
+                	(\lambda s.s(s\: \textsf{True})) \; (\lambda x.\textsf{False}) \rightarrow_\beta  
+            \]
+		\[
+			(\lambda x.\textsf{false}) \; ((\lambda x.\textsf{false}) \; \textsf{true}))) \rightarrow_\beta  
+		\]
+            \[
+                 \rightarrow_\beta  (\lambda x.\textsf{False}) \; \textsf{false} \rightarrow_\beta 
+            \]
+		\[
+			\textsf{False}
+		\]
+
+        \end{exercise}
+
+        \begin{exercise}
+            Utiliza las definición de la función \textsf{IsZero} para evaluar la siguiente $\lambda$-expresión
+            \[
+                \textsf{IsZero} \; \overline{0}
+            \]
+            \[
+                (\lambda m. m\textsf{True} \; (\lambda x.\textsf{False})) \; \lambda z.\lambda s.z \rightarrow_\beta 
+            \]
+		\[
+			(\lambda z\lambda s.z) \; \textsf{True} \; (\lambda x.\textsf{False}) \rightarrow_\beta 
+		\]
+            \[
+                   (\lambda s.\textsf{True}) \; \lambda x.\textsf{False} \rightarrow_\beta 
+            \]
+		\[
+			\textsf{True}
+		\]
+        \end{exercise}
+        
+
+    \subsubsection{Suma}
+        Esta función se define de forma similar a la función suma para los números naturales  donde se reciben dos argumentos $m$ y $n$ y se aplica n veces la función \textsf{suc} al numeral m.
+
+        \begin{definition}[Definición de la suma para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
+            $$\textsf{sum} =_{def}  \; \lambda m.\lambda n.\lambda s.\lambda z.n(m \; z \; s) \; s$$
+        \end{definition}
+
+        \begin{exercise}
+            Utiliza la definición de la función \textsf{sum} para evaluar la siguiente  $\lambda$-expresión
+            \[
+                \textsf{sum}\  \overline{2} \; \overline{3} 
+            \]
+            \[
+                = (\lambda m.\lambda n.\lambda z.\lambda s.n(m \; z \; s) \; s) \; \lambda z'.\lambda s'.s'(s'z') \;\; \lambda z''.\lambda s''.s''(s''(s''z'')) \rightarrow_\beta 
+            \]
+            \[
+                (\lambda n.\lambda z.\lambda s.n(\lambda z'.\lambda s'.s'(s'z')) \; z \; s) \; s) \; \lambda z''.\lambda s''.s''(s''(s''z'')) \rightarrow_\beta 
+            \]
+            \[
+                \lambda z.\lambda s.(\lambda z''.\lambda s''.s''(s''(s''z''))) \; ((\lambda z'.\lambda s'.s'(s'z')) \; z \; s) \; s) \rightarrow_\beta
+            \]
+            \[
+                \lambda z.\lambda s.(\lambda z''\lambda s''.s''(s''(s''z'')) \; ((\lambda s'.s'(s'z))  \; s) \; s) \rightarrow_\beta
+            \]
+            \[
+                \lambda z.\lambda s.(\lambda z''\lambda s''.s''(s''(s''z'')) \; (s(sz)) \; s) \rightarrow_\beta
+            \]
+            \[
+                \lambda z.\lambda s.(\lambda s''.s''(s''(s''(s(sz)))) \; s) \rightarrow_\beta
+            \]
+            \[
+                \lambda z.\lambda s.s(s(s(s(sz)))) = \overline{5}
+            \]
+        \end{exercise}
+
+        \begin{exercise}
+            Utiliza la definición de la función \textsf{sum} para evaluar la siguiente  $\lambda$-expresión
+            \[
+                \textsf{sum}\  \overline{4} \; \overline{5} 
+            \]
+            \[
+                = (\lambda m.\lambda n.\lambda z.\lambda s.n(m \; z \; s) \; s) \; \lambda z'.\lambda s'.s'(s'(s'(s'z'))) \; \lambda z''.\lambda s''.s''(s''(s''(s''(s''z'')))) \rightarrow_\beta 
+            \]
+            \[
+                (\lambda n.\lambda z.\lambda s.n((\lambda z'.\lambda s'.s'(s'(s'(s'z'))) \; z \; s) \; s)) \; \lambda z''.\lambda s''.s''(s''(s''(s''(s''z'')))) \rightarrow_\beta 
+            \]
+            \[
+                \lambda z.\lambda s.(\lambda z''.\lambda s''.s''(s''(s''(s''(s''z'')))) \; (\lambda z'.\lambda s'.s'(s'(s'(s'z'))) \; z \; s) \; s) \rightarrow_\beta
+            \]
+            \[
+                \lambda z.\lambda s.((\lambda z''.\lambda s''.s''(s''(s''(s''(s''z''))))) \; (\lambda s'.s'(s'(s'(s'z)))  \; s) \; s) \rightarrow_\beta
+            \]
+            \[
+                \lambda z.\lambda s.(\lambda z''.\lambda s''.s''(s''(s''(s''(s''z'')))) \; s(s(s(sz))) \; s) \rightarrow_\beta
+            \]
+            \[
+                \lambda z.\lambda s.(\lambda s''.s''(s''(s''(s''(s''(s(s(s(sz)))))))) \; s) \rightarrow_\beta
+            \]
+            \[
+                \lambda s.\lambda z .s(s(s(s(s(s(s(s(sz)))))))) = \overline{9}
+            \]
+        \end{exercise}
+
+        \subsubsection{Producto}
+        Para el producto de $m$ y $n$ la idea es anidar la operación: \textsf{sum} $\overline{n}\ \overline{n}$, m veces reemplazando las apariciones de de la variable $s$ en el numeral m por \textsf{sum} $\overline{n}$. Esta operación está definida de la siguiente manera:
+
+        \begin{definition}[Definición del producto para los numerales de Church.]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
+            $$\textsf{prod} =_{def}  \; \lambda m.\lambda n.m\; \bar{0} \; (\textsf{sum}\;n)$$
+        \end{definition}
+
+        \begin{exercise}
+            Utiliza la definición de la función \textsf{prod} para evaluar la siguiente  $\lambda$-expresión
+            \[
+                    \textsf{prod}\  \overline{2} \; \overline{3}
+            \]
+            \[
+                    \big(\lambda m.\lambda n.m\; \overline{0} \; (\textsf{sum} \; n)\big) \;  \lambda z.\lambda s.s(sz) \; \overline{3} \rightarrow_\beta 
+            \]
+            \[
+			\big(\lambda n.(\lambda z.\lambda s.s(sz)\big) \; \overline{0} \; (\textsf{sum} \; n)) \; \overline{3}   \rightarrow_\beta 
+ 	    \]
+            \[
+                       (\lambda n.\big(\lambda s.s(s\ \overline{0})\big)\; (\textsf{sum}\; n)) \; \overline{3} \rightarrow_\beta 
+            \]
+	    \[
+			 \big(\lambda n.(\textsf{sum} \; n \; (\textsf{sum} \; n \; \overline{0})\big) \; \overline{3}  \rightarrow_\beta 
+	    \]
+            \[
+                        (\textsf{sum} \; \overline{3} \; (\textsf{sum} \; \overline{3} \; \overline{0})) = 
+            \]
+            \[
+                    \scalemath{0.8}{
+                        \lambda m.\lambda n.\lambda s.\lambda z.n(m \; z \; s) \; s \; \lambda z'\lambda s'.s'(s'(s'z')) \; (\lambda m'.\lambda n'.\lambda s''.\lambda z''.n'(m' \; z'' \; s'') \; s'' \; \lambda z'''.\lambda s'''.s'''(s'''(s'''z''')) \; \lambda z''''.\lambda s''''.z'''') 
+                    }
+            \]
+            \[
+                    \text{resolveremos por partes la suma dado que la notación crece muy rápido y es poco legible}
+            \]
+            \[
+                    \textsf{sum}\  \overline{3} \; \overline{0} = \textsf{sum}\  \overline{0} \; \overline{3} = \big(\lambda m.\lambda n.\lambda z.\lambda s.n(m \; z \; s) \; s \big) \; \lambda z'.\lambda s'.z' \; \overline{3}
+            \]
+            \[
+                    \rightarrow_\beta  (\lambda n.\lambda z.\lambda s.n(\big(\lambda z'.\lambda s'.z'\big) \; z \; s) \; s) \; \overline{3}
+            \]
+            \[
+                    \rightarrow_\beta  (\lambda n.\lambda z.\lambda s.n\big(\lambda s'.z \; s\big) \; s) \; \overline{3} 
+            \]
+	 \[
+            	\rightarrow_\beta  \big(\lambda n.\lambda z.\lambda s.n \; z \; s\big) \; \overline{3}
+            \]
+            \[
+                    \rightarrow_\beta   \lambda z.\lambda s.(\overline{3} \; z \; s \;) = \; \lambda z.\lambda s.(\big(\lambda z'.\lambda s'.s'(s'(s'z'))\big) \; z \; s)
+            \]
+            \[
+                    \rightarrow_\beta \lambda z.\lambda s.(\lambda s'.s'\big(s'(s'(z))\big) \; s) 
+            \]
+            \[
+	         \rightarrow_\beta \lambda z.\lambda s.s(s(sz)) = \overline{3} 
+            \]
+            \[
+                    \textbf{sum } \; \overline{3} \; \overline{3} = \big(\lambda m.\lambda n.\lambda z.\lambda s.n(m \; z \; s) \; s \big) \; \lambda z'.\lambda s'.s'(s'(s'.z')) \; \overline{3}
+            \]
+            \[
+                    \rightarrow_\beta (\lambda n.\lambda z.\lambda s.n(\big(\lambda z'.\lambda s's'(s'(s'.z'))\big) \; z \; s) \; s )  \; \overline{3}
+            \]
+            \[
+                    \rightarrow_\beta (\lambda n.\lambda z.\lambda s.n(\big(\lambda s'.s'(s'(s'.z))\big) \; s) \; s )  \; \overline{3}
+            \]
+            \[
+                    \rightarrow_\beta \big(\lambda n.\lambda z.\lambda s.n \; (s(s(s.z))) \; s \big)  \; \overline{3}
+            \]
+            \[
+                  \rightarrow_\beta   \lambda z.\lambda s.(\overline{3} \; (s(s(s.z))) \; s) = \lambda z.\lambda s.( \lambda z'\lambda s'.s'(s'(s'z'))\; (s(s(s.z))) \; s) 
+            \]
+            \[
+                 \rightarrow_\beta  \lambda z.\lambda s.(\lambda s'.s'(s'(s'(s(s(s.z)))))  \; s)
+            \]
+            \[
+                    \rightarrow_\beta \lambda z.\lambda s.s(s(s(s(s(s.z))))) = \overline{6}
+            \]
+        \end{exercise}
+
     \subsection{Booleanos y operadores lógicos}
     Las constantes booleanas \textsf{True} y \textsf{False} son entidades opuestas, una es el valor contrario de la otra. Si tratemos de trasladar esta idea a un par de funciones podemos pensar en algo como:
     la función que toma dos argumentos y regresa el primero es el opuesto de la función que toma dos argumentos y regresa el segundo\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{110}{[110]} y  \hyperlink{111}{[111]}}:
@@ -170,7 +432,7 @@ Si recibe como primer parámetro la constante \textsf{True} entonces el resultad
 \[ (\lambda x.\lambda y. xy (\textsf{False}))\ \textsf{True}\  w \to_\beta^* \textsf{True}\ w\ (\textsf{False}) \to_\beta^* w  \]
 Notemos que la única forma de evaluar la instrucción \textsf{AND} como \textsf{True} es si se recibe esta constante dos veces.
 
-Para el Cálculo Lambda es deseable entonces que los operadores anteriormente definidos, aplicando un número finito de veces la regla de $\to_\beta$ se obtengan los siguientes resultados:
+Para el Cálculo Lambda es deseable entonces que los operadores anteriormente definidos, aplicando un número finito de veces la beta reducción $\to_\beta$ se obtengan los siguientes resultados:
    \begin{center}
 
         \begin{itemize} \centering
@@ -183,277 +445,15 @@ Para el Cálculo Lambda es deseable entonces que los operadores anteriormente de
         \end{itemize}
    \end{center} 
 
-     \section{Aritmética del Cálculo Lambda}
-        En los lenguajes de programación otro tipo de de dato primitivo que es de vital importancia y que se nos es proporcionado por la biblioteca estándar son los números enteros.
-        Estas entidades también tienen una representación en el Cálculo Lambda como funciones.\\\\
-        La construcción de los números naturales se obtiene al aplicar la función sucesor al cero, de tal forma que no tenemos el número dos, tenemos dos veces la aplicación de la función sucesor al cero: \textit{s(s(0))}, en Cálculo Lambda esta idea se mantiene vigente, los números serán la aplicación anidada de una función a la constante cero. 
-     \subsection{Numerales de Church}
-        Church introdujo los numerales como la abstracción de dos parámetros ''$s$'' y ''$z$'' en una función anónima, de tal forma que si se desea representar al n-ésimo número este sea formado por la aplicación de $s$ a $z$, n veces\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}:
-
-    \begin{itemize}
-        \item $\bar{0}=_{def}\lambda s.\lambda z.z$
-        \item $\bar{1}=_{def}\lambda s.\lambda z.sz$
-        \item $\bar{2}=_{def}\lambda s.\lambda z.s(sz)$
-        \item $\bar{n}=_{def}\lambda s.\lambda z.\underbrace{s(\ldots(s}_{n\;veces} z)\ldots)$
-    \end{itemize}
-
-    \subsection{Funciones aritméticas}
-		Para los numerales de Church podemos difinir operadores aritméticos similares a los que se utilizan cuando trabajamos con los números enteros, estos operadores nos permitirán computar valores y estarán definidos como una función donde los operandos serán los argumentos de entrada.
-
-    \subsubsection{Función sucesor}
-        Comenzamos el estudio de las funciones aritméticas para el Cálculo Lambda definiendo la función \textsf{suc} para los numerales de Church, esta función recibe un numeral y construye el sucesor añadiendo un símbolo ''$s$'' al inicio.
-        \begin{definition}[Función sucesor para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
-            $$\textsf{suc} =_{def} \lambda n\lambda z\lambda s. s(n \; z \; s)$$
-        \end{definition}
-     
-        \begin{exercise}
-            Utiliza la definición de la función \textsf{suc} para evaluar la siguiente  $\lambda$-expresión
-            \[
-                \textsf{suc } \overline{2}
-            \]
-            \[
-                (\lambda n\lambda z\lambda s.s(n \; z \; s) ) \; \lambda z'\lambda s'.s'(s'z') \rightarrow_\beta 
-            \]
-		\[
-			\lambda z\lambda s.s((\lambda z'\lambda s'.s'(s'z'))\ z \; s) \rightarrow_\beta 
-		\]	
-            \[
-                 \lambda z\lambda s.s(\lambda s'.s'(s'z)\ s) \rightarrow_\beta
-            \]
-		\[
-			\lambda s\lambda s.s(s(sz)) \rightarrow_\beta
-		\]
-            \[
-                = \overline{3}
-            \]
-        \end{exercise}
-
-        \begin{exercise}
-            Utiliza la definición de la función \textsf{suc} para evaluar la siguiente  $\lambda$-expresión
-            \[
-                \textsf{suc } \overline{5}
-            \]
-            \[
-                (\lambda n\lambda z\lambda s.s(n\ z\ s)) \; \lambda z'\lambda s'.s'(s'(s'(s'(s' \; z')))) \rightarrow_\beta
-            \]
-		\[
-			 \lambda z\lambda s.s((\lambda z'\lambda s'.s'(s'(s'(s'(s'z')))))\ z\ s)  \rightarrow_\beta	
-		\]
-            \[
-                \lambda z\lambda s.s(\lambda s'.s'(s'(s'(s'(s\;z))))\ s) \rightarrow_\beta 
-            \]
-		\[
-			\lambda s\lambda z.s(s(s(s(s(sz)))))
-		\]
-            \[
-                = \overline{6}
-            \]
-        \end{exercise}
-
-        \subsubsection{IsZero}
-        	Este operador está diseñado para regresar \textsf{True} cuando el numeral que recibe como parámetro corresponde al numeral $\overline{0}$. En caso contrario la función regresa \textsf{False} y está definida de la siguiente forma.
-        
-	\begin{definition}[Función IsZero para numerales de Church]\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
-            $$\textsf{IsZero} =_{def}  \; \lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})$$
-        \end{definition}
-
-        \begin{exercise}
-            Utiliza las definición de la función \textsf{IsZero} para evaluar la siguiente $\lambda$-expresión
-            \[
-                \textsf{IsZero}  \; \overline{2}
-            \]
-            \[
-                (\lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})) \; \lambda z\lambda s.s(s\;z) \rightarrow_\beta 
-            \]
-		\[
-			(\lambda z\lambda s.s(s\:z)) \; \textsf{True} \; (\lambda x.\textsf{False})  \rightarrow_\beta 
-		\]
-            \[
-                	(\lambda s.s(s\: \textsf{True})) \; (\lambda x.\textsf{False}) \rightarrow_\beta  
-            \]
-		\[
-			(\lambda x.\textsf{false}) \; ((\lambda x.\textsf{false}) \; \textsf{true}))) \rightarrow_\beta  
-		\]
-            \[
-                 \rightarrow_\beta  (\lambda x.\textsf{False}) \; \textsf{false} \rightarrow_\beta 
-            \]
-		\[
-			\textsf{False}
-		\]
-
-        \end{exercise}
-
-        \begin{exercise}
-            Utiliza las definición de la función \textsf{IsZero} para evaluar la siguiente $\lambda$-expresión
-            \[
-                \textsf{IsZero} \; \overline{0}
-            \]
-            \[
-                (\lambda m. m\textsf{True} \; (\lambda x.\textsf{False})) \; \lambda z\lambda s.z \rightarrow_\beta 
-            \]
-		\[
-			(\lambda z\lambda s.z) \; \textsf{True} \; (\lambda x.\textsf{False}) \rightarrow_\beta 
-		\]
-            \[
-                   (\lambda s.\textsf{True}) \; \lambda x.\textsf{False} \rightarrow_\beta 
-            \]
-		\[
-			\textsf{True}
-		\]
-        \end{exercise}
-        
-
-    \subsubsection{Suma}
-        Esta función se define de forma similar a la función suma para los números naturales  donde se reciben dos argumentos $m$ y $n$ y se aplica n veces la función \textsf{suc} al numeral m.
-
-        \begin{definition}[Definición de la suma para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
-            $$\textsf{sum} =_{def}  \; \lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s$$
-        \end{definition}
-
-        \begin{exercise}
-            Utiliza la definición de la función \textsf{sum} para evaluar la siguiente  $\lambda$-expresión
-            \[
-                \textsf{sum}\  \overline{2} \; \overline{3} 
-            \]
-            \[
-                = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s) \; \lambda z'\lambda s'.s'(s'z') \;\; \lambda z''\lambda s''.s''(s''(s''z'')) \rightarrow_\beta 
-            \]
-            \[
-                (\lambda n\lambda z\lambda s.n((\lambda z'\lambda s'.s'(s'z')) \; z \; s) \; s) \; \lambda z''\lambda s''.s''(s''(s''z'')) \rightarrow_\beta 
-            \]
-            \[
-                \lambda z\lambda s.((\lambda z''\lambda s''.s''(s''(s''z''))) \; ((\lambda z'\lambda s'.s'(s'z')) \; z \; s) \; s) \rightarrow_\beta
-            \]
-            \[
-                \lambda z\lambda s.(\lambda z''\lambda s''.s''(s''(s''z'')) \; ((\lambda s'.s'(s'z))  \; s) \; s) \rightarrow_\beta
-            \]
-            \[
-                \lambda z\lambda s.(\lambda z''\lambda s''.s''(s''(s''z'')) \; (s(sz)) \; s) \rightarrow_\beta
-            \]
-            \[
-                \lambda z\lambda s.(\lambda s''.s''(s''(s''(s(sz)))) \; s) \rightarrow_\beta
-            \]
-            \[
-                \lambda z\lambda s.s(s(s(s(sz)))) = \overline{5}
-            \]
-        \end{exercise}
-
-        \begin{exercise}
-            Utiliza la definición de la función \textsf{sum} para evaluar la siguiente  $\lambda$-expresión
-            \[
-                \textsf{sum}\  \overline{4} \; \overline{5} 
-            \]
-            \[
-                = (\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s) \; \lambda z'\lambda s'.s'(s'(s'(s'z'))) \; \lambda z''\lambda s''.s''(s''(s''(s''(s''z'')))) \rightarrow_\beta 
-            \]
-            \[
-                (\lambda n\lambda z\lambda s.n((\lambda z'\lambda s'.s'(s'(s'(s'z'))) \; z \; s) \; s)) \; \lambda z''\lambda s''.s''(s''(s''(s''(s''z'')))) \rightarrow_\beta 
-            \]
-            \[
-                \lambda z\lambda s(\lambda z''\lambda s''.s''(s''(s''(s''(s''z'')))) \; (\lambda z'\lambda s'.s'(s'(s'(s'z'))) \; z \; s) \; s) \rightarrow_\beta
-            \]
-            \[
-                \lambda z\lambda s((\lambda z''\lambda s''.s''(s''(s''(s''(s''z''))))) \; (\lambda s'.s'(s'(s'(s'z)))  \; s) \; s) \rightarrow_\beta
-            \]
-            \[
-                \lambda z\lambda s(\lambda z''\lambda s''.s''(s''(s''(s''(s''z'')))) \; s(s(s(sz))) \; s) \rightarrow_\beta
-            \]
-            \[
-                \lambda z\lambda s(\lambda s''.s''(s''(s''(s''(s''(s(s(s(sz)))))))) \; s) \rightarrow_\beta
-            \]
-            \[
-                \lambda s.\lambda z .s(s(s(s(s(s(s(s(sz)))))))) = \overline{9}
-            \]
-        \end{exercise}
-
-        \subsubsection{Producto}
-        Para el producto de $m$ y $n$ la idea es anidar la operación: \textsf{sum} $\overline{n}\ \overline{n}$, m veces reemplazando las apariciones de de la variable $s$ en el numeral m por \textsf{sum} $\overline{n}$. Esta operación está definida de la siguiente manera:
-
-        \begin{definition}[Definición del producto para los numerales de Church.]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
-            $$\textsf{prod} =_{def}  \; \lambda m.\lambda n.m\; \bar{0} \; (\textsf{sum}\;n)$$
-        \end{definition}
-
-        \begin{exercise}
-            Utiliza la definición de la función \textsf{prod} para evaluar la siguiente  $\lambda$-expresión
-            \[
-                    \textsf{prod}\  \overline{2} \; \overline{3}
-            \]
-            \[
-                    \big(\lambda m\lambda n.m\; \overline{0} \; (\textsf{sum} \; n)\big) \;  \lambda z\lambda s.s(sz) \; \overline{3} \rightarrow_\beta 
-            \]
-            \[
-			\big(\lambda n.(\lambda z\lambda s.s(sz)\big) \; \overline{0} \; (\textsf{sum} \; n)) \; \overline{3}   \rightarrow_\beta 
- 	    \]
-            \[
-                       (\lambda n.\big(\lambda s.s(s\ \overline{0})\big)\; (\textsf{sum}\; n)) \; \overline{3} \rightarrow_\beta 
-            \]
-	    \[
-			 \big(\lambda n.(\textsf{sum} \; n \; (\textsf{sum} \; n \; \overline{0})\big) \; \overline{3}  \rightarrow_\beta 
-	    \]
-            \[
-                        (\textsf{sum} \; \overline{3} \; (\textsf{sum} \; \overline{3} \; \overline{0})) = 
-            \]
-            \[
-                    \scalemath{0.8}{
-                        \lambda m\lambda n\lambda s\lambda z.n(m \; z \; s) \; s \; \lambda z'\lambda s'.s'(s'(s'z')) \; (\lambda m'\lambda n'\lambda s''\lambda z''.n'(m' \; z'' \; s'') \; s'' \; \lambda z'''\lambda s'''.s'''(s'''(s'''z''')) \; \lambda z''''\lambda s''''.z'''') 
-                    }
-            \]
-            \[
-                    \text{resolveremos por partes la suma dado que la notación crece muy rápido y es poco legible}
-            \]
-            \[
-                    \textsf{sum}\  \overline{3} \; \overline{0} = \big(\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s \big) \; \lambda z'\lambda s'.z' \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta  (\lambda n\lambda z\lambda s.n(\big(\lambda z'\lambda s'.z'\big) \; z \; s) \; s) \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta  (\lambda n\lambda z\lambda s.n\big(\lambda s'.z \; s\big) \; s) \; \overline{3} 
-            \]
-	 \[
-            	\rightarrow_\beta  \big(\lambda n\lambda z\lambda s.n \; z \; s\big) \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta   \lambda z\lambda s.(\overline{3} \; z \; s \;) = \; \lambda z\lambda s.(\big(\lambda z'\lambda s'.s'(s'(s'z'))\big) \; z \; s)
-            \]
-            \[
-                    \rightarrow_\beta \lambda z\lambda s.(\lambda s'.s'\big(s'(s'(z))\big) \; s) 
-            \]
-            \[
-	         \rightarrow_\beta \lambda z\lambda s.s(s(sz)) = \overline{3} 
-            \]
-            \[
-                    \textbf{sum } \; \overline{3} \; \overline{3} = \big(\lambda m\lambda n\lambda z\lambda s.n(m \; z \; s) \; s \big) \; \lambda z'\lambda s's'(s'(s'.z')) \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta (\lambda n\lambda z\lambda s.n(\big(\lambda z'\lambda s's'(s'(s'.z'))\big) \; z \; s) \; s )  \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta (\lambda n\lambda z\lambda s.n(\big(\lambda s's'(s'(s'.z))\big) \; s) \; s )  \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta \big(\lambda n\lambda z\lambda s.n \; (s(s(s.z))) \; s \big)  \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta \lambda z\lambda s.((\overline{3}) \; (s(s(s.z))) \; s) = \lambda m\lambda n\lambda z\lambda s.(\big( \lambda z'\lambda s'.s'(s'(s'z'))\big) \; (s(s(s.z))) \; s)
-            \]
-            \[
-                    \rightarrow_\beta \lambda z\lambda s.(\big(\lambda s'.s'(s'(s'(s(s(s.z)))))\big)  \; s)
-            \]
-            \[
-                    \rightarrow_\beta \lambda z\lambda s.\lambda s.s(s(s(s(s(s.z))))) = \overline{6}
-            \]
-        \end{exercise}
-
-        \section{Datos estructurados en el Cálculo Lambda}
+  \section{Datos estructurados en el Cálculo Lambda}
 
             En el Cálculo Lambda es posible definir estructuras para almacenar información junto con las funciones para recuperar los elementos guardados en estas. La estructura más simple que revisaremos serán las tuplas junto con sus proyecciones \textsf{first} y \textsf{second} que ayudan a sentar la base para definir una estructura más compleja; las listas, con sus respectivas funciones para obtener la cabeza y la cola. Juntas proveen una estructura de datos para almacenamiento en este sistema.
     
-            \subsection{Tuplas}
+            \subsection{Pares}
 
-                La tupla es la estructura que representa a un par compuesto por un elemento izquierdo y un elemento derecho. En el Cálculo Lambda se define como la función que tiene tiene tres argumentos; el elemento izquierdo (en inglés se le conoce como $first$), el elemento derecho (o $second$) y una función $b$.
+                Los pares es la estructura que representa a un par compuesto por un elemento izquierdo y un elemento derecho. En el Cálculo Lambda se define como la función que tiene tiene tres argumentos; el elemento izquierdo (en inglés se le conoce como $first$), el elemento derecho (o $second$) y una función $b$.
         
-                \begin{definition}[Definición de tuplas para el Cálculo Lambda]\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{113}{[113]}}
+                \begin{definition}[Definición de pares para el Cálculo Lambda]\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{113}{[113]}}
             
                     Constructor
                         $$\mathsf{pair} =_{def} \lambda f\lambda s\lambda b. bfs$$
@@ -462,13 +462,42 @@ Para el Cálculo Lambda es deseable entonces que los operadores anteriormente de
                     Proyección del segundo elemento
                         $$\mathsf{snd} =_{def} \lambda p.p \ \textsf{False}$$
 
-		      Donde las proyecciones se apoyan de la propiedad de los booleanos de regresar el primer argumento para el caso de \textsf{True} y el segundo en el caso de \textsf{False}.
+		     % Donde las proyecciones se apoyan de la propiedad de los booleanos de regresar el primer argumento para el caso de \textsf{True} y el segundo en el caso de \textsf{False}.
                 \end{definition}
 
-                En general se tienen las siguientes reducciones cuando se aplican las proyecciones a las tuplas:
+    En general se tienen las siguientes reducciones cuando se aplican las proyecciones a los pares, donde a y b son expresiones arbitrarias del Cálculo Lambda\footnote{Extraído de \hyperlink{12}{[12]}}:
 
-                $${\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf a}$$
-                $${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$ 
+$${\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf a}$$
+    \[
+        \begin{array}{cl}
+        &{\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b})\\
+        =&{\sf fst}\;((\lambda f.\lambda s. \lambda x. xfs) \;{\sf a} \; {\sf b})\\
+        \to_\beta&{\sf fst}\;((\lambda s. \lambda x. x\,{\sf a}\,s)  \; {\sf b})\\
+        \to_\beta&{\sf fst}\;(\lambda x. x\,{\sf a}\, {\sf b})\\
+        =&(\lambda p.p\,{\sf true})(\lambda x. x\,{\sf a}\, {\sf b})\\
+        \to_\beta&( \lambda x. x\,{\sf a}\, {\sf b})\,{\sf true}\\
+        \to_\beta&{\sf true}\,{\sf a}\, {\sf b}\\ 
+        =&(\lambda x.\lambda y.x)\,{\sf a}\, {\sf b}\\
+        \to_\beta&(\lambda y.{\sf a})\, {\sf b}\\
+        \to_\beta& {\sf a}
+        \end{array}
+    \]
+
+$${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$ 
+\[
+        \begin{array}{cl}
+        &{\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b})\\
+        =&{\sf snd}\;((\lambda f.\lambda s. \lambda x. xfs) \;{\sf a} \; {\sf b})\\
+        \to_\beta&{\sf snd}\;((\lambda s. \lambda x. x\,{\sf a}\,s)  \; {\sf b})\\
+        \to_\beta&{\sf snd}\;(\lambda x. x\,{\sf a}\, {\sf b})\\
+        =&(\lambda p.p\,{\sf false})(\lambda x. x\,{\sf a}\, {\sf b})\\
+        \to_\beta&( \lambda x. x\,{\sf a}\, {\sf b})\,{\sf false}\\
+        \to_\beta&{\sf false}\,{\sf a}\, {\sf b}\\ 
+        =&(\lambda x.\lambda y.y)\,{\sf a}\, {\sf b}\\
+        \to_\beta&(\lambda y.y)\, {\sf b}\\
+        \to_\beta& {\sf a}
+        \end{array}
+    \]
 
             \subsection{Listas}
 
@@ -482,6 +511,8 @@ Para el Cálculo Lambda es deseable entonces que los operadores anteriormente de
                 $${\sf head}  = \textsf{fst}$$
                 \text{Cola de la lista}
                 $${\sf tail} = \textsf{snd}$$
+		    \text{Test de la lista vacía}
+      		   $${\sf isnil}  = \lambda l.l(\lambda h.\lambda t.\lambda d. {\sf false}) {\sf true}$$
             \end{definition}
 
         \section{Propiedades semánticas del Cálculo Lambda}
