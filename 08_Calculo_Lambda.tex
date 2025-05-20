@@ -518,7 +518,7 @@ $${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$
         \section{Propiedades semánticas del Cálculo Lambda}
 
                 \subsection{No terminación}
-                    Estudiamos la propiedad de terminación para las expresiones correctamente formadas de \textsf{EAB}, en donde estas se evaluarán a un valor en un número finito de pasos (cuando la evaluación ha llegado a este punto se le conoce como forma normal). 
+                    Con anterioridad estudiamos la propiedad de terminación para las expresiones correctamente formadas de \textsf{EAB}, en donde estas se evaluarán a un valor en un número finito de pasos. Cuando la evaluación ha llegado a este punto se le conoce como forma normal. 
                     No obstante esta propiedad no se cumple para el Cálculo Lambda como se puede ver a continuación:
                     \begin{exercise}
                         Demuestra o da un contra ejemplo de por qué la propiedad de terminación para el Cálculo Lambda es válida\footnote{Ejemplo extraído de \hyperlink{120}{[120]}}.\\\\
@@ -530,17 +530,20 @@ $${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$
                         Por lo tanto una expresión bien formada del Cálculo Lambda no necesariamente tiene una forma normal.
                     \end{exercise}
 
+	Esto se deriva de la propiedad del Cálculo Lambda para auto-aplicar un término a sí mismo y resulta en expresiones que se ciclan al aplicar la $\beta$-reducción.
+
                 \subsection{No determinismo}
-                    En los lenguajes de programación una propiedad deseable es la propiedad determinista de los programas, es decir, que la evaluación que se haga para una expresión sea siempre la misma. El Cálculo Lambda carece de esta propiedad. Dependiendo del segmento que escogemos para aplicar la $\beta$-reducción el siguiente paso de la evaluación puede diferir\footnote{Definición formulada de \hyperlink{119}{[119]}}.\\
+                    En los lenguajes de programación una propiedad deseable es el determinismo al evaluar las expresiones de los programas. Es decir, que los pasos en la evaluación que se aplique para una expresión sean siempre los mismos.\\\\
+ El Cálculo Lambda carece de esta propiedad, dependiendo del segmento que escogemos para aplicar la $\beta$-reducción el siguiente paso de la evaluación puede diferir\footnote{Definición formulada de \hyperlink{119}{[119]}}.\\\\
 		   Tomemos como ejemplo la siguiente $\lambda$-expresión\footnote{Ejemplo extraído de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
                     $$(\lambda z.(\lambda y.z)a)b$$
                     Si consideramos la aplicación para la expresión completa, se obtiene la siguiente evaluación: $$\underline{(\lambda z.(\lambda y.z)a)b} \rightarrow_\beta (\lambda y.b)a$$
                     Si por el contrario consideramos la aplicación la $\lambda$-expresión interna se obtiene: $$(\lambda z.\underline{(\lambda y.z)a})b \rightarrow_\beta (\lambda z.z)b$$
                     En ambas evaluaciones el resultado al que se llega al terminar de evaluar la expresión es la variable $b$ sin importar cuál se haya escogido para la evaluación.\\\\
-                    Esta característica del Cálculo Lambda no supone una desventaja por el principio de confluencia.
+                    Esta característica del Cálculo Lambda no supone una desventaja por el principio de confluencia que enunciamos a continuación.
 
                 \subsection{Confluencia}
-                    La propiedad de confluencia nos asegura que dadas dos dos evaluaciones distintas para la misma $\lambda$-expresión, estas convergen en un término común en un punto de su evaluación:
+                    La propiedad de confluencia nos asegura que dadas dos evaluaciones distintas para la misma $\lambda$-expresión, estas convergen en un término común en un punto de su evaluación:
 
                     \begin{theorem}[Propiedad de Church-Rosser]\footnote{La demostración queda fuera del alcance de este manual pero se puede consultar en \hyperlink{114}{[114]}}\\\\
  Si $e\to_\beta^* e_1$ y $e\to_\beta^*e_2$ entonces existe un término $t$ tal que  $e_1\to_\beta^* t$ y $e_2\to_\beta^* t$.
@@ -555,7 +558,7 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
                     El Cálculo Lambda por si mismo no posee un mecanismo iterativo que nos permita formar alguna secuencia de control como los ciclos \textsf{for} o \textsf{while} como en la mayoría de los lenguajes de programación modernos. Su naturaleza funcional nos hace preguntarnos si podemos emplear un mecanismo mas afín como la recursión para definir funciones que iteren sobre algún parámetro.\\\\
                    Para este fin se precisa de la introducción de los combinadores de punto fijo que capturan la esencia del principio de recursión general en computación:
                     $$ rec\ F\ =\ F\ (rec\ F) $$
-                    De esta forma, si definimos una $\lambda$-expresión $rec$ que permita la ''auto-aplicación'' de si misma a una función que tome como argumento, entonces podemos definir cualquier función recursiva aplicando n veces el mismo procedimiento.
+                    De esta forma, si definimos una $\lambda$-expresión $rec$ que permita la auto-aplicación de si misma a una función que tome como argumento, entonces podemos definir cualquier función recursiva aplicando n veces el mismo procedimiento.
                     $$rec\ F = F(rec\ F) = F(\ F(rec\ F)) =\ ...\ F(\ F(\ F(\ ...\ )))$$
                     
                     \begin{definition}[Combinador de punto fijo] Un $\lambda$-expresión cerrada $F$ es un combinador de punto fijo sí y sólo si cumple alguna de las siguientes condiciones\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{113}{[113]}}:
@@ -592,6 +595,19 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
                     
                         de esta forma podemos concluir que $Y \,g\equiv_\beta g\,(Y\,g)$, entonces $Y$ es un combinador de punto fijo.
                     \end{exercise}
+
+	Una vez definido el principio de recursión para el Cálculo Lambda y el comportamiento que los combinadores de punto fijo introducen, podemos definir funciones recursivas en para este modelo. Por ejemplo:
+
+$$fib =_{def} Y fib'$$
+$$fib' =_{def}\  \lambda f. \lambda x. if(iszero\ x)\ \overline{1}\ else\ (sum\ f\ (pred\ x)\ f\ (pred\ pred\ x))$$
+\[
+	\begin{array}{cl}
+		&fib\ \overline{3}\\
+	     =_{def} &\ Y\ fib'\ \overline{3}\\
+	     \rightarrow_{\beta}* & fib'\ (Y\ fib')\ \overline{3}\\
+	     =_{def} &  \lambda f. \lambda x. if(iszero\ x)\ \overline{1}\ else\ (sum\ f\ (pred\ x)\ f\ (pred\ pred\ x))\ (Y\ fib')\ \overline{3}\\
+	\end{array}
+\]
 
             \section{Ejercicios para el lector}
 

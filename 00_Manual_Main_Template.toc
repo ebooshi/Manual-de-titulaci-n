@@ -53,78 +53,78 @@
 \contentsline {subsection}{\numberline {7.3}Confluencia}{64}{subsection.5.7.3}%
 \contentsline {section}{\numberline {8}Combinadores de punto fijo}{64}{section.5.8}%
 \contentsline {section}{\numberline {9}Ejercicios para el lector}{65}{section.5.9}%
-\contentsline {chapter}{\numberline {6}\textsf {MinHS}}{68}{chapter.6}%
-\contentsline {subsubsection}{Objetivo}{69}{figure.caption.9}%
-\contentsline {subsubsection}{Planteamiento}{69}{figure.caption.9}%
-\contentsline {section}{\numberline {1}Sintaxis de \textsf {MinHS}}{69}{section.6.1}%
-\contentsline {subsection}{\numberline {1.1}Sintaxis concreta}{69}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {1.2}Sintaxis abstracta}{70}{subsection.6.1.2}%
-\contentsline {section}{\numberline {2}Semántica de \textsf {MinHs}}{71}{section.6.2}%
-\contentsline {subsection}{\numberline {2.1}Sistemas de tipos}{71}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {2.2}Semántica estática}{71}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {2.3}Semántica dinámica}{74}{subsection.6.2.3}%
-\contentsline {section}{\numberline {3}Propiedades de \textsf {MinHS}}{75}{section.6.3}%
-\contentsline {subsection}{\numberline {3.1}Seguridad del lenguaje}{75}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {3.2}No terminación}{76}{subsection.6.3.2}%
-\contentsline {section}{\numberline {4}Ejercicios para el lector}{76}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Inferencia de tipos}{78}{chapter.7}%
-\contentsline {subsubsection}{Objetivo}{79}{figure.caption.10}%
-\contentsline {subsubsection}{Planteamiento}{79}{figure.caption.10}%
-\contentsline {section}{\numberline {1}Estandarización de variables}{79}{section.7.1}%
-\contentsline {section}{\numberline {2}Generación de restricciones}{81}{section.7.2}%
-\contentsline {section}{\numberline {3}Algoritmo de unificación}{83}{section.7.3}%
-\contentsline {section}{\numberline {4}Algoritmo de inferencia de tipos}{84}{section.7.4}%
-\contentsline {section}{\numberline {5}Ejercicios para el lector}{97}{section.7.5}%
-\contentsline {chapter}{\numberline {8}Máquinas abstractas}{99}{chapter.8}%
-\contentsline {subsubsection}{Objetivo}{100}{figure.caption.11}%
-\contentsline {subsubsection}{Planteamiento}{100}{figure.caption.11}%
-\contentsline {section}{\numberline {1}La máquina $\mathcal {H}$}{100}{section.8.1}%
-\contentsline {subsection}{\numberline {1.1}Marcos y la pila de control}{100}{subsection.8.1.1}%
-\contentsline {subsection}{\numberline {1.2}Estados}{101}{subsection.8.1.2}%
-\contentsline {subsection}{\numberline {1.3}Transiciones}{102}{subsection.8.1.3}%
-\contentsline {section}{\numberline {2}La máquina $\mathcal {J}$}{105}{section.8.2}%
-\contentsline {subsection}{\numberline {2.1}Marcos}{105}{subsection.8.2.1}%
-\contentsline {subsection}{\numberline {2.2}Ambientes}{106}{subsection.8.2.2}%
-\contentsline {subsection}{\numberline {2.3}Estados}{106}{subsection.8.2.3}%
-\contentsline {subsection}{\numberline {2.4}Transiciones}{106}{subsection.8.2.4}%
-\contentsline {subsection}{\numberline {2.5}Alcance}{110}{subsection.8.2.5}%
-\contentsline {subsection}{\numberline {2.6}Cerraduras}{110}{subsection.8.2.6}%
-\contentsline {subsection}{\numberline {2.7}Transiciones con cerradura para $\mathcal {J}$}{110}{subsection.8.2.7}%
-\contentsline {section}{\numberline {3}Ejercicios para el lector}{113}{section.8.3}%
-\contentsline {chapter}{\numberline {9}TinyC}{115}{chapter.9}%
-\contentsline {subsubsection}{Objetivo}{116}{figure.caption.12}%
-\contentsline {subsubsection}{Planteamiento}{116}{figure.caption.12}%
-\contentsline {section}{\numberline {1}Sintaxis}{116}{section.9.1}%
-\contentsline {section}{\numberline {2}La Máquina $\mathcal {C}$}{117}{section.9.2}%
-\contentsline {subsection}{\numberline {2.1}Marcos}{117}{subsection.9.2.1}%
-\contentsline {subsection}{\numberline {2.2}Estados}{118}{subsection.9.2.2}%
-\contentsline {subsection}{\numberline {2.3}Ambientes}{119}{subsection.9.2.3}%
-\contentsline {subsection}{\numberline {2.4}Transiciones}{119}{subsection.9.2.4}%
-\contentsline {section}{\numberline {3}Ejercicios para el lector}{127}{section.9.3}%
-\contentsline {chapter}{\numberline {10}Herencia y subtipos}{128}{chapter.10}%
-\contentsline {subsubsection}{Objetivo}{129}{figure.caption.13}%
-\contentsline {subsubsection}{Planteamiento}{129}{figure.caption.13}%
-\contentsline {section}{\numberline {1}Orientación a objetos}{129}{section.10.1}%
-\contentsline {section}{\numberline {2}Subtipos}{130}{section.10.2}%
-\contentsline {subsection}{\numberline {2.1}Subtipificado de tipos primitivos}{131}{subsection.10.2.1}%
-\contentsline {subsection}{\numberline {2.2}Subtipificado de funciones}{132}{subsection.10.2.2}%
-\contentsline {subsection}{\numberline {2.3}Subtipificado para suma y producto}{132}{subsection.10.2.3}%
-\contentsline {subsection}{\numberline {2.4}Subtipificado para registros}{133}{subsection.10.2.4}%
-\contentsline {subsection}{\numberline {2.5}Elementos máximos}{133}{subsection.10.2.5}%
-\contentsline {section}{\numberline {3}Conversión de tipos}{134}{section.10.3}%
-\contentsline {subsection}{\numberline {3.1}Conversión ascendente \it (Upcasting)}{134}{subsection.10.3.1}%
-\contentsline {subsection}{\numberline {3.2}Conversión descendente \it (Downcasting)}{134}{subsection.10.3.2}%
-\contentsline {section}{\numberline {4}Ejercicios para el lector}{135}{section.10.4}%
-\contentsline {chapter}{\numberline {11}Java Peso Pluma}{136}{chapter.11}%
-\contentsline {subsubsection}{Objetivo}{137}{figure.caption.14}%
-\contentsline {subsubsection}{Planteamiento}{137}{figure.caption.14}%
-\contentsline {section}{\numberline {1}Sintaxis de Java Peso Pluma}{137}{section.11.1}%
-\contentsline {section}{\numberline {2}Tablas de clase}{139}{section.11.2}%
-\contentsline {section}{\numberline {3}Semántica dinámica}{140}{section.11.3}%
-\contentsline {section}{\numberline {4}Semántica estática}{141}{section.11.4}%
-\contentsline {section}{\numberline {5}Propiedades de Java Peso Pluma}{143}{section.11.5}%
-\contentsline {subsection}{\numberline {5.1}Preservación de tipos}{143}{subsection.11.5.1}%
-\contentsline {subsection}{\numberline {5.2}Progreso}{143}{subsection.11.5.2}%
-\contentsline {subsection}{\numberline {5.3}Seguridad}{143}{subsection.11.5.3}%
-\contentsline {section}{\numberline {6}Cómo se relaciona Java Peso Pluma con Java?}{144}{section.11.6}%
-\contentsline {section}{\numberline {7}Ejercicios para el lector}{144}{section.11.7}%
+\contentsline {chapter}{\numberline {6}\textsf {MinHS}}{69}{chapter.6}%
+\contentsline {subsubsection}{Objetivo}{70}{figure.caption.9}%
+\contentsline {subsubsection}{Planteamiento}{70}{figure.caption.9}%
+\contentsline {section}{\numberline {1}Sintaxis de \textsf {MinHS}}{70}{section.6.1}%
+\contentsline {subsection}{\numberline {1.1}Sintaxis concreta}{70}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {1.2}Sintaxis abstracta}{71}{subsection.6.1.2}%
+\contentsline {section}{\numberline {2}Semántica de \textsf {MinHs}}{72}{section.6.2}%
+\contentsline {subsection}{\numberline {2.1}Sistemas de tipos}{72}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {2.2}Semántica estática}{72}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {2.3}Semántica dinámica}{75}{subsection.6.2.3}%
+\contentsline {section}{\numberline {3}Propiedades de \textsf {MinHS}}{76}{section.6.3}%
+\contentsline {subsection}{\numberline {3.1}Seguridad del lenguaje}{76}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {3.2}No terminación}{77}{subsection.6.3.2}%
+\contentsline {section}{\numberline {4}Ejercicios para el lector}{77}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Inferencia de tipos}{79}{chapter.7}%
+\contentsline {subsubsection}{Objetivo}{80}{figure.caption.10}%
+\contentsline {subsubsection}{Planteamiento}{80}{figure.caption.10}%
+\contentsline {section}{\numberline {1}Estandarización de variables}{80}{section.7.1}%
+\contentsline {section}{\numberline {2}Generación de restricciones}{82}{section.7.2}%
+\contentsline {section}{\numberline {3}Algoritmo de unificación}{84}{section.7.3}%
+\contentsline {section}{\numberline {4}Algoritmo de inferencia de tipos}{85}{section.7.4}%
+\contentsline {section}{\numberline {5}Ejercicios para el lector}{98}{section.7.5}%
+\contentsline {chapter}{\numberline {8}Máquinas abstractas}{100}{chapter.8}%
+\contentsline {subsubsection}{Objetivo}{101}{figure.caption.11}%
+\contentsline {subsubsection}{Planteamiento}{101}{figure.caption.11}%
+\contentsline {section}{\numberline {1}La máquina $\mathcal {H}$}{101}{section.8.1}%
+\contentsline {subsection}{\numberline {1.1}Marcos y la pila de control}{101}{subsection.8.1.1}%
+\contentsline {subsection}{\numberline {1.2}Estados}{102}{subsection.8.1.2}%
+\contentsline {subsection}{\numberline {1.3}Transiciones}{103}{subsection.8.1.3}%
+\contentsline {section}{\numberline {2}La máquina $\mathcal {J}$}{106}{section.8.2}%
+\contentsline {subsection}{\numberline {2.1}Marcos}{106}{subsection.8.2.1}%
+\contentsline {subsection}{\numberline {2.2}Ambientes}{107}{subsection.8.2.2}%
+\contentsline {subsection}{\numberline {2.3}Estados}{107}{subsection.8.2.3}%
+\contentsline {subsection}{\numberline {2.4}Transiciones}{107}{subsection.8.2.4}%
+\contentsline {subsection}{\numberline {2.5}Alcance}{111}{subsection.8.2.5}%
+\contentsline {subsection}{\numberline {2.6}Cerraduras}{111}{subsection.8.2.6}%
+\contentsline {subsection}{\numberline {2.7}Transiciones con cerradura para $\mathcal {J}$}{111}{subsection.8.2.7}%
+\contentsline {section}{\numberline {3}Ejercicios para el lector}{114}{section.8.3}%
+\contentsline {chapter}{\numberline {9}TinyC}{116}{chapter.9}%
+\contentsline {subsubsection}{Objetivo}{117}{figure.caption.12}%
+\contentsline {subsubsection}{Planteamiento}{117}{figure.caption.12}%
+\contentsline {section}{\numberline {1}Sintaxis}{117}{section.9.1}%
+\contentsline {section}{\numberline {2}La Máquina $\mathcal {C}$}{118}{section.9.2}%
+\contentsline {subsection}{\numberline {2.1}Marcos}{118}{subsection.9.2.1}%
+\contentsline {subsection}{\numberline {2.2}Estados}{119}{subsection.9.2.2}%
+\contentsline {subsection}{\numberline {2.3}Ambientes}{120}{subsection.9.2.3}%
+\contentsline {subsection}{\numberline {2.4}Transiciones}{120}{subsection.9.2.4}%
+\contentsline {section}{\numberline {3}Ejercicios para el lector}{128}{section.9.3}%
+\contentsline {chapter}{\numberline {10}Herencia y subtipos}{129}{chapter.10}%
+\contentsline {subsubsection}{Objetivo}{130}{figure.caption.13}%
+\contentsline {subsubsection}{Planteamiento}{130}{figure.caption.13}%
+\contentsline {section}{\numberline {1}Orientación a objetos}{130}{section.10.1}%
+\contentsline {section}{\numberline {2}Subtipos}{131}{section.10.2}%
+\contentsline {subsection}{\numberline {2.1}Subtipificado de tipos primitivos}{132}{subsection.10.2.1}%
+\contentsline {subsection}{\numberline {2.2}Subtipificado de funciones}{133}{subsection.10.2.2}%
+\contentsline {subsection}{\numberline {2.3}Subtipificado para suma y producto}{133}{subsection.10.2.3}%
+\contentsline {subsection}{\numberline {2.4}Subtipificado para registros}{134}{subsection.10.2.4}%
+\contentsline {subsection}{\numberline {2.5}Elementos máximos}{134}{subsection.10.2.5}%
+\contentsline {section}{\numberline {3}Conversión de tipos}{135}{section.10.3}%
+\contentsline {subsection}{\numberline {3.1}Conversión ascendente \it (Upcasting)}{135}{subsection.10.3.1}%
+\contentsline {subsection}{\numberline {3.2}Conversión descendente \it (Downcasting)}{135}{subsection.10.3.2}%
+\contentsline {section}{\numberline {4}Ejercicios para el lector}{136}{section.10.4}%
+\contentsline {chapter}{\numberline {11}Java Peso Pluma}{137}{chapter.11}%
+\contentsline {subsubsection}{Objetivo}{138}{figure.caption.14}%
+\contentsline {subsubsection}{Planteamiento}{138}{figure.caption.14}%
+\contentsline {section}{\numberline {1}Sintaxis de Java Peso Pluma}{138}{section.11.1}%
+\contentsline {section}{\numberline {2}Tablas de clase}{140}{section.11.2}%
+\contentsline {section}{\numberline {3}Semántica dinámica}{141}{section.11.3}%
+\contentsline {section}{\numberline {4}Semántica estática}{142}{section.11.4}%
+\contentsline {section}{\numberline {5}Propiedades de Java Peso Pluma}{144}{section.11.5}%
+\contentsline {subsection}{\numberline {5.1}Preservación de tipos}{144}{subsection.11.5.1}%
+\contentsline {subsection}{\numberline {5.2}Progreso}{144}{subsection.11.5.2}%
+\contentsline {subsection}{\numberline {5.3}Seguridad}{144}{subsection.11.5.3}%
+\contentsline {section}{\numberline {6}Cómo se relaciona Java Peso Pluma con Java?}{145}{section.11.6}%
+\contentsline {section}{\numberline {7}Ejercicios para el lector}{145}{section.11.7}%
