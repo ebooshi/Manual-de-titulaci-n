@@ -204,17 +204,17 @@ A la operación de sustituir los términos que concuerden con la variable del op
             \]
         \end{exercise}
 
-        \subsubsection{IsZero}
+        \subsubsection{iszero}
         	Este operador está diseñado para regresar \textsf{True} cuando el numeral que recibe como parámetro corresponde al numeral $\overline{0}$. En caso contrario la función regresa \textsf{False} y está definida de la siguiente forma.
         
-	\begin{definition}[Función IsZero para numerales de Church]\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
-            $$\textsf{IsZero} =_{def}  \; \lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})$$
+	\begin{definition}[Función iszero para numerales de Church]\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
+            $$\textsf{iszero} =_{def}  \; \lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})$$
         \end{definition}
 
         \begin{exercise}
-            Utiliza las definición de la función \textsf{IsZero} para evaluar la siguiente $\lambda$-expresión
+            Utiliza las definición de la función \textsf{iszero} para evaluar la siguiente $\lambda$-expresión
             \[
-                \textsf{IsZero}  \; \overline{2}
+                \textsf{iszero}  \; \overline{2}
             \]
             \[
                 (\lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})) \; \lambda z.\lambda s.s(s\;z) \rightarrow_\beta 
@@ -238,9 +238,9 @@ A la operación de sustituir los términos que concuerden con la variable del op
         \end{exercise}
 
         \begin{exercise}
-            Utiliza las definición de la función \textsf{IsZero} para evaluar la siguiente $\lambda$-expresión
+            Utiliza las definición de la función \textsf{iszero} para evaluar la siguiente $\lambda$-expresión
             \[
-                \textsf{IsZero} \; \overline{0}
+                \textsf{iszero} \; \overline{0}
             \]
             \[
                 (\lambda m. m\textsf{True} \; (\lambda x.\textsf{False})) \; \lambda z.\lambda s.z \rightarrow_\beta 
@@ -398,6 +398,24 @@ A la operación de sustituir los términos que concuerden con la variable del op
                     \rightarrow_\beta \lambda z.\lambda s.s(s(s(s(s(s.z))))) = \overline{6}
             \]
         \end{exercise}
+
+\bigskip
+
+\begin{definition}[Otros operadores aritméticos del Cálculo Lambda]
+ Ahora que nos hemos familiarizado con las ideas que fundamentan a la definición de los operadores aritméticos básicos en el Cálculo Lambda, podemos definir operadores más complejos que nos permitirán componer funciones elaboradas aplicando los operadores que hemos revisado hasta este punto\footnote{Definiciones tomadas de: \hyperlink{139}{[139]}}. 
+\[
+\begin{array}{cl}
+	\textsf{pred} =_{def} &  \lambda n. \lambda f. \lambda x. n (\lambda g. \lambda h. h (g f)) (\lambda u. x) (\lambda u. u)\\
+	\textsf{sub} =_{def}   & \lambda m. \lambda n. n\ \textsf{pred}\ m\\
+	\textsf{abs} =_{def} & \textsf{add} (\textsf{sub}\ x\ y) (\textsf{sub}\ y\ x) \\
+	\textsf{equal} =_{def} & \textsf{iszero} (\textsf{abs}\ x \ y) \\
+	\textsf{$\textgreater$} =_{def} & \textsf{not} (\textsf{iszero} (\textsf{sub}\ x\ y))  \\
+	\textsf{$\textless$} =_{def} &  \textsf{$\textgreater$}\ y\ x\\
+\end{array}
+\]
+
+Para el caso de la resta hay que tener en cuenta que los números negativos no están definidos en los numerales de Church, si el segundo argumento es mayor que el primero entonces se regresa el numeral $\overline{0}$, en caso contrario se aplica la operación \textsf{pred} n veces al numeral m.
+\end{definition}
 
     \subsection{Booleanos y operadores lógicos}
     Las constantes booleanas \textsf{True} y \textsf{False} son entidades opuestas, una es el valor contrario de la otra. Si tratemos de trasladar esta idea a un par de funciones podemos pensar en algo como:
@@ -596,16 +614,31 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
                         de esta forma podemos concluir que $Y \,g\equiv_\beta g\,(Y\,g)$, entonces $Y$ es un combinador de punto fijo.
                     \end{exercise}
 
-	Una vez definido el principio de recursión para el Cálculo Lambda y el comportamiento que los combinadores de punto fijo introducen, podemos definir funciones recursivas en para este modelo. Por ejemplo:
+	Una vez definido el principio de recursión para el Cálculo Lambda y los combinadores de punto fijo, podemos definir funciones recursivas en este modelo. Por ejemplo, fibonacci.
 
-$$fib =_{def} Y fib'$$
-$$fib' =_{def}\  \lambda f. \lambda x. if(iszero\ x)\ \overline{1}\ else\ (sum\ f\ (pred\ x)\ f\ (pred\ pred\ x))$$
+$$\textsf{fib} =_{def} Y\ \textsf{fib'}$$
+$$\textsf{fib'} =_{def}\  \lambda f. \lambda x. \textsf{if}\ (x\ \textless\ \overline{2})\ x\ \textsf{else}\ \textsf{sum}\ f\ (\textsf{pred}\ x)\ f\ (\textsf{pred}\ \textsf{pred}\ x)$$\\
+
+%https://stackoverflow.com/questions/20523625/looking-for-a-church-encoding-lambda-calculus-to-define
+De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada como sigue:
 \[
 	\begin{array}{cl}
-		&fib\ \overline{3}\\
-	     =_{def} &\ Y\ fib'\ \overline{3}\\
-	     \rightarrow_{\beta}* & fib'\ (Y\ fib')\ \overline{3}\\
-	     =_{def} &  \lambda f. \lambda x. if(iszero\ x)\ \overline{1}\ else\ (sum\ f\ (pred\ x)\ f\ (pred\ pred\ x))\ (Y\ fib')\ \overline{3}\\
+		&\textsf{fib}\ \overline{2}\\
+	     =_{def} &\ Y\ \textsf{fib'}\ \overline{2}\\
+	     \rightarrow_{\beta}* & \textsf{fib'}\ (Y\ \textsf{fib'})\ \overline{2}\\
+	     =_{def} &  \lambda f. \lambda x. \textsf{if}\ (x\ \textless\ \overline{2})\ x\ \textsf{else}\ \textsf{sum}\ f\ (\textsf{pred}\ x)\ f\ (\textsf{pred}\ \textsf{pred}\ x)\ (Y\ \textsf{fib'})\ \overline{2}\\
+	     \rightarrow_{\beta} & \lambda x. \textsf{if}\ (x\ \textless\ \overline{2})\ x\ \textsf{else}\ \textsf{sum}\ \ (Y\ \textsf{fib'})\ (\textsf{pred}\ x)\ \ (Y\ \textsf{fib'})\ (\textsf{pred}\ \textsf{pred}\ x)\ \overline{2}\\
+          \rightarrow_{\beta} & \textsf{if}\ (\overline{2} \ \textless\ \overline{2})\ \overline{2}\ \textsf{else}\ \textsf{sum}\ \ (Y\ \textsf{fib'})\ (\textsf{pred}\ \overline{2})\ \ (Y\ \textsf{fib'})\ (\textsf{pred}\ \textsf{pred}\ \overline{2}) \\
+	    \rightarrow_{\beta}* &  \textsf{sum}\ \ (Y\ \textsf{fib'}\  \overline{1})\ \ (Y\ \textsf{fib'}\ \overline{0}) \\
+	    \rightarrow_{\beta}* &  \textsf{sum}\ \ (Y\ \textsf{fib'}\  \overline{1})\ \ (\textsf{fib'}\ (Y\ \textsf{fib'})\ \overline{0})\\
+         =_{def} & \textsf{sum}\ \ (Y\ \textsf{fib'}\  \overline{1})\ \ (\lambda f. \lambda x. \textsf{if}\ (x\ \textless\ 2)\ x\ \textsf{else}\ \textsf{sum}\ f\ (\textsf{pred}\ x)\ f\ (\textsf{pred}\ \textsf{pred}\ x)\ (Y\ \textsf{fib'})\ \overline{0})\\
+        \rightarrow_{\beta}* &  \textsf{sum}\ \ (Y\ \textsf{fib'}\  \overline{1})\ \ (\textsf{if}\ (\overline{0} \ \textless\ \overline{2})\ \overline{0}\ \textsf{else}\ \textsf{sum}\ ((Y\ \textsf{fib'})\ (\textsf{pred}\ \overline{0}))\ ((Y\ \textsf{fib'})\ (\textsf{pred}\ \textsf{pred}\ \overline{0}))\\
+\rightarrow_{\beta}* &  \textsf{sum}\ \ (Y\ \textsf{fib'}\  \overline{1})\ \ \overline{0}\\
+\rightarrow_{\beta}* &  \textsf{sum}\ \ (\textsf{fib'}\ (Y\ \textsf{fib'})\  \overline{1})\ \ \overline{0}\\
+=_{def} &  \textsf{sum}\ \  (\lambda f. \lambda x. \textsf{if}\  (x\ \textless\ 2)\ x\ \textsf{else}\ \textsf{sum}\ f\ (\textsf{pred}\ x)\ f\ (\textsf{pred}\ \textsf{pred}\ x) \ (Y\ \textsf{fib'})\ \overline{1})\ \ \overline{0}\\
+\rightarrow_{\beta}* &   \textsf{sum}\ \  (\textsf{if}\ (\overline{1}\ \textless\ 2)\ \overline{1}\ \textsf{else}\ \textsf{sum}\ (Y\ \textsf{fib'})\ (\textsf{pred}\ \overline{1})\ (Y\ \textsf{fib'})\ (\textsf{pred}\ \textsf{pred}\ \overline{1}))\ \ \ \overline{0}\\
+\rightarrow_{\beta}* &   \textsf{sum}\ \overline{1}\ \overline{0}\\
+\rightarrow_{\beta}* & \overline{1}\\
 	\end{array}
 \]
 

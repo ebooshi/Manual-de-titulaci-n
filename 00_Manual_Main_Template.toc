@@ -40,19 +40,19 @@
 \contentsline {subsection}{\numberline {5.1}Numerales de Church}{56}{subsection.5.5.1}%
 \contentsline {subsection}{\numberline {5.2}Funciones aritméticas}{57}{subsection.5.5.2}%
 \contentsline {subsubsection}{Función sucesor}{57}{subsection.5.5.2}%
-\contentsline {subsubsection}{IsZero}{57}{exercise.5.5.2}%
+\contentsline {subsubsection}{iszero}{57}{exercise.5.5.2}%
 \contentsline {subsubsection}{Suma}{58}{exercise.5.5.4}%
 \contentsline {subsubsection}{Producto}{59}{exercise.5.5.6}%
 \contentsline {subsection}{\numberline {5.3}Booleanos y operadores lógicos}{60}{subsection.5.5.3}%
 \contentsline {section}{\numberline {6}Datos estructurados en el Cálculo Lambda}{61}{section.5.6}%
-\contentsline {subsection}{\numberline {6.1}Pares}{61}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {6.2}Listas}{62}{subsection.5.6.2}%
+\contentsline {subsection}{\numberline {6.1}Pares}{62}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {6.2}Listas}{63}{subsection.5.6.2}%
 \contentsline {section}{\numberline {7}Propiedades semánticas del Cálculo Lambda}{63}{section.5.7}%
 \contentsline {subsection}{\numberline {7.1}No terminación}{63}{subsection.5.7.1}%
-\contentsline {subsection}{\numberline {7.2}No determinismo}{63}{subsection.5.7.2}%
+\contentsline {subsection}{\numberline {7.2}No determinismo}{64}{subsection.5.7.2}%
 \contentsline {subsection}{\numberline {7.3}Confluencia}{64}{subsection.5.7.3}%
-\contentsline {section}{\numberline {8}Combinadores de punto fijo}{64}{section.5.8}%
-\contentsline {section}{\numberline {9}Ejercicios para el lector}{65}{section.5.9}%
+\contentsline {section}{\numberline {8}Combinadores de punto fijo}{65}{section.5.8}%
+\contentsline {section}{\numberline {9}Ejercicios para el lector}{66}{section.5.9}%
 \contentsline {chapter}{\numberline {6}\textsf {MinHS}}{69}{chapter.6}%
 \contentsline {subsubsection}{Objetivo}{70}{figure.caption.9}%
 \contentsline {subsubsection}{Planteamiento}{70}{figure.caption.9}%
