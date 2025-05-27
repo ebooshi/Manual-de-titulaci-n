@@ -102,7 +102,7 @@ A la operación de sustituir los términos que concuerden con la variable del op
 	%Es importante remarcar que la asociatividad de la aplicación de la $\beta$-reducción es hacia la izquierda
     \end{definition}
 
-	    \begin{definition}[Forma Normal del Cálculo Lambda] Se dice que un $\lambda$ término está en forma normal si no existe otro término $e'$ tal que $e\to_\beta e'$\footnote{Ejercicio extraído de \hyperlink{5}{[5]}.}s.
+	    \begin{definition}[Forma Normal del Cálculo Lambda] Se dice que un $\lambda$ término está en forma normal si no existe otro término $e'$ tal que $e\to_\beta e'$\footnote{Ejercicio extraído de \hyperlink{5}{[5]}.}.\\
 
     De esta forma, si $e\to_\beta^*e_n$ y $e_n$ está en forma normal, decimos que $e_n$ es la forma normal de $e$. 
     \end{definition}    
@@ -142,13 +142,13 @@ A la operación de sustituir los términos que concuerden con la variable del op
         Estas entidades tienen una representación en el Cálculo Lambda como funciones.\\\\
         La construcción de los números naturales se obtiene al aplicar la función sucesor al cero, de tal forma que no tenemos el número dos, tenemos dos veces la aplicación de la función sucesor al cero: \textit{s(s(0))}, en Cálculo Lambda esta idea se mantiene vigente, los números serán la aplicación anidada de una función a la constante cero. 
      \subsection{Numerales de Church}
-        Church introdujo los numerales como la abstracción de dos parámetros ''$s$'' y ''$z$'' en una función anónima, de tal forma que si se desea representar al n-ésimo número este será formado por la aplicación de $s$ a $z$, n veces\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}:
+        Church introdujo los numerales como la abstracción de dos parámetros ''$s$'' y ''$z$'' en una función anónima, de tal forma que si se desea representar al n-ésimo número, este será formado por la aplicación de $s$ a $z$, n veces\footnote{Definición formulada de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}:
 
     \begin{itemize}
         \item $\bar{0}=_{def}\lambda s.\lambda z.z$
-        \item $\bar{1}=_{def}\lambda s.\lambda z.sz$
-        \item $\bar{2}=_{def}\lambda s.\lambda z.s(sz)$
-        \item $\bar{n}=_{def}\lambda s.\lambda z.\underbrace{s(\ldots(s}_{n\;veces} z)\ldots)$
+        \item $\bar{1}=_{def}\lambda s.\lambda z.s(z)$
+        \item $\bar{2}=_{def}\lambda s.\lambda z.s(s(z))$
+        \item $\bar{n}=_{def}\lambda s.\lambda z.\underbrace{s(\ldots(s}_{n\;veces} (z))\ldots)$
     \end{itemize}
 
     \subsection{Funciones aritméticas}
@@ -157,7 +157,7 @@ A la operación de sustituir los términos que concuerden con la variable del op
     \subsubsection{Función sucesor}
         Comenzamos el estudio de las funciones aritméticas para el Cálculo Lambda definiendo la función \textsf{suc} para los numerales de Church, esta función recibe un numeral y construye el sucesor añadiendo un símbolo ''$s$'' al inicio.
         \begin{definition}[Función sucesor para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
-            $$\textsf{suc} =_{def} \lambda n.\lambda z.\lambda s. s(n \; z \; s)$$
+            $$\textsf{suc} =_{def} \lambda n.\lambda s.\lambda z. s(n \; s \; z)$$
         \end{definition}
      
         \begin{exercise}
@@ -166,16 +166,16 @@ A la operación de sustituir los términos que concuerden con la variable del op
                 \textsf{suc } \overline{2}
             \]
             \[
-                (\lambda n.\lambda z.\lambda s.s(n \; z \; s) ) \; \lambda z'.\lambda s'.s'(s'z') \rightarrow_\beta 
+                (\lambda n.\lambda s.\lambda z.s(n \; s \; z) ) \; \lambda s'.\lambda z'.s'(s'z') \rightarrow_\beta 
             \]
 		\[
-			\lambda z.\lambda s.s((\lambda z'.\lambda s'.s'(s'z'))\ z \; s) \rightarrow_\beta 
+			\lambda s.\lambda z.s((\lambda s'.\lambda z'.s'(s'z'))\ s \; z) \rightarrow_\beta 
 		\]	
             \[
-                 \lambda z.\lambda s.s(\lambda s'.s'(s'z)\ s) \rightarrow_\beta
+                 \lambda s.\lambda z.s(\lambda z'.s(s z')\ z) \rightarrow_\beta
             \]
 		\[
-			\lambda z.\lambda s.s(s(sz))
+			\lambda s.\lambda z.s(s(sz))
 		\]
             \[
                 = \overline{3}
@@ -188,16 +188,16 @@ A la operación de sustituir los términos que concuerden con la variable del op
                 \textsf{suc } \overline{5}
             \]
             \[
-                (\lambda n.\lambda z.\lambda s.s(n\ z\ s)) \; \lambda z'.\lambda s'.s'(s'(s'(s'(s' \; z')))) \rightarrow_\beta
+                (\lambda n.\lambda s.\lambda z.s(n\ s\ z)) \; \lambda z'.\lambda s'.s'(s'(s'(s'(s' \; z')))) \rightarrow_\beta
             \]
 		\[
-			 \lambda z.\lambda s.s((\lambda z'.\lambda s'.s'(s'(s'(s'(s'z')))))\ z\ s)  \rightarrow_\beta	
+			 \lambda s.\lambda z.s((\lambda s'.\lambda z'.s'(s'(s'(s'(s'z')))))\ s\ z)  \rightarrow_\beta	
 		\]
             \[
-                \lambda z.\lambda s.s(\lambda s'.s'(s'(s'(s'(s\;z))))\ s) \rightarrow_\beta 
+                \lambda s.\lambda z.s(\lambda z'.s(s(s(s(s\;z'))))\ z) \rightarrow_\beta 
             \]
 		\[
-			\lambda z.\lambda s.s(s(s(s(s(sz)))))
+			\lambda s.\lambda z.s(s(s(s(s(sz)))))
 		\]
             \[
                 = \overline{6}
@@ -208,16 +208,16 @@ A la operación de sustituir los términos que concuerden con la variable del op
         	Este operador está diseñado para regresar \textsf{True} cuando el numeral que recibe como parámetro corresponde al numeral $\overline{0}$. En caso contrario la función regresa \textsf{False} y está definida de la siguiente forma.
         
 	\begin{definition}[Función iszero para numerales de Church]\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
-            $$\textsf{iszero} =_{def}  \; \lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})$$
+            $$\textsf{iszero} =_{def}  \; \lambda n. n\;(\lambda x.\textsf{False}) \;\textsf{True}$$
         \end{definition}
-
+%https://math.stackexchange.com/questions/4583332/evaluating-iszero-function
         \begin{exercise}
             Utiliza las definición de la función \textsf{iszero} para evaluar la siguiente $\lambda$-expresión
             \[
                 \textsf{iszero}  \; \overline{2}
             \]
             \[
-                (\lambda m. m\;\textsf{True} \;(\lambda x.\textsf{False})) \; \lambda z.\lambda s.s(s\;z) \rightarrow_\beta 
+                (\lambda n. n\;\textsf{True} \;(\lambda x.\textsf{False})) \; \lambda z.\lambda s.s(s\;z) \rightarrow_\beta 
             \]
 		\[
 			(\lambda z.\lambda s.s(s\:z)) \; \textsf{True} \; (\lambda x.\textsf{False})  \rightarrow_\beta 
@@ -226,10 +226,10 @@ A la operación de sustituir los términos que concuerden con la variable del op
                 	(\lambda s.s(s\: \textsf{True})) \; (\lambda x.\textsf{False}) \rightarrow_\beta  
             \]
 		\[
-			(\lambda x.\textsf{false}) \; ((\lambda x.\textsf{false}) \; \textsf{true}))) \rightarrow_\beta  
+			(\lambda x.\textsf{False}) \; ((\lambda x.\textsf{False}) \; \textsf{True}))) \rightarrow_\beta  
 		\]
             \[
-                 \rightarrow_\beta  (\lambda x.\textsf{False}) \; \textsf{false} \rightarrow_\beta 
+                 \rightarrow_\beta  (\lambda x.\textsf{False}) \; \textsf{False} \rightarrow_\beta 
             \]
 		\[
 			\textsf{False}
@@ -657,7 +657,7 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
 
 
                 \begin{exercise}
-                    Verifica las propiedades de la semántica operacional para cada operador booleano según la definición 4.2:
+                    Verifica las propiedades de la semántica operacional para cada operador booleano según la definición 5.6:
 
                         $$\mathsf{IF}\,\textsf{true}\,e_1\,e_2 \to_\beta^* e_1$$ 
                         $$\mathsf{IF}\,\textsf{false}\,e_1\,e_2 \to_\beta^* e_2$$ 
@@ -677,10 +677,10 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
                             \textsf{prod}\ (\textsf{sum}\ \overline{7}\ \overline{4})\ \overline{2}
                     \]
                     \[
-                            \textsf{IsZero} (\textsf{prod}\ \overline{1}\ \overline{0})
+                            \textsf{iszero} (\textsf{prod}\ \overline{1}\ \overline{0})
                     \]
                     \[
-                            \textsf{IsZero}( \textsf{sum}\ \overline{3}\ (\textsf{prod}\ \overline{5}\ \overline{4}))
+                            \textsf{iszero}( \textsf{sum}\ \overline{3}\ (\textsf{prod}\ \overline{5}\ \overline{4}))
                     \]
                 \end{exercise}  
 
@@ -725,11 +725,11 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
 
 
                 \begin{exercise}
-                    Utilizando algún combinador de punto fijo implementa la función recursiva \textsf{Fibonacci} para los numerales de Church en el Cálculo Lambda.
+                    Utilizando la definición de la función recursiva \textsf{Fibonacci} para los numerales de Church en el Cálculo Lambda.
                     \[ \textsf{Fibonacci}\ 0\ =\ 0 \]
                     \[ \textsf{Fibonacci}\ 1\ =\ 1 \]
                     \[ \textsf{Fibonacci}\ n\ =\ \textsf{Fibonacci}\ n-1\ +\ \textsf{Fibonacci}\ n-2\]
-                    Adicionalmente muestra la ejecución para n = $\overline{3}$
+                    muestra la ejecución para \textsf{fib $\overline{3}$}
                 \end{exercise}
 
 
@@ -756,7 +756,7 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
                     \[
                         \textsf{rev}\ (x:xs)\ =\ \textsf{rev}\ xs\ \text{++}\ [x]
                     \]
-                    Aplica la función para obtener la reversa de la lista: \textsf{pair 1 (pair 2 (pair 3 False))}
+                    Aplica la función para obtener la reversa de la lista: \textsf{pair $\overline{1}$ (pair $\overline{2}$ (pair $\overline{3}$ False))}
                 \end{exercise}
 
 
