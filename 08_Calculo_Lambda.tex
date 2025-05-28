@@ -166,16 +166,16 @@ A la operación de sustituir los términos que concuerden con la variable del op
                 \textsf{suc } \overline{2}
             \]
             \[
-                (\lambda n.\lambda s.\lambda z.s(n \; s \; z) ) \; \lambda s'.\lambda z'.s'(s'z') \rightarrow_\beta 
+                (\lambda n.\lambda s.\lambda z.s(n \; s \; z) ) \; \lambda s.\lambda z.s(s(z)) \rightarrow_\beta 
             \]
 		\[
-			\lambda s.\lambda z.s((\lambda s'.\lambda z'.s'(s'z'))\ s \; z) \rightarrow_\beta 
+			\lambda s.\lambda z.s((\lambda s.\lambda z.s(s(z)))\ s \; z) \rightarrow_\beta 
 		\]	
             \[
-                 \lambda s.\lambda z.s(\lambda z'.s(s z')\ z) \rightarrow_\beta
+                 \lambda s.\lambda z.s(\lambda z.s(s(z))\ z) \rightarrow_\beta
             \]
 		\[
-			\lambda s.\lambda z.s(s(sz))
+			\lambda s.\lambda z.s(s(s(z)))
 		\]
             \[
                 = \overline{3}
@@ -188,16 +188,16 @@ A la operación de sustituir los términos que concuerden con la variable del op
                 \textsf{suc } \overline{5}
             \]
             \[
-                (\lambda n.\lambda s.\lambda z.s(n\ s\ z)) \; \lambda z'.\lambda s'.s'(s'(s'(s'(s' \; z')))) \rightarrow_\beta
+                (\lambda n.\lambda s.\lambda z.s(n\ s\ z)) \; \lambda z.\lambda s.s(s(s(s(s(z))))) \rightarrow_\beta
             \]
 		\[
-			 \lambda s.\lambda z.s((\lambda s'.\lambda z'.s'(s'(s'(s'(s'z')))))\ s\ z)  \rightarrow_\beta	
+			 \lambda s.\lambda z.s((\lambda s.\lambda z.s(s(s(s(s(z))))))\ s\ z)  \rightarrow_\beta	
 		\]
             \[
-                \lambda s.\lambda z.s(\lambda z'.s(s(s(s(s\;z'))))\ z) \rightarrow_\beta 
+                \lambda s.\lambda z.s(\lambda z.s(s(s(s(s(z)))))\ z) \rightarrow_\beta 
             \]
 		\[
-			\lambda s.\lambda z.s(s(s(s(s(sz)))))
+			\lambda s.\lambda z.s(s(s(s(s(s(z))))))
 		\]
             \[
                 = \overline{6}
@@ -217,23 +217,21 @@ A la operación de sustituir los términos que concuerden con la variable del op
                 \textsf{iszero}  \; \overline{2}
             \]
             \[
-                (\lambda n. n\;\textsf{True} \;(\lambda x.\textsf{False})) \; \lambda z.\lambda s.s(s\;z) \rightarrow_\beta 
+                (\lambda n. n\;(\lambda x.\textsf{False})\;\textsf{True}) \; \lambda s.\lambda z.s(s(z)) \rightarrow_\beta 
             \]
 		\[
-			(\lambda z.\lambda s.s(s\:z)) \; \textsf{True} \; (\lambda x.\textsf{False})  \rightarrow_\beta 
+			(\lambda s.\lambda z.s(s(z))) \; (\lambda x.\textsf{False}) \; \textsf{True}  \rightarrow_\beta 
 		\]
-            \[
-                	(\lambda s.s(s\: \textsf{True})) \; (\lambda x.\textsf{False}) \rightarrow_\beta  
-            \]
 		\[
-			(\lambda x.\textsf{False}) \; ((\lambda x.\textsf{False}) \; \textsf{True}))) \rightarrow_\beta  
+			(\lambda z.(\lambda x.\textsf{False})((\lambda x.\textsf{False})\:z))\; \textsf{True}  \rightarrow_\beta 
 		\]
-            \[
-                 \rightarrow_\beta  (\lambda x.\textsf{False}) \; \textsf{False} \rightarrow_\beta 
-            \]
 		\[
-			\textsf{False}
+			(\lambda x.\textsf{False}) ((\lambda x.\textsf{False})\:\textsf{True})  \rightarrow_\beta 
 		\]
+		\[
+			 \textsf{False}
+		\]
+            
 
         \end{exercise}
 
@@ -243,25 +241,25 @@ A la operación de sustituir los términos que concuerden con la variable del op
                 \textsf{iszero} \; \overline{0}
             \]
             \[
-                (\lambda m. m\textsf{True} \; (\lambda x.\textsf{False})) \; \lambda z.\lambda s.z \rightarrow_\beta 
+                (\lambda n. n \; (\lambda x.\textsf{False}) \; \textsf{True}) \; \lambda s.\lambda z.z \rightarrow_\beta 
             \]
 		\[
-			(\lambda z\lambda s.z) \; \textsf{True} \; (\lambda x.\textsf{False}) \rightarrow_\beta 
+			(\lambda s. \lambda z.z) \; (\lambda x.\textsf{False}) \; \textsf{True} \rightarrow_\beta 
 		\]
-            \[
-                   (\lambda s.\textsf{True}) \; \lambda x.\textsf{False} \rightarrow_\beta 
-            \]
+		\[
+			(\lambda z.z) \; \textsf{True} \rightarrow_\beta 
+		\]
 		\[
 			\textsf{True}
 		\]
         \end{exercise}
         
-
+%https://stackoverflow.com/questions/29756732/how-would-the-lambda-calculus-add-numbers
     \subsubsection{Suma}
         Esta función se define de forma similar a la función suma para los números naturales  donde se reciben dos argumentos $m$ y $n$ y se aplica n veces la función \textsf{suc} al numeral m.
 
         \begin{definition}[Definición de la suma para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
-            $$\textsf{sum} =_{def}  \; \lambda m.\lambda n.\lambda s.\lambda z.n(m \; z \; s) \; s$$
+            $$\textsf{sum} =_{def}  \; \lambda m.\lambda n.\lambda s.\lambda z.n(s \; (m \; s \; z))$$
         \end{definition}
 
         \begin{exercise}
@@ -270,26 +268,30 @@ A la operación de sustituir los términos que concuerden con la variable del op
                 \textsf{sum}\  \overline{2} \; \overline{3} 
             \]
             \[
-                = (\lambda m.\lambda n.\lambda z.\lambda s.n(m \; z \; s) \; s) \; \lambda z'.\lambda s'.s'(s'z') \;\; \lambda z''.\lambda s''.s''(s''(s''z'')) \rightarrow_\beta 
+                = (\lambda m.\lambda n.\lambda s.\lambda z.n(s \; (m\; s \; z))) \; \lambda s.\lambda z.s(s(z)) \;\; \lambda s.\lambda z.s(s(s(z))) \rightarrow_\beta 
             \]
-            \[
-                (\lambda n.\lambda z.\lambda s.n(\lambda z'.\lambda s'.s'(s'z')) \; z \; s) \; s) \; \lambda z''.\lambda s''.s''(s''(s''z'')) \rightarrow_\beta 
+           \[
+                (\lambda n.\lambda s.\lambda z.n(s \; ((\lambda s.\lambda z.s(s(z)))\; s \; z))) \; \lambda s.\lambda z.s(s(s(z))) \rightarrow_\beta 
             \]
-            \[
-                \lambda z.\lambda s.(\lambda z''.\lambda s''.s''(s''(s''z''))) \; ((\lambda z'.\lambda s'.s'(s'z')) \; z \; s) \; s) \rightarrow_\beta
+           \[
+                (\lambda n.\lambda s.\lambda z.n(s \; ((\lambda z.s(s(z))) \; z))) \; \lambda s.\lambda z.s(s(s(z))) \rightarrow_\beta 
             \]
-            \[
-                \lambda z.\lambda s.(\lambda z''\lambda s''.s''(s''(s''z'')) \; ((\lambda s'.s'(s'z))  \; s) \; s) \rightarrow_\beta
+           \[
+                (\lambda n.\lambda s.\lambda z.n (s \; s(s(z)))) \; \lambda s.\lambda z.s(s(s(z))) \rightarrow_\beta 
             \]
-            \[
-                \lambda z.\lambda s.(\lambda z''\lambda s''.s''(s''(s''z'')) \; (s(sz)) \; s) \rightarrow_\beta
+           \[
+                \lambda s.\lambda z.((\lambda s.\lambda z.s(s(s(z))))\; s \; s(s(z))) \; \rightarrow_\beta 
             \]
-            \[
-                \lambda z.\lambda s.(\lambda s''.s''(s''(s''(s(sz)))) \; s) \rightarrow_\beta
+           \[
+                \lambda s.\lambda z.((\lambda z.s(s(s(z)))) \; s(s(z))) \; \rightarrow_\beta 
             \]
-            \[
-                \lambda z.\lambda s.s(s(s(s(sz)))) = \overline{5}
+           \[
+                \lambda s.\lambda z.s(s(s(s(s(z))))) \; \rightarrow_\beta 
             \]
+		\[
+			\overline{5}
+		\]
+         
         \end{exercise}
 
         \begin{exercise}
@@ -298,26 +300,30 @@ A la operación de sustituir los términos que concuerden con la variable del op
                 \textsf{sum}\  \overline{4} \; \overline{5} 
             \]
             \[
-                = (\lambda m.\lambda n.\lambda z.\lambda s.n(m \; z \; s) \; s) \; \lambda z'.\lambda s'.s'(s'(s'(s'z'))) \; \lambda z''.\lambda s''.s''(s''(s''(s''(s''z'')))) \rightarrow_\beta 
+                = (\lambda m.\lambda n.\lambda s.\lambda z.n(s \; (m\;s\;z))) \; \lambda s.\lambda z.s(s(s(s(z)))) \; \lambda s.\lambda z.s(s(s(s(s(z))))) \rightarrow_\beta 
             \]
-            \[
-                (\lambda n.\lambda z.\lambda s.n((\lambda z'.\lambda s'.s'(s'(s'(s'z'))) \; z \; s) \; s)) \; \lambda z''.\lambda s''.s''(s''(s''(s''(s''z'')))) \rightarrow_\beta 
+	     \[
+                (\lambda n.\lambda s.\lambda z.n(s \; ((\lambda s.\lambda z.s(s(s(s(z)))))\;s\;z))) \; \lambda s.\lambda z.s(s(s(s(s(z))))) \rightarrow_\beta 
             \]
-            \[
-                \lambda z.\lambda s.(\lambda z''.\lambda s''.s''(s''(s''(s''(s''z'')))) \; (\lambda z'.\lambda s'.s'(s'(s'(s'z'))) \; z \; s) \; s) \rightarrow_\beta
+		\[
+                (\lambda n.\lambda s.\lambda z.n(s \; ((\lambda z.s(s(s(s(z)))))\;z))) \; \lambda s.\lambda z.s(s(s(s(s(z))))) \rightarrow_\beta 
             \]
-            \[
-                \lambda z.\lambda s.((\lambda z''.\lambda s''.s''(s''(s''(s''(s''z''))))) \; (\lambda s'.s'(s'(s'(s'z)))  \; s) \; s) \rightarrow_\beta
+		\[
+                (\lambda n.\lambda s.\lambda z.n(s \; s(s(s(s(z))))) \; \lambda s.\lambda z.s(s(s(s(s(z))))) \rightarrow_\beta 
             \]
-            \[
-                \lambda z.\lambda s.(\lambda z''.\lambda s''.s''(s''(s''(s''(s''z'')))) \; s(s(s(sz))) \; s) \rightarrow_\beta
+		\[
+                (\lambda s.\lambda z.((\lambda s.\lambda z.s(s(s(s(s(z))))))\; s \; (s(s(s(s(z)))))) \rightarrow_\beta 
             \]
-            \[
-                \lambda z.\lambda s.(\lambda s''.s''(s''(s''(s''(s''(s(s(s(sz)))))))) \; s) \rightarrow_\beta
+		\[
+                (\lambda s.\lambda z.((\lambda z.s(s(s(s(s(z)))))) \; (s(s(s(s(z)))))) \rightarrow_\beta 
             \]
-            \[
-                \lambda s.\lambda z .s(s(s(s(s(s(s(s(sz)))))))) = \overline{9}
+		\[
+                \lambda s.\lambda z.s(s(s(s(s(s(s(s(s(z))))))))) = 
             \]
+		\[
+			\overline{9}
+		\]
+          
         \end{exercise}
 
         \subsubsection{Producto}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  27 MAY 2025 08:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  28 MAY 2025 08:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3294,178 +3294,178 @@ Underfull \hbox (badness 10000) in paragraph at lines 141--144
  []
 
 [56] [57] [58]
-Overfull \hbox (23.76279pt too wide) detected at line 354
+Overfull \hbox (23.76279pt too wide) detected at line 360
 []
  []
 
 
-Overfull \hbox (6.71709pt too wide) detected at line 357
+Overfull \hbox (6.71709pt too wide) detected at line 363
 []
  []
 
 [59]
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 412.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 418.
 
 LaTeX Font Info:    Trying to load font information for OML+lmss on input line 
-412.
-LaTeX Font Info:    No file OMLlmss.fd. on input line 412.
+418.
+LaTeX Font Info:    No file OMLlmss.fd. on input line 418.
 
 LaTeX Font Warning: Font shape `OML/lmss/m/n' undefined
 (Font)              using `OML/cmm/m/it' instead
-(Font)              for symbol `textgreater' on input line 412.
+(Font)              for symbol `textgreater' on input line 418.
 
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 412.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 418.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 413.
+LaTeX Warning: Command \textless invalid in math mode on input line 419.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 413.
+LaTeX Warning: Command \textless invalid in math mode on input line 419.
 
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 413.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 419.
 
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 413.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 419.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 432--433
+Underfull \hbox (badness 10000) in paragraph at lines 438--439
 
  []
 
 [60] [61] [62]
-Underfull \hbox (badness 10000) in paragraph at lines 522--525
+Underfull \hbox (badness 10000) in paragraph at lines 528--531
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 522--525
+Underfull \hbox (badness 10000) in paragraph at lines 528--531
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 542--544
+Underfull \hbox (badness 10000) in paragraph at lines 548--550
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 542--544
+Underfull \hbox (badness 10000) in paragraph at lines 548--550
 
  []
 
 [63]
-Underfull \hbox (badness 10000) in paragraph at lines 554--557
+Underfull \hbox (badness 10000) in paragraph at lines 560--563
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 554--557
+Underfull \hbox (badness 10000) in paragraph at lines 560--563
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 559--562
+Underfull \hbox (badness 10000) in paragraph at lines 565--568
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 566--568
+Underfull \hbox (badness 10000) in paragraph at lines 572--574
 
  []
 
 [64]
-Underfull \hbox (badness 10000) in paragraph at lines 576--578
+Underfull \hbox (badness 10000) in paragraph at lines 582--584
 
  []
 
 [65]
 
-LaTeX Warning: Command \textless invalid in math mode on input line 620.
+LaTeX Warning: Command \textless invalid in math mode on input line 626.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 620.
+LaTeX Warning: Command \textless invalid in math mode on input line 626.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 620--621
+Underfull \hbox (badness 10000) in paragraph at lines 626--627
 
  []
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 629.
-
-
-LaTeX Warning: Command \textless invalid in math mode on input line 629.
-
-
-LaTeX Warning: Command \textless invalid in math mode on input line 630.
-
-
-LaTeX Warning: Command \textless invalid in math mode on input line 630.
-
-
-LaTeX Warning: Command \textless invalid in math mode on input line 631.
-
-
-LaTeX Warning: Command \textless invalid in math mode on input line 631.
-
-
-LaTeX Warning: Command \textless invalid in math mode on input line 634.
-
-
-LaTeX Warning: Command \textless invalid in math mode on input line 634.
-
-
 LaTeX Warning: Command \textless invalid in math mode on input line 635.
 
 
 LaTeX Warning: Command \textless invalid in math mode on input line 635.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 638.
+LaTeX Warning: Command \textless invalid in math mode on input line 636.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 638.
+LaTeX Warning: Command \textless invalid in math mode on input line 636.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 639.
+LaTeX Warning: Command \textless invalid in math mode on input line 637.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 639.
+LaTeX Warning: Command \textless invalid in math mode on input line 637.
 
 
-Overfull \hbox (1.63377pt too wide) detected at line 643
+LaTeX Warning: Command \textless invalid in math mode on input line 640.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 640.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 641.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 641.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 644.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 644.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 645.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 645.
+
+
+Overfull \hbox (1.63377pt too wide) detected at line 649
 []
  []
 
 [66]
-Underfull \hbox (badness 10000) in paragraph at lines 696--697
+Underfull \hbox (badness 10000) in paragraph at lines 702--703
 
  []
 
 [67]
-Underfull \hbox (badness 10000) in paragraph at lines 750--751
+Underfull \hbox (badness 10000) in paragraph at lines 756--757
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 752--753
+Underfull \hbox (badness 10000) in paragraph at lines 758--759
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 765--767
+Underfull \hbox (badness 10000) in paragraph at lines 771--773
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 774--776
+Underfull \hbox (badness 10000) in paragraph at lines 780--782
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 785--787
+Underfull \hbox (badness 10000) in paragraph at lines 791--793
 
  []
 
@@ -5091,10 +5091,10 @@ Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 49472 strings out of 474486
- 975835 string characters out of 5743756
+ 49474 strings out of 474486
+ 975869 string characters out of 5743756
  2151542 words of memory out of 5000000
- 69718 multiletter control sequences out of 15000+600000
+ 69720 multiletter control sequences out of 15000+600000
  713234 words of font info for 155 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,33n,113p,997b,2379s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -5135,7 +5135,7 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (166 pages, 2433271 bytes).
+Output written on 00_Manual_Main_Template.pdf (166 pages, 2432785 bytes).
 PDF statistics:
  3297 PDF objects out of 3580 (max. 8388607)
  1210 named destinations out of 1440 (max. 500000)
