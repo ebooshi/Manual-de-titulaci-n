@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  28 MAY 2025 08:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  30 MAY 2025 07:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1970,6 +1970,9 @@ LaTeX Warning: Label `' multiply defined.
 
 LaTeX Warning: Label `' multiply defined.
 
+
+LaTeX Warning: Label `' multiply defined.
+
 )
 \openout1 = `00_Manual_Main_Template.aux'.
 
@@ -3294,178 +3297,168 @@ Underfull \hbox (badness 10000) in paragraph at lines 141--144
  []
 
 [56] [57] [58]
-Overfull \hbox (23.76279pt too wide) detected at line 360
-[]
- []
+Underfull \hbox (badness 10000) in paragraph at lines 375--376
 
-
-Overfull \hbox (6.71709pt too wide) detected at line 363
-[]
  []
 
 [59]
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 418.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 417.
 
 LaTeX Font Info:    Trying to load font information for OML+lmss on input line 
-418.
-LaTeX Font Info:    No file OMLlmss.fd. on input line 418.
+417.
+LaTeX Font Info:    No file OMLlmss.fd. on input line 417.
 
 LaTeX Font Warning: Font shape `OML/lmss/m/n' undefined
 (Font)              using `OML/cmm/m/it' instead
-(Font)              for symbol `textgreater' on input line 418.
+(Font)              for symbol `textgreater' on input line 417.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 417.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 418.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 418.
 
 
 LaTeX Warning: Command \textgreater invalid in math mode on input line 418.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 419.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 418.
 
-
-LaTeX Warning: Command \textless invalid in math mode on input line 419.
-
-
-LaTeX Warning: Command \textgreater invalid in math mode on input line 419.
-
-
-LaTeX Warning: Command \textgreater invalid in math mode on input line 419.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 438--439
-
- []
-
-[60] [61] [62]
-Underfull \hbox (badness 10000) in paragraph at lines 528--531
+[60] [61]
+Underfull \hbox (badness 10000) in paragraph at lines 481--484
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 528--531
+Underfull \hbox (badness 10000) in paragraph at lines 481--484
+
+ []
+
+[62]
+Underfull \hbox (badness 10000) in paragraph at lines 501--503
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 548--550
+Underfull \hbox (badness 10000) in paragraph at lines 501--503
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 548--550
+Underfull \hbox (badness 10000) in paragraph at lines 513--516
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--516
 
  []
 
 [63]
-Underfull \hbox (badness 10000) in paragraph at lines 560--563
+Underfull \hbox (badness 10000) in paragraph at lines 518--521
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 560--563
+Underfull \hbox (badness 10000) in paragraph at lines 525--527
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 565--568
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 572--574
+Underfull \hbox (badness 10000) in paragraph at lines 535--537
 
  []
 
 [64]
-Underfull \hbox (badness 10000) in paragraph at lines 582--584
 
- []
-
-[65]
-
-LaTeX Warning: Command \textless invalid in math mode on input line 626.
+LaTeX Warning: Command \textless invalid in math mode on input line 579.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 626.
+LaTeX Warning: Command \textless invalid in math mode on input line 579.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 626--627
+Underfull \hbox (badness 10000) in paragraph at lines 579--580
 
  []
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 635.
+LaTeX Warning: Command \textless invalid in math mode on input line 588.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 635.
+LaTeX Warning: Command \textless invalid in math mode on input line 588.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 636.
+LaTeX Warning: Command \textless invalid in math mode on input line 589.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 636.
+LaTeX Warning: Command \textless invalid in math mode on input line 589.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 637.
+LaTeX Warning: Command \textless invalid in math mode on input line 590.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 637.
+LaTeX Warning: Command \textless invalid in math mode on input line 590.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 640.
+LaTeX Warning: Command \textless invalid in math mode on input line 593.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 640.
+LaTeX Warning: Command \textless invalid in math mode on input line 593.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 641.
+LaTeX Warning: Command \textless invalid in math mode on input line 594.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 641.
+LaTeX Warning: Command \textless invalid in math mode on input line 594.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 644.
+LaTeX Warning: Command \textless invalid in math mode on input line 597.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 644.
+LaTeX Warning: Command \textless invalid in math mode on input line 597.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 645.
+LaTeX Warning: Command \textless invalid in math mode on input line 598.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 645.
+LaTeX Warning: Command \textless invalid in math mode on input line 598.
 
 
-Overfull \hbox (1.63377pt too wide) detected at line 649
+Overfull \hbox (1.63377pt too wide) detected at line 602
 []
  []
 
-[66]
-Underfull \hbox (badness 10000) in paragraph at lines 702--703
+[65] [66]
+Underfull \hbox (badness 10000) in paragraph at lines 655--656
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 709--710
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 711--712
 
  []
 
 [67]
-Underfull \hbox (badness 10000) in paragraph at lines 756--757
+Underfull \hbox (badness 10000) in paragraph at lines 724--726
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 758--759
+Underfull \hbox (badness 10000) in paragraph at lines 733--735
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 771--773
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 780--782
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 791--793
+Underfull \hbox (badness 10000) in paragraph at lines 744--746
 
  []
 
@@ -3474,7 +3467,7 @@ Cap\'{\i }tulo 6.
 LaTeX Font Info:    Font shape `OT1/lmss/b/n' in size <24.88> not available
 (Font)              Font shape `OT1/lmss/bx/n' tried instead on input line 61.
 (09_MinHs.tex
-<assets/06_gatito_minHs.jpg, id=1788, 992.70876pt x 1284.8pt>
+<assets/06_gatito_minHs.jpg, id=1790, 992.70876pt x 1284.8pt>
 File: assets/06_gatito_minHs.jpg Graphic file (type jpg)
 <use assets/06_gatito_minHs.jpg>
 Package pdftex.def Info: assets/06_gatito_minHs.jpg  used on input line 9.
@@ -3666,7 +3659,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 422--424
 ) [78]
 Cap\'{\i }tulo 7.
 (10_Inferencia_Tipos.tex
-<assets/07_gatitos_tipados.PNG, id=1912, 730.98094pt x 484.05844pt>
+<assets/07_gatitos_tipados.PNG, id=1914, 730.98094pt x 484.05844pt>
 File: assets/07_gatitos_tipados.PNG Graphic file (type png)
 <use assets/07_gatitos_tipados.PNG>
 Package pdftex.def Info: assets/07_gatitos_tipados.PNG  used on input line 14.
@@ -3899,7 +3892,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 927--928
 ) [99]
 Cap\'{\i }tulo 8.
 (11_Maquinas_Abstractas.tex
-<assets/08_gatito_abstracto.jpg, id=2094, 399.74344pt x 392.21532pt>
+<assets/08_gatito_abstracto.jpg, id=2096, 399.74344pt x 392.21532pt>
 File: assets/08_gatito_abstracto.jpg Graphic file (type jpg)
 <use assets/08_gatito_abstracto.jpg>
 Package pdftex.def Info: assets/08_gatito_abstracto.jpg  used on input line 9.
@@ -4096,7 +4089,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 525--528
 [112] [113] [114]) [115]
 Cap\'{\i }tulo 9.
 (12_TinyC.tex
-<assets/09_Gatito_C.png, id=2323, 605.26125pt x 779.16093pt>
+<assets/09_Gatito_C.png, id=2325, 605.26125pt x 779.16093pt>
 File: assets/09_Gatito_C.png Graphic file (type png)
 <use assets/09_Gatito_C.png>
 Package pdftex.def Info: assets/09_Gatito_C.png  used on input line 8.
@@ -4243,7 +4236,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 537--539
 [127]) [128]
 Cap\'{\i }tulo 10.
 (13_subtipado.tex
-<assets/10_gatitos_familia.jpg, id=2464, 706.64pt x 534.99875pt>
+<assets/10_gatitos_familia.jpg, id=2466, 706.64pt x 534.99875pt>
 File: assets/10_gatitos_familia.jpg Graphic file (type jpg)
 <use assets/10_gatitos_familia.jpg>
 Package pdftex.def Info: assets/10_gatitos_familia.jpg  used on input line 9.
@@ -4398,7 +4391,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 209--211
 [135]) [136]
 Cap\'{\i }tulo 11.
 (14_Featherweight_Java.tex
-<assets/11_gatito_cayendo.jpg, id=2588, 794.97pt x 614.295pt>
+<assets/11_gatito_cayendo.jpg, id=2590, 794.97pt x 614.295pt>
 File: assets/11_gatito_cayendo.jpg Graphic file (type jpg)
 <use assets/11_gatito_cayendo.jpg>
 Package pdftex.def Info: assets/11_gatito_cayendo.jpg  used on input line 9.
@@ -5062,6 +5055,24 @@ Underfull \hbox (badness 3417) in paragraph at lines 719--720
 de con-sul-ta 5/22/2025]. Dis-po-ni-
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 724--725
+[]\OT1/lmr/m/n/10 user3310334., \OT1/lmr/m/it/10 How would the Lamb-da Cal-cu-l
+us add num-bers?\OT1/lmr/m/n/10 .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 724--725
+\OT1/lmr/m/n/10 Stack Over-flow (2015). [fe-cha de con-sul-ta 29/5/2025]. Dis-p
+o-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 724--725
+\OT1/lmr/m/n/10 https://stackoverflow.com/questions/29756732/how-would-the-lamb
+da-calculus-
+ []
+
 ) [155] (00_Manual_Main_Template.aux
 LaTeX Info: Redefining \sptext on input line 12.
 LaTeX Info: Redefining \. on input line 12.
@@ -5091,11 +5102,11 @@ Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 49474 strings out of 474486
- 975869 string characters out of 5743756
+ 49472 strings out of 474486
+ 975808 string characters out of 5743756
  2151542 words of memory out of 5000000
- 69720 multiletter control sequences out of 15000+600000
- 713234 words of font info for 155 fonts, out of 8000000 for 9000
+ 69716 multiletter control sequences out of 15000+600000
+ 707332 words of font info for 153 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,33n,113p,997b,2379s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
@@ -5135,9 +5146,9 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (166 pages, 2432785 bytes).
+Output written on 00_Manual_Main_Template.pdf (166 pages, 2431162 bytes).
 PDF statistics:
- 3297 PDF objects out of 3580 (max. 8388607)
- 1210 named destinations out of 1440 (max. 500000)
+ 3300 PDF objects out of 3580 (max. 8388607)
+ 1212 named destinations out of 1440 (max. 500000)
  1110 words of extra memory for PDF output out of 10000 (max. 10000000)
 

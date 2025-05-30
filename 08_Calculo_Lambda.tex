@@ -258,7 +258,7 @@ A la operación de sustituir los términos que concuerden con la variable del op
     \subsubsection{Suma}
         Esta función se define de forma similar a la función suma para los números naturales  donde se reciben dos argumentos $m$ y $n$ y se aplica n veces la función \textsf{suc} al numeral m.
 
-        \begin{definition}[Definición de la suma para los numerales de Church]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
+        \begin{definition}[Definición de la suma para los numerales de Church]\footnote{Definición extraída de \hyperlink{140}{[140]}, \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
             $$\textsf{sum} =_{def}  \; \lambda m.\lambda n.\lambda s.\lambda z.n(s \; (m \; s \; z))$$
         \end{definition}
 
@@ -330,98 +330,35 @@ A la operación de sustituir los términos que concuerden con la variable del op
         Para el producto de $m$ y $n$ la idea es anidar la operación: \textsf{sum} $\overline{n}\ \overline{n}$, m veces reemplazando las apariciones de de la variable $s$ en el numeral m por \textsf{sum} $\overline{n}$. Esta operación está definida de la siguiente manera:
 
         \begin{definition}[Definición del producto para los numerales de Church.]\footnote{Definición extraída de \hyperlink{109}{[109]} y  \hyperlink{111}{[111]}}
-            $$\textsf{prod} =_{def}  \; \lambda m.\lambda n.m\; \bar{0} \; (\textsf{sum}\;n)$$
+            $$\textsf{prod} =_{def}  \; \lambda m.\lambda n.m\; (\textsf{sum}\;n) \;  \bar{0}$$
         \end{definition}
 
         \begin{exercise}
             Utiliza la definición de la función \textsf{prod} para evaluar la siguiente  $\lambda$-expresión
             \[
-                    \textsf{prod}\  \overline{2} \; \overline{3}
+                    \textsf{prod}\  \overline{2} \; \overline{3} 
             \]
-            \[
-                    \big(\lambda m.\lambda n.m\; \overline{0} \; (\textsf{sum} \; n)\big) \;  \lambda z.\lambda s.s(sz) \; \overline{3} \rightarrow_\beta 
-            \]
-            \[
-			\big(\lambda n.(\lambda z.\lambda s.s(sz)\big) \; \overline{0} \; (\textsf{sum} \; n)) \; \overline{3}   \rightarrow_\beta 
- 	    \]
-            \[
-                       (\lambda n.\big(\lambda s.s(s\ \overline{0})\big)\; (\textsf{sum}\; n)) \; \overline{3} \rightarrow_\beta 
+           \[
+			 \textsf{prod}\  \overline{2} \; \overline{3}  = (\lambda m.\lambda n.m\; (\textsf{sum}\;n) \;  \bar{0}) \;\; \lambda s. \lambda z.s(s(z)) \;\; \lambda s. \lambda z.s(s(s(z))) \rightarrow_\beta
+	     \]
+	     \[
+			(\lambda n. ( \lambda s. \lambda z.s(s(z)))\; (\textsf{sum} \; n) \;  \bar{0}) \;\;  \overline{3}   \rightarrow_\beta
+	     \]
+	     \[
+			(\lambda n. (\lambda z.\textsf{sum} \; n \; (\textsf{sum} \; n(z))) \;  \bar{0}) \;  \overline{3}  \rightarrow_\beta
+	     \]
+	     \[
+			\textsf{sum} \; n \; (\textsf{sum} \; n \; (\overline{0})) \; \overline{3}  \rightarrow_\beta
+	     \]
+	     \[
+	       	\textsf{sum} \; \overline{3} \; (\textsf{sum} \; \overline{3} \; \overline{0})  \rightarrow_\beta*
             \]
 	    \[
-			 \big(\lambda n.(\textsf{sum} \; n \; (\textsf{sum} \; n \; \overline{0})\big) \; \overline{3}  \rightarrow_\beta 
+		\overline{6}
 	    \]
-            \[
-                        (\textsf{sum} \; \overline{3} \; (\textsf{sum} \; \overline{3} \; \overline{0})) = 
-            \]
-            \[
-                    \scalemath{0.8}{
-                        \lambda m.\lambda n.\lambda s.\lambda z.n(m \; z \; s) \; s \; \lambda z'\lambda s'.s'(s'(s'z')) \; (\lambda m'.\lambda n'.\lambda s''.\lambda z''.n'(m' \; z'' \; s'') \; s'' \; \lambda z'''.\lambda s'''.s'''(s'''(s'''z''')) \; \lambda z''''.\lambda s''''.z'''') 
-                    }
-            \]
-            \[
-                    \text{resolveremos por partes la suma dado que la notación crece muy rápido y es poco legible}
-            \]
-            \[
-                    \textsf{sum}\  \overline{3} \; \overline{0} = \textsf{sum}\  \overline{0} \; \overline{3} = \big(\lambda m.\lambda n.\lambda z.\lambda s.n(m \; z \; s) \; s \big) \; \lambda z'.\lambda s'.z' \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta  (\lambda n.\lambda z.\lambda s.n(\big(\lambda z'.\lambda s'.z'\big) \; z \; s) \; s) \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta  (\lambda n.\lambda z.\lambda s.n\big(\lambda s'.z \; s\big) \; s) \; \overline{3} 
-            \]
-	 \[
-            	\rightarrow_\beta  \big(\lambda n.\lambda z.\lambda s.n \; z \; s\big) \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta   \lambda z.\lambda s.(\overline{3} \; z \; s \;) = \; \lambda z.\lambda s.(\big(\lambda z'.\lambda s'.s'(s'(s'z'))\big) \; z \; s)
-            \]
-            \[
-                    \rightarrow_\beta \lambda z.\lambda s.(\lambda s'.s'\big(s'(s'(z))\big) \; s) 
-            \]
-            \[
-	         \rightarrow_\beta \lambda z.\lambda s.s(s(sz)) = \overline{3} 
-            \]
-            \[
-                    \textbf{sum } \; \overline{3} \; \overline{3} = \big(\lambda m.\lambda n.\lambda z.\lambda s.n(m \; z \; s) \; s \big) \; \lambda z'.\lambda s'.s'(s'(s'.z')) \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta (\lambda n.\lambda z.\lambda s.n(\big(\lambda z'.\lambda s's'(s'(s'.z'))\big) \; z \; s) \; s )  \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta (\lambda n.\lambda z.\lambda s.n(\big(\lambda s'.s'(s'(s'.z))\big) \; s) \; s )  \; \overline{3}
-            \]
-            \[
-                    \rightarrow_\beta \big(\lambda n.\lambda z.\lambda s.n \; (s(s(s.z))) \; s \big)  \; \overline{3}
-            \]
-            \[
-                  \rightarrow_\beta   \lambda z.\lambda s.(\overline{3} \; (s(s(s.z))) \; s) = \lambda z.\lambda s.( \lambda z'\lambda s'.s'(s'(s'z'))\; (s(s(s.z))) \; s) 
-            \]
-            \[
-                 \rightarrow_\beta  \lambda z.\lambda s.(\lambda s'.s'(s'(s'(s(s(s.z)))))  \; s)
-            \]
-            \[
-                    \rightarrow_\beta \lambda z.\lambda s.s(s(s(s(s(s.z))))) = \overline{6}
-            \]
+
+
         \end{exercise}
-
-\bigskip
-
-\begin{definition}[Otros operadores aritméticos del Cálculo Lambda]
- Ahora que nos hemos familiarizado con las ideas que fundamentan a la definición de los operadores aritméticos básicos en el Cálculo Lambda, podemos definir operadores más complejos que nos permitirán componer funciones elaboradas aplicando los operadores que hemos revisado hasta este punto\footnote{Definiciones tomadas de: \hyperlink{139}{[139]}}. 
-\[
-\begin{array}{cl}
-	\textsf{pred} =_{def} &  \lambda n. \lambda f. \lambda x. n (\lambda g. \lambda h. h (g f)) (\lambda u. x) (\lambda u. u)\\
-	\textsf{sub} =_{def}   & \lambda m. \lambda n. n\ \textsf{pred}\ m\\
-	\textsf{abs} =_{def} & \textsf{add} (\textsf{sub}\ x\ y) (\textsf{sub}\ y\ x) \\
-	\textsf{equal} =_{def} & \textsf{iszero} (\textsf{abs}\ x \ y) \\
-	\textsf{$\textgreater$} =_{def} & \textsf{not} (\textsf{iszero} (\textsf{sub}\ x\ y))  \\
-	\textsf{$\textless$} =_{def} &  \textsf{$\textgreater$}\ y\ x\\
-\end{array}
-\]
-
-Para el caso de la resta hay que tener en cuenta que los números negativos no están definidos en los numerales de Church, si el segundo argumento es mayor que el primero entonces se regresa el numeral $\overline{0}$, en caso contrario se aplica la operación \textsf{pred} n veces al numeral m.
-\end{definition}
 
     \subsection{Booleanos y operadores lógicos}
     Las constantes booleanas \textsf{True} y \textsf{False} son entidades opuestas, una es el valor contrario de la otra. Si tratemos de trasladar esta idea a un par de funciones podemos pensar en algo como:
@@ -468,6 +405,22 @@ Para el Cálculo Lambda es deseable entonces que los operadores anteriormente de
             \item $\mathsf{AND}\,\textsf{True}\,b\to_\beta^* b$
         \end{itemize}
    \end{center} 
+
+\begin{definition}[Otros operadores aritméticos del Cálculo Lambda]
+ Ahora que nos hemos familiarizado con las ideas que fundamentan a la definición de los operadores aritméticos básicos en el Cálculo Lambda, podemos definir operadores más complejos que nos permitirán componer funciones elaboradas aplicando los operadores que hemos revisado hasta este punto\footnote{Definiciones tomadas de: \hyperlink{139}{[139]}}. 
+\[
+\begin{array}{cl}
+	\textsf{pred} =_{def} &  \lambda n. \lambda f. \lambda x. n (\lambda g. \lambda h. h (g f)) (\lambda u. x) (\lambda u. u)\\
+	\textsf{sub} =_{def}   & \lambda m. \lambda n. n\ \textsf{pred}\ m\\
+	\textsf{abs} =_{def} & \textsf{add} (\textsf{sub}\ x\ y) (\textsf{sub}\ y\ x) \\
+	\textsf{equal} =_{def} & \textsf{iszero} (\textsf{abs}\ x \ y) \\
+	\textsf{$\textgreater$} =_{def} & \textsf{not} (\textsf{iszero} (\textsf{sub}\ x\ y))  \\
+	\textsf{$\textless$} =_{def} &  \textsf{$\textgreater$}\ y\ x\\
+\end{array}
+\]
+
+Para el caso de la resta hay que tener en cuenta que los números negativos no están definidos en los numerales de Church, si el segundo argumento es mayor que el primero entonces se regresa el numeral $\overline{0}$, en caso contrario se aplica la operación \textsf{pred} n veces al numeral m.
+\end{definition}
 
   \section{Datos estructurados en el Cálculo Lambda}
 
