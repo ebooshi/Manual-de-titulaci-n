@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  4 JUN 2025 09:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  5 JUN 2025 08:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -5121,7 +5121,7 @@ Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
  ) 
 Here is how much of TeX's memory you used:
  49477 strings out of 474486
- 975857 string characters out of 5743756
+ 975856 string characters out of 5743756
  2151542 words of memory out of 5000000
  69719 multiletter control sequences out of 15000+600000
  707332 words of font info for 153 fonts, out of 8000000 for 9000
@@ -5164,7 +5164,7 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (166 pages, 2432106 bytes).
+Output written on 00_Manual_Main_Template.pdf (166 pages, 2432117 bytes).
 PDF statistics:
  3306 PDF objects out of 3580 (max. 8388607)
  1214 named destinations out of 1440 (max. 500000)

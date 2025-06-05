@@ -11,7 +11,7 @@
 
 Con la teoría que hemos revisado hasta el momento en nuestro lenguaje \textsf{EAB} cuya definición engloba booleanos e instrucciones lógicas, a los números naturales junto con sus operadores y la implementación del Cálculo Lambda, nos es natural preguntarnos  ¿cómo es la implementación de un lenguaje de características similares en una computadora? \\ Para resolver esta pregunta definiremos un lenguaje que contenga un subconjunto de instrucciones de algún otro lenguaje cuya implementación ya exista para estas.  \\\\
 Por su naturaleza funcional tomaremos como caso de estudio una versión simplificada del lenguaje de programación \textsf{Haskell}. Este posee características importantes para el enfoque de este curso que serán de interés trasladar a \textsf{EAB}. \\\\
-Hasta el momento se ha trabajado con tipos de datos primitivos, pero no hemos hablado de las reglas de la semántica estática que asignan el tipo a las expresiones. Esto constituye un problema al poder escribir expresiones de \textsf{EAB} sintácticamente correctas pero cuya evaluación no termine en un valor puesto que la ejecución se detendría en algún momento al no hallar una regla de la semántica dinámica que nos permita continuar. \\\\
+Hasta el momento se ha trabajado con tipos de datos primitivos, pero no hemos hablado de las reglas de la semántica estática que asignan el tipo a las expresiones. Esto constituye un problema al poder escribir expresiones de \textsf{EAB} sintácticamente correctas pero cuya evaluación no termine en un valor, puesto que la ejecución se detendría en algún momento al no hallar una regla de la semántica dinámica que nos permita continuar. \\\\
 Con esto en mente el objetivo de este capítulo será definir un lenguaje similar que nos permita tener todos los tipos de datos de \textsf{EAB}, el sistema de tipos de \textsf{Haskell} y las características más importante del mismo: evaluación perezosa, pureza funcional y asignación de tipos explícita y estática. 
 A este lenguaje lo llamaremos \textsf{MinHS} al ser una versión acotada de \textsf{Haskell} pero servirá para ilustrar los conceptos que introduciremos en este capítulo.
 
@@ -44,7 +44,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
             \mbox{\bf Variables}&var&::=&x\; |\; y \; | \; \dots\\
             \mbox{\bf Números}&n&::=&0\; |\; 1 \; | \dots\\
             \mbox{\bf Booleanos}&b&::=&\textsf{True}\; |\; \textsf{False}\\
-            \mbox{\bf Operadores Infijos}&\otimes&::=&+|*|-|=|<|>\\
+            \mbox{\bf Operadores Infijos}&\otimes&::=&+|*|-|=|<|>|\leq | \geq \\
         \end{array}
         \]
     \end{definition}
