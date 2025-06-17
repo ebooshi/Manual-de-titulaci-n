@@ -25,8 +25,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 \section{Sintaxis de \textsf{MinHS}}
 
 \subsection{Sintaxis concreta}
-    El lenguaje de programación \textsf{Haskell} emplea la declaración explícita de tipos en su sintaxis, este patrón se traslada a \textsf{MinHS}. Es necesario entonces introducir variables de tipo que serán representadas por letras mayúsculas (\textit{T}, \textit{S}, \textit{M}, etc. Y en ocasiones pueden estar indexadas como $T_1$, $T_2$, ... $T_n$).\\\\    
-    Para el caso de las funciones, su tipo será representado por la expresión $T_1 \Rightarrow T_2$ en la sintaxis concreta donde $T_1$ representa el tipo de la variable ligada en el cuerpo de la expresión  y $T_2$ es el tipo que regresa la evaluación de la expresión.\\\\
+    El lenguaje de programación \textsf{Haskell} emplea la declaración explícita de tipos en su sintaxis, este patrón se traslada a \textsf{MinHS} mediante la introducción de las anotación de tipos para \textsf{Int}, \textsf{Bool} y en el caso de las funciones, su tipo será representado por la expresión $T_1 \rightarrow T_2$ en la sintaxis concreta donde $T_1$ representa el tipo de la variable ligada en el cuerpo de la expresión  y $T_2$ es el tipo que regresa la evaluación de la expresión.\\\\
 Esta modificación a la sintaxis concreta solo aplicará para quellas expresiones donde sea estrictamente necesario anotar su tipo para verificar la correctud de tipado. El resto de las expresiones se definen de manera similar a como lo hicimos para \textsf{EAB} limitando la aparición de típo en la medida de lo posible.
 
  %   Finalmente se introduce la expresión para funciones recursivas representadas por la expresión \[ \textsf{letrec}\; var=\; e_1\; {\sf in}\; e_2\; \textsf{end}\]
@@ -37,9 +36,9 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
             \mbox{\bf Expresiones}&e&::=&\; var\; | \; n\; |\; b\; |\; (e)\; |\; e_1\otimes \; e_2\; |\; e_1 \; e_2\\
             &&|& \textsf{if} \;e_1\;{\sf then}\;e_2\;{\sf else}\;e_3\\
             &&|& \textsf{let} \;x=\;e_1\;{\sf in}\;e_2\;{\sf end}\\
-            &&|& \textsf{fun} \; x :: \textit{T} \rightarrow e \\
-            &&|& \textsf{recfun} \;f :: (T_1\Rightarrow T_2)\; x \rightarrow \;e\\
-            \mbox{\bf Tipos}&\textit{T}&::=&\; \textit{Bool}\;|\ \textit{Nat}\;| \ T \;|\ M \;| \;T_1\Rightarrow T_2 \;|\ ... \\
+            &&|& \textsf{fun} \; x :: \textit{T} \Rightarrow e \\
+            &&|& \textsf{recfun} \;f :: (T_1\rightarrow T_2)\; x \Rightarrow \;e\\
+            \mbox{\bf Tipos}&\textit{T}&::=&\; \textit{Bool}\;|\ \textit{Nat}\;| \ \;T_1\rightarrow T_2 \\
             \mbox{\bf Variables}&var&::=&x\; |\; y \; | \; \dots\\
             \mbox{\bf Números}&n&::=&0\; |\; 1 \; | \dots\\
             \mbox{\bf Booleanos}&b&::=&\textsf{True}\; |\; \textsf{False}\\
@@ -53,13 +52,13 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
 
 	\begin{itemize}
 		\item Proporciona la definición de la función sucesor que recibe un número y regresa el sucesor: 
-			$$ \textsf{suc} =_{def} \textsf{fun}\; x\;::\; \textit{Nat} \rightarrow x + 1$$
+			$$ \textsf{suc} =_{def} \textsf{fun}\; x\;::\; \textit{Nat} \Rightarrow x + 1$$
 		\item Proporciona la definición de la función que recibe un número y decide si es cero:
-			 $$ \textsf{IsZero} =_{def} \textsf{fun}\; x\;::\; \textit{Nat} \rightarrow\; \textsf{if}\; (x\; =\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
+			 $$ \textsf{IsZero} =_{def} \textsf{fun}\; x\;::\; \textit{Nat} \Rightarrow\; \textsf{if}\; (x\; =\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
 		\item Proporciona la definición de una función que recibe un número y regresa el factorial:
-			 $$ \textsf{fact} =_{def} \textsf{recfun}\; \textsf{fact}\; ::\; (\textit{Nat} \Rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero}(x)\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$$
+			 $$ \textsf{fact} =_{def} \textsf{recfun}\; \textsf{fact}\; ::\; (\textit{Nat} \rightarrow \textit{Nat})\; x \Rightarrow\; \textsf{if}\; \textsf{IsZero}(x)\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$$
 		\item Proporciona la definición de una función que recibe dos números y regresa su producto:
-			$$ \textsf{prod} =_{def} \textsf{fun}\; x\; ::\; Nat \rightarrow\; \textsf{fun}\; y\; ::\; Nat \rightarrow\; x*y$$
+			$$ \textsf{prod} =_{def} \textsf{fun}\; x\; ::\; Nat \Rightarrow\; \textsf{fun}\; y\; ::\; Nat \Rightarrow\; x*y$$
 	\end{itemize}
 
     \end{exercise}
@@ -218,7 +217,7 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
         				Análisis de tipo aplicando la semántica estática:
         			$$\inference{\inference{}{\empty \vdash num[1]\ :\textit{Nat}} & \inference{\inference{}{\empty \vdash num[7]\ :\ \textit{Nat}} & \inference{}{ \empty \vdash num[1]\ :\ \textit{Nat}}}{\empty \vdash res(num[7],num[1])\ :\ \textit{Nat}}}{ \empty \vdash sum(num[1],res(num[7],num[1])) : \textit{Nat}}$$
 
-		\item $ \textsf{fun}\ x\ :: \textit{Nat} \rightarrow\ x\ \textgreater\ 1$ \\\\
+		\item $ \textsf{fun}\ x\ :: \textit{Nat} \Rightarrow\ x\ \textgreater\ 1$ \\\\
         			Representación en sintaxis abstracta: 
         				$$  fun(\textit{Nat}, x.gt(x,num[1]))$$
         			Análisis de tipo aplicando la semántica estática: 
@@ -383,9 +382,9 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
         \begin{itemize}
             \item \textsf{pair(3, True)}
             \item \textsf{snd pair(3, True)}
-            \item \textsf{lam} x ::\ $\textit{Nat}\ \rightarrow\ x +1$\;  
-            \item  \textsf{$ \textsf{recfun}\; \textit{fact}\; ::\; (\textit{Nat} \Rightarrow \textit{Nat})\; x \rightarrow\; \textsf{if}\; \textsf{IsZero($x$)}\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textit{fact}\; (n-1)$}
-		\item \textsf{let} \textsf{neg} = (\textsf{lam} x : \textit{Bool} $\rightarrow$ \textsf{if } \textit{x} \textsf{then } \textsf{False } \textsf{else } \textsf{True}) \textsf{in} \textsf{neg}(3 $\textless$ 2) \textsf{end}
+            \item \textsf{lam} x ::\ $\textit{Nat}\ \Rightarrow\ x +1$\;  
+            \item  \textsf{$ \textsf{recfun}\; \textit{fact}\; ::\; (\textit{Nat} \rightarrow \textit{Nat})\; x \Rightarrow\; \textsf{if}\; \textsf{IsZero($x$)}\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textit{fact}\; (n-1)$}
+		\item \textsf{let} \textsf{neg} = (\textsf{fun} x : \textit{Bool} $\Rightarrow$ \textsf{if } \textit{x} \textsf{then } \textsf{False } \textsf{else } \textsf{True}) \textsf{in} \textsf{neg}(3 $\textless$ 2) \textsf{end}
         \end{itemize}
     \end{exercise}
 

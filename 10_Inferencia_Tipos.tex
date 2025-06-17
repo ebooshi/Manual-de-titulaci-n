@@ -34,11 +34,11 @@ Posteriormente vamos a revisar los juicios para generar las restricciones de tip
 
 \section{Estandarización de variables}
 La semántica estática de \textsf{MinHS} y la de \textsf{EAB} se implementa de forma similar para ir agregando a un contexto (que denotaremos con la letra $\Gamma$) aquellas variables definidas en las expresiones junto con el tipo que se espera estas tengan.\\\\
-En el contexto $\Gamma$ solo puede existir una sola aparición por variable, es decir, nunca podremos tener $\Gamma=\{x : Nat,\ x : Bool\}$ dado que $\Gamma$ es un conjunto de variables y tipos, tener la misma variable con dos tipos distintos es una inconsistencia dentro de nuestro programa y constituye un error en el tipificado de la expresión\footnote{Definición de semántica estática para \textsf{MinHS} formulada de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\\\
+En el contexto $\Gamma$ solo puede existir una sola aparición por variable, es decir, nunca podremos tener $\Gamma=\{x : Nat,\ x : Bool\}$ dado que $\Gamma$ es un conjunto de variables y tipos. Tener la misma variable con dos tipos distintos es una inconsistencia dentro de nuestro programa y constituye un error en el tipificado de la expresión\footnote{Definición de semántica estática para \textsf{MinHS} formulada de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\\\
 Para evitar esta situación se define el proceso conocido como estandarización de variables que consiste en brindar una $\alpha$-equivalencia cuando dos variables ligadas tengan el mismo nombre.\\\\
 Tomemos como ejemplo la siguiente expresión:
 $$ \textsf{let } x = \textsf{True} \textsf{ in } \textsf{if } x \textsf{ then } \textsf{ let } x = 5 \textsf{ in } x < x \textsf{ end } \textsf{ end }$$
-En este caso la expresión está bien formada, no hay ninguna regla de la sintaxis concreta que esté mal aplicada para obtener nuestra expresión, la evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a verdadero y luego se continúa con la comparación de dos valores booleanos, sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
+En este caso la expresión está bien formada, no hay ninguna regla de la sintaxis concreta que esté mal aplicada para obtener nuestra expresión. La evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a verdadero y luego se continúa con la comparación de dos valores booleanos, sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
 El problema puede ser corregido utilizando una $\alpha$-equivalencia y renombrando las variables $x$ por $x_0$ y $x_1$ respectivamente:
 $$ \textsf{let } x_0 = \textsf{True} \textsf{ in } \textsf{if } x_0\ \textsf{ then } \textsf{ let } x_1 = 5 \textsf{ in } x_1 < x_1 \textsf{ end } \textsf{ end }$$
 Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
@@ -75,8 +75,8 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
     
     Aplica la estandarización de variables:
     
-    $$ \textsf{let } x_0 = 1 \textsf{ in } (\textsf{ let } x_1 = \textsf{False} \textsf{ in } (\textsf{let } x_2 = fun\ y :: Bool \to y  \textsf{ in } x_2 \textsf{ end}) \textsf{ end}) \textsf{ end} $$
-    $$ \Gamma = \{ x_0 : Nat,\ x_1 : Bool,\ x_2 : Bool \to Bool \}$$
+    $$ \textsf{let } x_0 = 1 \textsf{ in } (\textsf{ let } x_1 = \textsf{False} \textsf{ in } (\textsf{let } x_2 = fun\ y :: Nat \to y = 0  \textsf{ in } x_2 \textsf{ end}) \textsf{ end}) \textsf{ end} $$
+    $$ \Gamma = \{ x_0 : Nat,\ x_1 : Bool,\ x_2 : Nat \to Bool \}$$
 \end{exercise}
 
         \begin{exercise} 
