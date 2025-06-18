@@ -86,52 +86,55 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 	Representaremos la asignación serializada de nuevas variables con una lista de parejas conformada por la variable original seguida de su nueva asignación mediante la aplicación del siguiente juicio: $$v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ e\ asa$$ 
           Que se lee como: \\\\
 	''El árbol de sintaxis abstracta $e$ es congruente con la lista $v_n: x_n\ ...\ v_0:x_0$ bajo $\alpha$-equivalencia aplicando la(s) sustitución(es) sí existen en la lista''.\\
-
-            Variables
+        \begin{description}
+            \item[Variables]
             \[
 	     \begin{array}{ccc}	
                 \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ v_n}{x_n}&\quad&
 	     \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ y }{ y}
                 \end{array}
             \]
-            Valores numéricos
+            \item[Valores numéricos]
             \[
                 \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ num[n]}
             \]
-             Valores Booleanos
+             \item[Valores Booleanos]
              \[
                 \begin{array}{ccc}
                     \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ \textit{False}}&\quad&
                     \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ \textit{True}}
                 \end{array}
             \]
-            Operadores
+            \item[Operadores]
             \[
                     \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_1 & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_2}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ Op(t_1,t_2)}
             \]
-            Condicional
+            \item[Condicional]
             \[
                 \inference{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_c & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_t & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_f}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  if(t_c,t_t,t_f)}
             \]
-            Asignaciones Locales
+            \item[Asignaciones Locales]
             \[
                 \begin{array}{ccc}
                     \inference{v_{n}:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\  t_v &  y:x_{n+1},\ v_n : x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  t_b}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  let(t_v,y.t_b)}&\quad&
                 \end{array}
             \]
-            Funciones
+            \item[Funciones]
             \[
                 \inference{f:f_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t }{v_n:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\ fun(T,f.t)} \quad
+	\]
+	\[
                 \inference{f:f_{n+1}, y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t  }{x:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\ recfun(T \to S,f.y.t)}
             \]
-            Aplicación de función
+            \item[Aplicación de función]
             \[
                 \inference{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_f& v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_p}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ app(t_f,t_p)}
             \]
-            Operador de punto fijo
+            \item[Operador de punto fijo]
             \[
                 \inference{y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ fix(T,y.t)}
             \]
+	\end{description}
 	\end{definition}
 
 
@@ -193,7 +196,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 	 	\scalemath{0.9}{
                 		\inference
                     			{c \mapsto R_1 & t \mapsto R_2 & e \mapsto R_3}
-                    			{if(c,t,e) \mapsto R_1:R_2:R_3:\llbracket c \rrbracket = Bool: \llbracket t \rrbracket = \llbracket e \rrbracket : \llbracket if(c,t,e)\rrbracket = \llbracket e\rrbracket : \llbracket if(c,t,e)\rrbracket = \llbracket t \rrbracket}
+                    			{if(c,t,e) \mapsto R_1,R_2,R_3,\llbracket c \rrbracket = Bool, \llbracket t \rrbracket = \llbracket e \rrbracket, \llbracket if(c,t,e)\rrbracket = \llbracket e\rrbracket, \llbracket if(c,t,e)\rrbracket = \llbracket t \rrbracket}
 		}
             \]
             \item[Asignaciones Locales]
@@ -201,11 +204,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 \begin{array}{c}
                     \inference
                         {v \mapsto R_1 & b \mapsto R_2}
-                        {let(v,x_i.b) \mapsto R_1: R_2: X_i = \llbracket v\rrbracket: \llbracket let(v,x_i.b)\rrbracket = \llbracket b\rrbracket}\\
-                    \\
-                    \inference
-                        {v \mapsto R_1 & b \mapsto R_2}
-                        {recfun(v,f.x_i.b) \mapsto R_1: R_2: X_i = \llbracket v\rrbracket : \llbracket recfun(v,f.x_i.b)\rrbracket = \llbracket b\rrbracket}\\
+                        {let(v,x_i.b) \mapsto R_1, R_2, X_i = \llbracket v\rrbracket, \llbracket let(v,x_i.b)\rrbracket = \llbracket b\rrbracket}\\
                 \end{array}
             \]
 
@@ -213,40 +212,46 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
             \[
                 \inference
                     {t \mapsto R}
-                    {fun(x_i.t) \mapsto R: \llbracket fun(x_i.t)\rrbracket = X_i \to \llbracket t\rrbracket}
+                    {fun(x_i.t) \mapsto R, \llbracket fun(x_i.t)\rrbracket = X_i \to \llbracket t\rrbracket}
+                    \\
+	\]
+	\[
+                    \inference
+                        {b \mapsto R_1}
+                        {recfun(v,f.x_i.b) \mapsto R_1, \llbracket recfun(v,f.x_i.b)\rrbracket = X_i \to \llbracket b\rrbracket}\\
             \]
             \item[Aplicación de función]
             \[
                 \inference
                     {f \mapsto R_1 & p \mapsto R_2}
-                    {app(f,p) \mapsto R_1: R_2: \llbracket f\rrbracket = \llbracket p\rrbracket \to \llbracket app(f,p)\rrbracket}
+                    {app(f,p) \mapsto R_1, R_2, \llbracket f\rrbracket = \llbracket p\rrbracket \to \llbracket app(f,p)\rrbracket}
             \]
             \item[Operadores]
             \[
                 \begin{array}{c}
                     \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        {sum(e_1 , e_2) \mapsto R_1:R_2: \llbracket e_1\rrbracket = Nat: \llbracket e_2\rrbracket = Nat: \llbracket sum(e_1 , e_2)\rrbracket = Nat}\\
+                        {sum(e_1 , e_2) \mapsto R_1,R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat, \llbracket sum(e_1 , e_2)\rrbracket = Nat}\\
                     \\
                      \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        { prod(e_1 , e_2) \mapsto R_1: R_2: \llbracket e_1\rrbracket = Nat: \llbracket e_2\rrbracket = Nat: \llbracket prod(e_1 , e_2)\rrbracket = Nat}\\
+                        { prod(e_1 , e_2) \mapsto R_1, R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat, \llbracket prod(e_1 , e_2)\rrbracket = Nat}\\
                     \\
                      \inference
                         {e_1\mapsto R_1 & e_2 \mapsto R_2}
-                        { sub(e_1,e_2) \mapsto R_1: R_2: \llbracket e_1\rrbracket = Nat: \llbracket e_2\rrbracket = Nat: \llbracket sub(e_1,e_2)\rrbracket = Nat}\\
+                        { sub(e_1,e_2) \mapsto R_1, R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat, \llbracket sub(e_1,e_2)\rrbracket = Nat}\\
                     \\
                      \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        { eq(e_1,e_2) \mapsto R_1:R_2: \llbracket e_1\rrbracket = Nat: \llbracket e_2\rrbracket = Nat: \llbracket ig(e_1,e_2)\rrbracket = Bool}\\
+                        { eq(e_1,e_2) \mapsto R_1,R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat, \llbracket ig(e_1,e_2)\rrbracket = Bool}\\
                     \\
                     \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        {gt(e_1,e_2) \mapsto R_1: R_2: \llbracket e_1\rrbracket = Nat: \llbracket e_2\rrbracket = Nat:  \llbracket gt(e_1,e_2)\rrbracket = Bool}\\
+                        {gt(e_1,e_2) \mapsto R_1, R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat, \llbracket gt(e_1,e_2)\rrbracket = Bool}\\
                         \\
                      \inference
                         {e_1 \mapsto R_1 & e_2 \mapsto R_2}
-                        {lt(e_1,e_2) \mapsto R_1: R_2: \llbracket e_1\rrbracket = Nat: \llbracket e_2\rrbracket = Nat:  \llbracket lt(e_1,e_2)\rrbracket= Bool}\\\\
+                        {lt(e_1,e_2) \mapsto R_1, R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat,  \llbracket lt(e_1,e_2)\rrbracket= Bool}\\\\
                 \end{array}
             \]
         \end{description}
@@ -270,7 +275,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 U(e=T:R)&=&U(R[e:=T]) $\textopenbullet$ [e:=T]&\\
                 U(T=X:R)&=&U(X=T:R)&\\
                 U(T=e:R)&=&U(e=T:R)&\\
-                U(St_1\to St_2=T_1\to T_2:R)&=&U(St_1=T_1:St_2=T_2:R)&\\
+                U(S_1\to S_2=T_1\to T_2:R)&=&U(S_1=T_1:S_2=T_2:R)&\\
                 U(R)&=&{\sf Fail}&\\
            \end{array}
         \]
@@ -327,6 +332,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 && \llbracket x_0 \rrbracket = \X_0\\
                 && \llbracket x_1 \rrbracket = \X_1\\
                 && \llbracket x_0 \rrbracket = Nat\\
+	     && \llbracket x_1 \rrbracket = Nat\\
                 && \llbracket eq(x_0,x_1) \rrbracket = Bool\\
                 && X_1 =  \llbracket 1 \rrbracket \\
                 && \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket \\
@@ -348,6 +354,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $ \llbracket x_0 \rrbracket = X_0$ & \\
                         $ \llbracket x_1 \rrbracket = X_1$  & \\
                         $ \llbracket x_0 \rrbracket = Nat$  & \\
+		   $ \llbracket x_1 \rrbracket = Nat$  & \\
                         $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  & \\
                         $X_1 =  \llbracket 1 \rrbracket$ & \\
                         $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & \\
@@ -359,6 +366,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $ \llbracket x_0 \rrbracket = X_0$ & \\
                         $ \llbracket x_1 \rrbracket = X_1$  & \\
                         $ \llbracket x_0 \rrbracket = Nat$  & \\
+		   $ \llbracket x_1 \rrbracket = Nat$  & \\
                         $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  & \\
                         $X_1 =  \llbracket 1 \rrbracket$ & \\
                         $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & \\
@@ -367,8 +375,9 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
                       \hline
                         $ \llbracket x_0 \rrbracket = X_0$ &  $ \llbracket 0 \rrbracket := Nat$  \\
-                        $ \llbracket x_1 \rrbracket = X_1$  &  $ \llbracket 1 \rrbracket := Nat$\\
+                        $ \llbracket x_1 \rrbracket = X_1$  &  $ \llbracket 1 \rrbracket := Nat$ \\
                         $ \llbracket x_0 \rrbracket = Nat$  & \\
+		   $ \llbracket x_1 \rrbracket = Nat$  & \\
                         $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  & \\
                         $X_1 = Nat$ & \\
                         $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & \\
@@ -376,79 +385,92 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $X_0 = Nat$ & \\
                         $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
                       \hline
-                        $ \llbracket x_1 \rrbracket = X_1$  &   $ \llbracket 0 \rrbracket := Nat$\\
-                        $X_0 = Nat$  & $ \llbracket 1 \rrbracket := Nat$ \\
-                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  &  $ \llbracket x_0 \rrbracket := X_0$ \\
+                        $ \llbracket x_1 \rrbracket = X_1$  &   $ \llbracket 0 \rrbracket := Nat$\\  
+                        $X_0 = Nat$  &  $ \llbracket 1 \rrbracket := Nat$ \\
+                       $ \llbracket x_1 \rrbracket = Nat$  & $ \llbracket x_0 \rrbracket := X_0$ \\
+		  $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  &  \\
                         $X_1 = Nat$ & \\
                         $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & \\
                         $ \llbracket x_1 \rrbracket = X_1$  & \\
                         $X_0 = Nat$ & \\
                         $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
                       \hline
-                        $X_0 = Nat$  & $ \llbracket 0 \rrbracket := Nat$ \\
-                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  &  $ \llbracket 1 \rrbracket := Nat$ \\
-                        $X_1 = Nat$ & $ \llbracket x_0 \rrbracket := X_0$  \\
-                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  &  $ \llbracket x_1 \rrbracket := X_1$ \\
+ 		   $X_0 = Nat$   &  $ \llbracket 0 \rrbracket := Nat$ \\
+                        $ X_1 = Nat $  & $ \llbracket 1 \rrbracket := Nat$ \\
+                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  & $ \llbracket x_0 \rrbracket := X_0$  \\
+                        $X_1 = Nat$ & $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  &   \\
                         $X_1 = X_1$  & \\
                         $X_0 = Nat$ & \\
                         $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
                       \hline
-                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  & $ \llbracket 0 \rrbracket := Nat$ \\
-                        $X_1 = Nat$ & $ \llbracket 1 \rrbracket := Nat$ \\
-                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & $ \llbracket x_0 \rrbracket := X_0$ \\
-                        $X_1 = X_1$  & $ \llbracket x_1 \rrbracket := X_1$ \\
-                        $Nat = Nat$ & $X_0 := Nat$ \\
+                        $ X_1 = Nat $  &  $ \llbracket 0 \rrbracket := Nat$ \\ 
+                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  &  $ \llbracket 1 \rrbracket := Nat$ \\ 
+                        $X_1 = Nat$ & $ \llbracket x_0 \rrbracket := X_0$  \\ 
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & $ \llbracket x_1 \rrbracket := X_1$ \\  
+                        $X_1 = X_1$  & $X_0 := Nat$ \\
+                        $Nat = Nat$ & \\
                         $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
                       \hline
-                        $X_1 = Nat$ & $ \llbracket 0 \rrbracket := Nat$  \\
-                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket = Bool$  & $ \llbracket 1 \rrbracket := Nat$ \\
-                        $X_1 = X_1$  & $ \llbracket x_0 \rrbracket := X_0$  \\
-                        $Nat = Nat$ & $ \llbracket x_1 \rrbracket := X_1$ \\
-                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ &  $ \llbracket x_0 \rrbracket := Nat$ \\
-                        & $ \llbracket eq(x_0,x_1) \rrbracket = Bool$ \\
+                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  &  $ \llbracket 0 \rrbracket := Nat$ \\  
+                        $Nat = Nat$ &  $ \llbracket 1 \rrbracket := Nat$ \\  
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & $ \llbracket x_0 \rrbracket := X_0$  \\  
+                        $Nat = Nat$  & $ \llbracket x_1 \rrbracket := X_1$ \\  
+                        $Nat = Nat$ & $X_0 := Nat$ \\ 
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ &   $ X_1 := Nat $ \\
                       \hline
-                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket = Bool$  &  $ \llbracket 0 \rrbracket := Nat$  \\
-                        $Nat = Nat$  &  $ \llbracket 1 \rrbracket := Nat$ \\
-                        $Nat = Nat$ &  $ \llbracket x_0 \rrbracket := X_0$  \\
-                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & $ \llbracket x_1 \rrbracket := X_1$ \\
-                        &  $ \llbracket x_0 \rrbracket := Nat$ \\
-                        &  $ \llbracket eq(x_0,x_1) \rrbracket := Bool$ \\
-                        &  $X_1 := Nat$ \\
+                        $Nat = Nat$ & $ \llbracket 0 \rrbracket := Nat$ \\
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket = Bool$  &    $ \llbracket 1 \rrbracket := Nat$ \\    
+                        $Nat = Nat$  & $ \llbracket x_0 \rrbracket := X_0$  \\  
+                        $Nat = Nat$ & $ \llbracket x_1 \rrbracket := X_1$ \\   
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & $X_0 := Nat$ \\ 
+				   &   $ X_1 := Nat $ \\
+				   &   $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\
                       \hline
-                        $Nat = Nat$  &   $ \llbracket 0 \rrbracket := Nat$ \\
-                        $Nat = Nat$ & $ \llbracket 1 \rrbracket := Nat$ \\
-                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket = Bool$ &  $ \llbracket x_0 \rrbracket := X_0$   \\
-                        & $ \llbracket x_1 \rrbracket := X_1$  \\
-                        & $ \llbracket x_0 \rrbracket := Nat$  \\
-                        & $ \llbracket eq(x_0,x_1) \rrbracket := Bool$  \\
-                        & $X_1 := Nat$\\
-                        & $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$ \\
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket = Bool$  &   $ \llbracket 0 \rrbracket := Nat$ \\ 
+                        $Nat = Nat$  &  $ \llbracket 1 \rrbracket := Nat$ \\  
+                        $Nat = Nat$ &  $ \llbracket x_0 \rrbracket := X_0$  \\ 
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ &  $ \llbracket x_1 \rrbracket := X_1$ \\  
+				  &    $X_0 := Nat$ \\ 
+				   &   $ X_1 := Nat $ \\
+				   &   $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\
                       \hline
-                        $Nat = Nat$  &   $ \llbracket 0 \rrbracket := Nat$ \\
-                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket = Bool$ & $ \llbracket 1 \rrbracket := Nat$ \\
-                        &  $ \llbracket x_0 \rrbracket := X_0$   \\
-                        & $ \llbracket x_1 \rrbracket := X_1$  \\
-                        & $ \llbracket x_0 \rrbracket := Nat$  \\
-                        & $ \llbracket eq(x_0,x_1) \rrbracket := Bool$  \\
-                        & $X_1 := Nat$\\
-                        & $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$ \\
-                      \hline
-                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket = Bool$ & $ \llbracket 0 \rrbracket := Nat$ \\
-                        & $ \llbracket 1 \rrbracket := Nat$ \\
-                        & $ \llbracket x_0 \rrbracket := X_0$ \\
-                        & $ \llbracket x_1 \rrbracket := X_1$ \\
-                        & $ \llbracket eq(x_0,x_1) \rrbracket := Bool$ \\
-                        & $X_1 := Nat$ \\
-                        & $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$ \\
-                      \hline
-                        & $ \llbracket 0 \rrbracket := Nat$ \\
-                        & $ \llbracket 1 \rrbracket := Nat$  \\
-                        & $ \llbracket x_0 \rrbracket := X_0$ \\
-                        & $ \llbracket x_1 \rrbracket := X_1$ \\
-                        & $ \llbracket eq(x_0,x_1) \rrbracket := Bool$ \\
-                        & $X_1 := Nat$ \\
-                        & $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$ \\
-                        & $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket := Bool$ \\
+                        $Nat = Nat$  &   $ \llbracket 0 \rrbracket := Nat$ \\ 
+                        $Nat = Nat$ &  $ \llbracket 1 \rrbracket := Nat$ \\    
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  Bool$ &  $ \llbracket x_0 \rrbracket := X_0$  \\   
+				  &   $ \llbracket x_1 \rrbracket := X_1$ \\  
+				  &    $X_0 := Nat$ \\ 
+				   &   $ X_1 := Nat $ \\
+				   &   $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\
+				  &    $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$  \\
+		 \hline
+                        $Nat = Nat$ &   $ \llbracket 0 \rrbracket := Nat$ \\      
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  Bool$ &  $ \llbracket 1 \rrbracket := Nat$ \\    
+				   &   $ \llbracket x_0 \rrbracket := X_0$  \\   
+				   &    $ \llbracket x_1 \rrbracket := X_1$ \\  
+				   &   $X_0 := Nat$ \\ 
+				   &   $ X_1 := Nat $ \\ 
+				   &    $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\ 
+				   &    $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$  \\
+		 \hline
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  Bool$ &   $ \llbracket 0 \rrbracket := Nat$ \\   
+				   &    $ \llbracket 1 \rrbracket := Nat$ \\
+				   &      $ \llbracket x_0 \rrbracket := X_0$  \\   
+				   &    $ \llbracket x_1 \rrbracket := X_1$ \\    
+				   &   $X_0 := Nat$ \\
+				  &  $ X_1 := Nat $ \\  
+				   &    $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\ 
+				   &    $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$  \\
+		 \hline
+           			  &   $ \llbracket 0 \rrbracket := Nat$ \\   
+				   &   $ \llbracket 1 \rrbracket := Nat$ \\
+				   &   $ \llbracket x_0 \rrbracket := X_0$  \\   
+				   &   $ \llbracket x_1 \rrbracket := X_1$ \\    
+				   &   $X_0 := Nat$ \\
+				   &   $ X_1 := Nat $ \\  
+				   &   $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\ 
+				   &   $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$  \\
+           			   &   $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket :=  Bool$\\
 		\hline
                     \end{longtable}
                 \end{center}
