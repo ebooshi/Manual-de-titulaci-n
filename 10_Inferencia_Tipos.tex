@@ -329,8 +329,8 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 \begin{array}{rclr}
                 \R&=& \llbracket 0 \rrbracket= Nat,\\
                 && \llbracket 1 \rrbracket = Nat\\
-                && \llbracket x_0 \rrbracket = \X_0\\
-                && \llbracket x_1 \rrbracket = \X_1\\
+                && \llbracket x_0 \rrbracket = X_0\\
+                && \llbracket x_1 \rrbracket = X_1\\
                 && \llbracket x_0 \rrbracket = Nat\\
 	     && \llbracket x_1 \rrbracket = Nat\\
                 && \llbracket eq(x_0,x_1) \rrbracket = Bool\\
@@ -479,6 +479,10 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
     \end{exercise}
 
 
+\bigskip
+\bigskip
+
+
     \begin{exercise}
         Vamos a encontrar el tipo de la expresión:
             \begin{lstlisting}[ mathescape=true ]
@@ -489,26 +493,26 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
            \end{lstlisting}
         \begin{description}
 	 \item Representación en sintáxis abstracta	
- 	        $$app(recfun(fib.n.if(lt(n , 2), 1, sum(app(fib, (sub(n,1))),app(fib, (sub(n,2)))))),4)$$
- \bigskip
+ 	        $$recfun(fib.n.if(lt(n , 2), 1, sum(app(fib, (sub(n,1))),app(fib, (sub(n,2))))))$$
+
             \item Renombramiento de variables
-                $$app(recfun(x_0.x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))),4)$$
-\bigskip
+                $$recfun(x_0.x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))))$$
+
             \item Generación de restricciones
  \bigskip
             \begin{itemize}
-                \item $1 \mapsto  \llbracket 1 \rrbracket = Nat$\\
-                \item $2 \mapsto  \llbracket 2 \rrbracket = Nat$\\
-                \item $x_0 \to  \llbracket x_0 \rrbracket = X_0$\\
-                \item $x_1 \mapsto  \llbracket x_1 \rrbracket = X_1$\\ 
+                \item $1 \mapsto  \llbracket 1 \rrbracket = Nat$
+                \item $2 \mapsto  \llbracket 2 \rrbracket = Nat$
+                \item $x_0 \to  \llbracket x_0 \rrbracket = X_0$
+                \item $x_1 \mapsto  \llbracket x_1 \rrbracket = X_1$
                 \item $sub(x_1,1) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 1 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket sub(x_1,1) \rrbracket = Nat}_{R_1}$
                 \item $sub(x_1,2) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 2 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket sub(x_1,2) \rrbracket = Nat}_{R_2}$
-                \item $app(x_0, sub(x_1,1)) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0, R_1,  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket }_{R_3}$
-                \item $app(x_0, sub(x_1,2)) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0, R_2,  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket }_{R_4}$
-                \item $sum(app(x_0, sub(x_1,1)), app(x_0, sub(x_1,2))) \mapsto \\ \underbrace{R_3, R_4.  \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat,  \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat,}_{R_5}$ \\ $\underbrace{  \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat}_{R_5}$
+                \item $app(x_0, sub(x_1,1)) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0, R_1,  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket }_{R_3}$
+                \item $app(x_0, sub(x_1,2)) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0, R_2,  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket }_{R_4}$
+                \item $sum(app(x_0, sub(x_1,1)), app(x_0, sub(x_1,2))) \mapsto \\ \underbrace{R_3, R_4.  \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat,  \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat,}_{R_5}$ \\ $\underbrace{  \llbracket sum(app(x_0, sub(x_1,1), app(x_0, sub(x_1,2))) \rrbracket = Nat}_{R_5}$
                 \item $lt(x_1 , 2) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 2 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket lt(x_1 , 2) \rrbracket = Bool}_{R_6}$
-                \item $if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto$ \\ $\underbrace{R_6,  \llbracket 1 \rrbracket = Nat, R_5,  \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1)))}_{R_7}$, \\ $\underbrace{app(x_0, (sub(x_1,2)))) \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket }_{R_7}$
-                \item $recfun(x_0,\ x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_7,  X_1 =  \llbracket x_0 \rrbracket,  \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket}_{R_8}$
+                \item $if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))) \mapsto$ \\ $\underbrace{R_6,  \llbracket 1 \rrbracket = Nat, R_5,  \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1)))}_{R_7}$, \\ $\underbrace{app(x_0, (sub(x_1,2)))) \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket }_{R_7}$
+                \item $recfun(x_0,\ x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_7,   \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket}_{R_8}$
             \end{itemize}
 
            \item Como resultado se obtiene la lista de restricciones $R$:
@@ -522,17 +526,21 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 &&  \llbracket x_1 \rrbracket = X_1 \\
                 &&  \llbracket x_1 \rrbracket = Nat\\
                 &&  \llbracket sub(x_1,1) \rrbracket = Nat \\
-                &&  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket\\
+                &&  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket\\
                 &&  \llbracket 2 \rrbracket = Nat \\
                 &&  \llbracket sub(x_1,2) \rrbracket = Nat \\
-                &&  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket \\
+                &&  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket \\
                 &&  \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat \\
                 &&  \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat \\	
-	      &&   \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat \\
+                \end{array}
+            \]
+            \[
+                \begin{array}{rclr}
+	      &&   \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat \\
                 &&  \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket \\
-                &&  \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket\\
-                &&  \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket \\
-                &&  \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket \\
+                &&  \llbracket if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \rrbracket =  \llbracket 1 \rrbracket\\
+                &&  \llbracket if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \rrbracket =  \llbracket sum(...)  \rrbracket \\
+                &&  \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket \\
                 \end{array}
             \]
 
@@ -551,17 +559,17 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $ \llbracket x_1 \rrbracket = X_1$ & \\
                         $ \llbracket x_1 \rrbracket = Nat$ & \\
                         $ \llbracket sub(x_1,1) \rrbracket = Nat$ & \\
-                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & \\
                         $ \llbracket 2 \rrbracket = Nat$ & \\
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & \\
-                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & \\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ & \\
                         $ \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $  & \\
                       \hline
                         $ \llbracket 2 \rrbracket = Nat$  & $ \llbracket x_1 \rrbracket := X_1$ \\
                         $ \llbracket lt(x_1 , 2) \rrbracket = Bool$ & \\
@@ -570,17 +578,17 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $X_1 = X_1$ & \\
                         $X_1 = Nat$ & \\
                         $ \llbracket sub(x_1,1) \rrbracket = Nat$ & \\
-                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & \\
                         $ \llbracket 2 \rrbracket = Nat$ & \\
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & \\
-                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & \\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ & \\
                         $ \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $  & \\
                     \hline
                         $ \llbracket lt(x_1 , 2) \rrbracket = Bool$ & $ \llbracket x_1 \rrbracket := X_1$\\
                         $ \llbracket 1 \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\
@@ -588,252 +596,251 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                         $X_1 = \X_1$ & \\
                         $X_1 = Nat$ & \\
                         $ \llbracket sub(x_1,1) \rrbracket = Nat$ & \\
-                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & \\
                         $Nat = Nat$ & \\
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & \\
-                        $ \llbracket x_0 \rrbracket = \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket x_0 \rrbracket = \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & \\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ & \\
                         $ \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $ & \\
                     \hline
                         $ \llbracket 1 \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$ \\
                         $ \llbracket x_0 \rrbracket = X_0$ & $ \llbracket 2 \rrbracket := Nat$\\
                         $X_1 = X_1$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
                         $X_1 = Nat$ & \\
                         $ \llbracket sub(x_1,1) \rrbracket = Nat$ & \\
-                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & \\
                         $Nat = Nat$ & \\
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & \\
-                        $ \llbracket x_0 \rrbracket = \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket x_0 \rrbracket = \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & \\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ & \\
                         $ \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $  & \\
                     \hline
                         $ \llbracket x_0 \rrbracket = X_0$ & $ \llbracket x_1 \rrbracket := X_1$ \\
                         $X_1 = X_1$ & $ \llbracket 2 \rrbracket := Nat$ \\
                         $X_1 = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$ \\
                         $ \llbracket sub(x_1,1) \rrbracket = Nat$ & $ \llbracket 1 \rrbracket := Nat$ \\
-                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket sub(x_1,1) \rrbracket \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & \\
                         $Nat = Nat$ & \\
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & \\
-                        $ \llbracket x_0 \rrbracket = \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket x_0 \rrbracket = \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & \\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ & \\
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket = Nat$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
-                        $ \llbracket recfun(...) \rrbracket =   \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $  & \\
                     \hline
                         $X_1 = X_1$ & $ \llbracket x_1 \rrbracket := X_1$ \\
                         $X_1 = Nat$ & $ \llbracket 2 \rrbracket := Nat$ \\
                         $ \llbracket sub(x_1,1) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$  \\
-                        $X_0 =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ &  $ \llbracket 1 \rrbracket := Nat$\\
+                        $X_0 =  \llbracket sub(x_1,1) \rrbracket \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ &  $ \llbracket 1 \rrbracket := Nat$\\
                         $Nat = Nat$ & $ \llbracket x_0 \rrbracket := X_0$ \\
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & \\
-                        $X_0 =  \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
+                        $X_0 =  \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & \\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket = Nat$ & \\
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket = Nat$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
-                        $ \llbracket recfun(...) \rrbracket =   \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $  & \\
                     \hline
                         $X_1 = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$ \\
                         $ \llbracket sub(x_1,1) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$ \\
-                        $X_0 =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ &  $ \llbracket lt(x_1 , 2) \rrbracket := Bool$ \\
+                        $X_0 =  \llbracket sub(x_1,1) \rrbracket \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ &  $ \llbracket lt(x_1 , 2) \rrbracket := Bool$ \\
                         $Nat = Nat$ & $ \llbracket 1 \rrbracket := Nat$ \\
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & $ \llbracket x_0 \rrbracket := X_0$ \\
-                        $X_0 =  \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ &  \\
+                        $X_0 =  \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ &  \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & \\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) ) \rrbracket = Nat$ & \\
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket = Nat$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
-                        $ \llbracket recfun(...) \rrbracket =   \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $ & \\
                     \hline 
                         $ \llbracket sub(x_1,1) \rrbracket = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$ \\
-                        $X_0 =  \llbracket sub(x_1,1) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$ \\
+                        $X_0 =  \llbracket sub(x_1,1) \rrbracket \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$ \\
                         $Nat = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$ \\
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & $ \llbracket 1 \rrbracket := Nat$ \\
-                        $X_0 =  \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & $ \llbracket x_0 \rrbracket := X_0$  \\
+                        $X_0 =  \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & $ \llbracket x_0 \rrbracket := X_0$  \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & $X_1 := Nat$\\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & \\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ & \\
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket = Nat$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & \\
                     \hline
-                        $X_0 = Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ &   $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $X_0 = Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ &   $ \llbracket x_1 \rrbracket := X_1$ \\
                         $Nat = Nat$ & $ \llbracket 2 \rrbracket := Nat$ \\
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$ \\
-                        $X_0 =  \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ &  $ \llbracket 1 \rrbracket := Nat$ \\
+                        $X_0 =  \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ &  $ \llbracket 1 \rrbracket := Nat$ \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & $ \llbracket x_0 \rrbracket := X_0$ \\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & $X_1 := Nat$ \\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ & $ \llbracket sub(x_1,1) \rrbracket := Nat$ \\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ & $ \llbracket sub(x_1,1) \rrbracket := Nat$ \\
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & \\
                         $ \llbracket if(...) \rrbracket = Nat$ & \\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $& \\
                     \hline
                         $Nat = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$ \\
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$  \\
-                        $Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket = $ & \\
-			     $ \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$  \\
+                        $Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket = $ & \\
+			     $ \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$  \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ &  $ \llbracket 1 \rrbracket := Nat$  \\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & $ \llbracket x_0 \rrbracket := X_0$  \\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ &  $X_1 := Nat$ \\
-                        $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ \\
-                        $ \llbracket if(...) \rrbracket = Nat$ &   $ \llbracket sub(x_1,1) \rrbracket := Nat$ \\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ &  $X_1 := Nat$ \\
+                        $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ &     $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ \\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & \\
                     \hline
                         $ \llbracket sub(x_1,2) \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$  \\
-                        $Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket =$ & \\ 
-			     $ \llbracket sub(x_1,2) \rrbracket \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$ \\
+                        $Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket =$ & \\ 
+	             $ \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$ \\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ &  $ \llbracket 1 \rrbracket := Nat$\\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ & $ \llbracket x_0 \rrbracket := X_0$\\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ & $ \llbracket x_0 \rrbracket := X_0$\\
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & $X_1 := Nat$\\
-                        $ \llbracket if(...) \rrbracket = Nat$ & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
-                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket = Nat$ &  $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ &  $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & \\
                     \hline
-                        $Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat \mapsto  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & $ \llbracket x_1 \rrbracket := X_1$\\
+                        $Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & $ \llbracket x_1 \rrbracket := X_1$\\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ &  $ \llbracket 1 \rrbracket := Nat$\\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ &  $ \llbracket 1 \rrbracket := Nat$\\
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & $ \llbracket x_0 \rrbracket := X_0$\\
                         $ \llbracket if(...) \rrbracket = Nat$ & $X_1 := Nat$\\
-                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $& $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ \\
                         & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
                     \hline
                         $Nat = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\
-			     $ \llbracket app(x_0, sub(x_1,1)) \rrbracket =  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$\\
+		  $ \llbracket app(x_0, sub(x_1,1)) \rrbracket =  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$\\
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ &  $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ &  $ \llbracket 1 \rrbracket := Nat$\\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ &  $ \llbracket x_0 \rrbracket := X_0$\\
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ &  $ \llbracket x_0 \rrbracket := X_0$\\
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & $X_1 := Nat$\\
-                        $ \llbracket if(...) \rrbracket = Nat$ & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
-                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
+                        $ \llbracket if(...) \rrbracket = Nat$ &  $ \llbracket sub(x_1,1) \rrbracket := Nat$ \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
                     \hline
-			     $ \llbracket app(x_0, sub(x_1,1)) \rrbracket =  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ &   $ \llbracket x_1 \rrbracket := X_1$\\ 
+	 	  $ \llbracket app(x_0, sub(x_1,1)) \rrbracket =  \llbracket app(x_0, sub(x_1,2)) \rrbracket$ &   $ \llbracket x_1 \rrbracket := X_1$\\ 
                         $ \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\ 
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ &    $ \llbracket 1 \rrbracket := Nat$\\ 
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ &    $ \llbracket 1 \rrbracket := Nat$\\ 
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ &  $ \llbracket x_0 \rrbracket := X_0$\\
                         $ \llbracket if(...) \rrbracket = Nat$ &  $X_1 := Nat$\\ 
-                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ &  $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\ 
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ &  $ \llbracket sub(x_1,1) \rrbracket := Nat$\\ 
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $\llbracket sub(x_1,1) \rrbracket := Nat$\\ 
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$  \\ 
                         & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
                     \hline
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$\\
                         $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ &   $ \llbracket 2 \rrbracket := Nat$\\  
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\ 
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\ 
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ &    $ \llbracket 1 \rrbracket := Nat$\\
                         $ \llbracket if(...) \rrbracket = Nat$ &  $ \llbracket x_0 \rrbracket := X_0$\\ 
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ &  $X_1 := Nat$\\ 
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ &  $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\ 
-                        &  $ \llbracket sub(x_1,1) \rrbracket := Nat$\\ 
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ &   $ \llbracket sub(x_1,1) \rrbracket := Nat$\\ 
+                        &   $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\ 
                         &  $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
 			     &  $ \llbracket app(x_0, sub(x_1,1)) \rrbracket$ := \\
 			     &  $ \llbracket app(x_0, sub(x_1,2)) \rrbracket$\\
                     \hline
-                        $ \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$\\   
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ &  $ \llbracket 2 \rrbracket := Nat$\\
+                        $ Nat = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$\\   
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ &  $ \llbracket 2 \rrbracket := Nat$\\
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
                         $ \llbracket if(...) \rrbracket = Nat$ &   $ \llbracket 1 \rrbracket := Nat$\\ 
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $ \llbracket x_0 \rrbracket := X_0$\\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ &  $X_1 := Nat$\\
-                        & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\ 
-                        & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ &  $X_1 := Nat$\\
+                        &  $ \llbracket sub(x_1,1) \rrbracket := Nat$ \\ 
+                        & $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
 			     & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
 			     & $ \llbracket app(x_0, sub(x_1,1)) \rrbracket$ := \\
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket$\\ 
+			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket := Nat$ \\
                     \hline 
-                        $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\ 
+                        $ \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\ 
                         $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$\\
                         $ \llbracket if(...) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\ 
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $ \llbracket 1 \rrbracket := Nat$\\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & $ \llbracket x_0 \rrbracket := X_0$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket x_0 \rrbracket := X_0$\\
                         &  $X_1 := Nat$\\ 
-                        & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
-			     & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+                        & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+			     &  $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
 			     & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
 			     & $ \llbracket app(x_0, sub(x_1,1)) \rrbracket$ := \\
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket$\\ 
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket := Nat$ \\
                     \hline 
-                        $Nat =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket$ &  $ \llbracket x_1 \rrbracket := X_1$\\
+                        $Nat = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$\\
                         $ \llbracket if(...) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\
                         $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & $ \llbracket 1 \rrbracket := Nat$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket 1 \rrbracket := Nat$\\
                         & $ \llbracket x_0 \rrbracket := X_0$\\ 
                         &  $X_1 := Nat$\\  
-			     & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
 			     & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+			     & $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ \\
 			     & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
 			     & $ \llbracket app(x_0, sub(x_1,1)) \rrbracket$ := \\
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket$\\ 
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket := Nat$ \\
-			     & $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ \\
+			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
                     \hline 
                         $ \llbracket if(...) \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\
                         $ \llbracket if(...) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
                         & $ \llbracket 1 \rrbracket := Nat$\\ 
                         & $ \llbracket x_0 \rrbracket := X_0$\\  
 			     & $X_1 := Nat$\\
-			     & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
-			     & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+			     & $ \llbracket sub(x_1,1) \rrbracket := Nat$ \\
+			     & $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ \\
 			     & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
 			     & $ \llbracket app(x_0, sub(x_1,1)) \rrbracket$ := \\
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket$\\ 
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket := Nat$ \\
-			     & $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ \\
 			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
                      \hline 
-                        $ \llbracket if(...) \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\
-                        $ \llbracket recfun(...) \rrbracket =  \llbracket if(...) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$\\ 
+                        $ Nat = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket 2 \rrbracket := Nat$\\ 
                         & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\ 
                         & $ \llbracket 1 \rrbracket := Nat$\\  
 			     & $ \llbracket x_0 \rrbracket := X_0$\\
 			     & $X_1 := Nat$\\
-			     & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
 			     & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+			     & $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$ \\
 			     & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
 			     & $ \llbracket app(x_0, sub(x_1,1)) \rrbracket$ := \\
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket$\\ 
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket := Nat$ \\
-			     & $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ \\
 			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
+			     & $ \llbracket if(...) \rrbracket := Nat$  \\
                      \hline 
-                        $ \llbracket recfun(...) \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to Nat $ & $ \llbracket x_1 \rrbracket := X_1$\\
                         & $ \llbracket 2 \rrbracket := Nat$\\ 
                         & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\  
 			     & $ \llbracket 1 \rrbracket := Nat$\\
 			     & $ \llbracket x_0 \rrbracket := X_0$\\
 			     & $X_1 := Nat$\\
-			     & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
 			     & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+			     & $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
 			     & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
 			     & $ \llbracket app(x_0, sub(x_1,1)) \rrbracket$ := \\
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket$\\ 
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket := Nat$ \\
-			     & $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ \\
 			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
 			     & $ \llbracket if(...) \rrbracket := Nat$  \\
                      \hline 
@@ -843,23 +850,21 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 			     & $ \llbracket 1 \rrbracket := Nat$\\
 			     & $ \llbracket x_0 \rrbracket := X_0$\\
 			     & $X_1 := Nat$\\
-			     & $X_0 := Nat \mapsto  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
-			     & $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+			     &  $ \llbracket sub(x_1,1) \rrbracket := Nat$\\
+			     &  $X_0 := Nat \to  \llbracket app(x_0, sub(x_1,1)) \rrbracket$\\
 			     & $ \llbracket sub(x_1,2) \rrbracket := Nat$ \\
 			     & $ \llbracket app(x_0, sub(x_1,1)) \rrbracket$ := \\
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket$\\ 
 			     & $ \llbracket app(x_0, sub(x_1,2)) \rrbracket := Nat$ \\
-			     & $ \llbracket sum(app(x_0, sub(x_1,1)) \rrbracket := Nat$ \\
 			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
 			     & $ \llbracket if(...) \rrbracket := Nat$  \\
-                        & $ \llbracket recfun(...) \rrbracket := Nat$ \\ 
+                      	     & $ \llbracket recfun(...) \rrbracket :=   Nat  \to  Nat $\\ 
                     \hline
                 \end{longtable}
             \end{center}
-            Del proceso anterior se puede concluir que el tipo de la expresión es $Nat$
+            Del proceso anterior se puede concluir que el tipo de la expresión es $Nat \ \to \ Nat$
         \end{description}
     \end{exercise}
-
     
     \section{Ejercicios para el lector}
 
@@ -872,8 +877,8 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 \bigskip
 		\begin{itemize}
 			\item obtén la representación en sintaxis abstracta.
-			\item obtén una expresión $\alpha$-equivalente
-			\item obtén la lista de variables con su tipo.
+			\item Aplica la estandarización de variables para obtener una expresión $\alpha$-equivalente.
+			\item Aplica el algoritmo para obtener la lista de restricciones.
 		\end{itemize}
 	\end{exercise}
 
@@ -888,8 +893,8 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 \bigskip
 		\begin{itemize}
 			\item obtén la representación en sintaxis abstracta.
-			\item obtén una expresión $\alpha$-equivalente
-			\item obtén la lista de variables con su tipo.
+			\item Aplica la estandarización de variables para obtener una expresión $\alpha$-equivalente.
+			\item Aplica el algoritmo para obtener la lista de restricciones.
 		\end{itemize}
 	\end{exercise}
 
@@ -903,8 +908,8 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 		\]
 		\begin{itemize}
 			\item obtén la representación en sintaxis abstracta.
-			\item obtén una expresión $\alpha$-equivalente
-			\item obtén la lista de variables con su tipo.
+			\item Aplica la estandarización de variables para obtener una expresión $\alpha$-equivalente.
+			\item Aplica el algoritmo para obtener la lista de restricciones.
 		\end{itemize}
 	\end{exercise}
 
@@ -936,9 +941,9 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
      \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
           \begin{lstlisting}[ mathescape=true ]
              ($\textsf{recfun}$ $factorial$ $n$  $\rightarrow$
-                 $\textsf{if}$ ($n$ < 0) 
+                 $\textsf{if}$ ($n$ < 2) 
                     $\textsf{then}$ 1
-                 $\textsf{else } $ $factorial$ ($n$-1)*$n$)9
+                 $\textsf{else } $ $factorial$ ($n$-1) * $n$)  9
            \end{lstlisting}
      \end{exercise}
 

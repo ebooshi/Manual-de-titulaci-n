@@ -1,0 +1,5017 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.5)  26 JUN 2025 08:37
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./00_Manual_Main_Template.tex
+(00_Manual_Main_Template.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+(C:\Program Files\MiKTeX\tex/latex/base\report.cls
+Document Class: report 2023/05/17 v1.4n Standard LaTeX document class
+(C:\Program Files\MiKTeX\tex/latex/base\size10.clo
+File: size10.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count187
+\c@chapter=\count188
+\c@section=\count189
+\c@subsection=\count190
+\c@subsubsection=\count191
+\c@paragraph=\count192
+\c@subparagraph=\count193
+\c@figure=\count194
+\c@table=\count195
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen140
+)
+(C:\Program Files\MiKTeX\tex/generic/babel\babel.sty
+Package: babel 2024/01/07 v24.1 The Babel package
+\babel@savecnt=\count196
+\U@D=\dimen141
+\l@unhyphenated=\language79
+
+(C:\Program Files\MiKTeX\tex/generic/babel\txtbabel.def)
+\bbl@readstream=\read2
+\bbl@dirlevel=\count197
+
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Program Files\MiKTeX\tex/latex/arabi\bblopts.cfg
+File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
+ babel
+)
+(C:\Program Files\MiKTeX\tex/latex/babel-spanish\spanish.ldf
+Language: spanish.ldf 2021/05/27 v5.0q Spanish support from the babel system
+\es@quottoks=\toks17
+\es@quotdepth=\count198
+Package babel Info: Making " an active character on input line 570.
+Package babel Info: Making . an active character on input line 675.
+Package babel Info: Making < an active character on input line 722.
+Package babel Info: Making > an active character on input line 722.
+))
+(C:\Program Files\MiKTeX\tex/generic/babel/locale/es\babel-spanish.tex
+Package babel Info: Importing font and identification data for spanish
+(babel)             from babel-es.ini. Reported on input line 11.
+)
+(C:\Program Files\MiKTeX\tex/latex/tools\varioref.sty
+Package: varioref 2022/01/09 v1.6f package for extended references (FMi)
+\c@vrcnt=\count199
+)
+(C:\Program Files\MiKTeX\tex/latex/tools\multicol.sty
+Package: multicol 2023/03/30 v1.9f multicolumn formatting (FMi)
+\c@tracingmulticols=\count266
+\mult@box=\box51
+\multicol@leftmargin=\dimen142
+\c@unbalance=\count267
+\c@collectmore=\count268
+\doublecol@number=\count269
+\multicoltolerance=\count270
+\multicolpretolerance=\count271
+\full@width=\dimen143
+\page@free=\dimen144
+\premulticols=\dimen145
+\postmulticols=\dimen146
+\multicolsep=\skip50
+\multicolbaselineskip=\skip51
+\partial@page=\box52
+\last@line=\box53
+\mc@boxedresult=\box54
+\maxbalancingoverflow=\dimen147
+\mult@rightbox=\box55
+\mult@grightbox=\box56
+\mult@firstbox=\box57
+\mult@gfirstbox=\box58
+\@tempa=\box59
+\@tempa=\box60
+\@tempa=\box61
+\@tempa=\box62
+\@tempa=\box63
+\@tempa=\box64
+\@tempa=\box65
+\@tempa=\box66
+\@tempa=\box67
+\@tempa=\box68
+\@tempa=\box69
+\@tempa=\box70
+\@tempa=\box71
+\@tempa=\box72
+\@tempa=\box73
+\@tempa=\box74
+\@tempa=\box75
+\@tempa=\box76
+\@tempa=\box77
+\@tempa=\box78
+\@tempa=\box79
+\@tempa=\box80
+\@tempa=\box81
+\@tempa=\box82
+\@tempa=\box83
+\@tempa=\box84
+\@tempa=\box85
+\@tempa=\box86
+\@tempa=\box87
+\@tempa=\box88
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\@tempa=\box94
+\c@minrows=\count272
+\c@columnbadness=\count273
+\c@finalcolumnbadness=\count274
+\last@try=\dimen148
+\multicolovershoot=\dimen149
+\multicolundershoot=\dimen150
+\mult@nat@firstbox=\box95
+\colbreak@box=\box96
+\mc@col@check@num=\count275
+)
+(C:\Program Files\MiKTeX\tex/latex/comment\comment.sty
+\CommentStream=\write3
+
+Excluding comment 'comment')
+(C:\Program Files\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Program Files\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks18
+)
+(C:\Program Files\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(C:\Program Files\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(C:\Program Files\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(C:\Program Files\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen151
+\Gin@req@width=\dimen152
+)
+(C:\Program Files\MiKTeX\tex/latex/tools\longtable.sty
+Package: longtable 2023-11-01 v4.19 Multi-page Table package (DPC)
+\LTleft=\skip52
+\LTright=\skip53
+\LTpre=\skip54
+\LTpost=\skip55
+\LTchunksize=\count276
+\LTcapwidth=\dimen153
+\LT@head=\box97
+\LT@firsthead=\box98
+\LT@foot=\box99
+\LT@lastfoot=\box100
+\LT@gbox=\box101
+\LT@cols=\count277
+\LT@rows=\count278
+\c@LT@tables=\count279
+\c@LT@chunks=\count280
+\LT@p@ftn=\toks19
+)
+(C:\Program Files\MiKTeX\tex/latex/caption\caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(C:\Program Files\MiKTeX\tex/latex/caption\caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen154
+\captionmargin=\dimen155
+\caption@leftmargin=\dimen156
+\caption@rightmargin=\dimen157
+\caption@width=\dimen158
+\caption@indent=\dimen159
+\caption@parindent=\dimen160
+\caption@hangindent=\dimen161
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count281
+\c@continuedfloat=\count282
+Package caption Info: longtable package is loaded.
+
+(C:\Program Files\MiKTeX\tex/latex/caption\ltcaption.sty
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
+))
+(C:\Program Files\MiKTeX\tex/latex/caption\subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count283
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count284
+)
+(C:\Program Files\MiKTeX\tex/latex/mhchem\mhchem.sty
+Package: mhchem 2024/01/29 v4.10 for typesetting chemical formulae
+
+(C:\Program Files\MiKTeX\tex/latex/l3kernel\expl3.sty
+Package: expl3 2024-01-04 L3 programming layer (loader) 
+
+(C:\Program Files\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count285
+\l__pdf_internal_box=\box102
+))
+(C:\Program Files\MiKTeX\tex/latex/l3packages/l3keys2e\l3keys2e.sty
+Package: l3keys2e 2023-10-10 LaTeX2e option processing using LaTeX3 keys
+)
+(C:\Program Files\MiKTeX\tex/latex/tools\calc.sty
+Package: calc 2023/07/08 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count286
+\calc@Bcount=\count287
+\calc@Adimen=\dimen162
+\calc@Bdimen=\dimen163
+\calc@Askip=\skip56
+\calc@Bskip=\skip57
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count288
+\calc@Cskip=\skip58
+)
+(C:\Program Files\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2023/05/13 v2.17o AMS math features
+\@mathmargin=\skip59
+
+For additional information on amsmath, use the `?' option.
+(C:\Program Files\MiKTeX\tex/latex/amsmath\amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+
+(C:\Program Files\MiKTeX\tex/latex/amsmath\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks20
+\ex@=\dimen164
+))
+(C:\Program Files\MiKTeX\tex/latex/amsmath\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen165
+)
+(C:\Program Files\MiKTeX\tex/latex/amsmath\amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count289
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count290
+\leftroot@=\count291
+LaTeX Info: Redefining \overline on input line 399.
+LaTeX Info: Redefining \colon on input line 410.
+\classnum@=\count292
+\DOTSCASE@=\count293
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box103
+\strutbox@=\box104
+LaTeX Info: Redefining \big on input line 722.
+LaTeX Info: Redefining \Big on input line 723.
+LaTeX Info: Redefining \bigg on input line 724.
+LaTeX Info: Redefining \Bigg on input line 725.
+\big@size=\dimen166
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count294
+LaTeX Info: Redefining \bmod on input line 905.
+LaTeX Info: Redefining \pmod on input line 910.
+LaTeX Info: Redefining \smash on input line 940.
+LaTeX Info: Redefining \relbar on input line 970.
+LaTeX Info: Redefining \Relbar on input line 971.
+\c@MaxMatrixCols=\count295
+\dotsspace@=\muskip16
+\c@parentequation=\count296
+\dspbrk@lvl=\count297
+\tag@help=\toks21
+\row@=\count298
+\column@=\count299
+\maxfields@=\count300
+\andhelp@=\toks22
+\eqnshift@=\dimen167
+\alignsep@=\dimen168
+\tagshift@=\dimen169
+\tagwidth@=\dimen170
+\totwidth@=\dimen171
+\lineht@=\dimen172
+\@envbody=\toks23
+\multlinegap=\skip60
+\multlinetaggap=\skip61
+\mathdisplay@stack=\toks24
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+)
+(C:\Program Files\MiKTeX\tex/latex/chemgreek\chemgreek.sty
+(C:\Program Files\MiKTeX\tex/latex/l3packages/xparse\xparse.sty
+Package: xparse 2023-10-10 L3 Experimental document command parser
+)
+Package: chemgreek 2020/01/16 v1.1a interface for upright Greek letters for use
+ in chemistry (CN)
+\l__chemgreek_tmpa_int=\count301
+\g__chemgreek_tmpa_int=\count302
+)
+\l__mhchem_ce_distanceFromLastComma_int=\count303
+\__mhchem_arrow_extPgfLength_skip=\skip62
+\mhchem@minispace@tmp=\skip63
+\mhchem@minibackspace@tmp=\skip64
+\mhchem@bondwidth=\skip65
+\mhchem@bondheight=\skip66
+\mhchem@smallbondwidth@tmpA=\skip67
+\mhchem@smallbondwidth@tmpB=\skip68
+\mhchem@smallbondwidth=\skip69
+\mhchem@bondtmp@minussidebearingleft=\skip70
+\mhchem@bondtmp@minussidebearingright=\skip71
+\l__mhchem_option_version_int=\count304
+\mhchem@option@minusmathsidebearingleft=\dimen173
+\mhchem@option@minusmathsidebearingright=\dimen174
+\mhchem@option@minustextsidebearingleft=\dimen175
+\mhchem@option@minustextsidebearingright=\dimen176
+)
+(C:\Program Files\MiKTeX\tex/latex/listings\listings.sty
+\lst@mode=\count305
+\lst@gtempboxa=\box105
+\lst@token=\toks25
+\lst@length=\count306
+\lst@currlwidth=\dimen177
+\lst@column=\count307
+\lst@pos=\count308
+\lst@lostspace=\dimen178
+\lst@width=\dimen179
+\lst@newlines=\count309
+\lst@lineno=\count310
+\lst@maxwidth=\dimen180
+
+(C:\Program Files\MiKTeX\tex/latex/listings\lstmisc.sty
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+\c@lstnumber=\count311
+\lst@skipnumbers=\count312
+\lst@framebox=\box106
+)
+(C:\Program Files\MiKTeX\tex/latex/listings\listings.cfg
+File: listings.cfg 2023/02/27 1.9 listings configuration
+))
+Package: listings 2023/02/27 1.9 (Carsten Heinz)
+
+(C:\Program Files\MiKTeX\tex/latex/xcolor\xcolor.sty
+Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
+
+(C:\Program Files\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+
+(C:\Program Files\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1350.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1354.
+Package xcolor Info: Model `RGB' extended on input line 1366.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1368.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1371.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1372.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
+)
+(C:\Program Files\MiKTeX\tex/latex/noto\noto.sty
+Package: noto 2022/09/11 (Bob Tennent) Supports Noto fonts for all LaTeX engine
+s.
+
+(C:\Program Files\MiKTeX\tex/generic/iftex\ifxetex.sty
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+
+(C:\Program Files\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+(C:\Program Files\MiKTeX\tex/generic/iftex\ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+)
+(C:\Program Files\MiKTeX\tex/latex/xkeyval\xkeyval.sty
+Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
+
+(C:\Program Files\MiKTeX\tex/generic/xkeyval\xkeyval.tex
+(C:\Program Files\MiKTeX\tex/generic/xkeyval\xkvutils.tex
+\XKV@toks=\toks26
+\XKV@tempa@toks=\toks27
+)
+\XKV@depth=\count313
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+(C:\Program Files\MiKTeX\tex/latex/base\textcomp.sty
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+)
+(C:\Program Files\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+)
+(C:\Program Files\MiKTeX\tex/latex/fontaxes\fontaxes.sty
+Package: fontaxes 2020/07/21 v1.0e Font selection axes
+LaTeX Info: Redefining \upshape on input line 29.
+LaTeX Info: Redefining \itshape on input line 31.
+LaTeX Info: Redefining \slshape on input line 33.
+LaTeX Info: Redefining \swshape on input line 35.
+LaTeX Info: Redefining \scshape on input line 37.
+LaTeX Info: Redefining \sscshape on input line 39.
+LaTeX Info: Redefining \ulcshape on input line 41.
+LaTeX Info: Redefining \textsw on input line 47.
+LaTeX Info: Redefining \textssc on input line 48.
+LaTeX Info: Redefining \textulc on input line 49.
+)) (comands.sty
+Package: comands 
+
+(C:\Program Files\MiKTeX\tex/latex/framed\framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip72
+\fb@frw=\dimen181
+\fb@frh=\dimen182
+\FrameRule=\dimen183
+\FrameSep=\dimen184
+)
+(C:\Program Files\MiKTeX\tex/latex/ulem\ulem.sty
+\UL@box=\box107
+\UL@hyphenbox=\box108
+\UL@skip=\skip73
+\UL@hook=\toks28
+\UL@height=\dimen185
+\UL@pe=\count314
+\UL@pixel=\dimen186
+\ULC@box=\box109
+Package: ulem 2019/11/18
+\ULdepth=\dimen187
+)
+(C:\Program Files\MiKTeX\tex/latex/tools\indentfirst.sty
+Package: indentfirst 2023/07/02 v1.03 Indent first paragraph (DPC)
+)
+(C:\Program Files\MiKTeX\tex/latex/amscls\amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks29
+\thm@bodyfont=\toks30
+\thm@headfont=\toks31
+\thm@notefont=\toks32
+\thm@headpunct=\toks33
+\thm@preskip=\skip74
+\thm@postskip=\skip75
+\thm@headsep=\skip76
+\dth@everypar=\toks34
+)
+(C:\Program Files\MiKTeX\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(C:\Program Files\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(C:\Program Files\MiKTeX\tex/latex/physics\physics.sty
+Package: physics 
+)
+(C:\Program Files\MiKTeX\tex/latex/stmaryrd\stmaryrd.sty
+Package: stmaryrd 1994/03/03 St Mary's Road symbol package
+\symstmry=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
+(Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
+)
+(C:\Program Files\MiKTeX\tex/latex/biblatex\biblatex.sty
+Package: biblatex 2023/03/05 v3.19 programmable bibliographies (PK/MW)
+
+(C:\Program Files\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(C:\Program Files\MiKTeX\tex/generic/infwarerr\infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+(C:\Program Files\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(C:\Program Files\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count315
+)
+(C:\Program Files\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+
+(C:\Program Files\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+))
+(C:\Program Files\MiKTeX\tex/latex/logreq\logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count316
+
+(C:\Program Files\MiKTeX\tex/latex/logreq\logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+))
+(C:\Program Files\MiKTeX\tex/latex/base\ifthen.sty
+Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
+)
+(C:\Program Files\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+\c@tabx@nest=\count317
+\c@listtotal=\count318
+\c@listcount=\count319
+\c@liststart=\count320
+\c@liststop=\count321
+\c@citecount=\count322
+\c@citetotal=\count323
+\c@multicitecount=\count324
+\c@multicitetotal=\count325
+\c@instcount=\count326
+\c@maxnames=\count327
+\c@minnames=\count328
+\c@maxitems=\count329
+\c@minitems=\count330
+\c@citecounter=\count331
+\c@maxcitecounter=\count332
+\c@savedcitecounter=\count333
+\c@uniquelist=\count334
+\c@uniquename=\count335
+\c@refsection=\count336
+\c@refsegment=\count337
+\c@maxextratitle=\count338
+\c@maxextratitleyear=\count339
+\c@maxextraname=\count340
+\c@maxextradate=\count341
+\c@maxextraalpha=\count342
+\c@abbrvpenalty=\count343
+\c@highnamepenalty=\count344
+\c@lownamepenalty=\count345
+\c@maxparens=\count346
+\c@parenlevel=\count347
+\blx@tempcnta=\count348
+\blx@tempcntb=\count349
+\blx@tempcntc=\count350
+\c@blx@maxsection=\count351
+\blx@maxsegment@0=\count352
+\blx@notetype=\count353
+\blx@parenlevel@text=\count354
+\blx@parenlevel@foot=\count355
+\blx@sectionciteorder@0=\count356
+\blx@sectionciteorderinternal@0=\count357
+\blx@entrysetcounter=\count358
+\blx@biblioinstance=\count359
+\labelnumberwidth=\skip77
+\labelalphawidth=\skip78
+\biblabelsep=\skip79
+\bibitemsep=\skip80
+\bibnamesep=\skip81
+\bibinitsep=\skip82
+\bibparsep=\skip83
+\bibhang=\skip84
+\blx@bcfin=\read3
+\blx@bcfout=\write4
+\blx@langwohyphens=\language80
+\c@mincomprange=\count360
+\c@maxcomprange=\count361
+\c@mincompwidth=\count362
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+
+(C:\Program Files\MiKTeX\tex/latex/biblatex\blx-dm.def
+File: blx-dm.def 2023/03/05 v3.19 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count363
+\c@savedafterword=\count364
+\c@annotator=\count365
+\c@savedannotator=\count366
+\c@author=\count367
+\c@savedauthor=\count368
+\c@bookauthor=\count369
+\c@savedbookauthor=\count370
+\c@commentator=\count371
+\c@savedcommentator=\count372
+\c@editor=\count373
+\c@savededitor=\count374
+\c@editora=\count375
+\c@savededitora=\count376
+\c@editorb=\count377
+\c@savededitorb=\count378
+\c@editorc=\count379
+\c@savededitorc=\count380
+\c@foreword=\count381
+\c@savedforeword=\count382
+\c@holder=\count383
+\c@savedholder=\count384
+\c@introduction=\count385
+\c@savedintroduction=\count386
+\c@namea=\count387
+\c@savednamea=\count388
+\c@nameb=\count389
+\c@savednameb=\count390
+\c@namec=\count391
+\c@savednamec=\count392
+\c@translator=\count393
+\c@savedtranslator=\count394
+\c@shortauthor=\count395
+\c@savedshortauthor=\count396
+\c@shorteditor=\count397
+\c@savedshorteditor=\count398
+\c@labelname=\count399
+\c@savedlabelname=\count400
+\c@institution=\count401
+\c@savedinstitution=\count402
+\c@lista=\count403
+\c@savedlista=\count404
+\c@listb=\count405
+\c@savedlistb=\count406
+\c@listc=\count407
+\c@savedlistc=\count408
+\c@listd=\count409
+\c@savedlistd=\count410
+\c@liste=\count411
+\c@savedliste=\count412
+\c@listf=\count413
+\c@savedlistf=\count414
+\c@location=\count415
+\c@savedlocation=\count416
+\c@organization=\count417
+\c@savedorganization=\count418
+\c@origlocation=\count419
+\c@savedoriglocation=\count420
+\c@origpublisher=\count421
+\c@savedorigpublisher=\count422
+\c@publisher=\count423
+\c@savedpublisher=\count424
+\c@language=\count425
+\c@savedlanguage=\count426
+\c@origlanguage=\count427
+\c@savedoriglanguage=\count428
+\c@pageref=\count429
+\c@savedpageref=\count430
+\shorthandwidth=\skip85
+\shortjournalwidth=\skip86
+\shortserieswidth=\skip87
+\shorttitlewidth=\skip88
+\shortauthorwidth=\skip89
+\shorteditorwidth=\skip90
+\locallabelnumberwidth=\skip91
+\locallabelalphawidth=\skip92
+\localshorthandwidth=\skip93
+\localshortjournalwidth=\skip94
+\localshortserieswidth=\skip95
+\localshorttitlewidth=\skip96
+\localshortauthorwidth=\skip97
+\localshorteditorwidth=\skip98
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+
+(C:\Program Files\MiKTeX\tex/latex/biblatex\blx-compat.def
+File: blx-compat.def 2023/03/05 v3.19 biblatex compatibility (PK/MW)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+
+(C:\Program Files\MiKTeX\tex/latex/biblatex\biblatex.def
+File: biblatex.def 2023/03/05 v3.19 biblatex compatibility (PK/MW)
+\c@textcitecount=\count431
+\c@textcitetotal=\count432
+\c@textcitemaxnames=\count433
+\c@biburlbigbreakpenalty=\count434
+\c@biburlbreakpenalty=\count435
+\c@biburlnumpenalty=\count436
+\c@biburlucpenalty=\count437
+\c@biburllcpenalty=\count438
+\biburlbigskip=\muskip18
+\biburlnumskip=\muskip19
+\biburlucskip=\muskip20
+\biburllcskip=\muskip21
+\c@smartand=\count439
+)
+Package biblatex Info: Trying to load bibliography style 'numeric'...
+Package biblatex Info: ... file 'numeric.bbx' found.
+
+(C:\Program Files\MiKTeX\tex/latex/biblatex/bbx\numeric.bbx
+File: numeric.bbx 2023/03/05 v3.19 biblatex bibliography style (PK/MW)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+
+(C:\Program Files\MiKTeX\tex/latex/biblatex/bbx\standard.bbx
+File: standard.bbx 2023/03/05 v3.19 biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count440
+\c@bbx:relatedtotal=\count441
+))
+Package biblatex Info: Trying to load citation style 'numeric'...
+Package biblatex Info: ... file 'numeric.cbx' found.
+
+(C:\Program Files\MiKTeX\tex/latex/biblatex/cbx\numeric.cbx
+File: numeric.cbx 2023/03/05 v3.19 biblatex citation style (PK/MW)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\supercite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+Package biblatex Info: Redefining '\cites'.
+Package biblatex Info: Redefining '\parencites'.
+Package biblatex Info: Redefining '\smartcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+
+(C:\Program Files\MiKTeX\tex/latex/biblatex\biblatex.cfg
+File: biblatex.cfg 
+)
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Document encoding is UTF8 ....
+Package biblatex Info: ... and expl3
+(biblatex)             2024-01-04 L3 programming layer (loader) 
+(biblatex)             is new enough (at least 2020/04/06),
+(biblatex)             setting 'casechanger=expl3'.
+
+(C:\Program Files\MiKTeX\tex/latex/biblatex\blx-case-expl3.sty
+Package: blx-case-expl3 2023/03/05 v3.19 expl3 case changing code for biblatex
+))
+(C:\Program Files\MiKTeX\tex/latex/hyperref\hyperref.sty
+Package: hyperref 2023-11-26 v7.01g Hypertext links for LaTeX
+
+(C:\Program Files\MiKTeX\tex/generic/kvdefinekeys\kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(C:\Program Files\MiKTeX\tex/generic/pdfescape\pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+)
+(C:\Program Files\MiKTeX\tex/latex/hycolor\hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(C:\Program Files\MiKTeX\tex/latex/letltxmacro\letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+(C:\Program Files\MiKTeX\tex/latex/auxhook\auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+(C:\Program Files\MiKTeX\tex/latex/hyperref\nameref.sty
+Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
+
+(C:\Program Files\MiKTeX\tex/latex/refcount\refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(C:\Program Files\MiKTeX\tex/generic/gettitlestring\gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count442
+)
+\@linkdim=\dimen188
+\Hy@linkcounter=\count443
+\Hy@pagecounter=\count444
+
+(C:\Program Files\MiKTeX\tex/latex/hyperref\pd1enc.def
+File: pd1enc.def 2023-11-26 v7.01g Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(C:\Program Files\MiKTeX\tex/generic/intcalc\intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count445
+
+(C:\Program Files\MiKTeX\tex/latex/hyperref\puenc.def
+File: puenc.def 2023-11-26 v7.01g Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4181.
+Package hyperref Info: Link nesting OFF on input line 4186.
+Package hyperref Info: Hyper index ON on input line 4189.
+Package hyperref Info: Plain pages OFF on input line 4196.
+Package hyperref Info: Backreferencing OFF on input line 4201.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4448.
+\c@Hy@tempcnt=\count446
+LaTeX Info: Redefining \url on input line 4786.
+\XeTeXLinkMargin=\dimen189
+
+(C:\Program Files\MiKTeX\tex/generic/bitset\bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(C:\Program Files\MiKTeX\tex/generic/bigintcalc\bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count447
+\Field@Width=\dimen190
+\Fld@charsize=\dimen191
+Package hyperref Info: Hyper figures OFF on input line 6065.
+Package hyperref Info: Link nesting OFF on input line 6070.
+Package hyperref Info: Hyper index ON on input line 6073.
+Package hyperref Info: backreferencing OFF on input line 6080.
+Package hyperref Info: Link coloring OFF on input line 6085.
+Package hyperref Info: Link coloring with OCG OFF on input line 6090.
+Package hyperref Info: PDF/A mode OFF on input line 6095.
+
+(C:\Program Files\MiKTeX\tex/latex/base\atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count448
+\c@Item=\count449
+\c@Hfootnote=\count450
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(C:\Program Files\MiKTeX\tex/latex/hyperref\hpdftex.def
+File: hpdftex.def 2023-11-26 v7.01g Hyperref driver for pdfTeX
+
+(C:\Program Files\MiKTeX\tex/latex/base\atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
+kage
+with kernel methods
+)
+\Fld@listcount=\count451
+\c@bookmark@seq@number=\count452
+
+(C:\Program Files\MiKTeX\tex/latex/rerunfilecheck\rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+
+(C:\Program Files\MiKTeX\tex/generic/uniquecounter\uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+85.
+)
+\Hy@SectionHShift=\skip99
+)
+(C:\Program Files\MiKTeX\tex/latex/semantic\semantic.sty
+Package: semantic 2003/10/28 v2.0(epsilon) 
+
+Semantic Package v2.0(epsilon) [2003/10/28]
+CVSId: $Id: semantic.dtx,v 1.11 2003/10/28 13:45:57 turtle Exp $
+\c@@@conflict=\count453
+Loading features: 
+(C:\Program Files\MiKTeX\tex/latex/semantic\infernce.sty
+\@@tempa=\toks35
+\@@tempb=\toks36
+\@@pSpace=\skip100
+\@@pEnd=\skip101
+\@@nSpace=\skip102
+\@@aLineBox=\box110
+)  inference rules,
+(C:\Program Files\MiKTeX\tex/latex/semantic\ligature.sty
+\@pushedtoks=\toks37
+\@seentoks=\toks38
+)
+ math mode ligatures,
+and general definitions.
+
+\@@maxwidth=\dimen192
+\@@pLineBox=\box111
+\@@cBox=\box112
+\@@pBox=\box113
+) (C:\Program Files\MiKTeX\tex/latex/wrapfig\wrapfig.sty
+\wrapoverhang=\dimen193
+\WF@size=\dimen194
+\c@WF@wrappedlines=\count454
+\WF@box=\box114
+\WF@everypar=\toks39
+Package: wrapfig 2003/01/31  v 3.6
+)
+(C:\Program Files\MiKTeX\tex/latex/lm\lmodern.sty
+Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+)
+(C:\Program Files\MiKTeX\tex/latex/jknappen\mathrsfs.sty
+Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
+\symrsfs=\mathgroup7
+)
+(C:\Program Files\MiKTeX\tex/latex/enumitem\enumitem.sty
+Package: enumitem 2025/02/06 v3.11 Customized lists
+\labelindent=\skip103
+\enit@outerparindent=\dimen195
+\enit@toks=\toks40
+\enit@inbox=\box115
+\enit@count@id=\count455
+\enitdp@description=\count456
+)
+(C:\Program Files\MiKTeX\tex/latex/csquotes\csquotes.sty
+Package: csquotes 2024-04-04 v5.2o context-sensitive quotations (JAW)
+\csq@reset=\count457
+\csq@gtype=\count458
+\csq@glevel=\count459
+\csq@qlevel=\count460
+\csq@maxlvl=\count461
+\csq@tshold=\count462
+\csq@ltx@everypar=\toks41
+
+(C:\Program Files\MiKTeX\tex/latex/csquotes\csquotes.def
+File: csquotes.def 2024-04-04 v5.2o csquotes generic definitions (JAW)
+)
+Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
+Package csquotes Info: ... configuration file loaded successfully.
+
+(C:\Program Files\MiKTeX\tex/latex/csquotes\csquotes.cfg
+File: csquotes.cfg 
+))
+(C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcolorbox.sty
+Package: tcolorbox 2024/01/10 version 6.2.0 text color boxes
+
+(C:\Program Files\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
+(C:\Program Files\MiKTeX\tex/latex/pgf/utilities\pgfrcs.sty
+(C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfutil-common.tex
+\pgfutil@everybye=\toks42
+\pgfutil@tempdima=\dimen196
+\pgfutil@tempdimb=\dimen197
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfutil-latex.def
+\pgfutil@abb=\box116
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfrcs.code.tex
+(C:\Program Files\MiKTeX\tex/generic/pgf\pgf.revision.tex)
+Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
+))
+Package: pgf 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Program Files\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.sty
+(C:\Program Files\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.sty
+(C:\Program Files\MiKTeX\tex/generic/pgf/systemlayer\pgfsys.code.tex
+Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks43
+\pgfkeys@temptoks=\toks44
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfkeyslibraryfiltered.code.
+tex
+\pgfkeys@tmptoks=\toks45
+))
+\pgf@x=\dimen198
+\pgf@y=\dimen199
+\pgf@xa=\dimen256
+\pgf@ya=\dimen257
+\pgf@xb=\dimen258
+\pgf@yb=\dimen259
+\pgf@xc=\dimen260
+\pgf@yc=\dimen261
+\pgf@xd=\dimen262
+\pgf@yd=\dimen263
+\w@pgf@writea=\write5
+\r@pgf@reada=\read4
+\c@pgf@counta=\count463
+\c@pgf@countb=\count464
+\c@pgf@countc=\count465
+\c@pgf@countd=\count466
+\t@pgf@toka=\toks46
+\t@pgf@tokb=\toks47
+\t@pgf@tokc=\toks48
+\pgf@sys@id@count=\count467
+ (C:\Program Files\MiKTeX\tex/generic/pgf/systemlayer\pgf.cfg
+File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/systemlayer\pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/systemlayer\pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
+)))
+(C:\Program Files\MiKTeX\tex/generic/pgf/systemlayer\pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfsyssoftpath@smallbuffer@items=\count468
+\pgfsyssoftpath@bigbuffer@items=\count469
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/systemlayer\pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcore.code.tex
+Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmath.code.tex
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathutil.code.tex)
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathparser.code.tex
+\pgfmath@dimen=\dimen264
+\pgfmath@count=\count470
+\pgfmath@box=\box117
+\pgfmath@toks=\toks49
+\pgfmath@stack@operand=\toks50
+\pgfmath@stack@operation=\toks51
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.code.tex)
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.basic.code.tex)
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.trigonometric.co
+de.tex)
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.random.code.tex)
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.comparison.code.
+tex)
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.base.code.tex)
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.round.code.tex)
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.misc.code.tex)
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.integerarithmeti
+cs.code.tex) (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathcalc.code.tex
+) (C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count471
+))
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfint.code.tex)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@picminx=\dimen265
+\pgf@picmaxx=\dimen266
+\pgf@picminy=\dimen267
+\pgf@picmaxy=\dimen268
+\pgf@pathminx=\dimen269
+\pgf@pathmaxx=\dimen270
+\pgf@pathminy=\dimen271
+\pgf@pathmaxy=\dimen272
+\pgf@xx=\dimen273
+\pgf@xy=\dimen274
+\pgf@yx=\dimen275
+\pgf@yy=\dimen276
+\pgf@zx=\dimen277
+\pgf@zy=\dimen278
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathconstruct.code.t
+ex
+File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@path@lastx=\dimen279
+\pgf@path@lasty=\dimen280
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@shorten@end@additional=\dimen281
+\pgf@shorten@start@additional=\dimen282
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfpic=\box118
+\pgf@hbox=\box119
+\pgf@layerbox@main=\box120
+\pgf@picture@serial@count=\count472
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoregraphicstate.code.te
+x
+File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgflinewidth=\dimen283
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoretransformations.code
+.tex
+File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@pt@x=\dimen284
+\pgf@pt@y=\dimen285
+\pgf@pt@temp=\dimen286
+) (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathprocessing.code.
+tex
+File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfarrowsep=\dimen287
+) (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@max=\dimen288
+\pgf@sys@shading@range@num=\count473
+\pgf@shadingcount=\count474
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfexternal@startupbox=\box121
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcoretransparency.code.te
+x
+File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (C:\Program Files\MiKTeX\tex/generic/pgf/basiclayer\pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)))
+(C:\Program Files\MiKTeX\tex/generic/pgf/modules\pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodeparttextbox=\box122
+)
+(C:\Program Files\MiKTeX\tex/generic/pgf/modules\pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(C:\Program Files\MiKTeX\tex/latex/pgf/compatibility\pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
+\pgf@nodesepstart=\dimen289
+\pgf@nodesepend=\dimen290
+)
+(C:\Program Files\MiKTeX\tex/latex/pgf/compatibility\pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
+)) (C:\Program Files\MiKTeX\tex/latex/tools\verbatim.sty
+Package: verbatim 2023-11-06 v1.5v LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks52
+\verbatim@line=\toks53
+\verbatim@in@stream=\read5
+)
+(C:\Program Files\MiKTeX\tex/latex/environ\environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+
+(C:\Program Files\MiKTeX\tex/latex/trimspaces\trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\tcb@titlebox=\box123
+\tcb@upperbox=\box124
+\tcb@lowerbox=\box125
+\tcb@phantombox=\box126
+\c@tcbbreakpart=\count475
+\c@tcblayer=\count476
+\c@tcolorbox@number=\count477
+\l__tcobox_tmpa_box=\box127
+\l__tcobox_tmpa_dim=\dimen291
+\tcb@temp=\box128
+\tcb@temp=\box129
+\tcb@temp=\box130
+\tcb@temp=\box131
+
+(C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbraster.code.tex
+Library (tcolorbox): 'tcbraster.code.tex' version '6.2.0'
+\c@tcbrastercolumn=\count478
+\c@tcbrasterrow=\count479
+\c@tcbrasternum=\count480
+\c@tcbraster=\count481
+) (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbskins.code.tex
+Library (tcolorbox): 'tcbskins.code.tex' version '6.2.0'
+(C:\Program Files\MiKTeX\tex/latex/pgf/frontendlayer\tikz.sty
+(C:\Program Files\MiKTeX\tex/latex/pgf/utilities\pgffor.sty
+(C:\Program Files\MiKTeX\tex/latex/pgf/utilities\pgfkeys.sty
+(C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgfkeys.code.tex))
+(C:\Program Files\MiKTeX\tex/latex/pgf/math\pgfmath.sty
+(C:\Program Files\MiKTeX\tex/generic/pgf/math\pgfmath.code.tex))
+(C:\Program Files\MiKTeX\tex/generic/pgf/utilities\pgffor.code.tex
+Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
+\pgffor@iter=\dimen292
+\pgffor@skip=\dimen293
+\pgffor@stack=\toks54
+\pgffor@toks=\toks55
+))
+(C:\Program Files\MiKTeX\tex/generic/pgf/frontendlayer/tikz\tikz.code.tex
+Package: tikz 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/libraries\pgflibraryplothandlers.code.
+tex
+File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@plot@mark@count=\count482
+\pgfplotmarksize=\dimen294
+)
+\tikz@lastx=\dimen295
+\tikz@lasty=\dimen296
+\tikz@lastxsaved=\dimen297
+\tikz@lastysaved=\dimen298
+\tikz@lastmovetox=\dimen299
+\tikz@lastmovetoy=\dimen300
+\tikzleveldistance=\dimen301
+\tikzsiblingdistance=\dimen302
+\tikz@figbox=\box132
+\tikz@figbox@bg=\box133
+\tikz@tempbox=\box134
+\tikz@tempbox@bg=\box135
+\tikztreelevel=\count483
+\tikznumberofchildren=\count484
+\tikznumberofcurrentchild=\count485
+\tikz@fig@count=\count486
+ (C:\Program Files\MiKTeX\tex/generic/pgf/modules\pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfmatrixcurrentrow=\count487
+\pgfmatrixcurrentcolumn=\count488
+\pgf@matrix@numberofcolumns=\count489
+)
+\tikz@expandcount=\count490
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibra
+rytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)))
+(C:\Program Files\MiKTeX\tex/latex/tikzfill\tikzfill.image.sty
+Package: tikzfill.image 2023/08/08 v1.0.1 Image filling library for TikZ
+
+(C:\Program Files\MiKTeX\tex/latex/tikzfill\tikzfill-common.sty
+Package: tikzfill-common 2023/08/08 v1.0.1 Auxiliary code for tikzfill
+)
+(C:\Program Files\MiKTeX\tex/latex/tikzfill\tikzlibraryfill.image.code.tex
+File: tikzlibraryfill.image.code.tex 2023/08/08 v1.0.1 Image filling library
+\l__tikzfill_img_box=\box136
+))
+(C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbskinsjigsaw.code.tex
+Library (tcolorbox): 'tcbskinsjigsaw.code.tex' version '6.2.0'
+)) (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbbreakable.code.tex
+Library (tcolorbox): 'tcbbreakable.code.tex' version '6.2.0'
+(C:\Program Files\MiKTeX\tex/latex/pdfcol\pdfcol.sty
+Package: pdfcol 2022-09-21 v1.7 Handle new color stacks for pdfTeX (HO)
+)
+Package pdfcol Info: New color stack `tcb@breakable' = 1 on input line 23.
+\tcb@testbox=\box137
+\tcb@totalupperbox=\box138
+\tcb@totallowerbox=\box139
+)
+(C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbhooks.code.tex
+Library (tcolorbox): 'tcbhooks.code.tex' version '6.2.0'
+) (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbtheorems.code.tex
+Library (tcolorbox): 'tcbtheorems.code.tex' version '6.2.0'
+) (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbfitting.code.tex
+Library (tcolorbox): 'tcbfitting.code.tex' version '6.2.0'
+\tcbfitdim=\dimen303
+\tcb@lowerfitdim=\dimen304
+\tcb@upperfitdim=\dimen305
+\tcb@cur@hbadness=\count491
+) (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcblistingsutf8.code.tex
+Library (tcolorbox): 'tcblistingsutf8.code.tex' version '6.2.0'
+(C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcblistings.code.tex
+Library (tcolorbox): 'tcblistings.code.tex' version '6.2.0'
+(C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcblistingscore.code.tex
+Library (tcolorbox): 'tcblistingscore.code.tex' version '6.2.0'
+(C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbprocessing.code.tex
+Library (tcolorbox): 'tcbprocessing.code.tex' version '6.2.0'
+)
+\c@tcblisting=\count492
+)) (C:\Program Files\MiKTeX\tex/latex/listingsutf8\listingsutf8.sty
+Package: listingsutf8 2019-12-10 v1.5 Allow UTF-8 in listings input (HO)
+
+(C:\Program Files\MiKTeX\tex/generic/stringenc\stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)))
+(C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbexternal.code.tex
+Library (tcolorbox): 'tcbexternal.code.tex' version '6.2.0'
+) (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbmagazine.code.tex
+Library (tcolorbox): 'tcbmagazine.code.tex' version '6.2.0'
+) (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbvignette.code.tex
+Library (tcolorbox): 'tcbvignette.code.tex' version '6.2.0'
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibra
+ryfadings.code.tex
+File: tikzlibraryfadings.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/libraries\pgflibraryfadings.code.tex
+File: pgflibraryfadings.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))) (C:\Program Files\MiKTeX\tex/latex/tcolorbox\tcbposter.code.tex
+Library (tcolorbox): 'tcbposter.code.tex' version '6.2.0'
+))
+(C:\Program Files\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibra
+ryautomata.code.tex
+File: tikzlibraryautomata.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibra
+ryshapes.multipart.code.tex
+File: tikzlibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/libraries/shapes\pgflibraryshapes.mult
+ipart.code.tex
+File: pgflibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodepartlowerbox=\box140
+\pgfnodeparttwobox=\box141
+\pgfnodepartthreebox=\box142
+\pgfnodepartfourbox=\box143
+\pgfnodeparttwentybox=\box144
+\pgfnodepartnineteenbox=\box145
+\pgfnodeparteighteenbox=\box146
+\pgfnodepartseventeenbox=\box147
+\pgfnodepartsixteenbox=\box148
+\pgfnodepartfifteenbox=\box149
+\pgfnodepartfourteenbox=\box150
+\pgfnodepartthirteenbox=\box151
+\pgfnodeparttwelvebox=\box152
+\pgfnodepartelevenbox=\box153
+\pgfnodeparttenbox=\box154
+\pgfnodepartninebox=\box155
+\pgfnodeparteightbox=\box156
+\pgfnodepartsevenbox=\box157
+\pgfnodepartsixbox=\box158
+\pgfnodepartfivebox=\box159
+)))
+(C:\Program Files\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibra
+ryarrows.code.tex
+File: tikzlibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(C:\Program Files\MiKTeX\tex/generic/pgf/libraries\pgflibraryarrows.code.tex
+File: pgflibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\arrowsize=\dimen306
+))
+(C:\Program Files\MiKTeX\tex/latex/cleveref\cleveref.sty
+Package: cleveref 2018/03/27 v0.21.4 Intelligent cross-referencing
+Package cleveref Info: `hyperref' support loaded on input line 2370.
+LaTeX Info: Redefining \cref on input line 2370.
+LaTeX Info: Redefining \Cref on input line 2370.
+LaTeX Info: Redefining \crefrange on input line 2370.
+LaTeX Info: Redefining \Crefrange on input line 2370.
+LaTeX Info: Redefining \cpageref on input line 2370.
+LaTeX Info: Redefining \Cpageref on input line 2370.
+LaTeX Info: Redefining \cpagerefrange on input line 2370.
+LaTeX Info: Redefining \Cpagerefrange on input line 2370.
+LaTeX Info: Redefining \labelcref on input line 2370.
+LaTeX Info: Redefining \labelcpageref on input line 2370.
+Package cleveref Info: `varioref' support loaded on input line 2605.
+Package cleveref Info: `cleveref' supersedes `varioref's \labelformatcommand on
+ input line 2605.
+LaTeX Info: Redefining \vref on input line 2605.
+LaTeX Info: Redefining \Vref on input line 2605.
+LaTeX Info: Redefining \vrefrange on input line 2605.
+LaTeX Info: Redefining \fullref on input line 2605.
+Package cleveref Info: `amsthm' support loaded on input line 3026.
+Package cleveref Info: `listings' support loaded on input line 3131.
+Package cleveref Info: include cross-reference names in hyperlinks on input lin
+e 7836.
+Package cleveref Info: include cross-reference names in hyperlinks on input lin
+e 7852.
+)
+(C:\Program Files\MiKTeX\tex/generic/soul\soul.sty
+Package: soul 2023-06-14 v3.1 Permit use of UTF-8 characters in soul (HO)
+
+(C:\Program Files\MiKTeX\tex/generic/soul\soul-ori.sty
+Package: soul-ori 2023-06-14 v3.1 letterspacing/underlining (mf)
+\SOUL@word=\toks56
+\SOUL@lasttoken=\toks57
+\SOUL@syllable=\toks58
+\SOUL@cmds=\toks59
+\SOUL@buffer=\toks60
+\SOUL@token=\toks61
+\SOUL@syllgoal=\dimen307
+\SOUL@syllwidth=\dimen308
+\SOUL@charkern=\dimen309
+\SOUL@hyphkern=\dimen310
+\SOUL@dimen=\dimen311
+\SOUL@dimeni=\dimen312
+\SOUL@minus=\count493
+\SOUL@comma=\count494
+\SOUL@apo=\count495
+\SOUL@grave=\count496
+\SOUL@spaceskip=\skip104
+\SOUL@ttwidth=\dimen313
+\SOUL@uldp=\dimen314
+\SOUL@ulht=\dimen315
+)
+(C:\Program Files\MiKTeX\tex/generic/etexcmds\etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+))
+(C:\Program Files\MiKTeX\tex/latex/geometry\geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(C:\Program Files\MiKTeX\tex/generic/iftex\ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count497
+\Gm@cntv=\count498
+\c@Gm@tempcnt=\count499
+\Gm@bindingoffset=\dimen316
+\Gm@wd@mp=\dimen317
+\Gm@odd@mp=\dimen318
+\Gm@even@mp=\dimen319
+\Gm@layoutwidth=\dimen320
+\Gm@layoutheight=\dimen321
+\Gm@layouthoffset=\dimen322
+\Gm@layoutvoffset=\dimen323
+\Gm@dimlist=\toks62
+
+(C:\Program Files\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Program Files\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+)
+(C:\Program Files\MiKTeX\tex/latex/listings\lstlang2.sty
+File: lstlang2.sty 2023/02/27 1.9 listings language file
+)
+\c@definition=\count500
+\c@example=\count501
+\c@exercise=\count502
+
+(C:\Program Files\MiKTeX\tex/latex/titlesec\titlesec.sty
+Package: titlesec 2025/01/04 v2.17 Sectioning titles
+\ttl@box=\box160
+\beforetitleunit=\skip105
+\aftertitleunit=\skip106
+\ttl@plus=\dimen324
+\ttl@minus=\dimen325
+\ttl@toksa=\toks63
+\titlewidth=\dimen326
+\titlewidthlast=\dimen327
+\titlewidthfirst=\dimen328
+))
+(C:\Program Files\MiKTeX\tex/latex/graphics\rotating.sty
+Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
+\c@r@tfl@t=\count503
+\rotFPtop=\skip107
+\rotFPbot=\skip108
+\rot@float@box=\box161
+\rot@mess@toks=\toks64
+)
+(C:\Program Files\MiKTeX\tex/latex/makecell\makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+
+(C:\Program Files\MiKTeX\tex/latex/tools\array.sty
+Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen329
+\ar@mcellbox=\box162
+\extrarowheight=\dimen330
+\NC@list=\toks65
+\extratabsurround=\skip109
+\backup@length=\skip110
+\ar@cellbox=\box163
+)
+\rotheadsize=\dimen331
+\c@nlinenum=\count504
+\TeXr@lab=\toks66
+)
+(C:\Program Files\MiKTeX\tex/latex/stackengine\stackengine.sty
+Package: stackengine 2021/07/22 v4.11\ Stacking text and objects in convenient 
+ways
+
+(C:\Program Files\MiKTeX\tex/latex/listofitems\listofitems.sty
+(C:\Program Files\MiKTeX\tex/generic/listofitems\listofitems.tex
+\loi_cnt_foreach_nest=\count505
+\loi_nestcnt=\count506
+)
+Package: listofitems 2024/03/09 v1.65 Grab items in lists using user-specified 
+sep char (CT)
+)
+\c@@stackindex=\count507
+\@boxshift=\skip111
+\stack@tmplength=\skip112
+\temp@stkl=\skip113
+\@stackedboxwidth=\skip114
+\@addedbox=\box164
+\@anchorbox=\box165
+\@insetbox=\box166
+\se@backgroundbox=\box167
+\stackedbox=\box168
+\@centerbox=\box169
+\c@ROWcellindex@=\count508
+)
+(C:\Program Files\MiKTeX\tex/latex/ragged2e\ragged2e.sty
+Package: ragged2e 2023/06/22 v3.6 ragged2e Package
+\CenteringLeftskip=\skip115
+\RaggedLeftLeftskip=\skip116
+\RaggedRightLeftskip=\skip117
+\CenteringRightskip=\skip118
+\RaggedLeftRightskip=\skip119
+\RaggedRightRightskip=\skip120
+\CenteringParfillskip=\skip121
+\RaggedLeftParfillskip=\skip122
+\RaggedRightParfillskip=\skip123
+\JustifyingParfillskip=\skip124
+\CenteringParindent=\skip125
+\RaggedLeftParindent=\skip126
+\RaggedRightParindent=\skip127
+\JustifyingParindent=\skip128
+)
+Package csquotes Info: Checking for multilingual support...
+Package csquotes Info: ... found 'babel' package.
+Package csquotes Info: Adjusting default style.
+Package csquotes Info: Redefining alias 'default' -> 'spanish'.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
+9.
+
+(C:\Program Files\MiKTeX\tex/latex/lm\ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+
+LaTeX Warning: Unused global option(s):
+    [8pt].
+
+(00_Manual_Main_Template.aux
+LaTeX Info: Redefining \. on input line 12.
+LaTeX Info: Redefining \% on input line 12.
+ (02_nota_al_lector.aux) (03_dedicatoria.aux)
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+)
+\openout1 = `00_Manual_Main_Template.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Info: Redefining \. on input line 29.
+LaTeX Info: Redefining \% on input line 29.
+ (C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count509
+\scratchdimen=\dimen332
+\scratchbox=\box170
+\nofMPsegments=\count510
+\nofMParguments=\count511
+\everyMPshowfont=\toks67
+\MPscratchCnt=\count512
+\MPscratchDim=\dimen333
+\MPnumerator=\count513
+\makeMPintoPDFobject=\count514
+\everyMPtoPDFconversion=\toks68
+) (C:\Program Files\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:\Program Files\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: rotating package is loaded.
+Package caption Info: wrapfig package is loaded.
+Package caption Info: End \AtBeginDocument code.
+
+Package chemgreek Info: Activating mapping `default' on line 29.
+
+\c@lstlisting=\count515
+\c@mv@tabular=\count516
+\c@mv@boldtabular=\count517
+Package biblatex Info: Trying to load language 'spanish'...
+Package biblatex Info: ... file 'spanish.lbx' found.
+
+(C:\Program Files\MiKTeX\tex/latex/biblatex/lbx\spanish.lbx
+File: spanish.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
+)
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout4 = `00_Manual_Main_Template.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file '00_Manual_Main_Template.bbl' not found.
+
+No file 00_Manual_Main_Template.bbl.
+Package biblatex Info: Reference section=0 on input line 29.
+Package biblatex Info: Reference segment=0 on input line 29.
+Package hyperref Info: Link coloring OFF on input line 29.
+(00_Manual_Main_Template.out) (00_Manual_Main_Template.out)
+\@outlinefile=\write6
+\openout6 = `00_Manual_Main_Template.out'.
+
+
+(C:\Program Files\MiKTeX\tex/latex/base\inputenc.sty
+Package: inputenc 2021/02/14 v1.3d Input encoding file
+\inpenc@prehook=\toks69
+\inpenc@posthook=\toks70
+)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(99.58464pt, 398.33858pt, 99.58466pt)
+* v-part:(T,H,B)=(87.63449pt, 625.96062pt, 131.45174pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=398.33858pt
+* \textheight=625.96062pt
+* \oddsidemargin=27.31465pt
+* \evensidemargin=27.31465pt
+* \topmargin=-21.6355pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=4.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(01_portada_manual.tex
+<assets/logo_fciencias.png, id=486, 449.68pt x 112.42pt>
+File: assets/logo_fciencias.png Graphic file (type png)
+<use assets/logo_fciencias.png>
+Package pdftex.def Info: assets/logo_fciencias.png  used on input line 5.
+(pdftex.def)             Requested size: 199.16928pt x 49.79259pt.
+
+
+LaTeX Font Warning: Font shape `OT1/lmr/b/sc' undefined
+(Font)              using `OT1/lmr/b/n' instead on input line 55.
+
+[1
+
+{C:/Users/luis_/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Program Fi
+les/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Program Files/MiKTeX/fonts/enc/dvip
+s/lm/lm-rmsc.enc} <./assets/logo_fciencias.png>]) [0]
+\openout2 = `02_nota_al_lector.aux'.
+
+ (02_nota_al_lector.tex
+Underfull \hbox (badness 10000) in paragraph at lines 5--12
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--12
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--12
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--12
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--12
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--12
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--12
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--12
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--12
+
+ []
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.I}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.15 \newpage
+              [1
+
+] [2])
+\openout2 = `03_dedicatoria.aux'.
+
+ (03_dedicatoria.tex [3
+
+
+
+] [4])
+(00_Manual_Main_Template.toc
+LaTeX Info: Redefining \sptext on input line 1.
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 3
+.
+ (C:\Program Files\MiKTeX\tex/latex/lm\omllmm.fd
+File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+3.
+
+(C:\Program Files\MiKTeX\tex/latex/lm\omslmsy.fd
+File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+3.
+
+(C:\Program Files\MiKTeX\tex/latex/lm\omxlmex.fd
+File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 3.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 3.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 3.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 3.
+
+(C:\Program Files\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 3.
+
+(C:\Program Files\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+stmry on input line 3
+.
+
+(C:\Program Files\MiKTeX\tex/latex/stmaryrd\ustmry.fd)
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 3.
+
+
+(C:\Program Files\MiKTeX\tex/latex/jknappen\ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+)
+LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 
+18.
+
+(C:\Program Files\MiKTeX\tex/latex/lm\ot1lmtt.fd
+File: ot1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+) [5
+
+
+
+{C:/Program Files/MiKTeX/fonts/enc/dvips/lm/lm-rmtt.enc}{C:/Program Files/MiKTe
+X/fonts/enc/dvips/lm/lm-mathit.enc}]
+LaTeX Font Info:    Trying to load font information for OT1+lmss on input line 
+56.
+ (C:\Program Files\MiKTeX\tex/latex/lm\ot1lmss.fd
+File: ot1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `OT1/lmss/b/n' in size <10> not available
+(Font)              Font shape `OT1/lmss/bx/n' tried instead on input line 56.
+ [6] [7{C:/Program Files/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}])
+\tf@toc=\write7
+\openout7 = `00_Manual_Main_Template.toc'.
+
+ [8] [9]
+Cap\'{\i }tulo 1.
+(04_introduccion.tex
+<assets/01_gatito_introduccion.PNG, id=667, 583.42969pt x 715.92468pt>
+File: assets/01_gatito_introduccion.PNG Graphic file (type png)
+<use assets/01_gatito_introduccion.PNG>
+Package pdftex.def Info: assets/01_gatito_introduccion.PNG  used on input line 
+9.
+(pdftex.def)             Requested size: 192.53238pt x 236.25587pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--20
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--20
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--20
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--20
+
+ []
+
+[1
+
+ <./assets/01_gatito_introduccion.PNG>]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 22.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 22.
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--28
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--28
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--34
+
+ []
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 50--53
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 60--64
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 60--64
+
+ []
+
+[3] [4]
+
+LaTeX Warning: Command \textless invalid in math mode on input line 161.
+
+LaTeX Font Info:    Trying to load font information for OML+lmr on input line 1
+61.
+(C:\Program Files\MiKTeX\tex/latex/lm\omllmr.fd
+File: omllmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `OML/lmr/m/n' in size <10> not available
+(Font)              Font shape `OML/lmm/m/it' tried instead on input line 161.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 161.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 179.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 179.
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 220--222
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--244
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 245--246
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 247--249
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--253
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--253
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 254--256
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 254--256
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 257--259
+
+ []
+
+(C:\Program Files\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+)
+(C:\Program Files\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+)
+(C:\Program Files\MiKTeX\tex/latex/listings\lstmisc.sty
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+) [7]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 310.
+
+
+Package Listings Warning: Text dropped after begin of listing on input line 310
+.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 336--338
+
+ []
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 345.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 345.
+
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 370--371
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 378--379
+
+ []
+
+) [9]
+Cap\'{\i }tulo 2.
+(05_herramientas_matematicas.tex
+<assets/02_gatito_herramientas_matematicas.jpg, id=910, 992.70876pt x 1284.8pt>
+
+File: assets/02_gatito_herramientas_matematicas.jpg Graphic file (type jpg)
+<use assets/02_gatito_herramientas_matematicas.jpg>
+Package pdftex.def Info: assets/02_gatito_herramientas_matematicas.jpg  used on
+ input line 10.
+(pdftex.def)             Requested size: 188.61662pt x 244.11453pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--19
+
+ []
+
+[10
+
+ <./assets/02_gatito_herramientas_matematicas.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 21--23
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--29
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--29
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--50
+
+ []
+
+[11]
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 58.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 58.
+
+
+Overfull \hbox (14.98094pt too wide) in paragraph at lines 55--68
+ [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 76--78
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--87
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--87
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--87
+
+ []
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 92--93
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--93
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--105
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--105
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--110
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--115
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--115
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--115
+
+ []
+
+[13] [14]
+Underfull \hbox (badness 10000) in paragraph at lines 158--168
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--190
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--190
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--190
+
+ []
+
+[15]
+Underfull \hbox (badness 10000) in paragraph at lines 213--219
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 213--219
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 220--221
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 222--224
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 225--229
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 253--260
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 253--260
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 261--262
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 263--267
+
+ []
+
+[16{C:/Program Files/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]
+Underfull \hbox (badness 10000) in paragraph at lines 275--285
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 275--285
+
+ []
+
+
+Overfull \hbox (0.52321pt too wide) detected at line 311
+[]
+ []
+
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 327--335
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--335
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--335
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--335
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--335
+\OT1/lmr/b/n/10 Paso In-duc-ti-vo \OT1/lmr/m/n/10 Por de-mos-trar $\OML/lmm/m/i
+t/10 n[]\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 node\OT1/lmr/m/n/10 (\OML/lmm/m/it/10
+ a; t[]; t[]\OT1/lmr/m/n/10 )) \OMS/lmsy/m/n/10 ^^T \OT1/lmr/m/n/10 2[] \OMS/lm
+sy/m/n/10 ^^@ \OT1/lmr/m/n/10 1$ don-de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--335
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--335
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 346--347
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 347--349
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 366--369
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 366--369
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 414--416
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 339--418
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 339--418
+
+ []
+
+[18] [19
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.4.
+1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.418     \end{exercise}
+                        
+pdfTeX warning (ext4): destination with the same identifier (name{equation.2.4.
+1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.418     \end{exercise}
+                        ] [20]
+Underfull \hbox (badness 10000) in paragraph at lines 470--472
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 477--479
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 491--494
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 503--506
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 503--506
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 509--510
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--516
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--516
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 517--518
+
+ []
+
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 535--536
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 537--541
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 537--541
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 537--541
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 541--542
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 542--546
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 546--548
+
+ []
+
+
+Underfull \hbox (badness 2351) in paragraph at lines 546--548
+\OT1/lmr/m/n/10 Por ejem-plo: la lis-ta \OT1/lmtt/m/n/10 [1,3,4,8,1,5,4,8,9,9,9
+,8,6,5,3,5] \OT1/lmr/m/n/10 so-lo du-pli-car^^Sa
+ []
+
+
+Underfull \hbox (badness 1137) in paragraph at lines 546--548
+\OT1/lmr/m/n/10 los n^^Sume-ros que est^^Sen en una po-si-ci^^Son im-par ob-te-
+nien-do co-mo re-sul-ta-do:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 546--548
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 548--550
+
+ []
+
+
+Underfull \hbox (badness 6063) in paragraph at lines 548--550
+\OT1/lmr/m/n/10 El ob-je-ti-vo de la im-ple-men-ta-ci^^Son de es-ta fun-ci^^Son
+ es el de ob-te-ner
+ []
+
+
+Underfull \hbox (badness 2689) in paragraph at lines 548--550
+\OT1/lmr/m/n/10 los d^^S^^Pgi-tos de los n^^Sume-ros ma-yo-res o igua-les a 10,
+ de tal for-ma que
+ []
+
+
+Underfull \hbox (badness 4995) in paragraph at lines 548--550
+\OT1/lmr/m/n/10 si te-ne-mos co-mo par^^Same-tro de en-tra-da pa-ra es-ta fun-c
+i^^Son a la lis-ta
+ []
+
+
+Underfull \hbox (badness 4441) in paragraph at lines 548--550
+\OT1/lmtt/m/n/10 [1,6,4,16,1,10,4,16,9,18,9,16,6,10,3,10] \OT1/lmr/m/n/10 ob-te
+n-ga-mos la si-guien-te co-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 548--550
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 550--552
+
+ []
+
+
+Underfull \hbox (badness 1303) in paragraph at lines 550--552
+\OT1/lmr/m/n/10 Esta fun-ci^^Son sim-ple-men-te su-ma los d^^S^^Pgi-tos con-te-
+ni-dos en la lis-ta (pue-des
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 550--552
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 552--554
+
+ []
+
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 559--562
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 563--564
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 573--574
+
+ []
+
+<assets/Hanoi.jpeg, id=1121, 377.15906pt x 1969.3575pt>
+File: assets/Hanoi.jpeg Graphic file (type jpg)
+<use assets/Hanoi.jpeg>
+Package pdftex.def Info: assets/Hanoi.jpeg  used on input line 585.
+(pdftex.def)             Requested size: 113.14859pt x 590.81181pt.
+) [23] [24 <./assets/Hanoi.jpeg>]
+Cap\'{\i }tulo 3.
+(06_Sintaxis.tex
+<assets/03_gatito_sintaxis.PNG, id=1137, 730.22812pt x 584.93532pt>
+File: assets/03_gatito_sintaxis.PNG Graphic file (type png)
+<use assets/03_gatito_sintaxis.PNG>
+Package pdftex.def Info: assets/03_gatito_sintaxis.PNG  used on input line 9.
+(pdftex.def)             Requested size: 277.48956pt x 222.27773pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--17
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--17
+
+ []
+
+[25
+
+ <./assets/03_gatito_sintaxis.PNG>]
+Underfull \hbox (badness 10000) in paragraph at lines 21--25
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--25
+
+ []
+
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 88--93
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 88--93
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--105
+
+ []
+
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 109--111
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--143
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--143
+
+ []
+
+[28]
+Overfull \hbox (2.17467pt too wide) in paragraph at lines 161--161
+[]\OT1/lmr/m/n/10 Notemos que con la sin-ta-xis ex-ten-di-da aho-ra po-de-mos t
+e-ner ex-pre-sio-nes que son sint^^Sacti-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 175--176
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 214--226
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 214--226
+
+ []
+
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 237--241
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 237--241
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 264--266
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 264--266
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 272--274
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 272--274
+
+ []
+
+[30]
+Underfull \hbox (badness 10000) in paragraph at lines 280--281
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 292--293
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 294--295
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 298--299
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 303--305
+
+ []
+
+[31]
+Underfull \hbox (badness 10000) in paragraph at lines 309--310
+
+ []
+
+[32] [33]
+Underfull \hbox (badness 10000) in paragraph at lines 499--501
+
+ []
+
+LaTeX Font Info:    Calculating math sizes for size <18> on input line 505.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <18> on input line 505.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <12.59995> on input line 505.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 505.
+
+LaTeX Font Warning: Font shape `U/stmry/m/n' in size <18> not available
+(Font)              size <17.28> substituted on input line 505.
+
+
+LaTeX Font Warning: Font shape `U/stmry/m/n' in size <12.59995> not available
+(Font)              size <12> substituted on input line 505.
+
+
+LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <18> not available
+(Font)              size <17.28> substituted on input line 505.
+
+
+LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <12.59995> not available
+(Font)              size <12> substituted on input line 505.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 505.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\alpha' on input line 505.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 505.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 506--508
+
+ []
+
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 513--515
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 537--541
+
+ []
+
+[35] [36]
+Underfull \hbox (badness 10000) in paragraph at lines 718--720
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 721--723
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 726--728
+
+ []
+
+[37]) [38]
+Cap\'{\i }tulo 4.
+(07_Semantica.tex
+<assets/04_gatito_semantica.jpg, id=1380, 717.68124pt x 337.26pt>
+File: assets/04_gatito_semantica.jpg Graphic file (type jpg)
+<use assets/04_gatito_semantica.jpg>
+Package pdftex.def Info: assets/04_gatito_semantica.jpg  used on input line 9.
+(pdftex.def)             Requested size: 287.06741pt x 134.9016pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--27
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--27
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--27
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--27
+
+ []
+
+[39
+
+ <./assets/04_gatito_semantica.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 33--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--36
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--41
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--41
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--46
+
+ []
+
+[40]
+Underfull \hbox (badness 10000) in paragraph at lines 71--73
+
+ []
+
+[41]
+Underfull \hbox (badness 10000) in paragraph at lines 216--219
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 216--219
+
+ []
+
+[42]
+Underfull \hbox (badness 10000) in paragraph at lines 236--239
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 236--239
+
+ []
+
+[43]
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
+
+ []
+
+[44]
+Underfull \hbox (badness 10000) in paragraph at lines 379--380
+
+ []
+
+[45]
+Underfull \hbox (badness 10000) in paragraph at lines 440--442
+
+ []
+
+[46] [47]
+Overfull \hbox (11.5637pt too wide) detected at line 626
+[]
+ []
+
+[48] [49]
+Underfull \hbox (badness 10000) in paragraph at lines 689--690
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 704--707
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 704--707
+
+ []
+
+[50]
+Underfull \hbox (badness 10000) in paragraph at lines 723--724
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 734--735
+
+ []
+
+) [51]
+Cap\'{\i }tulo 5.
+(08_Calculo_Lambda.tex
+<assets/05_gatito_lambda.jpg, id=1555, 992.70876pt x 1284.8pt>
+File: assets/05_gatito_lambda.jpg Graphic file (type jpg)
+<use assets/05_gatito_lambda.jpg>
+Package pdftex.def Info: assets/05_gatito_lambda.jpg  used on input line 9.
+(pdftex.def)             Requested size: 198.53824pt x 256.95544pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--16
+
+ []
+
+[52
+
+ <./assets/05_gatito_lambda.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--26
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--26
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+
+ []
+
+[53]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 70.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\alpha' on input line 70.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 70.
+
+[54]
+Underfull \hbox (badness 10000) in paragraph at lines 93--96
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 105--106
+
+ []
+
+[55]
+Underfull \hbox (badness 10000) in paragraph at lines 137--139
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--144
+
+ []
+
+[56] [57] [58]
+Underfull \hbox (badness 10000) in paragraph at lines 378--379
+
+ []
+
+[59]
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 421.
+
+LaTeX Font Info:    Trying to load font information for OML+lmss on input line 
+421.
+LaTeX Font Info:    No file OMLlmss.fd. on input line 421.
+
+LaTeX Font Warning: Font shape `OML/lmss/m/n' undefined
+(Font)              using `OML/cmm/m/it' instead
+(Font)              for symbol `textgreater' on input line 421.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 421.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 422.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 422.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 422.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 422.
+
+[60] [61]
+Underfull \hbox (badness 10000) in paragraph at lines 486--489
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 486--489
+
+ []
+
+[62]
+Underfull \hbox (badness 10000) in paragraph at lines 506--508
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 506--508
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 518--521
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 518--521
+
+ []
+
+[63]
+Underfull \hbox (badness 10000) in paragraph at lines 529--531
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 539--541
+
+ []
+
+[64]
+
+LaTeX Warning: Command \textless invalid in math mode on input line 583.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 583.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 591.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 591.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 592.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 592.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 593.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 593.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 596.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 596.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 597.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 597.
+
+
+Overfull \hbox (1.63377pt too wide) detected at line 599
+[]
+ []
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 604.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 604.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 605.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 605.
+
+[65]
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 653.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 653.
+
+[66]
+Underfull \hbox (badness 10000) in paragraph at lines 666--667
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 720--721
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 722--723
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 735--737
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 744--746
+
+ []
+
+[67]
+Underfull \hbox (badness 10000) in paragraph at lines 755--757
+
+ []
+
+) [68]
+Cap\'{\i }tulo 6.
+LaTeX Font Info:    Font shape `OT1/lmss/b/n' in size <24.88> not available
+(Font)              Font shape `OT1/lmss/bx/n' tried instead on input line 62.
+(09_MinHs.tex
+<assets/06_gatito_minHs.jpg, id=1794, 992.70876pt x 1284.8pt>
+File: assets/06_gatito_minHs.jpg Graphic file (type jpg)
+<use assets/06_gatito_minHs.jpg>
+Package pdftex.def Info: assets/06_gatito_minHs.jpg  used on input line 9.
+(pdftex.def)             Requested size: 198.53824pt x 256.95544pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--17
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--17
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--17
+
+ []
+
+[69
+
+ <./assets/06_gatito_minHs.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 23--24
+
+ []
+
+LaTeX Font Info:    Font shape `OT1/lmss/b/n' in size <18> not available
+(Font)              Font shape `OT1/lmss/bx/n' tried instead on input line 25.
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--30
+
+ []
+
+[70]
+Underfull \hbox (badness 10000) in paragraph at lines 51--52
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--69
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--124
+
+ []
+
+[71]
+Underfull \hbox (badness 10000) in paragraph at lines 130--133
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 130--133
+
+ []
+
+[72]
+Underfull \hbox (badness 10000) in paragraph at lines 144--149
+
+ []
+
+[73]
+Underfull \hbox (badness 10000) in paragraph at lines 208--214
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 214--216
+
+ []
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 220.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 220.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 220--222
+
+ []
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 226.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 226.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 226--228
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--246
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--246
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 249--251
+
+ []
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 309.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 309.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 309.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 309.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 312--314
+
+ []
+
+[74] [75]
+Underfull \hbox (badness 10000) in paragraph at lines 320--322
+
+ []
+
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 3
+29.
+(C:\Program Files\MiKTeX\tex/latex/lm\ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+) [76{C:/Program Files/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
+Underfull \hbox (badness 10000) in paragraph at lines 351--352
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 353--355
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 365--366
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 367--369
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 380--381
+
+ []
+
+LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <10> not available
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 386.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 387.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 387.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 394--396
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--400
+
+ []
+
+[77]
+
+LaTeX Warning: Command \textless invalid in math mode on input line 411.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 411.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 421--423
+
+ []
+
+) [78]
+Cap\'{\i }tulo 7.
+(10_Inferencia_Tipos.tex
+<assets/07_gatitos_tipados.PNG, id=1918, 730.98094pt x 484.05844pt>
+File: assets/07_gatitos_tipados.PNG Graphic file (type png)
+<use assets/07_gatitos_tipados.PNG>
+Package pdftex.def Info: assets/07_gatitos_tipados.PNG  used on input line 14.
+(pdftex.def)             Requested size: 365.48958pt x 242.02863pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--23
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--23
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--23
+
+ []
+
+[79
+
+ <./assets/07_gatitos_tipados.PNG>]
+Underfull \hbox (badness 10000) in paragraph at lines 25--27
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--33
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--40
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--40
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--40
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--43
+
+ []
+
+[80]
+Underfull \hbox (badness 10000) in paragraph at lines 85--86
+
+ []
+
+
+Underfull \hbox (badness 1383) in paragraph at lines 85--86
+\OT1/lmr/m/n/10 Representaremos la asig-na-ci^^Son se-ria-li-za-da de nue-vas v
+a-ria-bles con una lis-ta de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--90
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--90
+
+ []
+
+
+Overfull \hbox (8.7194pt too wide) detected at line 115
+[]
+ []
+
+[81]
+Underfull \hbox (badness 10000) in paragraph at lines 143--145
+
+ []
+
+[82]
+Underfull \hbox (badness 10000) in paragraph at lines 168--169
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 178--179
+
+ []
+
+[83]
+Underfull \hbox (badness 10000) in paragraph at lines 262--264
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 267--268
+
+ []
+
+[84]
+Underfull \hbox (badness 10000) in paragraph at lines 288--289
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 320--321
+
+ []
+
+
+Overfull \hbox (14.72217pt too wide) in paragraph at lines 321--322
+[]$\OML/lmm/m/it/10 eq\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 x[];  x[]\OT1/lmr/m/n/1
+0 ) \OMS/lmsy/m/n/10 7! []$ 
+ []
+
+
+Overfull \hbox (32.69987pt too wide) in paragraph at lines 322--323
+[]$\OML/lmm/m/it/10 let\OT1/lmr/m/n/10 (1\OML/lmm/m/it/10 ;  x[]:eq\OT1/lmr/m/n
+/10 (\OML/lmm/m/it/10 x[];  x[]\OT1/lmr/m/n/10 )) \OMS/lmsy/m/n/10 7! []$ 
+ []
+
+
+Overfull \hbox (12.24532pt too wide) in paragraph at lines 323--324
+[]$ 
+ []
+
+
+Overfull \hbox (51.99408pt too wide) in alignment at lines 348--475
+ [] [] 
+ []
+
+[85] [86] [87] [88]
+Overfull \hbox (10.72882pt too wide) in paragraph at lines 510--511
+[]$\OML/lmm/m/it/10 app\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 x[]; sub\OT1/lmr/m/n/1
+0 (\OML/lmm/m/it/10 x[]; \OT1/lmr/m/n/10 1)) \OMS/lmsy/m/n/10 7! []$ 
+ []
+
+
+Overfull \hbox (10.72882pt too wide) in paragraph at lines 511--512
+[]$\OML/lmm/m/it/10 app\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 x[]; sub\OT1/lmr/m/n/1
+0 (\OML/lmm/m/it/10 x[]; \OT1/lmr/m/n/10 2)) \OMS/lmsy/m/n/10 7! []$ 
+ []
+
+
+Overfull \hbox (18.6058pt too wide) in paragraph at lines 515--516
+[]$\OML/lmm/m/it/10 recfun\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 x[];  x[]:if\OT1/lm
+r/m/n/10 (\OML/lmm/m/it/10 lt\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 x[]; \OT1/lmr/m/
+n/10 2)\OML/lmm/m/it/10 ; \OT1/lmr/m/n/10 1\OML/lmm/m/it/10 ; sum\OT1/lmr/m/n/1
+0 (\OML/lmm/m/it/10 app\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 x[]; \OT1/lmr/m/n/10 (
+\OML/lmm/m/it/10 sub\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 x[]; \OT1/lmr/m/n/10 1)))
+\OML/lmm/m/it/10 ; app\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 x[]; \OT1/lmr/m/n/10 (\
+OML/lmm/m/it/10 sub\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 x[]; \OT1/lmr/m/n/10 2))))
+)) \OMS/lmsy/m/n/10 7!
+ []
+
+
+Overfull \hbox (13.36794pt too wide) detected at line 545
+[]
+ []
+
+
+Overfull \hbox (49.67418pt too wide) in alignment at lines 550--768
+ [] [] 
+ []
+
+
+Overfull \hbox (49.67418pt too wide) in alignment at lines 768--863
+ [] [] 
+ []
+
+[89] [90] [91] [92] [93] [94] [95] [96] [97]
+
+LaTeX Warning: Command \textless invalid in math mode on input line 875.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 875.
+
+
+Overfull \hbox (3.57794pt too wide) detected at line 908
+[]
+ []
+
+[98]
+Underfull \hbox (badness 10000) in paragraph at lines 952--954
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 954--955
+
+ []
+
+) [99]
+Cap\'{\i }tulo 8.
+(11_Maquinas_Abstractas.tex
+<assets/08_gatito_abstracto.jpg, id=2100, 399.74344pt x 392.21532pt>
+File: assets/08_gatito_abstracto.jpg Graphic file (type jpg)
+<use assets/08_gatito_abstracto.jpg>
+Package pdftex.def Info: assets/08_gatito_abstracto.jpg  used on input line 9.
+(pdftex.def)             Requested size: 239.8479pt x 235.331pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--17
+
+ []
+
+[100
+
+ <./assets/08_gatito_abstracto.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 23--26
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--26
+
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 27.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 27.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--30
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--40
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--71
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--71
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--71
+
+ []
+
+[101]
+Underfull \hbox (badness 10000) in paragraph at lines 87--103
+
+ []
+
+[102]
+Underfull \hbox (badness 10000) in paragraph at lines 107--109
+
+ []
+
+[103] [104]
+Overfull \hbox (12.09235pt too wide) detected at line 227
+[]
+ []
+
+
+Overfull \hbox (3.10762pt too wide) detected at line 270
+[]
+ []
+
+[105
+
+]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 275.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 275.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 277--280
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--302
+
+ []
+
+[106]
+Underfull \hbox (badness 10000) in paragraph at lines 311--313
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 314--315
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--328
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 330--332
+
+ []
+
+[107]
+Underfull \hbox (badness 10000) in paragraph at lines 344--346
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 362--364
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 368--370
+
+ []
+
+[108]
+Underfull \hbox (badness 10000) in paragraph at lines 373--375
+
+ []
+
+[109]
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
+
+ []
+
+[110]
+Underfull \hbox (badness 10000) in paragraph at lines 483--485
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 483--485
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 483--485
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 491--493
+
+ []
+
+LaTeX Font Info:    Calculating math sizes for size <14> on input line 495.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <14> on input line 495.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9.79996> on input line 495.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 495.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 495.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 497--498
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 497--498
+
+ []
+
+[111]
+Underfull \hbox (badness 10000) in paragraph at lines 525--528
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 525--528
+
+ []
+
+[112] [113] [114]) [115]
+Cap\'{\i }tulo 9.
+(12_TinyC.tex
+<assets/09_Gatito_C.png, id=2329, 605.26125pt x 779.16093pt>
+File: assets/09_Gatito_C.png Graphic file (type png)
+<use assets/09_Gatito_C.png>
+Package pdftex.def Info: assets/09_Gatito_C.png  used on input line 8.
+(pdftex.def)             Requested size: 211.8446pt x 272.7104pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--14
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--14
+
+ []
+
+[116
+
+ <./assets/09_Gatito_C.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 20--23
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--27
+
+ []
+
+[117]
+Underfull \hbox (badness 10000) in paragraph at lines 62--63
+
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 83.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 83.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 88--90
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 88--90
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 91--96
+
+ []
+
+[118]
+Underfull \hbox (badness 10000) in paragraph at lines 141--142
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--142
+
+ []
+
+[119]
+Underfull \hbox (badness 10000) in paragraph at lines 152--154
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 205--207
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 271--274
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--310
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--310
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--331
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--331
+
+ []
+
+[120] [121] [122]
+Overfull \hbox (46.8812pt too wide) detected at line 362
+\OML/lmm/m/it/10 A \OT1/lmr/m/n/10 = \OML/lmm/m/it/10 secu\OT1/lmr/m/n/10 (\OML
+/lmm/m/it/10 vardec\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 Int; i; \OT1/lmr/m/n/10 1)
+\OML/lmm/m/it/10 ; secu\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 vardec\OT1/lmr/m/n/10 
+(\OML/lmm/m/it/10 Int; pre; \OT1/lmr/m/n/10 1)\OML/lmm/m/it/10 ; secu\OT1/lmr/m
+/n/10 (\OML/lmm/m/it/10 vardec\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 Int; post; \OT1
+/lmr/m/n/10 1)\OML/lmm/m/it/10 ; vardec\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 Int; f
+ib; \OT1/lmr/m/n/10 0))))
+ []
+
+
+Overfull \hbox (42.88pt too wide) detected at line 365
+\OML/lmm/m/it/10 B \OT1/lmr/m/n/10 = \OML/lmm/m/it/10 secu\OT1/lmr/m/n/10 (\OML
+/lmm/m/it/10 assig\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 fib; sum\OT1/lmr/m/n/10 (\O
+ML/lmm/m/it/10 pre; post\OT1/lmr/m/n/10 ))\OML/lmm/m/it/10 ; secu\OT1/lmr/m/n/1
+0 (\OML/lmm/m/it/10 asig\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 pre; post\OT1/lmr/m/n
+/10 )\OML/lmm/m/it/10 ; secu\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 asig\OT1/lmr/m/n/
+10 (\OML/lmm/m/it/10 i; sum\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 i \OT1/lmr/m/n/10 
++ 1)\OML/lmm/m/it/10 ; asig\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 post; fib\OT1/lmr/
+m/n/10 )))
+ []
+
+
+LaTeX Warning: Command \L invalid in math mode on input line 531.
+
+
+LaTeX Warning: Command \L invalid in math mode on input line 531.
+
+[123] [124] [125]
+
+Package tcolorbox Warning: The upper box part has become overfull on input line
+ 534.
+
+[126]
+Underfull \hbox (badness 10000) in paragraph at lines 537--539
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 537--539
+
+ []
+
+[127]) [128]
+Cap\'{\i }tulo 10.
+(13_subtipado.tex
+<assets/10_gatitos_familia.jpg, id=2470, 706.64pt x 534.99875pt>
+File: assets/10_gatitos_familia.jpg Graphic file (type jpg)
+<use assets/10_gatitos_familia.jpg>
+Package pdftex.def Info: assets/10_gatitos_familia.jpg  used on input line 9.
+(pdftex.def)             Requested size: 353.31914pt x 267.49872pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--16
+
+ []
+
+[129
+
+ <./assets/10_gatitos_familia.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 21--23
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--29
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--35
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--45
+
+ []
+
+[130]
+Underfull \hbox (badness 10000) in paragraph at lines 46--47
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--51
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--51
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--51
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--53
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 60--63
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--65
+
+ []
+
+[131]
+Underfull \hbox (badness 10000) in paragraph at lines 105--106
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 106--108
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 106--108
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 113--115
+
+ []
+
+[132]
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--146
+
+ []
+
+[133]
+Underfull \hbox (badness 10000) in paragraph at lines 160--162
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 164--165
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 168--169
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 186--187
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--191
+
+ []
+
+[134]
+Underfull \hbox (badness 10000) in paragraph at lines 198--201
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 198--201
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 203--207
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 209--211
+
+ []
+
+[135]) [136]
+Cap\'{\i }tulo 11.
+(14_Featherweight_Java.tex
+<assets/11_gatito_cayendo.jpg, id=2594, 794.97pt x 614.295pt>
+File: assets/11_gatito_cayendo.jpg Graphic file (type jpg)
+<use assets/11_gatito_cayendo.jpg>
+Package pdftex.def Info: assets/11_gatito_cayendo.jpg  used on input line 9.
+(pdftex.def)             Requested size: 317.98236pt x 245.71364pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+
+ []
+
+[137
+
+ <./assets/11_gatito_cayendo.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 21--24
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--30
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--67
+
+ []
+
+[138] [139]
+Overfull \hbox (21.91025pt too wide) in paragraph at lines 126--126
+[]        \OT1/lmtt/m/n/10 TrianguloRec(Integer adyacente, Integer opuesto, Int
+eger hipotenusa){[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--147
+
+ []
+
+[140]
+Underfull \hbox (badness 10000) in paragraph at lines 209--211
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 214--215
+
+ []
+
+[141]
+Underfull \hbox (badness 10000) in paragraph at lines 277--279
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 290--293
+
+ []
+
+
+Underfull \hbox (badness 1158) in paragraph at lines 290--293
+\OT1/lmr/m/n/10 En es-te len-gua-je las pro-pie-da-des de re-fle-xi-vi-dad y tr
+an-si-ti-vi-dad de-ben de
+ []
+
+[142] [143]
+Underfull \hbox (badness 10000) in paragraph at lines 410--413
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 410--413
+
+ []
+
+[144
+
+] [145]) (15_bibliografia.tex [146]
+Underfull \hbox (badness 1975) in paragraph at lines 48--49
+\OT1/lmr/m/n/10 ne-gie Me-llon Uni-ver-sity Press, San Fran-cis-co, Ca-li-for-n
+ia, 2010. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--67
+[]\OT1/lmr/m/n/10 Spector-Zabusky A., \OT1/lmr/m/it/10 How would the Lamb-da Ca
+l-cu-lus add num-bers?
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--67
+\OT1/lmr/m/n/10 2021 [fe-cha de con-sul-ta: 16/4/2023.]. Stack Over-flow. Dis-p
+o-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--67
+\OT1/lmr/m/n/10 https://stackoverflow.com/questions/29756732/how-would-the-lamb
+da-calculus-
+ []
+
+[147
+
+]
+Underfull \hbox (badness 7362) in paragraph at lines 94--95
+[]\OT1/lmr/m/n/10 Kirankumarambati P., \OT1/lmr/m/it/10 Bi-nary Search Da-ta St
+ruc-tu-re and Al-go-rithm Tu-to-
+ []
+
+
+Underfull \hbox (badness 1939) in paragraph at lines 94--95
+\OT1/lmr/m/it/10 rials \OT1/lmr/m/n/10 (2023), [fe-cha de con-sul-ta: 29/11/202
+2]. Geeks for geeks. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--110
+[]\OT1/lmr/m/n/10 King K., \OT1/lmr/m/it/10 Has-kell List Pro-blem Set \OT1/lmr
+/m/n/10 (2018), [fe-cha de con-sul-ta:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--110
+\OT1/lmr/m/n/10 10/12/22]. Github. Dis-po-ni-ble en https://github.com/JD95/has
+kell-problem-
+ []
+
+
+Underfull \hbox (badness 8056) in paragraph at lines 154--155
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia, \OT1/lmr/m/it/10 Se-man-tics (
+com-pu-ter scien-ce)\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--155
+\OT1/lmr/m/n/10 en-ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 18/10/20
+23]. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 159--160
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia, \OT1/lmr/m/it/10 Syn-tax (pro-
+gram-ming lan-gua-ges)\OT1/lmr/m/n/10 , Wi-ki-pe-dia,
+ []
+
+
+Underfull \hbox (badness 3189) in paragraph at lines 159--160
+\OT1/lmr/m/n/10 La en-ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 18/10
+/2023]. Dis-po-ni-ble en
+ []
+
+[148]
+Underfull \hbox (badness 10000) in paragraph at lines 214--215
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Am-bi-guous g
+ram-mar\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 214--215
+\OT1/lmr/m/n/10 ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 19/10/2023]
+. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 230--231
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Com-pi-led La
+n-gua-ge\OT1/lmr/m/n/10 . Wi-ki-pe-dia, La en-ci-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 230--231
+\OT1/lmr/m/n/10 clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 19/10/2023]. D
+is-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 235--236
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 In-ter-pre-te
+r (com-pu-ting)\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 235--236
+\OT1/lmr/m/n/10 ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 19/10/2023]
+. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--251
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Object-orient
+ed pro-gram-ming\OT1/lmr/m/n/10 . Wi-ki-pe-dia, La
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--251
+\OT1/lmr/m/n/10 en-ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 19/10/20
+23]. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 260--261
+[]\OT1/lmr/m/n/10 Armstrong J., \OT1/lmr/m/it/10 The Quarks of Object-Oriented 
+De-ve-lop-ment \OT1/lmr/m/n/10 (Com-mu-ni-ca-
+ []
+
+
+Underfull \hbox (badness 6708) in paragraph at lines 260--261
+\OT1/lmr/m/n/10 tions of the ACM), Re-search Ga-te di-gi-tal ar-chi-ve, 2006. D
+is-po-ni-ble en:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 260--261
+\OT1/lmr/m/n/10 https://www.researchgate.net/publication/220425366[]The[]quarks
+[]of[]object-
+ []
+
+[149]
+Underfull \hbox (badness 10000) in paragraph at lines 265--266
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Pro-gra-ma-ci
+^^Son por pro-ce-di-mien-tos\OT1/lmr/m/n/10 , Wi-ki-pe-dia,
+ []
+
+
+Underfull \hbox (badness 3189) in paragraph at lines 265--266
+\OT1/lmr/m/n/10 La en-ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 19/10
+/2023]. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 270--271
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Fun-ctio-nal 
+pro-gram-ming\OT1/lmr/m/n/10 . Wi-ki-pe-dia, La en-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 270--271
+\OT1/lmr/m/n/10 ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 23/10/2023]
+. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 280--281
+[]\OT1/lmr/m/n/10 Jain A., \OT1/lmr/m/it/10 Ja-vas-cript Pro-mi-ses: Is The-re 
+a Bet-ter Ap-proach? \OT1/lmr/m/n/10 Me-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 280--281
+\OT1/lmr/m/n/10 dium (2023), [fe-cha de con-sul-ta: 29/11/2023]. Dis-po-ni-ble 
+en:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 280--281
+\OT1/lmr/m/n/10 https://medium.datadriveninvestor.com/javascript-promises-is-th
+ere-a-better-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 285--286
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia, \OT1/lmr/m/it/10 Im-pe-ra-ti-v
+e pro-gram-ming\OT1/lmr/m/n/10 . Wi-ki-pe-dia, La en-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 285--286
+\OT1/lmr/m/n/10 ci-clo-pe-dia li-bre (2023). [fe-cha de con-sul-ta: 23/10/2023]
+. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 1895) in paragraph at lines 290--291
+\OT1/lmr/m/it/10 ol-dest pro-gram-ming pa-ra-digm\OT1/lmr/m/n/10 . IO-NOS Di-gi
+-tal Gui-de (2021), [fe-cha de con-sul-
+ []
+
+
+Underfull \hbox (badness 2020) in paragraph at lines 290--291
+\OT1/lmr/m/n/10 ta: 21/4/2022]. Dis-po-ni-ble en: https://www.ionos.com/digital
+guide/websites/web-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--301
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Lo-gic pro-gr
+am-ming\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-ci-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--301
+\OT1/lmr/m/n/10 clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 24/10/2023]. D
+is-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 305--306
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Mathe-ma-ti-c
+al ob-ject\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 305--306
+\OT1/lmr/m/n/10 ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 25/10/2023]
+. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 6094) in paragraph at lines 320--321
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Judg-ment (ma
+the-ma-ti-cal lo-gic)\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 320--321
+\OT1/lmr/m/n/10 en-ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 25/10/20
+23]. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 330--331
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Ru-le of in-f
+e-ren-ce\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-ci-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 330--331
+\OT1/lmr/m/n/10 clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 25/10/2023]. D
+is-po-ni-ble en
+ []
+
+[150]
+Underfull \hbox (badness 5832) in paragraph at lines 390--391
+[]\OT1/lmr/m/n/10 Jessica S., \OT1/lmr/m/it/10 In-tro-duc-tion to Has-kell \OT1
+/lmr/m/n/10 (2013), [fe-cha de con-sul-ta: 4/11/2022].
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 390--391
+\OT1/lmr/m/n/10 Uni-ver-sity of Pennsyl-va-nia, Phi-la-delphia, Pennsyl-va-nia.
+ Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 410--411
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia, \OT1/lmr/m/it/10 Abs-tract syn
+-tax\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-ci-clo-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 410--411
+\OT1/lmr/m/n/10 pe-dia li-bre (2023), [fe-cha de con-sul-ta: 30/10/2023]. Dis-p
+o-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 415--416
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia, \OT1/lmr/m/it/10 Sco-pe\OT1/lm
+r/m/n/10 , Wi-ki-pe-dia, La en-ci-clo-pe-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 415--416
+\OT1/lmr/m/n/10 dia li-bre (2023), [fe-cha de con-sul-ta: 31/10/2023]. Dis-po-n
+i-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 420--421
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia, \OT1/lmr/m/it/10 Let ex-pres-s
+ion\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-ci-clo-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 420--421
+\OT1/lmr/m/n/10 pe-dia li-bre (2023). [fe-cha de con-sul-ta: 31/10/2023]. Dis-p
+o-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--426
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia, \OT1/lmr/m/it/10 La-mab-da Cal
+-cu-lus\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-ci-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--426
+\OT1/lmr/m/n/10 clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 31/10/2023]. D
+is-po-ni-ble en
+ []
+
+[151]
+Underfull \hbox (badness 10000) in paragraph at lines 470--471
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Mathe-ma-ti-c
+al in-duc-tion\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 470--471
+\OT1/lmr/m/n/10 ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 14/11/2023]
+. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 506--507
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Dy-na-mic syn
+-tax\OT1/lmr/m/n/10 . Wi-ki-pe-dia, La en-ci-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 506--507
+\OT1/lmr/m/n/10 clo-pe-dia li-bre, 2023 [fe-cha de con-sul-ta: 28/11/2023]. Dis
+-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--517
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Ope-ra-tio-na
+l se-man-tics\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La en-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 516--517
+\OT1/lmr/m/n/10 ci-clo-pe-dia li-bre (2023), [fe-cha de con-sul-ta: 28/11/2023]
+. Dis-po-ni-ble en
+ []
+
+[152]
+Underfull \hbox (badness 1097) in paragraph at lines 531--532
+\OT1/lmr/m/n/10 paign, IL, Es-ta-dos Uni-dos. 2020. [fe-cha de con-sul-ta 30/4/
+2024]. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 1354) in paragraph at lines 541--542
+[]\OT1/lmr/m/n/10 Aldrich J., \OT1/lmr/m/it/10 Lec-tu-re No-tes: Small-Step Ope
+-ra-tio-nal Se-man-tics\OT1/lmr/m/n/10 , Car-ne-gie Me-llon
+ []
+
+
+Underfull \hbox (badness 1648) in paragraph at lines 541--542
+\OT1/lmr/m/n/10 Uni-ver-sity On-li-ne Re-po-si-tor, Pit-ts-burgh, PA, Es-ta-dos
+ Uni-dos. 2022. [fe-cha de
+ []
+
+
+Underfull \hbox (badness 1694) in paragraph at lines 541--542
+\OT1/lmr/m/n/10 con-sul-ta 30/4/2024]. Dis-po-ni-ble en https://www.cs.cmu.edu/
+ aldrich/courses/17-
+ []
+
+
+Underfull \hbox (badness 1755) in paragraph at lines 546--547
+[]\OT1/lmr/m/n/10 Chong S., \OT1/lmr/m/it/10 Large-step se-man-tics, con-ti-nue
+d\OT1/lmr/m/n/10 , Har-vard On-li-ne Re-po-si-tory, Cam-
+ []
+
+
+Underfull \hbox (badness 7133) in paragraph at lines 546--547
+\OT1/lmr/m/n/10 brid-ge, Mas-sa-chu-setts, 2016. [fe-cha de con-sul-ta 30/4/202
+4]. Dis-po-ni-ble en
+ []
+
+
+Overfull \hbox (35.27997pt too wide) in paragraph at lines 551--552
+\OT1/lmr/m/n/10 https://github.com/jaeem006/Lenguajes/blob/main/Gabrielle[]exc/
+Semantics[]exercises[]sol.pdf 
+ []
+
+
+Underfull \hbox (badness 1092) in paragraph at lines 556--557
+[]\OT1/lmr/m/n/10 Korbmacher J. et al., \OT1/lmr/m/it/10 The Lamb-da Cal-cu-lus
+\OT1/lmr/m/n/10 , Stan-ford Ency-clo-pe-dia of Phi-lo-
+ []
+
+
+Underfull \hbox (badness 3525) in paragraph at lines 571--572
+[]\OT1/lmr/m/n/10 Cartwright R., \OT1/lmr/m/it/10 Comp 311 - Re-view 2\OT1/lmr/
+m/n/10 , Ri-ce Uni-ver-sity On-li-ne Re-po-si-tory,
+ []
+
+
+Underfull \hbox (badness 4132) in paragraph at lines 571--572
+\OT1/lmr/m/n/10 Te-xas, Es-ta-dos Uni-dos, 2010. [fe-cha de con-sul-ta 21/5/202
+4]. Dis-po-ni-ble en
+ []
+
+[153]
+Underfull \hbox (badness 6592) in paragraph at lines 591--592
+[]\OT1/lmr/m/n/10 Pohjola J., \OT1/lmr/m/it/10 COMP3161/9164 23T3 As-sign-ment 
+1\OT1/lmr/m/n/10 , UNSW On-li-ne Re-po-si-
+ []
+
+
+Underfull \hbox (badness 3803) in paragraph at lines 591--592
+\OT1/lmr/m/n/10 tory, Syd-ney, Aus-tra-lia, 2023. [fe-cha de con-sul-ta 12/6/20
+24]. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 1496) in paragraph at lines 596--597
+[]\OT1/lmr/m/n/10 Pohjola J., \OT1/lmr/m/it/10 Fun-ctio-nal Pro-gram-ming Lan-g
+ua-ges: MinHs\OT1/lmr/m/n/10 , UNSW On-li-ne Re-po-
+ []
+
+
+Underfull \hbox (badness 2478) in paragraph at lines 596--597
+\OT1/lmr/m/n/10 si-tory, Syd-ney, Aus-tra-lia, 2023. [fe-cha de con-sul-ta 12/6
+/2024]. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 601--602
+[]\OT1/lmr/m/n/10 Pfenning F., \OT1/lmr/m/it/10 Foun-da-tions of Pro-gram-ming 
+Lan-gua-ges: Lec-tu-res No-tes on
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 601--602
+\OT1/lmr/m/it/10 Pro-gress\OT1/lmr/m/n/10 , Carnegie-Mellon Uni-ver-sity On-li-
+ne Re-po-si-tory, Pit-ts-burgh, Pen-sil-
+ []
+
+
+Underfull \hbox (badness 4621) in paragraph at lines 601--602
+\OT1/lmr/m/n/10 va-nia, Es-ta-dos Uni-dos, 2004. [fe-cha de con-sul-ta 18/6/202
+4]. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 1817) in paragraph at lines 606--607
+[]\OT1/lmr/m/n/10 Pfenning F., \OT1/lmr/m/it/10 Foun-da-tions of Pro-gram-ming 
+Lan-gua-ges: Lec-tu-res No-tes on Ty-
+ []
+
+
+Underfull \hbox (badness 4859) in paragraph at lines 606--607
+\OT1/lmr/m/it/10 pe Sa-fety\OT1/lmr/m/n/10 , Carnegie-Mellon Uni-ver-sity On-li
+-ne Re-po-si-tory, Pit-ts-burgh, Pen-sil-
+ []
+
+
+Underfull \hbox (badness 4621) in paragraph at lines 606--607
+\OT1/lmr/m/n/10 va-nia, Es-ta-dos Uni-dos, 2004. [fe-cha de con-sul-ta 18/6/202
+4]. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 617--618
+[]\OT1/lmr/m/n/10 Erwan A., \OT1/lmr/m/it/10 Self-application in Church's unty-
+ped lamb-da cal-cu-lus\OT1/lmr/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 617--618
+\OT1/lmr/m/n/10 2012. Stack Over-flow. [fe-cha de con-sul-ta 18/6/2024]. Dis-po
+-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 617--618
+\OT1/lmr/m/n/10 https://math.stackexchange.com/questions/1316377/self-applicati
+on-in-churchs-
+ []
+
+
+Underfull \hbox (badness 4981) in paragraph at lines 649--650
+[]\OT1/lmr/m/n/10 Feeley M., \OT1/lmr/m/it/10 Com-pi-ler for the Tiny-C lan-gua
+-ge\OT1/lmr/m/n/10 , 2002. Uni-ver-sit^^Se de Mon-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 649--650
+\OT1/lmr/m/n/10 treal On-li-ne Re-po-si-tory. [fe-cha de con-sul-ta 29/10/2024]
+. Dis-po-ni-ble en
+ []
+
+[154]
+Underfull \hbox (badness 10000) in paragraph at lines 689--690
+[]\OT1/lmr/m/n/10 Colaboradores de Wi-ki-pe-dia. \OT1/lmr/m/it/10 Object-orient
+ed pro-gram-ming\OT1/lmr/m/n/10 , Wi-ki-pe-dia, La
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 689--690
+\OT1/lmr/m/n/10 en-ci-clo-pe-dia li-bre (2024), [fe-cha de con-sul-ta: 15/11/20
+24]. Dis-po-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 699--700
+[]\OT1/lmr/m/n/10 Stanford Uni-ver-sity. (2016). \OT1/lmr/m/it/10 Lec-tu-re 18:
+ Context-Free Gram-mars
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 699--700
+\OT1/lmr/m/it/10 (CS103: Mathe-ma-ti-cal Foun-da-tions of Com-pu-ting)\OT1/lmr/
+m/n/10 . Stan-ford Uni-ver-sity.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 709--710
+[]\OT1/lmr/m/n/10 Snyder, L. (n.d.). \OT1/lmr/m/it/10 Prac-ti-ce Pro-blems 07 (
+CS 320)\OT1/lmr/m/n/10 . Bos-ton Uni-ver-sity.
+ []
+
+
+Underfull \hbox (badness 7963) in paragraph at lines 714--715
+[]\OT1/lmr/m/n/10 Baker D., \OT1/lmr/m/it/10 Ho-me-work 11 Context-Free Gram-ma
+rs (CS 341)\OT1/lmr/m/n/10 . Te-xas Uni-
+ []
+
+
+Underfull \hbox (badness 3989) in paragraph at lines 714--715
+\OT1/lmr/m/n/10 ver-sity. https://www.cs.utexas.edu/ cline/ear/automata/CS341-F
+all-2004-Packet/2-
+ []
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 719.
+
+LaTeX Font Info:    Font shape `OML/lmr/m/it' in size <10> not available
+(Font)              Font shape `OML/lmm/m/it' tried instead on input line 719.
+
+LaTeX Warning: Command \textless invalid in math mode on input line 719.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 719.
+
+
+LaTeX Warning: Command \textgreater invalid in math mode on input line 719.
+
+
+Underfull \hbox (badness 3323) in paragraph at lines 719--720
+[]\OT1/lmr/m/n/10 Guy Co-der., \OT1/lmr/m/it/10 Loo-king for a Church-encoding 
+(lamb-da cal-cu-lus) to de-fi-ne $[]$
+ []
+
+
+Underfull \hbox (badness 3417) in paragraph at lines 719--720
+\OT1/lmr/m/it/10 , $[]$ , !=.\OT1/lmr/m/n/10 . Stack Over-flow (2012). [fe-cha 
+de con-sul-ta 5/22/2025]. Dis-po-ni-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 724--725
+[]\OT1/lmr/m/n/10 user3310334., \OT1/lmr/m/it/10 How would the Lamb-da Cal-cu-l
+us add num-bers?\OT1/lmr/m/n/10 .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 724--725
+\OT1/lmr/m/n/10 Stack Over-flow (2015). [fe-cha de con-sul-ta 29/5/2025]. Dis-p
+o-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 724--725
+\OT1/lmr/m/n/10 https://stackoverflow.com/questions/29756732/how-would-the-lamb
+da-calculus-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 729--730
+[]\OT1/lmr/m/n/10 Gruenbaum B., \OT1/lmr/m/it/10 Lamb-da cal-cu-lus pre-de-ces-
+sor fun-ction re-duc-tion steps\OT1/lmr/m/n/10 .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 729--730
+\OT1/lmr/m/n/10 Stack Over-flow (2021). [fe-cha de con-sul-ta 3/6/2025]. Dis-po
+-ni-ble en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 729--730
+\OT1/lmr/m/n/10 https://stackoverflow.com/questions/8790249/lambda-calculus-pre
+decessor-function-
+ []
+
+) [155] (00_Manual_Main_Template.aux
+LaTeX Info: Redefining \sptext on input line 12.
+LaTeX Info: Redefining \. on input line 12.
+LaTeX Info: Redefining \% on input line 12.
+ (02_nota_al_lector.aux)
+(03_dedicatoria.aux))
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+ ***********
+
+
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 0.72pt have occurred.
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package rerunfilecheck Info: File `00_Manual_Main_Template.out' has not changed
+.
+(rerunfilecheck)             Checksum: BC9625EC87C332C267C9DCECB0C4EE53;18590.
+Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
+\openout1 = `00_Manual_Main_Template.run.xml'.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 49478 strings out of 474486
+ 964181 string characters out of 5753571
+ 2151542 words of memory out of 5000000
+ 69720 multiletter control sequences out of 15000+600000
+ 707332 words of font info for 153 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 108i,33n,113p,997b,2379s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{return} has been referenced but does not exist, rep
+laced by a fixed one
+
+ <C:\Users\luis_\AppData\Local\MiKTeX\fonts/pk/ljfour/public/stmaryrd/dpi600\st
+mary10.pk><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmb10.pfb><C:/Program 
+Files/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Program Files/MiKTeX/fonts/t
+ype1/public/lm/lmex10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmmi10
+.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Program File
+s/MiKTeX/fonts/type1/public/lm/lmmi5.pfb><C:/Program Files/MiKTeX/fonts/type1/p
+ublic/lm/lmmi6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmmi7.pfb><C:
+/Program Files/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Program Files/MiKTeX/
+fonts/type1/public/lm/lmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/
+lmr5.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Program Fi
+les/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Program Files/MiKTeX/fonts/type1/
+public/lm/lmr8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C
+:/Program Files/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Program Files/MiKTe
+X/fonts/type1/public/lm/lmri7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/l
+m/lmri8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmss10.pfb><C:/Progr
+am Files/MiKTeX/fonts/type1/public/lm/lmss8.pfb><C:/Program Files/MiKTeX/fonts/
+type1/public/lm/lmssbx10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lms
+so10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Program 
+Files/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Program Files/MiKTeX/fonts/typ
+e1/public/lm/lmsy8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmtk10.pf
+b><C:/Program Files/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Program Files/M
+iKTeX/fonts/type1/public/lm/lmtt8.pfb><C:/Program Files/MiKTeX/fonts/type1/publ
+ic/amsfonts/symbols/msam10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsf
+onts/symbols/msbm10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/sy
+mbols/msbm7.pfb>
+Output written on 00_Manual_Main_Template.pdf (166 pages, 2430889 bytes).
+PDF statistics:
+ 3307 PDF objects out of 3580 (max. 8388607)
+ 1214 named destinations out of 1440 (max. 500000)
+ 1110 words of extra memory for PDF output out of 10000 (max. 10000000)
+
