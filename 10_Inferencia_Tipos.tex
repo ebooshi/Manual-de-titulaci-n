@@ -28,17 +28,17 @@ Adicionalmente se proporcionará la definición del algoritmo de unificación pa
 
 \subsubsection{Planteamiento}
 En este capítulo  revisaremos diferentes  procedimientos que se aplican a las expresiones de \textsf{MinHS} para poder garantizar la correcta  asignación de un tipo.
-Estudiaremos la estandarización de variables para obtener $\alpha\text{-equivalencias}$ entre las variables ligadas repetidas dentro de una expresión.\\\\
-Posteriormente vamos a revisar los juicios para generar las restricciones de tipo que cada expresión genera para finalmente definir el algoritmo unificador $\mu$.
+Estudiaremos la estandarización de variables para obtener expresiones $\alpha\text{-equivalencias}$ cuando existan variables ligadas repetidas dentro de una expresión.\\\\
+Posteriormente, vamos a definir los juicios para generar las restricciones de tipo que cada expresión de \textsf{MinHS} introduce, para finalmente definir el algoritmo unificador $\mu$.
 
 
 \section{Estandarización de variables}
-La semántica estática de \textsf{MinHS} y la de \textsf{EAB} se implementa de forma similar para ir agregando a un contexto (que denotaremos con la letra $\Gamma$) aquellas variables definidas en las expresiones junto con el tipo que se espera estas tengan.\\\\
+La semántica estática de \textsf{MinHS} y la semántica estática de \textsf{EAB} se implementan de forma similar para ir agregando a un contexto (que denotamos con la letra $\Gamma$) aquellas variables definidas en las expresiones junto con el tipo que se espera estas tengan.\\\\
 En el contexto $\Gamma$ solo puede existir una sola aparición por variable, es decir, nunca podremos tener $\Gamma=\{x : Nat,\ x : Bool\}$ dado que $\Gamma$ es un conjunto de variables y tipos. Tener la misma variable con dos tipos distintos es una inconsistencia dentro de nuestro programa y constituye un error en el tipificado de la expresión\footnote{Definición de semántica estática para \textsf{MinHS} formulada de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\\\
 Para evitar esta situación se define el proceso conocido como estandarización de variables que consiste en brindar una $\alpha$-equivalencia cuando dos variables ligadas tengan el mismo nombre.\\\\
 Tomemos como ejemplo la siguiente expresión:
 $$ \textsf{let } x = \textsf{True} \textsf{ in } \textsf{if } x \textsf{ then } \textsf{ let } x = 5 \textsf{ in } x < x \textsf{ end } \textsf{ end }$$
-En este caso la expresión está bien formada, no hay ninguna regla de la sintaxis concreta que esté mal aplicada para obtener nuestra expresión. La evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a verdadero y luego se continúa con la comparación de dos valores booleanos, sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
+En este caso la expresión está bien formada, no hay ninguna regla de la sintaxis concreta que esté mal aplicada para obtener nuestra expresión. La evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a \textsf{False} y luego se continua con la evaluación del la instrucción \textsf{if}. Sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
 El problema puede ser corregido utilizando una $\alpha$-equivalencia y renombrando las variables $x$ por $x_0$ y $x_1$ respectivamente:
 $$ \textsf{let } x_0 = \textsf{True} \textsf{ in } \textsf{if } x_0\ \textsf{ then } \textsf{ let } x_1 = 5 \textsf{ in } x_1 < x_1 \textsf{ end } \textsf{ end }$$
 Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
@@ -58,12 +58,12 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 \begin{exercise}    
     Para la siguiente expresión de \textsf{MinHS} expresando el contexto
 
-    $$ \textsf{let } x = \textsf{True} \textsf{ in } x \textsf{ or } (\textsf{let } x = 5 \textsf{ in } x < 5 \textsf{ end}) \textsf{ end} $$
+    $$ \textsf{let } x = \textsf{True} \textsf{ in } (\textsf{let } x = 5 \textsf{ in } x < 5 \textsf{ end}) \textsf{ end} $$
     $$ \Gamma = \{x:Bool,\ x:Nat\}$$
     
     Aplica la estandarización de variables: 
     
-    $$ \textsf{let } x_0 = \textsf{True} \textsf{ in } x_0 \textsf{ or } (\textsf{let } x_1 = 5 \textsf{ in } x_1 < 5 \textsf{ end}) \textsf{ end} $$
+    $$ \textsf{let } x_0 = \textsf{True} \textsf{ in }  (\textsf{let } x_1 = 5 \textsf{ in } x_1 < 5 \textsf{ end}) \textsf{ end} $$
     $$ \Gamma = \{x_1:Bool,\ x_0:Nat\}$$
 \end{exercise}
 
@@ -75,72 +75,72 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
     
     Aplica la estandarización de variables:
     
-    $$ \textsf{let } x_0 = 1 \textsf{ in } (\textsf{ let } x_1 = \textsf{False} \textsf{ in } (\textsf{let } x_2 = fun\ y :: Nat \to y = 0  \textsf{ in } x_2 \textsf{ end}) \textsf{ end}) \textsf{ end} $$
-    $$ \Gamma = \{ x_0 : Nat,\ x_1 : Bool,\ x_2 : Nat \to Bool \}$$
+    $$ \textsf{let } x_0 = 1 \textsf{ in } (\textsf{ let } x_1 = \textsf{False} \textsf{ in } (\textsf{let } x_2 = fun\ y :: Bool \to y = 0  \textsf{ in } x_2 \textsf{ end}) \textsf{ end}) \textsf{ end} $$
+    $$ \Gamma = \{ x_0 : Nat,\ x_1 : Bool,\ x_2 : Bool \to Bool \}$$
 \end{exercise}
 
-        \begin{exercise} 
-	Propón una semántica estática que resuelva el proceso de estandarización de variables.
-    \end{exercise}
-	\begin{definition} Definición de la semántica estática para la estandarización de variables\footnote{definición formulada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}.\\\\
-	Representaremos la asignación serializada de nuevas variables con una lista de parejas conformada por la variable original seguida de su nueva asignación mediante la aplicación del siguiente juicio: $$v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ e\ asa$$ 
-          Que se lee como: \\\\
-	''El árbol de sintaxis abstracta $e$ es congruente con la lista $v_n: x_n\ ...\ v_0:x_0$ bajo $\alpha$-equivalencia aplicando la(s) sustitución(es) sí existen en la lista''.\\
-        \begin{description}
-            \item[Variables]
-            \[
-	     \begin{array}{ccc}	
-                \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ v_n}{x_n}&\quad&
-	     \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ y }{ y}
-                \end{array}
-            \]
-            \item[Valores numéricos]
-            \[
-                \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ num[n]}
-            \]
-             \item[Valores Booleanos]
-             \[
-                \begin{array}{ccc}
-                    \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ \textit{False}}&\quad&
-                    \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ \textit{True}}
-                \end{array}
-            \]
-            \item[Operadores]
-            \[
-                    \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_1 & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_2}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ Op(t_1,t_2)}
-            \]
-            \item[Condicional]
-            \[
-                \inference{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_c & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_t & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_f}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  if(t_c,t_t,t_f)}
-            \]
-            \item[Asignaciones Locales]
-            \[
-                \begin{array}{ccc}
-                    \inference{v_{n}:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\  t_v &  y:x_{n+1},\ v_n : x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  t_b}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  let(t_v,y.t_b)}&\quad&
-                \end{array}
-            \]
-            \item[Funciones]
-            \[
-                \inference{f:f_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t }{v_n:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\ fun(T,f.t)} \quad
-	\]
-	\[
-                \inference{f:f_{n+1}, y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t  }{x:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\ recfun(T \to S,f.y.t)}
-            \]
-            \item[Aplicación de función]
-            \[
-                \inference{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_f& v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_p}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ app(t_f,t_p)}
-            \]
-            \item[Operador de punto fijo]
-            \[
-                \inference{y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ fix(T,y.t)}
-            \]
-	\end{description}
-	\end{definition}
+ %       \begin{exercise} 
+%	Propón una semántica estática que resuelva el proceso de estandarización de variables.
+ %   \end{exercise}
+%	\begin{definition} Definición de la semántica estática para la estandarización de variables\footnote{definición formulada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}.\\\\
+%	Representaremos la asignación serializada de nuevas variables con una lista de parejas conformada por la variable original seguida de su nueva asignación mediante la aplicación del siguiente juicio: $$v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ e\ asa$$ 
+ %         Que se lee como: \\\\
+%	''El árbol de sintaxis abstracta $e$ es congruente con la lista $v_n: x_n\ ...\ v_0:x_0$ bajo $\alpha$-equivalencia aplicando la(s) sustitución(es) sí existen en la lista''.\\
+ %       \begin{description}
+   %         \item[Variables]
+   %         \[
+%	     \begin{array}{ccc}	
+  %              \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ v_n}{x_n}&\quad&
+%	     \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ y }{ y}
+  %              \end{array}
+    %        \]
+      %      \item[Valores numéricos]
+        %    \[
+           %     \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ num[n]}
+           % \]
+            % \item[Valores Booleanos]
+             %\[
+               % \begin{array}{ccc}
+                 %   \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ \textit{False}}&\quad&
+                   % \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ \textit{True}}
+                %\end{array}
+            %\]
+            %\item[Operadores]
+            %\[
+              %      \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_1 & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_2}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ Op(t_1,t_2)}
+            %\]
+            %\item[Condicional]
+            %\[
+              %  \inference{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_c & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_t & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_f}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  if(t_c,t_t,t_f)}
+            %\]
+            %\item[Asignaciones Locales]
+            %\[
+             %   \begin{array}{ccc}
+               %     \inference{v_{n}:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\  t_v &  y:x_{n+1},\ v_n : x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  t_b}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  let(t_v,y.t_b)}&\quad&
+                %\end{array}
+            %\]
+            %\item[Funciones]
+            %\[
+              %  \inference{f:f_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t }{v_n:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\ fun(T,f.t)} \quad
+	%\]
+	%\[
+            %    \inference{f:f_{n+1}, y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t  }{x:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\ recfun(T \to S,f.y.t)}
+            %\]
+            %\item[Aplicación de función]
+            %\[
+             %   \inference{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_f& v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_p}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ app(t_f,t_p)}
+            %\]
+            %\item[Operador de punto fijo]
+            %\[
+              %  \inference{y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ fix(T,y.t)}
+            %\]
+	%\end{description}
+	%\end{definition}
 
 
 \section{Generación de restricciones}
 
-    Para poder tipificar una expresión bien formada de \textbf{MinHS}  sin utilizar las anotaciones de tipo explícitamente en los argumentos y valores de retorno es necesario definir un proceso que nos ayude a obtener información sobre la estructura que esta posee. \\\\
+    Para poder tipificar una expresión bien formada de \textsf{MinHS}  sin utilizar las anotaciones de tipo explícitamente en los argumentos y valores de retorno, es necesario definir un proceso que nos ayude a obtener información sobre la estructura que esta posee. \\\\
     A esta información se le conoce como restricciones y nos ayudan a ligar las condiciones que se deben cumplir para que una expresión esté bien tipificada.
 
     \begin{definition}[Conjunto de restricciones]
@@ -218,7 +218,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 	\[
                     \inference
                         {b \mapsto R_1}
-                        {recfun(v,f.x_i.b) \mapsto R_1, \llbracket recfun(v,f.x_i.b)\rrbracket = X_i \to \llbracket b\rrbracket}\\
+                        {recfun(f.x_i.b) \mapsto R_1, \llbracket recfun(f.x_i.b)\rrbracket = X_i \to \llbracket b\rrbracket}\\
             \]
             \item[Aplicación de función]
             \[
@@ -272,9 +272,9 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 U(T=T:R)&=&U(R)&\\
                 U(X=T:R)&=&U(R[X:=T]) $\textopenbullet$ [X:=T] & \textit{si }X \not \in var(T)\\
                 U(X=T:R)&=&{\sf Fail}& \text{si }X \in var(T)\\
-                U(e=T:R)&=&U(R[e:=T]) $\textopenbullet$ [e:=T]&\\
+                U( \llbracket e \rrbracket =T:R)&=&U(R[e:=T]) $\textopenbullet$ [ \llbracket e \rrbracket :=T]&\\
                 U(T=X:R)&=&U(X=T:R)&\\
-                U(T=e:R)&=&U(e=T:R)&\\
+                U(T= \llbracket e \rrbracket:R)&=&U( \llbracket e \rrbracket=T:R)&\\
                 U(S_1\to S_2=T_1\to T_2:R)&=&U(S_1=T_1:S_2=T_2:R)&\\
                 U(R)&=&{\sf Fail}&\\
            \end{array}
@@ -512,7 +512,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 \item $sum(app(x_0, sub(x_1,1)), app(x_0, sub(x_1,2))) \mapsto \\ \underbrace{R_3, R_4.  \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat,  \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat,}_{R_5}$ \\ $\underbrace{  \llbracket sum(app(x_0, sub(x_1,1), app(x_0, sub(x_1,2))) \rrbracket = Nat}_{R_5}$
                 \item $lt(x_1 , 2) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 2 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket lt(x_1 , 2) \rrbracket = Bool}_{R_6}$
                 \item $if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))) \mapsto$ \\ $\underbrace{R_6,  \llbracket 1 \rrbracket = Nat, R_5,  \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1)))}_{R_7}$, \\ $\underbrace{app(x_0, (sub(x_1,2)))) \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket }_{R_7}$
-                \item $recfun(x_0,\ x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_7,   \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket}_{R_8}$
+                \item $recfun(x_0.\ x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \mapsto \\ \underbrace{R_7,   \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket}_{R_8}$
             \end{itemize}
 
            \item Como resultado se obtiene la lista de restricciones $R$:
@@ -532,10 +532,6 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                 &&  \llbracket x_0 \rrbracket =  \llbracket sub(x_1,2) \rrbracket \to  \llbracket app(x_0, sub(x_1,2)) \rrbracket \\
                 &&  \llbracket app(x_0, sub(x_1,1)) \rrbracket = Nat \\
                 &&  \llbracket app(x_0, sub(x_1,2)) \rrbracket = Nat \\	
-                \end{array}
-            \]
-            \[
-                \begin{array}{rclr}
 	      &&   \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2))))  \rrbracket = Nat \\
                 &&  \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))) \rrbracket \\
                 &&  \llbracket if(lt(x_1 , 2), 1, sum(app(x_0, (sub(x_1,1))), app(x_0, (sub(x_1,2)))))) \rrbracket =  \llbracket 1 \rrbracket\\
@@ -788,7 +784,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
                     \hline 
                         $Nat = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$\\
                         $ \llbracket if(...) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\
-                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
+                        $ \llbracket if(...) \rrbracket =  Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
                         $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket 1 \rrbracket := Nat$\\
                         & $ \llbracket x_0 \rrbracket := X_0$\\ 
                         &  $X_1 := Nat$\\  
@@ -815,7 +811,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
                      \hline 
                         $ Nat = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\
-                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket 2 \rrbracket := Nat$\\ 
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  Nat $ & $ \llbracket 2 \rrbracket := Nat$\\ 
                         & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\ 
                         & $ \llbracket 1 \rrbracket := Nat$\\  
 			     & $ \llbracket x_0 \rrbracket := X_0$\\
@@ -888,7 +884,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
 		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
 \bigskip
 		\[
-			\textsf{fun $x$ :: $Nat\ \rightarrow$ $x$ * ($x$ - 1) / ($x$ * $x$)}
+			\textsf{fun $x$ :: $Nat\ \rightarrow$ $x$ * ($x$ - 1) + ($x$ * $x$)}
 		\]
 \bigskip
 		\begin{itemize}
