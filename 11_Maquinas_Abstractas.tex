@@ -57,13 +57,13 @@ Una vez concluida la evaluación de las subexpresiones de éste computo, el valo
         \item[Aplicación de función] 
             \[
                     \inference{}
-                    {app(e_1,\square)\ marco}
+                    {app(\square, e_2)\ marco}
             \]
-        \item[Asignaciones locales] 
-            \[
-                    \inference{}
-                    {let(\square, x.e_1)\ marco}
-            \]  
+        %\item[Asignaciones locales] 
+         %   \[
+          %          \inference{}
+           %         {let(\square, x.e_1)\ marco}
+           % \]  
 
 
 	Notemos que los operadores \textsf{fix}, \textsf{fun} y \textsf{recfun} no tienen una definición con un marco. Esto es porque estas expresiones solo pueden ser aplicadas con la expresión \textsf{app} que define el marcador de cómputo pendiente para el argumento de la función.
@@ -108,82 +108,87 @@ La función de transición vincula la pila de ejecución con los marcos, definie
 Sí el cómputo pendiente de un marco ha terminado su evaluación, el valor regresa al marcador de lugar y se continúa con el resto de los cómputos. Sí todos los cómputos han sido resueltos entonces se evalúa lo operación con los valores retornados al marco.
 
 \begin{definition}[Transiciones para la máquina $\Hs$]
-Las transiciones se definen por medio de la relación $\rightarrow_{h}$ y son de la forma\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}} :
+Las transiciones se definen por medio de la relación $\rightarrow_{\Hs}$ y son de la forma\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}} :
 
-$$P \succ e\rightarrow_{h} P' \succ e'$$
+$$P \succ e\rightarrow_{\Hs} P' \succ e'$$
 
 \bigskip
 \begin{description}
     \item[Valores] Los valores del lenguaje son números, booleanos y funciones. La evaluación de un valor simplemente lo regresa como resultado a la pila, pues un valor ya finalizó su proceso de evaluación.
     \[
-        \inference{}{P \succ v\rightarrow_{h} P \prec v}
+        \inference{}{P \succ v\rightarrow_{\Hs} P \prec v}
     \]
 \medskip
     \item[Operaciones] Definimos el proceso para evaluar cualquier operador de la siguiente forma: Para evaluar $O(e_1,e_2)$ agregamos el marco $O(\square,e_2)$ a la pila y evaluamos $e_1$.
     \[
-        \inference{}{P\succ O(e_1,e_2)\rightarrow_{h}O(\square,e_2);P\succ e_1}
+        \inference{}{P\succ O(e_1,e_2)\rightarrow_{\Hs}O(\square,e_2);P\succ e_1}
     \]
 
     Si tenemos en el tope de la pila el marco $O(\square,e_2)$ y se regresa como resultado un valor $v$, entonces, evaluamos $e_2$ y sustituimos el tope de la pila por el marco $O(v_1,\square)$.
     \[
-        \inference{}{O(\square,e_2);P\prec v_1\rightarrow_{h}O(v_1,\square);P\succ e_2}
+        \inference{}{O(\square,e_2);P\prec v_1\rightarrow_{\Hs}O(v_1,\square);P\succ e_2}
     \]
 \medskip
-    Si se devuelve un valor a la pila que tiene como tope el marco $O(v_1,\square)$ entonces podemos devolver al resto de la pila el resultado de la operación de ambos valores.
+    Si se devuelve un valor a la pila que tiene como tope el marco $O(v_1,\square)$ entonces podemos devolver al resto de la pila el resultado de la operación de ambos valores. 
+    Aplicando este principio a la operación \textsf{sum} tenemos la siguiente regla.
     \[
-        \inference{}{O(v_1,\square);P \prec v_2 \rightarrow_{h} P \prec v_1\ O\ v_2}
+        \inference{}{sum(num[n],\square);P \prec num[m] \rightarrow_{\Hs} P \prec num[n + m]}
     \]
 \medskip
     \item[Condicional] Para evaluar la expresión $if(e_1,e_2,e_3)$ agregamos el marco $if(\square,e_2,e_3)$ al tope de la pila y evaluamos $e_1$.
     \[
-        \inference{}{P \succ if(e_1,e_2,e_3)\rightarrow_{h}if(\square,e_2,e_3);P \succ e_1}
+        \inference{}{P \succ if(e_1,e_2,e_3)\rightarrow_{\Hs}if(\square,e_2,e_3);P \succ e_1}
     \]
     Si se regresa \textsf{True} a la pila con el marco $if(\square,e_2,e_3)$ en el tope, entonces evaluamos $e_2$ con el resto de la pila.
     \[
-        \inference{}{if(\square,e_2,e_3);P \prec\textsf{True} \rightarrow_{h}P\succ e_2}
+        \inference{}{if(\square,e_2,e_3);P \prec\textsf{True} \rightarrow_{\Hs}P\succ e_2}
     \]
     Si se regresa \textsf{False} a la pila con el marco $if(\square,e_2,e_3)$ en el tope, entonces evaluamos $e_3$ con el resto de la pila.
     \[
-        \inference{}{if(\square,e_2,e_3);P\prec\textsf{False}\rightarrow_{h}P\succ e_3}
+        \inference{}{if(\square,e_2,e_3);P\prec\textsf{False}\rightarrow_{\Hs}P\succ e_3}
     \]
-    \item[Asignaciones locales] Si se quiere evaluar la expresión $let(v,x.e)$ con la pila $P$ entonces se evalúa $e$ en donde se sustituyen las apariciones de $x$ por $v$.
+    \item[Asignaciones locales] Si se quiere evaluar la expresión $let(e_1,x.e_2)$ con la pila $P$ entonces se evalúa $e_2$ en donde se sustituyen las apariciones de $x$ por $e_1$.
+   % \[
+     %   \inference{}{P\succ let(e_1,x.e_2)\rightarrow_{\Hs}let(\square,x.e_2);P \succ e_1}
+    %\]
+%\medskip
     \[
-        \inference{}{P\succ let(e_1,x.e_2)\rightarrow_{h}let(\square,x.e_2);P \succ e_1}
-    \]
-\medskip
-    \[
-        \inference{}{let(\square,x.e);P\prec v \rightarrow_{h}P \succ  e[x:=v]}
+        \inference{}{P \succ  let(e_1, x.e_2) \rightarrow_{\Hs} P \succ  e_2[x := e_1]}
     \]
     % Si se quiere evaluar la expresión $\letrec(f.e_1,f.e_2)$ con la pila $P$ entonces se evalúa $e_2$ en donde se sustituyen las apariciones de $f$ por $\fix(f.e_1)$ con la misma pila.
     % \[
-    %     \inference{}{P\succ\letrec(f.e_1,f.e_2)\rightarrow_{h}P\succ e_2[f:=\fix(f.e_1)]}
+    %     \inference{}{P\succ\letrec(f.e_1,f.e_2)\rightarrow_{\Hs}P\succ e_2[f:=\fix(f.e_1)]}
     % \]
     \item[Aplicación de función] Para evaluar una aplicación $app(e_1,e_2)$ en una pila $P$ se agrega el marco $app(\square,e_2)$ como tope y se evalúa $e_1$.
     Si se regresa un valor $ fun(x.e_1)$ a la pila con tope $app(\square,e_2)$ entonces se quita el tope  y se evalúa $e_1$ sustituyendo $x$ por $e_2$.
     \[
-        \inference{}{app(\square,e_2);P\prec fun(x.e_1)\rightarrow_{h}app(fun(x.e_1),\square);P \succ e_2}
+        \inference{}{P \succ app(e_1 ,e_2) \rightarrow_{\Hs} P; app(\square, e_2) \succ e_1}
     \]
 \medskip
     \[
-        \inference{}{app(fun(x.e_1),\square):P\prec v_1 \rightarrow_{h}P\succ e_1 [x:=v_1]}
+        \inference{}{app(\square,e_2);P\prec fun(x.e_1)\rightarrow_{\Hs}  P \succ e1[x := e_2]}
     \]
+%\medskip
+  %  \[
+   %     \inference{}{app(fun(x.e_1),\square);P\prec v_1 \rightarrow_{\Hs}P\succ e_1 [x:=v_1]}
+   % \]
 $$$$
     Si se regresa un valor $ recfun(f.x.e_1)$ a la pila con tope $app(\square,e_2)$ entonces se quita el tope  y se evalúa $e_1$ sustituyendo $f$ por su punto fijo y $x$ por $e_2$.
     \[
-        \inference{}{app(\square,e_2);P\prec recfun(f.x.e_1)\rightarrow_{h}app(recfun(f.x.e_1), \square):P\succ e_2}
+        \inference{}{app(\square,e_2);P\prec recfun(f.x.e_1)\rightarrow_{\Hs}   P \succ e_1[f:= fix(f.x.e_1),x:=e_2]}
     \]
-\medskip
-    \[
-        \inference{}{app(recfun(f.x.e_1), \square):P \prec v_1 \rightarrow_{h} P\succ [f:= fix(f.x.e_1),x:=v_1]}
-    \]
+%\medskip
+  %  \[
+    %    \inference{}{app(recfun(f.x.e_1), \square):P \prec v_1 \rightarrow_{\Hs} P\succ [f:= fix(f.x.e_1),x:=v_1]}
+    %\]
 $$$$
     % Si en el tope de la pila tenemos el marco $app( fun(x.e),\square)$ y re regresa el valor $v$ entonces evaluamos $e$ sustituyendo las apariciones de $x$ por $v$ en el resto de la pila.
     % \[
-    %     \inference{}{app( fun(x.e_1),\square);P\prec v\rightarrow_{h}P\succ e[x:=v]}
+    %     \inference{}{app( fun(x.e_1),\square);P\prec v\rightarrow_{\Hs}P\succ e[x:=v]}
     % \]
     \item[El operador de punto fijo] Para evaluar la expresión $ fix(f.e)$ en la pila $P$ se evalúa $e$ sustituyendo $f$ por $ fix(f.e)$.
     \[
-        \inference{}{P\succ fix(f.e)\rightarrow_{h}P\succ e[f:= fix(f.e)]}
+        \inference{}{P\succ fix(f.e)\rightarrow_{\Hs}P\succ e[f:= fix(f.e)]}
     \]
 \end{description}
 \end{definition}
@@ -204,23 +209,23 @@ La evaluamos en la máquina $\Js$.
 \[
  \scalemath{0.85}{
     \begin{array}{rccl}
-        \diamond & \succ & let(\textsf{False},x.let(4,y.if(x,sum(y,1),sub(y,1)))) & \rightarrow_{h} \\
-	  let(\square,x.let(4,y.if(x,sum(y,1),sub(y,1)))):\diamond & \succ & \textsf{False} & \rightarrow_{h} \\
-	  let(\square,x.let(4,y.if(x,sum(y,1),sub(y,1)))):\diamond & \prec & \textsf{False} & \rightarrow_{h} \\
-        \diamond & \succ & let(4,y.if(x,sum(y,1),sub(y,1)))[x:=\textsf{False}] & \rightarrow_{h} \\
-        \diamond & \succ & let(4,y.if(\textsf{False},sum(y,1),sub(y,1))) & \rightarrow_{h} \\
-	  let(\square,y.if(\textsf{False},sum(y,1),sub(y,1))):\diamond & \succ & 4  & \rightarrow_{h} \\
-	  let(\square,y.if(\textsf{False},sum(y,1),sub(y,1))):\diamond & \prec & 4  & \rightarrow_{h} \\
-        \diamond & \succ & if(\textsf{False},sum(y,1),sub(y,1))[y := 4] & \rightarrow_{h} \\
-        \diamond & \succ & if(\textsf{False},sum(4,1),sub(4,1)) & \rightarrow_{h} \\
-        if(\square,sum(4,1),sub(4,1)):\diamond & \succ &\textsf{False} & \rightarrow_{h} \\
-        if(\square,sum(4,1),sub(4,1)):\diamond & \prec &\textsf{False} & \rightarrow_{h} \\
-        \diamond & \succ & sub(4,1) & \rightarrow_{h} \\
-        sub(\square,1):\diamond & \succ & 4 & \rightarrow_{h} \\
-        sub(\square,1):\diamond & \prec & 4 & \rightarrow_{h} \\
-        sub(4,\square):\diamond & \succ & 1 & \rightarrow_{h} \\
-        sub(4,\square):\diamond & \prec & 1 & \rightarrow_{h}\\
-        \diamond & \succ & 4 - 1 & \rightarrow_{h} \\
+        \diamond & \succ & let(\textsf{False},x.let(4,y.if(x,sum(y,1),sub(y,1)))) & \rightarrow_{\Hs} \\
+	%  let(\square,x.let(4,y.if(x,sum(y,1),sub(y,1)))):\diamond & \succ & \textsf{False} & \rightarrow_{\Hs} \\
+	 % let(\square,x.let(4,y.if(x,sum(y,1),sub(y,1)))):\diamond & \prec & \textsf{False} & \rightarrow_{\Hs} \\
+        \diamond & \succ & let(4,y.if(x,sum(y,1),sub(y,1)))[x:=\textsf{False}] & \rightarrow_{\Hs} \\
+        \diamond & \succ & let(4,y.if(\textsf{False},sum(y,1),sub(y,1))) & \rightarrow_{\Hs} \\
+	 % let(\square,y.if(\textsf{False},sum(y,1),sub(y,1))):\diamond & \succ & 4  & \rightarrow_{\Hs} \\
+	  %let(\square,y.if(\textsf{False},sum(y,1),sub(y,1))):\diamond & \prec & 4  & \rightarrow_{\Hs} \\
+        \diamond & \succ & if(\textsf{False},sum(y,1),sub(y,1))[y := 4] & \rightarrow_{\Hs} \\
+        \diamond & \succ & if(\textsf{False},sum(4,1),sub(4,1)) & \rightarrow_{\Hs} \\
+        if(\square,sum(4,1),sub(4,1)):\diamond & \succ &\textsf{False} & \rightarrow_{\Hs} \\
+        if(\square,sum(4,1),sub(4,1)):\diamond & \prec &\textsf{False} & \rightarrow_{\Hs} \\
+        \diamond & \succ & sub(4,1) & \rightarrow_{\Hs} \\
+        sub(\square,1):\diamond & \succ & 4 & \rightarrow_{\Hs} \\
+        sub(\square,1):\diamond & \prec & 4 & \rightarrow_{\Hs} \\
+        sub(4,\square):\diamond & \succ & 1 & \rightarrow_{\Hs} \\
+        sub(4,\square):\diamond & \prec & 1 & \rightarrow_{\Hs}\\
+        \diamond & \succ & 4 - 1 & \rightarrow_{\Hs} \\
         \diamond & \prec & 3 \\
     \end{array}
 }
@@ -244,25 +249,27 @@ La evaluamos en la máquina $\Js$.
 \[
  \scalemath{0.95}{
     \begin{array}{rccl}
-         \diamond & \succ & let(fun(z.sum(z,1)),x.let(4,y.app(x,y))) & \rightarrow_{h} \\
-	   let(\square,x.let(4,y.app(x,y))):\diamond & \prec & fun(z.sum(z,1)) & \rightarrow_{h} \\
-         \diamond & \succ & let(4,y.app(x,y))[ x := fun(z.sum(z,1))] & \rightarrow_{h} \\
-         \diamond & \succ & let(4,y.app(fun(z.sum(z,1)),y)) & \rightarrow_{h} \\
-	  let(\square,y.app(fun(z.sum(z,1)),y)):\diamond & \succ & 4 &  \rightarrow_{h}\\
-	  let(\square,y.app(fun(z.sum(z,1)),y)):\diamond & \prec & 4 &  \rightarrow_{h}\\
-         \diamond & \succ & app(fun(z.sum(z,1)),y)[y := 4] & \rightarrow_{h} \\
-         \diamond & \succ & app(fun(z.sum(z,1)),4) & \rightarrow_{h} \\
-         app(\square, 4)\ : \diamond & \succ & fun(z.sum(z,1)) & \rightarrow_{h} \\
-         app(\square, 4)\ : \diamond & \prec & fun(z.sum(z,1)) & \rightarrow_{h} \\
- 	  app(fun(z.sum(z,1)),\square)\ : \diamond & \succ & 4 & \rightarrow_{h} \\
- 	  app(fun(z.sum(z,1)),\square)\ : \diamond & \prec & 4 & \rightarrow_{h} \\
-         \diamond & \succ & sum(z,1)[z := 4] & \rightarrow_{h} \\
-         \diamond & \succ & sum(4,1) & \rightarrow_{h} \\
-         sum(\square,1) : \diamond & \succ & 4 & \rightarrow_{h} \\
-         sum(\square,1) : \diamond & \prec & 4 & \rightarrow_{h} \\
-         sum(4,square) : \diamond & \succ & 1 & \rightarrow_{h} \\
-         sum(4,square) : \diamond & \prec & 1 & \rightarrow_{h} \\
-         \diamond & \succ & 4 + 1 & \rightarrow_{h} \\
+         \diamond & \succ & let(fun(z.sum(z,1)),x.let(4,y.app(x,y))) & \rightarrow_{\Hs} \\
+	%   let(\square,x.let(4,y.app(x,y))):\diamond & \prec & fun(z.sum(z,1)) & \rightarrow_{\Hs} \\
+         \diamond & \succ & let(4,y.app(x,y))[ x := fun(z.sum(z,1))] & \rightarrow_{\Hs} \\
+         \diamond & \succ & let(4,y.app(fun(z.sum(z,1)),y)) & \rightarrow_{\Hs} \\
+	%  let(\square,y.app(fun(z.sum(z,1)),y)):\diamond & \succ & 4 &  \rightarrow_{\Hs}\\
+	 % let(\square,y.app(fun(z.sum(z,1)),y)):\diamond & \prec & 4 &  \rightarrow_{\Hs}\\
+         \diamond & \succ & app(fun(z.sum(z,1)),y)[y := 4] & \rightarrow_{\Hs} \\
+         \diamond & \succ & app(fun(z.sum(z,1)),4) & \rightarrow_{\Hs} \\
+    %\end{array}
+    %\begin{array}{rccl}
+         app(\square, 4)\ : \diamond & \succ & fun(z.sum(z,1)) & \rightarrow_{\Hs} \\
+         app(\square, 4)\ : \diamond & \prec & fun(z.sum(z,1)) & \rightarrow_{\Hs} \\
+ 	 % app(fun(z.sum(z,1)),\square)\ : \diamond & \succ & 4 & \rightarrow_{\Hs} \\
+ 	  % app(fun(z.sum(z,1)),\square)\ : \diamond & \prec & 4 & \rightarrow_{\Hs} \\
+         \diamond & \succ & sum(z,1)[z := 4] & \rightarrow_{\Hs} \\
+         \diamond & \succ & sum(4,1) & \rightarrow_{\Hs} \\
+         sum(\square,1) : \diamond & \succ & 4 & \rightarrow_{\Hs} \\
+         sum(\square,1) : \diamond & \prec & 4 & \rightarrow_{\Hs} \\
+         sum(4,square) : \diamond & \succ & 1 & \rightarrow_{\Hs} \\
+         sum(4,square) : \diamond & \prec & 1 & \rightarrow_{\Hs} \\
+         \diamond & \succ & 4 + 1 & \rightarrow_{\Hs} \\
          \diamond & \prec & 5  \\
 
     \end{array}
@@ -274,7 +281,7 @@ La evaluamos en la máquina $\Js$.
 
 \section{La máquina $\Js$}
 
-La máquina $\Js$ es una extensión de la máquina $\Hs$ con la adición de un $cache$ para almacenar variables y sus valores al que denominamos entorno. Este entorno será el encargado de regresar el valor asociado a un atributo en las operaciones de sustitución (\textsf{let}, \textsf{lam}, \textsf{fix}, \textsf{fun}, \textsf{app}).
+La máquina $\Js$ es una extensión de la máquina $\Hs$ con la adición de un $cache$ para almacenar variables y sus valores al que denominamos entorno. Este entorno será el encargado de regresar el valor asociado a un atributo en las operaciones de sustitución (\textsf{let}, \textsf{fix}, \textsf{fun}, \textsf{app}).
 Esto con el objetivo de tener una implementación eficiente para la sustitución, operación que hasta el momento posee una complejidad lineal sobre el tamaño de la expresión que queremos evaluar.\\\\
 Con pequeños ajustes podemos redefinir este nuevo modelo partiendo de las reglas definidas para $\Hs$ los cuales discutiremos a continuación.
 
@@ -283,24 +290,32 @@ Con pequeños ajustes podemos redefinir este nuevo modelo partiendo de las regla
 
 \subsection{Marcos}
 
-\begin{definition}[Marcos] En la máquina $\Js$ se usa el mismo conjunto de marcos que los presentados para la máquina $\Hs$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}.
+\begin{definition}[Marcos] En la máquina $\Js$ se usa el mismo conjunto de marcos que los presentados para la máquina $\Hs$, con la única excepción siendo los marcos de \textsf{let} y \textsf{app} para implementar una evaluación ansiosa con el fin de simplificar las operaciones de sustitución.\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}.\\
+
+\textbf{Asignaciones locales}
+$$\inference{}{let(\square, x.e_2) \ marco}$$
+
+\textbf{Aplicación de función}
+$$\inference{}{app(f, \square)\ marco}$$
 \end{definition}
 
 
 
 \subsection{Ambientes}
+La introducción del concepto de ambientes, nos permitirá almacenar los pares $variable$ / $valor$ en un contexto para optimizar la resolución de una asignación en las expresiónes evluadas por $\Js$.
+Los ambientes se definen de forma análoga a las listas como veremos en la siguiente especificación.
 
 \begin{definition}[Ambientes] Un ambiente es una estructura que almacena asignaciones de variables con su valor y la definimos recursivamente como\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}:
     \[
         \begin{array}{ccc}
             \inference{}{\bullet \ env}[{\ vacio}]&
             \qquad&
-            \inference{x\;\;{\ var}&v\;\;{\ valor}&\bullet \ env}{x\leftarrow v\ ; \bullet \ env}[{\ asig}]
+            \inference{x\;\;{\ var}&v\;\;{\ valor}& \E \ env}{x\leftarrow v\ ; \E \ env}[{\ asig}]
         \end{array}
     \]
     La forma de acceder a los elementos del ambiente es mediante el nombre de la variable, entonces si el ambiente $\E$ tiene la asignación $x\leftarrow v$. Podemos acceder al valor de $x$ como $\E[x]$ y el resultado es $v$. \\
 
-    En caso de tener mas de una asignación sobre el mismo nombre de variable $\E [x]$ nos regresa la primera aparición de $x$ en el ambiente. Por ejemplo en el ambiente $\E  =_{def} x\leftarrow v_1;x\leftarrow v_2;\E$ la operación $\E [x]$ nos arroja como resultado $v_1$.
+    En caso de tener mas de una asignación sobre el mismo nombre de variable $\E [x]$ nos regresa la primera aparición de $x$ en el ambiente. Por ejemplo en el ambiente $\E  =_{def} x\leftarrow v_1;x\leftarrow v_2;\bullet$ la operación $\E [x]$ nos arroja como resultado $v_1$.
 \bigskip
 \end{definition}
 
@@ -310,8 +325,8 @@ Con pequeños ajustes podemos redefinir este nuevo modelo partiendo de las regla
 \begin{definition}[Estados de la máquina $\Js$]
 Los estados ahora son una relación ternaria de una pila de control $P$ un ambiente $\E $ y una expresión $e$, denotados como\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}:\\
 \begin{itemize}
-    \item { Estados de evaluación: }$P\ |\ \E \succ e$
-    \item { Estados de retorno: }$P\ |\ \E \prec e$\\
+    \item { \textbf{Estados de evaluación}: }$P\ |\ \E \succ e$
+    \item { \textbf{Estados de retorno}: }$\ \ \ \ P\ |\ \E \prec e$\\
 \end{itemize}
 
 Un estado inicial es de la forma:
@@ -324,8 +339,7 @@ Notemos que en los estados finales no importa que está guardado en el ambiente 
 
 \subsection{Transiciones}
 
-\begin{definition}Transiciones de variables en la máquina $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}:\\
-
+\begin{definition}[Transiciones de variables en la máquina $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}] A continuación brindamos la especificación para la regla de transición buscando el valor asociado a una variable desde el contexto.\\
 \begin{description}
     \item[Variables] En la máquina $\Hs$ una variable representa un estado bloqueado, pues no hay forma de continuar la evaluación del programa si no se aplica una operación de sustitución sobre la misma.\\\\
                             En la máquina $\Js$ no está definida la operación de sustitución. Tenemos que evaluar las variables buscándolas en el ambiente, lo que definimos con la siguiente regla:
@@ -341,16 +355,15 @@ Queremos utilizar los ambientes para introducir el concepto de alcance de una va
 
 $$let(e_1,x.e_2 )$$
 
-El alcance de $x$ solo estará definido para el cuerpo de la expresión $e_2$, una vez que se termine de evaluar la expresión $let$ queremos eliminar el ambiente donde la variable $x$ tiene una asignación para evitar repetir la misma en futuras evaluaciones pues el alcance donde es válida ya se ha terminado.\\\\
-Para esto debemos extender la pila de los marcos para que pueda almacenar ambientes y deshacerse de ellos.
+El alcance de $x$ solo estará definido para el cuerpo de la expresión $e_2$. Una vez que se termine de evaluar la expresión $let$ queremos eliminar del ambiente la asignación $x \rightarrow e_1$ para que no figure en el alcance de  futuras evaluaciones. Para esto debemos extender la pila de los marcos para que pueda almacenar ambientes y deshacerse de ellos.
 
         \bigskip
 
-\begin{definition}Pila de control para $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}} 
-\bigskip
+\begin{definition}[Pila de control para $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}]
+
     \[
         \begin{array}{ccccc}
-            \inference{}{P\ pila}[{\sf vacia}]&
+            \inference{}{\diamond \ pila}[{\sf vacia}]&
             \quad&
             \inference{m\ marco&P\ pila}{m;P\ pila}[{\sf top}]&
             \quad&
@@ -368,33 +381,33 @@ Una vez que termine la ejecución y se regrese un valor a la pila, recuperamos e
 Finalmente enlistaremos las transiciones para la máquina $\Js$ que difieren con la máquina $\Hs$. El resto de transiciones que no aparecen en esta definición se heredan directamente de esta última máquina. \\\\
 Estas reglas permiten manipular los entornos para guardar, definir y sustituir variables durante la ejecución del programa. Una vez concluida los entornos serán descartados hasta liberar la pila de ejecución para retornar el valor final.
 
-\newpage
+\bigskip
 
-\begin{definition}Transiciones con alcance en la máquina $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}.\\
+\begin{definition}[Transiciones con alcance en la máquina $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}] A continuación brindamos la especificación de las reglas de evaluación que involucran la aplicación de la sustitución para resolverse.\\
 \begin{description}
     \item[Asignaciones locales]
     \[  
         \begin{array}{c}
-            \inference{}{P\ |\ \E \succ let(e_1,x.e_2) \to_{j} let(\square,x.e_2);P\ |\ \E \succ e_1}\\
+            \inference{}{P\ |\ \E \succ let(e_1,x.e_2) \to_{\Js} let(\square,x.e_2);P\ |\ \E \succ e_1}\\
             \\
-            \inference{}{let(\square,x.e_2)\ ;\ P\ |\ \E \prec v\to_{j} \bullet\ ;\ P\ |\ x\leftarrow v\ ;\ \E \succ e_2}
+            \inference{}{let(\square,x.e_2)\ ;\ P\ |\ \E \prec v\to_{\Js} \E \ ;\ P\ |\ x\leftarrow v\ ;\ \E \succ e_2}
         \end{array}
     \]
 \bigskip
     \item[Aplicación de función] 
     \[
     \begin{array}{c}
-        \inference{}{app(\square,e_2);P\ |\ \E \prec v_1\to_{j} app(v_1,\square);P\ |\ \E \succ e_2}\\
+        \inference{}{app(\square,e_2);P\ |\ \E \prec v_1\to_{\Js} app(v_1,\square);P\ |\ \E \succ e_2}\\
         \\
-        \inference{}{app(fun(x.e_1),\square)\ ;\ P\ |\ \E \prec v_2 \to_{j} \E\ ;\ P\ |\ x\leftarrow v_2; \E \succ e_1}\\
+        \inference{}{app(fun(x.e_1),\square)\ ;\ P\ |\ \E \prec v_2 \to_{\Js} \E\ ;\ P\ |\ x\leftarrow v_2; \E \succ e_1}\\
         \\
-        \inference{}{app(recfun(f.x.e_1),\square);P | E \prec v_2\to_{j} \E ;P | f\leftarrow fix(f.x.e_1) ; x\leftarrow v_2; \E \succ e_1}\\
+        \inference{}{app(recfun(f.x.e_1),\square);P | E \prec v_2\to_{\Js} \E ;P | f\leftarrow fix(f.x.e_1) ; x\leftarrow v_2; \E \succ e_1}\\
     \end{array}
     \]
 \bigskip
     \item[Liberación del ambiente] 
     \[
-        \inference{}{\E ;P\ |\ \E_1\prec v\to_{j}P\ |\ \E \prec v}
+        \inference{}{\E ;P\ |\ \E_1\prec v\to_{\Js}P\ |\ \E \prec v}
     \]
 
 \bigskip
@@ -410,7 +423,7 @@ Estas reglas permiten manipular los entornos para guardar, definir y sustituir v
 Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
 \bigskip
     \begin{lstlisting}
-            let f = fun y => x + y + z in
+            let f = fun x => x + y + z in
                 let y = 4 in
                     let z = 10 in
                         f 1
@@ -432,7 +445,7 @@ Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
 \begin{turn}{90}
     \scalemath{0.9}{
         \begin{array}{rccl}
-            \diamond\ |\ \bullet & \succ & let(fun(y ... )) & \rightarrow_{j}\\
+            \diamond\ |\ \bullet & \succ & let(fun(x ... )) & \rightarrow_{j}\\
             let(\square, f.let( ...)) : \diamond\ |\ \bullet & \succ & fun(y.sum(x,sum(y,z))) & \rightarrow_{j} \\
             let(\square, f.let( ...)) : \diamond\ |\ \bullet & \prec & fun(y.sum(x,sum(y,z))) & \rightarrow_{j} \\
             \diamond\ |\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & let(4,y.let(10,z.app(f,1))) & \rightarrow_{j} \\
