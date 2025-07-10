@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  9 JUL 2025 07:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  10 JUL 2025 08:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3961,61 +3961,66 @@ Underfull \hbox (badness 10000) in paragraph at lines 386--388
 
  []
 
-[107] [108]
-Underfull \hbox (badness 10000) in paragraph at lines 486--487
+[107]
+Overfull \hbox (13.20828pt too wide) detected at line 482
+[][][]
+ []
+
+[108]
+Underfull \hbox (badness 10000) in paragraph at lines 487--488
 
  []
 
 [109]
-Underfull \hbox (badness 10000) in paragraph at lines 496--498
+Underfull \hbox (badness 10000) in paragraph at lines 497--499
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 496--498
+Underfull \hbox (badness 10000) in paragraph at lines 497--499
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 496--498
+Underfull \hbox (badness 10000) in paragraph at lines 497--499
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 504--506
+Underfull \hbox (badness 10000) in paragraph at lines 505--507
 
  []
 
-LaTeX Font Info:    Calculating math sizes for size <14> on input line 508.
+LaTeX Font Info:    Calculating math sizes for size <14> on input line 509.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14> on input line 508.
+(Font)              <14> on input line 509.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9.79996> on input line 508.
+(Font)              <9.79996> on input line 509.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 508.
+(hyperref)                removing `math shift' on input line 509.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 508.
+(hyperref)                removing `math shift' on input line 509.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 510--511
+Underfull \hbox (badness 10000) in paragraph at lines 511--512
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 510--511
+Underfull \hbox (badness 10000) in paragraph at lines 511--512
 
  []
 
 [110]
-Underfull \hbox (badness 10000) in paragraph at lines 538--541
+Underfull \hbox (badness 10000) in paragraph at lines 539--542
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--541
+Underfull \hbox (badness 10000) in paragraph at lines 539--542
 
  []
 
@@ -5097,7 +5102,7 @@ AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C
 /msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/ty
 pe1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (165 pages, 2429880 bytes).
+Output written on 00_Manual_Main_Template.pdf (165 pages, 2429870 bytes).
 PDF statistics:
  3295 PDF objects out of 3580 (max. 8388607)
  1210 named destinations out of 1440 (max. 500000)
