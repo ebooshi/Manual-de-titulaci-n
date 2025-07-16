@@ -21,7 +21,8 @@ En este capítulo exploraremos la definición de las máquinas $\Hs$ y $\Js$ imp
 \subsubsection{Planteamiento}
 
 El capítulo está estructurado para definir los estados, marcos y reglas de transición de las máquinas $\Hs$ y $\Js$ seguido de la ejecución detallada paso a paso de programas correctamente formados de \textsf{MinHS} para ilustrar la ejecución de ambas máquinas. \\\\
-De forma similar, la pila de ejecución será introducida para controlar aquellos cómputos que se quedan pendientes de evaluación, hasta obtener un valor que pueda ser regresado como argumento a la última llamada contenida en el tope de la misma, y progresar en la ejecución del programa. Posteriormente extenderemos la definición de la máquina $\Hs$  para abstraer el manejo de variables definiendo así la máquina $\Js$.\\\\
+De forma similar, la pila de ejecución será introducida para controlar aquellos cómputos que se quedan pendientes de evaluación, hasta obtener un valor que pueda ser regresado como argumento a la última llamada contenida en el tope de la misma.  Progresando así en la ejecución del programa. \\\\
+Posteriormente extenderemos la definición de la máquina $\Hs$  para abstraer el manejo de variables definiendo así la máquina $\Js$.\\\\
 Finalmente se estudian los conceptos de alcance estático y dinámico que cada una de estas implementa junto con el concepto de cerradura.
 
 \section{La máquina $\Hs$}
@@ -33,7 +34,7 @@ Esta implementación resulta particularmente cómoda para seguir la ejecución d
  \subsection{Marcos y la pila de control}
   Los marcos (o $frames$ en inglés) son estructuras sintácticas que denotan cómputos pendientes en la evaluación de un programa. Por ejemplo, para el caso de los operadores, si ambos operandos no han sido evaluados exhaustivamente hasta ser reducidos a un valor, la ejecución del operador no puede continuar.
  Es aquí cuando los marcos resultan útiles para indicar que no se continuará con la evaluación del programa hasta no resolver los cómputos pendientes en dicho marco.\\\\
-Adicionalmente tendremos una pila en la que almacenaremos todos los marcos pendientes para conservar el orden en el que se fueron encontrando en el programa.  Cada marco será empujado al tope de la pila para evaluar las subexpresiones asociados a el. \\
+Adicionalmente tendremos una pila en la que almacenaremos todos los marcos pendientes para conservar el orden en el que se fueron encontrando en el programa.  Cada marco será empujado al tope de la pila para evaluar las subexpresiones asociados a el. \\\\
 Una vez concluida la evaluación de las subexpresiones de éste computo, el valor obtenido es empujado al siguiente marco en el tope de la pila y detenido hasta que todas las subexpresiones hayan sido terminadas de evaluar, ó se regresa como valor final si la pila está vacía (según sea el caso aplicable por axioma). \\\\
  \begin{definition}[Marcos] Los marcos son marcadores estructurales que registran los cómputos pendientes de una expresión. En nuestra definición, el símbolo $\square$ indica el lugar en donde se está llevando acabo la evaluación actual\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]}, \hyperlink{12}{[12]}, y \hyperlink{122}{[122]} }. \\
     \begin{description}
@@ -198,13 +199,13 @@ $$$$
 \begin{lstlisting}
     let x = False in
         let y = 4 in
-           if ( x then y + 1 else y - 1) 
+           if x then y + 1 else y - 1 
         end
     end
 \end{lstlisting}
 En sintaxis abstracta:
 $$let(\textsf{False},x.let(4,y.if(x,sum(y,1),sub(y,1)))))$$
-La evaluamos en la máquina $\Js$.
+La evaluamos en la máquina $\Hs$.
 
 \[
  \scalemath{0.85}{
@@ -244,7 +245,7 @@ La evaluamos en la máquina $\Js$.
 \end{lstlisting}
 En sintaxis abstracta:
 $$let(fun(z.sum(z,1)),x.let(4,y.app(x,y)))$$
-La evaluamos en la máquina $\Js$.
+La evaluamos en la máquina $\Hs$.
 
 \[
  \scalemath{0.95}{
@@ -267,8 +268,8 @@ La evaluamos en la máquina $\Js$.
          \diamond & \succ & sum(4,1) & \rightarrow_{\Hs} \\
          sum(\square,1) : \diamond & \succ & 4 & \rightarrow_{\Hs} \\
          sum(\square,1) : \diamond & \prec & 4 & \rightarrow_{\Hs} \\
-         sum(4,square) : \diamond & \succ & 1 & \rightarrow_{\Hs} \\
-         sum(4,square) : \diamond & \prec & 1 & \rightarrow_{\Hs} \\
+         sum(4,\square) : \diamond & \succ & 1 & \rightarrow_{\Hs} \\
+         sum(4,\square) : \diamond & \prec & 1 & \rightarrow_{\Hs} \\
          \diamond & \succ & 4 + 1 & \rightarrow_{\Hs} \\
          \diamond & \prec & 5  \\
 
@@ -355,7 +356,7 @@ Queremos utilizar los ambientes para introducir el concepto de alcance de una va
 
 $$let(e_1,x.e_2 )$$
 
-El alcance de $x$ solo estará definido para el cuerpo de la expresión $e_2$. Una vez que se termine de evaluar la expresión $let$ queremos eliminar del ambiente la asignación $x \rightarrow e_1$ para que no figure en el alcance de  futuras evaluaciones. Para esto debemos extender la pila de los marcos para que pueda almacenar ambientes y deshacerse de ellos.
+El alcance de $x$ solo estará definido para el cuerpo de la expresión $e_2$. Una vez que se termine de evaluar la expresión $let$ queremos eliminar del ambiente la asignación $x \leftarrow e_1$ para que no figure en el alcance de  futuras evaluaciones. Para esto debemos extender la pila de los marcos para que pueda almacenar ambientes y deshacerse de ellos.
 
         \bigskip
 
@@ -376,12 +377,8 @@ De esta forma cuando evaluemos una expresión que genera un ambiente distinto (l
 Una vez que termine la ejecución y se regrese un valor a la pila, recuperamos el ambiente A y continuamos con la ejecución del programa.
 \end{definition}
 
-\bigskip
-
 Finalmente enlistaremos las transiciones para la máquina $\Js$ que difieren con la máquina $\Hs$. El resto de transiciones que no aparecen en esta definición se heredan directamente de esta última máquina. \\\\
 Estas reglas permiten manipular los entornos para guardar, definir y sustituir variables durante la ejecución del programa. Una vez concluida los entornos serán descartados hasta liberar la pila de ejecución para retornar el valor final.
-
-\bigskip
 
 \begin{definition}[Transiciones con alcance en la máquina $\Js$\footnote{Definición formulada de  \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y  \hyperlink{12}{[12]}}] A continuación brindamos la especificación de las reglas de evaluación que involucran la aplicación de la sustitución para resolverse.\\
 \begin{description}
@@ -417,8 +414,6 @@ Estas reglas permiten manipular los entornos para guardar, definir y sustituir v
 \end{description}
 \end{definition}
 
-\bigskip
-
 \begin{exercise}{Ejecución de la máquina $\Js$}
 Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
 \bigskip
@@ -445,37 +440,37 @@ Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
 \begin{turn}{270}
     \scalemath{0.9}{
         \begin{array}{rccl}
-            \diamond\ |\ \bullet & \succ & let(fun(x ... )) & \rightarrow_{j}\\
-            let(\square, f.let( ...)) : \diamond\ |\ \bullet & \succ & fun(x.sum(x,sum(y,z))) & \rightarrow_{j} \\
-            let(\square, f.let( ...)) : \diamond\ |\ \bullet & \prec & fun(x.sum(x,sum(y,z))) & \rightarrow_{j} \\
-            \bullet : \diamond\ |\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & let(4,y.let(10,z.app(f,1))) & \rightarrow_{j} \\
-            let(\square,y.let(10,z.app(f,1))) :  \bullet : \diamond\ |\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 4 & \rightarrow_{j} \\
-            let(\square,y.let(10,z.app(f,1))) :  \bullet : \diamond\ |\ \underline{f \leftarrow fun(x.sum(x,sum(y,z))) :\ \bullet}_{E_1} & \prec & 4 & \rightarrow_{j} \\
-            E_1\ :  \bullet : \diamond\ |\ y \leftarrow 4\ :\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & let(10,z.app(f,1)) & \rightarrow_{j} \\
-            let(\square, z,app(f,1)) : E_1 :  \bullet : \diamond\ |\ y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 10 & \rightarrow_{j} \\
-            let(\square, z,app(f,1)) : E_1 :  \bullet : \diamond\ |\  \underline{y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet}_{E_2} & \prec & 10 & \rightarrow_{j} \\
-            E_2 : E_1 :  \bullet : \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & app(f,1) & \rightarrow_{j} \\
-            app(\square,1) : E_2 : E_1 :  \bullet :  \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & f & \rightarrow_{j} \\
-            app(\square,1) : E_2 : E_1 :  \bullet :  \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & fun(x.sum(x,sum(y,z))) & \rightarrow_{j} \\
-            app(\square,1) : E_2 : E_1 :  \bullet : \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & fun(x.sum(x,sum(y,z))) & \rightarrow_{j} \\
-            app(fun(x.sum(x,sum(y,z))),\square) : E_2 : E_1 :  \bullet : \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 1& \rightarrow_{j} \\
-            app(fun(x.sum(x,sum(y,z))),\square) : E_2 : E_1 :  \bullet : \diamond\ |\ \underline{z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet}_{E_3} & \prec & 1 & \rightarrow_{j}\\
-            E_3 : E_2 : E_1 :  \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & sum(x,sum(y,z)) & \rightarrow_{j} \\
-            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :  \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & x & \rightarrow_{j} \\
-            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :  \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 1 & \rightarrow_{j} \\
+            \diamond\ |\ \bullet & \succ & let(fun(x ... )) & \rightarrow_{\Js}\\
+            let(\square, f.let( ...)) : \diamond\ |\ \bullet & \succ & fun(x.sum(x,sum(y,z))) & \rightarrow_{\Js} \\
+            let(\square, f.let( ...)) : \diamond\ |\ \bullet & \prec & fun(x.sum(x,sum(y,z))) & \rightarrow_{\Js} \\
+            \bullet : \diamond\ |\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & let(4,y.let(10,z.app(f,1))) & \rightarrow_{\Js} \\
+            let(\square,y.let(10,z.app(f,1))) :  \bullet : \diamond\ |\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 4 & \rightarrow_{\Js} \\
+            let(\square,y.let(10,z.app(f,1))) :  \bullet : \diamond\ |\ \underline{f \leftarrow fun(x.sum(x,sum(y,z))) :\ \bullet}_{E_1} & \prec & 4 & \rightarrow_{\Js} \\
+            E_1\ :  \bullet : \diamond\ |\ y \leftarrow 4\ :\ f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & let(10,z.app(f,1)) & \rightarrow_{\Js} \\
+            let(\square, z,app(f,1)) : E_1 :  \bullet : \diamond\ |\ y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 10 & \rightarrow_{\Js} \\
+            let(\square, z,app(f,1)) : E_1 :  \bullet : \diamond\ |\  \underline{y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet}_{E_2} & \prec & 10 & \rightarrow_{\Js} \\
+            E_2 : E_1 :  \bullet : \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & app(f,1) & \rightarrow_{\Js} \\
+            app(\square,1) : E_2 : E_1 :  \bullet :  \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & f & \rightarrow_{\Js} \\
+            app(\square,1) : E_2 : E_1 :  \bullet :  \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & fun(x.sum(x,sum(y,z))) & \rightarrow_{\Js} \\
+            app(\square,1) : E_2 : E_1 :  \bullet : \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & fun(x.sum(x,sum(y,z))) & \rightarrow_{\Js} \\
+            app(fun(x.sum(x,sum(y,z))),\square) : E_2 : E_1 :  \bullet : \diamond\ |\ z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & 1& \rightarrow_{\Js} \\
+            app(fun(x.sum(x,sum(y,z))),\square) : E_2 : E_1 :  \bullet : \diamond\ |\ \underline{z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet}_{E_3} & \prec & 1 & \rightarrow_{\Js}\\
+            E_3 : E_2 : E_1 :  \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & sum(x,sum(y,z)) & \rightarrow_{\Js} \\
+            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :  \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & x & \rightarrow_{\Js} \\
+            sum(\square,sum(y,z)) : E_3 : E_2 : E_1 :  \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 1 & \rightarrow_{\Js} \\
 
-            sum(1,\square) : E_3 : E_2 : E_1 :  \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & sum(y,z) & \rightarrow_{j} \\
-            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 :  \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & y & \rightarrow_{j} \\
-            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 4 & \rightarrow_{j} \\
+            sum(1,\square) : E_3 : E_2 : E_1 :  \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & sum(y,z) & \rightarrow_{\Js} \\
+            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 :  \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & y & \rightarrow_{\Js} \\
+            sum (\square, z): sum(1,\square) : E_3 : E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 4 & \rightarrow_{\Js} \\
 
-            sum (4, \square): sum(1,\square) : E_3 : E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & z & \rightarrow_{j} \\
-            sum (4, \square): sum(1,\square) : E_3 : E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 10 & \rightarrow_{j} \\
-            sum(1,\square) : E_3 : E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 4 + 10 & \rightarrow_{j} \\
-            E_3 : E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 14 + 1 & \rightarrow_{j} \\
-            E_2 : E_1 : \bullet : \diamond\ |\ E_3 : \bullet & \prec & 15 & \rightarrow_{j} \\
-            E_1 : \bullet : \diamond\ |\ E_2 : \bullet & \prec & 15 & \rightarrow_{j} \\
-	 \bullet : \diamond\ |\ E_2 : \bullet & \prec & 15 & \rightarrow_{j} \\
-            \diamond\ |\ E_1 : \bullet & \prec & 15 & \rightarrow_{j} \\
+            sum (4, \square): sum(1,\square) : E_3 : E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \succ & z & \rightarrow_{\Js} \\
+            sum (4, \square): sum(1,\square) : E_3 : E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 10 & \rightarrow_{\Js} \\
+            sum(1,\square) : E_3 : E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 4 + 10 & \rightarrow_{\Js} \\
+            E_3 : E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : z \leftarrow 10 :  y \leftarrow 4 : f \leftarrow fun(x.sum(x,sum(y,z))) : \bullet & \prec & 14 + 1 & \rightarrow_{\Js} \\
+            E_2 : E_1 : \bullet : \diamond\ |\ E_3 : \bullet & \prec & 15 & \rightarrow_{\Js} \\
+            E_1 : \bullet : \diamond\ |\ E_2 : \bullet & \prec & 15 & \rightarrow_{\Js} \\
+	 \bullet : \diamond\ |\ E_1 : \bullet & \prec & 15 & \rightarrow_{\Js} \\
+            \diamond\ |\ \bullet & \prec & 15 & \rightarrow_{\Js} \\
         \end{array}
     }
 \end{turn}
@@ -518,17 +513,17 @@ Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
         \[
     \scalemath{0.8}{
             \begin{array}{c}
-                \inference{}{P\ |\ \E \succ fun(x.e) \rightarrow_{j} P\ |\ \E \prec \ll \E,x.e \gg}\\
+                \inference{}{P\ |\ \E \succ fun(x.e) \rightarrow_{\Js} P\ |\ \E \prec \ll \E,x.e \gg}\\
                 \\
-                \inference{}{app(\square,e_2); P\ |\ \E \prec \ll \E_f,x.e_1 \gg \rightarrow_{j} app(\ll \E_f,x.e_1\gg,\square); P\ |\ \E \succ e_2}\\
+                \inference{}{app(\square,e_2); P\ |\ \E \prec \ll \E_f,x.e_1 \gg \rightarrow_{\Js} app(\ll \E_f,x.e_1\gg,\square); P\ |\ \E \succ e_2}\\
                 \\
-                \inference{}{app(\ll \E_f,x.e_1 \gg,\square); P\ |\ \E \prec v \rightarrow_{j} \E ; P\ |\ x\leftarrow v; \E_f \succ e_1}\\
+                \inference{}{app(\ll \E_f,x.e_1 \gg,\square); P\ |\ \E \prec v \rightarrow_{\Js} \E ; P\ |\ x\leftarrow v; \E_f \succ e_1}\\
                 \\
-                \inference{}{P\ |\ \E \succ recfun(f.x.e) \rightarrow_{j} P\ |\ \E \prec fix(f.\ll \E,x.e \gg)}\\
+                \inference{}{P\ |\ \E \succ recfun(f.x.e) \rightarrow_{\Js} P\ |\ \E \prec fix(f.\ll \E,x.e \gg)}\\
                 \\
-                \inference{}{app(\square,e_2); P | \E \prec fix(f.\ll \E_f,x.e_1\gg)\rightarrow_{j} app(fix(f.\ll \E_f,x.e_1\gg),\square); P\ |\ \E \succ e_2}\\
+                \inference{}{app(\square,e_2); P | \E \prec fix(f.\ll \E_f,x.e_1\gg)\rightarrow_{\Js} app(fix(f.\ll \E_f,x.e_1\gg),\square); P\ |\ \E \succ e_2}\\
                 \\
-                \inference{}{app(fix(f.\ll \E_f,x.e_1\gg),\square); P\ |\ \E \prec v \rightarrow_{j} \E; P\ |\ x\leftarrow v;f\leftarrow fix(f.\ll \E_f,x.e_1 \gg );\E_f\succ e_1}
+                \inference{}{app(fix(f.\ll \E_f,x.e_1\gg),\square); P\ |\ \E \prec v \rightarrow_{\Js} \E; P\ |\ x\leftarrow v;f\leftarrow fix(f.\ll \E_f,x.e_1 \gg );\E_f\succ e_1}
             \end{array}
 }
         \]
@@ -559,37 +554,37 @@ Tomemos como ejemplo la siguiente expresión de \textsf{MinHS}
     
         La evaluación en la máquina $\Js$ es de la siguiente forma:
         \[
-	\begin{turn}{90}
+	\begin{turn}{270}
     	\scalemath{0.7}{
                 \begin{array}{rccl}
-                    \diamond\ |\ \bullet & \succ &  let(4,y.let(10,z.let(fun(x.sum(x,sum(y,z)),f.app(f,1)))) & \rightarrow_{j} \\
-                    let(\square,y.let ... ) : \diamond\ |\ \bullet & \succ & 4 & \rightarrow_{j} \\
-                    let(\square,y.let ... ) : \diamond\ |\ \bullet & \prec & 4 & \rightarrow_{j} \\
-                    \bullet : \diamond\ |\ y \leftarrow 4 : \bullet & \succ & let(10,z.let(fun(x.sum(x,sum(y,z)),f.app(f,1))) & \rightarrow_{j} \\
-                    let(\square,z.let ... ) : \bullet : \diamond\ |\ y \leftarrow 4 : \bullet & \succ & 10  & \rightarrow_{j} \\
-                    let(\square,z.let ... ) : \bullet : \diamond\ |\ \underline{y \leftarrow 4 : \bullet}_{\ E_1} & \prec & 10 & \rightarrow_{j} \\
-                    E_1 : \bullet : \diamond\ |\ z \leftarrow 10 : E_1 & \succ & let(fun(x.sum(x,sum(y,z)),f.app(f,1)) & \rightarrow_{j} \\
-                    let(\square, f.app ...): E_1 : \bullet : \diamond\ |\ z \leftarrow 10 : E_1 & \succ & fun(x.sum(x,sum(y,z))) & \rightarrow_{j} \\
-                    let(\square, f.app ...): E_1 : \bullet : \diamond\ |\ \underline{z \leftarrow 10 : E_1}_{\ E_2} & \prec &  \ll E_2, fun(x.sum(x,sum(y,z))) \gg & \rightarrow_{j} \\
-                    E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, fun(x.sum(x,sum(y,z))) \gg  : E_2 & \prec & app(f,1) & \rightarrow_{j} \\
-                    app(\square, 1) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, fun(x.sum(x,sum(y,z))) \gg  : E_2 & \succ & f  & \rightarrow_{j} \\
-                    app(\square, 1) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, fun(x.sum(x,sum(y,z))) \gg  : E_2 & \succ &  \ll E_2, fun(x.sum(x,sum(y,z))) \gg  & \rightarrow_{j} \\
-                    app(\square, 1) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, fun(x.sum(x,sum(y,z))) \gg  : E_2 & \prec &  \ll E_2, fun(x.sum(x,sum(y,z))) \gg  & \rightarrow_{j}  \\
-                    app(\ll E_2, fun(y.sum(x,sum(y,z))) \gg, \square) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, fun(x.sum(x,sum(y,z))) \gg  : E_2 & \succ &  1 & \rightarrow_{j}  \\
-                    app(\ll E_2, fun(y.sum(x,sum(y,z))) \gg, \square) :  E_2 : E_1 : \bullet : \diamond\ |\  \underline{f \leftarrow  \ll E_2, fun(x.sum(x,sum(y,z))) \gg  : E_2}_{\ E_3} & \prec &  1   & \rightarrow_{j} \\
-                    E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & sum(x,sum(y,z)) & \rightarrow_{j} \\
-                    sum(\square, sum(y,z)) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & x & \rightarrow_{j} \\
-                    sum(\square, sum(y,z)) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \prec & 1 & \rightarrow_{j} \\
-                    sum(1, \square ) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\ : x \leftarrow 1  E_2 & \succ & sum(y,z) & \rightarrow_{j} \\
-                    sum(\square, z) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & y & \rightarrow_{j}\\
-                    sum(\square, z) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \prec & 4 & \rightarrow_{j} \\
-                    sum(4, \square) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & z & \rightarrow_{j} \\
-                    sum(4, \square) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \prec & 10 & \rightarrow_{j}\\
-                    sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\ : x \leftarrow 1 : E_2 & \prec & 10 + 4 & \rightarrow_{j} \\
-                    E_3 :  E_2 : E_1 : \bullet : \diamond\ |\ : x \leftarrow 1 : E_2 & \prec & 14 + 1 & \rightarrow_{j}\\
-                    E_2 : E_1 : \bullet : \diamond\ |\ E_3 & \prec & 15 & \rightarrow_{j} \\
-                    E_1 : \bullet : \diamond\ |\  E_2 & \prec & 15 & \rightarrow_{j}\\
-                    \bullet : \diamond\ |\ E_1 & \prec & 15 & \rightarrow_{j}\\
+                    \diamond\ |\ \bullet & \succ &  let(4,y.let(10,z.let(fun(x.sum(x,sum(y,z)),f.app(f,1)))) & \rightarrow_{\Js} \\
+                    let(\square,y.let ... ) : \diamond\ |\ \bullet & \succ & 4 & \rightarrow_{\Js} \\
+                    let(\square,y.let ... ) : \diamond\ |\ \bullet & \prec & 4 & \rightarrow_{\Js} \\
+                    \bullet : \diamond\ |\ y \leftarrow 4 : \bullet & \succ & let(10,z.let(fun(x.sum(x,sum(y,z)),f.app(f,1))) & \rightarrow_{\Js} \\
+                    let(\square,z.let ... ) : \bullet : \diamond\ |\ y \leftarrow 4 : \bullet & \succ & 10  & \rightarrow_{\Js} \\
+                    let(\square,z.let ... ) : \bullet : \diamond\ |\ \underline{y \leftarrow 4 : \bullet}_{\ E_1} & \prec & 10 & \rightarrow_{\Js} \\
+                    E_1 : \bullet : \diamond\ |\ z \leftarrow 10 : E_1 & \succ & let(fun(x.sum(x,sum(y,z)),f.app(f,1)) & \rightarrow_{\Js} \\
+                    let(\square, f.app ...): E_1 : \bullet : \diamond\ |\ z \leftarrow 10 : E_1 & \succ & fun(x.sum(x,sum(y,z))) & \rightarrow_{\Js} \\
+                    let(\square, f.app ...): E_1 : \bullet : \diamond\ |\ \underline{z \leftarrow 10 : E_1}_{\ E_2} & \prec &  \ll E_2, x.sum(x,sum(y,z)) \gg & \rightarrow_{\Js} \\
+                    E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, x.sum(x,sum(y,z)) \gg  : E_2 & \succ & app(f,1) & \rightarrow_{\Js} \\
+                    app(\square, 1) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, x.sum(x,sum(y,z)) \gg  : E_2 & \succ & f  & \rightarrow_{\Js} \\
+                    app(\square, 1) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, x.sum(x,sum(y,z)) \gg  : E_2 & \succ &  \ll E_2, x.sum(x,sum(y,z)) \gg  & \rightarrow_{\Js} \\
+                    app(\square, 1) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, x.sum(x,sum(y,z)) \gg  : E_2 & \prec &  \ll E_2, x.sum(x,sum(y,z)) \gg  & \rightarrow_{\Js}  \\
+                    app(\ll E_2, x.sum(x,sum(y,z)) \gg, \square) :  E_2 : E_1 : \bullet : \diamond\ |\  f \leftarrow  \ll E_2, fun(x.sum(x,sum(y,z))) \gg  : E_2 & \succ &  1 & \rightarrow_{\Js}  \\
+                    app(\ll E_2, x.sum(x,sum(y,z)) \gg, \square) :  E_2 : E_1 : \bullet : \diamond\ |\  \underline{f \leftarrow  \ll E_2, x.sum(x,sum(y,z)) \gg  : E_2}_{\ E_3} & \prec &  1   & \rightarrow_{\Js} \\
+                    E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & sum(x,sum(y,z)) & \rightarrow_{\Js} \\
+                    sum(\square, sum(y,z)) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & x & \rightarrow_{\Js} \\
+                    sum(\square, sum(y,z)) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \prec & 1 & \rightarrow_{\Js} \\
+                    sum(1, \square ) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1  : E_2 & \succ & sum(y,z) & \rightarrow_{\Js} \\
+                    sum(\square, z) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & y & \rightarrow_{\Js}\\
+                    sum(\square, z) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \prec & 4 & \rightarrow_{\Js} \\
+                    sum(4, \square) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \succ & z & \rightarrow_{\Js} \\
+                    sum(4, \square) : sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\  x \leftarrow 1 : E_2 & \prec & 10 & \rightarrow_{\Js}\\
+                    sum(1, \square) : E_3 :  E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : E_2 & \prec & 10 + 4 & \rightarrow_{\Js} \\
+                    E_3 :  E_2 : E_1 : \bullet : \diamond\ |\ x \leftarrow 1 : E_2 & \prec & 14 + 1 & \rightarrow_{\Js}\\
+                    E_2 : E_1 : \bullet : \diamond\ |\ E_3 & \prec & 15 & \rightarrow_{\Js} \\
+                    E_1 : \bullet : \diamond\ |\  E_2 & \prec & 15 & \rightarrow_{\Js}\\
+                    \bullet : \diamond\ |\ E_1 & \prec & 15 & \rightarrow_{\Js}\\
                     \diamond\ |\ \bullet & \prec & 15 &\\
                     
                 \end{array}
