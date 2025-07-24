@@ -99,32 +99,32 @@
 \contentsline {subsection}{\numberline {2.1}Marcos}{117}{subsection.9.2.1}%
 \contentsline {subsection}{\numberline {2.2}Estados}{118}{subsection.9.2.2}%
 \contentsline {subsection}{\numberline {2.3}Ambientes}{119}{subsection.9.2.3}%
-\contentsline {subsection}{\numberline {2.4}Transiciones}{119}{subsection.9.2.4}%
-\contentsline {section}{\numberline {3}Ejercicios para el lector}{127}{section.9.3}%
-\contentsline {chapter}{\numberline {10}Herencia y subtipos}{128}{chapter.10}%
-\contentsline {subsubsection}{Objetivo}{129}{figure.caption.13}%
-\contentsline {subsubsection}{Planteamiento}{129}{figure.caption.13}%
-\contentsline {section}{\numberline {1}Orientación a objetos}{129}{section.10.1}%
-\contentsline {section}{\numberline {2}Subtipos}{130}{section.10.2}%
-\contentsline {subsection}{\numberline {2.1}Subtipificado de tipos primitivos}{131}{subsection.10.2.1}%
-\contentsline {subsection}{\numberline {2.2}Subtipificado de funciones}{132}{subsection.10.2.2}%
-\contentsline {subsection}{\numberline {2.3}Subtipificado para suma y producto}{132}{subsection.10.2.3}%
-\contentsline {subsection}{\numberline {2.4}Subtipificado para registros}{133}{subsection.10.2.4}%
-\contentsline {subsection}{\numberline {2.5}Elementos máximos}{133}{subsection.10.2.5}%
-\contentsline {section}{\numberline {3}Conversión de tipos}{134}{section.10.3}%
-\contentsline {subsection}{\numberline {3.1}Conversión ascendente \it (Upcasting)}{134}{subsection.10.3.1}%
-\contentsline {subsection}{\numberline {3.2}Conversión descendente \it (Downcasting)}{134}{subsection.10.3.2}%
-\contentsline {section}{\numberline {4}Ejercicios para el lector}{135}{section.10.4}%
-\contentsline {chapter}{\numberline {11}Java Peso Pluma}{136}{chapter.11}%
-\contentsline {subsubsection}{Objetivo}{137}{figure.caption.14}%
-\contentsline {subsubsection}{Planteamiento}{137}{figure.caption.14}%
-\contentsline {section}{\numberline {1}Sintaxis de Java Peso Pluma}{137}{section.11.1}%
-\contentsline {section}{\numberline {2}Tablas de clase}{139}{section.11.2}%
-\contentsline {section}{\numberline {3}Semántica dinámica}{140}{section.11.3}%
-\contentsline {section}{\numberline {4}Semántica estática}{141}{section.11.4}%
-\contentsline {section}{\numberline {5}Propiedades de Java Peso Pluma}{143}{section.11.5}%
-\contentsline {subsection}{\numberline {5.1}Preservación de tipos}{143}{subsection.11.5.1}%
-\contentsline {subsection}{\numberline {5.2}Progreso}{143}{subsection.11.5.2}%
-\contentsline {subsection}{\numberline {5.3}Seguridad}{143}{subsection.11.5.3}%
-\contentsline {section}{\numberline {6}Cómo se relaciona Java Peso Pluma con Java?}{144}{section.11.6}%
-\contentsline {section}{\numberline {7}Ejercicios para el lector}{144}{section.11.7}%
+\contentsline {subsection}{\numberline {2.4}Transiciones}{120}{subsection.9.2.4}%
+\contentsline {section}{\numberline {3}Ejercicios para el lector}{128}{section.9.3}%
+\contentsline {chapter}{\numberline {10}Herencia y subtipos}{129}{chapter.10}%
+\contentsline {subsubsection}{Objetivo}{130}{figure.caption.13}%
+\contentsline {subsubsection}{Planteamiento}{130}{figure.caption.13}%
+\contentsline {section}{\numberline {1}Orientación a objetos}{130}{section.10.1}%
+\contentsline {section}{\numberline {2}Subtipos}{131}{section.10.2}%
+\contentsline {subsection}{\numberline {2.1}Subtipificado de tipos primitivos}{132}{subsection.10.2.1}%
+\contentsline {subsection}{\numberline {2.2}Subtipificado de funciones}{133}{subsection.10.2.2}%
+\contentsline {subsection}{\numberline {2.3}Subtipificado para suma y producto}{133}{subsection.10.2.3}%
+\contentsline {subsection}{\numberline {2.4}Subtipificado para registros}{134}{subsection.10.2.4}%
+\contentsline {subsection}{\numberline {2.5}Elementos máximos}{134}{subsection.10.2.5}%
+\contentsline {section}{\numberline {3}Conversión de tipos}{135}{section.10.3}%
+\contentsline {subsection}{\numberline {3.1}Conversión ascendente \it (Upcasting)}{135}{subsection.10.3.1}%
+\contentsline {subsection}{\numberline {3.2}Conversión descendente \it (Downcasting)}{135}{subsection.10.3.2}%
+\contentsline {section}{\numberline {4}Ejercicios para el lector}{136}{section.10.4}%
+\contentsline {chapter}{\numberline {11}Java Peso Pluma}{137}{chapter.11}%
+\contentsline {subsubsection}{Objetivo}{138}{figure.caption.14}%
+\contentsline {subsubsection}{Planteamiento}{138}{figure.caption.14}%
+\contentsline {section}{\numberline {1}Sintaxis de Java Peso Pluma}{138}{section.11.1}%
+\contentsline {section}{\numberline {2}Tablas de clase}{140}{section.11.2}%
+\contentsline {section}{\numberline {3}Semántica dinámica}{141}{section.11.3}%
+\contentsline {section}{\numberline {4}Semántica estática}{142}{section.11.4}%
+\contentsline {section}{\numberline {5}Propiedades de Java Peso Pluma}{144}{section.11.5}%
+\contentsline {subsection}{\numberline {5.1}Preservación de tipos}{144}{subsection.11.5.1}%
+\contentsline {subsection}{\numberline {5.2}Progreso}{144}{subsection.11.5.2}%
+\contentsline {subsection}{\numberline {5.3}Seguridad}{144}{subsection.11.5.3}%
+\contentsline {section}{\numberline {6}Cómo se relaciona Java Peso Pluma con Java?}{145}{section.11.6}%
+\contentsline {section}{\numberline {7}Ejercicios para el lector}{145}{section.11.7}%

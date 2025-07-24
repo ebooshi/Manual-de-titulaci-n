@@ -9,27 +9,26 @@
 \end{figure}
 
 Hasta este punto en el manual hemos discutido la implementación de diferentes modelos de cómputo como \textsf{MinHs}, que nos fue de utilidad para ilustrar el paradigma funcional. La realidad es que muchos de los lenguajes que utilizamos actualmente no se implementan de esta forma.\\\\
-Es aquí cuando haremos un cambio abrupto en nuestro caso de estudio para poner nuestra atención en el paradigma procedimental cuyo primer ejemplo sera una implementación de un lenguaje de programación basado en \textsf{C} conocido como \textsf{TinyC}.\\\\
-Este tipo de lenguajes requieren del manejo de estados los cuales son afectados por el contexto del programa, los cambios en la memoria y las instrucciones que se ejecutan en un determinado momento. Similar a un autómata o a una máquina de estados.
+Es aquí cuando haremos un cambio abrupto en nuestro caso de estudio para poner nuestra atención en el paradigma procedimental cuyo primer ejemplo será una implementación de un lenguaje de programación basado en \textsf{C} conocido como \textsf{TinyC}. Este tipo de lenguajes requieren del manejo de estados los cuales son afectados por el contexto del programa, los cambios en la memoria y las instrucciones que se ejecutan en un determinado momento.
 
 
 \subsubsection{Objetivo}
-En este capítulo comenzamos el estudio del paradigma procedimental, para esto nuestra interés principal será el de definir el primer caso de estudio conocido como \textsf{TinyC}. Proporcionando su sintaxis, reglas de transición y manejo de memoria.
+En este capítulo comenzamos el estudio del paradigma procedimental, para esto nuestro interés principal será el de definir el primer caso de estudio conocido como \textsf{TinyC}. Proporcionando su sintaxis, reglas de transición y manejo de memoria.
 
 \subsubsection{Planteamiento}
-Se revisarán los componentes básicos de este lenguaje, a saber la semántica operacional mediante la implementación de la máquina $\Cs$. \\\\
-Proporcionaremos una definición completa incluyendo sus marcos, estados y transiciones.\\
+Se revisarán los componentes básicos de este lenguaje, a saber la semántica operacional mediante la implementación de la máquina $\Cs$. 
+Proporcionaremos una definición completa incluyendo sus marcos, estados y transiciones.
 Adicionalmente se discutirá la semántica estática de \textsf{TinyC} para asignar un tipo a los programas de este lenguaje.
 
 \section{Sintaxis}
 
 En \textsf{TinyC} tendremos las declaraciones de variables y funciones que se pueden identificar por nombre, las expresiones aritméticas y booleanas para construir la lógica de los programas y por último las sentencias encargadas de la ejecución y control del estado del programa.\\
 
-\begin{definition}Sintaxis Concreta de \textsf{TinyC}l\footnote{Definición formulada de \hyperlink{126}{[126]}, y \hyperlink{127}{[127]} }.
-\\*[11pt]
-	De esta definición es importante notar la omisión entera de apuntadores dado que el \\
+\begin{definition}[Sintaxis Concreta de \textsf{TinyC}]\footnote{Definición formulada de \hyperlink{126}{[126]}, y \hyperlink{127}{[127]} }.
+
+	\footnote{De esta definición es importante notar la omisión entera de apuntadores dado que el \\
 	tema escapa del enfoque de este capítulo quedándonos únicamente con un subconjunto \\
-	de expresiones del lenguaje de programación \textsf{C}.
+	de expresiones del lenguaje de programación \textsf{C}.}
     \[
         \begin{array}{rcl}
             \textsf{progam} &::=&\textsf{global-decs }\;\textsf{stmt}\\
@@ -52,43 +51,50 @@ En \textsf{TinyC} tendremos las declaraciones de variables y funciones que se pu
 
 \end{definition}
 
-\bigskip
-
-Es importante remarcar el impacto que la introducción de las variables en este paradigma tiene en el estado de un programa, dado que el valor que contienen puede ser modificando alterando así el estado mismo del programa en cualquier punto.  Esto no ocurría con la introducción de las variables en la sintaxis de orden superior para \textsf{MinHs}.
+Es importante remarcar el impacto que la introducción de las variables tienen en el estado de un programa para el paradigma procedimental. Dado que los variables representan locaciones de memoria, estas puede ser modificandas alterando así el estado mismo del programa en cualquier punto.  Esto no ocurría con la introducción de las variables en la sintaxis de orden superior para \textsf{MinHs} pues el valor ligado a una variable en este sistema permanece constante.
 
 \bigskip
+
+En \textsf{TinyC} los constructores del lenguaje se pueden agrupar en tres categorías:
+\begin{itemize}
+	\item \textbf{Declaraciones} para especificar funciones, y asignar valores a variables.\\
+	\item \textbf{Expresiones} similares al paradigma funcional en el cual siempre regresan un valor una vez concluida la evaluación de la expresión.\\
+	\item \textbf{Sentencias} que son los constructores encargados de modelar los efectos del programa en el estado.\\\\
+	Los programas en \textsf{TinyC} son una serie de declaraciones globales seguidas de una sentencia.
+\end{itemize}
 
 \begin{exercise}
     Escribe un programa en \textsf{TinyC} que implemente una función que nos permita calcular el enésimo número de la sucesión de Fibonacci.\\
     \begin{lstlisting}
-        fibonacci(Int n){
+        Int result = 0; 
+        Int fibonacci(Int n){
         
-            Int i = ;
+            Int i = 0;
             Int pre = 1;
             Int post = 1;
             Int fib;
             
             while(i < n){
-                fib = aux2 + aux1;
+                fib = pre + post;
                 pre = post;
                 post = fib;
             }
             return fib;
         };
 
-        Int result = fibonacci(9);
+        result = fibonacci(9);
     \end{lstlisting}
 \end{exercise}
 
 \section{La Máquina $\Cs$}
 
-Para la semántica operacional de \textsf{TinyC} vamos a definir una máquina abstracta siguiendo la misma línea del capítulo anterior, donde contaremos con una pila para guardar los marcos de ejecución y cómputos pendientes y un contexto para las variables y los valores asignados a éstas.
+Para la semántica operacional de \textsf{TinyC} vamos a definir una máquina abstracta siguiendo la misma línea del capítulo anterior, donde contaremos con una pila para guardar los marcos de ejecución y cómputos pendientes y un contexto para las variables y los valores asignados a estas.
 
 \subsection{Marcos}
-Para la sección de expresiones vamos a tener un mapeo directo con los marcos para los operadores de la máquina $\Js$ dado que la categoría $expr$ de \textsf{TinyC} también regresa un valor al ser evaluadas.\\\\
-Una diferencia importante a notar es la manera en la que las funciones son declaradas en \textsf{MinHs}. Aquí la declaración se hace mediante funciones anónimas que pueden ir en cualquier parte del programa, mientras que en \textsf{TinyC} y en \textsf{C} deben ser declaradas antes de ser llamadas. Adicionalmente estas declaraciones de funciones pueden ser múltiples mientras que en \textsf{TinyC} solo pueden declarase un valor a la vez.\\
+Para las expresiones de \textsf{TinyC} vamos a heredar los marcos de las expresiones de la máquina $\Js$ dado que los elementos pertenecientes a la categoría $expr$ se comportan de forma análoga regresando un valor al concluir su evaluación. \\\\
+De esta definición únicamente excluiremos a los marcos para funciones  ya que su comportamiento difiere entre ambas máquinas. En $\Js$ la declaración se hace mediante funciones anónimas que pueden ir en cualquier parte del programa, mientras que en en $\Cs$ deben ser declaradas antes de ser llamadas. Adicionalmente estas declaraciones de funciones pueden ser multiparamétricas mientras que en $\Js$ solo pueden declarase un argumento a la vez.\\
 
-\begin{definition}Marcos de \textsf{TinyC}\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
+\begin{definition}[Marcos para la pila de control de la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
 \\*[11pt]
 Se definen los siguientes marcos que usaremos en la pila de control de la máquina $\Cs$. Estos marcos corresponden a la evaluación de nuevas instrucciones como \textsf{return} que evalúa el contenido hasta obtener un valor, \textsf{secu} que nos ayuda a escribir una secuencia de instrucciones y \textsf{call} que es el equivalente a \textsf{app} de \textsf{MinHs}.
 \\*[11pt]
@@ -138,13 +144,13 @@ Se definen los siguientes marcos que usaremos en la pila de control de la máqui
 \end{definition}
 
 \subsection{Estados}
-Esta categoría introduce una diferencia sustancial con las máquinas abstractas hasta ahora estudiadas. Tendremos un elemento para la pila de cómputos pendientes y dos categorías para el contexto de evaluación de las variables, el primero local representando el alcance de las variables declaradas en el cuerpo de una función y uno global para aquellas declaraciones cuyo contexto sea todo el programa.\\\\
+Esta categoría introduce una diferencia sustancial con las máquinas abstractas hasta ahora estudiadas. Tendremos una categoría para la pila de cómputos pendientes y dos categorías para el contexto de evaluación de las variables, el primero local representando el alcance de las variables declaradas en el cuerpo de una función y el segundo global para aquellas declaraciones cuyo contexto sea todo el programa.\\\\
 
-	\begin{definition}Estados de la máquina $\Cs$\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
+	\begin{definition}[Estados de la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
 	     \\*[11pt]
 		Los estados de la máquina $\Cs$ son de la siguiente forma:
 			$$P \ |\ L \  |\ G \succ e\qquad\qquad P\ |\ L\ |\ G \prec e$$
-		En donde $P$ es una pila de control, $L$ y $G$ son ambientes de variables y $e$ es una expresión del lenguaje. Esta relación nos permite almacenar marcos de cómputos pendientes en $P$, ambientes previos en $L$ y evaluar la expresión $e$ con el ambiente $G$.
+		En donde $P$ es una pila de control, $L$ y $G$ son los ambientes local y global respectivamente y $e$ es una expresión del \textsf{TinyC}.
 	\end{definition}
 
 \subsection{Ambientes}
@@ -153,7 +159,7 @@ $$ \text{variable} \rightarrow \text{valor}$$
 A continuación vamos a definir las funciones para hacer referencia al valor de una variable por nombre (búsqueda), y la función para modificar el contenido de una variable (actualización). \\
 
 
-\begin{definition}Referencia de variable en ambiente para la máquina $\Cs$\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
+\begin{definition}[Referencia de variable en ambiente para la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
 
 \[
     \begin{array}{ccccc}
@@ -171,7 +177,7 @@ Esta función simplemente itera sobre la lista de variables contenidas en el amb
 
 \bigskip
 
-\begin{definition}Modificación del ambiente para una variable en la máquina $\Cs$\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
+\begin{definition}[Modificación del ambiente para una variable en la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
 
 \[
     \begin{array}{ccc}
@@ -192,7 +198,7 @@ Esta función itera sobre la lista hasta hacer un $match$ y actualiza el valor c
 
 \subsection{Transiciones}
 
-\begin{definition}Transiciones de la máquina $\Cs$ \footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }
+\begin{definition}[Transiciones de la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }
 \\*[11pt]
 Las transiciones de la máquina $\Cs$ se definen en términos de los programas que se están evaluando. Como vimos en secciones anteriores en el caso de \textsf{TinyC} un programa no tiene un resultado final, es decir no se reduce a un valor. Por lo que se agrega un programa especifico que indica el final de la ejecución, este programa es el programa vacío y se denota como:
 
