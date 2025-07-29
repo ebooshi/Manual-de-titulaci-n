@@ -312,7 +312,7 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
 
         Para la evaluación de una llamada a función, primero es necesario evaluar cada uno de los parámetros con los que se llama.\\\\
         Una vez que todos son valores, entonces se ejecuta el cuerpo de la función usando un ambiente vacío como ambiente principal y agregando a el los parámetros de la llamada. \\\\
-        Guardamos el ambiente principal anterior con un símbolo especial ($\bigstar$) que sirve como separado para saber en donde termina uno y comienza el otro.
+        Guardamos el ambiente principal anterior con un símbolo especial ($\bigstar$) que sirve como separador para saber en donde termina uno y comienza el otro.
 
 	\bigskip
 
@@ -342,7 +342,7 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
     \begin{lstlisting}
         fibonacci(Int n){
         
-            Int i = ;
+            Int i = 0 ;
             Int pre = 1;
             Int post = 1;
             Int fib = 0;
@@ -372,7 +372,7 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
 	\\*[3pt]
         $ W = while(lt(i,n),B)) $\\
 	\\*[4pt]
-        $ F = fundec(Int, fibonacci,n\ :\ Int.secu(A,secu(W, return(fib)) $\\
+        $ F = fundec(Int,\ fibonacci,\ n:Int,\ secu(A,secu(W, return(fib)) $\\
 	\\*[1pt]
        $ P = secu(F,vardec(Int, result, call(fibonacci, 3))) $
 
