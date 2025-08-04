@@ -99,7 +99,7 @@
 \contentsline {subsection}{\numberline {2.1}Marcos}{117}{subsection.9.2.1}%
 \contentsline {subsection}{\numberline {2.2}Estados}{118}{subsection.9.2.2}%
 \contentsline {subsection}{\numberline {2.3}Ambientes}{119}{subsection.9.2.3}%
-\contentsline {subsection}{\numberline {2.4}Transiciones}{120}{subsection.9.2.4}%
+\contentsline {subsection}{\numberline {2.4}Transiciones}{119}{subsection.9.2.4}%
 \contentsline {section}{\numberline {3}Ejercicios para el lector}{128}{section.9.3}%
 \contentsline {chapter}{\numberline {10}Herencia y subtipos}{129}{chapter.10}%
 \contentsline {subsubsection}{Objetivo}{130}{figure.caption.13}%

@@ -8,7 +8,7 @@
     \centerline{\includegraphics[scale=.35]{assets/09_Gatito_C.png}}
 \end{figure}
 
-Hasta este punto en el manual hemos discutido la implementación de diferentes modelos de cómputo como \textsf{MinHs}, que nos fue de utilidad para ilustrar el paradigma funcional. La realidad es que muchos de los lenguajes que utilizamos actualmente no se implementan de esta forma.\\\\
+Hasta este punto en el manual hemos discutido la implementación de diferentes modelos de cómputo como \textsf{MinHS}, que nos fue de utilidad para ilustrar el paradigma funcional. La realidad es que muchos de los lenguajes que utilizamos actualmente no se implementan de esta forma.\\\\
 Es aquí cuando haremos un cambio abrupto en nuestro caso de estudio para poner nuestra atención en el paradigma procedimental cuyo primer ejemplo será una implementación de un lenguaje de programación basado en \textsf{C} conocido como \textsf{TinyC}. Este tipo de lenguajes requieren del manejo de estados los cuales son afectados por el contexto del programa, los cambios en la memoria y las instrucciones que se ejecutan en un determinado momento.
 
 
@@ -16,9 +16,8 @@ Es aquí cuando haremos un cambio abrupto en nuestro caso de estudio para poner 
 En este capítulo comenzamos el estudio del paradigma procedimental, para esto nuestro interés principal será el de definir el primer caso de estudio conocido como \textsf{TinyC}. Proporcionando su sintaxis, reglas de transición y manejo de memoria.
 
 \subsubsection{Planteamiento}
-Se revisarán los componentes básicos de este lenguaje, a saber la semántica operacional mediante la implementación de la máquina $\Cs$. 
-Proporcionaremos una definición completa incluyendo sus marcos, estados y transiciones.
-Adicionalmente se discutirá la semántica estática de \textsf{TinyC} para asignar un tipo a los programas de este lenguaje.
+Se revisarán los componentes básicos de este lenguaje, a saber la semántica operacional mediante la implementación de la máquina $\Cs$.  Adicionalmente proporcionaremos una definición completa incluyendo sus marcos, estados y transiciones.
+%Adicionalmente se discutirá la semántica estática de \textsf{TinyC} para asignar un tipo a los programas de este lenguaje.
 
 \section{Sintaxis}
 
@@ -51,15 +50,15 @@ En \textsf{TinyC} tendremos las declaraciones de variables y funciones que se pu
 
 \end{definition}
 
-Es importante remarcar el impacto que la introducción de las variables tienen en el estado de un programa para el paradigma procedimental. Dado que los variables representan locaciones de memoria, estas puede ser modificandas alterando así el estado mismo del programa en cualquier punto.  Esto no ocurría con la introducción de las variables en la sintaxis de orden superior para \textsf{MinHs} pues el valor ligado a una variable en este sistema permanece constante.
+Es importante remarcar el impacto que la introducción de las variables tienen en el estado de un programa para el paradigma procedimental. Dado que los variables representan locaciones de memoria, estas puede ser modificandas alterando así el estado mismo del programa en cualquier punto.  Esto no ocurría con la introducción de las variables en la sintaxis de orden superior para \textsf{MinHS} pues el valor ligado a una variable en este sistema permanece constante.
 
 \bigskip
 
 En \textsf{TinyC} los constructores del lenguaje se pueden agrupar en tres categorías:
 \begin{itemize}
-	\item \textbf{Declaraciones} para especificar funciones, y asignar valores a variables.\\
-	\item \textbf{Expresiones} similares al paradigma funcional en el cual siempre regresan un valor una vez concluida la evaluación de la expresión.\\
-	\item \textbf{Sentencias} que son los constructores encargados de modelar los efectos del programa en el estado.\\\\
+	\item \textbf{Declaraciones:} para especificar funciones, y asignar valores a variables.\\
+	\item \textbf{Expresiones:} similares al paradigma funcional en el cual siempre regresan un valor una vez concluida la evaluación de la expresión.\\
+	\item \textbf{Sentencias:} que son los constructores encargados de modelar los efectos del programa en el estado.\\\\
 	Los programas en \textsf{TinyC} son una serie de declaraciones globales seguidas de una sentencia.
 \end{itemize}
 
@@ -69,10 +68,10 @@ En \textsf{TinyC} los constructores del lenguaje se pueden agrupar en tres categ
         Int result = 0; 
         Int fibonacci(Int n){
         
-            Int i = 0;
+            Int i = 1;
             Int pre = 1;
             Int post = 1;
-            Int fib;
+            Int fib = 0;
             
             while(i < n){
                 fib = pre + post;
@@ -96,7 +95,7 @@ De esta definición únicamente excluiremos a los marcos para funciones  ya que 
 
 \begin{definition}[Marcos para la pila de control de la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
 \\*[11pt]
-Se definen los siguientes marcos que usaremos en la pila de control de la máquina $\Cs$. Estos marcos corresponden a la evaluación de nuevas instrucciones como \textsf{return} que evalúa el contenido hasta obtener un valor, \textsf{secu} que nos ayuda a escribir una secuencia de instrucciones y \textsf{call} que es el equivalente a \textsf{app} de \textsf{MinHs}.
+Se definen los siguientes marcos que usaremos en la pila de control de la máquina $\Cs$. Estos marcos corresponden a la evaluación de nuevas instrucciones como \textsf{return} que evalúa el contenido hasta obtener un valor, \textsf{secu} que nos ayuda a escribir una secuencia de instrucciones y \textsf{call} que es el equivalente a \textsf{app} de \textsf{MinHS}.
 \\*[11pt]
     \begin{description}
         \item[Declaraciones] 
@@ -342,7 +341,7 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
     \begin{lstlisting}
         fibonacci(Int n){
         
-            Int i = 0 ;
+            Int i = 1 ;
             Int pre = 1;
             Int post = 1;
             Int fib = 0;
@@ -554,44 +553,43 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
 \]
 \end{exercise}
 
-
-Observe que no regresamos el resultado al final de la evaluación si no que lo almacenamos en una de las variables que queda impresa en el contexto final. \\
-Nuestra atención está no en el resultado que se obtiene en el último paso ($\bot$) mas bien el estado de la memoria.\\\\
+Nuestra atención está no en el resultado que se obtiene en el último paso ($\bot$) mas bien en el estado de la memoria. Óbserve que no regresamos el resultado al final de la evaluación si no que lo almacenamos en una de las variables que queda impresa en el contexto final. \\
 
 \section{Ejercicios para el lector}
 
 \begin{exercise}
-    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición de un programa que dados dos enteros n y m revise que n es múltiplo de m.
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición de un programa que dados dos enteros $n$ y $m$ revise que:
+\[ n\ \% \ m\ ==\ 0 \]
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-    Utilizando la definición de la máquina C evalúa el ejercicio anterior con los valores 3 y 9.
+    Utilizando la definición de la máquina $\Cs$ evalúa el ejercicio anterior con los valores 3 y 9.
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición de un programa que dado un número n revise su paridad.
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición de un programa que dado un número $n$ revise su paridad.
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el valor 4
+    Utilizando la definición de la máquina $\Cs$ evalúa el ejercicio anterior con el valor 4
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición de un programa que dados dos números n y m nos regrese el resultado de $n^m$.
+    Utilizando la sintaxis definida para \textsf{TinyC} proporciona la definición de un programa que dados dos números $n$ y $m$ nos regrese el resultado de $n^m$.
 \end{exercise}
 
 \bigskip
 
 \begin{exercise}
-    Utilizando la definición de la máquina C evalúa el ejercicio anterior con los valores 3 y 2.
+    Utilizando la definición de la máquina $\Cs$ evalúa el ejercicio anterior con los valores 3 y 2.
 \end{exercise}
 
 \bigskip
@@ -603,7 +601,7 @@ Nuestra atención está no en el resultado que se obtiene en el último paso ($\
 \bigskip
 
 \begin{exercise}
-    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el arreglo [7,5,1,3]
+    Utilizando la definición de la máquina $\Cs$ evalúa el ejercicio anterior con el arreglo [7,5,1,3]
 \end{exercise}
 
 \bigskip
@@ -615,7 +613,7 @@ Nuestra atención está no en el resultado que se obtiene en el último paso ($\
 \bigskip
 
 \begin{exercise}
-    Utilizando la definición de la máquina C evalúa el ejercicio anterior con el arreglo [8,4,1,2,7] y búsca el número 2.
+    Utilizando la definición de la máquina $\Cs$ evalúa el ejercicio anterior con el arreglo [8,4,1,2,7] y  2.
 \end{exercise}
 
 
