@@ -50,7 +50,7 @@ En \textsf{TinyC} tendremos las declaraciones de variables y funciones que se pu
 
 \end{definition}
 
-Es importante remarcar el impacto que la introducción de las variables tienen en el estado de un programa para el paradigma procedimental. Dado que los variables representan locaciones de memoria, estas puede ser modificandas alterando así el estado mismo del programa en cualquier punto.  Esto no ocurría con la introducción de las variables en la sintaxis de orden superior para \textsf{MinHS} pues el valor ligado a una variable en este sistema permanece constante.
+Es importante remarcar el impacto que la introducción de las variables tienen en el estado de un programa para el paradigma procedimental. Dado que los variables representan locaciones de memoria, estas puede ser modificadas alterando así el estado mismo del programa en cualquier punto.  Esto no ocurría con la introducción de las variables en la sintaxis de orden superior para \textsf{MinHS} pues el valor ligado a una variable en este sistema permanece constante.
 
 \bigskip
 
@@ -91,7 +91,7 @@ Para la semántica operacional de \textsf{TinyC} vamos a definir una máquina ab
 
 \subsection{Marcos}
 Para las expresiones de \textsf{TinyC} vamos a heredar los marcos de las expresiones de la máquina $\Js$ dado que los elementos pertenecientes a la categoría $expr$ se comportan de forma análoga regresando un valor al concluir su evaluación. \\\\
-De esta definición únicamente excluiremos a los marcos para funciones  ya que su comportamiento difiere entre ambas máquinas. En $\Js$ la declaración se hace mediante funciones anónimas que pueden ir en cualquier parte del programa, mientras que en en $\Cs$ deben ser declaradas antes de ser llamadas. Adicionalmente estas declaraciones de funciones pueden ser multiparamétricas mientras que en $\Js$ solo pueden declarase un argumento a la vez.\\
+De esta definición únicamente excluiremos a los marcos para funciones  ya que su comportamiento difiere entre ambas máquinas. En $\Js$ la declaración se hace mediante funciones anónimas que pueden ir en cualquier parte del programa, mientras que en en $\Cs$ deben ser declaradas antes de ser llamadas. Adicionalmente estas declaraciones de funciones pueden ser multiparamétricas mientras que en $\Js$ solo pueden declarase un argumento a la vez.
 
 \begin{definition}[Marcos para la pila de control de la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
 \\*[11pt]
@@ -143,20 +143,19 @@ Se definen los siguientes marcos que usaremos en la pila de control de la máqui
 \end{definition}
 
 \subsection{Estados}
-Esta categoría introduce una diferencia sustancial con las máquinas abstractas hasta ahora estudiadas. Tendremos una categoría para la pila de cómputos pendientes y dos categorías para el contexto de evaluación de las variables, el primero local representando el alcance de las variables declaradas en el cuerpo de una función y el segundo global para aquellas declaraciones cuyo contexto sea todo el programa.\\\\
+Esta categoría introduce una diferencia sustancial con las máquinas abstractas hasta ahora estudiadas. Tendremos una categoría para la pila de cómputos pendientes y dos categorías para el contexto de evaluación de las variables, el primero local representando el alcance de las variables declaradas en el cuerpo de una función y el segundo global para aquellas declaraciones cuyo contexto sea todo el programa.
 
 	\begin{definition}[Estados de la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
 	     \\*[11pt]
 		Los estados de la máquina $\Cs$ son de la siguiente forma:
 			$$P \ |\ L \  |\ G \succ e\qquad\qquad P\ |\ L\ |\ G \prec e$$
-		En donde $P$ es una pila de control, $L$ y $G$ son los ambientes local y global respectivamente y $e$ es una expresión del \textsf{TinyC}.
+		En donde $P$ es una pila de control, $L$ y $G$ son los ambientes local y global respectivamente y $e$ es una expresión en sintaxis abstracta de \textsf{TinyC}.
 	\end{definition}
 
 \subsection{Ambientes}
 Los ambientes serán una lista de asignaciones de la forma: 
 $$ \text{variable} \rightarrow \text{valor}$$
-A continuación vamos a definir las funciones para hacer referencia al valor de una variable por nombre (búsqueda), y la función para modificar el contenido de una variable (actualización). \\
-
+A continuación vamos a definir las funciones para hacer referencia al valor de una variable por nombre (búsqueda) y la función para modificar el contenido de una variable (actualización). \\
 
 \begin{definition}[Referencia de variable en ambiente para la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
 
@@ -170,7 +169,7 @@ A continuación vamos a definir las funciones para hacer referencia al valor de 
     \end{array}
 \]
 \\*[11pt]
-Esta función simplemente itera sobre la lista de variables contenidas en el ambiente hasta encontrar un $match$. Sí la búsqueda llega hasta la pila vacía sin encontrar nada regresamos un $fail$.
+Esta función simplemente itera sobre la lista de variables contenidas en el ambiente hasta hacer un $match$. Sí la búsqueda llega hasta la pila vacía sin encontrar esta regresa $fail$.
 
 \end{definition}
 
@@ -187,7 +186,7 @@ Esta función simplemente itera sobre la lista de variables contenidas en el amb
 \]
 \[
     \begin{array}{c}
-        \inference{}{y\leftarrow u;\E[x \rightarrowtail v] = \E[x \rightarrowtail v]}
+        \inference{}{y\leftarrow u;\E[x \rightarrowtail v] = y\leftarrow u;\E[x \rightarrowtail v]}
     \end{array}
 \]
 \\*[11pt]
@@ -242,6 +241,15 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
             \\
             \end{array}
         \]
+    \item[Variables]
+        \[
+            \begin{array}{c}
+                \inference{G[x]=v}{P\ |\ L\ |\ G \succ x \rightarrow_C P\ |\ L\ |\ G \prec v}\\
+                \\
+                \inference{G[x]=fail&L[x]=v}{P\ |\ L\ |\ G \succ x \rightarrow_C P\ |\ L\ |\ G\ \prec v}\\
+                \\
+            \end{array}
+        \]
     \item[Condicionales]
         \[
             \begin{array}{c}
@@ -256,15 +264,6 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
                 \inference{}{ if(\square,e_2);P\ |\ L\ |\ G\ \prec true \rightarrow_C P\ |\ L\ |\ G\ \succ e_2}\\
                 \\
                 \inference{}{ if(\square,e_2);P\ |\ L\ |\ G\ \prec false \rightarrow_C P\ |\ L\ |\ G\ \prec\bot}\\
-                \\
-            \end{array}
-        \]
-    \item[Variables]
-        \[
-            \begin{array}{c}
-                \inference{G[x]=v}{P\ |\ L\ |\ G \succ x \rightarrow_C P\ |\ L\ |\ G \prec v}\\
-                \\
-                \inference{G[x]=fail&L[x]=v}{P\ |\ L\ |\ G \succ x \rightarrow_C P\ |\ L\ |\ G\ \prec v}\\
                 \\
             \end{array}
         \]
@@ -377,12 +376,12 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
 
 	\bigskip
 
-	En la escritura de los ejercicios también se optó por el renombramiento de los contextos cuando se necesita almacenar, modificar o agregar alguna definición de variable o función. \\
-	El contexto puede ser renombrado utilizando la notación $$\underline{v_1 \rightarrow n_1, ... , v_n \rightarrow n_k}_{L_n}$$
+	%En la escritura de los ejercicios también se optó por el renombramiento de los contextos cuando se necesita almacenar, modificar o agregar alguna definición de variable o función. \\
+	%El contexto puede ser renombrado utilizando la notación $$\underline{v_1 \rightarrow n_1, ... , v_n \rightarrow n_k}_{L_n}$$
 
 \[
 \begin{turn}{270}
-    \scalemath{0.65}{
+    \scalemath{0.55}{
         \begin{array}{rccl} 
             \diamond\ |\ \bullet\ |\ \bullet & \succ & secu(F,vardec(Int, result, call(fibonacci, 3)))  & \rightarrow_{\Cs} \\
             secu(\square,vardec(Int, result, call(fibonacci, 3))):\diamond\ |\ \bullet\ |\ \bullet & \succ & fundec(Int,\ fibonacci,\ n\ :\ Int, secu(A,secu(W, return(fib))) & \rightarrow_{\Cs} \\
