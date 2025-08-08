@@ -359,13 +359,13 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
 
 	\bigskip
 
-    Para facilitar la representación y la evaluación de la máquina $\Cs$ vamos a seccionar el programa para tener fragmenos de este. Definimos entonces:
+    Para facilitar la representación y la evaluación de la máquina $\Cs$ vamos a seccionar el programa para tener fragmenos de este, definimos entonces:
 
     \[
         A = secu(vardec(Int, i, 1), secu(vardec(Int, pre, 1), secu(vardec(Int, post, 1), vardec(Int, fib, 0))))
     \]
     \[
-        B = secu(assig(fib, sum(pre,post)), secu(asig(pre,post), secu(asig(i,sum(i+1), asig(post,fib)))
+        B = secu(assig(fib, sum(pre,post)), secu(asig(pre,post), secu(asig(post,fib), asig(i,sum(i+1)))
     \]
 	\\*[3pt]
         $ W = while(lt(i,n),B)) $\\
@@ -405,7 +405,7 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
             secu(\square, vardec(Int, fib ... )) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ pre \leftarrow 1 :i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & vardec(Int, post, 1)  & \rightarrow_{\Cs} \\
             vardec(Int, post, \square) : secu(\square, vardec(Int, fib ... )) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ pre \leftarrow 1 :i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & 1 & \rightarrow_{\Cs} \\
             secu(\square, vardec(Int, fib ... )) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ post \leftarrow 1 : pre \leftarrow 1 :i \leftarrow 1 : n \leftarrow 3 : \bullet & \prec & \bot & \rightarrow_{\Cs} \\
-            secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ post \leftarrow 1 : pre \leftarrow 1 : i \leftarrow 1 : n \leftarrow 3 : \succ & \succ & vardec(Int, fib, 0) & \rightarrow_{\Cs} \\
+            secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ post \leftarrow 1 : pre \leftarrow 1 : i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & vardec(Int, fib, 0) & \rightarrow_{\Cs} \\
             vardec(Int, fib, \square) : secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ post \leftarrow 1 : pre \leftarrow 1 : i \leftarrow 1 : n \leftarrow 3 : \bullet & \succ & 0 & \rightarrow_{\Cs} \\
             secu(\square,secu(W ...)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 0 : post \leftarrow 1 : pre \leftarrow 1 : i \leftarrow 1 : n \leftarrow 3 : \bullet}_{L_2} & \prec & \bot & \rightarrow_{\Cs} \\
             vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_2 & \succ & secu(while(lt(i,n),B), return(fib)) & \rightarrow_{\Cs} \\
@@ -491,11 +491,11 @@ Con lo que se definen las transiciones con las siguientes reglas:\\
             assig(fib,\square) : secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_5 & \prec & 3 & \rightarrow_{\Cs} \\
             secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 3 : post \leftarrow 2 : pre \leftarrow 1 : i \leftarrow 2 : n \leftarrow 3 : \bullet}_{L_6} & \prec & \bot & \rightarrow_{\Cs} \\
             %secu(\square,secu(asig(pre,post), ...)) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \prec & \bot & \rightarrow_{\Cs} \\
-            secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \succ & secu(asig(pre,post), secu(asig(i, sum(i+1), ...))) & \rightarrow_{\Cs} \\
-            secu(\square, secu(asig(i, sum(i+1), ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \succ & asig(pre,post) & \rightarrow_{\Cs} \\
-            asig(pre,\square): secu(\square, secu(asig(i, sum(i+1), ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \succ & post  & \rightarrow_{\Cs} \\
-            asig(pre,\square): secu(\square, secu(asig(i, sum(i+1), ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \prec & 2 & \rightarrow_{\Cs} \\
-            secu(\square, secu(asig(i, sum(i+1), ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 3 : post \leftarrow 2 : pre \leftarrow 2 : i \leftarrow 2 : n \leftarrow 3 : \bullet}_{L_7} & \prec & \bot & \rightarrow_{\Cs} \\
+            secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \succ & secu(asig(pre,post), ...))) & \rightarrow_{\Cs} \\
+            secu(\square, secu(asig(post, fib ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \succ & asig(pre,post) & \rightarrow_{\Cs} \\
+            asig(pre,\square): secu(\square, secu(asig(post, fib ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \succ & post  & \rightarrow_{\Cs} \\
+            asig(pre,\square): secu(\square, secu(post, fib, ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_6 & \prec & 2 & \rightarrow_{\Cs} \\
+            secu(\square, secu(asig(post, fib ...))) : secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ \underline{fib \leftarrow 3 : post \leftarrow 2 : pre \leftarrow 2 : i \leftarrow 2 : n \leftarrow 3 : \bullet}_{L_7} & \prec & \bot & \rightarrow_{\Cs} \\
             secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \succ & secu(asig(post,fib), asig(i, sum(i,1))) & \rightarrow_{\Cs} \\
             secu(\square, asig(i, sum(i,1))): secu(\square, while(...)) : secu(\square, return(fib)) : vardec(Int, result, \square) : \diamond\ |\ L_1 \bigstar \bullet\ |\ L_7 & \succ & asig(post,fib) & \rightarrow_{\Cs} \\\
         \end{array}

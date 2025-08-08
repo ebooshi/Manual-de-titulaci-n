@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  6 AUG 2025 08:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  8 AUG 2025 08:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -4145,9 +4145,9 @@ Overfull \hbox (42.88pt too wide) detected at line 369
 ML/lmm/m/it/10 pre; post\OT1/lmr/m/n/10 ))\OML/lmm/m/it/10 ; secu\OT1/lmr/m/n/1
 0 (\OML/lmm/m/it/10 asig\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 pre; post\OT1/lmr/m/n
 /10 )\OML/lmm/m/it/10 ; secu\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 asig\OT1/lmr/m/n/
-10 (\OML/lmm/m/it/10 i; sum\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 i \OT1/lmr/m/n/10 
-+ 1)\OML/lmm/m/it/10 ; asig\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 post; fib\OT1/lmr/
-m/n/10 )))
+10 (\OML/lmm/m/it/10 post; fib\OT1/lmr/m/n/10 )\OML/lmm/m/it/10 ; asig\OT1/lmr/
+m/n/10 (\OML/lmm/m/it/10 i; sum\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 i \OT1/lmr/m/n
+/10 + 1)))
  []
 
 [122] [123]
@@ -5090,7 +5090,7 @@ C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbol
 s/msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/t
 ype1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (165 pages, 2425570 bytes).
+Output written on 00_Manual_Main_Template.pdf (165 pages, 2425510 bytes).
 PDF statistics:
  3293 PDF objects out of 3580 (max. 8388607)
  1212 named destinations out of 1440 (max. 500000)
