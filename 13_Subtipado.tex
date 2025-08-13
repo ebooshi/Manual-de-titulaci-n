@@ -12,7 +12,7 @@
 En este capítulo vamos a revisar el último paradigma de programación que estudiaremos en este manual, la orientación a objetos y sus características más importantes; la herencia y los subtipos.\\\\
 La introducción del paradigma de la orientación a objetos presenta una ventaja al momento de reutilizar código que ya hemos definido anteriormente y que durante los últimos años supuso una revolución en la forma en la que se escriben y desarrollan los programas que corren en nuestros teléfonos y computadoras personales.\\\\
 Lenguajes como \textsf{Java},  \textsf{Python}, \textsf{Ruby}, \textsf{Golang}, \textsf{Swift}, \textsf{C\#} entre muchos otros implementan la herencia, en donde métodos, constructores y variables de la clase padre puede ser reutilizadas por otra clase hija.\\\\
-Más aún, en este tipo de lenguajes la flexibilidad no solo se extiende a hacer uso de código previamente definido y heredado si no que se puede extender y sobrecargar sobre lo ya existente, proporcionando una mecanismo modular para desarrollar software y evitar la redefinición de clases, métodos y variables. 
+Más aún, en este tipo de lenguajes la flexibilidad no solo se extiende a hacer uso de código previamente definido y heredado si no que se puede extender y sobrecargar sobre lo ya existente, proporcionando una mecanismo modular para desarrollar software y evitar la re definición de clases, métodos y variables. 
 
 \subsubsection{Objetivo}
 El objetivo de este capítulo es proporcionar una definición de los conceptos principales de la orientación objetos y su aplicación a la herencia y el subtipificado en el paradigma procedimental para las diferentes categorías definidas en la sintaxis de \textsf{TinyC}.
@@ -24,34 +24,32 @@ Finalmente se concluye el capítulo introduciendo el concepto de $casting$ (en e
 \section{Orientación a objetos}
 La orientación a objetos tiene como fundamento la abstracción de los elementos mas importantes de las entidades que se desean modelar en la computadora, su identidad, su comportamiento, relaciones, etc. Para este propósito se utiliza una abstracción conocida como clase. 
 
-\begin{definition}Definición para clases\footnote{Definición formulada de \hyperlink{128}{[128]} y \hyperlink{133}{[133]} }. \\\\
+\begin{definition}[Definición para clases]\footnote{Definición formulada de \hyperlink{128}{[128]} y \hyperlink{133}{[133]} }\\
     Una clase es una abstracción de una entidad, elemento u objeto que define sus características más importantes como el nombre, los atributos, variables y métodos que describen su comportamiento.
 \end{definition}
 
 \bigskip
 
-\begin{definition}Definición de objeto\footnote{Definición formulada de \hyperlink{128}{[128]} y \hyperlink{133}{[133]} }. \\\\
+\begin{definition}[Definición de objeto]\footnote{Definición formulada de \hyperlink{128}{[128]} y \hyperlink{133}{[133]} }\\
     Un objeto es una instancia de una clase.
 \end{definition}
 
 \bigskip
 
-Las características que se comparten entre los lenguajes que implementan este paradigma incluyen\footnote{Definición formulada de \hyperlink{133}{[133]}} :
-\bigskip
-
+Las características que se comparten entre los lenguajes que implementan este paradigma incluyen\footnote{Definición formulada de \hyperlink{133}{[133]}} 
 \begin{itemize}
-    \item Herencia:
-	 permite la definición de una clase original dejando que esta sea extendida o sobrecargada por las clases que heredan de ella, constituyendo un mecanismo para reutilizar código previamente escrito y adaptarlo al contexto particular donde se desean instanciar los objetos.\\
+    \item \textbf{Herencia}
+	 Permite la definición de una clase original dejando que esta sea extendida o sobrecargada por las clases que heredan de ella, constituyendo un mecanismo para reutilizar código previamente escrito y adaptarlo al contexto particular donde se desean instanciar los objetos.\\
 
-    \item Encapsulamiento de datos: esta característica comprende la seguridad de la información contenida en las variables y métodos de una clase. Permitiendo que solo el objeto mismo sea el encargado de alterar la información contenida en el, proporcionando seguridad y consistencia.\\
+    \item \textbf{Encapsulamiento de datos} Comprende la seguridad de la información contenida en las variables y métodos de una clase. Permitiendo que solo el objeto mismo sea el encargado de alterar la información contenida en él, proporcionando seguridad y consistencia.\\
 
-    \item  Polimorfismo: esta característica permite que un objeto que ha heredado de una clase pueda ser identificado por cualquiera de los tipos que posea la cadena de herencia, pudiendo este ser su mismo tipo, o cualquiera de los tipos de la clase o clases padres.\\\\
-Esta característica es diferente al polimorfismo que se estudia en lenguajes funcionales, donde por ejemplo la función \textsf{id} :: $a$ $->$ $a$ puede ser tipificada para cualquier tipo en el argumento que la aplique.\\\\
+    \item  \textbf{Polimorfismo} Esta característica permite que un objeto que ha heredado de una clase pueda ser identificado por cualquiera de los tipos que posea la cadena de herencia, pudiendo este ser su mismo tipo, o cualquiera de los tipos de la clase o clases padres.\\\\
+Esta característica es diferente al polimorfismo que se estudia en lenguajes funcionales, donde por ejemplo la función \textsf{id} :: $a$ $\rightarrow$ $a$ puede ser tipificada con el tipo del argumento que la aplique.\\\\
  En Java el polimorfismo se aplica en la sobrecarga de métodos para reutilizar los definidos por la clase que se está extendiendo.\\
 
-    \item  Representaciones múltiples: esta característica permite que dos objetos de una misma clase puedan presentar comportamiento distinto pues éste puede cambiar según el estado que posea cada uno.\\
+    \item \textbf{Representaciones múltiples} Permite que dos objetos de una misma clase puedan presentar comportamiento distinto pues éste puede cambiar según el estado que posea cada uno.\\
 
-    \item Recursión abierta: un objeto es capaz de invocarse a si mismo dentro de la definición de los métodos de su propia clase, utilizando las palabras reservadas como \textsf{self} o \textsf{this}.
+    \item \textbf{Recursión abierta} Un objeto es capaz de invocarse a si mismo dentro de la definición de los métodos de su propia clase, utilizando las palabras reservadas como \textsf{self} o \textsf{this}.
 \end{itemize}
 
 
@@ -59,9 +57,9 @@ Esta característica es diferente al polimorfismo que se estudia en lenguajes fu
 
 Los sistemas de tipos que hemos estudiado hasta este momento son restrictivos en el sentido de que muchas operaciones que parecerían intuitivas al desarrollar un programa no serían aceptadas por dicho sistema.
 Particularmente operaciones como la suma (+) entre los tipos $Int$ y $Float$ por ejemplo.\\\\
-Necesitamos ''relajar'' este sistema para tener mas flexibilidad sobre este tipo de casos. En particular necesitamos construir la relación de subtipificado; A $\leq$ B que simboliza:''A es subtipo de B''.
+Necesitamos ''relajar'' este sistema para tener mas flexibilidad sobre este tipo de casos. En particular necesitamos construir la relación de subtipificado; A $\leq$ B que simboliza: ''A es subtipo de B''.
 
-\begin{definition}Relación de subtipificado\footnote{Definición formulada de \hyperlink{130}{[130]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} } \\
+\begin{definition}[Relación de subtipificado]\footnote{Definición formulada de \hyperlink{130}{[130]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} } \\
 
         \begin{description}
         	\item[Reflexividad]
@@ -77,7 +75,7 @@ Necesitamos ''relajar'' este sistema para tener mas flexibilidad sobre este tipo
  \begin{exercise} Para este ejemplo consideremos la expresión:
     
     $$ 5.5 + 2$$
-    Donde podemos observar que $5.5:Float$ y $2:Int$, suponemos entonces que los tipos $Float$ e $Int$ están relacionados bajo la relación de subtipificado como 
+    Donde podemos observar que $5.5:Float$ y $2:Int$, suponemos entonces que los tipos $Float$ e $Int$ están relacionados bajo subtipificado como 
     $$Int\ \leq\ Float$$
     por lo que la derivación de tipos de la expresión anterior queda como sigue:
     \[
@@ -86,15 +84,15 @@ Necesitamos ''relajar'' este sistema para tener mas flexibilidad sobre este tipo
     		\inference{}{\varnothing\vdash 5.5: Float}&
     		\inference
     		{
-    			\inference{}{\varnothing\vdash 3:Int}&
+    			\inference{}{\varnothing\vdash 2:Int}&
     			Int \leq Float
     		}
-    		{\varnothing\vdash 3:Float}
+    		{\varnothing\vdash 2:Float}
     	}
-    	{\varnothing\vdash 5.5+3:Float}
+    	{\varnothing\vdash 5.5+2:Float}
     \]
     
-    Gracias a la propiedad de subsunción podemos reemplazar $Int$ por $Float$ en la derivación de los tipos conservando la propiedad de ser una expresión válida.
+    Gracias a la propiedad de subsunción podemos reemplazar $Int$ por $Float$ en la derivación de los tipos conservando la propiedad de ser una expresión válida\footnote{Ejemplo extraído de \hyperlink{5}{[5]}  }.
 \end{exercise}
 
 \bigskip
@@ -102,8 +100,8 @@ Necesitamos ''relajar'' este sistema para tener mas flexibilidad sobre este tipo
 La relación de subtipificado puede ser aplicada a partir de dos interpretaciones diferentes\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} }:
 \begin{itemize}
 
-\item Interpretación por subconjuntos: sí A $\leq$ B entonces toda expresión de tipo A también es una expresión de tipo B pues A está contenido en B.\\
-\item Interpretación por coerción: entendemos coerción como la acción de ejercer presión sobre un objeto para forzar su conducta. Esta acción aplicada al contexto de software nos permite modelar el siguiente comportamiento: si s es de tipo A y A $\leq$ B entonces s se puede convertir de forma única a una expresión de tipo B, es decir forzamos el cambio de tipo mediante una conversión explícita.\\\\
+\item \textbf{Interpretación por subconjuntos:} sí A $\leq$ B entonces toda expresión de tipo A también es una expresión de tipo B pues A está contenido en B.\\
+\item \textbf{Interpretación por coerción:} entendemos coerción como la acción de ejercer presión sobre un objeto para forzar su conducta. Esta acción aplicada al contexto de software nos permite modelar el siguiente comportamiento: sí $s\ :\ A$ y $A\ \leq \ B$ entonces $s$ se puede convertir de forma única a una expresión de tipo $B$, es decir forzamos el cambio de tipo mediante una conversión explícita.\\\\
     En el ejemplo anterior teníamos 2 : $Int$ el cuál fue coercido a 2.0 : $Float$.\\
 
 \end{itemize}
@@ -113,7 +111,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
     Las reglas para definir la relación de subtipificado entre los tipos primitivos proporcionados en la definición de los lenguajes de programación, constituyen los axiomas de dicho sistema y con ellos se pude derivar el resto de las reglas utilizando las propiedades de subsunción y transitividad.\\\\
     Para ilustrar este punto se agrega el tipo $Float$ junto con los axiomas:
     
-\begin{definition}Relación de subtipificado para $Nat,\ Int\ y\ Float$\footnote{Definición formulada de \hyperlink{130}{[130]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }.
+\begin{definition}[Relación de subtipificado para $Nat,\ Int\ y\ Float$]\footnote{Definición formulada de \hyperlink{130}{[130]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }
     \[
     	\begin{array}{ccc}
     	\inference{}{Nat \leq Int}&\qquad\qquad&\inference{}{Int \leq Float}
