@@ -121,7 +121,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 
 \subsection{Subtipificado de funciones}
 
-    Definamos el siguiente tipo de para una función $f$ como $f:Int \to Int$, entonces se tiene que $f\,n : Int$ cuando recibe cualquier argumento de tipo $n:Int$, así  $f\,n: Float$ por la regla de subsunción que revisamos en la sección anterior, por consiguiente se tiene que:
+    Definamos el siguiente tipo para una función $f$ como $f:Int \to Int$, entonces se tiene que $f\,n : Int$,  $\forall \ n:Int$. Aplicando la regla de subsunción obtenemos $f\,n: Float$, y por consiguiente:
     $$Int \to Int \leq Int \to Float$$ es una derivación de tipo válida.
     Es decir la relación de subtipificado original se preserva en el codominio de la función. En tal caso se dice que esta posición es covariante.
     
@@ -131,16 +131,16 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
     
     Finalmente, usando la propiedad de transitividad tenemos la siguiente relación de subtipificado
     $$Float \to Int \leq Int \to Int \leq Int \to Float $$
-    De esta forma podemos definir la regla de subtipificado para el caso general de los tipos función como sigue.
+    De esta forma podemos definir la regla de subtipificado para el caso general de los tipos función como sigue\footnote{fragmento extraído de \hyperlink{5}{[5]}  }.
 
-\begin{definition}Definición para subtipificación de funciones\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:\\
+\begin{definition}[Definición para subtipificación de funciones\footnote]{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }\\
     $$\inference{T_1 \leq S_1 & S_2 \leq T_2}{S_1 \to S_2 \leq T_1 \to T_2}$$
 \end{definition}
     
 \subsection{Subtipificado para suma y producto}
     Para esta aplicación la relación de subtipificado se comporta como contravariante, es decir la dirección de la relación se preserva como es de esperar, de tal forma que se introducen las siguientes reglas al sistema de tipos.
     
-\begin{definition}Reglas para subtipificar expresiones aritméticas\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }.\\
+\begin{definition}[Reglas para subtipificar expresiones aritméticas]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }\\
     \[
     	\begin{array}{ccc}
     		\inference{S_1 \leq T_1 & S_2 \leq T_2}{ S_1 + S_2 \leq T_1 + T_2}&\qquad\qquad\qquad&
@@ -151,21 +151,21 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
     
 \subsection{Subtipificado para registros}
 
-    Los registros como hemos estudiado en secciones anteriores son la generalización de una tupla permitiendo extender el concepto para $n$ elementos. Asociados a éstos existen las proyecciones para recuperar el n-ésimo elemento contenido en estas.
+    Los registros, como hemos estudiado en secciones anteriores, son la generalización de una tupla permitiendo extender el concepto para $n$ elementos. Asociadas a éstos existen las proyecciones para recuperar el n-ésimo elemento contenido en esta estructura.
 
-    Veremos brevemente las características asociadas al tipo de esta estructura una vez se introduce la relación de subtipificado.
+    Veremos brevemente las características asociadas al tipo de los registros una vez se introduce la relación de subtipificado.
  
-\begin{definition} Definición de la relación de subtipificado aplicado a los tipos registros\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }.\\
+\begin{definition} [Definición de la relación de subtipificado aplicado a los tipos registros]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }\\
     \begin{description} 
-    	\item Amplitud: dados dos registros A y B donde A posee una cantidad menor de elementos que B, decimos que el tipo del registro A es subtipo del registro B representado de la siguiente forma:
+    	\item \textbf{Amplitud} Dados dos registros A y B donde A posee una cantidad mayor de elementos que B, decimos que el tipo del registro A es subtipo del registro B representado de la siguiente forma:
     
     	$$\inference{}{(l_1:T_1,\dots,l_{n+k}:T_{n+k})\leq(l_1:T_1,\dots,l_{n}:T_{n})}$$ \\
     
-    	\item Profundidad: esta propiedad es la aplicación de la contravarianza de la relación de subtipificado, aplicandose a cada uno de los campos contenidos en el registro:
+    	\item \textbf{Profundidad} Esta propiedad es la aplicación de la covarianza de la relación de subtipificado, aplicandose a cada uno de los campos contenidos en el registro:
     
     	$$\inference{T_1 \leq S_1 & \cdots & T_n \leq S_n}{(l_1:T_1,\dots,l_{n}:T_{n})\leq(l_1:S_1,\dots,l_{n}:S_{n})}$$\\
     
-    	\item Permutación: El orden de los campos de un valor de tipo registro no importa.
+    	\item \textbf{Permutación} El orden de los campos de un valor de tipo registro no importa.
     
     	$$\inference{(s_1:S_1,\dots,s_{n}:S_{n})\mbox{ permutación de }(l_1:T_1,\dots,l_{n}:T_{n})}{(s_1:S_1,\dots,s_{n}:S_{n})\leq(l_1:T_1,\dots,l_{n}:T_{n})}$$
 
@@ -174,20 +174,20 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 
 \subsection{Elementos máximos}
  
-        En nuestra implementación para el sistema de tipos es importante contar con un elemento máximo, en donde elemento de tipo distinto al elemento máximo es subtipo de este. \\Aquí  introducimos $Top$ que cumple exactamente con esta característica representada de la siguiente forma:
+        En nuestra implementación para el sistema de tipos es importante contar con un elemento máximo, en donde todo elemento distinto al elemento máximo es subtipo de este. Aquí  introducimos $Top$ que cumple exactamente con esta característica representada de la siguiente forma:
 
-\begin{definition} Definición del elemento máximo para el sistema de subtipificado \footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}}.
+\begin{definition}[Definición del elemento máximo para el sistema de subtipificado]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}}
     
         $$ \inference{}{T \leq Top}$$
     
 \end{definition}
-        La idea detrás de $Top$ es que a este tipo pertenecen todos aquellos programas que están correctamente tipificado. En Java este tipo corresponde al tipo $Object$.\\
+        La idea detrás de $Top$, es que a este tipo pertenecen todos aquellos programas que están correctamente tipificados. En Java a este tipo se le conoce como $Object$.\\
         
-        La idea de la existencia de un tipo que es subtipo de todos los demás también existe y se conoce como $Bot$, este tipo es un tipo inhabitado, ninguna expresión debe de existir dentro del mismo.
-        Este tipo ayuda a expresar aquellas expresiones que no deben de regresar ningún valor similar a la forma en la que se utiliza el tipo $void$ en Java.\\\\
+        El contrario, es un tipo que es subtipo de todos y se conoce como $Bot$, este es inhabitado, ninguna expresión debe de existir dentro del mismo.
+        Este tipo ayuda a expresar aquellos programas que no deben de regresar ningún valor similar a la forma en la que se utiliza el tipo $void$ en Java.\\\\
         La descripción anteriormente dada para $Bot$ se representa de la siguiente forma:
 
-\begin{definition}Definición del elemento máximo para el sistema de subtipificado \footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}}.
+\begin{definition}[Definición del elemento máximo para el sistema de subtipificado]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}}
         $$ \inference{}{Bot \leq T}$$
 \end{definition}
 
@@ -195,7 +195,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 
     En lenguajes de programación como Java hemos hecho uso de este mecanismo para cambiar el tipo de un dato o variable por otro. \\\\
     Similar al ejemplo que tenemos para pasar de 2 :\textit{ Int} a 2.0 :\textit{ Float}.
-    La relación de subtipificado nos provee la regla de subsunción sin embargo definiremos el mecanismo para ambos sentidos de la relación conocidos como conversión ascendente (\textit{Upcasting}) y conversión descendente (\textit{Downcasting}).\\
+    La relación de subtipificado nos provee la regla de subsunción. Sin embargo definiremos el mecanismo para ambos sentidos de la relación conocidos como conversión ascendente (\textit{Upcasting}) y conversión descendente (\textit{Downcasting}).\\
 
     \subsection{Conversión ascendente \it (Upcasting)}
         En este tipo de casting (también conocido como ''casting hacia arriba'') el objetivo es que al tipificar un término, a este se le atribuye un supertipo esperado. \\\\
