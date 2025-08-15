@@ -133,7 +133,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
     $$Float \to Int \leq Int \to Int \leq Int \to Float $$
     De esta forma podemos definir la regla de subtipificado para el caso general de los tipos función como sigue\footnote{fragmento extraído de \hyperlink{5}{[5]}  }.
 
-\begin{definition}[Definición para subtipificación de funciones\footnote]{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }\\
+\begin{definition}[Definición para subtipificación de funciones]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }\\
     $$\inference{T_1 \leq S_1 & S_2 \leq T_2}{S_1 \to S_2 \leq T_1 \to T_2}$$
 \end{definition}
     
@@ -161,7 +161,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
     
     	$$\inference{}{(l_1:T_1,\dots,l_{n+k}:T_{n+k})\leq(l_1:T_1,\dots,l_{n}:T_{n})}$$ \\
     
-    	\item \textbf{Profundidad} Esta propiedad es la aplicación de la covarianza de la relación de subtipificado, aplicandose a cada uno de los campos contenidos en el registro:
+    	\item \textbf{Profundidad} Esta propiedad es la aplicación de la covarianza de la relación de subtipificado, aplicándose a cada uno de los campos contenidos en el registro:
     
     	$$\inference{T_1 \leq S_1 & \cdots & T_n \leq S_n}{(l_1:T_1,\dots,l_{n}:T_{n})\leq(l_1:S_1,\dots,l_{n}:S_{n})}$$\\
     
@@ -200,14 +200,14 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
     \subsection{Conversión ascendente \it (Upcasting)}
         En este tipo de casting (también conocido como ''casting hacia arriba'') el objetivo es que al tipificar un término, a este se le atribuye un supertipo esperado. \\\\
 	  De esta forma  para los subtipos donde $T \leq R$ entonces usando subsunción podemos concluir que $\Gamma \vdash \< R \> \,e:R$, en donde $\<R\>$ es la notación para el {\it casting} explícito, representado como:
-	\begin{definition}Definición para Conversión ascendente\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
+	\begin{definition}[Definición para Conversión ascendente]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
         $$\inference{\Gamma\vdash e:T & T \leq R}{\Gamma\vdash\<R\>\,e:R}$$
 	\end{definition}
     \subsection{Conversión descendente \it (Downcasting)}
         En este tipo de casting (también conocido como ''casting hacía abajo'') la asignación de tipos es arbitraria, la relación de subtipificado no necesariamente se tiene que cumplir.\\\\
         Ésto supone una amenaza a la consistencia de tipos en el programa que se escribe con esta instrucción, el lenguaje está forzado a aceptar el \textit{downcasting} en tiempo de compilación pero en tiempo de ejecución un futuro conjunto de verificaciones deben de ser ejecutados para corroborar que el tipo asignado no supone un error. Esta regla se representa de la siguiente manera: 
 
-	\begin{definition}Definición para conversión  descendente\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
+	\begin{definition}[Definición para conversión  descendente]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
         $$\inference{\Gamma\vdash e:T}{\Gamma\vdash\< R\>\,e: R}$$
 	\end{definition}
 
@@ -215,33 +215,33 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 
 
     \begin{exercise}
-        Dada la siguiente expresión utiliza las reglas de tipificado para suma y producto, deriva el tipo de la misma.
+        Dada la siguiente expresión, utiliza las reglas de tipificado para suma y producto para derivar el tipo de la misma.
         $$ (4.0\ *\ 1)\ -\ 3.0\ : \ \textit{Float}$$
     \end{exercise}
 
     \bigskip
 
     \begin{exercise}
-        Dada la siguiente expresión utiliza las reglas de tipificado para suma y producto, deriva el tipo de la misma.
+        Dada la siguiente expresión, utiliza las reglas de tipificado para suma y producto para derivar el tipo de la misma.
         $$ (3\ *\ 3.0)\ +\ (4\ *\ 4)\ : \ \textit{Float}$$
     \end{exercise}
     \bigskip
 
     \begin{exercise}
-        Dada la siguiente expresión utiliza las reglas de tipificado para el operador \textit{if}, deriva el tipo de la misma.
-        $$ \textsf{if } (7\ *\ 0.0) < 0 \textsf{ then } 1 \textsf{ else } 0 : \ \textit{Float}$$
+        Dada la siguiente expresión, utiliza las reglas de tipificado para el operador \textit{if} y deriva el tipo de la misma.
+        $$\textsf{if } (7\ *\ 0.0) < 0 \textsf{ then } 1 \textsf{ else } 0 : \ \textit{Float}$$
     \end{exercise}
     \bigskip
 
     \begin{exercise}
-        Dada la siguiente expresión utiliza las reglas de tipificado para el operador \textit{while}, deriva el tipo de la misma.
-        $$ Int\ i\ =\ 0;\ while(i < 10)\{i + 1;\}\ \textsf{return } i;\ :\ Int$$
+        Dada la siguiente expresión, utiliza las reglas de tipificado para el operador \textit{while} y deriva el tipo de la misma.
+        $$ Int\ i\ =\ 0;\ while(i < 10)\{i + 1;\}\ \textsf{return } i;\ :\ Float$$
     \end{exercise}
     \bigskip
 
     \begin{exercise}
-        Dada la siguiente expresión utiliza las reglas de tipificado para el operador \textit{fun}, deriva el tipo de la misma.
-        $$ fun(x:\textit{Int} \rightarrow \ x + 1\ ) : \textit{Int}  \rightarrow \textit{Int} $$
+        Dada la siguiente expresión, utiliza las reglas de tipificado para el operador \textit{fun} y deriva el tipo de la misma.
+        $$ fun(x:\textit{Int} \rightarrow \ x + 1\ ) : \textit{Int}  \rightarrow \textit{Float} $$
     \end{exercise}
 
     \bigskip
@@ -255,6 +255,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 
     \begin{exercise}
         Utiliza las reglas de elementos máximos para obtener la derivación del tipificado para la siguiente expresión.
+        Si no es posible argumenta por que.
         $$ fun(x:\textit{Int} \rightarrow if( x \leq 0\ then\ (x - 1.0) \ else\ x  ) ) : \textit{Bot} $$
     \end{exercise}
 	
