@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  15 AUG 2025 08:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  19 AUG 2025 08:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -4336,11 +4336,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 18--19
 [136
 
  <./assets/11_gatito_cayendo.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 21--24
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 28--30
 
  []
@@ -4351,54 +4346,54 @@ Underfull \hbox (badness 10000) in paragraph at lines 65--67
  []
 
 [137] [138]
-Overfull \hbox (21.91025pt too wide) in paragraph at lines 126--126
+Overfull \hbox (21.91025pt too wide) in paragraph at lines 125--125
 []        \OT1/lmtt/m/n/10 TrianguloRec(Integer adyacente, Integer opuesto, Int
 eger hipotenusa){[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--147
+Underfull \hbox (badness 10000) in paragraph at lines 144--146
 
  []
 
 [139]
-Underfull \hbox (badness 10000) in paragraph at lines 209--211
+Underfull \hbox (badness 10000) in paragraph at lines 208--210
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 214--215
+Underfull \hbox (badness 10000) in paragraph at lines 213--214
 
  []
 
 [140]
-Underfull \hbox (badness 10000) in paragraph at lines 277--279
+Underfull \hbox (badness 10000) in paragraph at lines 276--278
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 282--283
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 290--293
+Underfull \hbox (badness 10000) in paragraph at lines 289--292
 
  []
 
 
-Underfull \hbox (badness 1158) in paragraph at lines 290--293
+Underfull \hbox (badness 1158) in paragraph at lines 289--292
 \OT1/lmr/m/n/10 En es-te len-gua-je las pro-pie-da-des de re-fle-xi-vi-dad y tr
 an-si-ti-vi-dad de-ben de
  []
 
 [141] [142]
-Underfull \hbox (badness 10000) in paragraph at lines 410--413
+Underfull \hbox (badness 10000) in paragraph at lines 409--412
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 410--413
+Underfull \hbox (badness 10000) in paragraph at lines 409--412
 
  []
 
@@ -5080,7 +5075,7 @@ C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbol
 s/msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/t
 ype1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (165 pages, 2427231 bytes).
+Output written on 00_Manual_Main_Template.pdf (165 pages, 2427192 bytes).
 PDF statistics:
  3300 PDF objects out of 3580 (max. 8388607)
  1214 named destinations out of 1440 (max. 500000)

@@ -10,20 +10,20 @@
 \end{figure} 
 \bigskip
 
-El presente capítulo constituye el final de este manual, aquí proporcionaremos la última implementación que revisaremos de un lenguaje orientado a objetos para estudiar las propiedades listadas en el capítulo 10: herencia y subtipificado.
+El presente capítulo constituye el final de este manual, aquí proporcionaremos la última implementación que revisaremos de un lenguaje orientado a objetos para estudiar las propiedades listadas en el capítulo anterior.
 Para ello vamos a definir al lenguaje orientado a objetos \textsf{Java Peso Pluma} (en inglés a este lenguaje se le conoce como $Featherweight\ Java$), que contiene un subconjunto de expresiones del lenguaje de programación \textsf{Java}.\\\\
-Estudiar lenguajes de programación que no pertenecen al paradigma funcional es una tarea no trivial, dado que la compaginación entre la sintaxis, semántica y manejo de la memoria se implementa de forma distinta en comparación a \textsf{MinHS} donde el mapeo es uno a uno entre la definición y la implementación de definiciones, funciones y entidades.\\\\
+Estudiar lenguajes de programación que no pertenecen al paradigma funcional es una tarea no trivial, dado que la compaginación entre la sintaxis, semántica y manejo de la memoria se implementa de forma distinta en comparación a \textsf{MinHS} donde el mapeo es uno a uno entre la definición y la implementación.\\\\
 
 \subsubsection{Objetivo}
 Estudiar la implementación de \textsf{Java Peso Pluma} definiendo y discutiendo sus características mas importantes, como: herencia, subtipificado, clases, objetos así como la sintaxis del lenguaje, la semántica estática y dinámica.\\
 
 \subsubsection{Planteamiento}
-Siguiendo la misma estructura de los capítulos anteriores comenzaremos el estudio de \textsf{Java Peso Pluma} proporcionando la definición para la sintaxis concreta de los programas que escribiremos en este lenguaje. \\\\
-En seguida discutiremos la semántica dinámica para evaluarlos y la semántica estática para explorar el sistema de tipos y su relación con la herencia, métodos y la relación de subtipificado.
+Siguiendo la misma estructura de los capítulos anteriores comenzaremos el estudio de \textsf{Java Peso Pluma} proporcionando la definición para la sintaxis concreta de los programas que escribiremos en este lenguaje. 
+Discutiremos la semántica dinámica para evaluarlos y la semántica estática para explorar el sistema de tipos y su interacción con la herencia, métodos y la relación de subtipificado.\\
 Por último se estudiará brevemente la propiedad de seguridad aplicada en este lenguaje.
 
 \section{Sintaxis de Java Peso Pluma}
-A continuación presentamos la definición de \textsf{Java Peso Pluma}en donde se encapsulan las principales características de interés de los lenguajes orientados a objetos: clases, objectos, métodos, atributos, herencia, polimorfismo y subtipificado junto con la recursión abierta.
+A continuación presentamos la definición de \textsf{Java Peso Pluma} en donde se discuten las categorías principales de los lenguajes orientados a objetos: clases, instancias, métodos, atributos, herencia, polimorfismo y subtipificado junto con la recursión abierta.
 
 \begin{definition}[Sintaxis de \textsf{Java Peso Pluma}] Se presenta la sintaxis del lenguaje separado en categorías y usando las siguientes meta-variables\footnote{Definición formulada de \hyperlink{128}{[128]} y \hyperlink{129}{[129]} }\\
 \begin{itemize}
@@ -63,7 +63,7 @@ A continuación presentamos la definición de \textsf{Java Peso Pluma}en donde s
 \bigskip
 En las definiciones dadas previamente hacemos abuso de notación donde $\vec{\tt{t}}$ se conoce como notación vectorial y se interpreta como: 
 $$\vec{\tt{t}} =_{def} \tt{t}_1,\tt{t}_2,\dots,\tt{t}_n$$
-Representa entonces una sucesión de n términos.\\
+$\vec{t}$ representa entonces una sucesión de n términos indexados.\\
 
 Cuando se tienen dos vectores sin separación, esta notación se interpreta como el intercalado entre un valor del primero y uno del segundo separando el siguiente par de elementos por una coma:
 $$\vec{\tt{C}}\,\vec{\tt{x}} =_{def} \tt{C}_1\,\tt{x}_1,\tt{C}_2\,\tt{x}_2,\dots,\tt{C}_n\,\tt{x}_n$$
@@ -92,7 +92,6 @@ Revisemos la sintaxis concreta de \textsf{Java Peso Pluma} con los siguientes ej
 \begin{exercise}
     Proporciona la definición de una clase para definir la dirección de una persona, puedes dar por definida las clases \textsf{String} y \textsf{Integer}
     \begin{verbatim}
-    
     class Direccion extends Object {
         String calle
         String colonia
