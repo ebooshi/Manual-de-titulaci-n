@@ -170,13 +170,13 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
 			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
 			{\tt B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}\mbox{ figura en }\vec{\tt{M}}
 			}{
-			type({\tt m,C}) = \vec{\tt{B}}\to\tt{B}
+			mtype({\tt m,C}) = \vec{\tt{B}}\to\tt{B}
 			} 
 			\quad
 			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
 			{\tt m}\mbox{ no figura en }\vec{\tt{M}}
 			}{
-			type({\tt m,C}) = type({\tt m,D}) 
+			mtype({\tt m,C}) = mtype({\tt m,D}) 
 			}
 		\end{array}
 	}
@@ -189,13 +189,13 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
 			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
 			{\tt B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}\mbox{ figura en }\vec{\tt{M}}
 			}{
-			body({\tt m,C}) = (\vec{\tt{x}},\tt{e})
+			mbody({\tt m,C}) = (\vec{\tt{x}},\tt{e})
 			}
 			\quad
 			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
 			{\tt m}\mbox{ no figura en }\vec{\tt{M}}
 			}{
-			body({\tt m,C}) = body({\tt m,D}) 
+			mbody({\tt m,C}) = mbody({\tt m,D}) 
 			}
 		\end{array}
 	}
@@ -205,7 +205,7 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
 \end{definition}
 
 \section{Semántica dinámica}
-    La semántica operacional de \textsf{Java Peso Pluma} se representa como: $\rightarrow_{fj}$ y está basada en la tabla de clase para llevar acabo la evaluación (aún cuando la utilización de la tabla de clase sea de forma implícita siempre está presente en la aplicación de cada una de las reglas).\\\\
+    La semántica operacional de \textsf{Java Peso Pluma} se representa mediante la aplicación de la relación $\rightarrow_{\tt fj}$ y está basada en la tabla de clase para llevar acabo la evaluación. Aún cuando la utilización de la tabla de clase sea de forma implícita siempre está presente en la aplicación de cada una de las reglas.\\\\
   En la definición de \textsf{Java Peso Pluma} los únicos valores permitidos son aquellos objetos instanciados usando la instrucción \textsf{new}, esto se verá reflejado en la manera en la que las reglas interactúan con dicha instancia de clase. 
 
     \bigskip
@@ -226,7 +226,7 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
         	\[
         		\inference
         		{mbody({\tt m,C})=(\vec{\tt{x}},{\tt e})}
-        		{({\tt new\,C}\,(\vec{\tt{v}})){\tt .m}(\vec{\tt{w}})\rightarrow_{fj} e[\vec{\tt{x}},{\tt this}:=\vec{\tt{w}},({\tt new\,C}\,(\vec{\tt{v}}))]}
+        		{({\tt new\,C}\,(\vec{\tt{v}})){\tt .m}(\vec{\tt{w}})\rightarrow_{\tt fj} e[\vec{\tt{x}},{\tt this}:=\vec{\tt{w}},({\tt new\,C}\,(\vec{\tt{v}}))]}
         	\]
         	
                 \bigskip
@@ -235,7 +235,7 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
         	\[
         		\inference
         		{{\tt C \leq D}}
-        		{{\tt (D)}\;({\tt new\,C}\,(\vec{\tt{v}}))\rightarrow_{fj} {\tt new\,C}\,(\vec{\tt{v}})}
+        		{{\tt (D)}\;({\tt new\,C}\,(\vec{\tt{v}}))\rightarrow_{\tt fj} {\tt new\,C}\,(\vec{\tt{v}})}
         	\]
         
                 \bigskip
@@ -244,26 +244,26 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
         	\[
         		\begin{array}{c}
         			\inference
-        			{{\tt e \rightarrow_{fj} e'}}
-        			{{\tt e.f \rightarrow_{fj} e'.f}}\\
+        			{{\tt e \rightarrow_{\tt fj} e'}}
+        			{{\tt e.f \rightarrow_{\tt fj} e'.f}}\\
         			\\
         			\inference
-        			{{\tt e \rightarrow_{fj} e'}}
-        			{{\tt e.m}(\vec{\tt{e}})\rightarrow_{fj}{\tt e'.m}(\vec{\tt{e}})}\\
+        			{{\tt e \rightarrow_{\tt fj} e'}}
+        			{{\tt e.m}(\vec{\tt{e}})\rightarrow_{\tt fj}{\tt e'.m}(\vec{\tt{e}})}\\
         			\\
                     \end{array}
                     \begin{array}{c}
         			\inference
         			{{\tt e_i \rightarrow_{fj} e_i'}}
-        			{{\tt e.m(\dots,e_i,\dots)\rightarrow_{fj} e.m(\dots,e_i',\dots)}}\\
+        			{{\tt e.m(\dots,e_i,\dots)\rightarrow_{\tt fj} e.m(\dots,e_i',\dots)}}\\
         			\\
         			\inference
-        			{{\tt e_i \rightarrow_{fj} e_i'}}
-        			{{\tt new\;C(\dots,e_i,\dots)\rightarrow_{fj} new\;C(\dots,e_i',\dots)}}\\
+        			{{\tt e_i \rightarrow_{\tt fj} e_i'}}
+        			{{\tt new\;C(\dots,e_i,\dots)\rightarrow_{\tt fj} new\;C(\dots,e_i',\dots)}}\\
         			\\
         			\inference
-        			{{\tt e\rightarrow_{fj} e'}}
-        			{{\tt (C)\;e\rightarrow_{fj} (C)\;e'}}\\
+        			{{\tt e\rightarrow_{\tt fj} e'}}
+        			{{\tt (C)\;e\rightarrow_{\tt fj} (C)\;e'}}\\
         			\\
         		\end{array}
         	\]
@@ -281,14 +281,14 @@ En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido
 \begin{definition}[Semántica Estática de \textsf{Java Peso Pluma}] A continuación enunciamos las reglas de tipificado\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{128}{[128]}, \hyperlink{129}{[129]} y \hyperlink{132}{[132]} }\\
 
 \begin{description}
-	\item[Reglas de Subtipado]
+	\item[Reglas de Subtipificado]
 	\[
 		\inference
 		{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}}
 		{{\tt C\leq D}}
 	\]
-	Es decir, si la clase {\tt C} extiende a la clase {\tt D} entonces {\tt C} es subtipo de {\tt D}.\\\\
-        En este lenguaje las propiedades de reflexividad y transitividad deben de mantenerse aplicables.
+	Es decir, si la clase {\tt C} extiende a la clase {\tt D} entonces {\tt C} es subtipo de {\tt D}.\\
+        La relación de subtificado debe cumplir las propiedades de transitividad y reflexividad discutidas en el capítulo anterior.
 
         \bigskip
         
@@ -339,7 +339,7 @@ En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido
  
 	\item[Formación de Clases] 
 $$$$
-	Introducimos tres juicios para denotar la correcta formación de una clase: ${\tt M\;ok}\;{\sf in}\;C$ para indicar que el método {\tt M} está bien formado en la clase C, $C\;ok$ que indica que la clase C está bien formada y el juicio $T\;ok$ para decir que la tabla de clases $T$ está bien formada.
+	Introducimos los juicios ${\tt M\;ok}\;{\sf in}\;C$ para indicar que el método {\tt M} está bien formado en la clase C, $C\;ok$ que indica que la clase C está bien formada y el juicio $T\;ok$ para decir que la tabla de clases $T$ está bien formada.
 	\[
 		\inference
 		{{\tt K}= {\tt C}\,(\vec{\tt{D}}\,\vec{\tt{y}},\vec{\tt{C}}\,\vec{\tt{x}})\;\{\;{\tt super}(\vec{\tt{y}});{\tt this.}\vec{\tt{f}}=\vec{\tt{x}}\;\}\\
