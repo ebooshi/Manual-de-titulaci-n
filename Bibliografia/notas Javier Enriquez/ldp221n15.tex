@@ -1,0 +1,424 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\usepackage{chronology}
+
+\title{\LARGE 
+Lenguajes de Programación 2022-1\\ 
+Nota de clase 15: \jpp  \\
+\color{ForestGreen} Orientación a Objetos}
+\author{Javier Enríquez Mendoza}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+El objetivo de esta nota de clase es modelar algunos aspectos del paradigma de programación orientado a objetos, mediante el estudio de un lenguaje de estudio llamado \jpp que es un subconjunto del lenguaje Java. 
+
+Como pudimos observar con el lenguaje \tinyc, la formalización de lenguajes de programación imperativos resulta una tarea más compleja de lo que es en el estilo funcional, esto se debe principalmente a lo separados que se encuentran los lenguajes imperativos de sistemas matemáticos en contraste con los lenguajes funcionales que tienen una estrecha relación con la teoría que los fundamenta.
+
+Para lograr estudiar los conceptos de Java no existe un modelo perfecto, en su mayoría los modelos teóricos de lenguajes orientados a objetos son malos para abstraer el comportamiento completo del lenguaje. Sin embargo, estos modelos son útiles si lo que se busca es abstraer un conjunto especifico de propiedades del lenguaje. 
+
+En nuestro caso lo que buscamos es modelar las características principales del paradigma orientado a objetos así como su sistema de tipos. Para este propósito \jpp resulta bastante útil. Las principales características que modela \jpp son: 
+
+\begin{itemize}
+	\item Clases. 
+	\item Objetos.
+	\item Métodos.
+	\item Atributos y acceso a ellos.
+	\item Herencia.
+	\item Polimorfismo de subtipado.
+	\item Recursión abierta.
+\end{itemize}
+Sin embargo se dejan fuera del modelo otros conceptos interesantes como lo son:
+\begin{itemize}
+	\item Concurrencia.
+	\item Interfaces.
+	\item Manejo de accesos.
+	\item Referencias.
+	\item Clases internas.
+	\item Excepciones.
+\end{itemize}
+Los cuales se pueden estudiar con otros modelos del paradigma orientado a objetos, que abstraen específicamente estas características.
+
+\section{Sintaxis}
+En esta sección se presenta la sintaxis concreta de \jpp. Así como algunas convenciones sintácticas importantes que se deben tomar en cuenta al escribir un programa en el lenguaje.
+\begin{definition}[Sintaxis de \jpp] Se presenta la sintaxis del lenguaje separado en categorías y usando las siguientes metavariables:
+\begin{itemize}
+	\item Nombres de variables: {\tt x,y,z}
+	\item Nombres de atributos: {\tt f,g}
+	\item Nombres de clases: {\tt C,A,B}
+	\item Nombres de métodos: {\tt m}
+\end{itemize}
+\begin{description}
+	\item[Expresiones]
+	\[
+		\begin{array}{rclr}
+			{\tt e}&::=& {\tt x}&\mbox{Variables}\\
+			&\opc&{\tt e.f}&\mbox{Acceso a atributo}\\
+			&\opc&{\tt e.m}(\vec{\tt{e}})&\mbox{Invocación de método}\\
+			&\opc&{\tt new\;C}(\vec{\tt{e}})&\mbox{Instancia de objeto}\\
+			&\opc&{\tt (C)\;e}&\mbox{Casting}\\
+		\end{array}
+	\]
+	\item[Valores]
+	\[
+		\begin{array}{rclr}
+			{\tt v}&::=&{\tt new\;C}(\vec{\tt{v}}) &\mbox{Instancia de objeto}\\
+		\end{array}
+	\]
+	\item[Métodos y Clases]
+	\[
+		\begin{array}{rclr}
+			{\tt K}&::=& {\tt C}\,(\vec{\tt{C}}\,\vec{\tt{x}})\;\{\;{\tt super}(\vec{\tt{x}});{\tt this.}\vec{\tt{f}}=\vec{\tt{x}}\;\}&\mbox{Constructores}\\
+			{\tt M}&::=& {\tt C\;m}\,(\vec{\tt{C}}\,\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}&\mbox{Métodos}\\
+			{\tt L}&::=& {\tt class\;C\;extends\;B}\;\{\;\vec{\tt{A}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}&\mbox{Clases}\\
+		\end{array}
+	\]
+\end{description}
+
+En la definición anterior se usa constantemente la notación $\vec{\tt{t}}$ que no habíamos empleado anteriormente. Ésta recibe el nombre de notación vectorial y es una forma de simplificar la notación multiparamétrica que usamos en notas anteriores. Un vector denota la sucesión de expresiones 
+$$\vec{\tt{t}} =_{def} \tt{t}_1,\tt{t}_2,\dots,\tt{t}_n$$
+También se pueden presentar dos vectores juntos sin comas o puntos y coma separándolos, se entiende que ambos vectores tienen la misma longitud y en tal caso esta combinación denota a la sucesión obtenida tomando un elemento de cada vector a la vez, es decir
+$$\vec{\tt{C}}\,\vec{\tt{x}} =_{def} \tt{C}_1\,\tt{x}_1,\tt{C}_2\,\tt{x}_2,\dots,\tt{C}_n\,\tt{x}_n$$
+En el caso de la definición de el constructor el vector empleado significa:
+$${\tt this.}\vec{\tt{f}}=\vec{\tt{x}}=_{def} {\tt this.}\tt{f}_1=\tt{x}_1;{\tt this.}\tt{f}_2=\tt{x}_2;\dots;{\tt this.}\tt{f}_n=\tt{x}_n$$
+de igual forma se entiende que ambos vectores tienen la misma longitud.
+\end{definition}
+
+De la definición de la sintaxis podemos abstraer algunas convenciones importantes que se deben seguir en los programas en \jpp y que no necesariamente se siguen en los programas en Java. A continuación las listamos:
+\begin{itemize}
+	\item En la definición de una clase se incluye siempre la superclase, aún cuando ésta es \object.
+	\item Los constructores siempre se declaran explícitamente aún cuando estos son triviales o cuando el comportamiento es el esperado por Java y tienen el mismo nombre que la clase.
+	\item Dentro del constructor siempre se llama al constructor de la superclase mediante la instrucción {\tt super}.
+	\item Siempre se menciona el objeto al invocar un método o acceder a un atributo aún cuando éste es {\tt this}.
+	\item Los métodos consisten únicamente de una expresión {\tt return}.
+	\item Todos los constructores funcionan de forma genérica, es decir, reciben el mismo número de parámetros como atributos tenga la clase, hacen la asignación de los mismos y no pueden hacer nada más.
+	\item Se puede definir un único constructor por clase.
+	\item En la definición de las clases los atributos solo son declarados, es decir, no podemos asignar valores por defecto. Solo toman valor en el constructor.
+\end{itemize}
+Veamos a continuación algunos ejemplos de programas escritos en \jpp.
+
+\begin{example}[La clase {\tt Pair}] Para ejemplificar la sintaxis se define un programa para manejo de pares.
+\begin{verbatim}
+class A extends Object { A () { super(); } }
+
+class B extends Object { B () { super(); } }
+
+class Pair extends Object {
+    Object fst;
+    Object snd;
+
+    Pair (Object fst, Object snd){
+        super();
+        this.fst = fst;
+        this.snd = snd;
+    }
+
+    Pair setfst (Object newfst){
+        return new Pair(newfst, this.snd);
+    }
+
+}
+\end{verbatim}
+Con las definiciones anteriores la expresión:
+\begin{verbatim}
+              new Pair(new A (), new B ()).setfst(new B ())
+\end{verbatim}
+se evaluaría intuitivamente a la expresión:
+\begin{verbatim}
+                       new Pair(new B (), new B ())
+\end{verbatim}
+\end{example}
+\begin{example}[Árboles binarios en \jpp] Se define un programa para manejo de árboles binarios con información solo en las hojas.
+\begin{verbatim}
+class Node extends Object {
+    Object left;
+    Object right;
+
+    Node (Object left, Object right) {
+        super();
+        this.left = left;
+        this.right = right;
+    }
+
+    Nat sum () {
+        return (this.left.sum() + this.right.sum());
+    } 
+}
+
+class Leaf extends Object {
+    Nat value;
+
+    Leaf (Nat value) {
+        super();
+        this.value = value;
+    }
+
+    Nat sum() {
+        return this.value;
+    }
+}
+\end{verbatim}
+Para este ejemplo se supone definido el tipo {\tt Nat} que modela los números naturales y la operación de suma para los elementos de este tipo.
+\end{example}
+\subsection{Tablas de Clases}
+Un programa en JPP consta de una expresión $e$ junto con una tabla de clases $T$ la cual generalmente no se menciona explícitamente. 
+
+\begin{definition}[Tabla de Clases] Una tabla de clases es una función finita que asigna clases a nombres de clase, en otras palabras, $T$ es una sucesión finita de declaraciones de clase de la forma
+
+$$T({\tt C})={\tt class\;C\;extends\;B}\;\{\;\vec{\tt{A}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}$$
+
+Veamos ahora como acceder a la información almacenada en esta tabla.
+\begin{description}
+	\item[Búsqueda de Atributos]
+	\[
+		\begin{array}{c}
+			\inference{}{\fields(\object)=\varnothing}\\
+			\\
+			\inference{T({\tt C})={\tt class\;C\;extends\;B}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
+			\fields({\tt B})=\vec{\tt{B}}\,\vec{\tt{g}}
+			}{\fields({\tt C})=\vec{\tt{B}}\,\vec{\tt{g}},\vec{\tt{C}}\,\vec{\tt{f}}}
+		\end{array}
+	\]
+	\item[Búsqueda del tipo de un método]
+	\[
+		\begin{array}{c}
+			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
+			{\tt B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}\mbox{ figura en }\vec{\tt{M}}
+			}{
+			\mtype({\tt m,C}) = \vec{\tt{B}}\to\tt{B}
+			}\\
+			\\
+			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
+			{\tt m}\mbox{ no figura en }\vec{\tt{M}}
+			}{
+			\mtype({\tt m,C}) = \mtype({\tt m,D}) 
+			}\\
+		\end{array}
+	\]
+
+	En estas reglas la notación vectorial $\vec{\tt{B}}\to\tt{B}$ se entiende como $\tt{B}_1\to\tt{B}_2\to\dots\to\tt{B}$.
+	\item[Búsqueda del cuerpo de un método]
+	\[
+		\begin{array}{c}
+			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
+			{\tt B\;m}\,(\vec{\tt{B}},\vec{\tt{x}})\;\{\;{\tt return\;e;}\;\}\mbox{ figura en }\vec{\tt{M}}
+			}{
+			\mbody({\tt m,C}) = (\vec{\tt{x}},\tt{e})
+			}\\
+			\\
+			\inference{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\\
+			{\tt m}\mbox{ no figura en }\vec{\tt{M}}
+			}{
+			\mbody({\tt m,C}) = \mbody({\tt m,D}) 
+			}\\
+		\end{array}
+	\]
+
+\end{description}
+\end{definition}
+\section{Semántica Dinámica}
+En esta sección se presenta la semántica dinámica de \jpp mediante una semántica operacional estructural.
+
+\begin{definition}[Semántica Operacional de \jpp] Se define la semántica como un sistema de transición con función de transición $\tofj$ que depende de la tabla de clases $T$ de un programa, esta tabla se omite en las reglas del sistema, sin embargo siempre está presente.
+
+Recordemos que los únicos valores del lenguaje están definidos por la instrucción {\tt new}.
+
+\begin{description}
+	\item[Selección de Atributos] Como los parámetros del constructor corresponden exactamente con los atributos definidos en las clases, podemos obtener directamente el valor de cada uno a partir de la instancia del objeto. Modelado en la siguiente regla:
+	\[
+		\inference
+		{\fields({\tt C})=\vec{\tt{C}}\,\vec{\tt{f}}}
+		{({\tt new\,C}\,(\vec{\tt{v}})).{\tt f_i}\tofj{\tt v_i}}
+	\]
+	\item[Invocación de métodos]
+	\[
+		\inference
+		{\mbody({\tt m,C})=(\vec{\tt{x}},{\tt e})}
+		{({\tt new\,C}\,(\vec{\tt{v}})){\tt .m}(\vec{\tt{w}})\tofj e[\vec{\tt{x}},{\tt this}:=\vec{\tt{w}},({\tt new\,C}\,(\vec{\tt{v}}))]}
+	\]
+	En la regla anterior para la evaluación de una invocación de un método, se evalúa el cuerpo del método en donde se sustituyen todos los parámetros de éste por los argumentos de la llamada y se sustituye {\tt this} por la instancia misma que hace la invocación.
+	\item[Casting]
+	\[
+		\inference
+		{{\tt C \leq D}}
+		{{\tt (D)}\;({\tt new\,C}\,(\vec{\tt{v}}))\tofj {\tt new\,C}\,(\vec{\tt{v}})}
+	\]
+	\item[Reglas de congruencia] Como es usual la forma de evaluar es de derecha a izquierda lo que se modela con las siguientes reglas burocráticas:
+	\[
+		\begin{array}{c}
+			\inference
+			{{\tt e\tofj e'}}
+			{{\tt e.f \tofj e'.f}}\\
+			\\
+			\inference
+			{{\tt e\tofj e'}}
+			{{\tt e.m}(\vec{\tt{e}})\tofj{\tt e'.m}(\vec{\tt{e}})}\\
+			\\
+			\inference
+			{{\tt e_i\tofj e_i'}}
+			{{\tt e.m(\dots,e_i,\dots)\tofj e.m(\dots,e_i',\dots)}}\\
+			\\
+			\inference
+			{{\tt e_i\tofj e_i'}}
+			{{\tt new\;C(\dots,e_i,\dots)\tofj new\;C(\dots,e_i',\dots)}}\\
+			\\
+			\inference
+			{{\tt e\tofj e'}}
+			{{\tt (C)\;e\tofj (C)\;e'}}\\
+			\\
+		\end{array}
+	\]
+	
+\end{description}
+\end{definition}
+\section{Semántica Estática}
+Para la definición de la semántica estática se define un sistema de tipos para el lenguaje, en este caso los tipos son los nombres de las clases y no se tienen tipos primitivos, es decir, todos los tipos que se necesiten para un programa deben ser definidos dentro del mismo, a excepción claro de \object.
+
+
+\begin{definition}[Semántica Estática de \jpp] Para la definición de su sistema de tipos deben definirse las reglas de tipado de las expresiones, las reglas de subtipado y {\it casting} así como reglas que modelen cuando un método y una clase están bien formadas. A continuación se presentan todas estas definiciones.
+\begin{description}
+	\item[Reglas de Subtipado]
+	\[
+		\inference
+		{T({\tt C})={\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}}
+		{{\tt C\leq D}}
+	\]
+	Es decir, si la clase {\tt C} extiende a la clase {\tt D} entonces {\tt C} es subtipo de {\tt D}.
+
+	Adicional a esta regla el subtipado debe cumplir las propiedades de transitividad y reflexividad presentadas en la nota de clase anterior.
+	\item[Reglas de Tipado]
+	\[
+		\begin{array}{cr}
+		\inference
+		{}
+		{\Gamma,x:\Ct\vdash x:\Ct}&\mbox{Variables}\\
+		&\\
+		\inference
+		{\Gamma\vdash e:\Ct&\fields(\Ct)=\vec{\Ct}\,\vec{\tt{f}}}
+		{\Gamma\vdash e.{\tt f_1 : C_i}}&\mbox{Acceso a atributos}\\
+		&\\
+		\inference
+		{\Gamma\vdash e_0:\Ct_0&\Gamma\vdash \vec{e}:\vec{\Ct}&\mtype({\tt m},\Ct_0)=\vec{\Dt}\to\Ct&\vec{\Ct}\leq\vec{\Dt}}
+		{\Gamma\vdash e_0.{\tt m}(\vec{e}):\Ct}&\mbox{Invocación de métodos}\\
+		&\\
+		\inference
+		{\Gamma\vdash\vec{e}:\vec{\Ct}&\fields(\Ct)=\vec{\Dt}\,\vec{\tt{f}}&\vec{\Ct}\leq\vec{\Dt}}
+		{\Gamma\vdash {\tt new\;C}(\vec{e}):\Ct}&\mbox{Creación de objetos}
+		\end{array}
+	\]
+	\item[Reglas de casting]
+	\[
+		\begin{array}{cr}
+		\inference
+		{\Gamma\vdash e:\Dt&\Dt\leq\Ct}
+		{\Gamma\vdash (\Ct)\;e:\Ct}&\mbox{{\it Upcasting}}\\
+		&\\
+		\inference
+		{\Gamma\vdash e:\Dt&\Ct\leq\Dt&\Ct\neq\Dt}
+		{\Gamma\vdash (\Ct)\;e:\Ct}&\mbox{{\it Downcasting}}\\
+		&\\
+		\inference
+		{\Gamma\vdash e:\Dt&\Ct\nleq\Dt&\Dt\nleq\Ct&\mbox{{\sf stupid warning}}}
+		{\Gamma\vdash (\Ct)\;e:\Ct}&\mbox{{\it Casting} estúpido}
+		\end{array}
+	\]
+	Esta última regla es un tecnicismo necesario para poder probar la preservación de tipos con la semántica operacional estructural.
+	\item[Formación de Clases] Para definir las reglas que modelan cuándo una clase está bien formada, se definen los nuevos juicios ${\tt M\;\ok}\;{\sf in}\;\Ct$ para indicar que el método {\tt M} está bien formado en la clase \Ct, $\Ct\;\ok$ que indica que la clase \Ct está bien formada y por último el juicio $T\;\ok$ para decir que la tabla de clases $T$ está bien formada.
+	\[
+		\inference
+		{{\tt K}= {\tt C}\,(\vec{\tt{D}}\,\vec{\tt{y}},\vec{\tt{C}}\,\vec{\tt{x}})\;\{\;{\tt super}(\vec{\tt{y}});{\tt this.}\vec{\tt{f}}=\vec{\tt{x}}\;\}\\
+		\fields(\Dt)=\vec{\Dt}\;\vec{\tt{g}}\\
+		\vec{\tt{M}}\;\ok\;{\sf in}\;\Ct}
+		{{\tt class\;C\;extends\;D}\;\{\;\vec{\tt{C}}\,\vec{\tt{f}}\,;\,{\tt K}\;\vec{\tt{M}}\;\}\;\ok}
+	\]
+
+	\item[Formación de métodos]
+
+	\[
+		\inference
+		{
+			T(\Ct)={\tt class\;C\;extends\;D\,\{\dots\}}\\
+			\mtype({\tt m},\Dt)=\vec{\Ct}\to\Ct_0\\
+			\vec{x}:\vec{\Ct},{\tt this}:\Ct\vdash {\tt e}:\Ct_0'\\
+			\Ct_0'\leq\Ct_0 
+		}
+		{\Ct_0\;{\tt m}\,(\vec{\Ct}\,\vec{x})\{\;{\tt return\;e;}\;\}\;\ok\;{\sf in}\;\Ct}
+	\]
+
+	En las premisas se está considerando la posibilidad de que el método {\tt m} se haya redefinido ({\it overriding}) verificando que se respete el tipo dado en la superclase. Es decir, el cuerpo del método en la subclase debe devolver un subtipo del tipo del resultado del mismo método en la superclase. También se observa que los tipos de los parámetros del método deben ser exactamente los mismos que los de la superclase.
+
+	Es importante observar que si $\Dt = \object$ entonces el método no se está redefiniendo puesto que \object no tiene métodos. En tal caso la premisa acerca de \mtype debe ignorarse, siendo aceptadas cualesquiera $\Ct_0$ y $\vec{\Ct}$.
+
+	\item[Formación de Tablas] Decimos que una tabla de clases está bien formada si todas las clases declaradas en ella están bien formadas, modelado con la regla:
+
+	\[
+		\inference
+		{\forall\Ct\in{\sf dom}(T),T(\Ct)\;\ok}
+		{T\;\ok}
+	\]
+
+\end{description}
+\end{definition}
+\section{Seguridad de \jpp}
+
+Al igual que con los sistemas anteriores estudiaremos la seguridad del lenguaje \jpp con las propiedades de preservación de tipos y progreso de la función de transición, en este caso estas propiedades deben considerar la herencia así como el uso de {\it castings} inválidos.
+
+\begin{proposition}[Preservación de tipos]\label{preservacion} Si $T$ es una tabla de clases bien formada, $\Gamma\vdash e:\Ct$ y $e\tofj e'$, entonces existe $\Ct'$ tal que $\Ct'\leq\Ct$ y $\Gamma\vdash e'\Ct'$
+\end{proposition}
+\begin{proof} Consultar \ref{pierce}
+\end{proof}
+
+Respecto a la propiedad de progreso esta vez debemos observar que un un programa bien tipado podría bloquearse debido a un uso indebido del casting, pero en general podemos probar que la única forma en la qu eun programa bien tipado puede bloquearse es si llega a un punto en el que no puede computar un {\it downcasting}.
+
+\begin{proposition}[Progreso de la relación $\tofj$]\label{progreso} Sea $T$ una tabla de clases bien formada, si $\varnothing\vdash e:\Ct$ entonces sucede una y solo una de las siguientes condiciones:
+\begin{itemize}
+	\item $e$ es un valor.
+	\item $e$ contiene una expresión de la forma $(\Ct)\;{\tt new}\;\Dt(\vec{\tt{v}})$ en donde $\Dt\leq\Ct$, es decir, no se puede realizar el {\it downcast}.
+	\item Existe $e'$ tal que $e\tofj e'$.
+\end{itemize}
+\end{proposition}
+\begin{proof} Consultar \ref{pierce}
+\end{proof}
+\begin{theorem}[Seguridad de \jpp] Si $T$ es una tabla de clases bien formada, $\varnothing\vdash e:\Ct$ y $e\tofj^\star e'$ con $e'$ en forma normal, entonces se cumple una y solo una de las siguientes condiciones:
+\begin{itemize}
+	\item $e'$ es un valor $v$ tal que $\varnothing\vdash v:\Dt$ y $\Dt\leq\Ct$.
+	\item $e'$ contiene como subexpresión $(\Ct)\;{\tt new}\;\Dt(\vec{\tt{v}})$ en donde $\Dt\leq\Ct$.
+\end{itemize}
+En otras palabras un programa bien tipado siempre termina o bien tiene un {\it downcasting} que no se puede resolver.
+\end{theorem}
+\begin{proof}
+Directo de las proposiciones \ref{preservacion} y \ref{progreso} y la propiedad de transitividad de la relación de subtipado.
+\end{proof}
+\section{Correspondencia con Java}
+Como se menciono al inicio de esta nota, \jpp es un modelo de algunas de las características principales del lenguaje de programación Java, principalmente diseñada para el estudio de la seguridad de su sistema de tipos. Sin embargo otras de las características de la programación orientada a objetos así como mucho del poder de expresividad de Java quedan fuera de este modelo.
+
+Por esta razón es importante hacer explicita la correspondencia deseada entre un programa en \jpp y su versión en Java. Esta correspondencia se da con los tres lemas siguientes:
+
+\begin{lemma}Cada programa sintácticamente correcto en \jpp es también sintácticamente correcto en Java.
+\end{lemma}
+
+\begin{lemma} Un programa sintácticamente correcto es tipable en \jpp si y sólo si es tipable en Java.
+\end{lemma}
+
+\begin{lemma}\label{3}La ejecución de un programa bien tipado en \jpp se comporta de la misma forma en Java.
+\end{lemma}
+
+Como consecuencia del lema \ref{3} tenemos el siguiente corolario.
+
+\begin{corollary} La evaluación de un programa en \jpp no termina si y sólo si compilarlo y ejecutarlo en Java causa no terminación.
+\end{corollary}
+
+Por supuesto los lemas anteriores no pueden demostrarse ya que no existe una formalización completa del lenguaje Java. Sin embargo es muy útil enunciar la correspondencia de manera precisa para dejar en claro el objetivo que estamos tratando de alcanzar. 
+\begin{thebibliography}{9}
+\bibitem{pierce}\label{pierce}
+Igarashi A., Pierce B., Wadler P., Featherweight Java: A Minimal Core Calculus for Java and GJ, ACM-TRANSACTION, Enero 23 2002. \url{https://www.cis.upenn.edu/~bcpierce/papers/fj-toplas.pdf}
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+
+\end{thebibliography}
+
+
+\end{document}
