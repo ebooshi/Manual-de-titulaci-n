@@ -18,8 +18,8 @@ Estudiar lenguajes de programación que no pertenecen al paradigma funcional es 
 Estudiar la implementación de \textsf{Java Peso Pluma} definiendo y discutiendo sus características mas importantes, como: herencia, subtipificado, clases, objetos así como la sintaxis del lenguaje, la semántica estática y dinámica.\\
 
 \subsubsection{Planteamiento}
-Siguiendo la misma estructura de los capítulos anteriores comenzaremos el estudio de \textsf{Java Peso Pluma} proporcionando la definición para la sintaxis concreta de los programas que escribiremos en este lenguaje. 
-Discutiremos la semántica dinámica para evaluarlos y la semántica estática para explorar el sistema de tipos y su interacción con la herencia, métodos y la relación de subtipificado.\\
+Siguiendo la misma estructura de los capítulos anteriores comenzaremos el estudio de \textsf{Java Peso Pluma} proporcionando la definición para la sintaxis concreta de los programas que escribiremos en este lenguaje.\\\\
+Discutiremos la semántica dinámica para evaluarlos, la semántica estática para explorar el sistema de tipos, su interacción con la herencia, la implementación de métodos y la relación de subtipificado.\\\\
 Por último se estudiará brevemente la propiedad de seguridad aplicada en este lenguaje.
 
 \section{Sintaxis de Java Peso Pluma}
@@ -38,10 +38,10 @@ A continuación presentamos la definición de \textsf{Java Peso Pluma} en donde 
 	\[
 		\begin{array}{rclr}
 			{\tt e}&::=& {\tt x}&\mbox{Variables}\\
-			&&{\tt e.f}&\mbox{Acceso a atributo}\\
-			&&{\tt e.m}(\vec{\tt{e}})&\mbox{Invocación de método}\\
-			&&{\tt new\;C}(\vec{\tt{e}})&\mbox{Instancia de objeto}\\
-			&&{\tt (C)\;e}&\mbox{Casting}\\
+			&&| \ {\tt e.f}&\mbox{Acceso a atributo}\\
+			&&| \ {\tt e.m}(\vec{\tt{e}})&\mbox{Invocación de método}\\
+			&&| \ {\tt new\;C}(\vec{\tt{e}})&\mbox{Instancia de objeto}\\
+			&&| \ {\tt (C)\;e}&\mbox{Casting}\\
 		\end{array}
 	\]
 	\item[Valores]
@@ -93,11 +93,11 @@ Revisemos la sintaxis concreta de \textsf{Java Peso Pluma} con los siguientes ej
     Proporciona la definición de una clase para definir la dirección de una persona, puedes dar por definida las clases \textsf{String} y \textsf{Integer}
     \begin{verbatim}
     class Direccion extends Object {
-        String calle
-        String colonia
-        String ciudad
-        Integer numero
-        Integer telefono
+        String calle;
+        String colonia;
+        String ciudad;
+        Integer numero;
+        Integer telefono;
     
         Direccion(String calle, String colonia, 
             String ciudad, Integer numero, Integer telefono){
@@ -274,7 +274,8 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
 
 \section{Semántica estática}
 El sistema de tipos de \textsf{Java Peso Pluma} no cuenta con tipos primitivos, es decir que todos los tipos con los que trabajemos tendrán que ser definidos mediante su respectiva clase. \\\\
-En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido pues representa el tipo más primitivo con el cual podemos definir construcciones más complejas, este constituye también una palabra reservada en la definición que propusimos de la sintaxis. 
+En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido pues representa el tipo más primitivo con el cual podemos definir construcciones más complejas. \\
+ Este constituye también una palabra reservada en la definición que propusimos de la sintaxis. 
 
 \bigskip
 
@@ -307,7 +308,7 @@ En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido
     		&\\
     		\inference
     		{\Gamma\vdash e_0:C_0 & \Gamma \vdash \vec{e}:\vec{C}& mtype({\tt m},C_0)=\vec{D}\rightarrow C&\vec{C}\leq\vec{D}}
-    		{\Gamma\vdash e_0.{\tt m}(\vec{e}):C}&\mbox{Invocación de métodos}\\
+    		{\Gamma\vdash e_0.{\tt m}( \vec{e} ):C}&\mbox{Invocación de métodos}\\
     		&\\
     		\inference
     		{\Gamma\vdash\vec{e}:\vec{C}& fields(C)=\vec{D}\,\vec{\tt{f}}&\vec{C}\leq\vec{D}}
@@ -339,7 +340,7 @@ En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido
  
 	\item[Formación de Clases] 
 $$$$
-	Introducimos los juicios ${\tt M\;ok}\;{\sf in}\;C$ para indicar que el método {\tt M} está bien formado en la clase C, $C\;ok$ que indica que la clase C está bien formada y el juicio $T\;ok$ para decir que la tabla de clases $T$ está bien formada.
+	Introducimos los juicios ${\tt M\;ok}\;{\sf in}\;C$ para indicar que el método {\tt M} está bien formado en la clase $C$, $C\;ok$ que indica que la clase $C$ está bien formada y el juicio $T\;ok$ para decir que la tabla de clases $T$ está bien formada.
 	\[
 		\inference
 		{{\tt K}= {\tt C}\,(\vec{\tt{D}}\,\vec{\tt{y}},\vec{\tt{C}}\,\vec{\tt{x}})\;\{\;{\tt super}(\vec{\tt{y}});{\tt this.}\vec{\tt{f}}=\vec{\tt{x}}\;\}\\
@@ -375,34 +376,36 @@ $$$$
 
 \section{Propiedades de Java Peso Pluma}
 
-    Como hemos acostumbrado en el estudio de cada uno de los lenguajes definidos en este manual brevemente mencionaremos las dos propiedades que más interesan en este curso: progreso de la función $\rightarrow_{fj}$ y  preservación de tipos.
+    Como hemos acostumbrado en el estudio de cada uno de los lenguajes definidos en este manual brevemente mencionaremos las dos propiedades que más interesan en este curso: progreso de la función $\rightarrow_{\tt fj}$ y  preservación de tipos.
 
 \subsection{Preservación de tipos}
 La preservación de tipos que hemos estudiado en implementaciones anteriores difiere en que ahora tenemos que considerar su relación con el mecanismo de herencia y los castings que no son correctos. Esto se puede observar en la siguiente regla.
-\begin{definition}[Preservación de tipos]\label{preservación} Si $T$ es una tabla de clases bien formada, $\Gamma\vdash e:C$ y $e\rightarrow_{fj} e'$, entonces existe $C'$ tal que $C'\leq C$ y $\Gamma\vdash e' : C'$\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }
-\end{definition}
+\begin{proposition}[Preservación de tipos]\label{preservación} Si $T$ es una tabla de clases bien formada, $\Gamma\vdash e:C$ y $e\rightarrow_{\tt fj} e'$, entonces existe $C'$ tal que $C'\leq C$ y $\Gamma\vdash e' : C'$\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }
+\end{proposition}
 
 \subsection{Progreso}
 Esta propiedad tiene un pequeño detalle cuando se utiliza dentro del contexto de \textsf{Java Peso Pluma}, En general la propiedad es válida salvo en el caso único en el que no se puede computar un downcasting.
 
-\begin{definition}[Progreso de la relación $\rightarrow_{fj}$]\label{progreso} Sea $T$ una tabla de clases bien formada, si $\varnothing\vdash e:C$ entonces sucede una y solo una de las siguientes condiciones:
+\begin{proposition}[Progreso de la relación $\rightarrow_{\tt fj}$]\label{progreso} Sea $T$ una tabla de clases bien formada, si $\varnothing\vdash e:C$ entonces sucede una y solo una de las siguientes condiciones:
 \begin{itemize}
 	\item $e$ es un valor.
 	\item $e$ contiene una expresión de la forma $(C)\;{\tt new}\;D (\vec{\tt{v}})$ en donde $D \leq C$, es decir, no se puede realizar el {\it downcast}.
-	\item Existe $e'$ tal que $e\rightarrow_{fj} e'$\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }.
+	\item Existe $e'$ tal que $e\rightarrow_{\tt fj} e'$\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }.
 \end{itemize}
-\end{definition}
+\end{proposition}
 
 \subsection{Seguridad}
 Combinando las dos propiedades anteriores obtenemos la relga de seguridad, esta enuncia que si dada una expresión $e$ de \textsf{Java Peso Pluma} se obtiene una expresión en su forma normal, o bien es un valor o encontramos un $downcasting$ incorrecto.
 
-\begin{definition}[Seguridad de \textsf{Java Peso Pluma}] Si $T$ es una tabla de clases bien formada, $\varnothing\vdash e:C$ y $e \rightarrow_{fj}^\star e'$ con $e'$ en forma normal, entonces se cumple una y solo una de las siguientes condiciones:
+\begin{proposition}[Seguridad de \textsf{Java Peso Pluma}] Si $T$ es una tabla de clases bien formada, $\varnothing\vdash e:C$ y $e \rightarrow_{\tt fj}^\star e'$ con $e'$ en forma normal, entonces se cumple una y solo una de las siguientes condiciones:
 \begin{itemize}
 	\item $e'$ es un valor $v$ tal que $\varnothing\vdash v: D$ y $D\leq C$.
 	\item $e'$ contiene como subexpresión $(C)\;{\tt new}\;D(\vec{\tt{v}})$ en donde $D \leq C$.
 \end{itemize}
 Dado cualquier expresión e, o bien esta eventualmente llega a ser evaluada como un valor o se bloquea en un $downcasting$ que no se puede resolver\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }.
-\end{definition}
+\end{proposition}
+
+La demostración de cada propiedad queda fuera del alcance de este manual pero pueden ser consultadas de \hyperlink{128}{[128]}.
 
 \section{Cómo se relaciona Java Peso Pluma con Java?}
 
@@ -414,7 +417,7 @@ Para dar respuesta a esta pregunta presentamos las siguientes proposiciones que 
     \item Cada programa sintácticamente correcto en \textsf{Java Peso Pluma} es también sintácticamente correcto en \textsf{Java}.
     \item Un programa sintácticamente correcto es tipificable en \textsf{Java Peso Pluma} si y sólo si es tipificable en \textsf{Java}.
     \item La ejecución de un programa bien tipificado en \textsf{Java Peso Pluma} se comporta de la misma forma en \textsf{Java}.
-    \item La evaluación de un programa en \textsf{Java Peso Pluma} no termina si y sólo si compilarlo y ejecutarlo en \textsf{Java} causa no terminación.
+    \item La evaluación de un programa en \textsf{Java Peso Pluma} no termina si y sólo si compilarlo y ejecutarlo en \textsf{Java}  causa no terminación.
 \end{itemize}
 
 La demostración de estas últimas cuatro proposiciones no es posible dado que no hay una formalización de \textsf{Java} que nos permita razonar sobre si mismo, sin embargo enunciar estas proposiciones ilustra la importancia de estudiar los lenguajes de programación formalmente para inferir propiedades y características deseadas bajo un modelo de razonamiento lógico.
@@ -423,7 +426,7 @@ La demostración de estas últimas cuatro proposiciones no es posible dado que n
 \section{Ejercicios para el lector}
 
 \begin{exercise}
-    Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar árboles binarios cuyo contenido de sus nodos sean enteros (Puedes dar por definido el tipo \textsf{Int}).
+    Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar árboles binarios cuyo contenido de sus nodos sean enteros (Puedes dar por definido el tipo \textsf{Integer}).
 \end{exercise}
 
 \bigskip
@@ -442,7 +445,7 @@ La demostración de estas últimas cuatro proposiciones no es posible dado que n
 \bigskip
 
 \begin{exercise}
-    Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar un nuevo objeto llamado \textsf{Empleado} que contenga un campo de clase para su dirección, su número de seguridad social (NSS) y su salario (puedes dar por definidas las clases $Int$, $String$ y \textsf{Direccion} del ejemplo 1.2).
+    Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar un nuevo objeto llamado \textsf{Empleado} que contenga un campo de clase para su dirección, su número de seguridad social (NSS) y su salario (puedes dar por definidas las clases \textsf{Integer, String y Direccion} del ejemplo 1.2).
 \end{exercise}
 
 \bigskip
