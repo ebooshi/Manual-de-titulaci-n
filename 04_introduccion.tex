@@ -119,7 +119,7 @@ matemáticas.
         Nuevamente hacemos abuso en la notación para $n$, en donde $n\in\mathbb{N}$\footnote{Definición formulada de  \hyperlink{1}{[1]},  \hyperlink{5}{[5]}.  \hyperlink{12}{[12]},  \hyperlink{26}{[26]} y  \hyperlink{39}{[39]}.}.
     \end{definition}
         
-    % Definición de la función semanticá para EAB
+    % Definición de la función semántica para EAB
     \begin{definition}[Semántica de \textsf{EAL}] Función de evaluación para el lenguaje de expresiones aritmético-lógicas.
         $$\llbracket\cdot\rrbracket:{\sf EAL}\to\mathbb{N} \cup \textit{Bool}$$
          Esto quiere decir que la función de evaluación recibe una expresión del lenguaje \textsf{EAL} y regresa un número natural ó un booleano
@@ -151,7 +151,7 @@ matemáticas.
         eval (e1 * e2)  = eval e1 * eval e2
         eval (e1 < e2)  = eval e1 < eval e2
         eval (not e)    = not eval e
-        eval (iszero e) = eval e == 0
+        eval (isZero e) = eval e == 0
      \end{lstlisting}
 
     Con esta definición ahora podemos evaluar algunas expresiones pertenecientes a nuestro lenguaje \textsf{EAL}.
@@ -188,8 +188,8 @@ matemáticas.
 
     \end{exercise}
 
-    \begin{definition}
-        Sea \textit{G} una gramática libre de contexto, decimos que que \textit{G} es una gramática ambigua si existe una cadena para la cual se pueda tener más de una derivación a la izquierda\footnote{Definición extraída de \hyperlink{5}{[5]}. \hyperlink{12}{[12]}, \hyperlink{40}{[40]} y \hyperlink{41}{[41]}.}.
+    \begin{definition}[Grámatica ambigua]
+        Sea \textit{G} Una gramática libre de contexto, decimos que que \textit{G} es una gramática ambigua si existe una cadena para la cual se pueda tener más de una derivación a la izquierda\footnote{Definición extraída de \hyperlink{5}{[5]}. \hyperlink{12}{[12]}, \hyperlink{40}{[40]} y \hyperlink{41}{[41]}.}.
     \end{definition}
 
 
@@ -218,7 +218,7 @@ matemáticas.
     % Ejercicio 2.7
     \begin{exercise}
         ¿Cómo eliminarías la ambigüedad de esta gramática?    \\\\                    
-           Para eliminar la ambigüedad, se requiere de la introducción de paréntesis para los operadores binarios. Este cambio			permite la asociatividad y hace explícita la precedencia en la cual las operaciones se tienen que evaluar.  La 		gramática de \textsf{EAL} es entonces modificada como sigue:
+           Para eliminar la ambigüedad, se requiere de la introducción de paréntesis para los operadores binarios. Este cambio	 permite la asociatividad y hace explícita la precedencia en la cuál las operaciones se tienen que evaluar.  La 		gramática de \textsf{EAL} es entonces modificada como sigue:
 		   \[
 			    \begin{array}{rll}
 			        e & ::= & n \quad |\quad {\tt true} \quad |\quad {\tt false} \quad |\quad (e + e) \quad |\quad (e - e) \quad |\quad (e * e) \\
@@ -321,7 +321,7 @@ matemáticas.
 
     % Ejercicio 4.1
     \begin{exercise}
-        El uso del carácter especial ';' al terminar una instrucción de programa en lenguajes de programación como \textsf{C} y \textsf{Java} ¿a qué tipo de regla corresponde (sintáctica, semántica o pragmática)?
+        El uso del carácter especial ';' al terminar una instrucción de programa en lenguajes de programación como \textsf{C} y \textsf{Java}, a qué tipo de regla corresponde?
     \end{exercise}
 
 
@@ -376,7 +376,7 @@ matemáticas.
     % Ejercicio 4.8
     \begin{exercise}
         Evalúa la expresión del lenguaje \textsf{EAL} utilizando la función \texttt{eval}. \\ 
-            $$\texttt{not(iszero}( (7 * 4) + (1 * 0)))$$
+            $$\texttt{not(isZero}( (7 * 4) + (1 * 0)))$$
  Es posible obtener un resultado de la evaluación la expresión anterior? argumenta tu respuesta.
     \end{exercise}
 

@@ -25,7 +25,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
 \section{Juicios lógicos}
 
     Una parte fundamental del razonamiento matemático es la capacidad de determinar si una afirmación es verdadera o falsa basado en la información que poseemos sobre los elementos que son mencionados en dicha afirmación. \\\\
-    Para poder aplicar un juicio sobre algún elemento, objeto o entidad para determinar su veracidad primero debemos definir dichos elementos. A continuación vamos a introducir los conceptos necesarios para poder formalizar esta noción y como aplicarla. Esto será de utilidad para definir características, reglas de construcción y reglas de evaluación en los lenguajes de programación y modelos de computo que discutiremos a lo largo del manual.\\
+    Para poder aplicar un juicio sobre algún elemento, objeto o entidad para determinar su veracidad primero debemos definir dichos elementos. A continuación vamos a introducir los conceptos necesarios para poder formalizar esta noción y el cómo aplicarla. Esto será de utilidad para definir características, reglas de construcción y reglas de evaluación en los lenguajes de programación y modelos de computo que discutiremos a lo largo del manual.\\
 
     \bigskip
 
@@ -106,11 +106,11 @@ Visualmente esto se denota como:\\
 
 \bigskip
 
-Es importante notar que las reglas de inferencia son puramente sintácticas. Por ejemplo, el número "00011" no puede ser generado directamente por las reglas de A*. Su representación como cadena binaria si $\<0,\<0,\<0,\<1,\<1,\ \epsilon \>\>\>\>\>$, dado que el conjunto de reglas de inferencia de A* no posee alguna que nos ayude a formular los números binarios sin la aplicación de las tuplas. \\\\
-Ahora que hemos definido una estructura de datos con reglas de inferencia, es natural preguntarse "¿cómo razonar sobre esta?". Por ejemplo como demostrar que\footnote{Aquí estamos haciendo abuso de notación con la aplicación de $\in$ para hacer explícita la propiedad para el primer caso y denotar que para el segundo caso no es válida.}: $$\<0,\<0,\<0,\<1,\<1,\ \epsilon \>\>\>\>\> \in \text{A}^*$$   $$\<0,\<7,\<4,\<1,\ \epsilon \>\>\>\> \notin \text{A}^*$$\\
+Es importante notar que las reglas de inferencia son puramente sintácticas. Por ejemplo, el número "00011" no puede ser generado directamente por las reglas de A*. Su representación como cadena binaria sí: $\<0,\<0,\<0,\<1,\<1,\ \epsilon \>\>\>\>\>$. El conjunto de reglas de inferencia de A* no posee alguna que nos ayude a formular los números binarios sin la aplicación de las tuplas. \\\\
+Ahora que hemos definido una estructura de datos con reglas de inferencia, es natural preguntarse "¿cómo razonar sobre esta?". Por ejemplo como demostrar que\footnote{Aquí estamos haciendo abuso de notación con la aplicación de $\in$ para hacer explícita la propiedad para el primer caso y denotar que para el segundo no es válida.}: $$\<0,\<0,\<0,\<1,\<1,\ \epsilon \>\>\>\>\> \in \text{A}^*$$   $$\<0,\<7,\<4,\<1,\ \epsilon \>\>\>\> \notin \text{A}^*$$\\
 Las reglas de inferencia pueden ser utilizadas tanto para definir una propiedad como para demostrar que esta propiedad se cumple. \\\\
 Si queremos demostrar que un juicio $J$ es válido, tenemos que encontrar una regla que tenga a $J$ como conclusión. Si la regla es un axioma entonces nuestra prueba está concluida. Si la regla contiene premisas $p_1, ..., p_n$ entonces hay que aplicar la misma estrategia de forma recursiva donde la premisa $p_x$ con $x \in \{1, .., n\}$ figure como conclusión de alguna regla. \\ \\
-Si en algún punto de la derivación no podemos aplicar ninguna regla, y esa premisa no se corresponde con un axioma entonces no se puede demostrar que la propiedad se cumple.\\\\
+Si en algún punto de la derivación no podemos aplicar ninguna regla y esa premisa no se corresponde con un axioma entonces no se puede demostrar que la propiedad se cumple.\\\\
 Ejemplifiquemos esto con el siguiente ejercicio. 
 
     \bigskip
@@ -134,7 +134,7 @@ Ejemplifiquemos esto con el siguiente ejercicio.
 			\\ \\ \\ \\ \\  
                 \inference{\inference{}{1 \ \text{A}}[(\textit{def})] \inference{\inference{}{0 \  \text{A}}[(\textit{def})]& \inference{\inference{}{0 \ \text{A}}[(\textit{def})]& \inference{}{\varepsilon \ \text{A}^*}[(\textit{eps})]}{\<0, \varepsilon \>\  \text{A}^*}[(\textit{tup})]}{\<0,\<0,\varepsilon\>\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0,\varepsilon\>\>\> \ \text{A}^*}[(\textit{tup})] \\ \\ \\ \\ \\ \\ \\
         
-                \inference{\inference{}{1 \ \text{A}}[(\textit{def})]& \inference{\inference{}{0 \ \text{A}}[(\textit{def})]& \inference{\inference{}{0 \ \text{A}}[(\textit{def})]& \inference{\inference{}{1 \ \text{A}}[(\textit{def})]& \inference{}{\varepsilon \ \text{A}}[(\textit{eps})]}{\<1,\varepsilon\> \ \text{A}^*}[(\textit{tup})]}{\<0\<1,\varepsilon\>\> \ \text{A}^*}[(\textit{tup})]}{\<0,\<0\<1,\varepsilon\>\>\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0\<1,\varepsilon\>\>\>\> \ \text{A}^*}[(\textit{tup})] \\ \\ \\ \\ \\ \\ \\
+                \inference{\inference{}{1 \ \text{A}}[(\textit{def})]& \inference{\inference{}{0 \ \text{A}}[(\textit{def})]& \inference{\inference{}{0 \ \text{A}}[(\textit{def})]& \inference{\inference{}{1 \ \text{A}}[(\textit{def})]& \inference{}{\varepsilon \ \text{A*}}[(\textit{eps})]}{\<1,\varepsilon\> \ \text{A}^*}[(\textit{tup})]}{\<0,\<1,\varepsilon\>\> \ \text{A}^*}[(\textit{tup})]}{\<0,\<0,\<1,\varepsilon\>\>\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<0,\<1,\varepsilon\>\>\>\> \ \text{A}^*}[(\textit{tup})] \\ \\ \\ \\ \\ \\ \\
 
 
                 \inference{\inference{}{1 \ \text{A}}[(\textit{def})] \inference{\inference{}{1 \ \text{A}}[(\textit{def})]&  \inference{\inference{}{1 \ \text{A}}[(\textit{def})]&  \inference{\inference{}{0 \  \text{A}}[(\textit{def})]&  \inference{\inference{}{1 \ \text{A}}[(\textit{def})]& \inference{\inference{}{0 \ \text{A}}[(\textit{def})]& \inference{}{\varepsilon \ \text{A}^*}[(\textit{eps})]}{\<0,\varepsilon\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<0,\varepsilon\>\> \ \text{A}^*}[(\textit{tup})]}{\<0,\<1,\<0,\varepsilon\>\>\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<0,\<1,\<0,\varepsilon\>\>\>\> \ \text{A}^*}[(\textit{tup})]}{\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\> \ \text{A}^*}[(\textit{tup})]}{ \<1,\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\>\> \ \text{A}^*}[(\textit{tup})]
@@ -157,7 +157,7 @@ Ejemplifiquemos esto con el siguiente ejercicio.
 
     En el caso del tipo de dato A*, el elemento primitivo que pertenece a esta estructura es la cadena vacía (denotada como $\varepsilon$). Los elementos compuestos se generan por una tupla con cabeza \textit{a} A y cola de tipo A*.\\\\
     Este principio es válido tanto para definir la estructura recursiva como para las funciones que se quieran aplicar sobre la misma\footnote{Información obtenida de \hyperlink{94}{[94]} y \hyperlink{95}{[95]}}. Para ilustrar este punto definimos la función para concatenar dos elementos de A* de la siguiente forma: 
-    \begin{definition}
+    \begin{definition}[Concatenación de cadenas de A*]
         Definimos la concatenación de cadenas A* denotada como: $\bullet$ ::\ (A* $\rightarrow$\ A*) $\rightarrow$\ A* mediante la siguiente especificación\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]}}:
         \[
             \begin{array}{rcl}
@@ -183,7 +183,7 @@ Ejemplifiquemos esto con el siguiente ejercicio.
             $\varepsilon \bullet \varepsilon$ =  $\varepsilon$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la definición de $\bullet$) \\
             $\varepsilon$ = $t$. \\\\
             \textbf{Hipótesis Inductiva} $t \bullet \varepsilon = t$, $\forall$ $t \in \text{A}^*$ \\\\
-            \textbf{Paso Inductivo} por demostrar $\<a,t\> \bullet \varepsilon = \<a,t\>\ \forall\ a, t\ |\ a \in \text{A}$, $t \in \text{A}^*$ \\
+            \textbf{Paso Inductivo} Por demostrar para t' = $\<a,t\>, a \in \text{A}$, $t \in \text{A}^*$ \\
             $\<a,t\> \bullet \varepsilon$ = $\<a, \<t \bullet \varepsilon \> \>$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad (Por la definición de $\bullet$) \\
             $\<t \bullet \varepsilon \> = t $ \qquad \qquad \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad\ (Por la hipótesis inductiva) \\
             $\<a,t\> \bullet \varepsilon = \<a, \<t \bullet \varepsilon \> \> = \<a, t\>$ \\ 
@@ -230,6 +230,7 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
         \textbf{Caso 2} $a \neq c$ entonces tenemos \\
              $numChar(c, \<a, s \bullet t \>)$ = $numChar(c, s \bullet t )$ \qquad \qquad \quad  (Por la definición de $numChar$) \\
             = $numChar(c, s) +  numChar(c, t)$ \qquad \qquad \qquad \qquad \qquad \quad (Por la hipótesis inductiva) \\
+		   %= $0 + numChar(c, s) + numChar(c, t)$ \\
             = $numChar(c, \<a,s\>) +  numChar(c, t)$ \qquad \qquad \qquad \quad (Por la definición de $numChar$) 
             
     \end{exercise}
@@ -260,7 +261,7 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
 
         \textbf{Hipótesis inductiva }  $len(s \bullet t) = len(s) + len(t) \ \forall s,t \in $ A*\\  
 
-        \textbf{Paso Inductivo } Por demostrar para $s' = \<a,s\>$\\
+        \textbf{Paso Inductivo } Por demostrar para $s' = \<a,s\>$, \textit{a} $\in$ A y \textit{s} $\in$ A*\\
             $len(\<a,s\> \bullet t) = len(\<a,\<s \bullet t\>\>)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad \quad \ \ (Por la definición $\bullet$) \\
             = $1 + len(s \bullet t)$ = $1 + len(s) + len(t)$ \qquad \qquad \qquad \qquad \qquad (Por la hipótesis inductiva) \\
             = $(1 + len(s)) + len(t)$ = $len(\<a,s\>) + len(t)$ \\
@@ -275,7 +276,7 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
         \textbf{Caso Base} $s = \varepsilon$ \\
             $len(rev(s)) = len(rev(\varepsilon)) = len(\varepsilon) = len(s)$.  \qquad \qquad \qquad \qquad  (Por la definición de $rev$) \\\\
             \textbf{Hipótesis Inductiva} $len(rev(s)) = len(s) \ \forall s \in $ A* \\\\
-            \textbf{Paso Inductivo} $s' = \<a, s\> $ \\
+            \textbf{Paso Inductivo} Por demostrar para $s' = \<a, s\> $, \textit{a} $\in$ A y \textit{s} $\in$ A* \\
             $len(rev(\<a, s\> )) = len(rev(s) \bullet \<a,\varepsilon\>)$ \qquad \qquad \qquad \qquad \qquad \ \ (Por la definición de $rev$)\\
             = $ len(rev(s)) + len(\<a,\varepsilon\>)$  \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la propiedad anterior)\\
             = $len(rev(s)) + 1 + len(\varepsilon)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \ \ (Por la definición de len)\\ 
@@ -397,7 +398,7 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
                 \[
                 \scalemath{0.81}{
                     \begin{array}{lcl}    
-                        \inference{(\text{C},\text{X},\text{Y})\  \ \Gamma}{(\text{C},\text{X},\text{Y})\rightarrow(\text{C},\text{X},\text{Y})\  \ \Gamma}[$(saque)$] 
+                        \inference{(\text{C},\text{X},\text{Y})\  \Gamma}{(\text{C},\text{X},\text{Y})\rightarrow(\text{C},\text{X},\text{Y})\ \Gamma}[$(saque)$] 
    
                     \end{array}
                 }
@@ -544,9 +545,9 @@ Demuestra utilizando la inducción estructural sobre el tipo de dato Tree A que 
           % \item  Implementa la función \texttt{reverseDigits ::  [Int] ->\ [Int]} \\\\
             %      Esta función obtiene la reversa de la lista de los dígitos obtenidos en el paso anterior.\\
            \item  Implementa la función \texttt{duplicateOddPositionDigits ::  [Int] ->\ [Int]} \\\\
-                  Por ejemplo: la lista \texttt{[1,3,4,8,1,5,4,8,9,9,9,8,6,5,3,5]} solo duplicará los números que estén en una posición impar obteniendo como resultado: \texttt{[1,6,4,16,1,10,4,16,9,18,9,16,6,10,6,5]}. \\
+                  Por ejemplo: la lista \texttt{[1,3,4,8,1,5,4,8,9,9,9,8,6,5,3,5]} solo duplicará los números que estén en una posición impar obteniendo como resultado: \texttt{[1,6,4,16,1,10,4,16,9,18,9,16,6,10,3,10]}. \\
            \item  Implementa la función \texttt{toDigits :: Int ->\ [Int]}\\\\
-                  El objetivo de la implementación de esta función es el de obtener los dígitos de los números mayores o iguales a 10, de tal forma que si tenemos como parámetro de entrada para esta función a la lista \texttt{[1,6,4,16,1,10,4,16,9,18,9,16,6,10,3,10]} obtengamos la siguiente como resultado \texttt{[1,6,4,1,6,1,0,4,1,6,9,1,8,9,1,6,1,0,6,5]} \\
+                  El objetivo de la implementación de esta función es el de obtener los dígitos de los números mayores o iguales a 10, de tal forma que si tenemos como parámetro de entrada para esta función a la lista \texttt{[1,6,4,16,1,10,4,16,9,18,9,16,6,10,3,10]} obtengamos la siguiente como resultado \texttt{[1,6,4,1,6,1,0,4,1,6,9,1,8,9,1,6,1,0,3,1,0]} \\
            \item  Implementa la función \texttt{sumDigitsInList :: [Int] ->\ Int} \\\\
                   Esta función simplemente suma los dígitos contenidos en la lista (puedes utilizar la función sum provista por \texttt{GHCi}).\\
            \item  Implementa la función \texttt{checkSumCreditCard :: Int ->\ Bool}\\\\
