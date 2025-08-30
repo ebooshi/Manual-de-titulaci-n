@@ -400,7 +400,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
    \bigskip
 
 \begin{center}
- \scalemath{0.55}{
+ \scalemath{0.60}{
 \begin{turn}{90}
 \begin{tabular}{ |p{7.2cm}|p{5.7cm}|p{6.5cm}|p{6.5cm}|  }
  		\hline
@@ -504,7 +504,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     		 &\texttt{ end }\\
     	\texttt{ end }&
     \end{align*}
- 	Hay variables libres? argumenta por qué si o por qué no. \\
+ 	¿Hay variables libres? argumenta por qué si o por qué no. \\
     
         No, todas las variables definidas en la expresión $e$ están asociadas a un operador \texttt{let} marcando su alcance en las expresiones anidadas presentes por lo que ninguna variable aparece sin su respectiva asociación.
     \end{exercise}
@@ -582,65 +582,85 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 
     \begin{exercise}
         Desarrolla la sustitución aplicada a la siguiente expresión de acuerdo con la función de sustitución previamente definida.
-        \[
-            (\texttt{let } x = (w + 1) * 2 \texttt{ in} \texttt{ if (} \texttt{True } \texttt{ then } w \texttt{ else } (2 * x) \texttt{)} \texttt{ end })[w:=2]
-        \]
-\end{exercise}
+        	\[
+          	  (\texttt{let } x = (w + 1) * 2 \texttt{ in} \texttt{ if } \texttt{True } \texttt{ then } w \texttt{ else } (2 * x) \texttt{ end })[w:=2]
+        	\]
+       	%\[ 
+	%	\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}, x.\textit{if(} \textit{T, } w, \textit{ prod(2, x)))} \; [ w := \textit{num}[2]] 
+	%\]
+	%\[
+	%	\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}[ w := \textit{num}[2]] , x.\textit{if(} \textit{T, } w, \textit{ prod(2, x))}[ w := \textit{num}[2]])  
+	%\]
+	%\[
+	%	\textit{let(prod(sum(w, num}[1])[ w := \textit{num}[2]], \textit{num}[2][ w := \textit{num}[2]] \textit{)}, x.\textit{if(} \textit{T}[ w := \textit{num}[2]], w \ [ w := \textit{num}[2]], \textit{ prod(}num[2], x)[ w := \textit{num}[2]] ))  
+	%\]
+	%\[
+	%	\textit{let(prod(sum(}w[ w := \textit{num}[2]], num[1][ w := \textit{num}[2]]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{T}, \ num[2], \textit{ prod(num}[2][ w := \textit{num}[2]], \  x[ w := \textit{num}[2]]))) 
+	%\]
+	%\[
+	%	\textit{let(prod(sum(}\textit{num}[2], num[1]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{T}, \ num[2], \textit{ prod(num}[2], \  x))) 
+	%\]
+	%\[ 
+	%	\scalemath{0.9}{
+	%		\textit{let(prod(sum(num}[2], \textit{num}[1]), \textit{num}[2]), x.\textit{if(} \textit{T, }  \textit{num}[2], \textit{ prod(num}[2], x))
+	%	}
+	%\]
 
 \noindent
 \begin{center}
- \scalemath{0.83}{
+ \scalemath{0.55}{
 \begin{minipage}{0.5cm}
 \flushleft{
 	\rotatebox{90}{
-		\parbox{19cm}{
-  			$\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}, x.\textit{if(} \textit{ T, } w, \textit{ prod(2, x))} \; [ w := \textit{num}[2]]$
+		\parbox{20cm}{
+  			$\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}, x.\textit{if(} \textit{T, } w, \textit{ prod(2, x)))} \; [ w := \textit{num}[2]]$
 		}
 	}
 }
 \end{minipage}
-\hspace{2cm}
+\hspace{1.5cm}
 \begin{minipage}{0.5cm}
 \flushleft{
 	\rotatebox{90}{
-		\parbox{19cm}{
-  			$\textit{let(prod(sum(w, num}[1] ),  \textit{num}[2]) \; [w := \textit{num}[2]], x.\textit{if(} \textit{ T, } w, \textit{ prod(num}[2], x)) \; [w := \textit{num}[2]] )$
+		\parbox{20cm}{
+  			$\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}[ w := \textit{num}[2]] , x.\textit{if(} \textit{T, } w, \textit{ prod(2, x))}[ w := \textit{num}[2]])$
 		}
 	}
 }
 \end{minipage}
-\hspace{2cm}
+\hspace{1.5cm}
 \begin{minipage}{0.5cm}
 \flushleft{
 	\rotatebox{90}{
-		\parbox{19cm}{
-  			$\textit{let(prod(sum(w, num[1])} [w := \textit{num}[2]], 2 [\textit{var}[w] := 2]), x.\textit{if(} \textit{ T} [w := num[2]], w [w := \textit{num}[2]], \textit{ prod(num}[2], x\textit{)}[w := \textit{num}[2]] ))$
+		\parbox{20cm}{
+			  $\textit{let(prod(sum(w, num}[1])[ w := \textit{num}[2]], \textit{num}[2][ w := \textit{num}[2]] \textit{)}, x.\textit{if(} \textit{T}[ w := \textit{num}[2]], w[ w := \textit{num}[2]], \textit{ prod(}num[2], x)[ w := \textit{num}[2]] )) $
 		}
 	}
 }
 \end{minipage}
-\hspace{2cm}
+\hspace{1.5cm}
 \begin{minipage}{0.5cm}
 \flushleft{
 	\rotatebox{90}{
-		\parbox{19cm}{
-			  $\textit{let(prod(sum(} w [w := \textit{num}[2]] , \textit{num}[1] [w := \textit{num}[2]] ), \textit{num}[2]), x.\textit{if(} \textit{ T, } \textit{num}[2], \textit{ prod(num}[2] [w := \textit{num}[2]], x [w := \textit{num}[2]])))$
+		\parbox{20cm}{
+ 			 $\textit{let(prod(sum(}w[ w := \textit{num}[2]], num[1][ w := \textit{num}[2]]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{T}, \ num[2], \textit{ prod(num}[2][ w := \textit{num}[2]], \  x[ w := \textit{num}[2]]))) $
 		}
 	}
 }
 \end{minipage}
-\hspace{2cm}
+\hspace{1.5cm}
 \begin{minipage}{0.5cm}
 \flushleft{
 	\rotatebox{90}{
-		\parbox{19cm}{
- 			 $\textit{let(prod(sum(num}[2], \textit{num}[1]), \textit{num}[2]), x.\textit{if( } \textit{ T, }  \textit{num}[2], \textit{ prod(num}[2], x)))$
+		\parbox{20cm}{
+ 			 $\textit{let(prod(sum(}\textit{num}[2], num[1]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{T}, \ num[2], \textit{ prod(num}[2], \  x))) $
 		}
 	}
 }
 \end{minipage}
 }
 \end{center}
+\end{exercise}
 
    
 
@@ -668,7 +688,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     \begin{exercise}
         Proporciona el árbol de sintaxis abstracta para la siguiente expresión \texttt{if}
         \[
-            \texttt{if(} \texttt{true} \texttt{ then } (\texttt{if(}  \texttt{false} \texttt{ then } 0)) \texttt{ else } (2 * 7) - 1 \texttt{)}
+            \texttt{if } \texttt{true} \texttt{ then } (\texttt{if }  \texttt{false} \texttt{ then } (0) \texttt{ else 1}) \texttt{ else } (2 * 7) - 1
         \]
     \end{exercise}
 
@@ -677,7 +697,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     \begin{exercise}
         La siguiente expresión ¿es una expresión correcta de nuestro lenguaje? Explica por que si o porque no de acuerdo a las reglas de sintaxis concreta definidas.
         \[
-            \texttt{if(} \top \texttt{ then } \texttt{ let } x = \text{True} \texttt{ in} \texttt{ if(} x \texttt{ then } \bot \texttt{)} \texttt{ end} \text{)}
+            \texttt{if } \top \texttt{ then } \texttt{ let } x = \text{True} \texttt{ in} \texttt{ if } x \texttt{ then } \bot \texttt{ end} 
         \]
     \end{exercise}
 
@@ -687,11 +707,11 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         Dada la siguiente expresión \texttt{let} definida como:
         \begin{align*}
         	e_1=_{\text{def}}\texttt{let  }
-        		x&= \texttt{let }x = 2 \texttt{ in } \texttt{ let } y = 3 \texttt{ in } y + x \texttt{ end } \texttt{end}
+        		x&= \texttt{let }x = 2 \texttt{ in } \texttt{let } y = 3 \texttt{ in } y + x \texttt{ end } \texttt{end}
         		\texttt{ in }\\
         		 &\texttt{let }y=(x \ast 2) \ast 19 
         		 	\texttt{ in } \\
-        		 & \qquad(x + y) \ast \texttt{let } z = \texttt{ let } v = 8 \texttt{ in } z \texttt{ end} \texttt{ in } 
+        		 & \qquad(x + y) \ast \texttt{let } z = \texttt{ let } v = 8 \texttt{ in } 1 \texttt{ end} \texttt{ in } 
         		 						(y + z) \ast v 
         		 				\texttt{ end }\\
         		 &\texttt{ end }\\
@@ -719,16 +739,16 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     \begin{exercise}
          Desarrolla la siguiente sustitución, en caso de ser inválida explica por qué.
          \[
-        (\texttt{ let } z = 3 \texttt{ in } (w + z) + \texttt{ if(} \texttt{true} \texttt{ then } (45) \texttt{ else } y \texttt{) } \texttt{end }) [y:=7]
+        (\texttt{let } z = 3 \texttt{ in } (w + z) + \texttt{ if} \texttt{ true} \texttt{ then } (45) \texttt{ else } y \texttt{ end}) [y:=7]
          \]
     \end{exercise}
 
     \bigskip
     
     \begin{exercise}
-        Desarrolla la siguiente sustitución paso por paso, en caso de ser inválida explica por qué. 
+        Desarrolla la siguiente sustitución, en caso de ser inválida explica por qué. 
         \[
-            (\texttt{ let } z = 3 \texttt{ in } (w + z) + \texttt{ if (} \texttt{true} \texttt{ then } (45) \texttt{ else } y \texttt{)} \texttt{ end }) [y:=z+7]
+            (\texttt{let } z = 3 \texttt{ in } (w + z) + \texttt{ if} \texttt{ true} \texttt{ then } (45) \texttt{ else } y  \texttt{ end}) [y:=z+7]
         \]
     \end{exercise}
 
@@ -744,7 +764,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     De acuerdo a la especificación discutida anteriormente, contesta los siguiente incisos: \\
     \begin{itemize}
         \item Define las reglas de la sintaxis concreta de la gramática.
-        \item Define las reglas de sintaxis abstracta para la gramática (Es necesario especificar el alcance de ligado de las variables de la función con un \textit{ASA} similar a $x.e$).
+        \item Define las reglas de sintaxis abstracta para la gramática (es necesario especificar el alcance de ligado de las variables de la función con un \textit{ASA} similar a $x.e$).
         \item Escribe las reglas del análisis sintáctico  para la relación $e \ \longleftrightarrow\ ASA$ del lenguaje.
         \item Define la función de sustitución para este lenguaje. \\\\
         La relación de $\alpha$-equivalencia en este lenguaje se define con respecto al operador $fun$:
