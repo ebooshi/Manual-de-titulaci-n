@@ -28,10 +28,10 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
 
     Esta nivel sintáctico está pensado para el usuario final, es decir una persona. Es por esto que a esta capa se le denomina de ''alto nivel'' dado que es un ser humano y no una computadora quien se requiere pueda leer y escribir programas siguiendo las reglas de construcción del lenguaje en cuestión\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{76}{[76]}}.
 
-\begin{definition}[Definición sintaxis concreta para expresiones aritméticas de EAB]]\footnote{Comenzaremos definiendo las operaciones aritméticas e iremos extendiendo las operaciones booleanas con las constantes \texttt{true}, \texttt{false} y los operadores \texttt{if}, \texttt{else} mas adelante en este capítulo.}  En su representación como una gramática libre de contexto\footnote{Definición de \hyperlink{12}{[12]}.}.
+\begin{definition}[Definición de sintaxis concreta para expresiones aritméticas de \textsf{EAB}]\footnote{Comenzaremos definiendo las operaciones aritméticas e iremos extendiendo las operaciones booleanas con las constantes \texttt{true}, \texttt{false} y los operadores \texttt{if}, \texttt{else} mas adelante en este capítulo.}  Representación de \textsf{EAB} como una gramática de libre de contexto\footnote{Definición de \hyperlink{12}{[12]}.}.
     \[
     \begin{array}{rll}
-        e & ::= & t \quad |\quad e + t \\
+        e & ::= & t \quad |\quad e + t \quad  | \quad e - t\\
         t & ::= & f \quad |\quad t * f \\
         f & ::= & n \quad |\quad (e)\\
         n & ::= & d \quad |\quad nd \\
@@ -56,7 +56,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
 
     %De forma equivalente, la gramática previamente mostrada tiene una representación en un conjunto de juicios lógicos.
      
-     \begin{definition}[Definición de la sintaxis concreta para expresiones ariméticas de EAB] En su representación como juicios lógicos\footnote{ Definición de \hyperlink{12}{[12]}.}: 
+     \begin{definition}[Definición de la sintaxis concreta para expresiones ariméticas de EAB] En su representación como juicios lógicos\footnote{ Definición extraída de \hyperlink{12}{[12]}.}: 
         \[
             \begin{array}{cccc}
             \inference{}{0\;{\text{D}}}&
@@ -77,7 +77,10 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
             \inference{t\;{\sf \text{T}}&f\;{\sf \text{F}}}{t*f\;{\sf \text{T}}}\\
             &\\
             \inference{t\;{\sf \text{T}}}{t\;{\sf \text{E}}}&
-            \inference{e\;{\sf \text{E}}&t\;{\sf \text{T}}}{e+t\quad{\sf \text{E}}}
+            \inference{e\;{\sf \text{E}}&t\;{\sf \text{T}}}{e+t\quad{\sf \text{E}}}\\
+	     &\\
+            \inference{t\;{\sf \text{T}}}{t\;{\sf \text{E}}}&
+            \inference{e\;{\sf \text{E}}&t\;{\sf \text{T}}}{e-t\quad{\sf \text{E}}}
             \end{array}
         \]
     \end{definition}
@@ -87,16 +90,21 @@ A las expresiones de \textsf{EAB} formuladas a partir de la sintaxis concreta, l
 
     La sintaxis abstracta, como su nombre indica, se relaciona con la abstracción de la estructura del lenguaje y comúnmente es definida mediante reglas de inferencia para construir un árbol sintáctico. Donde cada nodo corresponde a una instrucción ó operador
      y los hijos a los parámetros que recibe dicha instrucción\footnote{Definición formulada a partir de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{77}{[77]}, \hyperlink{78}{[78]} y \hyperlink{79}{[79]}.}. \\\\
-    Las hojas de los árboles sintácticos corresponden a los valores de los tipos primitivos del lenguaje (enteros, booleanos, caracteres, etc.). En este capítulo vamos a denotar a un árbol de sintaxis abstracta como ''\textit{ASA}''.\\\\
+    Las hojas de los árboles sintácticos corresponden a los valores de los tipos primitivos del lenguaje (enteros, booleanos, caracteres, etc.) En este capítulo vamos a denotar a un árbol de sintaxis abstracta como ''\textit{ASA}''.\\\\
     Los árboles sintácticos son útiles para definir la jerarquía de las operaciones a realizar durante la evaluación de una expresión bien formada y eliminar la ambigüedad del mismo, dado que un árbol de sintaxis abstracta es único sin importar la representación que una expresión tenga en sintaxis concreta.
     %Como mencionamos, existe una representación en sintaxis abstracta para cada expresión bien formada de nuestro lenguaje \textsf{EAB}. Vamos a denotar como ''\textit{ASA}'' a dicha estructura, la cual está definida por el siguiente conjunto de reglas que nos permiten construir el árbol sintáctico correspondiente a dicha expresión. \\
 
     \begin{definition}
-        Sintaxis abstracta de \textsf{EAB}\footnote{Esta definición fue acuñada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
+       [Sintaxis abstracta de \textsf{EAB}]\footnote{Esta definición fue acuñada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
         \[
-            \begin{array}{ccc}
+            \begin{array}{cccc}
                 \inference{n\in\N}{num[n]\;\textit{ASA}}&
                 \inference{t_1\;\textit{ASA}&t_2\;\textit{ASA}}{sum(t_1,t_2)\;\textit{ASA}}&
+			\inference{t_1\;\textit{ASA}&t_2\;\textit{ASA}}{res(t_1,t_2)\;\textit{ASA}}
+            \end{array}
+        \]
+        \[
+            \begin{array}{c}
                 \inference{t_1\;\textit{ASA}&t_2\;\textit{ASA}}{prod(t_1,t_2)\;\textit{ASA}}
             \end{array}
         \]
@@ -109,10 +117,10 @@ A las expresiones de \textsf{EAB} formuladas a partir de la sintaxis concreta, l
     Al proceso mediante el cual se obtiene el árbol de sintaxis abstracta de una expresión en sintaxis concreta se le conoce como análisis sintáctico. Es importante notar que no siempre será posible encontrar el árbol de sintaxis abstracta.\\\\
     De tal forma que el objetivo ahora será definir formalmente la relación entre ambos niveles donde el siguiente juicio es válido:\footnote{La definición de esta relación fue formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}, se refiere a las siguientes publicaciones para un estudio en profundidad sobre los niveles sintácticos de los lenguajes de programación: \hyperlink{76}{[76]}, \hyperlink{77}{[77]}, \hyperlink{78}{[78]} y \hyperlink{79}{[79]}}
             \[ e\  E \longleftrightarrow a\ ASA \]
-    Esta relación se interpreta como: ''a es el árbol de sintaxis abstracta asociado a la expresión e'' (y viceversa). Definimos entonces las reglas para implementar este proceso en \textsf{EAB} como sigue:
+    Esta relación se interpreta como válida si y solo sí $a$ es el árbol de sintaxis abstracta asociado a la expresión $e$. Definimos entonces las reglas para implementar este proceso en \textsf{EAB} como sigue:
 
     \begin{definition}
-        Analizador sintáctico para expresiones de lenguaje de EAB\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
+        [Analizador sintáctico para expresiones de lenguaje de EAB]\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
         \[
             \begin{array}{ccc}
                 \inference{e\;{\sf N}&e\in\N}{e\;{\sf F}\longleftrightarrow num[e]\;\textit{ASA}}[\textit{(num)}]&
@@ -125,25 +133,26 @@ A las expresiones de \textsf{EAB} formuladas a partir de la sintaxis concreta, l
                 &&\\
                 \inference{e\;{\sf T}\longleftrightarrow a\;\textit{ASA}}{e\;{\sf E}\longleftrightarrow a\;\textit{ASA}}[\textit{(exprE)}]&
                 \quad&
-                \inference{e_1\;{\sf E}\longleftrightarrow a_1\;\textit{ASA}&e_2\;{\sf T}\longleftrightarrow a_2\;\textit{ASA}}{e_1+e_2\;{\sf T}\longleftrightarrow sum(a_1,a_2)\;\textit{ASA}}[\textit{(sum)}]
+                \inference{e_1\;{\sf E}\longleftrightarrow a_1\;\textit{ASA}&e_2\;{\sf T}\longleftrightarrow a_2\;\textit{ASA}}{e_1+e_2\;{\sf T}\longleftrightarrow sum(a_1,a_2)\;\textit{ASA}}[\textit{(sum)}]\\\\
+		&& \inference{e_1\;{\sf E}\longleftrightarrow a_1\;\textit{ASA}&e_2\;{\sf T}\longleftrightarrow a_2\;\textit{ASA}}{e_1-e_2\;{\sf T}\longleftrightarrow res(a_1,a_2)\;\textit{ASA}}[\textit{(res)}]
             \end{array}
         \]
     \end{definition}
 
-    En general el analizador sintáctico de un lenguaje de programación debe de proveer con un a $ASA$ a todas las expresiones del mismo y este debe de ser libre de ambigüedad. Formalmente, para \textsf{EAB}, esto se representa como:
+    En general el analizador sintáctico de un lenguaje de programación debe de proveer con un $ASA$ a todas las expresiones del mismo y este debe de ser libre de ambigüedad. Formalmente, para \textsf{EAB}, esto se representa como:
 \begin{itemize}
 	\item $\forall \ e\ E \ \exists \ a \ ASA$.
-	\item sí $e \ E \longleftrightarrow a_1 \ ASA$ y $e \ E \longleftrightarrow a_2 \ ASA $ entonces $a_1 = a_2$.
+	\item Sí $e \ E \longleftrightarrow a_1 \ ASA$ y $e \ E \longleftrightarrow a_2 \ ASA $ entonces $a_1 = a_2$.
 \end{itemize}
 
 \subsection{El operador \texttt{if}}
     Ahora queremos extender \textsf{EAB} agregando instrucciones booleanas que permitan tener condicionales en nuestras expresiones de lenguaje. \\\\
-El objetivo es introducir las constantes \texttt{true} y \texttt{false} y el operador \texttt{if}  \texttt{then} \texttt{else}. Tomando en cuenta el parentizado de expresiones para evitar condiciones de ''else colgante''\footnote{Éste problema es conocido en inglés como ''$dangling\ else$'' recurrente en la implementación de \textit{parsers} en el que una cláusula else opcional en una declaración if-then(-else) da como resultado que los condicionales anidados sean ambiguos. \hyperlink{90}{[90]}} y la ambigüedad que deriva de no marcar el alcance de las condicionales.\\\\
+El objetivo es introducir las constantes \texttt{true} y \texttt{false} y el operador \texttt{if}  \texttt{then} \texttt{else}. Tomando en cuenta el parentizado de expresiones para evitar condiciones de ''else colgante''\footnote{Este problema es conocido en inglés como ''$dangling\ else$'' recurrente en la implementación de \textit{parsers} en el que una cláusula else opcional en una declaración if-then(-else) da como resultado que los condicionales anidados sean ambiguos. \hyperlink{90}{[90]}} y la ambigüedad que deriva de no marcar el alcance de las condicionales.\\\\
 Para este propósito, marcaremos con paréntesis la expresión inmediata a evaluar después del marcador \texttt{then}.
 
     
     \begin{exercise}        
-        Define la sintaxis concreta para extender nuestro lenguaje \textsf{EAB} con las instrucciones lógicas previamente discutidas\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }
+        Define la sintaxis concreta para extender nuestro lenguaje \textsf{EAB} con las instrucciones lógicas previamente discutidas%\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }
         \[ 
             \inference{}{\texttt{true} \text{ B}} \quad \inference{}{\texttt{false} \text{ B}}
         \]
@@ -172,7 +181,7 @@ Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo
 %        \]
     
     \begin{exercise}
-        Define los juicios que componen la sintaxis abstracta para el operador \texttt{If}\\
+        Define los juicios que componen la sintaxis abstracta para el operador \texttt{if}\\
         \[
             \inference{\texttt{true} \text{ B} }{\textit{T} \textit{ ASA}} \quad
             \inference{\texttt{false} \text{ B} }{\textit{F} \textit{ ASA}}
@@ -212,7 +221,7 @@ Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo
     \[\texttt{let } \textit{ x } \text{=} \textit{ $e_1$ } \texttt{in} \textit{ $e_2$ }  \texttt{end}\]
 
     Donde las apariciones de la variable \textit{x} serán sustituidas por $e_1$ en $e_2$.\\\\
-    Para definir al operador \texttt{let} en \textsf{EAB}, se tienen que definir los juicios lógicos para la sintaxis concreta y abstracta. Así como una categoría nueva para los identificadores de variables que en conjunto introducen un nuevo concepto, el de ligado de variable.\\\\
+    Para definir al operador \texttt{let} en \textsf{EAB}, se tienen que definir los juicios lógicos para la sintaxis concreta y abstracta. Así como una categoría nueva para los identificadores de variables que en conjunto introducen el concepto de ligado de variable.\\\\
 Definamos entonces la sintaxis concreta de la nueva instrucción como sigue.
     \begin{exercise}
         Proporciona las sintaxis concreta para agregar la instrucción \texttt{let} de tal forma que sea congruente con las especificación mencionada anteriormente\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} }.
@@ -270,18 +279,18 @@ La sintaxis abstracta de orden superior, abstrae el ligado como parte del metale
 
     \begin{exercise}
         Obtén la representación en sintaxis abstracta partiendo de la sintaxis concreta de las siguiente expresión: \\\\
-        \texttt{let} $y$ = \texttt{if} \texttt{true} \texttt{then} (1) \texttt{else} 0 \texttt{in} \texttt{if} $x$ \texttt{then} (\texttt{false}) \texttt{end}\\
+        \texttt{let} $y$ = \texttt{if} \texttt{true} \texttt{then} (1) \texttt{else} 0 \texttt{in} \texttt{if} $x$ \texttt{then} (\texttt{false}) \texttt{else true} \texttt{end}\\
         \[
-            \textit{let(if(T, num[1], num[0]), $y$.if($x$, F))\ ASA}
+            \textit{let(if(T, num[1], num[0]), $y$.if($x$, F, T))\ ASA}
         \]
     \end{exercise}
 
     \begin{exercise}
         Obtén la representación en sintaxis abstracta partiendo de la sintaxis concreta de las siguiente expresión: \\
         
-        \texttt{let $x$ = false} \texttt{in} \texttt{if} $x$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} 4)) \texttt{else false} \texttt{end}\\
+        \texttt{let $x$ = false} \texttt{in} \texttt{if} $x$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} (4) \texttt{else} 1) \texttt{else} 0) \texttt{else false} \texttt{end}\\
         \[
-            \textit{let(F, x.if(x, if($\alpha$, if($\alpha$, num[4])), F)) ASA}
+            \textit{let(F, x.if(x, if($\alpha$, if($\alpha$, num[4], 1), 0), F)) ASA}
         \]        
     \end{exercise}
 
@@ -291,8 +300,8 @@ La sintaxis abstracta de orden superior, abstrae el ligado como parte del metale
     
     La introducción de nuestro nuevo operador \texttt{let} acarrea consigo la definición de ligado de una variable, variable ligada\footnote{Aún que los nombres son similares ligado de una variable y variable ligada corresponden a dos definiciones distintas.}, variable libre y la definición de la función de sustitución junto con la función para obtener variables libres de una expresión, mismas que serán mostradas a continuación y serán de utilidad para resolver el resto de los ejercicios presentes en este capítulo.\\
     
-    \begin{definition}[Variable de Ligado]  La instancia de ligado de una variable es aquella que da a esta su valor. Es decir, es la aparición de la variable en donde esta es definida\footnote{Definición formulada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}. \\\\
-    De tal forma que si tenemos la siguiente expresión: \[ \texttt{let } \setulcolor{red}\textit{\ul{x}} = e_1 \texttt{ in } e_2 \texttt{ end } \] Decimos que $x$ es la variable de ligado \textit{x} en la expresión \texttt{let}.
+    \begin{definition}[Variable de ligado]  La instancia de ligado de una variable es aquella que da a esta su valor. Es decir, es la aparición de la variable en donde esta es definida\footnote{Definición formulada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}. \\\\
+    De tal forma que si tenemos la siguiente expresión: \[ \texttt{let } \setulcolor{red}\textit{\ul{x}} = e_1 \texttt{ in } e_2 \texttt{ end } \] Decimos que $x$ es la variable de ligado en la expresión \texttt{let}.
     \end{definition}
 
     \begin{definition}[Variable ligada] Una variable está ligada si se encuentra contenida dentro del alcance de una variable de ligado con su nombre\footnote{Definición formulada de \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}.\\\\
@@ -354,8 +363,6 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
    
     \end{exercise}
 
-\newpage
-
     \begin{exercise}
     Por cada expresión \texttt{let} en $e$ escribe la variable de ligado, el alcance y las instancias ligadas.
     
@@ -393,7 +400,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
    \bigskip
 
 \begin{center}
- \scalemath{0.73}{
+ \scalemath{0.55}{
 \begin{turn}{90}
 \begin{tabular}{ |p{7.2cm}|p{5.7cm}|p{6.5cm}|p{6.5cm}|  }
  		\hline
@@ -513,8 +520,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     Esta definición resulta de utilidad para trabajar con expresiones que necesiten ser renombradas a lo más en sus variables ligadas para poder aplicar la sustitución sobre dicha expresión cuando haya un conflicto ocasionado por los identificadores. \\\\
     A continuación definimos la función de sustitución aplicada a expresiones pertenecientes a nuestro lenguaje \textsf{EAB}.
 
-
-    \begin{definition}Función de sustitución: se define la función de sustitución\footnote{Esta definición está formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]} adaptada para las instrucciones que hemos revisado hasta este momento para \textsf{EAB}.} sobre los árboles de sintaxis abstracta de \textsf{EAB}:
+    \begin{definition}[Función de sustitución para \textsf{EAB}] Se define la función de sustitución\footnote{Esta definición está formulada a partir de \hyperlink{1}{[1]}, \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y \hyperlink{12}{[12]} adaptada para las instrucciones que hemos revisado hasta este momento para \textsf{EAB}.} sobre los árboles de sintaxis abstracta de \textsf{EAB}:
         \[
             \begin{array}{lclr}
                 x[x :=e]&=&e&\\
@@ -523,7 +529,8 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 	     \textit{F}\; [z:=e] &=& \textit{F}\\
                 num[n][x:=e]&=&num[n]&\\
                 sum(a_1,a_2)[x:=e]&=&sum(a_1[x:=e],a_2[x:=e])&\\
-                prod(a_1,a_2)[x:=e]&=&prod(a_1[x:=e],a_2[x:=e])&\\
+                res(a_1,a_2)[x:=e]&=&res(a_1[x:=e],a_2[x:=e])&\\
+			prod(a_1,a_2)[x:=e]&=&prod(a_1[x:=e],a_2[x:=e])&\\
                 let(a_1,a_2)[x:=e]&=&let(a_1[x:=e],a_2[x:=e])&\\
                 %if(a_1,a_2)[x:=e]&=&if(a_1[x:=e],a_2[x:=e])&\\
                 if(a_1,a_2,a_3)[x:=e]&=&if(a_1[x:=e],a_2[x:=e],a_3[x:=e])&\\
@@ -534,17 +541,33 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     \end{definition} 
 
     \begin{exercise}
-        Proporciona una expresión $\alpha$-equivalente a la siguiente expresión: \\
-	$\texttt{let } x = \texttt{let } y = \texttt{false } \texttt{ in } \texttt{\texttt{ if } (y \texttt{then} 1 \texttt{else} 0)} \texttt{ in } (x + 2) * w \texttt{ end}$\\\\
-	La $\alpha$-equivalencia se aplica únicamente sobre las variables ligadas, resultando en la siguiente expresión:\\
-	$\equiv_{\alpha} \texttt{let } k = \texttt{let } j = \texttt{false } \texttt{ in } \texttt{\texttt{ if } (j \texttt{then} 1 \texttt{else} 0)} \texttt{ in } (k + 2) * w \texttt{ end} $
+        Proporciona una expresión $\alpha$-equivalente a la siguiente expresión: 
+	%$\texttt{let } x = \texttt{let } y = \texttt{false } \texttt{ in } \texttt{\texttt{ if } y \texttt{then} (1) \texttt{else} 0} \texttt{ in } (x + 2) * w \texttt{ end}$
+	\begin{align*}
+		\texttt{let  } x = & \texttt{ let } y = \texttt{false} \texttt{ in } \\ 
+    		 				   & \qquad \texttt{ if } y \texttt{ then } (1) \texttt{ else } 0\\
+						   & \texttt{ end}\\
+         \texttt{in} & \\
+           				   &  (x + 2) * w\\
+          \texttt{end}&
+    \end{align*}
+
+	La $\alpha$-equivalencia se aplica únicamente sobre las variables ligadas, resultando en la siguiente expresión:
+		\begin{align*}
+		\texttt{let  } k = &\texttt{ let } j = \texttt{false} \texttt{ in } \\ 
+    		 				   & \qquad \texttt{ if } j \texttt{ then } (1) \texttt{ else } 0\\
+						   &\texttt{ end}\\
+         \texttt{in }& \\
+           				   &  (k + 2) * w\\
+          \texttt{end}&
+    \end{align*}
     \end{exercise}
 
 
     \begin{exercise}
         Proporciona una expresión $\alpha$-equivalente a la expresión $e$ definida en el ejercicio 3.7.
         \begin{align*}
-        	e_\alpha = \texttt{let  }
+        	e_\alpha = \texttt{ let  }
         		a&= \texttt{let }d = (2 + 4) \texttt{ in } d+1 \texttt{ end }
         		\texttt{ in }\\
         		 &\texttt{let }b=(a \ast 2)+a 
