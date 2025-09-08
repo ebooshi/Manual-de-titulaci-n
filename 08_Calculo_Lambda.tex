@@ -12,7 +12,7 @@
 
 %Introducción
 Cuando pensamos en las bases que sentaron los modelos de cómputo modernos podemos inmediatamente asociarlo con las máquinas de Turing, un sistema de transición que se ha estudiado con anterioridad en materias como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } siendo el más reconocido cuando se habla de conceptos como: ''computabilidad'', ''algoritmo'' o ''complejidad'', términos apenas formalizados en 1936.\\\\
-En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alonzo Church nos introduce en 1928 a su aproximación de un sistema formal basado en el concepto de ''función'' con las primitivas de ''abstracción'' y ''aplicación'' que fungiría como fundamento lógico para sustituir la teoría de conjuntos de Zermelo-Fraenkel y la teoría de tipos de Russell. Este sistema fue demostrado como inconsistente por sus dos alumnos Stephen Kleene y Barkley Rosser pero no todo sería desechado, conservando la parte del manejo de funciones particularmente rica, consistente y sorprendentemente equivalente al modelo de Alan Turing. A este modelo se le conoce como Cálculo Lambda\footnote{Extraído de  \hyperlink{108}{[108]}}.\\
+En este curso estudiaremos un modelo equivalente de cómputo, es aquí donde Alonzo Church nos introduce en 1928 a su aproximación de un sistema formal basado en el concepto de ''función'' con las primitivas de ''abstracción'' y ''aplicación'' que fungiría como fundamento lógico para sustituir la teoría de conjuntos de Zermelo-Fraenkel y la teoría de tipos de Russell. Este sistema fue demostrado como inconsistente por sus dos alumnos Stephen Kleene y Barkley Rosser pero no todo sería desechado, conservando la parte del manejo de funciones que se demostró equivalente al modelo de Alan Turing. A este sistema se le conoce como Cálculo Lambda\footnote{Extraído de  \hyperlink{108}{[108]}}.\\
 
 
 \subsubsection{Objetivo}
@@ -28,12 +28,12 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
 \section{Sintaxis del Cálculo Lambda}
     El Cálculo Lambda es un modelo simple, su sintaxis comprende sólo tres categorías de términos\footnote{Definición extraída de \hyperlink{108}{[108]},  \hyperlink{109}{[109]} y \hyperlink{110}{[110]}}:
     \begin{itemize}
-        \item \textbf{Variables:} los elementos de esta categoría pertenecen a un conjunto infinito de letras minúsculas, generalmente las últimas del alfabeto (y en ocasiones pueden estar numeradas, algunos ejemplos pueden ser: x, y, z, $x_1$, $z_2$, etc.) y son las expresiones lambda más simples.\\
+        \item \textbf{Variables:} los elementos de esta categoría pertenecen a un conjunto infinito de letras minúsculas, generalmente las últimas del alfabeto (y en ocasiones pueden estar numeradas, algunos ejemplos pueden ser: $x$, $y$, $z$, $x_1$, $z_2$, etc.) y son las expresiones lambda más simples.\\
         \item \textbf{Abstracciones:} esta categoría engloba los términos que definen a las funciones anónimas, compuestas por tres elementos: el primero es la letra griega ''$\lambda$'', el segundo es la variable que estará ligada en el cuerpo de la expresión y por último el cuerpo mismo de la función denotado como $e$, estas se representan de la forma ''$\lambda x.e$''.\\
         \item \textbf{Aplicación:} esta categoría engloba a las expresiones que representan la aplicación de un argumento a una función ''$e_1\,e_2$'', donde $e_1$ es la definición de una función anónima y $e_2$ es el argumento  con el que se evaluará dicha función. La aplicación es asociativa a la izquierda de modo que una expresión como $e_1\ e_2\ e_3 $ se interpreta como $(e_1 e_2) e_3$.
     \end{itemize}
 
-    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $e \; \lambda term$ que indica que $e$ es una expresión válida en el Cálculo Lambda. A estas expresiones las denominaremos  $\lambda-$expresiones\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{108}{[108]}, \hyperlink{109}{[109]}}.
+    \begin{definition}[Sintaxis concreta del Cálculo Lambda] Definimos el juicio $e \; \lambda term$ que indica que $e$ es una expresión válida de acuerdo a la sintaxis del Cálculo Lambda. A este tipo de términos los denominaremos  $\lambda-$expresiones\footnote{Definición extraída de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{108}{[108]}, \hyperlink{109}{[109]}}.
     
         \[
             \begin{array}{ccccc}
@@ -49,33 +49,33 @@ Finalmente se introducirá el sistema de recursión para el Cálculo Lambda con 
     \begin{exercise}
         Para las siguientes $\lambda-$expresiones anota a la derecha a que categoría de la sintaxis del Cálculo Lambda corresponde dicho término.
        \begin{center}
-          \begin{tabular}{ c c c }
+          \begin{tabular}{ c c }
 
-            caso 1) & $x$ 			  	 	  & \text{variable} \\ 
-            caso 2) & $y$		 	 	 	  & \text{variable}  \\
-            caso 3) & $\lambda x.x$	  		  & \text{función anónima} \\
-            caso 4) & $\lambda x.y$   	  		  & \text{función anónima}  \\
-            caso 5) & ($\lambda x.x)v$  	    	  & \text{aplicación} \\
-            caso 6) & ($\lambda x.x)v'$	 	 	  & \text{aplicación} \\
-            caso 7) & $\lambda x.\lambda y.xy$           & \text{función anónima}\\
-            caso 8) & $x(\lambda x.y)$ 			  & \text{aplicación}\\
-            caso 9) & $(\lambda x.x)(\lambda y.y)$     &  \text{aplicación}	
+             $x$ 			  	 	  & \text{variable} \\ 
+             $y$		 	 	 	  & \text{variable}  \\
+             $\lambda x.x$	  		  & \text{función anónima} \\
+             $\lambda x.y$   	  		  & \text{función anónima}  \\
+             ($\lambda x.x)v$  	    	  & \text{aplicación} \\
+             ($\lambda x.x)v'$	 	 	  & \text{aplicación} \\
+             $\lambda x.\lambda y.xy$           & \text{función anónima}\\
+             $x(\lambda x.y)$ 			  & \text{aplicación}\\
+             $(\lambda x.x)(\lambda y.y)$     &  \text{aplicación}	
  
         \end{tabular}
       \end{center}
     \end{exercise}
 
-    En el ejemplo anterior, el tercer caso corresponde a la función identidad que regresa el mismo argumento que recibe. El cuarto caso corresponde a la función constante que siempre regresa el mismo valor sin importar el argumento que recibe. El séptimo caso es la ilustración de como se puede anidar dos funciones anónimas para construir una sola de dos parámetros\footnote{A este proceso se le conoce como ''currificación'' en honor a Haskell Curry y nos permite anidar tantas funciones como parámetros necesitemos.}. 
+    En el ejemplo anterior, el tercer caso corresponde a la función identidad que regresa el mismo argumento que recibe. El cuarto corresponde a la función constante que siempre regresa el mismo valor y el séptimo es un ejemplo de como se puede anidar dos funciones anónimas para construir una sola de dos parámetros\footnote{A este proceso se le conoce como ''currificación'' en honor a Haskell Curry y nos permite anidar tantas funciones como parámetros necesitemos.}. 
 
 \section{$\alpha$-equivalencia en el Cálculo Lambda}
 
-    En el Cálculo Lambda se tiene un constructor similar al operador \textsf{let} que tiene una variable ligada, un alcance asociado a ella y con esto el concepto de $\alpha$-equivalencia fue introducido para expresiones que difieren a lo más en el nombrado de sus variables ligadas. 
+    En el Cálculo Lambda se tiene un constructor similar al operador \textsf{let} que tiene una variable ligada y un alcance asociado a ella. Esto nos permite definir la $\alpha$-equivalencia para expresiones que difieren a lo más en el nombrado de sus variables ligadas. 
     \begin{definition}[$\alpha$-equivalencia en el Cálculo Lambda]  Dos $\lambda-$expresiones $e_1$ y $e_2$ son $\alpha$-equivalentes si y sólo si solo difieren a lo mas en el nombre de las variables ligadas\footnote{Definición extraída de  \hyperlink{5}{[5]}  y  \hyperlink{12}{[12]}}. Esto es denotado como: $$e_1 \equiv_{\alpha} e_2 $$
 
-     Por ejemplo, las expresiones:
+     Por ejemplo:
     \[
         \begin{array}{ccc}
-        \lambda x.x &\quad& \lambda z.z
+        \lambda x.x & y & \lambda z.z
         \end{array}
     \]
     \noindent
@@ -202,56 +202,6 @@ A la operación de sustituir los términos que concuerden con la variable del op
             \[
                 = \overline{6}
             \]
-        \end{exercise}
-
-        \subsubsection{iszero}
-        	Este operador está diseñado para regresar \textsf{True} cuando el numeral que recibe como parámetro corresponde al numeral $\overline{0}$. En caso contrario la función regresa \textsf{False} y está definida de la siguiente forma.
-        
-	\begin{definition}[Función iszero para numerales de Church]\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
-            $$\textsf{iszero} =_{def}  \; \lambda n. n\;(\lambda x.\textsf{False}) \;\textsf{True}$$
-        \end{definition}
-%https://math.stackexchange.com/questions/4583332/evaluating-iszero-function
-        \begin{exercise}
-            Utiliza las definición de la función \textsf{iszero} para evaluar la siguiente $\lambda$-expresión
-            \[
-                \textsf{iszero}  \; \overline{2}
-            \]
-            \[
-                (\lambda n. n\;(\lambda x.\textsf{False})\;\textsf{True}) \; \lambda s.\lambda z.s(s(z)) \rightarrow_\beta 
-            \]
-		\[
-			(\lambda s.\lambda z.s(s(z))) \; (\lambda x.\textsf{False}) \; \textsf{True}  \rightarrow_\beta 
-		\]
-		\[
-			(\lambda z.(\lambda x.\textsf{False})((\lambda x.\textsf{False})\:z))\; \textsf{True}  \rightarrow_\beta 
-		\]
-		\[
-			(\lambda x.\textsf{False}) ((\lambda x.\textsf{False})\:\textsf{True})  \rightarrow_\beta 
-		\]
-		\[
-			 \textsf{False}
-		\]
-            
-
-        \end{exercise}
-
-        \begin{exercise}
-            Utiliza las definición de la función \textsf{iszero} para evaluar la siguiente $\lambda$-expresión
-            \[
-                \textsf{iszero} \; \overline{0}
-            \]
-            \[
-                (\lambda n. n \; (\lambda x.\textsf{False}) \; \textsf{True}) \; \lambda s.\lambda z.z \rightarrow_\beta 
-            \]
-		\[
-			(\lambda s. \lambda z.z) \; (\lambda x.\textsf{False}) \; \textsf{True} \rightarrow_\beta 
-		\]
-		\[
-			(\lambda z.z) \; \textsf{True} \rightarrow_\beta 
-		\]
-		\[
-			\textsf{True}
-		\]
         \end{exercise}
         
 %https://stackoverflow.com/questions/29756732/how-would-the-lambda-calculus-add-numbers
@@ -409,6 +359,56 @@ Para el Cálculo Lambda es deseable entonces que los operadores anteriormente de
         \end{itemize}
    \end{center} 
 
+        \subsubsection{isZero}
+        	Este operador está diseñado para regresar \textsf{True} cuando el numeral que recibe como parámetro corresponde al numeral $\overline{0}$. En caso contrario la función regresa \textsf{False} y está definida de la siguiente forma.
+        
+	\begin{definition}[Función isZero para numerales de Church]\footnote{Definición extraída de \hyperlink{2}{[2]},  \hyperlink{5}{[5]} y \hyperlink{12}{[12]}}
+            $$\textsf{isZero} =_{def}  \; \lambda n. n\;(\lambda x.\textsf{False}) \;\textsf{True}$$
+        \end{definition}
+%https://math.stackexchange.com/questions/4583332/evaluating-isZero-function
+        \begin{exercise}
+            Utiliza las definición de la función \textsf{isZero} para evaluar la siguiente $\lambda$-expresión
+            \[
+                \textsf{isZero}  \; \overline{2}
+            \]
+            \[
+                (\lambda n. n\;(\lambda x.\textsf{False})\;\textsf{True}) \; \lambda s.\lambda z.s(s(z)) \rightarrow_\beta 
+            \]
+		\[
+			(\lambda s.\lambda z.s(s(z))) \; (\lambda x.\textsf{False}) \; \textsf{True}  \rightarrow_\beta 
+		\]
+		\[
+			(\lambda z.(\lambda x.\textsf{False})((\lambda x.\textsf{False})\:z))\; \textsf{True}  \rightarrow_\beta 
+		\]
+		\[
+			(\lambda x.\textsf{False}) ((\lambda x.\textsf{False})\:\textsf{True})  \rightarrow_\beta 
+		\]
+		\[
+			 \textsf{False}
+		\]
+            
+
+        \end{exercise}
+
+        \begin{exercise}
+            Utiliza las definición de la función \textsf{isZero} para evaluar la siguiente $\lambda$-expresión
+            \[
+                \textsf{isZero} \; \overline{0}
+            \]
+            \[
+                (\lambda n. n \; (\lambda x.\textsf{False}) \; \textsf{True}) \; \lambda s.\lambda z.z \rightarrow_\beta 
+            \]
+		\[
+			(\lambda s. \lambda z.z) \; (\lambda x.\textsf{False}) \; \textsf{True} \rightarrow_\beta 
+		\]
+		\[
+			(\lambda z.z) \; \textsf{True} \rightarrow_\beta 
+		\]
+		\[
+			\textsf{True}
+		\]
+        \end{exercise}
+
 \begin{definition}[Otros operadores aritméticos del Cálculo Lambda]
  Ahora que nos hemos familiarizado con las ideas que fundamentan a la definición de los operadores aritméticos básicos en el Cálculo Lambda, podemos definir operadores más complejos que nos permitirán componer funciones elaboradas aplicando los operadores que hemos revisado hasta este punto\footnote{Definiciones tomadas de: \hyperlink{139}{[139]} y  \hyperlink{141}{[141]} }. 
 %https://stackoverflow.com/questions/8790249/lambda-calculus-predecessor-function-reduction-steps
@@ -417,12 +417,11 @@ Para el Cálculo Lambda es deseable entonces que los operadores anteriormente de
 	\textsf{pred } n =_{def} &  \lambda n. \lambda f. \lambda x. n (\lambda g. \lambda h. h (g f)) (\lambda u. x) (\lambda u. u)\\
 	\textsf{sub }m \ n =_{def}   & \lambda m. \lambda n. n\ \textsf{pred}\ m\\
 	\textsf{abs diff } m\ n =_{def} & \textsf{add} (\textsf{sub}\ n\ m)\ (\textsf{sub}\ m\ n) \\
-	\textsf{equal } m\ n =_{def} & \textsf{iszero} (\textsf{abs diff}\ m \ n) \\
-	\textsf{$\textgreater$ \ } m\ n =_{def} & \textsf{not} (\textsf{iszero} (\textsf{sub}\ m\ n))  \\
+	\textsf{equal } m\ n =_{def} & \textsf{isZero} (\textsf{abs diff}\ m \ n) \\
+	\textsf{$\textgreater$ \ } m\ n =_{def} & \textsf{not} (\textsf{isZero} (\textsf{sub}\ m\ n))  \\
 	\textsf{$\textless$  \ } m\ n =_{def} &  \textsf{$\textgreater$}\ n\ m\\
 \end{array}
 \]
-
 Para el caso de la resta hay que tener en cuenta que los números negativos no están definidos en los numerales de Church, si el segundo argumento es mayor que el primero entonces se regresa el numeral $\overline{0}$, en caso contrario se aplica la operación \textsf{pred} n veces al numeral m.
 \end{definition}
 
@@ -641,13 +640,13 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
                             \textsf{prod}\ (\textsf{sum}\ \overline{7}\ \overline{4})\ \overline{2}
                     \]
                     \[
-                            \textsf{iszero} (\textsf{prod}\ \overline{1}\ \overline{0})
+                            \textsf{isZero} (\textsf{prod}\ \overline{1}\ \overline{0})
                     \]
                     \[
-                            \textsf{iszero}( \textsf{sum}\ \overline{3}\ (\textsf{prod}\ \overline{5}\ \overline{4}))
+                            \textsf{isZero}( \textsf{sum}\ \overline{3}\ (\textsf{prod}\ \overline{5}\ \overline{4}))
                     \]
                     \[
-                            \textsf{iszero}( \textsf{sub}\ \overline{4}\ \overline{5})
+                            \textsf{isZero}( \textsf{sub}\ \overline{4}\ \overline{5})
                     \]
                     \[
                             \textsf{$\textgreater$}\ \overline{4}\ \overline{5}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  3 SEP 2025 06:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.5)  8 SEP 2025 08:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3295,7 +3295,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 141--144
  []
 
 [57] [58] [59]
-Underfull \hbox (badness 10000) in paragraph at lines 378--379
+Underfull \hbox (badness 10000) in paragraph at lines 328--329
 
  []
 
@@ -3327,51 +3327,57 @@ LaTeX Warning: Command \textgreater invalid in math mode on input line 422.
 LaTeX Warning: Command \textgreater invalid in math mode on input line 422.
 
 [61] [62]
-Underfull \hbox (badness 10000) in paragraph at lines 486--489
+Underfull \hbox (badness 10000) in paragraph at lines 485--488
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 486--489
+Underfull \hbox (badness 10000) in paragraph at lines 485--488
 
  []
 
 [63]
-Underfull \hbox (badness 10000) in paragraph at lines 506--508
+Underfull \hbox (badness 10000) in paragraph at lines 505--507
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--508
+Underfull \hbox (badness 10000) in paragraph at lines 505--507
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--521
+Underfull \hbox (badness 10000) in paragraph at lines 517--520
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--521
+Underfull \hbox (badness 10000) in paragraph at lines 517--520
 
  []
 
 [64]
-Underfull \hbox (badness 10000) in paragraph at lines 529--531
+Underfull \hbox (badness 10000) in paragraph at lines 528--530
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 539--541
+Underfull \hbox (badness 10000) in paragraph at lines 538--540
 
  []
 
 [65]
 
-LaTeX Warning: Command \textless invalid in math mode on input line 583.
+LaTeX Warning: Command \textless invalid in math mode on input line 582.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 583.
+LaTeX Warning: Command \textless invalid in math mode on input line 582.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 590.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 590.
 
 
 LaTeX Warning: Command \textless invalid in math mode on input line 591.
@@ -3386,74 +3392,68 @@ LaTeX Warning: Command \textless invalid in math mode on input line 592.
 LaTeX Warning: Command \textless invalid in math mode on input line 592.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 593.
+LaTeX Warning: Command \textless invalid in math mode on input line 595.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 593.
-
-
-LaTeX Warning: Command \textless invalid in math mode on input line 596.
+LaTeX Warning: Command \textless invalid in math mode on input line 595.
 
 
 LaTeX Warning: Command \textless invalid in math mode on input line 596.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 597.
+LaTeX Warning: Command \textless invalid in math mode on input line 596.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 597.
-
-
-Overfull \hbox (1.63377pt too wide) detected at line 599
+Overfull \hbox (1.63377pt too wide) detected at line 598
 []
  []
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 604.
+LaTeX Warning: Command \textless invalid in math mode on input line 603.
+
+
+LaTeX Warning: Command \textless invalid in math mode on input line 603.
 
 
 LaTeX Warning: Command \textless invalid in math mode on input line 604.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 605.
-
-
-LaTeX Warning: Command \textless invalid in math mode on input line 605.
+LaTeX Warning: Command \textless invalid in math mode on input line 604.
 
 [66]
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 653.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 652.
 
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 653.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 652.
 
 [67]
-Underfull \hbox (badness 10000) in paragraph at lines 666--667
+Underfull \hbox (badness 10000) in paragraph at lines 665--666
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 720--721
+Underfull \hbox (badness 10000) in paragraph at lines 719--720
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 722--723
+Underfull \hbox (badness 10000) in paragraph at lines 721--722
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 735--737
+Underfull \hbox (badness 10000) in paragraph at lines 734--736
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 744--746
+Underfull \hbox (badness 10000) in paragraph at lines 743--745
 
  []
 
 [68]
-Underfull \hbox (badness 10000) in paragraph at lines 755--757
+Underfull \hbox (badness 10000) in paragraph at lines 754--756
 
  []
 
@@ -5062,10 +5062,10 @@ Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 49489 strings out of 474486
- 976083 string characters out of 5743756
+ 49488 strings out of 474486
+ 976066 string characters out of 5743756
  2151542 words of memory out of 5000000
- 69729 multiletter control sequences out of 15000+600000
+ 69728 multiletter control sequences out of 15000+600000
  707332 words of font info for 153 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,33n,113p,997b,2379s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -5109,7 +5109,7 @@ C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbol
 s/msbm10.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/symbols/msbm7.pfb><C:/Users/luis_/AppData/Local/Programs/MiKTeX/fonts/t
 ype1/public/hoekwater/stmary10.pfb>
-Output written on 00_Manual_Main_Template.pdf (167 pages, 2429453 bytes).
+Output written on 00_Manual_Main_Template.pdf (167 pages, 2429138 bytes).
 PDF statistics:
  3304 PDF objects out of 3580 (max. 8388607)
  1216 named destinations out of 1440 (max. 500000)
