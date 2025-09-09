@@ -416,8 +416,8 @@ Para el Cálculo Lambda es deseable entonces que los operadores anteriormente de
 \begin{array}{cl}
 	\textsf{pred } n =_{def} &  \lambda n. \lambda f. \lambda x. n (\lambda g. \lambda h. h (g f)) (\lambda u. x) (\lambda u. u)\\
 	\textsf{sub }m \ n =_{def}   & \lambda m. \lambda n. n\ \textsf{pred}\ m\\
-	\textsf{abs diff } m\ n =_{def} & \textsf{add} (\textsf{sub}\ n\ m)\ (\textsf{sub}\ m\ n) \\
-	\textsf{equal } m\ n =_{def} & \textsf{isZero} (\textsf{abs diff}\ m \ n) \\
+	\textsf{absDiff } m\ n =_{def} & \textsf{add} (\textsf{sub}\ n\ m)\ (\textsf{sub}\ m\ n) \\
+	\textsf{equal } m\ n =_{def} & \textsf{isZero} (\textsf{absDiff}\ m \ n) \\
 	\textsf{$\textgreater$ \ } m\ n =_{def} & \textsf{not} (\textsf{isZero} (\textsf{sub}\ m\ n))  \\
 	\textsf{$\textless$  \ } m\ n =_{def} &  \textsf{$\textgreater$}\ n\ m\\
 \end{array}
@@ -428,7 +428,7 @@ Para el caso de la resta hay que tener en cuenta que los números negativos no e
   \section{Datos estructurados en el Cálculo Lambda}
 
             En el Cálculo Lambda es posible definir estructuras de datos para almacenar información junto con las funciones para recuperar los elementos guardados en estas. \\
-	 La estructura más simple que revisaremos serán las tuplas junto con sus proyecciones \textsf{first} y \textsf{second} que ayudarán a sentar la base para definir a las listas con sus respectivas funciones para obtener la cabeza y la cola. 
+	 La estructura más simple que revisaremos serán las tuplas binarias (pares) junto con sus proyecciones \textsf{first} y \textsf{second} que ayudarán a sentar la base para definir a las listas con sus respectivas funciones para obtener la cabeza y la cola. 
     
             \subsection{Pares}
 
@@ -482,7 +482,7 @@ $${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$
 
             \subsection{Listas}
 
-            \begin{definition}[Definición de listas en Cálculo Lambda]  Las listas en el Cálculo Lambda se apoyan del constructor de la tupla para ir añadiendo elementos anidando esta operación agregando una unidad por aplicación. \\\\
+            \begin{definition}[Definición de listas en Cálculo Lambda]  Las listas en el Cálculo Lambda se apoyan del constructor de los pares para ir añadiendo elementos anidando esta operación agregando una unidad por aplicación. \\\\
             Para esta estructura la lista vacía será representada por una $\lambda$-expresión que sea $\alpha$-equivalente a la constante \textsf{False}.\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{113}{[113]}}\\\\
                 \text{Lista vacía}
                 $${\sf nil}  = \textsf{False}$$
@@ -493,7 +493,7 @@ $${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$
                 \text{Cola de la lista}
                 $${\sf tail} = \textsf{snd}$$
 		    \text{Test de la lista vacía}
-      		   $${\sf isnil}  = \lambda l.l(\lambda h.\lambda t.\lambda d. {\sf False}) {\sf True}$$
+      		   $${\sf isNil}  = \lambda l.l(\lambda h.\lambda t.\lambda d. {\sf False}) {\sf True}$$
             \end{definition}
 
         \section{Propiedades semánticas del Cálculo Lambda}
@@ -539,7 +539,7 @@ entonces $e_f = e_f'$ salvo $\alpha$-equivalencias.
                    Para este fin se precisa de la introducción de los combinadores de punto fijo que capturan la esencia del principio de recursión general en computación:
                     $$ rec\ f\ =\ f\ (rec\ f) $$
                     De esta forma, si definimos una $\lambda$-expresión $rec$ que permita la auto-aplicación de si misma a una función que tome como argumento, entonces podemos definir cualquier función recursiva aplicando n veces el mismo procedimiento.
-                    $$rec\ f = f\ (rec\ f) = f\ (\ f(rec\ f)) =\ f(\ f(\ f(\ ...\ )))$$
+                    $$rec\ f = f(rec\ f) = f(\ f(rec\ f)) =\ f(\ f(\ f(\ ...\ )))$$
                     
                     \begin{definition}[Combinador de punto fijo] Un $\lambda$-expresión cerrada $C$ es un combinador de punto fijo sí y sólo si cumple alguna de las siguientes condiciones\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{113}{[113]}}:
                         \begin{enumerate}
@@ -610,7 +610,7 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
             \section{Ejercicios para el lector}
 
                 \begin{exercise}
-                    Supón que se requiere extender la definición 5.5 para booleanos y sus operadores en el Cálculo Lambda implementando el siguiente operador:
+                    Supón que se requiere extender la definición 5.6) para booleanos y sus operadores en el Cálculo Lambda implementando el siguiente operador:
                     \[\textsf{OR}\ a\ b\]
 		Donde el operador se comporta de la siguiente forma:
 		\[OR\ \textsf{True}\ b \to_\beta^*\ \textsf{True} \]
@@ -620,7 +620,7 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
 
 
                 \begin{exercise}
-                    Verifica las propiedades de la semántica operacional para cada operador booleano según la definición 5.5:
+                    Verifica las propiedades de la semántica operacional para cada operador booleano según la definición 5.6)
 
                         $$\mathsf{IF}\,\textsf{True}\,e_1\,e_2 \to_\beta^* e_1$$ 
                         $$\mathsf{IF}\,\textsf{False}\,e_1\,e_2 \to_\beta^* e_2$$ 
@@ -655,9 +655,9 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
 
 
                 \begin{exercise}
-                    Siguiendo la definición 6.2 de listas en el Cálculo Lambda define la función \textsf{IsNil} que se comporta de la siguiente forma
-                    \[ \textsf{IsNil}\ [\ ]\ =\ \textsf{True} \]
-                    \[ \textsf{IsNil}\ (x:xs)\  =\ \textsf{False}\]
+                    Siguiendo la definición 6.2 de listas en el Cálculo Lambda define la función \textsf{isNil} que se comporta de la siguiente forma
+                    \[ \textsf{isNil}\ [\ ]\ =\ \textsf{True} \]
+                    \[ \textsf{isNil}\ (x:xs)\  =\ \textsf{False}\]
                 \end{exercise}
 
 
@@ -686,7 +686,7 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
 
                 \begin{exercise}
                     Utilizando cualquiera de los combinadores de punto fijo implementa la función recursiva \textsf{factorial} para los numerales de Church en el Cálculo Lambda.
-                    \[ \textsf{factorial}\ 1\ =\ 1 \]
+                    \[ \textsf{factorial}\ 0\ =\ 1 \]
                     \[ \textsf{factorial}\ n\ =\ n\ *\ \textsf{factorial}\ n-1\]
                     Adicionalmente muestra la ejecución para n = $\overline{3}$
                 \end{exercise}
