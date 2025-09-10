@@ -9,8 +9,8 @@
     \centerline{\includegraphics[scale=0.20]{assets/06_gatito_minHs.jpg}}       
 \end{figure}
 
-Con la teoría que hemos revisado hasta el momento en nuestro lenguaje \textsf{EAB} cuya definición engloba booleanos e instrucciones lógicas, a los números naturales junto con sus operadores y la implementación del Cálculo Lambda, nos es natural preguntarnos  ¿cómo es la implementación de un lenguaje de características similares en una computadora? \\ Para resolver esta pregunta definiremos un lenguaje que contenga un subconjunto de instrucciones de algún otro lenguaje cuya implementación ya exista para estas.  \\\\
-Por su naturaleza funcional tomaremos como caso de estudio una versión simplificada del lenguaje de programación \textsf{Haskell}. Este posee características importantes para el enfoque de este curso que serán de interés trasladar a \textsf{EAB}. \\\\
+Con la teoría que hemos revisado hasta el momento en nuestro lenguaje \textsf{EAB} cuya definición engloba a los números naturales, booleanos, instrucciones lógicas y el operador let a la par del Cálculo Lambda, nos es natural preguntarnos  ¿Cómo es la implementación de un lenguaje de programación de características similares para una computadora moderna?
+Para poder contestar a esta pregunta tomaremos como caso de estudio una versión simplificada del lenguaje de programación \textsf{Haskell}. Este posee características importantes para el enfoque de este curso que serán de interés trasladar a \textsf{EAB}. \\\\
 Hasta el momento se ha trabajado con tipos de datos primitivos, pero no hemos hablado de las reglas de la semántica estática que asignan el tipo a las expresiones. Esto constituye un problema al poder escribir expresiones de \textsf{EAB} sintácticamente correctas pero cuya evaluación no termine en un valor, puesto que la ejecución se detendría en algún momento al no hallar una regla de la semántica dinámica que nos permita continuar. \\\\
 Con esto en mente el objetivo de este capítulo será definir un lenguaje similar que nos permita tener todos los tipos de datos de \textsf{EAB}, el sistema de tipos de \textsf{Haskell} y las características más importante del mismo: evaluación perezosa, pureza funcional y asignación de tipos explícita y estática. 
 A este lenguaje lo llamaremos \textsf{MinHS} al ser una versión acotada de \textsf{Haskell} pero servirá para ilustrar los conceptos que introduciremos en este capítulo.
@@ -25,8 +25,8 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 \section{Sintaxis de \textsf{MinHS}}
 
 \subsection{Sintaxis concreta}
-    El lenguaje de programación \textsf{Haskell} emplea la declaración explícita de tipos en su sintaxis, este patrón se traslada a \textsf{MinHS} mediante la introducción de las anotación de tipos para \textsf{Int}, \textsf{Bool} y en el caso de las funciones, su tipo será representado por la expresión $T_1 \rightarrow T_2$ en la sintaxis concreta donde $T_1$ representa el tipo de la variable ligada en el cuerpo de la expresión  y $T_2$ es el tipo que regresa la evaluación de la expresión.\\\\
-Esta modificación a la sintaxis concreta solo aplicará para quellas expresiones donde sea estrictamente necesario anotar su tipo para verificar la correctud de tipado. El resto de las expresiones se definen de manera similar a como lo hicimos para \textsf{EAB} limitando la aparición de típo en la medida de lo posible.
+    El lenguaje de programación \textsf{Haskell} emplea la declaración explícita de tipos en su sintaxis concreta, este patrón se traslada a \textsf{MinHS} mediante la introducción de las anotaciones de tipos para \textit{Int}, \textit{Bool} y en el caso de las funciones, su tipo será representado por la expresión $T_1 \rightarrow T_2$ en la sintaxis concreta donde $T_1$ representa el tipo de la variable ligada en el cuerpo de la expresión  y $T_2$ es el tipo que regresa la evaluación de la expresión.\\\\
+Esta modificación a la sintaxis concreta solo aplicará para quellas expresiones donde sea estrictamente necesario anotar su tipo para verificar la correctitud de tipificado. El resto de las expresiones se definen de manera similar a como lo hicimos para \textsf{EAB} limitando la aparición de típo en la medida de lo posible.
 
  %   Finalmente se introduce la expresión para funciones recursivas representadas por la expresión \[ \textsf{letrec}\; var=\; e_1\; {\sf in}\; e_2\; \textsf{end}\]
 \bigskip
@@ -41,7 +41,7 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
             \mbox{\bf Tipos}&\textit{T}&::=&\; \textit{Bool}\;|\ \textit{Nat}\;| \ \;T_1\rightarrow T_2 \\
             \mbox{\bf Variables}&var&::=&x\; |\; y \; | \; \dots\\
             \mbox{\bf Números}&n&::=&0\; |\; 1 \; | \dots\\
-            \mbox{\bf Booleanos}&b&::=&\textsf{True}\; |\; \textsf{False}\\
+            \mbox{\bf Booleanos}&b&::=&\textsf{true}\; |\; \textsf{false}\\
             \mbox{\bf Operadores Infijos}&\otimes&::=&+|*|-|=|<|> \\
         \end{array}
         \]
@@ -54,7 +54,7 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
 		\item Proporciona la definición de la función sucesor que recibe un número y regresa el sucesor: 
 			$$ \textsf{suc} =_{def} \textsf{fun}\; x\;::\; \textit{Nat} \Rightarrow x + 1$$
 		\item Proporciona la definición de la función que recibe un número y decide si es cero:
-			 $$ \textsf{IsZero} =_{def} \textsf{fun}\; x\;::\; \textit{Nat} \Rightarrow\; \textsf{if}\; (x\; =\; 0) \; \textsf{then}\; \textsf{True}\; \textsf{else}\; \textsf{False}$$
+			 $$ \textsf{IsZero} =_{def} \textsf{fun}\; x\;::\; \textit{Nat} \Rightarrow\; \textsf{if}\; (x\; =\; 0) \; \textsf{then}\; \textsf{true}\; \textsf{else}\; \textsf{false}$$
 		\item Proporciona la definición de una función que recibe un número y regresa el factorial:
 			 $$ \textsf{fact} =_{def} \textsf{recfun}\; \textsf{fact}\; ::\; (\textit{Nat} \rightarrow \textit{Nat})\; x \Rightarrow\; \textsf{if}\; \textsf{IsZero}(x)\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textsf{fact}\; (n-1)$$
 		\item Proporciona la definición de una función que recibe dos números y regresa su producto:
@@ -72,8 +72,8 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
         \[
             \begin{array}{ccc}
                 \inference{n\in\N}{num[n]\;asa}&
-                \inference{}{bool[\textit{True}]\;asa}&
-                \inference{}{bool[\textit{False}]\;asa}
+                \inference{}{bool[\textit{true}]\;asa}&
+                \inference{}{bool[\textit{false}]\;asa}
             \end{array}
         \]
         \[
@@ -128,7 +128,7 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
 
     \subsection{Sistemas de tipos}
     Los tipos en el contexto de los lenguajes de programación son la descripción abstracta de una colección de valores que nos permite agruparlos y emplearlos de manera similar aún sin saber el contenido específico que estos pudieran tener.\\\\
-    En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones. Qué valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos\footnote{definición formulada a partir de \hyperlink{96}{[96]}}.\\\\
+    En los lenguajes de programación los sistemas de tipos brindan información adicional sobre la evaluación de las expresiones. Por ejemplo, que valores debemos esperar recibir y regresar al concluir la ejecución de nuestro programa para definir restricciones que nos permitan tener seguridad y congruencia en los datos\footnote{definición formulada a partir de \hyperlink{96}{[96]}}.\\\\
     Este sistema estará definido en la siguiente capa de \textsf{MinHS} de forma similar como fue trabajado con anterioridad con el lenguaje \textsf{EAB}, dicho nivel es la semántica estática que define un conjunto de juicios para brindar la seguridad de evaluación a las expresiones.
 
 \subsection{Semántica estática}
@@ -157,8 +157,8 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
              \item[Valores Booleanos]
              \[
                 \begin{array}{ccc}
-                    \inference{}{\Gamma\vdash bool[\textit{False}] :\textit{Bool}}&\quad&
-                    \inference{}{\Gamma\vdash bool[\textit{True}] :\textit{Bool}}
+                    \inference{}{\Gamma\vdash bool[\textit{false}] :\textit{Bool}}&\quad&
+                    \inference{}{\Gamma\vdash bool[\textit{true}] :\textit{Bool}}
                 \end{array}
             \]
             \item[Operadores]
@@ -168,7 +168,7 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
                     \quad&
                     \inference{\Gamma\vdash t_1:Nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash prod(t_1,t_2) : \textit{Nat}}\\
                     &&\\
-                    \inference{\Gamma\vdash t_1:Nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash sub(t_1,t_2) : \textit{Nat}}&
+                    \inference{\Gamma\vdash t_1:Nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash res(t_1,t_2) : \textit{Nat}}&
                     \quad&
                     \inference{\Gamma\vdash t_1:Nat&\Gamma\vdash t_2: \textit{Nat}}{\Gamma\vdash eq(t_1,t_2) : \textit{Bool}}\\
                     &&\\
@@ -213,7 +213,7 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
        	\begin{itemize}
 		\item    1\ +\ (7\ -\ 1) \\\\
 		 	       Representación en sintaxis abstracta: 
-        			$$ sum(num[1],sub(num[7],num[1]))$$
+        			$$ sum(num[1],res(num[7],num[1]))$$
         				Análisis de tipo aplicando la semántica estática:
         			$$\inference{\inference{}{\empty \vdash num[1]\ :\textit{Nat}} & \inference{\inference{}{\empty \vdash num[7]\ :\ \textit{Nat}} & \inference{}{ \empty \vdash num[1]\ :\ \textit{Nat}}}{\empty \vdash res(num[7],num[1])\ :\ \textit{Nat}}}{ \empty \vdash sum(num[1],res(num[7],num[1])) : \textit{Nat}}$$
 
@@ -225,10 +225,10 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
 
 		\item $\textsf{let}\ x\ =\ 3\ \textsf{in}\ \textsf{if}\ x\ \textless\ 7\ \textsf{then}\ 7\ \textsf{else}\ x\ +\ (7\ -\ x)\ \textsf{end} $ \\\\
         			Representación en sintaxis abstracta:
-        				$$  let(num[3],x.if(lt(x,num[7]),num[7],sum(x,sub(num[7],x)))) $$
+        				$$  let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x)))) $$
         			Análisis de tipo aplicando la semántica estática: 
         $$\scalemath{0.55}{
-            \inference{\inference{}{\vdash num[3]\ :\ \textit{Nat}} & \inference{ \inference{(A) \cdots}{x:\textit{Nat} \vdash lt(x,num[7]) : \textit{Bool}} & \inference{}{x:\textit{Nat} \vdash num[7] : \textit{Nat}} & \inference{(B) \cdots}{x:\textit{Nat} \vdash sum(x,sub(num[7],x)) : \textit{Nat}}}{x:\textit{Nat} \vdash if(lt(x,num[7]),num[7],sum(x,sub(num[7],x))\ :\ \textit{Nat} }}{\empty \vdash let(num[3],x.if(lt(x,num[7]),num[7],sum(x,sub(num[7],x))))\ :\ \textit{Nat}}
+            \inference{\inference{}{\vdash num[3]\ :\ \textit{Nat}} & \inference{ \inference{(A) \cdots}{x:\textit{Nat} \vdash lt(x,num[7]) : \textit{Bool}} & \inference{}{x:\textit{Nat} \vdash num[7] : \textit{Nat}} & \inference{(B) \cdots}{x:\textit{Nat} \vdash sum(x,res(num[7],x)) : \textit{Nat}}}{x:\textit{Nat} \vdash if(lt(x,num[7]),num[7],sum(x,res(num[7],x))\ :\ \textit{Nat} }}{\empty \vdash let(num[3],x.if(lt(x,num[7]),num[7],sum(x,res(num[7],x))))\ :\ \textit{Nat}}
         }$$
         (A) Análisis semántico para \textsf{lt}
         		$$ \inference{\inference{}{x:\textit{Nat} \vdash x:\textit{Nat}} & \inference{}{x:\textit{Nat} \vdash num[7] : \textit{Nat}}}{x:\textit{Nat} \vdash lt(x,num[7]) : \textit{Bool}} $$
@@ -245,15 +245,15 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
         \begin{itemize}
             \item Conjunto de estados $S=\{a\;|\;a\;asa\}$
             \item Estados Iniciales $I=\{a\;|\;a\;asa,\;\varnothing\sim a\}$
-            \item Estados Finales $F = \{num[n],bool[True],bool[False],fun(T, x.t)\}$
+            \item Estados Finales $F = \{num[n],bool[true],bool[false],fun(T, x.t)\}$
             \item Transiciones, dadas por las siguientes reglas:\\
             \begin{description}
                 \item[Condicional]
     
                 \[
                     \begin{array}{ccc}
-                        \inference{}{if(bool[True],a_t,a_e)\to a_t}[\it ifT]&\quad&
-                        \inference{}{if(bool[False],a_t,a_e)\to a_e}[\it ifF]
+                        \inference{}{if(bool[true],a_t,a_e)\to a_t}[\it ifT]&\quad&
+                        \inference{}{if(bool[false],a_t,a_e)\to a_e}[\it ifF]
                         \quad
                     \end{array}
                 \]
@@ -321,7 +321,7 @@ Es importante observar que la evaluación perezosa característica de \textsf{Ha
 En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctamente construida y correctamente tipificada se le pueda aplicar alguna de las reglas definidas por la semántica dinámica (progreso). Adicionalmente nos interesa que el tipo de las expresiones sea único y que a cada paso en la evaluación este se conserve (preservación). A continuación daremos una definición formal para estas propiedades.
         
         \begin{itemize}
-            \item Progreso: un programa que cumple con las restricciones del sistema de tipos no se bloquea. Este comportamiento está capturado en la definición de progreso enlistada a continuación para las expresiones de \textsf{MinHS}:
+            \item \textbf{Progreso:} un programa que cumple con las restricciones del sistema de tipos no se bloquea. % Este comportamiento está capturado en la definición de progreso enlistada a continuación para las expresiones de \textsf{MinHS}:
              
              \begin{definition}[Propiedad de progreso]
                 Si $\Gamma \vdash t : \textit{T}$ para algún tipo \textit{T} entonces se cumple una de los siguientes dos casos\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{117}{[117]} y  \hyperlink{118}{[118]}}:
@@ -331,8 +331,7 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
 		   \end{itemize}
              \end{definition}
 
-\bigskip
-            \item Preservación: un programa que cumple con las restricciones del sistema de tipos dará como resultado de la evaluación una expresión correctamente tipificada. Esto se puede observar en las siguientes dos propiedades definidas para las expresiones de \textsf{MinHS}:
+            \item \textbf{Preservación:} un programa que cumple con las restricciones del sistema de tipos dará como resultado de la evaluación una expresión correctamente tipificada. Más aún, el tipo resultante será el mismo que aquél con el que se inició la evaluación. %Esto se puede observar en las siguientes dos propiedades definidas para las expresiones de \textsf{MinHS}:
                                     
                      \begin{definition}[Preservación de tipos]
                         Sí $\Gamma \vdash t : \textit{T}$ y $t \to t'$ entonces $\Gamma \vdash t' : \textit{T}$\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}  y \hyperlink{118}{[118]}}.
@@ -380,11 +379,11 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
         Para las siguientes expresiones de \textsf{MinHS} determina el tipo y verifica tu respuesta utilizando las reglas de la semántica estática de este lenguaje.\\
         
         \begin{itemize}
-            \item \textsf{pair(3, True)}
-            \item \textsf{snd pair(3, True)}
-            \item \textsf{lam} x ::\ $\textit{Nat}\ \Rightarrow\ x +1$\;  
-            \item  \textsf{$ \textsf{recfun}\; \textit{fact}\; ::\; (\textit{Nat} \rightarrow \textit{Nat})\; x \Rightarrow\; \textsf{if}\; \textsf{IsZero($x$)}\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textit{fact}\; (n-1)$}
-		\item \textsf{let} \textsf{neg} = (\textsf{fun} x : \textit{Bool} $\Rightarrow$ \textsf{if } \textit{x} \textsf{then } \textsf{False } \textsf{else } \textsf{True}) \textsf{in} \textsf{neg}(3 $\textless$ 2) \textsf{end}
+            \item \textsf{pair(3, true)}
+            \item \textsf{snd pair(3, true)}
+            \item \textsf{fun} x ::\ $\textit{Nat}\ \Rightarrow\ x +1$\;  
+            \item  $ \textsf{recfun}\; \textit{fact}\; ::\; (\textit{Nat} \rightarrow \textit{Nat}\textsf)\; x \Rightarrow\; \textsf{if}\; \textsf{IsZero($x$)}\; \textsf{then}\; 1\; \textsf{else}\; n\; *\; \textit{fact}\; (n-1)$
+		\item \textsf{let} \textsf{neg} = (\textsf{fun} x : \textit{Bool} $\Rightarrow$ \textsf{if } \textit{x} \textsf{then } \textsf{false } \textsf{else } \textsf{true}) \textsf{in} \textsf{neg}(3 $\textless$ 2) \textsf{end}
         \end{itemize}
     \end{exercise}
 
@@ -408,7 +407,7 @@ En el contexto de \textsf{MinHS} nos interesa que a  una expresión correctament
 
     \begin{exercise}
         Dada la siguiente expresión \textsf{Case}: 
-        $$ \textsf{Case } n \textsf{ of }  n\ \textless\ 0 \rightarrow \textsf{ True } ; n = 0 \rightarrow \textsf{ True } ; \textsf{ False }$$
+        $$ \textsf{Case } n \textsf{ of }  n\ \textless\ 0 \rightarrow \textsf{ true } ; n = 0 \rightarrow \textsf{ true } ; \textsf{ false }$$
         \begin{itemize}
             \item Evalúa utilizando las reglas de semántica dinámica definidas en el inciso anterior.
             \item Sí $\Gamma = \{n:\textit{Nat}\}$ utiliza las reglas de semántica estática definidas en el inciso anterior para obtener el tipo de la expresión.

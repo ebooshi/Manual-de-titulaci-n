@@ -284,6 +284,32 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
         \]
 
         \bigskip
+
+	\item[Resta]
+
+        \[
+            \scalemath{0.85}{
+                \begin{array}{c}
+                    \inference{}{res(num[n], num[m]) \rightarrow num[n-_N m]}[$(res_N)$]\\
+                    \quad
+                \end{array}
+            }
+        \]
+        \[
+            \scalemath{0.85}{
+                \begin{array}{c}
+                    \inference{e_1  \rightarrow e_1'}{res(e_1 , e_2) \rightarrow  res(e_1', e_2)}[$(res_L)$]\\
+                    \quad
+                \end{array}    
+                \quad
+                \begin{array}{c}
+                    \inference{e_2  \rightarrow e_2'}{res(num[n], e_2) \rightarrow res(num[n] ,e_2')}[$(res_R)$]\\
+                    \quad
+                \end{array} 
+            }
+        \]
+
+        \bigskip
         
         \item[Producto]
         \[
@@ -446,6 +472,8 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
             $$\inference{}{num[n] \Downarrow num[n]}[\textit{(bsnum)}] \ \ \ \ \ \inference{}{T \Downarrow T}[\textit{(bstrue)}] \ \ \ \ \ \inference{}{F \Downarrow F}[\textit{(bsfalse)}]$$
             \item[Suma] 
             $$\inference{e_1 \Downarrow num[n]&e_2\Downarrow num[m]}{sum(e_1, e_2)\Downarrow num[n+_N m]}[\textit{(bssum)}]$$
+            \item[Resta] 
+            $$\inference{e_1 \Downarrow num[n]&e_2\Downarrow num[m]}{res(e_1, e_2)\Downarrow num[n-_N m]}[\textit{(bssum)}]$$
             \item[Producto] 
             $$\inference{e_1\Downarrow num[n]&e_2\Downarrow num[m]}{prod(e_1,e_2)\Downarrow num[n\times_N m]}[\textit{(bsprod)}]$$
             \item[Asignaciones locales] 
