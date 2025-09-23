@@ -38,17 +38,17 @@ En el contexto $\Gamma$ solo puede existir una sola aparición por variable, es 
 Para evitar esta situación se define el proceso conocido como estandarización de variables que consiste en brindar una $\alpha$-equivalencia cuando dos variables ligadas tengan el mismo nombre.\\\\
 Tomemos como ejemplo la siguiente expresión:
 $$ \textsf{let } x = \textsf{true} \textsf{ in } \textsf{if } x \textsf{ then } \textsf{ let } x = 5 \textsf{ in } x < x \textsf{ end } \textsf{ end }$$
-En este caso la expresión está bien formada, no hay ninguna regla de la sintaxis concreta que esté mal aplicada para obtener nuestra expresión. La evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a \textsf{false} y luego se continua con la evaluación del la instrucción \textsf{if}. Sin embargo esta expresión nos genera el contexto $\Gamma=\{x : Nat,\ x : Bool\}$ el cual es inconsistente.\\\\
+En este caso la expresión está bien formada, no hay ninguna regla de la sintaxis concreta que esté mal aplicada para obtener nuestra expresión. La evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a \textsf{false} y luego se continua con la evaluación del la instrucción \textsf{if}. Sin embargo, esta expresión nos genera el contexto $\Gamma=\{x : Bool,\ x : Nat\}$ el cual es inconsistente.\\\\
 El problema puede ser corregido utilizando una $\alpha$-equivalencia y renombrando las variables $x$ por $x_0$ y $x_1$ respectivamente:
 $$ \textsf{let } x_0 = \textsf{true} \textsf{ in } \textsf{if } x_0\ \textsf{ then } \textsf{ let } x_1 = 5 \textsf{ in } x_1 < x_1 \textsf{ end } \textsf{ end }$$
-Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
+Donde el contexto obtenido será: $\Gamma=\{x_0 : Bool,\ x_1 : Nat\}$
 
 \begin{exercise}
     Para la siguiente expresión de \textsf{MinHS} expresando el contexto, aplica la estandarización de variables:
     $$\textsf{let } x = \textsf{false} \textsf{ in } (\textsf{let } x = 6 \textsf{ in } (x + x + x) > 10 \textsf{ end}) \textsf{ end }$$
-    $$\Gamma=\{x : Nat,\ x : Bool\}$$ 
+      $$\Gamma=\{x  : Bool, x : Nat\}$$
     $$\textsf{let } x_0 = \textsf{false} \textsf{ in } (\textsf{let } x_1 = 6 \textsf{ in } (x_1 + x_1 + x_1) > 10 \textsf{ end}) \textsf{ end }$$
-    $$\Gamma=\{x_1 : Nat, x_0 : Bool\}$$
+    $$\Gamma=\{x_0  : Bool, x_1 : Nat\}$$
 
 \end{exercise} 
 
@@ -57,7 +57,7 @@ Donde el contexto obtenido será: $\Gamma=\{x_1 : Nat,\ x_0 : Bool\}$
     $$ \textsf{let } x = \textsf{true} \textsf{ in } (\textsf{let } x = 5 \textsf{ in } x < 5 \textsf{ end}) \textsf{ end} $$
     $$ \Gamma = \{x:Bool,\ x:Nat\}$$
     $$ \textsf{let } x_0 = \textsf{true} \textsf{ in }  (\textsf{let } x_1 = 5 \textsf{ in } x_1 < 5 \textsf{ end}) \textsf{ end} $$
-    $$ \Gamma = \{x_1:Bool,\ x_0:Nat\}$$
+    $$ \Gamma = \{x_0:Bool,\ x_1:Nat\}$$
 \end{exercise}
 
 \begin{exercise}    
