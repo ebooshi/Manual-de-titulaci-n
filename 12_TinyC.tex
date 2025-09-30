@@ -16,14 +16,14 @@ Es aquí cuando haremos un cambio abrupto en nuestro caso de estudio para poner 
 En este capítulo comenzamos el estudio del paradigma procedimental, para esto nuestro interés principal será el de definir el primer caso de estudio conocido como \textsf{TinyC}. Proporcionando su sintaxis, reglas de transición y manejo de memoria.
 
 \subsubsection{Planteamiento}
-Se revisarán los componentes básicos de este lenguaje, a saber la semántica operacional mediante la implementación de la máquina $\Cs$.  Adicionalmente proporcionaremos una definición completa incluyendo sus marcos, estados y transiciones.
+Se revisarán los componentes básicos del lenguaje \textsf{TinyC}, a saber: la sintaxis concreta y la semántica operacional mediante la implementación de la máquina $\Cs$. proporcionando una definición completa incluyendo marcos, estados y transiciones.
 %Adicionalmente se discutirá la semántica estática de \textsf{TinyC} para asignar un tipo a los programas de este lenguaje.
 
 \section{Sintaxis}
 
 En \textsf{TinyC} tendremos las declaraciones de variables y funciones que se pueden identificar por nombre, las expresiones aritméticas y booleanas para construir la lógica de los programas y por último las sentencias encargadas de la ejecución y control del estado del programa.\\
 
-\begin{definition}[Sintaxis Concreta de \textsf{TinyC}]\footnote{Definición formulada de \hyperlink{126}{[126]}, y \hyperlink{127}{[127]} }.
+\begin{definition}[Sintaxis Concreta de \textsf{TinyC}]\footnote{Definición formulada de \hyperlink{12}{[12]}, \hyperlink{126}{[126]}, y \hyperlink{127}{[127]} }.
 
 	\footnote{De esta definición es importante notar la omisión entera de apuntadores dado que el \\
 	tema escapa del enfoque de este capítulo quedándonos únicamente con un subconjunto \\
@@ -87,13 +87,13 @@ En \textsf{TinyC} los constructores del lenguaje se pueden agrupar en tres categ
 
 \section{La Máquina $\Cs$}
 
-Para la semántica operacional de \textsf{TinyC} vamos a definir una máquina abstracta siguiendo la misma línea del capítulo anterior, donde contaremos con una pila para guardar los marcos de ejecución y cómputos pendientes y un contexto para las variables y los valores asignados a estas.
+Para la semántica operacional de \textsf{TinyC} vamos a definir una máquina abstracta siguiendo la misma línea del capítulo anterior, donde contaremos con una pila para guardar los marcos de ejecución y cómputos pendientes, así como un contexto para las variables y los valores asignados a estas.
 
 \subsection{Marcos}
-Para las expresiones de \textsf{TinyC} vamos a heredar los marcos de las expresiones de la máquina $\Js$ dado que los elementos pertenecientes a la categoría $expr$ se comportan de forma análoga regresando un valor al concluir su evaluación. \\\\
+En nuestro modelo de cómputo para \textsf{TinyC} vamos a heredar los marcos de las expresiones de la máquina $\Js$ dado que los elementos pertenecientes a la categoría $expr$ se comportan de forma análoga regresando un valor al concluir su evaluación. \\\\
 De esta definición únicamente excluiremos a los marcos para funciones  ya que su comportamiento difiere entre ambas máquinas. En $\Js$ la declaración se hace mediante funciones anónimas que pueden ir en cualquier parte del programa, mientras que en en $\Cs$ deben ser declaradas antes de ser llamadas. Adicionalmente estas declaraciones de funciones pueden ser multiparamétricas mientras que en $\Js$ solo pueden declarase un argumento a la vez.
 
-\begin{definition}[Marcos para la pila de control de la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
+\begin{definition}[Marcos para la pila de control de la máquina $\Cs$]\footnote{Definición extraída de \hyperlink{12}{[12]} }.
 \\*[11pt]
 Se definen los siguientes marcos que usaremos en la pila de control de la máquina $\Cs$. Estos marcos corresponden a la evaluación de nuevas instrucciones como \textsf{return} que evalúa el contenido hasta obtener un valor, \textsf{secu} que nos ayuda a escribir una secuencia de instrucciones y \textsf{call} que es el equivalente a \textsf{app} de \textsf{MinHS}.
 \\*[11pt]
@@ -145,7 +145,7 @@ Se definen los siguientes marcos que usaremos en la pila de control de la máqui
 \subsection{Estados}
 Esta categoría introduce una diferencia sustancial con las máquinas abstractas hasta ahora estudiadas. Tendremos una categoría para la pila de cómputos pendientes y dos categorías para el contexto de evaluación de las variables, el primero local representando el alcance de las variables declaradas en el cuerpo de una función y el segundo global para aquellas declaraciones cuyo contexto sea todo el programa.
 
-	\begin{definition}[Estados de la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
+	\begin{definition}[Estados de la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
 	     \\*[11pt]
 		Los estados de la máquina $\Cs$ son de la siguiente forma:
 			$$P \ |\ L \  |\ G \succ e\qquad\qquad P\ |\ L\ |\ G \prec e$$
@@ -154,10 +154,10 @@ Esta categoría introduce una diferencia sustancial con las máquinas abstractas
 
 \subsection{Ambientes}
 Los ambientes serán una lista de asignaciones de la forma: 
-$$ \text{variable} \rightarrow \text{valor}$$
+$$ \text{variable} \leftarrow \text{valor}$$
 A continuación vamos a definir las funciones para hacer referencia al valor de una variable por nombre (búsqueda) y la función para modificar el contenido de una variable (actualización). \\
 
-\begin{definition}[Referencia de variable en ambiente para la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
+\begin{definition}[Referencia de variable en ambiente para la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }.
 
 \[
     \begin{array}{ccccc}
@@ -169,13 +169,13 @@ A continuación vamos a definir las funciones para hacer referencia al valor de 
     \end{array}
 \]
 \\*[11pt]
-Esta función simplemente itera sobre la lista de variables contenidas en el ambiente hasta hacer un $match$. Sí la búsqueda llega hasta la pila vacía sin encontrar esta regresa $fail$.
+Esta función itera sobre la lista de variables contenidas en el ambiente hasta hacer un $match$. Sí la búsqueda llega hasta la pila vacía esta regresa $fail$.
 
 \end{definition}
 
 \bigskip
 
-\begin{definition}[Modificación del ambiente para una variable en la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} }.
+\begin{definition}[Modificación del ambiente para una variable en la máquina $\Cs$]\footnote{Definición formulada de \hyperlink{5}{[5]}, y \hyperlink{8}{[8]} y \hyperlink{12}{[12]}}.
 
 \[
     \begin{array}{ccc}
@@ -186,11 +186,11 @@ Esta función simplemente itera sobre la lista de variables contenidas en el amb
 \]
 \[
     \begin{array}{c}
-        \inference{}{y\leftarrow u;\E[x \rightarrowtail v] = y\leftarrow u;\E[x \rightarrowtail v]}
+        \inference{}{y\leftarrow u;\E[x \rightarrowtail v] = \E[x \rightarrowtail v]}
     \end{array}
 \]
 \\*[11pt]
-Esta función itera sobre la lista hasta hacer un $match$ y actualiza el valor contenido en esta variable. Sí la búsqueda llega hasta la pila vacía sin encontrar nada regresamos un $fail$.
+Esta función itera sobre la lista hasta hacer un $match$ y actualiza el valor contenido en esta variable. Sí la búsqueda llega hasta la pila vacía sin encontrar nada regresamos $fail$.
 \end{definition}
 
 
@@ -202,11 +202,11 @@ Las transiciones de la máquina $\Cs$ se definen en términos de los programas q
 
 $$\bot$$
 
-y define el final del proceso de evaluación de una sentencia, por lo que los estados finales de la máquina $\Cs$ son los que tienen la forma siguiente:
+Este define el final del proceso de evaluación de una sentencia, por lo que los estados finales de la máquina $\Cs$ son los que tienen la forma siguiente:
 
 $$ \diamond\ |\ L\ |\ G\ \prec\ \bot$$
 
-Con lo que se definen las transiciones con las siguientes reglas:\\
+Se definen las transiciones con las siguientes reglas:\\
 \begin{description}
     \item[Secuencia]
         \[
