@@ -331,7 +331,6 @@ Se definen las transiciones con las siguientes reglas:\\
         \]
         El constructor $return\,$ indica el final de la ejecución de una llamada a función.\\\\
         Cuando termina la ejecución de una llamada a función. Se restaura el ambiente global y nos deshacemos del local pues solo era necesario dentro del cuerpo de la función.
-\\*[11pt]
     \end{description}
 \end{definition}
 
@@ -340,7 +339,7 @@ Se definen las transiciones con las siguientes reglas:\\
     \begin{lstlisting}
         fibonacci(Int n){
         
-            Int i = 1 ;
+            Int i = 1;
             Int pre = 1;
             Int post = 1;
             Int fib = 0;
@@ -353,26 +352,25 @@ Se definen las transiciones con las siguientes reglas:\\
             }
             return fib;
         };
-
         Int result = fibonacci(3);
     \end{lstlisting}
-
-	\bigskip
-
     Para facilitar la representación y la evaluación de la máquina $\Cs$ vamos a seccionar el programa para tener fragmenos de este, definimos entonces:
-
-    \[
-        A = secu(vardec(Int, i, 1), secu(vardec(Int, pre, 1), secu(vardec(Int, post, 1), vardec(Int, fib, 0))))
-    \]
-    \[
-        B = secu(assig(fib, sum(pre,post)), secu(asig(pre,post), secu(asig(post,fib), asig(i,sum(i+1)))
-    \]
+\begin{multline*}
+A =_{def}\; secu(vardec(Int, i, 1), \\
+      secu(vardec(Int, pre, 1), \\
+      secu(vardec(Int, post, 1), vardec(Int, fib, 0))))
+\end{multline*}
+\begin{multline*}    
+        B =_{def} secu(assig(fib, sum(pre,post)), \\
+		 secu(asig(pre,post), \\
+		 secu(asig(post,fib), asig(i,sum(i,1)))
+\end{multline*}
 	\\*[3pt]
-        $ W = while(lt(i,n),B)) $\\
+        $ W =_{def} while(lt(i,n),B)) $\\
 	\\*[4pt]
-        $ F = fundec(Int,\ fibonacci,\ n:Int,\ secu(A,secu(W, return(fib)) $\\
+        $ F =_{def} fundec(Int,\ fibonacci,\ n:Int.secu(A,secu(W, return(fib)) $\\
 	\\*[1pt]
-       $ P = secu(F,vardec(Int, result, call(fibonacci, 3))) $
+       $ P =_{def} secu(F,vardec(Int, result, call(fibonacci, 3))) $
 
 	\bigskip
 
@@ -384,7 +382,7 @@ Se definen las transiciones con las siguientes reglas:\\
     \scalemath{0.55}{
         \begin{array}{rccl} 
             \diamond\ |\ \bullet\ |\ \bullet & \succ & secu(F,vardec(Int, result, call(fibonacci, 3)))  & \rightarrow_{\Cs} \\
-            secu(\square,vardec(Int, result, call(fibonacci, 3))):\diamond\ |\ \bullet\ |\ \bullet & \succ & fundec(Int,\ fibonacci,\ n\ :\ Int, secu(A,secu(W, return(fib))) & \rightarrow_{\Cs} \\
+            secu(\square,vardec(Int, result, call(fibonacci, 3))):\diamond\ |\ \bullet\ |\ \bullet & \succ & fundec(Int,\ fibonacci,\ n\ :\ Int.secu(A,secu(W, return(fib))) & \rightarrow_{\Cs} \\
             secu(\square,vardec(Int, result, call(fibonacci, 3))):\diamond\ |\ \bullet\ |\ fibonacci \leftarrow n.secu(A,secu(W ...)) \bullet & \prec & \bot & \rightarrow_{\Cs} \\
             \diamond\ |\ \bullet\ |\ fibonacci \leftarrow n.secu(A,secu(W ...)) \bullet & \succ & vardec(Int, result, call(fibonacci, 3)) & \rightarrow_{\Cs} \\
             vardec(Int, result, \square) : \diamond\ |\ \bullet\ |\ fibonacci \leftarrow n.secu(A,secu(W ...)) \bullet & \succ & call(fibonacci, 3) & \rightarrow_{\Cs} \\

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.5)  30 SEP 2025 07:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.5)  1 OCT 2025 07:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3972,52 +3972,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 311--314
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 331--335
+Underfull \hbox (badness 10000) in paragraph at lines 331--334
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 331--335
-
- []
-
-[119] [120] [121]
-Overfull \hbox (46.8812pt too wide) detected at line 366
-\OML/lmm/m/it/10 A \OT1/lmr/m/n/10 = \OML/lmm/m/it/10 secu\OT1/lmr/m/n/10 (\OML
-/lmm/m/it/10 vardec\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 Int; i; \OT1/lmr/m/n/10 1)
-\OML/lmm/m/it/10 ; secu\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 vardec\OT1/lmr/m/n/10 
-(\OML/lmm/m/it/10 Int; pre; \OT1/lmr/m/n/10 1)\OML/lmm/m/it/10 ; secu\OT1/lmr/m
-/n/10 (\OML/lmm/m/it/10 vardec\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 Int; post; \OT1
-/lmr/m/n/10 1)\OML/lmm/m/it/10 ; vardec\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 Int; f
-ib; \OT1/lmr/m/n/10 0))))
- []
-
-
-Overfull \hbox (42.88pt too wide) detected at line 369
-\OML/lmm/m/it/10 B \OT1/lmr/m/n/10 = \OML/lmm/m/it/10 secu\OT1/lmr/m/n/10 (\OML
-/lmm/m/it/10 assig\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 fib; sum\OT1/lmr/m/n/10 (\O
-ML/lmm/m/it/10 pre; post\OT1/lmr/m/n/10 ))\OML/lmm/m/it/10 ; secu\OT1/lmr/m/n/1
-0 (\OML/lmm/m/it/10 asig\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 pre; post\OT1/lmr/m/n
-/10 )\OML/lmm/m/it/10 ; secu\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 asig\OT1/lmr/m/n/
-10 (\OML/lmm/m/it/10 post; fib\OT1/lmr/m/n/10 )\OML/lmm/m/it/10 ; asig\OT1/lmr/
-m/n/10 (\OML/lmm/m/it/10 i; sum\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 i \OT1/lmr/m/n
-/10 + 1)))
- []
-
-[122] [123]
+[119] [120] [121] [122] [123]
 
 Package tcolorbox Warning: The upper box part has become overfull on input line
- 553.
+ 551.
 
 [124] [125]
-Underfull \hbox (badness 10000) in paragraph at lines 555--556
+Underfull \hbox (badness 10000) in paragraph at lines 553--554
 
  []
 
 [126]) [127]
 Cap\'{\i }tulo 10.
 (13_subtipado.tex
-<assets/10_gatitos_familia.jpg, id=2446, 706.64pt x 534.99875pt>
+<assets/10_gatitos_familia.jpg, id=2445, 706.64pt x 534.99875pt>
 File: assets/10_gatitos_familia.jpg Graphic file (type jpg)
 <use assets/10_gatitos_familia.jpg>
 Package pdftex.def Info: assets/10_gatitos_familia.jpg  used on input line 9.
@@ -4162,7 +4134,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 207--209
 [134]) [135]
 Cap\'{\i }tulo 11.
 (14_Featherweight_Java.tex
-<assets/11_gatito_cayendo.jpg, id=2577, 794.97pt x 614.295pt>
+<assets/11_gatito_cayendo.jpg, id=2576, 794.97pt x 614.295pt>
 File: assets/11_gatito_cayendo.jpg Graphic file (type jpg)
 <use assets/11_gatito_cayendo.jpg>
 Package pdftex.def Info: assets/11_gatito_cayendo.jpg  used on input line 9.
@@ -4921,10 +4893,10 @@ Package logreq Info: Writing requests to '00_Manual_Main_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 49454 strings out of 474486
- 963703 string characters out of 5753571
+ 49455 strings out of 474486
+ 963749 string characters out of 5753571
  2151542 words of memory out of 5000000
- 69712 multiletter control sequences out of 15000+600000
+ 69714 multiletter control sequences out of 15000+600000
  699065 words of font info for 150 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,33n,113p,997b,2379s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -4955,9 +4927,9 @@ les/MiKTeX/fonts/type1/public/lm/lmtk10.pfb><C:/Program Files/MiKTeX/fonts/type
 ><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Pr
 ogram Files/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Program F
 iles/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on 00_Manual_Main_Template.pdf (166 pages, 2404149 bytes).
+Output written on 00_Manual_Main_Template.pdf (166 pages, 2404068 bytes).
 PDF statistics:
- 3284 PDF objects out of 3580 (max. 8388607)
- 1200 named destinations out of 1200 (max. 500000)
+ 3283 PDF objects out of 3580 (max. 8388607)
+ 1199 named destinations out of 1200 (max. 500000)
  1110 words of extra memory for PDF output out of 10000 (max. 10000000)
 
