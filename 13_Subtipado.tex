@@ -9,7 +9,7 @@
     \centerline{\includegraphics[scale=.5]{assets/10_gatitos_familia.jpg}}
 \end{figure}
 
-En este capítulo vamos a revisar el último paradigma de programación que estudiaremos en este manual, la orientación a objetos y sus características más importantes; la herencia y los subtipos.\\\\
+En este capítulo vamos a revisar el último paradigma de programación que estudiaremos en este manual: La orientación a objetos y sus características más importantes como la herencia y los subtipos.\\\\
 La introducción del paradigma de la orientación a objetos presenta una ventaja al momento de reutilizar código que ya hemos definido anteriormente y que durante los últimos años supuso una revolución en la forma en la que se escriben y desarrollan los programas que corren en nuestros teléfonos y computadoras personales.\\\\
 Lenguajes como \textsf{Java},  \textsf{Python}, \textsf{Ruby}, \textsf{Golang}, \textsf{Swift}, \textsf{C\#} entre muchos otros implementan la herencia, en donde métodos, constructores y variables de la clase padre puede ser reutilizadas por otra clase hija.\\\\
 Más aún, en este tipo de lenguajes la flexibilidad no solo se extiende a hacer uso de código previamente definido y heredado si no que se puede extender y sobrecargar sobre lo ya existente, proporcionando una mecanismo modular para desarrollar software y evitar la re definición de clases, métodos y variables. 
@@ -38,18 +38,18 @@ La orientación a objetos tiene como fundamento la abstracción de los elementos
 
 Las características que se comparten entre los lenguajes que implementan este paradigma incluyen\footnote{Definición formulada de \hyperlink{133}{[133]}} 
 \begin{itemize}
-    \item \textbf{Herencia}
+    \item \textbf{Herencia:}
 	 Permite la definición de una clase original dejando que esta sea extendida o sobrecargada por las clases que heredan de ella, constituyendo un mecanismo para reutilizar código previamente escrito y adaptarlo al contexto particular donde se desean instanciar los objetos.\\
 
-    \item \textbf{Encapsulamiento de datos} Comprende la seguridad de la información contenida en las variables y métodos de una clase. Permitiendo que solo el objeto mismo sea el encargado de alterar la información contenida en él, proporcionando seguridad y consistencia.\\
+    \item \textbf{Encapsulamiento de datos:} Comprende la seguridad de la información contenida en las variables y métodos de una clase. Permitiendo que solo el objeto mismo sea el encargado de alterar la información contenida en él, proporcionando seguridad y consistencia.\\
 
-    \item  \textbf{Polimorfismo} Esta característica permite que un objeto que ha heredado de una clase pueda ser identificado por cualquiera de los tipos que posea la cadena de herencia, pudiendo este ser su mismo tipo, o cualquiera de los tipos de la clase o clases padres.\\\\
+    \item  \textbf{Polimorfismo:} Esta característica permite que un objeto que ha heredado de una clase pueda ser identificado por cualquiera de los tipos que posea la cadena de herencia, pudiendo este ser su mismo tipo, o cualquiera de los tipos de la clase o clases padres.\\\\
 Esta característica es diferente al polimorfismo que se estudia en lenguajes funcionales, donde por ejemplo la función \textsf{id} :: $a$ $\rightarrow$ $a$ puede ser tipificada con el tipo del argumento que la aplique.\\\\
  En Java el polimorfismo se aplica en la sobrecarga de métodos para reutilizar los definidos por la clase que se está extendiendo.\\
 
-    \item \textbf{Representaciones múltiples} Permite que dos objetos de una misma clase puedan presentar comportamiento distinto pues éste puede cambiar según el estado que posea cada uno.\\
+    \item \textbf{Representaciones múltiples:} Permite que dos objetos de una misma clase puedan presentar comportamiento distinto pues este puede cambiar según el estado que posea cada uno.\\
 
-    \item \textbf{Recursión abierta} Un objeto es capaz de invocarse a si mismo dentro de la definición de los métodos de su propia clase, utilizando las palabras reservadas como \textsf{self} o \textsf{this}.
+    \item \textbf{Recursión abierta:} Un objeto es capaz de invocarse a si mismo dentro de la definición de los métodos de su propia clase, utilizando las palabras reservadas como \textsf{self} o \textsf{this}.
 \end{itemize}
 
 
@@ -151,7 +151,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
     
 \subsection{Subtipificado para registros}
 
-    Los registros, como hemos estudiado en secciones anteriores, son la generalización de una tupla permitiendo extender el concepto para $n$ elementos. Asociadas a éstos existen las proyecciones para recuperar el n-ésimo elemento contenido en esta estructura.
+    Los registros, como hemos estudiado en secciones anteriores, son la generalización de una tupla permitiendo extender el concepto para $n$ elementos. Asociadas a estos existen las proyecciones para recuperar el n-ésimo elemento contenido en esta estructura.
 
     Veremos brevemente las características asociadas al tipo de los registros una vez se introduce la relación de subtipificado.
  
@@ -176,7 +176,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
  
         En nuestra implementación para el sistema de tipos es importante contar con un elemento máximo, en donde todo elemento distinto al elemento máximo es subtipo de este. Aquí  introducimos $Top$ que cumple exactamente con esta característica representada de la siguiente forma:
 
-\begin{definition}[Definición del elemento máximo para el sistema de subtipificado]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}}
+\begin{definition}[Definición del elemento \textit{Top} para el sistema de subtipificado]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}}
     
         $$ \inference{}{T \leq Top}$$
     
@@ -184,10 +184,10 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
         La idea detrás de $Top$, es que a este tipo pertenecen todos aquellos programas que están correctamente tipificados. En Java a este tipo se le conoce como $Object$.\\
         
         El contrario, es un tipo que es subtipo de todos y se conoce como $Bot$, este es inhabitado, ninguna expresión debe de existir dentro del mismo.
-        Este tipo ayuda a expresar aquellos programas que no deben de regresar ningún valor similar a la forma en la que se utiliza el tipo $void$ en Java.\\\\
+        Este tipo ayuda a expresar aquellos programas que no deben de regresar ningún valor, similar a la forma en la que se utiliza el tipo $void$ en Java.\\\\
         La descripción anteriormente dada para $Bot$ se representa de la siguiente forma:
 
-\begin{definition}[Definición del elemento máximo para el sistema de subtipificado]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}}
+\begin{definition}[Definición del elemento \textit{Bot} para el sistema de subtipificado]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}}
         $$ \inference{}{Bot \leq T}$$
 \end{definition}
 
@@ -205,7 +205,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 	\end{definition}
     \subsection{Conversión descendente \it (Downcasting)}
         En este tipo de casting (también conocido como ''casting hacía abajo'') la asignación de tipos es arbitraria, la relación de subtipificado no necesariamente se tiene que cumplir.\\\\
-        Ésto supone una amenaza a la consistencia de tipos en el programa que se escribe con esta instrucción, el lenguaje está forzado a aceptar el \textit{downcasting} en tiempo de compilación pero en tiempo de ejecución un futuro conjunto de verificaciones deben de ser ejecutados para corroborar que el tipo asignado no supone un error. Esta regla se representa de la siguiente manera: 
+        Esto supone una amenaza a la consistencia de tipos en el programa que se escribe con esta instrucción, el lenguaje está forzado a aceptar el \textit{downcasting} en tiempo de compilación pero en tiempo de ejecución un futuro conjunto de verificaciones deben de ser ejecutados para corroborar que el tipo asignado no supone un error. Esta regla se representa de la siguiente manera: 
 
 	\begin{definition}[Definición para conversión  descendente]\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{131}{[131]} y \hyperlink{132}{[132]} }:
         $$\inference{\Gamma\vdash e:T}{\Gamma\vdash\< R\>\,e: R}$$
