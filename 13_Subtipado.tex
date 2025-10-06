@@ -216,53 +216,54 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 
     \begin{exercise}
         Dada la siguiente expresión, utiliza las reglas de tipificado para suma y producto para derivar el tipo de la misma.
-        $$ (4.0\ *\ 1)\ -\ 3.0\ : \ \textit{Float}$$
+        $$ 4.0\ - \ 1\ < \ 3.0\ : \ \textit{Float}$$
     \end{exercise}
 
     \bigskip
 
     \begin{exercise}
         Dada la siguiente expresión, utiliza las reglas de tipificado para suma y producto para derivar el tipo de la misma.
-        $$ (3\ *\ 3.0)\ +\ (4\ *\ 4)\ : \ \textit{Float}$$
+        $$ 3\ +\ 3.0 \ +\ 4\ - \ 4\ : \ \textit{Float}$$
     \end{exercise}
     \bigskip
 
     \begin{exercise}
         Dada la siguiente expresión, utiliza las reglas de tipificado para el operador \textit{if} y deriva el tipo de la misma.
-        $$\textsf{if } (7\ *\ 0.0) < 0 \textsf{ then } 1 \textsf{ else } 0 : \ \textit{Float}$$
+        $$\textsf{if } 7\ *\ 0.0 < 0 \textsf{ then } 1 \textsf{ else } 0 : \ \textit{Float}$$
     \end{exercise}
     \bigskip
 
-    \begin{exercise}
-        Dada la siguiente expresión, utiliza las reglas de tipificado para el operador \textit{while} y deriva el tipo de la misma.
-        $$ Int\ i\ =\ 0;\ while(i < 10)\{i + 1;\}\ \textsf{return } i;\ :\ Float$$
-    \end{exercise}
-    \bigskip
+    %\begin{exercise}
+      %  Dada la siguiente expresión, utiliza las reglas de tipificado para el operador \textit{while} y deriva el tipo de la misma.
+        %$$ \textsf{Int}\ i\ =\ 0;\ \textsf{while}(i < 10)\{i + 1;\}\ \textsf{return } i;\ :\ Float$$
+    %\end{exercise}
+   % \bigskip
 
     \begin{exercise}
-        Dada la siguiente expresión, utiliza las reglas de tipificado para el operador \textit{fun} y deriva el tipo de la misma.
-        $$ fun(x:\textit{Int} \rightarrow \ x + 1\ ) : \textit{Int}  \rightarrow \textit{Float} $$
+        Dada la siguiente expresión, utiliza las reglas de tipificado para el operador \textsf{fun} y deriva el tipo de la misma.
+        $$ \textsf{fun}(x:\textsf{Int} \rightarrow \ x + 1\ ) : \textit{Int}  \rightarrow \textit{Float} $$
     \end{exercise}
 
     \bigskip
 
     \begin{exercise}
         Utiliza la regla de \textit{Upcasting} para obtener el tipo de la siguiente expresión basado en las reglas para tipos primitivos.
-        $$ fun(x:\textit{Int} \rightarrow if( x \leq 0\ then\ (x - 1.0) \ else\ x  ) ) : \textit{Int}  \rightarrow \textit{Int} $$
+        $$ \textsf{fun}(x:\textsf{Int} \rightarrow \textsf{if}\ x < 0\ \textsf{then}\ x - 1.0 \ \textsf{else}\ x ) : \textit{Int}  \rightarrow \textit{Int} $$
     \end{exercise}
 
     \bigskip
 
     \begin{exercise}
         Utiliza las reglas de elementos máximos para obtener la derivación del tipificado para la siguiente expresión.
-        Si no es posible argumenta por que.
-        $$ fun(x:\textit{Int} \rightarrow if( x \leq 0\ then\ (x - 1.0) \ else\ x  ) ) : \textit{Bot} $$
+        Si no es posible argumenta por qué.
+        $$\textsf{fun}(x:\textsf{Int} \rightarrow \textsf{if}\ x \leq 0\ \textsf{then}\ x - 1.0 \ \textsf{else}\ x   ) : \textit{Bot} $$
     \end{exercise}
 	
 	\bigskip
 
     \begin{exercise}
         Utiliza las reglas de elementos máximos para obtener la derivación del tipificado para la siguiente expresión.
-        $$ fun(x:\textit{Int} \rightarrow if( x \leq 0\ then\ (x - 1.0) \ else\ x  ) ) : \textit{Top} $$
+	  Si no es posible argumenta por qué.
+        $$ \textsf{fun}(x:\textsf{Int} \rightarrow \textsf{if}\ x \leq 0\ \textsf{then}\ x - 1.0 \ \textsf{else}\ x) : \textit{Top} $$
     \end{exercise}
  
