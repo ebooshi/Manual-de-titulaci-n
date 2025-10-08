@@ -273,13 +273,12 @@ En donde $\vec{\tt{C}}\,\vec{\tt{f}}$ representa los vectores del tipo de la var
 
 
 \section{Semántica estática}
-El sistema de tipos de \textsf{Java Peso Pluma} no cuenta con tipos primitivos, es decir que todos los tipos con los que trabajemos tendrán que ser definidos mediante su respectiva clase. \\\\
-En este lenguaje el tipo $Top$ será $Object$ y este no tendrá que ser definido pues representa el tipo más primitivo con el cual podemos definir construcciones más complejas. \\
- Este constituye también una palabra reservada en la definición que propusimos de la sintaxis. 
+El sistema de tipos de \textsf{Java Peso Pluma} no cuenta con tipos primitivos, es decir que todos los tipos con los que trabajemos tendrán que ser definidos mediante su respectiva clase. La única excepción a esta regla es el tipo \textit{Object}.\\\\
+En este lenguaje $Top$ será $Object$, el único tipo primitivo con el cual podemos definir construcciones más complejas. Este constituye también una palabra reservada en la definición que propusimos de la sintaxis. 
 
 \bigskip
 
-\begin{definition}[Semántica Estática de \textsf{Java Peso Pluma}] A continuación enunciamos las reglas de tipificado\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{128}{[128]}, \hyperlink{129}{[129]} y \hyperlink{132}{[132]} }\\
+\begin{definition}[Semántica Estática de \textsf{Java Peso Pluma}] A continuación enunciamos las reglas de tipificado\footnote{Definición formulada de \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{128}{[128]}, \hyperlink{129}{[129]} y \hyperlink{132}{[132]} }\\
 
 \begin{description}
 	\item[Reglas de Subtipificado]
@@ -379,7 +378,7 @@ $$$$
     Como hemos acostumbrado en el estudio de cada uno de los lenguajes definidos en este manual brevemente mencionaremos las dos propiedades que más interesan en este curso: progreso de la función $\rightarrow_{\tt fj}$ y  preservación de tipos.
 
 \subsection{Preservación de tipos}
-La preservación de tipos que hemos estudiado en implementaciones anteriores difiere en que ahora tenemos que considerar su relación con el mecanismo de herencia y los castings que no son correctos. Esto se puede observar en la siguiente regla.
+La preservación de tipos que hemos estudiado en implementaciones anteriores difiere en que ahora tenemos que considerar su relación con el mecanismo de herencia y los \textit{castings} que no son correctos. Esto se puede observar en la siguiente regla.
 \begin{proposition}[Preservación de tipos]\label{preservación} Si $T$ es una tabla de clases bien formada, $\Gamma\vdash e:C$ y $e\rightarrow_{\tt fj} e'$, entonces existe $C'$ tal que $C'\leq C$ y $\Gamma\vdash e' : C'$\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }
 \end{proposition}
 
@@ -395,14 +394,14 @@ Esta propiedad tiene un pequeño detalle cuando se utiliza dentro del contexto d
 \end{proposition}
 
 \subsection{Seguridad}
-Combinando las dos propiedades anteriores obtenemos la relga de seguridad, esta enuncia que si dada una expresión $e$ de \textsf{Java Peso Pluma} se obtiene una expresión en su forma normal, o bien es un valor o encontramos un $downcasting$ incorrecto.
+Combinando las dos propiedades anteriores obtenemos la relga de seguridad, esta enuncia que dada una expresión $e$ de \textsf{Java Peso Pluma} se obtiene una expresión en su forma normal,  valor o bien encontramos un $downcasting$ incorrecto.
 
 \begin{proposition}[Seguridad de \textsf{Java Peso Pluma}] Si $T$ es una tabla de clases bien formada, $\varnothing\vdash e:C$ y $e \rightarrow_{\tt fj}^\star e'$ con $e'$ en forma normal, entonces se cumple una y solo una de las siguientes condiciones:
 \begin{itemize}
 	\item $e'$ es un valor $v$ tal que $\varnothing\vdash v: D$ y $D\leq C$.
 	\item $e'$ contiene como subexpresión $(C)\;{\tt new}\;D(\vec{\tt{v}})$ en donde $D \leq C$.
 \end{itemize}
-Dado cualquier expresión e, o bien esta eventualmente llega a ser evaluada como un valor o se bloquea en un $downcasting$ que no se puede resolver\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }.
+Dada cualquier expresión e, o bien esta eventualmente llega a ser evaluada como un valor o se bloquea en un $downcasting$ que no se puede resolver\footnote{Definición formulada de \hyperlink{12}{[12]} y \hyperlink{128}{[128]} }.
 \end{proposition}
 
 La demostración de cada propiedad queda fuera del alcance de este manual pero pueden ser consultadas de \hyperlink{128}{[128]}.
@@ -410,7 +409,7 @@ La demostración de cada propiedad queda fuera del alcance de este manual pero p
 \section{Cómo se relaciona Java Peso Pluma con Java?}
 
 \textsf{Java Peso Pluma} es un lenguaje con propósitos ilustrativos, muchas de las características que robustecen a \textsf{Java} y que son englobadas por el paradigma de la orientación a objetos se dejan fuera del enfoque de la definición del mismo. \\\\
- Es natural entonces preguntarse por la relación que guardan ambos lenguajes, qué sucede cuando escribimos un lenguaje en \textsf{Java Peso Pluma} y lo queremos ejecutar en la \textsf{JVM}\footnote{Java Virtual Machine.}. \\\\
+ Es natural entonces preguntarse por la relación que guardan ambos lenguajes. Qué sucede cuando escribimos un programa en \textsf{Java Peso Pluma} y lo queremos ejecutar en la \textsf{JVM}\footnote{Java Virtual Machine.}. \\\\
 Para dar respuesta a esta pregunta presentamos las siguientes proposiciones que hacen explícita la correspondencia entre ambos lenguajes.
 
 \begin{itemize}
@@ -429,38 +428,38 @@ La demostración de estas últimas cuatro proposiciones no es posible dado que n
     Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar árboles binarios cuyo contenido de sus nodos sean enteros (Puedes dar por definido el tipo \textsf{Integer}).
 \end{exercise}
 
-\bigskip
+
 
 
 \begin{exercise}
-    Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar Tries junto con las operaciones para insertar y buscar palabras (Puedes dar por definido el tipo \textsf{Char}).
+    Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar Tries junto con las operaciones para insertar y buscar letras (Puedes dar por definido el tipo \textsf{Char}).
 \end{exercise}
 
-\bigskip
+
 
 \begin{exercise}
     Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar LinkedList junto con las operaciones para insertar, eliminar y obtener elementos dado un índice.
 \end{exercise}
 
-\bigskip
+
 
 \begin{exercise}
     Dada la definición de \textsf{Java Peso Pluma} proporciona un programa para modelar un nuevo objeto llamado \textsf{Empleado} que contenga un campo de clase para su dirección, su número de seguridad social (NSS) y su salario (puedes dar por definidas las clases \textsf{Integer, String y Direccion} del ejemplo 1.2).
 \end{exercise}
 
-\bigskip
+
 
 \begin{exercise}
     Dadas las reglas para la sintaxis y las reglas de la semántica dinámica y estática de \textsf{Java Peso Pluma}, Demuestra la proposición 5.1: Preservación de tipos.
 \end{exercise}
 
-\bigskip
+
 
 \begin{exercise}
    Dadas las reglas para sintaxis y las reglas de la semántica dinámica y estática de \textsf{Java Peso Pluma}, Demuestra la proposición 5.2: Progreso.
 \end{exercise}
 
-\bigskip
+
 
 \begin{exercise}
    Dadas las reglas para sintaxis y las reglas de la semántica dinámica y estática de \textsf{Java Peso Pluma}, Demuestra la proposición 5.3: Seguridad.
