@@ -1,16 +1,10 @@
 Comentarios generales:
 
-Pocos ejercicios o muy pobres
-
 Sí acentuado en condicionales no va.
 
 Unificar tamaños diferentes para que queden iguales.
 
 Unificar la notación True y False.
-
-Bibliografía en orden alfabético y asegurarse que los links sean vigentes.
-
-
 
 Capítulo 1
 
@@ -27,10 +21,6 @@ Capítulo 1
 4.10 Usa una lista en lugar de un arreglo.
 
 2.2 Semantica denotativa 
-
-
-
-
 
 Capitulo 2
 
@@ -67,8 +57,6 @@ pagina 19 4.11 y 4.12 no tienen referencia al ejercicio.
 
 quitar la palabra puzzle, o rompecabezas, explicación de los pivotes, especificar mas el problema.
 
-
-
 Capítulo 3
 
 Definición de sintaxis solo tiene expresiones aritméticas.
@@ -100,8 +88,6 @@ Ejercicio 4.1 diferenciar el problema de la solución parecen
 Ejercicio 5.9 encerrar entre paréntesis todo el let.
 
 Página 32 la última definición de fun está mal, la e no contempla el cambio de variable en e, corregir.
-
-
 
 Capítulo 4
 
