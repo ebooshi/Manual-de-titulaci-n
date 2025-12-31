@@ -1,0 +1,218 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\usepackage{chronology}
+
+\title{\LARGE 
+Lenguajes de Programación 2022-1\\ 
+Nota de clase 14: Subtipado\\
+\color{ForestGreen} Orientación a Objetos}
+\author{Javier Enríquez Mendoza}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Orientación a Objetos}
+
+Hasta este punto en el curso hemos estudiado y formalizado las principales características de los lenguajes de programación funcionales y procedimentales, como última parte estudiaremos el paradigma de Orientación a Objetos. Podemos pensar en la Orientación a Objetos como el paradigma procedimental agregando el concepto de objeto. El uso de lenguajes orientados a objetos afecta en distintos niveles en el proceso de desarrollo:
+\begin{itemize}
+	\item El análisis y diseño de los programas.
+	\item El sistema de tipos.
+	\item La filosofía de programación.
+\end{itemize}
+
+Los conceptos clave cuando se habla de Orientación a Objetos son las clases y los objetos, que se definen como sigue.
+
+\begin{definition}[Clase] Una clase es una colección de atributos y métodos que definen las características y comportamientos de los objetos. Son plantillas para la creación de objetos. Se puede pensar en una clase como el tipo de un objeto.
+\end{definition}
+
+\begin{definition}[Objeto] Un objeto es una instancia de una clase.
+\end{definition}
+
+No existe un estándar de como se debe diseñar un lenguaje orientado a objetos, pues existen muchas formas de modelar objetos y dependen de la persona que lo diseña. Sin embargo, hay ciertas características importantes del paradigma que deben incluirse en todas las implementaciones, resumidas a continuación.
+
+\begin{description}
+	\item[Representaciones múltiples] Son los objetos los que deciden su comportamiento según la definición que tengan. Dos objetos de la misma clase puede presentar comportamiento distinto, pues cada uno tiene su propio estado e incluso con el uso de interfaces las implementaciones de los mismos métodos podrían funcionar de forma distinta.
+	\item[Encapsulamiento de datos] La información de un objeto solo es manipulable por el mismo. Sólo los métodos del objeto pueden manipular sus atributos. Esto implica que los cambios a la representación interna de un objeto afectan sólo a una región pequeña y fácilmente identificable del programa, lo que ayuda en el mantenimiento de sistemas muy complejos.
+	\item[Herencia] Permite factorizar la implementación de objetos distintos de tal forma que el comportamiento común se implemente una  única vez. La mayoría de lenguajes orientados a objetos permiten este reuso de comportamientos mediante  el uso de subclases que permite derivar nuevas clases a partir de otras agregando implementaciones para nuevos métodos.
+	\item[Recursión Abierta] Un método de un objeto puede llamar a otro dentro del mismo objeto con ayuda de las primitivas  {\tt self}  ó {\tt this}. Las cuales se ligan dinámicamente de manera que se puedan llamar métodos definidos en subclases.
+	\item[Polimorfismo] La capacidad de representar un objeto como perteneciente a una clase más general que con la que fue instanciado. Este tipo de polimorfismo es conocido como polimorfismo de inclusión.
+\end{description}
+
+En esta nota de clase se estudiara el concepto de subtipado que nos permite definir y formalizar los conceptos de herencia y polimorfismo. Mas adelante en el curso se presentará un lenguaje orientado a objetos de estudio llamado \jpp con el cual se terminarán de formalizar las principales características de los lenguajes de este paradigma.
+\section{Subtipos}
+La subtipificación nos permite eliminar las conversiones explicitas de tipos en los programas haciéndolos más compactos y legibles.
+
+Por ejemplo los tipos $\intt$ y $\float$ tienen definiciones muy diferentes y modelan dos conjuntos de datos con propiedades distintas, sin embargo, ambos son tipos numéricos y comparten algunas operaciones aritméticas como lo es el caso de la suma. Los sistemas de tipos que hemos definido hasta ahora son muy rígidos y no nos permitirían sumar un $\float$ con un \intt pues la operación de suma verifica que ambos sumandos tengan el mismo tipo. Pero esto es algo que en la práctica se hace constantemente y sería muy tedioso tener que hacer una conversión de \intt a \float solo para poder sumarlos.
+
+Siguiendo con el ejemplo anterior, la expresión:
+$$4.5 + 2$$
+Sería rechazada por nuestro sistema de tipos, pero se trata de una expresión que desde el punto de vista de la persona que desarrolla en el lenguaje se comporta adecuadamente.
+
+De forma general se busca que las reglas de tipado cuenten con cierta flexibilidad en los casos en los que tenga sentido recibir argumentos de otro tipo que puede usarse de forma segura como el tipo que se espera.
+
+Para lograr esto introducimos la relación de subtipos $\leq$, que nos permite usar valores de un tipo en lugar del otro siempre y cuando éstos estén relacionados.
+
+\begin{definition}[Relación de subtipado] El principio básico de la relación de subtipado es la propiedad de sustitución: si \St$\,$ es subtipo de \T, es decir $\St\leq\T$ entonces cualquier expresión de tipo \St$\,$ puede emplearse sin causar errores en cualquier contexto que espere una expresión de tipo \T. 
+
+Esta relación tiene las siguientes propiedades:
+\begin{description}
+	\item[Reflexividad]
+	$$\inference{}{\T\leq\T}$$
+	\item[Transitividad]
+	$$\inference{\Rt\leq\St&\St\leq\T}{\Rt\leq\T}$$
+	\item[Subsunción]
+	$$\inference{\Gamma\vdash e:\St&\St\leq\T}{\Gamma\vdash e:\T}$$
+	Esta propiedad expresa que si una expresión tiene tipo \St$\,$ y \St$\,$ es subtipo de \T$\,$ entonces puede usarse en cualquier contexto en donde sea necesaria una expresión de tipo \T.
+\end{description}
+\end{definition}
+
+Formalicemos ahora el ejemplo visto antes para entender mejor el funcionamiento del subtipado.
+
+\begin{example}[Suma con subtipado] Para este ejemplo consideremos la expresión anterior:
+
+$$ 4.5 + 2$$
+en donde $4.5:\float$ mientras que $2:\intt$, suponemos entonces que los tipos \float e \intt están relacionados bajo la relación de subtipado como 
+$$\intt\leq\float$$
+por lo que la derivación de tipos de la expresión anterior queda como sigue:
+\[
+	\inference
+	{
+		\inference{}{\varnothing\vdash 4.5:\float}&
+		\inference
+		{
+			\inference{}{\varnothing\vdash 2:\intt}&
+			\intt\leq\float
+		}
+		{\varnothing\vdash 2:\float}
+	}
+	{\varnothing\vdash 4.5+2:\float}
+\]
+
+Gracias a la propiedad de subsunción podemos construir una derivación de tipos, lo que hace que la expresión sea válida.
+\end{example}
+
+Existen dos estilos de manejo de subtipos:
+
+\begin{description}
+	\item[Interpretación por conjuntos] Si $\St\leq\T$ entonces toda expresión de tipo \St$\,$ es también una expresión de tipo \T.
+	\item[Interpretación por coerción] La coreción se define como {\it la presión ejercida sobre algo para forzar su conducta}. Por lo que si $\St\leq\T$ entonces cualquier expresión de tipo \St$\,$ se puede convertir de forma única en una expresión de tipo \T. Es decir hay una coerción (forzamiento) del tipo \St$\,$ al tipo \T$\,$ mediante una conversión implícita.
+
+	En el ejemplo anterior, por coerción el valor entero $2$ se convierte en $2.0$ que es un valor de tipo \float para resolver la operación.
+\end{description}
+
+A continuación se presentan las reglas de subtipado para los distintos constructores de tipos que hemos estudiado durante el curso.
+\subsection{Subtipado para tipos primitivos}
+En general las reglas de subtipado de los tipos primitivos de un lenguaje representan los axiomas del sistema de subtipado y el resto de las reglas se derivan con base en éstas. Estas reglas deben definirse desde el diseño del lenguaje dejando claro qué tipos son subtipos de cuáles. 
+
+Durante el curso hemos trabajado únicamente con tres tipos primitivos \nat,\intt y \boolt. Para trabajar con un sistema ligeramente mas interesante agregaremos también el tipo \float con el que hemos trabajado en los ejemplos de esta nota. 
+
+Para estos tipos primitivos se define las siguientes reglas de subtipado:
+
+\[
+	\begin{array}{ccc}
+	\inference{}{\nat\leq\intt}&\qquad\qquad&\inference{}{\intt\leq\float}
+	\end{array}
+\]
+
+El resto de las reglas de subtipado para tipos numéricos se pueden generar a partir de las propiedades de reflexividad y transitividad. Para el caso del tipo \boolt no hay ningún subtipado definido.
+\subsection{Subtipado para tipos función}
+Para entender como funciona el subtipado con los tipos función veamos un ejemplo.
+
+Sea $f:\intt\to\intt$, entonces se tiene que $f\,n :\intt$ para cualquier expresión $n:\intt$, así que podemos concluir que $f\,n:\float$ por la regla de subsunción. De esto se sigue que:
+$$\intt\to\intt\leq\intt\to\float$$
+Es decir la relación de subtipos original se preserva en el segundo argumento (el codominio) del tipo función. En tal caso se dice que esta posición es covariante.
+
+Por el otro lado si $f:\float\to\intt$, y como todas las expresiones $e:\intt$ son también de tipo \float por subsunción, entonces podemos restringir el dominio de $f$ y de esta forma obtener una función con dominio solo en \intt. Por lo que se cumple la siguiente relación de subtipado:
+$$\float\to\intt\leq\intt\to\intt$$ 
+Es decir, la relación de subtipos original $\intt\leq\float$ usada en el primer argumento del tipo función se invierte en el tipo función, en tal caso decimos que este argumento es contravariante.
+
+Finalmente, usando la propiedad de transitividad tenemos el siguiente subtipado
+$$\float\to\intt\leq\intt\to\float$$
+De esta forma podemos definir la regla de subtipado para el caso general de los tipos función como sigue:
+$$\inference{\T_1\leq\St_1&\St_2\leq\T_2}{\St_1\to\St_2\leq\T_1\to\T_2}$$
+\subsection{Subtipado para tipos suma y producto}
+Para el subtipado de los tipos suma y producto ambos argumentos son covariantes, es decir, se respeta el orden de la relación $\leq$. Lo que se modela con las reglas siguientes:
+
+\[
+	\begin{array}{ccc}
+		\inference{\St_1\leq\T_1&\St_2\leq\T_2}{\St_1+\St_2\leq\T_1+\T_2}&\qquad\qquad\qquad&
+		\inference{\St_1\leq\T_1&\St_2\leq\T_2}{\St_1\times\St_2\leq\T_1\times\T_2}
+	\end{array}
+\]
+
+Los tipos variante generalizan la regla para los tipos suma.
+\subsection{Subtipado para tipos registro}
+Los tipos registro son de suma importancia en el paradigma de Orientación a Objetos pues nos ayudan a modelar las clases y los tipos de los objetos. Para estos tipos tenemos tres reglas que modelan el subtipado entre éstos.
+
+\begin{description}
+	\item[Amplitud] Un tipo registro con campos adicionales a otro tipo registro dado es subtipo de este. Mientras más campos tenga un tipo registro, más restricciones impone en su uso y por lo tanto describe a menos valores posibles.
+
+	$$\inference{}{(l_1:\T_1,\dots,l_{n+k}:\T_{n+k})\leq(l_1:\T_1,\dots,l_{n}:\T_{n})}$$
+
+	\item[Profundidad] Los tipos de cada campo pueden variar, siempre y cuando la relación de subtipos se mantenga en cada uno de los campos del registro de forma covariante.
+
+	$$\inference{\T_1\leq\St_1&\cdots&\T_n\leq\St_n}{(l_1:\T_1,\dots,l_{n}:\T_{n})\leq(l_1:\St_1,\dots,l_{n}:\St_{n})}$$
+
+	\item[Permutación] El orden de los campos de un valor de tipo registro no importa.
+
+	$$\inference{(s_1:\St_1,\dots,s_{n}:\St_{n})\mbox{ permutación de }(l_1:\T_1,\dots,l_{n}:\T_{n})}{(s_1:\St_1,\dots,s_{n}:\St_{n})\leq(l_1:\T_1,\dots,l_{n}:\T_{n})}$$
+
+\end{description} 
+\subsection{Subtipado para Continuaciones}
+El subtipado de continuaciones es contravariante, pues cualquier continuación que espera un valor de tipo \T$\,$ puede considerarse una continuación que espera un valor de tipo \St$\,$ siempre y cuando el valor de tipo \St$\,$ pueda considerarse un valor de tipo \T. Lo que se modela con la siguiente regla
+
+$$\inference{\St\leq\T}{\Cont{\T}\leq\Cont{\St}}$$
+\newpage
+% \subsection{Los tipos \Top$\,$ y \Bot} 
+\subsection{Los tipos \Top y \Bot} 
+El tipo $\Top\,$ es el elemento máximo de la relación de subtipado $\leq$ de tal forma que cualquier tipo \T$\,$ cumple que 
+$$\inference{}{\T\leq\Top}$$
+Intuitivamente $\Top\,$ corresponde al tipo de todos los programas correctamente tipados. Este tipo puede ser eliminado de cualquier lenguaje sin dañar sus propiedades ni seguridad. Sin embargo puede ser de utilidad de manera que no es conveniente removerlo de un sistema con subtipos. En especial en lenguajes orientados a objetos $\Top\,$ es de suma importancia pues corresponde al tipo {\sf Object}.
+
+Por otro lado es natural preguntarse si es de utilidad contar con un elemento mínimo para la relación de subtipado, este tipo es $\Bot\,$ y cualquier tipo \T cumple que
+$$\inference{}{\Bot\leq\T}$$
+El tipo $\Bot\,$ debe ser inhabitado, es decir no debe existir ninguna expresión de dicho tipo. Podría parecer que no tiene sentido sin embargo $\Bot\,$ proporciona una manera conveniente de expresar el hecho de que algunas operaciones no deben devolver un valor, operaciones como la creación de una excepción o la llamada a una continuación. De forma similar a como usamos el tipo \void en \tinyc.
+
+Al igual que con el tipo \Top, \Bot$\,$ puede eliminarse sin afectar las propiedades del lenguaje y en este caso es recomendable hacerlo pues el contar con este tipo dificulta la implementación de los algoritmos de inferencia y verificación de tipos.
+\section{{\it Casting}}
+Si bien las transformaciones implicitas entre tipos que nos ofrece el la regla de subsunción del subtipado es una herramienta de gran utilidad, en muchos casos nos gustaría que la persona que esta desarrollando en el lenguaje tuviera un mecanismo de conversión explícita de tipos, tal mecanismo es conocido como {\it casting}. Y existen dos formas de emplearlo:
+
+\begin{description}
+	\item[{\it Upcasting}] En el {\it casting} hacia arriba a un término dado se le atribuye un supertipo del tipo esperado. De esta forma en presencia de subtipos si se tiene $\T\leq\Rt$ entonces podemos concluir, usando subsunción que $\Gamma\vdash\<\Rt\>\,e:\Rt$, en donde $\<\Rt\>$ es la notación para el {\it casting} explícito. Se modela con la regla de tipado:
+	$$\inference{\Gamma\vdash e:\T&\T\leq\Rt}{\Gamma\vdash\<\Rt\>\,e:\Rt}$$
+	\item[{\it Downcasting}] El {\it casting} hacia abajo asigna a una expresión un tipo arbitrario que probablemente el verificador de tipos no asignaría. La regla de atribución se modifica de la siguiente manera:
+	$$\inference{\Gamma\vdash e:\T}{\Gamma\vdash\<\Rt\>\,e:\Rt}$$
+	Primero se verifica que e esté correctamente tipada y luego se le atribuye un tipo \Rt sin ninguna restricción en la relación entre \T y \Rt.
+
+	Este tipo de {\it casting} pueden ser desastroso en la seguridad del lenguaje, pero sigue la filosofía “confía pero verifica”. El verificador de tipos acepta el tipo dado por el {\it downcasting} en tiempo de compilación. Sin embargo, en tiempo de ejecución, causará que se verifique que el valor en cuestión corresponda realmente con el tipo que se afirma.
+\end{description}
+
+
+\begin{thebibliography}{9}
+% \bibitem{notasGabrielle}
+% Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+
+% \bibitem{notasKarla}
+% Ramírez Pulido K., Soto Romero M., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+
+
+\end{thebibliography}
+
+
+\end{document}

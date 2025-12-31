@@ -1,0 +1,508 @@
+\ProvidesPackage{comands}
+
+\usepackage{graphicx}
+\usepackage{framed}
+\usepackage[normalem]{ulem}
+\usepackage{indentfirst}
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage[italicdiff]{physics}
+\usepackage{stmaryrd}
+\usepackage{biblatex}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multicol}
+
+% \usepackage{emoji}
+\usepackage[dvipsnames]{xcolor}
+
+% \usepackage{semantic}
+\usepackage[inference,ligature]{semantic}
+\usepackage{multicol}
+% \usepackage[T1]{fontenc}
+
+%\usepackage{pifont} %For unusual symbols
+%\usepackage{mathdots} %For unusual combinations of dots
+\usepackage{wrapfig}
+\usepackage{lmodern,mathrsfs}
+\usepackage[inline,shortlabels]{enumitem}
+\setlist{topsep=2pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{csquotes}
+\usepackage[letterpaper, top=0.7in,bottom=0.3in, left=0.7in, right=0.7in, footskip=0.5in, includefoot]{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{automata, arrows}
+\usepackage{qtree}
+
+% PATOS
+\usetikzlibrary{patterns}
+\usetikzlibrary{calc}
+\usepackage{tikzlings} 
+
+% \pgfplotsset{compat=newest}
+% \usepackage{multicol}
+% \usepackage[bottom,multiple]{footmisc} %ensures footnotes are at the bottom of the page, and separates footnotes by a comma if they are adjacent
+\usepackage{biblatex}
+\renewcommand*{\finalnamedelim}{\addcomma\addspace} %forces authors' names to be separated by comma, instead of "and"
+\addbibresource{bibliography}
+\usepackage{hyperref}
+\usepackage[nameinlink]{cleveref} %nameinlink ensures that the entire element is clickable in the pdf, not just the number
+
+\usepackage{listings}
+\usepackage{transparent}
+
+
+\lstset{
+ language=haskell,
+ basicstyle={\ttfamily},
+ columns=[c]fixed,
+ breaklines=true,
+ showstringspaces=false,
+ literate={'"'}{\textquotesingle "\textquotesingle}3,
+ tabsize=3,
+ commentstyle={\color{blue}},
+ backgroundcolor={},
+ frame=none,
+ numbers=none,
+ rulecolor={},
+ numberstyle=\footnotesize,
+ escapeinside={(*}{*)}
+}
+
+\usepackage{minted}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+
+
+\newcommand{\remind}[1]{\textcolor{red}{\textbf{#1}}} %To remind me of unfinished work to fix later
+\newcommand{\hide}[1]{} %To hide large blocks of code without using % symbols
+
+\newcommand{\ep}{\varepsilon}
+\newcommand{\vp}{\varphi}
+\newcommand{\lam}{\lambda}
+\newcommand{\Lam}{\Lambda}
+%\newcommand{\abs}[1]{\ensuremath{\left\lvert#1\right\rvert}} % This clashes with the physics package
+%\newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}} % This clashes with the physics package
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+\renewcommand{\ip}[1]{\ensuremath{\left\langle#1\right\rangle}}
+\newcommand{\floor}[1]{\ensuremath{\left\lfloor#1\right\rfloor}}
+\newcommand{\ceil}[1]{\ensuremath{\left\lceil#1\right\rceil}}
+\newcommand{\asa}{{\sf asa }}
+\newcommand{\ea}{{\sf EA }}
+\newcommand{\num}{{\tt num}}
+\newcommand{\bool}{{\tt bool}}
+\newcommand{\suma}{{\tt suma}}
+\newcommand{\produ}{{\tt prod}}
+\newcommand{\tprod}{{\tt tprod}}
+\newcommand{\lett}{{\tt let}}
+\newcommand{\letcc}{{\tt letcc}}
+\newcommand{\continue}{{\tt continue}}
+\newcommand{\vartt}{{\tt var}}
+\newcommand{\subs}{{\tt sub}}
+\newcommand{\igu}{{\tt eq}}
+\newcommand{\gt}{{\tt gt}}
+\newcommand{\lt}{{\tt lt}}
+\newcommand{\ok}{{\tt ok}}
+\newcommand{\estado}{{\tt estado}}
+\newcommand{\inicial}{{\tt inicial}}
+\newcommand{\final}{{\tt final}}
+\newcommand{\valor}{{\tt valor}}
+\newcommand{\values}{{\tt value}}
+\newcommand{\evalt}{{\tt eval}}
+\newcommand{\term}{{\sf term}}
+\newcommand{\suc}{{\sf suc}}
+\newcommand{\eqdef}{=_{def}}
+\newcommand{\true}{{\sf true}}
+\newcommand{\false}{{\sf false}}
+\newcommand{\pred}{{\sf pred}}
+\newcommand{\ifs}{{\sf if}}
+\newcommand{\iszero}{{\sf iszero}}
+\newcommand{\fac}{{\sf fact }}
+\newcommand{\minhs}{{\sf MinHs }}
+\newcommand{\tinyc}{{\sf TinyC }}
+\newcommand{\jpp}{{\sf Featherweight Java }}
+\newcommand{\nat}{{\sf Nat }}
+\newcommand{\boolt}{{\sf Bool }}
+\newcommand{\intt}{{\sf Int }}
+\newcommand{\float}{{\sf Float }}
+\newcommand{\void}{{\sf Void }}
+\newcommand{\fields}{{\sf fields }}
+\newcommand{\mtype}{{\sf mtype }}
+\newcommand{\mbody}{{\sf mbody }}
+\newcommand{\Cont}[1]{{\sf Cont}(#1)}
+\newcommand{\cont}[1]{{\sf cont}(#1)}
+\newcommand{\fail}{{\sf fail }}
+\newcommand{\tvoid}{{\tt Void }}
+\newcommand{\pair}{{\tt pair}}
+\newcommand{\opc}{\;|\;}
+\newcommand{\type}[1]{[\![#1]\!]}
+\newcommand{\closure}[1]{\<\!\<#1\>\!\>}
+\newcommand{\ctr}[1]{\mbox{\it #1}}
+\newcommand{\const}[1]{{\sf constrain}\;#1}
+\newcommand{\enr}{{\sf elem}_{r}}
+\newcommand{\evalk}{\succ}
+\newcommand{\pe}{\blacklozenge}
+\newcommand{\ee}{\bullet}
+\newcommand{\pc}{\mathpzc{P}}
+\newcommand{\ec}{\mathpzc{E}}
+\newcommand{\gc}{\mathpzc{G}}
+\newcommand{\lc}{\mathpzc{L}}
+\newcommand{\toh}{\longrightarrow_\Hs}
+\newcommand{\toj}{\longrightarrow_\Js}
+\newcommand{\toc}{\longrightarrow_\Cs}
+\newcommand{\tofj}{\longrightarrow_{{\sf FJ}}}
+
+% Imperativo
+\newcommand{\vardec}{{\tt vardec}}
+\newcommand{\fundec}{{\tt fundec}}
+\newcommand{\secu}{{\tt secu}}
+\newcommand{\asig}{{\tt asig}}
+\newcommand{\call}{{\tt call}}
+\newcommand{\error}{{\tt error}}
+\newcommand{\try}{{\tt try}}
+\newcommand{\catch}{{\tt catch}}
+\newcommand{\raiset}{{\tt raise}}
+\newcommand{\handle}{{\tt handle}}
+\newcommand{\prop}{\prec\!\!\!\prec}
+
+\newcommand{\truet}{{\tt true}}
+\newcommand{\falset}{{\tt false}}
+\newcommand{\ift}{{\tt if}}
+\newcommand{\funt}{{\tt lam}}
+\newcommand{\recfun}{{\tt recfun}}
+\newcommand{\letrec}{{\tt letrec}}
+\newcommand{\object}{{\tt Object}}
+\newcommand{\appt}{{\tt app}}
+\newcommand{\suct}{{\tt succ}}
+\newcommand{\fix}{{\tt fix}}
+\newcommand{\eqt}{{\tt eq}}
+\newcommand{\fact}{{\tt fact}}
+\newcommand{\tvar}{{\sf TVar}}
+\newcommand{\cn}{{\sf cn}}
+\newcommand{\ope}{{\tt op}}
+\newcommand{\return}{{\tt return}}
+\newcommand{\while}{{\tt while}}
+\newcommand{\afst}{{\tt fst}}
+\newcommand{\fst}{{\sf fst}}
+\newcommand{\asnd}{{\tt snd}}
+\newcommand{\leqt}{{\tt leq}}
+\newcommand{\subt}{{\tt sub}}
+\newcommand{\snd}{{\sf snd}}
+\newcommand{\rcd}{{\sf rcd}}
+\newcommand{\empt}{{\sf Empty}}
+\newcommand{\inl}[2]{{\tt inl_{#1}[#2]}}
+\newcommand{\inr}[2]{{\tt inr_{#1}[#2]}}
+\newcommand{\inla}[2]{{\tt inl[#1](#2)}}
+\newcommand{\inra}[2]{{\tt inr[#1](#2)}}
+\newcommand{\inlt}{{\tt inl}}
+\newcommand{\inrt}{{\tt inr}}
+\newcommand{\case}{{\tt case}}
+\newcommand{\inv}{{\tt in}}
+\newcommand{\marco}{{\sf\;\;marco}}
+\newcommand{\okj}{{\sf\;\;ok}}
+\newcommand{\pila}{{\sf\;\;pila}}
+\newcommand{\env}{{\sf\;\;env}}
+
+
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Ct}{{\tt C}}
+\newcommand{\Dt}{{\tt D}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\literal}{\mathcal{l}}
+\newcommand{\Sr}{\mathcal{S}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\T}{{\sf T}}
+\newcommand{\St}{{\sf S}}
+\newcommand{\Rt}{{\sf R}}
+\newcommand{\Sf}{{\sf S}}
+\newcommand{\Top}{{\sf Top}}
+\newcommand{\Bot}{{\sf Bot}}
+\newcommand{\X}{{\sf X}}
+\newcommand{\Y}{{\sf Y }}
+\newcommand{\V}{{\sf V }}
+\newcommand{\Z}{{\sf Z }}
+\newcommand{\As}{\mathcal{A}}
+\newcommand{\Bs}{\mathcal{B}}
+\newcommand{\Cs}{\mathcal{C}}
+\newcommand{\Ds}{\mathcal{D}}
+\newcommand{\Es}{\mathcal{E}}
+\newcommand{\Fs}{\mathcal{F}}
+\newcommand{\Gs}{\mathcal{G}}
+\newcommand{\Hs}{\mathcal{H}}
+\newcommand{\Is}{\mathcal{I}}
+\newcommand{\Js}{\mathcal{J}}
+\newcommand{\Ks}{\mathcal{K}}
+\newcommand{\Ls}{\mathcal{L}}
+\newcommand{\Ms}{\mathcal{M}}
+\newcommand{\Ns}{\mathcal{N}}
+\newcommand{\Os}{\mathcal{O}}
+\newcommand{\Ps}{\mathcal{P}}
+\newcommand{\Qs}{\mathcal{Q}}
+\newcommand{\Rs}{\mathcal{R}}
+\newcommand{\Ss}{\mathcal{S}}
+\newcommand{\Ts}{\mathcal{T}}
+\newcommand{\Us}{\mathcal{U}}
+\newcommand{\Vs}{\mathcal{V}}
+\newcommand{\Ws}{\mathcal{W}}
+\newcommand{\Xs}{\mathcal{X}}
+\newcommand{\Ys}{\mathcal{Y}}
+\newcommand{\Zs}{\mathcal{Z}}
+\newcommand{\ab}{\textbf{a}}
+\newcommand{\bb}{\textbf{b}}
+\newcommand{\cb}{\textbf{c}}
+\newcommand{\db}{\textbf{d}}
+\newcommand{\ub}{\textbf{u}}
+%\renewcommand{\vb}{\textbf{v}} % This clashes with the physics package (the physics package already defines the \vb command)
+\newcommand{\wb}{\textbf{w}}
+\newcommand{\xb}{\textbf{x}}
+\newcommand{\yb}{\textbf{y}}
+\newcommand{\zb}{\textbf{z}}
+\newcommand{\Ab}{\textbf{A}}
+\newcommand{\Bb}{\textbf{B}}
+\newcommand{\Cb}{\textbf{C}}
+\newcommand{\Db}{\textbf{D}}
+\newcommand{\eb}{\textbf{e}}
+\newcommand{\ex}{\textbf{e}_x}
+\newcommand{\ey}{\textbf{e}_y}
+\newcommand{\ez}{\textbf{e}_z}
+\newcommand{\abar}{\overline{a}}
+\newcommand{\bbar}{\overline{b}}
+\newcommand{\cbar}{\overline{c}}
+\newcommand{\dbar}{\overline{d}}
+\newcommand{\ubar}{\overline{u}}
+\newcommand{\vbar}{\overline{v}}
+\newcommand{\wbar}{\overline{w}}
+\newcommand{\xbar}{\overline{x}}
+\newcommand{\ybar}{\overline{y}}
+\newcommand{\zbar}{\overline{z}}
+\newcommand{\Abar}{\overline{A}}
+\newcommand{\Bbar}{\overline{B}}
+\newcommand{\Cbar}{\overline{C}}
+\newcommand{\Dbar}{\overline{D}}
+\newcommand{\Ubar}{\overline{U}}
+\newcommand{\Vbar}{\overline{V}}
+\newcommand{\Wbar}{\overline{W}}
+\newcommand{\Xbar}{\overline{X}}
+\newcommand{\Ybar}{\overline{Y}}
+\newcommand{\Zbar}{\overline{Z}}
+\newcommand{\Aint}{A^\circ}
+\newcommand{\Bint}{B^\circ}
+\newcommand{\limk}{\lim_{k\to\infty}}
+\newcommand{\limm}{\lim_{m\to\infty}}
+\newcommand{\limn}{\lim_{n\to\infty}}
+\newcommand{\limx}[1][a]{\lim_{x\to#1}}
+\newcommand{\liminfm}{\liminf_{m\to\infty}}
+\newcommand{\limsupm}{\limsup_{m\to\infty}}
+\newcommand{\liminfn}{\liminf_{n\to\infty}}
+\newcommand{\limsupn}{\limsup_{n\to\infty}}
+\newcommand{\sumkn}{\sum_{k=1}^n}
+\newcommand{\sumk}[1][1]{\sum_{k=#1}^\infty}
+\newcommand{\summ}[1][1]{\sum_{m=#1}^\infty}
+\newcommand{\sumn}[1][1]{\sum_{n=#1}^\infty}
+\newcommand{\emp}{\varnothing}
+\newcommand{\exc}{\backslash}
+\newcommand{\sub}{\subseteq}
+\newcommand{\sups}{\supseteq}
+\newcommand{\capp}{\bigcap}
+\newcommand{\cupp}{\bigcup}
+\newcommand{\kupp}{\bigsqcup}
+\newcommand{\cappkn}{\bigcap_{k=1}^n}
+\newcommand{\cuppkn}{\bigcup_{k=1}^n}
+\newcommand{\kuppkn}{\bigsqcup_{k=1}^n}
+\newcommand{\cappk}[1][1]{\bigcap_{k=#1}^\infty}
+\newcommand{\cuppk}[1][1]{\bigcup_{k=#1}^\infty}
+\newcommand{\cappm}[1][1]{\bigcap_{m=#1}^\infty}
+\newcommand{\cuppm}[1][1]{\bigcup_{m=#1}^\infty}
+\newcommand{\cappn}[1][1]{\bigcap_{n=#1}^\infty}
+\newcommand{\cuppn}[1][1]{\bigcup_{n=#1}^\infty}
+\newcommand{\kuppk}[1][1]{\bigsqcup_{k=#1}^\infty}
+\newcommand{\kuppm}[1][1]{\bigsqcup_{m=#1}^\infty}
+\newcommand{\kuppn}[1][1]{\bigsqcup_{n=#1}^\infty}
+\newcommand{\cappa}{\bigcap_{\alpha\in I}}
+\newcommand{\cuppa}{\bigcup_{\alpha\in I}}
+\newcommand{\kuppa}{\bigsqcup_{\alpha\in I}}
+\newcommand{\Rx}{\overline{\mathbb{R}}}
+\newcommand{\dx}{\,dx}
+\newcommand{\dy}{\,dy}
+\newcommand{\dt}{\,dt}
+\newcommand{\dax}{\,d\alpha(x)}
+\newcommand{\dbx}{\,d\beta(x)}
+\DeclareMathOperator{\glb}{\text{glb}}
+\DeclareMathOperator{\lub}{\text{lub}}
+\newcommand{\xh}{\widehat{x}}
+\newcommand{\yh}{\widehat{y}}
+\newcommand{\zh}{\widehat{z}}
+\newcommand{\<}{\langle}
+\renewcommand{\>}{\rangle}
+\renewcommand{\iff}{\Leftrightarrow}
+\DeclareMathOperator{\im}{\text{im}}
+\let\spn\relax\let\Re\relax\let\Im\relax
+\DeclareMathOperator{\spn}{\text{span}}
+\DeclareMathOperator{\Re}{\text{Re}}
+\DeclareMathOperator{\Im}{\text{Im}}
+\DeclareMathOperator{\diag}{\text{diag}}
+
+\newtheoremstyle{mystyle}{}{}{}{}{\bfseries}{.}{ }{}
+\newtheoremstyle{cstyle}{}{}{}{}{\bfseries}{.}{ }{\thmnote{#3}}
+\makeatletter
+\renewenvironment{proof}[1][\proofname] {\par\pushQED{\qed}{\normalfont\bfseries\topsep6\p@\@plus6\p@\relax #1\@addpunct{.} }}{\popQED\endtrivlist\@endpefalse}
+\makeatother
+% \newcommand{\coolqed}[1]{\includegraphics[width=#1cm]{sunglasses_emoji.png}} %Defines the new QED symbol
+% \renewcommand{\qedsymbol}{\coolqed{0.32}} %Implements the new QED symbol
+\theoremstyle{mystyle}{\newtheorem{definition}{Definición}[section]}
+\theoremstyle{mystyle}{\newtheorem{proposition}[definition]{Proposición}}
+\theoremstyle{mystyle}{\newtheorem{theorem}[definition]{Teorema}}
+\theoremstyle{mystyle}{\newtheorem{lemma}[definition]{Lema}}
+\theoremstyle{mystyle}{\newtheorem{corollary}[definition]{Corolario}}
+\theoremstyle{mystyle}{\newtheorem*{remark}{Observación}}
+\theoremstyle{mystyle}{\newtheorem*{remarks}{Observaciones}}
+\theoremstyle{mystyle}{\newtheorem{example}{Ejemplo}[section]}
+\theoremstyle{mystyle}{\newtheorem*{examples}{Ejemplos}}
+\theoremstyle{definition}{\newtheorem{exercise}{Ejercicio}[section]}
+\theoremstyle{cstyle}{\newtheorem*{cthm}{}}
+
+%Warning environment
+\newtheoremstyle{warn}{}{}{}{}{\normalfont}{}{ }{}
+\theoremstyle{warn}
+\newtheorem*{warning}{\warningsign{0.2}\relax}
+
+%Symbol for the warning environment, designed to be easily scalable
+\newcommand{\warningsign}[1]{\tikz[scale=#1,every node/.style={transform shape}]{\draw[-,line width={#1*0.8mm},red,fill=yellow,rounded corners={#1*2.5mm}] (0,0)--(1,{-sqrt(3)})--(-1,{-sqrt(3)})--cycle;
+\node at (0,-1) {\fontsize{48}{60}\selectfont\bfseries!};}}
+
+\tcolorboxenvironment{definition}{boxrule=0pt,boxsep=0pt,colback={WildStrawberry!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{WildStrawberry},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{proposition}{boxrule=0pt,boxsep=0pt,colback={Orange!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{Orange},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{corollary}{boxrule=0pt,boxsep=0pt,colback={blue!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{blue},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{lemma}{boxrule=0pt,boxsep=0pt,colback={Cyan!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{Cyan},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{theorem}{boxrule=0pt,boxsep=0pt,colback={violet!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{violet},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{proof}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{CadetBlue!80!white},left=8pt,right=8pt,sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{example}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Green},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{examples}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{Green},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{remark}{boxrule=0pt,boxsep=0pt,colback={Dandelion!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{Dandelion},sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{remarks}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{yellow},left=8pt,right=8pt,sharp corners,before skip=10pt,after skip=10pt,breakable}
+\tcolorboxenvironment{cthm}{boxrule=0pt,boxsep=0pt,colback={gray!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{gray},sharp corners,before skip=10pt,after skip=10pt,breakable}
+
+\newenvironment{cita}{\vspace{1em}}{\vspace{1em}}
+
+\tcolorboxenvironment{cita}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{YellowOrange},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
+
+
+\newenvironment{code}{\vspace{1em}}{\vspace{0.1em}}
+\tcolorboxenvironment{code}{boxrule=0pt,boxsep=0pt,colback={darkgray!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={2pt}{0pt}{darkgray},sharp corners,before skip=10pt,after skip=10pt,breakable}
+
+\newenvironment{code2}{\vspace{1em}}{\vspace{0.1em}}
+\tcolorboxenvironment{code2}{boxrule=0pt,boxsep=0pt,colback={darkgray!10},left=8pt,right=8pt,enhanced jigsaw, borderline west={0pt}{0pt}{darkgray},sharp corners,before skip=10pt,after skip=10pt,breakable}
+
+%align and align* environments with inline size
+\newenvironment{talign}{\let\displaystyle\textstyle\align}{\endalign}
+\newenvironment{talign*}{\let\displaystyle\textstyle\csname align*\endcsname}{\endalign}
+
+\usepackage[explicit]{titlesec}
+\titleformat{\section}{\fontsize{18}{24}\bfseries}{\thesection}{18pt}{#1}
+\titleformat{\subsection}{\fontsize{14}{16}\bfseries}{\thesubsection}{14pt}{#1}
+\titleformat{\subsubsection}{\fontsize{10}{12}\large\bfseries}{\thesubsubsection}{8pt}{#1}
+
+\titlespacing*{\section}{0pt}{5pt}{5pt}
+\titlespacing*{\subsection}{0pt}{5pt}{5pt}
+\titlespacing*{\subsubsection}{0pt}{5pt}{5pt}
+
+%\newcommand{\sectionbreak}{\clearpage} %Start every section on a new page
+
+\newcommand{\Disp}{\displaystyle}
+\newcommand{\qe}{\hfill\(\bigtriangledown\)}
+\DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
+% \setlength{\parindent}{0.2in}
+% \setlength{\parskip}{0pt}
+% \setlength{\columnseprule}{0pt}
+
+
+% \setlength{\abovedisplayskip}{3pt}
+% \setlength{\belowdisplayskip}{3pt}
+% \setlength{\abovedisplayshortskip}{0pt}
+% \setlength{\belowdisplayshortskip}{0pt}
+
+%Custom colors for different environments
+\definecolor{contcol1}{HTML}{72E094}
+\definecolor{contcol2}{HTML}{24E2D6}
+\definecolor{convcol1}{HTML}{C0392B}
+\definecolor{convcol2}{HTML}{8E44AD}
+\definecolor{yellow}{HTML}{F9CB24}
+
+
+
+
+\setlength{\parskip}{1em}
+
+
+
+
+
+% --------------------------------
+
+
+% Ejemplos de cajas de texto cool
+% \begin{tcolorbox}[title=Contents, fonttitle=\huge\bfseries\selectfont,interior style={left color=contcol1!40!white,right color=contcol2!40!white},frame style={left color=contcol1!80!white,right color=contcol2!80!white},coltitle=black,top=2mm,bottom=2mm,left=2mm,right=2mm,drop fuzzy shadow,enhanced,breakable]
+% \makeatletter
+% \@starttoc{toc}
+% \makeatother
+% \end{tcolorbox}
+
+
+
+
+% \begin{tcolorbox}[title=Conventions, fonttitle=\large\bfseries\selectfont,interior style={left color=convcol1!40!white,right color=convcol2!40!white},frame style={left color=convcol1!80!white,right color=convcol2!80!white},coltitle=black,top=2mm,bottom=2mm,left=2mm,right=2mm,drop fuzzy shadow,enhanced,breakable]
+% $\F$ denotes either $\R$ or $\C$.\\
+% $\N$ denotes the set $\{1,2,3,...\}$ of natural numbers (excluding $0$).
+% \end{tcolorbox}
+
+
+% \usetikzlibrary{calc,shapes.callouts,shapes.arrows}
+
+% \newcommand{\speechthis}[1]{
+%         \tikz[remember picture,baseline]{\node[anchor=base,inner sep=0,outer sep=0]%
+%         () {};\node[overlay,ellipse callout,fill=blue!50] 
+%         at ($(.)+(-.5cm,0.8cm)$) {#1};}%
+%     }%
+
+% \newcommand{\bubblethis}[2]{
+%         \tikz[remember picture,baseline]{\node[anchor=base,inner sep=0,outer sep=0]%
+%         (#1) {\underline{#1}};\node[overlay,cloud callout,callout relative pointer={(0.2cm,-0.7cm)},%
+%         aspect=2.5,fill=yellow!90] at ($(#1.north)+(-0.5cm,1.6cm)$) {#2};}%
+%     }%
+
+\usetikzlibrary{shapes.callouts} 
+
+\pgfkeys{%
+    /calloutquote/.cd,
+    width/.code                   =  {\def\calloutquotewidth{#1}},
+    position/.code                =  {\def\calloutquotepos{#1}}, 
+    author/.code                  =  {\def\calloutquoteauthor{#1}},
+    /calloutquote/.unknown/.code   =  {\let\searchname=\pgfkeyscurrentname
+                                 \pgfkeysalso{\searchname/.try=#1,                                
+    /tikz/\searchname/.retry=#1},\pgfkeysalso{\searchname/.try=#1,
+                                  /pgf/\searchname/.retry=#1}}
+                            }  
+
+
+\newcommand\calloutquote[2][]{%
+       \pgfkeys{/calloutquote/.cd,
+         width               = 5cm,
+         position            = {(0,-1)},
+         author              = {}}
+  \pgfqkeys{/calloutquote}{#1}                   
+  \node [rectangle callout,callout relative pointer={\calloutquotepos},text width=\calloutquotewidth,/calloutquote/.cd,
+     #1] (tmpcall) at (0,0) {#2};
+  \node at (tmpcall.pointer){\calloutquoteauthor};    
+}
+

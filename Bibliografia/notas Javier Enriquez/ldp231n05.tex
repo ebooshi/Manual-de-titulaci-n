@@ -1,0 +1,549 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\usepackage{chronology}
+
+\title{\LARGE 
+Lenguajes de Programación 2023-1\\ 
+Nota de clase 5: Cálculo Lambda \\
+\color{SeaGreen} Funcional ($\lambda$)}
+\author{Javier Enríquez Mendoza }
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+Hasta este momento hemos estado trabajando con un lenguaje muy sencillo que únicamente incluye expresiones aritméticas y variables. Este lenguaje si bien es importante para el estudio de los conceptos vistos hasta ahora, no es un lenguaje de programación. 
+
+El objetivo final de este curso es estudiar las características de los lenguajes de programación clasificados por el estilo de programación que siguen. En esta nota de clase se presenta un sistema que sirve como núcleo para el diseño y el estudio de los lenguajes de programación del paradigma funcional, este sistema recibe el nombre Cálculo Lambda.
+
+\section{Un poco de historia}
+
+\begin{center}
+    \begin{chronology}[5]{1930}{1940}{75ex}
+    \event{1932}{Church}
+    \event{1934}{Curry}
+    \event{1936}{Kleene y Rossel}
+    \event{1937}{Turing}
+    \end{chronology}
+\end{center}
+
+En 1932 Alonzo Church en colaboración con sus alumnos Stephen Kleene y Barkely Rosser, desarrollaron un sistema basado en funciones y lógica, con el objetivo de que sirviera como fundamento para la matemática. Posteriormente, en 1936 Kleene y Rosser probaron que dicho sistema era inconsistente por lo que no servía su propósito original. Sin embargo, el sub-sistema encargado exclusivamente del manejo de funciones resulto ser un excelente modelo teórico para la definición de funciones computables. Este sub-sistema en la actualidad recibe el nombre de Cálculo Lambda.
+
+En 1936 Kleene y Rosser también probaron que todas las funciones recursivas podían ser representadas en Cálculo Lambda. 
+
+Por otro lado en 1937 Alan Turing demostró que el poder de expresividad de una Máquina de Turing era el mismo que tenía el Cálculo Lambda, es decir, que ambos sistemas podían expresar exactamente los mismos cómputos. Y esta equivalencia es la que recibe el nombre de la Tesis de Church-Turing.
+
+En 1934 Haskell Curry desarrolla la lógica combinatoria, basada en el Cálculo Lambda, con la diferencia de que en este sistema todas las expresiones pueden representarse mediante composiciones de tres combinadores.
+
+Representar los cómputos mediante el uso de funciones o expresiones del cálculo lambda, llamadas $\lambda$ términos, dio origen a un estilo de programación en el que las funciones son el elemento principal, la {\it programación funcional}.
+\section{Sintaxis}
+Parte importante de la popularidad del Cálculo Lambda se debe a su simplicidad. En este sistema se tienen simplemente tres tipos de expresiones: variables, abstracciones lambda y aplicaciones. 
+
+\begin{definition}[Sintaxis concreta del Cálculo Lambda] La sintaxis concreta del Cálculo Lambda se da con la siguiente definición inductiva, sobre el juicio $l\;\lambda\term$ que indica que $l$ es un término lambda, es decir, $l$ es una expresión válida en el Cálculo Lambda.
+
+    \[
+        \begin{array}{ccccc}
+            \inference{x\;{\sf var}}{x\;\lambda\term}[\sf var]&\quad&
+            \inference{x\;{\sf var}&e\;\lambda\term}{\lambda x.e\;\lambda\term}[\sf abs]&\quad&
+            \inference{e_1\;\lambda\term&e_2\;\lambda\term}{e_1\,e_2\;\lambda\term}[\sf app]
+        \end{array}
+    \]
+    \begin{description}
+        \item[Variables] Se tiene un conjunto infinito de variables, usualmente denotadas por las últimas letras del alfabeto $w,x,y,z,\dots$, las variables son un término lambda.
+        \item[Abstracción lambda] Una expresión de la forma $\lambda x.e$ es llamada una abstracción lambda o simplemente abstracción, en donde $x$ es la variable de la abstracción y $e$ es el cuerpo. La idea intuitiva es que la abstracción se pueden pensar como una función anónima que reciben como argumento a $x$ y su cuerpo es $e$. De la misma forma que en la sintaxis de orden superior, el punto denota un ligado de la variable $x$ en el cuerpo $e$.
+        \item[Aplicación] Una expresión de la forma $e_1\,e_2$ es llamada una aplicación. La idea es que estas expresiones denotan la aplicación de funciones en donde $e_1$ es la función y $e_2$ es el argumento. La aplicación asocia a la {\bf izquierda}, por lo que la expresión $e_1\,e_2\,e_3$ significa $(e_1\,e_2)\,e_3$.
+    \end{description}
+\end{definition}
+
+\begin{examples}[Términos Lambda] A continuación se presentan algunos ejemplos de expresiones del Cálculo Lambda.
+    \begin{description}
+        \item[Abstracción Lambda]:
+
+            \begin{itemize}
+                \item $\lambda x.x$ 
+                \item $\lambda x.y$
+                \item $\lambda x.\lambda y.xy$
+                \item $\lambda x.\lambda y.xyx$
+                \item $\lambda x.xx$
+            \end{itemize}
+
+            En estos ejemplo la expresión $\lambda x.x$ define la función identidad, es decir, la función que regresa el mismo parámetro que recibe y la expresión $\lambda x.y$ es la función constante que sin importar que recibe regresa $y$. 
+
+            La expresión $\lambda x.\lambda y.xy$ denota una función de dos parámetros $x$ y $y$. Aunque la especificación de la sintaxis no permite definir funciones de dos o mas argumentos se pueden anidar abstracciones para representar estos caso, en donde cada abstracción define un parámetro de la función, a esta técnica se le conoce como {\it currificación} en honor a Haskell Curry. Por simplicidad se puede escribir la abstracción como $\lambda xy.xy$, aunque se trata de un abuso de notación. 
+        \item[Aplicación]:
+
+            \begin{itemize}
+                \item $xy$ 
+                \item $(\lambda x.y)x$
+                \item $(\lambda x.x)(\lambda y.y)$
+                \item $xyz$
+                \item $x(\lambda x.y)$
+            \end{itemize}
+    \end{description}
+\end{examples}
+
+Dado que en la abstracción $\lambda x.e$ el operador $\lambda$ liga a la variable $x$ en $e$ se mantiene la noción de variables libres y ligadas introducida anteriormente con las expresiones $\lett$. También se puede definir la noción de $\alpha$-equivalencia, de forma similar a la vista con sintaxis de orden superior.
+
+\begin{definition}[$\alpha$-equivalencia] En Cálculo Lambda, dos lambda términos $e_1$ y $e_2$ son $\alpha$-equivalentes si y sólo si solo se diferencian en el nombre de las variables de ligado. Por ejemplo, las expresiones:
+\[
+    \begin{array}{ccc}
+    \lambda x.x &\quad& \lambda z.z
+    \end{array}
+\]
+\noindent
+son $\alpha$-equivalentes y se denota como $\lambda x.x\equiv_{\alpha}\lambda z.z$
+\end{definition}
+
+\section{Semántica Operacional}
+    \begin{definition}[Semántica operacional del Cálculo Lambda] La semántica operacional del Cálculo Lambda está dada por la siguiente regla conocida como $\beta$ reducción.
+
+    $$(\lambda x.t)\,s \to_\beta t[x:=s]$$
+
+    En esta regla, a la expresión $(\lambda x.t)\,s$ se le llama redex (del
+    inglés reducible expression), mientras que a la expresión $t[x:=s]$ se le llama reducto . Se observa entonces que todo paso de
+    evaluación es simplemente una sustitución definida de la manera usual
+    mediante el uso de $\alpha$-equivalencia para evitar la captura de
+    variables libres:
+        \begin{itemize}
+        \item $x[x:=r] = r$. 
+        \item $y[x:=r] = y$ si $x\neq y$.
+        \item $(ts)[x:=r] = t[x:=r]s[x:=r]$.
+        \item $(\lambda y.t)[x:=r] = \lambda y.t[x:=r]$ donde $y\notin FV(r)$.
+        \end{itemize}
+    \end{definition}
+
+    \newpage
+
+    \begin{example}[Evaluación de expresiones del Cálculo Lambda] Se evalúa la siguiente expresión haciendo uso de la regla de $\beta$ reducción.
+    \[
+        \begin{array}{cl}
+            & (\lambda x.\lambda y.xy) (\lambda x.x) z\\
+            \to_\beta & (\lambda y.xy)[x := \lambda x.x] z\\
+            = & (\lambda y.(\lambda x.x)y) z\\
+             \to_\beta & (\lambda y.(x[x:=y]) z\\
+             = & (\lambda y.y) z\\
+              \to_\beta & y[y := z] \\
+              = & z\\
+        \end{array}
+    \]
+    Se puede observar que el proceso de evaluación termino arrojando como resultado la variable $z$ sobre la cual ya no se puede aplicar la regla de $\beta$ reducción.
+    \end{example}
+    \begin{definition}[Forma Normal] Se dice que un $\lambda$ término está en forma normal si no existe otro término $e'$ tal que $e\to_\beta e'$.
+
+    De esta forma, si $e\to_\beta^*e_n$ y $e_n$ está en forma normal, decimos que $e_n$ es la forma normal de $e$. 
+    \end{definition}
+\section{Definibilidad Lambda}
+En el Cálculo Lambda se pueden dar definiciones de expresiones usuales en los lenguajes de programación como lo son las expresiones aritméticas, booleanas o estructuras de datos, así como funciones para trabajar con éstas. En esta sección se muestran algunas de estas definiciones.
+
+\subsection{Booleanos}
+Comencemos dando una definición de los Booleanos en el Cálculo Lambda, para esto se representan las constantes booleanas como funciones con dos argumentos de la siguiente forma:
+    \begin{description}
+        \item[Verdadero]
+        $$\true\eqdef\lambda x.\lambda y.x$$
+        \item[Falso]
+        $$\false\eqdef\lambda x.\lambda y.y$$
+    \end{description}
+
+
+Con esta definición de conjunto de Booleanos se pueden dar definiciones para operadores sobre ellos, como las siguientes:
+
+
+    \begin{description}
+        \item[El operador {\tt if}]
+        $$\mathsf{if}\eqdef\lambda v.\lambda t\lambda f.vtf$$
+        \item[Negación]
+        $$\mathsf{not}\eqdef\lambda z. z\,\false\,\true$$
+        \item[Conjunción]
+        $$\mathsf{and}\eqdef\lambda x.\lambda y.x y\, \false$$
+    \end{description}
+    \newpage
+    Con estas definiciones es fácil comprobar que las siguientes propiedades son ciertas:
+    \begin{itemize}
+        \item $\mathsf{if}\,\true\,e_1\,e_2 \to_\beta^* e_1$ 
+        \item $\mathsf{if}\,\false\,e_1\,e_2 \to_\beta^* e_2$ 
+        \item $\mathsf{not}\,\true\to_\beta^* \false$
+        \item $\mathsf{not}\,\false\to_\beta^* \true$
+        \item $\mathsf{and}\,\false\,b\to_\beta^* \false$
+        \item $\mathsf{and}\,\true\,b\to_\beta^* b$
+    \end{itemize}
+
+    \noindent
+    Es decir, que los operadores funcionan adecuadamente.
+
+\subsection{Expresiones aritméticas}
+
+Definamos las expresiones aritméticas en el Cálculo Lambda, para esto se requiere de una representación de los números naturales sobre los cuales se puedan definir estas expresiones.
+
+\subsubsection{Numerales de Church}
+El Cálculo $\lambda$ permite modelar operaciones aritméticas. Para poder usar estas operaciones, definimos una representación de los números naturales mediante abstracciones lambda. Esta representación recibe el nombre de Numerales de Church.
+
+
+La idea intuitiva para representar números naturales es construirlos como una función con dos argumentos $z$ que hace referencia al cero y $s$ que modela la función sucesor, por lo que se representa el natural $n$ aplicando $n$ veces $s$ a $z$. De esta forma los naturales quedan definidos como sigue:
+
+\begin{itemize}
+\item $\bar{0}=_{def}\lambda s.\lambda z.z$
+\item $\bar{1}=_{def}\lambda s.\lambda z.sz$
+\item $\bar{2}=_{def}\lambda s.\lambda z.s(sz)$
+\item $\bar{n}=_{def}\lambda s.\lambda z.\underbrace{s(\ldots(s}_{n\;veces} z)\ldots)$
+\end{itemize}
+
+A partir de esta representación de los números naturales se pueden definir funciones aritméticas que operen con ellos.
+
+\subsubsection{Funciones aritméticas}
+
+Las operaciones sobre naturales se definen como sigue:
+
+    \begin{description}
+        \item[Sucesor]
+        $$\suc\eqdef\lambda n.\lambda s.\lambda z.s(nsz)$$
+
+        para calcular el sucesor de cero, tenemos:
+
+        \[
+            \begin{array}{cl}
+            &\suc\,\bar{0}\\
+            =&(\lambda n.\lambda s.\lambda z.s(nsz))\bar{0}\\
+            \to_\beta&\lambda s.\lambda z.s(\bar{0}sz)\\
+            =&\lambda s.\lambda z.s((\lambda s.\lambda z.z)sz)\\
+            \to_\beta&\lambda s.\lambda z.s((\lambda z.z)z)\\
+            \to_\beta&\lambda s.\lambda z.sz\\
+            =&\bar{1}
+            \end{array}
+        \]
+        \noindent
+        Y en general se tiene que $\forall n\in\N\,\suc\,\bar{n}\to_\beta^*\overline{n+1}$
+        \item[Suma]
+        $$\mathsf{suma}\eqdef\lambda m.\lambda n. n(\suc)m$$
+        Con esta definición la siguiente propiedad es cierta $\forall m,n\in\mathbb{N}(\mathsf{suma}\,\bar{m}\,\bar{n}\to_\beta^\star \overline{m+n}\;)$.
+        \item[Producto]
+        $$\mathsf{prod}\eqdef\lambda m.\lambda n.m(\mathsf{suma}\;n)\bar{0}$$
+        Tal que $\forall m,n\in\mathbb{N}(\mathsf{prod}\,\bar{m}\,\bar{n}\to_\beta^\star \overline{m*n}\;)$
+        \item[Test de cero]
+        $$\mathsf{iszero}\eqdef\lambda m. m(\lambda x.\false)\true$$
+        Y se cumple $\mathsf{iszero}\,\bar{0}\to^\star \true\;\;\;\;\;\;\;\mathsf{iszero}\,(\overline{n+1})\to_\beta^\star\false$
+    \end{description}
+
+\subsection{Estructuras de datos}
+
+También se pueden definir estructuras de datos en Cálculo Lambda, utilizando abstracciones. algunas de las estructuras mas utilizadas son los pares y listas, las cuales se definen a continuación.
+
+\subsubsection{Pares}
+Los pares son una estructura de datos que almacena dos elementos, son tuplas de dimensión 2. Se representan como una función que toma como argumentos, los dos elementos del par y una función y aplica esta función a los componentes del par. 
+
+
+    \begin{description}
+        \item[Constructor de pares]
+        $$\mathsf{pair} \eqdef\lambda f\lambda s\lambda b. bfs$$
+        \item[Proyección del primer elemento]
+        $$\mathsf{fst} \eqdef \lambda p.p\,\true$$
+        \item[Proyección del segundo elemento]
+        $$\mathsf{snd} \eqdef \lambda p.p\,\false$$
+    \end{description}
+
+Veamos algunos ejemplos del funcionamiento de {\sf fst} y {\sf snd}.
+
+$${\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf a}$$
+\noindent
+En donde {\sf a} y {\sf b} son dos expresiones arbitrarias.
+
+    \[
+        \begin{array}{cl}
+        &{\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b})\\
+        =&{\sf fst}\;((\lambda f.\lambda s. \lambda x. xfs) \;{\sf a} \; {\sf b})\\
+        \to_\beta&{\sf fst}\;((\lambda s. \lambda x. x\,{\sf a}\,s)  \; {\sf b})\\
+        \to_\beta&{\sf fst}\;(\lambda x. x\,{\sf a}\, {\sf b})\\
+        =&(\lambda p.p\,{\sf true})(\lambda x. x\,{\sf a}\, {\sf b})\\
+        \to_\beta&( \lambda x. x\,{\sf a}\, {\sf b})\,{\sf true}\\
+        \to_\beta&{\sf true}\,{\sf a}\, {\sf b}\\ 
+        =&(\lambda x.\lambda y.x)\,{\sf a}\, {\sf b}\\
+        \to_\beta&(\lambda y.{\sf a})\, {\sf b}\\
+        \to_\beta& {\sf a}
+        \end{array}
+    \]
+
+Ahora veamos que se cumple
+$${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$ 
+
+\[
+        \begin{array}{cl}
+        &{\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b})\\
+        =&{\sf snd}\;((\lambda f.\lambda s. \lambda x. xfs) \;{\sf a} \; {\sf b})\\
+        \to_\beta&{\sf snd}\;((\lambda s. \lambda x. x\,{\sf a}\,s)  \; {\sf b})\\
+        \to_\beta&{\sf snd}\;(\lambda x. x\,{\sf a}\, {\sf b})\\
+        =&(\lambda p.p\,{\sf false})(\lambda x. x\,{\sf a}\, {\sf b})\\
+        \to_\beta&( \lambda x. x\,{\sf a}\, {\sf b})\,{\sf false}\\
+        \to_\beta&{\sf false}\,{\sf a}\, {\sf b}\\ 
+        =&(\lambda x.\lambda y.y)\,{\sf a}\, {\sf b}\\
+        \to_\beta&(\lambda y.y)\, {\sf b}\\
+        \to_\beta& {\sf a}
+        \end{array}
+    \]
+
+
+Y de esta forma se puede observar  que las funciones {\sf fst} y {\sf snd} están bien definidas 
+
+\subsubsection{Listas}
+
+Las listas son la estructura de datos mas utilizada en programación funcional, para definirlas en Cálculo Lambda se usa una representación por pares. Como se ve a continuación. 
+
+
+Las listas se representan como un par. En donde el primer elemento del par es la cabeza y el segundo elemento es la cola. La lista ${\tt x:xs}$ se define como $\langle {\tt x}, {\tt xs} \rangle$. Sin embargo esta definición no nos da una representación para la lista vacía, para solucionarlo se da una representación de la lista vacía como un término $\alpha$-equivalente a {\sf false}.
+
+\begin{description}
+        \item[Lista vacía]
+        $${\sf nil}  \eqdef {\sf false}$$
+        \item[Constructor {\tt cons}]
+        $${\sf cons}  \eqdef {\sf pair}$$
+        \item[Función para obtener la cabeza de la lista]
+        $${\sf head}  \eqdef {\sf fst}$$
+        \item[Función para obtener la cola de la lista]
+        $${\sf tail}  \eqdef {\sf snd}$$
+        \item[Test de la lista vacía]
+        $${\sf isnil}  \eqdef \lambda l.l(\lambda h.\lambda t.\lambda d. {\sf false}) {\sf true}$$
+    \end{description}
+
+
+Esta representación es usada por lenguajes de programación actuales como {\it Scheme}.
+
+\section{Propiedades de la semántica del Cálculo Lambda}
+El Cálculo Lambda es considerado como el lenguaje funcional mas pequeño que existe, esto debido a la simpleza de su sintaxis y semántica operacional. En algunos casos este sistema es reconocido como el lenguaje ensamblador de los lenguajes funcionales.
+
+La importancia de este lenguaje nos lleva a preguntarnos como se comporta respecto a las propiedades de la semántica operacional que se estudiaron en la nota anterior, a continuación se hace un análisis de estas propiedades en el caso especifico del Cálculo Lambda.
+\subsection{No terminación del Cálculo Lambda}
+En la nota de clase anterior, vimos que el lenguaje \ea con asignaciones locales cumplía la propiedad de terminación, es decir, que cualquier expresión correcta del lenguaje puede evaluarse hasta llegar a una expresión bloqueada. 
+
+Sin embargo esta propiedad no es válida en el Cálculo Lambda, al existir expresiones que no tienen una forma normal. La no terminación del Cálculo Lambda se debe principalmente al concepto de auto-aplicación, es decir, cuando un lambda termino se aplica a si mismo, como podemos ver en el ejemplo siguiente.
+
+\begin{example}[No terminación del Cálculo Lambda] Se presenta un clásico ejemplo de no terminación. Sean $\omega \eqdef \lambda x.xx$ y $\Omega\eqdef\omega\omega$ Utilizando la semántica operacional dada por la regla de $\beta$-reducción se genera la siguiente secuencia de evaluación:
+
+$$\Omega = \omega\omega=(\lambda x.xx)\omega\to_\beta\omega\omega=\Omega$$
+
+Se puede observar que $\Omega$ se reduce a sí mismo en un paso de $\beta$-reducción, lo que genera la sucesión infinita de reducción
+
+$$\Omega\to_\beta\Omega\to_\beta\Omega\to_\beta\Omega\to_\beta\Omega\to_\beta\cdots$$
+
+Por lo que $\Omega$ no tiene forma normal, lo cuál representa a un programa cuya evaluación se cicla infinitamente.
+\end{example}
+\subsection{No determinismo}
+Otra propiedad importante estudiada sobre la semántica de \ea es el determinismo de su semántica operacional, esta propiedad indica que cada expresión tiene una única secuencia de evaluación. 
+
+Empero la semántica operacional del cálculo lambda no es determinista, esto quiere decir que una misma expresión puede tener dos reductos distintos. Veámoslo con un ejemplo.
+
+\begin{example}[No determinismo del Cálculo Lambda] Consideremos el siguiente lambda término:
+
+$$(\lambda x.(\lambda y.yx)z)v$$
+
+Esta expresión tiene dos posibles reductos distintos. 
+
+\begin{itemize}
+    \item Si tomamos como redex ${\color{RubineRed}(\lambda x.(\lambda y.yx)z)v}$ entonces se genera el reducto $(\lambda y.yv)z$.
+    \item Si el redex es $(\lambda x.$${\color{RubineRed}(\lambda y.yx)z)}$$v$ se obtiene el reducto $(\lambda x.zx)v$.
+\end{itemize}
+Lo que define dos posibles secuencias de reducciones. Si continuamos con la evaluación de la expresión, en un paso mas de $\beta$-reducción en ambos casos se llega a la expresión $zv$.
+\end{example}
+
+El no determinismo en un sistema representa un problema serio si queremos usarlo como un modelo de cómputo válido, pues se debe garantizar que el resultado final es el mismo sin importar la secuencia de ejecución utilizada. 
+\subsection{Confluencia}
+El no determinismo del Cálculo Lambda no es un problema gracias a la propiedad de confluencia probada por Church y Rosser, que garantiza que a pesar del no determinismo de la función de $\beta$-reducción, la evaluación de una expresión converge en un lambda término.
+
+\begin{theorem}[Confluencia o propiedad de Church-Rosser] Si $e\to_\beta^* e_1$ y $e\to_\beta^*e_2$ entonces existe un término $t$ tal que  $e_1\to_\beta^* t$ y $e_2\to_\beta^* t$.
+\end{theorem}
+
+Esta propiedad garantiza que sin importar el camino que se tome la evaluación de una expresión va a coincidir en un mismo término.
+
+\begin{corollary}[Unicidad de formas normales] Para cualquier expresión $e$ si $e\to_\beta^*e_f$ y $e\to_\beta^*e_f'$ tal que, tanto $e_f$ como $e_f'$ están bloqueadas, entonces $e_f = e_f'$ salvo $\alpha$-equivalencias. Es decir, la forma normal de una expresión es única.
+\end{corollary}
+
+Este corolario permite utilizar el Cálculo Lambda como un sistema de cómputo válido al garantizar que el resultado final de una expresión será siempre el mismo sin importar el proceso de evaluación.
+
+Sin embargo aún hay un problema presente en el uso de la función de $\beta$-reducción como semántica operacional, ya que dependiendo del proceso de evaluación se podría no llegar a la forma normal de la expresión, veamos el siguiente ejemplo.
+
+\begin{example}Consideremos la expresión
+$$(\lambda x.y)\Omega$$
+    \begin{itemize}
+        \item Si se toma como redex $\color{RubineRed}(\lambda x.y)\Omega$ se obtiene el reducto $y$ que es la forma normal de la expresión.
+        \item Por el otro lado si tomamos como redex $(\lambda x.y)$$\color{RubineRed}\Omega$ la expresión diverge por lo que jamás alcanza su forma normal.
+    \end{itemize}
+\end{example}
+
+El ejemplo anterior muestra que usar el Cálculo Lambda por si sólo como lenguaje de programación puede resultar en expresiones con resultados bien definidos cuya evaluación se cicle infinitamente. Para corregir esto se deben definir restricciones o estrategias sobre la función de $\beta$-reducción.
+\section{Recursión y combinadores de punto fijo}
+La recusión es un concepto fundamental cuando se estudia lenguajes de programación, especialmente en el paradigma funcional, ya que es el principal mecanismo mediante e cuál se definen funciones. Por lo que es importante entender como funciona la recursión desde el lado de diseño de estos lenguajes.
+
+El Cálculo Lambda es un lenguaje puramente funcional en el sentido de que todo puede ser definido como una función. Sin embargo hasta ahora no hemos definido ninguna función recursiva. 
+
+Intentemos definir una clásica función recursiva sobre los números naturales, la función factorial. Un primer intento podría ser la siguiente expresión:
+
+$$\fac\eqdef \lambda x.\ifs(\iszero\,x)\,\bar{1}\,(\produ\,x\,(\fac\,(\pred\,x)))$$
+
+Esta definición es un lambda término correcto, ahora veamos que pasa si lo evaluamos con un número en especifico. 
+
+\[
+    \begin{array}{cl}
+    &\fac\,\bar{2}\\
+    \eqdef&(\lambda x.\ifs(\iszero\,x)\,\bar{1}\,(\produ\,x\,(\fac\,(\pred\,x)))\,\bar{2}\\
+    \to_\beta&\ifs(\iszero\,\,\bar{2})\,\bar{1}\,(\produ\,\bar{2}\,(\fac\,(\pred\,\bar{2})))\\
+    \to_\beta^*&\ifs(\false)\,\bar{1}\,(\produ\,\bar{2}\,(\fac\,(\pred\,\bar{2})))\\
+    \to_\beta^*&\produ\,\bar{2}\,(\fac\,(\pred\,\bar{2}))\\
+    \to_\beta^*&\produ\,\bar{2}\,(\fac\,\bar{1})\\
+    \not\to_\beta\\
+    \end{array}
+\]
+
+El problema con esta definición de la función factorial es que en la expresión $\produ\,\bar{2}\,(\fac\,\bar{1})$ la presencia de $\fac$ es como una variable libre, por esta razón la expresión se bloquea y entonces la forma normal de $\fac\,\bar{2}$ es $\produ\,\bar{2}\,(\fac\,\bar{1})$ y lo que buscamos es que la forma normal sea $\bar{2}$ pues es el resultado esperado de la ejecución.
+
+Lo que se busca entonces es que \fac encuentre su valor como la misma definición de la función que estamos definiendo para poder dar una definición recursiva. Una solución para esto podría ser que la definición de la función tenga un nuevo parámetro que sea la misma función que estamos definiendo, resultando en la siguiente definición:
+
+$$\fac'\eqdef\lambda f.\lambda x.\ifs(\iszero\,x)\,\bar{1}\,(\produ\,x\,(f\,(\pred\,x)))$$
+
+Y de esta forma ya sólo necesitamos un operador que nos permita aplicar la función \fac consigo mismo de forma automatizada, tantas veces como sea necesario. Es decir, una expresión $F$ que cumpla la siguiente propiedad:
+
+$$F\,\fac'\to_\beta^* \fac'\,(F\,\fac')$$
+
+Esta expresión $F$ es lo que se conoce como un combinador de punto fijo.
+
+\begin{definition}[Combinador de punto fijo] Un lambda término cerrado $F$ es un combinador de punto fijo sí y sólo si cumple alguna de las siguientes condiciones:
+    \begin{enumerate}
+        \item $F\,g\to_\beta^*g\,(F\,g)$
+        \item $F\,g\equiv_\beta g\,(F\,g)$, es decir, existe un término $t$ tal que $F\,g\to_\beta^*t$ y $g\,(F\,g)\to_\beta^*t$
+    \end{enumerate}
+\end{definition}
+
+En este caso para poder definir la función recursiva \fac basta usar un operador de punto fijo. Por lo que la definición queda como sigue.
+
+\[
+    \begin{array}{rcl}
+    \fac&\eqdef&F\,\fac'\\
+    \fac'&\eqdef&(\lambda f.\lambda x.\ifs(\iszero\,x)\,\bar{1}\,(\produ\,x\,(f\,(\pred\,x)))
+    \end{array}
+\]
+
+De esta forma, el \fac de $2$ se calcula de la siguiente forma:
+\[
+    \begin{array}{cl}
+    &\fac\,\bar{2}\\
+    \eqdef&(F\,\fac')\,\bar{2}\\
+    \to_\beta^*&\fac'\,(F\,\fac')\,\bar{2}\\
+    \eqdef&(\lambda f.\lambda x.\ifs(\iszero\,x)\,\bar{1}\,(\produ\,x\,(f\,(\pred\,x)))\,(F\,\fac')\,\bar{2}\\
+    \to_\beta&(\lambda x.\ifs(\iszero\,x)\,\bar{1}\,(\produ\,x\,((F\,\fac')\,(\pred\,x)))\,\bar{2}\\
+    \to_\beta&\ifs(\iszero\,\bar{2})\,\bar{1}\,(\produ\,\bar{2}\,((F\,\fac')\,(\pred\,\bar{2})))\\
+    \to_\beta^*&\produ\,\bar{2}\,((F\,\fac')\,(\pred\,\bar{2}))\\
+    \to_\beta^*&\produ\,\bar{2}\,((F\,\fac')\,\bar{1})\\
+    \to_\beta^*&\produ\,\bar{2}\,(\fac'\,(F\,\fac')\,\bar{1})\\
+    \to_\beta^*&\produ\,\bar{2}\,(\ifs(\iszero\,\bar{1})\,\bar{1}\,(\produ\,\bar{1}\,((F\,\fac')\,(\pred\,\bar{1}))))\\
+    \to_\beta^*&\produ\,\bar{2}\,(\produ\,\bar{1}\,((F\,\fac')\,(\pred\,\bar{1})))\\
+    \to_\beta^*&\produ\,\bar{2}\,(\produ\,\bar{1}\,((F\,\fac')\,\bar{0}))\\
+    \to_\beta^*&\produ\,\bar{2}\,(\produ\,\bar{1}\,(\ifs(\iszero\,\bar{0})\,\bar{1}\,(\produ\,\bar{0}\,((F\,\fac')\,(\pred\,\bar{0})))))\\
+    \to_\beta^*&\produ\,\bar{2}\,(\produ\,\bar{1}\,(\ifs(\true)\,\bar{1}\,(\produ\,\bar{0}\,((F\,\fac')\,(\pred\,\bar{0})))))\\
+    \to_\beta^*&\produ\,\bar{2}\,(\produ\,\bar{1}\,\bar{1})\\
+    \to_\beta^*&\produ\,\bar{2}\,\bar{1}\\
+    \to_\beta^*&\bar{2}\\
+    \not\to_\beta^*&
+    \end{array}
+\]
+
+\begin{remark}Es muy importante notar que en este caso \fac' ya no es una variable libre sino la misma definición dada anteriormente, gracias al uso del operador de punto fijo.
+\end{remark}
+
+Podemos ver que con la existencia de un combinador de punto fijo podemos definir funciones recursivas en el Cálculo Lambda ya que nos permiten aplicar una función consigo misma tantas veces como sea necesario.
+
+\begin{examples}[Combinadores de punto fijo]
+ En el Cálculo Lambda existen diferentes combinadores de punto fijo, algunos de ellos se muestran a continuación:
+ \begin{itemize}
+    \item ({\bf Curry-Rosser}) $\Y\eqdef\lambda f.(\lambda x.f(xx))(\lambda x.f(xx))$
+    \item ({\bf Turing}) $\V\eqdef UU$ en donde $U\eqdef\lambda f.\lambda x.x(ffx)$
+    \item ({\bf Estricto}) $\Z\eqdef\lambda f.(\lambda x.f(\lambda v.xxv))(\lambda x.f(\lambda v.xxv))$
+    \item ({\bf Klop}) $K\eqdef\underbrace{LL\dots L}_{26\;veces}$ en donde 
+
+    $L\eqdef\lambda abcdefghijklmnopqstuvwxyzr.r(thisisafixedpointcombinator)$
+ \end{itemize}
+\end{examples}
+\begin{proposition} El combinador \Y es un combinador de punto fijo.
+\end{proposition}
+\begin{proof}
+    \[
+        \begin{array}{cl}
+        &\Y\,g\\
+        \eqdef&(\lambda f.(\lambda x.f(xx))(\lambda x.f(xx)))\,g\\
+        \to_\beta&(\lambda x.g(xx))(\lambda x.g(xx))\\
+        \to_\beta&g((\lambda x.g(xx))(\lambda x.g(xx)))\\
+        \end{array}
+    \]
+
+    Por otro lado.
+
+    \[
+        \begin{array}{cl}
+        &g\,(\Y\,g)\\
+        \eqdef&g\,((\lambda f.(\lambda x.f(xx))(\lambda x.f(xx)))\,g)\\
+        \to_\beta&g\,((\lambda x.g(xx))(\lambda x.g(xx)))
+        \end{array}
+    \]
+
+    entonces $\Y\,g\equiv_\beta g\,(\Y\,g)$
+
+    $\therefore$ \Y es un combinador de punto fijo.
+\end{proof}
+
+\section{El lenguaje {\sc Iswim}}
+
+El Cálculo Lambda que hemos estudiado hasta ahora es demasiado primitivo para ser considerado un lenguaje de programación, de la misma forma que las máquinas de Turing son demasiado primitivas para ser consideradas una computadora real.
+
+ En los años 50 y 60 se descubrió la conexión entre los lenguajes de programación y varios aspectos del Cálculo Lambda, debido al deseo de especificar el significado del lenguaje {\sc Algol} 60 y de formalizar el estudio de los lenguajes de programación empleando sistemas matemáticos. 
+
+Uno de los primeros lenguajes de programación formales, basado en el cálculo lambda, es {\sc Iswim} acrónimo para la frase {\em If you See What I Mean}, creado por Peter Landin. Este lenguaje nunca fue implementada directamente, pero sirvío de base para explorar aplicaciones e implementaciones mediante máquinas abstractas.  
+
+La definición general de {\sc Iswim} es:
+
+$$e ::= x\;|\;\lambda x.e\;|\;e\,e\;|\; c\;|\;o\,(e,\ldots,e)$$
+
+donde $c$ es una constante primitiva y $o$ es un operador primitivo, tomados de un conjunto de constantes $\mathcal{C}$ y de un conjunto de operadores dados $\mathcal{O}$ . Por ejemplo, la instancia de {\sc Iswim} relacionada al lenguaje que definimos puramente en Cálculo Lambda consiste de:
+\[
+\mathcal{C}=\{\true,\false,0,1,2\ldots\}\;\;\;\;\;\;
+\mathcal{O}=\{\suc,\pred,\iszero,{\sf if},\suma,\produ,{\sf not},{\sf and}\}
+\]
+
+
+
+La semántica operacional, dada con la relación de transición $\to$, se define como la unión de la $\beta$-reducción con la llamada $\delta$-reducción, es decir
+$\to=_{def} \to_\beta \cup \to_\delta$ donde la $\delta$-reducción define el comportamiento de los operadores primitivos. Por ejemplo:
+
+\[
+\suma(m,n) \to_\delta m+n\;\;\;\;\;\;\;\; {\sf if}\,(\false,e_2,e_3)\to_\delta e_3
+\]
+
+La filosofía de este lenguaje de programación
+es la que siguen algunos lenguaje de programación hoy en día como son Scheme, Lisp y ML.
+
+
+\begin{thebibliography}{9}
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+\bibitem{notasKarla}
+Ramírez Pulido K., Soto Romero M., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+\bibitem{notasGabrielle}
+Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+\bibitem{rojas}
+Rojas R., A Tutorial Introduction to the Lambda
+Calculus, Freie Universitat Berlin, 2015
+
+\bibitem{lcwt}
+Barendregt H., Lambda Calculi with Types, Freie, Catholic University Nijmegen.
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+
+\end{thebibliography}
+
+
+\end{document}

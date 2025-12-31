@@ -1,0 +1,5 @@
+[0] Config.pm:307> INFO - This is Biber 2.17
+[0] Config.pm:310> INFO - Logfile is 'ldp231n02.blg'
+[48] biber-darwin:340> INFO - === Tue Aug 16, 2022, 18:39:50
+[58] Utils.pm:409> ERROR - ldp231n02.bcf is malformed, last biblatex run probably failed. Deleted ldp231n02.bbl
+[58] Biber.pm:135> INFO - ERRORS: 1

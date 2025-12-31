@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nf}{recfun}\PYG{+w}{ }\PYG{n}{fact}\PYG{+w}{ }\PYG{o+ow}{::}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{Nat}\PYG{+w}{ }\PYG{o+ow}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{k+kt}{Nat}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o+ow}{=\PYGZgt{}}
+\PYG{+w}{    }\PYG{k+kr}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{n}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{+w}{        }\PYG{k+kr}{then}\PYG{+w}{ }\PYG{l+m+mi}{1}
+\PYG{+w}{        }\PYG{k+kr}{else}\PYG{+w}{ }\PYG{n}{n}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{n}{fact}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{n}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+\end{Verbatim}

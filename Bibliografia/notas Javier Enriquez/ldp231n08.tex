@@ -1,0 +1,2012 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\usepackage{chronology}
+
+\title{\LARGE 
+Lenguajes de Programación 2022-1\\ 
+Nota de clase 8: Inferencia de tipos \\
+\color{SeaGreen} Funcional ($\lambda$)}
+\author{Javier Enríquez Mendoza \and Luis Felipe Benítez Lluis}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+En la nota de clase anterior estudiamos como verificar que el tipado de una expresión sea correcto mediante el uso de la semántica estática con la que se definen reglas de tipado para las expresiones. Sin embargo para encontrar el tipo de una expresión la semántica estática no es suficiente, por esta razón en esta nota de clase definiremos un algoritmo de inferencia de tipos que dada una expresión $e$ de \minhs nos regrese un tipo \T$\,$tal que se cumpla que $\varnothing\vdash e:\T$.
+
+\begin{remark} Para el desarrollo de esta nota eliminaremos las anotaciones de tipo de \minhs, esto con el fin de observar como aún sin anotaciones explicitas se puede inferir el tipo de las expresiones.
+\end{remark}
+
+\section{Estandarización de variables}
+
+En \minhs se pueden escribir expresiones como la siguiente:
+
+\begin{lstlisting}
+    let x = 5 in 
+        let x = false in 
+            x
+        end
+    end
+\end{lstlisting}
+En donde se asigna la misma variable con dos valores distintos, y más aún estos valores corresponden a tipos diferentes. La expresión anterior define un programa correcto y con sentido que se reduce a $\falset$.
+
+Sin embargo usando las reglas de tipado definidas en la semántica estática se presenta un problema para la verificación del tipo de la expresión. Ya que el contexto de tipado para las variables debe ser $\{x:\boolt, x:\nat\}$ pero para la construcción del contexto se tiene la condición de que cada variable debe estar asignada a un único tipo y en este caso $x$ tiene dos tipos en el mismo contexto.
+
+Para corregir esto se pueden usar $\alpha$-equivalencias para renombrar una de las variables y de esta forma no compartan el mismo nombre y así construir el contexto correctamente. Sabemos que podemos usar $\alpha$-equivalencias ya que los programas no cuentan con variables libres, de lo contrario sería un programa mal formado sobre el cual no se hace verificación de tipos.
+
+La idea es que para cualquier expresión del lenguaje se encuentre una expresión equivalente en donde cada definición de variable utilice un identificador único. De esta forma el programa anterior quedaría como:
+
+\begin{lstlisting}
+    let(* $x_0$ *) = 5 in 
+        let(* $x_1$ *) = false in 
+            (* $x_1$ *)
+        end
+    end
+\end{lstlisting}
+Y de esta forma el contexto asociado a la expresión es $\{x_1:\boolt, x_0:\nat\}$ que se trata de un contexto válido.
+% \begin{definition}[Algoritmo de renombramiento de variables] Para encontrar una expresión $\alpha$-equivalente con nombres de variables únicos se define la función \cn$\,$ que recibe una lista de renombramientos y una expresión, definida con juicios de la forma:
+
+%     $$\cn\,\Gamma\,e=\<\Gamma';e'\>$$
+
+% En donde $\Gamma$ es una lista o historial de renombramientos, y cada renombramiento se ve como $x\rightarrowtail x_i$ y se interpreta como que el nombre variable $x$ se cambia por el nombre $x_i$. el resultado de la función es una tupla con una nueva lista de renombramientos $\Gamma'$ en donde se agregaron los renombramientos generados de la ejecución, así como una expresión $e'$ que es $\alpha$-equivalente a $e$ pero con definiciones únicas de variables. 
+
+% Para los nuevos nombres de variables se utiliza la convención de que todas las variables tienen como nombre $x_i$ en donde $i$ es un número natural, de esta forma se tiene la certeza de tener un conjunto infinito de nombres de variables por lo que siempre se puede encontrar uno nuevo.
+
+% La definición recursiva de la función \cn$\,$ se muestra a continuación mediante el siguiente conjunto de reglas de inferencia:
+
+%     \begin{description}
+%         \item[Variables]
+%         \[
+%             \inference{\enr\,x\rightarrowtail x_i\,\Gamma}{\cn\,\Gamma\,x= \<\Gamma; x_i\>}
+%         \]
+%         $\enr$ es la función que verifica que $x$ sea la presencia mas a la derecha de $x$ en $\Gamma$.
+%         \item[Valores numéricos]
+%         \[
+%             \inference{}{\cn\,\Gamma\,\num[n]=\<\Gamma; \num[n]\>}
+%         \]
+%          \item[Valores Booleanos]
+%          \[
+%             \inference{}{\cn\,\Gamma\,\bool[b]=\<\Gamma;\bool[b]\>}
+%         \]
+%         \newpage
+%         \item[Operadores]
+%         \[
+%             \inference
+%                 {\cn\,\Gamma\,e_1=\<\Gamma_1;e_1'\>&\cn\,\Gamma_1\,e_2=\<\Gamma_2;e_2'\>}
+%                 {\cn\,\Gamma\,o(e_1,e_2)=\<\Gamma_2; o(e_1',e_2')\>}
+%         \]
+%         \item[Condicional]
+%         \[
+%             \inference
+%                 {\cn\,\Gamma\,e_1=\<\Gamma_1;e_1'\>&\cn\,\Gamma_1\,e_2=\<\Gamma_2;e_2'\>&\cn\,\Gamma_2\,e_3=\<\Gamma_3;e_3'\>}
+%                 {\cn\,\Gamma\,\ift(e_1,e_2,e_3)=\<\Gamma_3; \ift(e_1',e_2',e_3')\>}
+%         \]
+%         \item[Asignaciones Locales]
+%         \[
+%             \begin{array}{c}
+%                 \inference
+%                     {\cn\,\Gamma\,e_1=\<\Gamma_1;e_1'\>&\cn\,(\Gamma_1,x\rightarrowtail x_i)\,e_2=\<\Gamma_2;e_2'\>&i=|\Gamma_1|}
+%                     {\cn\,\Gamma\,\lett(e_1,x.e_2)=\<\Gamma_2; \lett(e_1',x_i.e_2')\>}\\
+%                 \\
+%                 \inference
+%                     {\cn\,(\Gamma,x\rightarrowtail x_i)\,e_1=\<\Gamma_1;e_1'\>&\cn\,\Gamma_1\,e_2=\<\Gamma_2;e_2'\>&i=|\Gamma|}
+%                     {\cn\,\Gamma\,\letrec(e_1,x.e_2)=\<\Gamma_2; \letrec(e_1',x_i.e_2')\>}\\
+%             \end{array}
+%         \]
+%         \item[Funciones]
+%         \[
+%             \inference
+%                 {\cn\,(\Gamma,x\rightarrowtail x_i)\,e=\<\Gamma_1;e'\>&i=|\Gamma|}
+%                 {\cn\,\Gamma\,\funt(x.e)=\<\Gamma_1,\funt(x_i.e')\>}
+%         \]
+%         \item[Aplicación de función]
+%         \[
+%             \inference
+%                 {\cn\,\Gamma\,f=\<\Gamma_1,f'\>&\cn\,\Gamma_1\,p=\<\Gamma_2,p'\>}
+%                 {\cn\,\Gamma\,\appt(f,p)=\<\Gamma_2,\appt(f',p')\>}
+%         \]
+%     \end{description}
+% \end{definition}
+
+% \begin{example} Ejecución del algoritmo \cn. Se muestra la ejecución mediante un árbol de llamada recursivas. sobre la siguiente expresión:
+% \begin{lstlisting}
+%     let x = 5 in 
+%         let x = false in 
+%             x
+%         end
+%     end
+% \end{lstlisting}
+
+% que corresponde al árbol de sintaxis abstracta:
+% $$\lett(5,x.\lett(\falset,x.x))$$
+
+%     \[
+%         {\Tree  [.$\cn\,[\,]\,\lett(5,x.\lett(\falset,x.x))=\<\Gamma;\lett(5,_0.\lett(\falset,x_1.x_1))\>$ 
+%                     $\cn\,[\,]\,5=\<[\,];5\>$
+%                     [.$\cn\,[x\rightarrowtail x_0]\,\lett(\falset,x.x)=\<\Gamma;\lett(\falset,x_1.x_1)\>$
+%                         $\cn\,[x\rightarrowtail x_0]\,\falset=\<[x\rightarrowtail x_0];\falset\>$ 
+%                         $\cn\,\Gamma\,x=\<\Gamma;x_1\>$      
+%                     ]
+%                 ]}
+%     \]
+%     donde $\Gamma = [x\rightarrowtail x_0,x\rightarrowtail x_1]$. Obteniendo como el resultado:
+
+%     $$\lett(5,x:0.\lett(\falset,x_1.x_1))$$
+% \end{example}
+\section{Generación de restricciones}
+Para la definición de un algoritmo de inferencia de tipos primero se tiene que definir las restricciones de tipado que deben cumplir las expresiones del lenguaje dependiendo de la estructura que éstas tengan.
+
+Estas restricciones definen tipos específicos que son necesarios para que las expresiones tengan sentido y a partir de un conjunto de restricciones se desea encontrar el tipo de la expresión.
+
+A continuación se presenta un algoritmo de generación de restricciones.
+\begin{definition}[Algoritmo de generación de restricciones] A partir de una expresión de \minhs se construye un conjunto de restricciones de tipado que debe cumplir dicha expresión. Se define el algoritmo mediante juicios de la forma:
+
+$$e\mapsto\R$$
+
+que se lee como, la expresión $e$ genera el conjunto $\R$ de restricciones de tipado.
+
+Para definir el algoritmo se extiende la categoría de tipos como sigue:
+
+$$\T ::= \X\opc\nat\opc\boolt\opc\T_1\to\T_2\opc\type{e}$$
+
+en donde \X$\,$ es una variable de tipo. Estas variables nos ayudan en la definición de programas polimórficos, por ejemplo la función general identidad 
+
+$$\funt\,x\Rightarrow x$$ 
+
+tiene el tipo $\X\to\X$ y esta variable de tipo \X$\,$ va a tomar su valor hasta que la función sea utilizada, por ejemplo en la aplicación
+
+$$(\funt\,x\Rightarrow x)\,5$$
+
+la variable $\X$ toma el valor de \nat. 
+
+La expresión \type{e} es una construcción sintáctica para definir el tipo de una expresión $e$ del lenguaje y se lee como: el tipo de $e$. Es importante aclarar que los tipos de la forma $\type{e}$ no pueden figurar en el tipo resultante del algoritmo de inferencia, el tipo de una expresión debe construirse únicamente con el resto de los tipos.
+
+Una restricción es una ecuación de la forma $\T_1=\T_2$ en donde $\T_1$ y $\T_2$ son tipos. La ecuación indica que $\T_1$ debe ser igual a $\T_2$ bajo unificación.
+    \begin{description}
+        \item[Variables]
+        \[
+            \inference{}{x_i\mapsto \type{x_i}=\X_i}
+        \]
+        Para el tipo de las variables se usará una variable de tipo con el mismo nombre de la variable. Todas las apariciones de la misma variable generarán la misma restricción y como los nombres de variables son únicos no habrá dos variables distintas con el mismo tipo. 
+        \item[Valores numéricos]
+        \[
+            \inference{}{\num[n]\mapsto \type{\num[n]} = \nat}
+        \]
+         \item[Valores Booleanos]
+         \[
+            \inference{}{\bool[b]\mapsto\type{\bool[b]} = \boolt}
+        \]
+        \item[Operadores]
+        \[
+            \begin{array}{c}
+                \inference
+                    {e_1\mapsto\R_1&e_2\mapsto\R_2}
+                    {\suma(e_1,e_2)\mapsto \R_1,\R_2,\type{e_1}=\nat,\type{e_2}=\nat,\type{\suma(e_1,e_2)}=\nat}\\
+                \\
+                 \inference
+                    {e_1\mapsto\R_1&e_2\mapsto\R_2}
+                    {\produ(e_1,e_2)\mapsto \R_1,\R_2,\type{e_1}=\nat,\type{e_2}=\nat,\type{\produ(e_1,e_2)}=\nat}\\
+                \\
+                 \inference
+                    {e_1\mapsto\R_1&e_2\mapsto\R_2}
+                    {\subs(e_1,e_2)\mapsto \R_1,\R_2,\type{e_1}=\nat,\type{e_2}=\nat,\type{\subs(e_1,e_2)}=\nat}\\
+                \\
+                 \inference
+                    {e_1\mapsto\R_1&e_2\mapsto\R_2}
+                    {\igu(e_1,e_2)\mapsto \R_1,\R_2,\type{e_1}=\nat,\type{e_2}=\nat,\type{\igu(e_1,e_2)}=\boolt}\\
+                \\
+                \inference
+                    {e_1\mapsto\R_1&e_2\mapsto\R_2}
+                    {\gt(e_1,e_2)\mapsto \R_1,\R_2,\type{e_1}=\nat,\type{e_2}=\nat,\type{\gt(e_1,e_2)}=\boolt}\\
+                    \\
+                 \inference
+                    {e_1\mapsto\R_1&e_2\mapsto\R_2}
+                    {\lt(e_1,e_2)\mapsto \R_1,\R_2,\type{e_1}=\nat,\type{e_2}=\nat,\type{\lt(e_1,e_2)}=\boolt}\\
+            \end{array}
+        \]
+        \item[Condicional]
+        \[
+            \inference
+                {c\mapsto\R_1&t\mapsto\R_2&e\mapsto\R_3}
+                {\ift(c,t,e)\mapsto\R_1,\R_2,\R_3,\type{c}=\boolt,\type{t}=\type{e},\type{\ift(c,t,e)}=\type{t},\type{\ift(c,t,e)}=\type{e}}
+        \]
+        \item[Asignaciones Locales]
+        \[
+            \begin{array}{c}
+                \inference
+                    {v\mapsto\R_1&b\mapsto\R_2}
+                    {\lett(v,x_i.b)\mapsto\R_1,\R_2,\X_i=\type{v},\type{\lett(v,x_i.b)}=\type{b}}\\
+                % \\
+                % \inference
+                %     {v\mapsto\R_1&b\mapsto\R_2}
+                %     {\letrec(v,x_i.b)\mapsto\R_1,\R_2,\X_i=\type{v},\type{\letrec(v,x_i.b)}=\type{b}}\\
+            \end{array}
+        \]
+        \newpage
+        \item[Funciones]
+        \[
+            \begin{array}{c}
+                \inference
+                    {t\mapsto\R}
+                    {\funt(x_i.t)\mapsto\R,\type{\funt(x_i.t)} = \X_i\to\type{t}}\\
+                    \\
+                \inference
+                    {b\mapsto\R_1}
+                    {\recfun(f.x_i.b)\mapsto\R_1,\type{\recfun(f.x_i.b)}=\X_i\to\type{b}}\\
+            \end{array}
+        \]
+        \item[Aplicación de función]
+        \[
+            \inference
+                {f\mapsto\R_1&p\mapsto\R_2}
+                {\appt(f,p)\mapsto\R_1.\R_2,\type{f}=\type{p}\to\type{\appt(f,p)}}
+        \]
+    \end{description}
+\end{definition}
+
+\section{Algoritmo de unificación}
+
+Es importante notar que la relación $\mapsto$ es total, es decir, para cualquier expresión podemos encontrar una lista de restricciones de tipado. Sin embargo, esto no significa que la expresión sea tipable. En otras palabras, la existencia de una lista $\R$ de restricciones no garantiza que exista un tipo para la expresión, como sucede cuando hay restricciones insatisfacibles, por ejemplo cuando una variable tiene como restricción ser natural y booleano simultáneamente.  
+
+\begin{definition}[Unificador]
+Un unificador $\mu$ es una serie de sustituciones de tal forma que convierten una expresión en otra, o unifican una expresión con otra.
+\end{definition}
+
+Para poder encontrar el tipo asociado a la expresión es necesario que se puedan resolver las restricciones definidas en la lista $\R$, es decir, cuando $\R$ tiene un unificador mas general. Para encontrar este unificador, definimos el algoritmo de unificación $\U$.
+\begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es un unificador $\mu$ en caso de que las restricciones se puedan resolver o ${\sf fail}$ en caso contrario.
+
+    \[
+        \begin{array}{rclr}
+            \U([\,])&=&[\,]\\
+            \U(\T=\T:\R)&=&\U(\R)&\\
+            \U(\X=\T:\R)&=&\U(\R[\X:=\T])\circ[\X:=\T]&\mbox{si }\X\not\in\tvar(\T)\\
+            \U(\X=\T:\R)&=&{\sf fail}&\mbox{si }\X\in\tvar(\T)\\
+            \U(\type{e}=\T:\R)&=&\U(\R[\type{e}:=\T])\circ[\type{e}:=\T]&\\
+            \U(\T=\X:\R)&=&\U(\X=\T:\R)&\\
+            \U(\T=\type{e}:\R)&=&\U(\type{e}=\T:\R)&\\
+            \U(\St_1\to\St_2=\T_1\to\T_2:\R)&=&\U(\St_1=\T_1:\St_2=\T_2:\R)&\\
+            \U(\R)&=&{\sf fail}&\\
+       \end{array}
+    \]
+En donde \T$\,$ representa a cualquier tipo y \X $\,$a una variable de tipo. 
+\end{definition}
+
+\section{Algoritmo de inferencia de tipos}
+
+Con las definiciones anteriores se presenta un algoritmo de inferencia de tipos sobre el lenguaje \minhs.
+
+\begin{definition}[Algoritmo de Inferencia de tipos] Se define el algoritmo $\Ts(e)$ de inferencia de tipos que recibe una expresión $e$ de \minhs y regresa el tipo de esta expresión. El algoritmo se define con los siguientes pasos:
+
+\begin{enumerate}
+    \item Se encuentra la expresión $e'$ con nombres de variables únicas.
+    \item Se encuentra el conjunto de restricciones $\R$ tal que $e'\mapsto\R$.
+    \item Utilizando la función $\U$ se calcula el unificador mas general $\mu$ del conjunto de restricciones $\R$, tal que $\U(\R)=\mu$.
+    \item Se busca en $\mu$ la ecuación $\type{e'}:=\T$.
+    \item \T$\,$ es el tipo mas general de $e$, es decir, $\Ts(e)=\T$.
+\end{enumerate}
+\end{definition}
+
+\section{Ejemplos}
+
+\begin{example}
+Vamos a encontrar el tipo de la expresión:
+    \begin{lstlisting}
+        let x = 5 in 
+            let x = false in 
+                x
+            end
+        end
+    \end{lstlisting}
+que corresponde al árbol de sintaxis abstracta:
+$$\lett(5,x.\lett(\falset,x.x))$$
+\begin{description}
+    \item[Renombramiento de variables]
+        $$\lett(5,x_0.\lett(\falset,x_1.x_1))$$
+    \item[Generación de Restricciones].
+    \begin{enumerate}
+        \item$\falset\mapsto\type{\falset}=\boolt$
+        \item$5\mapsto\type{5}=\nat$
+        \item$x_0\mapsto\type{x_0}=\X_0$
+        \item$x_1\mapsto\type{x_1}=\X_1$
+        \item$\lett(\falset,x_1.x_1)\mapsto\underbrace{\X_1=\type{\falset},\type{\falset}=\boolt,\type{x_1}=\X_1,\type{\lett(\falset,x_1.x_1)}=\type{x_1}}_{\R_1}$
+        \item$\lett(5,x_0.\lett(\falset,x_1.x_1))\\\mapsto\type{5}=\nat,\R_1,\X_0=\type{5},\type{\lett(5,x_0.\lett(\falset,x_1.x_1))}=\type{\lett(\falset,x_1.x_1)}$
+    \end{enumerate}
+    Como resultado se obtiene la lista de restricciones $\R$:
+
+    \[
+        \begin{array}{rcl}
+        \R&=&\type{5}=\nat,\\
+        &&\X_1=\type{\falset}\\
+        &&\type{\falset}=\boolt,\\
+        &&\type{x_1}=\X_1,\\
+        &&\type{\lett(\falset,x_1.x_1)}=\type{x_1},\\
+        &&\X_0=\type{5}\\
+        &&\type{\lett(5,x_0.\lett(\falset,x_1.x_1))}=\type{\lett(\falset,x_1.x_1)}
+        \end{array}
+    \]
+    \item[Unificación de $\R$].
+    \begin{center}
+        \begin{longtable}{ |l|l| } 
+            \hline
+            Restricciones $\R$&Unificador $\mu$\\
+            \hline
+            $\begin{array}{l}
+                \\
+                \type{5}=\nat,\\
+                \X_1=\type{\falset}\\
+                \type{\falset}=\boolt,\\
+                \type{x_1}=\X_1,\\
+                \type{\lett(\falset,x_1.x_1)}=\type{x_1},\\
+                \X_0=\type{5}\\
+                \type{\lett(5,x_0.\lett(\falset,x_1.x_1))}=\type{\lett(\falset,x_1.x_1)}\\
+                \\
+            \end{array}$
+          & \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \X_1=\type{\falset}\\
+                \type{\falset}=\boolt,\\
+                \type{x_1}=\X_1,\\
+                \type{\lett(\falset,x_1.x_1)}=\type{x_1},\\
+                \X_0=\nat\\
+                \type{\lett(5,x_0.\lett(\falset,x_1.x_1))}=\type{\lett(\falset,x_1.x_1)}\\
+                \\
+            \end{array}$
+           & 
+           $\begin{array}{l}
+                \\
+                \type{5}:=\nat
+                \\
+            \end{array}$
+            \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{\falset}=\boolt,\\
+                \type{x_1}=\type{\falset},\\
+                \type{\lett(\falset,x_1.x_1)}=\type{x_1},\\
+                \X_0=\nat\\
+                \type{\lett(5,x_0.\lett(\falset,x_1.x_1))}=\type{\lett(\falset,x_1.x_1)}\\
+                \\
+            \end{array}$
+           & 
+           $\begin{array}{l}
+                \\
+                \type{5}:=\nat,\\
+                \X_1:=\type{\falset}\\
+                \\
+            \end{array}$
+            \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{x_1}=\boolt,\\
+                \type{\lett(\falset,x_1.x_1)}=\type{x_1},\\
+                \X_0=\nat\\
+                \type{\lett(5,x_0.\lett(\falset,x_1.x_1))}=\type{\lett(\falset,x_1.x_1)}\\
+                \\
+            \end{array}$
+           & 
+           $\begin{array}{l}
+                \\
+                \type{5}:=\nat,\\
+                \X_1:=\boolt,\\
+                \type{\falset}:=\boolt\\
+                \\
+            \end{array}$
+            \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{\lett(\falset,x_1.x_1)}=\boolt,\\
+                \X_0=\nat\\
+                \type{\lett(5,x_0.\lett(\falset,x_1.x_1))}=\type{\lett(\falset,x_1.x_1)}\\
+                \\
+            \end{array}$
+           & 
+           $\begin{array}{l}
+                \\
+                \type{5}:=\nat,\\
+                \X_1:=\boolt,\\
+                \type{\falset}:=\boolt,\\
+                \type{x_1}:=\boolt\\
+                \\
+            \end{array}$
+            \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \X_0=\nat\\
+                \type{\lett(5,x_0.\lett(\falset,x_1.x_1))}=\boolt\\
+                \\
+            \end{array}$
+           & 
+           $\begin{array}{l}
+                \\
+                \type{5}:=\nat,\\
+                \X_1:=\boolt,\\
+                \type{\falset}:=\boolt,\\
+                \type{x_1}:=\boolt,\\
+                \type{\lett(\falset,x_1.x_1)}:=\boolt\\
+                \\
+            \end{array}$
+            \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{\lett(5,x_0.\lett(\falset,x_1.x_1))}=\boolt\\
+                \\
+            \end{array}$
+           & 
+           $\begin{array}{l}
+                \\
+                \type{5}:=\nat,\\
+                \X_1:=\boolt,\\
+                \type{\falset}:=\boolt,\\
+                \type{x_1}:=\boolt,\\
+                \type{\lett(\falset,x_1.x_1)}:=\boolt,\\
+                \X_0:=\nat\\
+                \\
+            \end{array}$
+            \\ 
+          \hline
+           & 
+           $\begin{array}{l}
+                \\
+                \type{5}:=\nat,\\
+                \X_1:=\boolt,\\
+                \type{\falset}:=\boolt,\\
+                \type{x_1}:=\boolt,\\
+                \type{\lett(\falset,x_1.x_1)}:=\boolt,\\
+                \X_0:=\nat,\\
+               \text{\colorbox{SpringGreen}{$\type{\lett(5,x_0.\lett(\falset,x_1.x_1))}=\boolt$}}\\
+                \\
+            \end{array}$
+            \\ 
+          \hline
+        \end{longtable}
+    \end{center}
+\end{description}
+De el proceso anterior se puede concluir que el tipo de la expresión es $\boolt$
+\end{example}
+
+\begin{example}
+Vamos a encontrar el tipo de la expresión:
+    \begin{lstlisting}
+        lam x => x x
+    \end{lstlisting}
+que en sintaxis abstracta es:
+
+$$\funt(x.\appt(x,x))$$
+
+\begin{description}
+    \item[Renombramiento de variables]
+        $$\funt(x_0.\appt(x_0,x_0))$$
+    \item[Generación de Restricciones].
+    \begin{enumerate}
+        \item$x_0\mapsto\type{x_0}=\X_0$
+        \item$\appt(x_0,x_0)\mapsto\type{x_0}=\X_0,\type{x_0}=\type{x_0}\to\type{\appt(x_0,x_0)}$
+        \item$\funt(x_0.\appt(x_0,x_0))\mapsto\\\type{x_0}=\X_0,\type{x_0}=\type{x_0}\to\type{\appt(x_0,x_0)},\type{\funt(x_0.\appt(x_0,x_0))}=\X_0\to\type{\appt(x_0,x_0)}$
+    \end{enumerate}
+    Como resultado se obtiene la lista de restricciones $\R$:
+
+    \[
+        \begin{array}{rcl}
+        \R&=&\type{x_0}=\X_0,\\
+        &&\type{x_0}=\type{x_0}\to\type{\appt(x_0,x_0)}\\
+        &&\type{\funt(x_0.\appt(x_0,x_0))}=\X_0\to\type{\appt(x_0,x_0)}
+        \end{array}
+    \]
+    \item[Unificación de $\R$].
+    \begin{center}
+        \begin{longtable}{ |l|l| } 
+            \hline
+            Restricciones $\R$&Unificador $\mu$\\
+            \hline
+            $\begin{array}{l}
+                \\
+                \type{x_0}=\X_0,\\
+                \type{x_0}=\type{x_0}\to\type{\appt(x_0,x_0)}\\
+                \type{\funt(x_0.\appt(x_0,x_0))}=\X_0\to\type{\appt(x_0,x_0)}\\
+                \\
+            \end{array}$
+          & \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \X_0=\X_0\to\type{\appt(x_0,x_0)}\\
+                \type{\funt(x_0.\appt(x_0,x_0))}=\X_0\to\type{\appt(x_0,x_0)}\\
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\X_0\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{\funt(x_0.\appt(x_0,x_0))}=\X_0\to\type{\appt(x_0,x_0)}\\
+                \\
+            \end{array}$
+          & 
+            {\color{red}{\sf fail}}
+          \\ 
+          \hline
+        \end{longtable}
+    \end{center}
+\end{description}
+Como el algoritmo de unificación fallo, entonces la expresión no es tipable.
+\end{example}
+
+\begin{example}
+Ahora inferiremos el tipo de la expresión:
+\begin{lstlisting}
+    (recfun fact n => 
+        if (n == 0)
+        then 1
+        else n * fact (n - 1)
+    ) 5
+\end{lstlisting}
+en sintaxis abstracta:
+
+$$\appt(\recfun(fac.n.\ift(\igu(n,0),1,\produ(n,\appt(fact,\subs(n,1))))),5)$$
+\begin{description}
+    \item[Renombramiento de variables]
+        $$\appt(\recfun(x_0.x_1.\ift(\igu(x_1,0),1,\produ(x_1,\appt(x_0,\subs(x_1,1))))),5)$$
+    \item[Generación de Restricciones].
+    \begin{enumerate}
+        \item$x_0\mapsto\type{x_0}=\X_0$
+        \item$x_1\mapsto\type{x_1}=\X_1$
+        \item$0\mapsto\type{0}=\nat$
+        \item$1\mapsto\type{1}=\nat$
+        \item$5\mapsto\type{5}=\nat$
+        \item$\igu(x_1,0)\mapsto\underbrace{\type{x_1}=\X_1,\type{0}=\nat,\type{x_1}=\nat,\type{\igu(x_1,0)}=\boolt}_{\R_1}$
+        \item$\subs(x_1,1)\mapsto\underbrace{\type{x_1}=\X_1,\type{1}=\nat,\type{x_1}=\nat,\type{\subs(x_1,1)}=\nat}_{\R_2}$
+        \item $\appt(x_0,\subs(x_1,1))\mapsto\underbrace{\type{x_0}=\X_0,\R_2,\type{x_0}=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}}_{\R_3}$
+        \item$\produ(x_1,\appt(x_0,\subs(x_1,1)))\mapsto\underbrace{\R_3,\type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat}_{\R_4}$
+        \item$\ift(\igu(x_1,0),1,\produ(x_1,\appt(x_0,\subs(x_1,1))))\mapsto\R_1,\type{1}=\nat,\R_4,\type{\igu(x_1,0)}=\boolt,\\\underbrace{\type{1}=\type{\produ(x_1,\subs(x_1,1))},\type{\ift(...)}=\type{1},\type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}}_{\R_5}$
+        \item$\recfun(x_0.x_1.\ift(\igu(x_1,0),1,\produ(x_1,\appt(x_0,\subs(x_1,1)))))\mapsto\\
+        \underbrace{\R_5,\type{\recfun(...)}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(x_1,\appt(x_0,\subs(x_1,1))))}}_{\R_6}$
+        \item$\appt(\recfun(\dots),5)\mapsto\R_6,\type{5}=\nat,\type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}$
+    \end{enumerate}
+    Como resultado se obtiene la lista de restricciones $\R$:
+
+    \[
+        \begin{array}{rcl}
+        \R&=&\type{x_0}=\X_0,\\
+        &&\type{0}=\nat,\\
+        &&\type{x_1}=\nat,\\
+        &&\type{\igu(x_1,0)}=\boolt\\
+        &&\type{1}=\nat\\
+        &&\type{x_1}=\X_1,\\
+        &&\type{\subs(x_1,1)}=\nat\\
+        &&\type{x_0}=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}\\
+        &&\type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+        &&\type{1}=\type{\produ(x_1,\appt(x_0,\subs(x_1,1)))},\\
+        &&\type{\ift(\igu(x_1,0),1,\produ(x_1,\appt(x_0,\subs(x_1,1))))}=\type{1},\\
+        &&\type{\ift(\igu(x_1,0),1,\produ(x_1,\appt(x_0,\subs(x_1,1))))}=\type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}\\
+
+        &&\type{\recfun(...)}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(x_1,\appt(x_0,\subs(x_1,1))))}\\
+        &&\type{5}=\nat,\\
+        &&\type{\recfun(x_0.x_1.\ift(\igu(x_1,0),1,\produ(x_1,\appt(x_0,\subs(x_1,1)))))}=\\
+        &&\type{5}\to\type{\appt(\recfun(x_0.x_1.\ift(\igu(x_1,0),1,\produ(x_1,\appt(x_0,\subs(x_1,1))))),5)}
+        \end{array}
+    \]
+    \item[Unificación de $\R$].
+    \begin{center}
+        \begin{longtable}{ |l|l| } 
+            \hline
+            Restricciones $\R$&Unificador $\mu$\\
+            \hline
+            $\begin{array}{l}
+                \\
+                \type{x_0}=\X_0,\\
+                \type{0}=\nat,\\
+                \type{x_1}=\nat,\\
+                \type{\igu(x_1,0)}=\boolt\\
+                \type{1}=\nat\\
+                \type{x_1}=\X_1,\\
+                \type{\subs(x_1,1)}=\nat\\
+                \type{x_0}=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \type{1}=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{1},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{0}=\nat,\\
+                \type{x_1}=\nat,\\
+                \type{\igu(x_1,0)}=\boolt\\
+                \type{1}=\nat\\
+                \type{x_1}=\X_1,\\
+                \type{\subs(x_1,1)}=\nat\\
+                \type{x_0}=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \type{1}=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{1},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\X_0,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{x_1}=\nat,\\
+                \type{\igu(x_1,0)}=\boolt\\
+                \type{1}=\nat\\
+                \type{x_1}=\X_1,\\
+                \type{\subs(x_1,1)}=\nat\\
+                \X_0=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \type{1}=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{1},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\X_0,\\
+                \type{0}:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{\igu(x_1,0)}=\boolt\\
+                \type{1}=\nat\\
+                \type{x_1}=\X_1,\\
+                \type{\subs(x_1,1)}=\nat\\
+                \X_0=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \type{1}=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{1},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\X_0,\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{1}=\nat\\
+                \nat=\X_1,\\
+                \type{\subs(x_1,1)}=\nat\\
+                \X_0=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \type{1}=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{1},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\X_0,\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \nat=\X_1,\\
+                \type{\subs(x_1,1)}=\nat\\
+                \X_0=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \type{1}=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{1},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\X_0,\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \X_1=\nat,\\
+                \type{\subs(x_1,1)}=\nat\\
+                \X_0=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \nat=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\nat,\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\X_0,\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{\subs(x_1,1)}=\nat\\
+                \X_0=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \nat=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\nat,\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\nat\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\X_0,\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \X_0=\type{\subs(x_1,1)}\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \nat=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\nat,\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\nat\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\X_0,\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \X_0=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \nat=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\nat,\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\nat\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\X_0,\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{\produ(x_1,\appt(x_0,\subs(x_1,1)))}=\nat\\
+                \nat=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\nat,\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\nat\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \nat=\type{\produ(\dots)},\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\nat,\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\type{\produ(\dots)}\\
+
+                \type{\recfun(...)}=\nat\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \nat=\nat,\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\nat,\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\nat\\
+
+                \type{\recfun(...)}=\nat\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}=\nat\\
+
+                \type{\recfun(...)}=\nat\to\type{\ift(\igu(x_1,0),1,\produ(\dots))}\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \nat=\nat\\
+
+                \type{\recfun(...)}=\nat\to\nat\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{\recfun(...)}=\nat\to\nat\\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{5}=\nat,\\
+                \type{\recfun(\dots)}=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \type{\recfun(...)}:=\nat\to\nat\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{5}=\nat,\\
+                \nat\to\nat=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \type{\recfun(...)}:=\nat\to\nat\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \nat\to\nat=\type{5}\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \type{\recfun(...)}:=\nat\to\nat\\
+                \type{5}:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \nat\to\nat=\nat\to\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \type{\recfun(...)}:=\nat\to\nat\\
+                \type{5}:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \nat=\nat\\
+                \nat=\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \type{\recfun(...)}:=\nat\to\nat\\
+                \type{5}:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \nat=\type{\appt(\recfun(\dots),5)}
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \type{\recfun(...)}:=\nat\to\nat\\
+                \type{5}:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \type{\appt(\recfun(\dots),5)}=\nat
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\type{\appt(x_0,\subs(x_1,1))},\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\type{\appt(x_0,\subs(x_1,1))}\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \type{\recfun(...)}:=\nat\to\nat\\
+                \type{5}:=\nat,\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+            $\begin{array}{l}
+                \\
+                \\
+            \end{array}$
+          & 
+            $\begin{array}{l}
+                \\
+                \type{x_0}:=\nat\to\nat,\\
+                \type{0}:=\nat,\\
+                \type{x_1}:=\nat,\\
+                \type{\igu(x_1,0)}:=\boolt\\
+                \type{1}:=\nat\\
+                \X_1:=\nat,\\
+                \type{\subs(x_1,1)}:=\nat\\
+                \X_0:=\nat\to\nat\\
+                \type{\produ(\dots)}:=\nat\\
+                \type{\ift(\igu(x_1,0),1,\produ(\dots))}:=\nat,\\
+                \type{\recfun(...)}:=\nat\to\nat\\
+                \type{5}:=\nat,\\
+                \text{\colorbox{SpringGreen}{\type{\appt(\recfun(\dots),5)}:=\nat}}\\
+                \\
+            \end{array}$
+          \\ 
+          \hline
+        \end{longtable}
+    \end{center}
+\end{description}
+Por lo que la expresión tiene tipo $\nat$
+\end{example}
+
+% FACTORIAL CON LETREC
+
+% \begin{example}
+% Ahora inferiremos el tipo de la expresión:
+% \begin{lstlisting}
+%     letrec fac = fun x => if x = 0 then 1 else x * fact (x -1)
+%         in fac 5 end
+% \end{lstlisting}
+% en sintaxis abstracta:
+% $$\letrec(\funt(x.\ift(\igu(x,0),1,\produ(x,\subs(x,1)))),fac.\appt(fac,5))$$
+% \begin{description}
+%     \item[Renombramiento de variables]
+%         $$\letrec(\funt(x_1.\ift(\igu(x_1,0),1,\produ(x_1,\subs(x_1,1)))),x_0.\appt(x_0,5))$$
+%     \item[Generación de Restricciones].
+%     \begin{enumerate}
+%         \item$x_0\mapsto\type{x_0}=\X_0$
+%         \item$x_1\mapsto\type{x_1}=\X_1$
+%         \item$0\mapsto\type{0}=\nat$
+%         \item$1\mapsto\type{1}=\nat$
+%         \item$5\mapsto\type{5}=\nat$
+%         \item$\igu(x_1,0)\mapsto\underbrace{\type{x_1}=\X_1,\type{0}=\nat,\type{x_1}=\nat,\type{\igu(x_1,0)}=\boolt}_{\R_1}$
+%         \item$\subs(x_1,1)\mapsto\underbrace{\type{x_1}=\X_1,\type{1}=\nat,\type{x_1}=\nat,\type{\subs(x_1,1)}=\nat}_{\R_2}$
+%         \item$\produ(x_1,\subs(x_1,1))\mapsto\underbrace{\R_2,\type{\produ(x_1,\subs(x_1,1))}=\nat}_{\R_3}$
+%         \item$\ift(\igu(x_1,0),1,\produ(x_1,\subs(x_1,1)))\mapsto\R_1,\type{1}=\nat,\R_3,\type{\igu(x_1,0)}=\boolt,\\\underbrace{\type{1}=\type{\produ(x_1,\subs(x_1,1))},\type{\ift(...)}=\type{1},\type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}}_{\R_4}$
+%         \item$\funt(x_1.\ift(\igu(x_1,0),1,\produ(x_1,\subs(x_1,1))))\mapsto\\
+%         \underbrace{\R_4,\type{\funt(...)}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(x_1,\subs(x_1,1)))}}_{\R_5}$
+%         \item$\appt(x_0,5)\mapsto\underbrace{\type{x_0}=\X_0,\type{5}=\nat,\type{x_0}=\type{5}\to\type{\appt(x_0,5)}}_{\R_6}$
+%         \item$\letrec(\funt(x_1.\ift(\igu(x_1,0),1,\produ(x_1,\subs(x_1,1)))),x_0.\appt(x_0,5))\mapsto\\\R_5,\R_6,\X_0=\type{\funt(x_1.\ift(...))},\type{\letrec(...)}=\type{\appt(x_0,5)}$
+%     \end{enumerate}
+%     Como resultado se obtiene la lista de restricciones $\R$:
+
+%     \[
+%         \begin{array}{rcl}
+%         \R&=&\type{x_0}=\X_0,\\
+%         &&\type{0}=\nat,\\
+%         &&\type{x_1}=\nat,\\
+%         &&\type{\igu(x_1,0)}=\boolt\\
+%         &&\type{1}=\nat\\
+%         &&\type{x_1}=\X_1,\\
+%         &&\type{x_1}=\nat,\\
+%         &&\type{\subs(x_1,1)}=\nat\\
+%         &&\type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%         &&\type{1}=\type{\produ(x_1,\subs(x_1,1))},\\
+%         &&\type{\ift(\igu(x,0),1,\produ(x,\subs(x,1)))}=\type{1},\\
+%         &&\type{\ift(\igu(x,0),1,\produ(x,\subs(x,1)))}=\type{\produ(x_1,\subs(x_1,1))}\\
+%         &&\type{\funt(x_1.\ift(\igu(x_1,0),1,\produ(x_1,\subs(x_1,1))))}=\X_1\to\type{\ift(\igu(x_1,0),1,\produ(x_1,\subs(x_1,1)))}\\
+%         &&\type{5}=\nat,\\
+%         &&\type{x_0}=\type{5}\to\type{\appt(x_0,5)}\\
+%         &&\X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%         &&\type{\letrec(\funt(x_1.\ift(\igu(x_1,0),1,\produ(x_1,\subs(x_1,1)))),x_0.\appt(x_0,5))}=\type{\appt(x_0,5)}
+%         \end{array}
+%     \]
+%     \item[Unificación de $\R$].
+%     \begin{center}
+%         \begin{longtable}{ |l|l| } 
+%             \hline
+%             Restricciones $\R$&Unificador $\mu$\\
+%             \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}=\X_0,\\
+%                 \type{0}=\nat,\\
+%                 \type{x_1}=\nat,\\
+%                 \type{\igu(x_1,0)}=\boolt\\
+%                 \type{1}=\nat\\
+%                 \type{x_1}=\X_1,\\
+%                 \type{x_1}=\nat,\\
+%                 \type{\subs(x_1,1)}=\nat\\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \type{1}=\type{\produ(x_1,\subs(x_1,1))},\\
+%                 \type{\ift(...)}=\type{1},\\
+%                 \type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \type{x_0}=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{0}=\nat,\\
+%                 \type{x_1}=\nat,\\
+%                 \type{\igu(x_1,0)}=\boolt\\
+%                 \type{1}=\nat\\
+%                 \type{x_1}=\X_1,\\
+%                 \type{x_1}=\nat,\\
+%                 \type{\subs(x_1,1)}=\nat\\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \type{1}=\type{\produ(x_1,\subs(x_1,1))},\\
+%                 \type{\ift(...)}=\type{1},\\
+%                 \type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_1}=\nat,\\
+%                 \type{\igu(x_1,0)}=\boolt\\
+%                 \type{1}=\nat\\
+%                 \type{x_1}=\X_1,\\
+%                 \type{x_1}=\nat,\\
+%                 \type{\subs(x_1,1)}=\nat\\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \type{1}=\type{\produ(x_1,\subs(x_1,1))},\\
+%                 \type{\ift(...)}=\type{1},\\
+%                 \type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{\igu(x_1,0)}=\boolt\\
+%                 \type{1}=\nat\\
+%                 \nat=\X_1,\\
+%                 \nat=\nat,\\
+%                 \type{\subs(x_1,1)}=\nat\\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \type{1}=\type{\produ(x_1,\subs(x_1,1))},\\
+%                 \type{\ift(...)}=\type{1},\\
+%                 \type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{1}=\nat\\
+%                 \nat=\X_1,\\
+%                 \nat=\nat,\\
+%                 \type{\subs(x_1,1)}=\nat\\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \type{1}=\type{\produ(x_1,\subs(x_1,1))},\\
+%                 \type{\ift(...)}=\type{1},\\
+%                 \type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \nat=\X_1,\\
+%                 \nat=\nat,\\
+%                 \type{\subs(x_1,1)}=\nat\\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \nat=\type{\produ(x_1,\subs(x_1,1))},\\
+%                 \type{\ift(...)}=\nat,\\
+%                 \type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \X_1=\nat,\\
+%                 \nat=\nat,\\
+%                 \type{\subs(x_1,1)}=\nat\\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \nat=\type{\produ(x_1,\subs(x_1,1))},\\
+%                 \type{\ift(...)}=\nat,\\
+%                 \type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \nat=\nat,\\
+%                 \type{\subs(x_1,1)}=\nat\\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \nat=\type{\produ(x_1,\subs(x_1,1))},\\
+%                 \type{\ift(...)}=\nat,\\
+%                 \type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{\subs(x_1,1)}=\nat\\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \nat=\type{\produ(x_1,\subs(x_1,1))},\\
+%                 \type{\ift(...)}=\nat,\\
+%                 \type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \nat=\type{\produ(x_1,\subs(x_1,1))},\\
+%                 \type{\ift(...)}=\nat,\\
+%                 \type{\ift(...)}=\type{\produ(x_1,\subs(x_1,1))}\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \nat=\nat,\\
+%                 \type{\ift(...)}=\nat,\\
+%                 \type{\ift(...)}=\nat\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{\ift(...)}=\nat,\\
+%                 \type{\ift(...)}=\nat\\
+%                 \type{\funt(...)}=\X_1\to\type{\ift(...)}\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \nat=\nat\\
+%                 \type{\funt(...)}=\X_1\to\nat\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}=\nat\\
+%                 \type{\ift(...)}:=\nat,\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{\funt(...)}=\X_1\to\type\nat\\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\type{\funt(x_1.\ift(\igu(x,0),1,\produ(x,\subs(x,1))))},\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \type{\ift(...)}:=\nat,\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{5}=\nat,\\
+%                 \X_0=\type{5}\to\type{\appt(x_0,5)}\\
+%                 \X_0=\X_1\to\nat,\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \type{\ift(...)}:=\nat,\\
+%                 \type{\funt(...)}:=\X_1\to\nat\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \X_0=\nat\to\type{\appt(x_0,5)}\\
+%                 \X_0=\X_1\to\nat,\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\X_0,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \type{\ift(...)}:=\nat,\\
+%                 \type{\funt(...)}:=\X_1\to\nat\\
+%                 \type{5}:=\nat,\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \nat\to\type{\appt(x_0,5)}=\X_1\to\nat,\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\nat\to\type{\appt(x_0,5)},\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \type{\ift(...)}:=\nat,\\
+%                 \type{\funt(...)}:=\X_1\to\nat\\
+%                 \type{5}:=\nat,\\
+%                 \X_0:=\nat\to\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \nat=\X_1,\\
+%                 \type{\appt(x_0,5)}=\nat\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\nat\to\type{\appt(x_0,5)},\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \type{\ift(...)}:=\nat,\\
+%                 \type{\funt(...)}:=\X_1\to\nat\\
+%                 \type{5}:=\nat,\\
+%                 \X_0:=\nat\to\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \X_1=\nat,\\
+%                 \type{\appt(x_0,5)}=\nat\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\nat\to\type{\appt(x_0,5)},\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \type{\ift(...)}:=\nat,\\
+%                 \type{\funt(...)}:=\X_1\to\nat\\
+%                 \type{5}:=\nat,\\
+%                 \X_0:=\nat\to\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{\appt(x_0,5)}=\nat\\
+%                 \type{\letrec(...)}=\type{\appt(x_0,5)}\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\nat\to\type{\appt(x_0,5)},\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \type{\ift(...)}:=\nat,\\
+%                 \type{\funt(...)}:=\nat\to\nat\\
+%                 \type{5}:=\nat,\\
+%                 \X_0:=\nat\to\type{\appt(x_0,5)}\\
+%                 \X_1:=\nat,\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%             $\begin{array}{l}
+%                 \\
+%                 \type{\letrec(...)}=\nat\\
+%                 \\
+%             \end{array}$
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\nat\to\nat,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \type{\ift(...)}:=\nat,\\
+%                 \type{\funt(...)}:=\nat\to\nat\\
+%                 \type{5}:=\nat,\\
+%                 \X_0:=\nat\to\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\appt(x_0,5)}:=\nat\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%           & 
+%             $\begin{array}{l}
+%                 \\
+%                 \type{x_0}:=\nat\to\nat,\\
+%                 \type{0}:=\nat,\\
+%                 \type{x_1}:=\nat,\\
+%                 \type{\igu(x_1,0)}:=\boolt\\
+%                 \type{1}:=\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\subs(x_1,1)}:=\nat,\\
+%                 \type{\produ(x_1,\subs(x_1,1))}:=\nat\\
+%                 \type{\ift(...)}:=\nat,\\
+%                 \type{\funt(...)}:=\nat\to\nat\\
+%                 \type{5}:=\nat,\\
+%                 \X_0:=\nat\to\nat\\
+%                 \X_1:=\nat,\\
+%                 \type{\appt(x_0,5)}:=\nat\\
+%                 \text{\colorbox{SpringGreen}{$\type{\letrec(...)}:=\nat$}}\\
+%                 \\
+%             \end{array}$
+%           \\ 
+%           \hline
+%         \end{longtable}
+%     \end{center}
+% \end{description}
+% Por lo que la expresión tiene tipo $\nat$
+% \end{example}
+% \begin{definition}[Algoritmo de Inferencia de Tipos]
+
+% $$\R\opc\Gamma\models e:\T$$
+%     \begin{description}
+%         \item[Variables]
+%         \[
+%             \inference{x:\T\in\Gamma}{\R\opc\Gamma\models x:\T}
+%         \]
+%         \item[Valores numéricos]
+%         \[
+%             \inference{}{\R\opc\Gamma\models \num[n]:\nat}
+%         \]
+%          \item[Valores Booleanos]
+%          \[
+%             \inference{}{\R\opc\Gamma\models\bool[b]:\boolt}
+%         \]
+%         \item[Operadores]
+%         \[
+%             \begin{array}{c}
+%                 \inference{
+%                     \R_1\opc\Gamma_1\models t_1:\T_1\\
+%                     \R_2\opc\Gamma_2\models t_2:\T_2\\
+%                     \tvar(\R_1\cup\Gamma_1\cup\T_1)\cap\tvar(\R_2\cup\Gamma_2\cup\T_2)=\varnothing\\
+%                     \Sr = \{\St_1 = \St_2\,|\,x:\St_1\in\Gamma_1,x:\St_2\in\Gamma_2\}}
+%                     {\T_1=\nat,\T_2=\nat,\Sr,\R_1,\R_2\opc\Gamma_1,\Gamma_2\models\suma(t_1,t_2):\nat}\\
+%                 \\
+%                 \inference{
+%                     \R_1\opc\Gamma_1\models t_1:\T_1\\
+%                     \R_2\opc\Gamma_2\models t_2:\T_2\\
+%                     \tvar(\R_1\cup\Gamma_1\cup\T_1)\cap\tvar(\R_2\cup\Gamma_2\cup\T_2)=\varnothing\\
+%                     \Sr = \{\St_1 = \St_2\,|\,x:\St_1\in\Gamma_1,x:\St_2\in\Gamma_2\}}
+%                     {\T_1=\nat,\T_2=\nat,\Sr,\R_1,\R_2\opc\Gamma_1,\Gamma_2\models\produ(t_1,t_2):\nat}\\
+%                 \\
+%                 \inference{
+%                     \R_1\opc\Gamma_1\models t_1:\T_1\\
+%                     \R_2\opc\Gamma_2\models t_2:\T_2\\
+%                     \tvar(\R_1\cup\Gamma_1\cup\T_1)\cap\tvar(\R_2\cup\Gamma_2\cup\T_2)=\varnothing\\
+%                     \Sr = \{\St_1 = \St_2\,|\,x:\St_1\in\Gamma_1,x:\St_2\in\Gamma_2\}}
+%                     {\T_1=\nat,\T_2=\nat,\Sr,\R_1,\R_2\opc\Gamma_1,\Gamma_2\models\subs(t_1,t_2):\nat}\\
+%                 \\
+%                 \inference{
+%                     \R_1\opc\Gamma_1\models t_1:\T_1\\
+%                     \R_2\opc\Gamma_2\models t_2:\T_2\\
+%                     \tvar(\R_1\cup\Gamma_1\cup\T_1)\cap\tvar(\R_2\cup\Gamma_2\cup\T_2)=\varnothing\\
+%                     \Sr = \{\St_1 = \St_2\,|\,x:\St_1\in\Gamma_1,x:\St_2\in\Gamma_2\}}
+%                     {\T_1=\nat,\T_2=\nat,\Sr,\R_1,\R_2\opc\Gamma_1,\Gamma_2\models\igu(t_1,t_2):\boolt}\\
+%                 \\
+%                 \inference{
+%                     \R_1\opc\Gamma_1\models t_1:\T_1\\
+%                     \R_2\opc\Gamma_2\models t_2:\T_2\\
+%                     \tvar(\R_1\cup\Gamma_1\cup\T_1)\cap\tvar(\R_2\cup\Gamma_2\cup\T_2)=\varnothing\\
+%                     \Sr = \{\St_1 = \St_2\,|\,x:\St_1\in\Gamma_1,x:\St_2\in\Gamma_2\}}
+%                     {\T_1=\nat,\T_2=\nat,\Sr,\R_1,\R_2\opc\Gamma_1,\Gamma_2\models\gt(t_1,t_2):\boolt}\\
+%                 \\
+%                 \inference{
+%                     \R_1\opc\Gamma_1\models t_1:\T_1\\
+%                     \R_2\opc\Gamma_2\models t_2:\T_2\\
+%                     \tvar(\R_1\cup\Gamma_1\cup\T_1)\cap\tvar(\R_2\cup\Gamma_2\cup\T_2)=\varnothing\\
+%                     \Sr = \{\St_1 = \St_2\,|\,x:\St_1\in\Gamma_1,x:\St_2\in\Gamma_2\}}
+%                     {\T_1=\nat,\T_2=\nat,\Sr,\R_1,\R_2\opc\Gamma_1,\Gamma_2\models\lt(t_1,t_2):\boolt}\\
+%             \end{array}
+%         \]
+%         \item[Condicional]
+%         \[
+%             \inference{
+%                 \R_1\opc\Gamma_1\models t_c:\T_1\\
+%                 \R_2\opc\Gamma_2\models t_t:\T_2\\
+%                 \R_3\opc\Gamma_3\models t_e:\T_3\\
+%                 \tvar(\R_1\cup\Gamma_1\cup\T_1)\cap\tvar(\R_2\cup\Gamma_2\cup\T_2)\cap\tvar(\R_3\cup\Gamma_3\cup\T_3)=\varnothing\\
+%                 \Sr = \{\St_1 = \St_2\,|\,x:\St_1\in\Gamma_i\;x:\St_2\in\Gamma_j\; i,j\in 1,2,3\; i\neq j\}}
+%                 {\T_1=\boolt,\T_2=\T_3,\T=\T_2,\T=\T_3,\Sr,\R_1,\R_2,\R_3\opc\Gamma_1,\Gamma_2,\Gamma_3\models\ift(t_c,t_t,t_e):\T}
+%         \]
+%         \item[Asignaciones Locales]
+%         \[
+%             \begin{array}{c}
+%                 \inference{
+%                     \R_1\opc\Gamma_1\models t_v:\T_1\\
+%                     \R_2\opc\Gamma_2,x:\T\models t_b:\T_2\\
+%                     \tvar(\R_1\cup\Gamma_1\cup\T_1)\cap\tvar(\R_2\cup\Gamma_2\cup\T_2)=\varnothing\\
+%                     \Sr = \{\St_1 = \St_2\,|\,x:\St_1\in\Gamma_1,x:\St_2\in\Gamma_2\}}
+%                     {\T=\T_1,\Sr,\R_1,\R_2\opc\Gamma_1,\Gamma_2\models\lett(t_v,x.t_b) : \T_2}\\
+%                 \\
+%                 \inference{
+%                     \R_1\opc\Gamma_1,x:\T\models t_v:\T_1 \\
+%                     \R_2\opc\Gamma_2,x:\T\models t_b:\T_2\\
+%                     \tvar(\R_1\cup\Gamma_1\cup\T_1)\cap\tvar(\R_2\cup\Gamma_2\cup\T_2)=\varnothing\\
+%                     \Sr = \{\St_1 = \St_2\,|\,x:\St_1\in\Gamma_1,x:\St_2\in\Gamma_2\}}
+%                     {\T=\T_1,\Sr,\R_1,\R_2\opc\Gamma_1,\Gamma_2\models\letrec(x.t_v,x.t_b) : \T_2}\\
+%             \end{array}
+%         \]
+%         \item[Funciones]
+%         \[
+%             \inference{\R\opc\Gamma,x:\T\models t:\St}{\R\opc\Gamma\models\funt(x.t): \T\to\St}
+%         \]
+%         \item[Aplicación de función]
+%         \[
+%             \inference{
+%                 \R_1\opc\Gamma_1\models t_f:\T_1\\
+%                 \R_2\opc\Gamma_2\models t_p:\T_2\\
+%                 \tvar(\R_1\cup\Gamma_1\cup\T_1)\cap\tvar(\R_2\cup\Gamma_2\cup\T_2)=\varnothing\\
+%                 \Sr = \{\St_1 = \St_2\,|\,x:\St_1\in\Gamma_1,x:\St_2\in\Gamma_2\}\\
+%                 \X\;{\sf fresh}}
+%                 {\T_1=\T_2\to\X,\Sr,\R_1,\R_2\opc\Gamma_1,\Gamma_2\models\appt(t_f,t_p):\X}
+%         \]
+%         % \item[Operador de punto fijo]
+%         % \[
+%         %     \inference{\R,x:\T\models t:\T}{\R\models\fix(\T,x.t):\T}
+%         % \]
+%         % Obsérvese que en el caso de \fix$\,$ se está asumiendo el mismo tipo que se debe concluir.
+%     \end{description}
+% \end{definition}
+
+
+
+\begin{thebibliography}{9}
+
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+
+\bibitem{notasGabrielle}
+Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+\bibitem{notasKarla}
+Ramírez Pulido K., Soto Romero M., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+
+
+\end{thebibliography}
+
+
+\end{document}

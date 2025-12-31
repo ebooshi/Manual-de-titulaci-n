@@ -1,0 +1,641 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\usepackage{chronology}
+
+\title{\LARGE 
+Lenguajes de Programación 2023-1\\ 
+Nota de clase 9: Maquinas Abstractas \\
+\color{SeaGreen} Funcional ($\lambda$)}
+\author{Javier Enríquez Mendoza}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+Las máquinas abstractas son un modelo teórico de computo compuesto de:
+\begin{itemize}
+    \item Un conjunto de estados.
+    \item Un conjunto de estados iniciales.
+    \item Un conjunto de estados finales.
+    \item Un conjunto de operaciones de la máquina que manipulan su estado.
+\end{itemize}
+
+El uso de máquinas abstractas en ciencias de la computación es de suma importancia, por ejemplo, para especificar la semántica operacional de un lenguaje de programación o en el estudio de la complejidad.Quizá el ejemplo mas conocido de una máquina abstracta sean las máquinas de Turing. 
+
+En este curso hemos estudiado las semántica operacional de los lenguajes mediante un sistema de transición, estos sistemas son también maquinas abstractas muy simples. Así que técnicamente ya hemos estudiado un ejemplo de máquina abstracta, el sistema de transición con el que se definió \minhs, que recibe el nombre de maquina $\Ms$. 
+
+Sin embargo está máquina funciona en un nivel de abstracción muy alto en donde no nos permite ver el proceso de evaluación de un programa sino únicamente el proceso de evaluación del estado actual del sistema.
+
+El objetivo de esta nota es definir una máquina abstracta para la semántica operacional de \minhs, con un menor nivel de abstracción que nos permita ver la ejecución completa de los cómputos.
+
+\section{La Maquina $\Hs$}
+La primera máquina que vamos a estudiar es la máquina $\Hs$, esta máquina hace explicito el control de flujo del programa con una pila de control en donde se almacenan todos los cómputos pendientes en forma ce marcos. Primero vamos a formalizar estos conceptos para después definir la máquina $\Hs$.
+
+% \section{La Maquina C}
+
+\subsection{Marcos y Pila de control}
+\begin{definition}[Marcos] Los marcos son esqueletos estructurales que registran los cómputos pendientes de una expresión. En nuestra definición, el símbolo $\square$ indica el lugar en donde se está llevando acabo la evaluación actual.
+    \begin{description}
+        \item[Operadores primitivos]
+            \[
+                \begin{array}{ccc}
+                    \inference{}
+                    {\suma(\square,e_2)\marco}&
+                    \qquad&
+                    \inference{}
+                    {\suma(v_1,\square)\marco}
+                \end{array}
+            \]
+            El resto de los operadores binarios son definidos análogamente.
+        \item[Condicional] 
+            \[
+                \begin{array}{c}
+                    \inference{}
+                    {\ift(\square,e_2,e_3)\marco}
+                \end{array}
+            \]
+        % \item[Asignaciones locales] 
+        %     \[
+        %         \begin{array}{ccc}
+        %             \inference{}
+        %             {\lett(\square,x.e_2)\marco}&
+        %             \qquad&
+        %             \inference{}
+        %             {\lett(x.\square,x.e_2)\marco}
+        %         \end{array}
+        %     \]
+        \item[Aplicación de función] 
+            \[
+                    \inference{}
+                    {\appt(\square,e_2)\marco}
+            \] 
+    \end{description}
+\bigskip
+\end{definition}
+\begin{remark} Los marcos están definidos en función de la semántica operacional. En particular no hay marcos para los valores del lenguaje (números, booleanos y funciones) esto se debe a que los marcos definen cómputos pendientes y dentro de un valor no hay ningún cómputo pendiente.
+\end{remark}
+\begin{definition}[Pila de control] Una pila de control está formada a partir de marcos, y se define inductivamente como sigue:
+
+    \[
+        \begin{array}{ccc}
+            \inference{}{\pe\pila}[{\sf vacia}]&
+            \qquad&
+            \inference{\mathfrak{m}\marco&\mathpzc{P}\pila}{\mathfrak{m};\mathpzc{P}\pila}[{\sf top}]
+        \end{array}
+    \]
+
+\bigskip
+\end{definition}
+\subsection{Estados}
+\begin{definition}[Estados de la máquina $\Hs$] Los estados están compuestos de una pila de control $\mathpzc{P}$ y una expresión $e$ cerrada y son de alguna de las siguientes formas:
+\begin{itemize}
+    \item {\bf Estados de evaluación}: Se evalúa $e$ siendo $\mathpzc{P}$ la pila de control y lo denotamos como $\pc\evalk e$
+    \item {\bf Estados de retorno}: Devuelve el valor $v$ a la pila de control $\pc$, que denotamos como $\pc\prec v$
+\end{itemize}
+En donde se distinguen dos tipos de estados en particular:
+\begin{itemize}
+    \item {\bf Estados iniciales}: comienzan la evaluación con la pila vacía denotados como $\pe\evalk e$.
+    \item {\bf Estados finales}: regresan un valor a la pila vacía y se denota $\pe\prec v$
+\end{itemize}
+\bigskip
+\end{definition}
+\subsection{Transiciones}
+
+La relación de transición modela la transición de la semántica operacional definida para \minhs. 
+
+\begin{definition}[Transiciones para la máquina $\Hs$]
+Las transiciones se definen por medio de la relación $\toh$ y es de la forma:
+
+$$\pc\evalk e\toh\pc'\evalk e'$$
+
+en donde los símbolos $\evalk$ se pueden sustituir en ambos casos por $\prec$.
+
+Las reglas para las expresiones de \minhs son:
+
+\begin{description}
+    \item[Valores] Los valores del lenguaje son números, booleanos y funciones y la evaluación de un valor simplemente lo regresa como resultado a la pila, pues un valor ya finalizo su proceso de evaluación.
+    \[
+        \inference{}{\pc\succ v\toh\pc\prec v}
+    \]
+    \item[Operaciones] Veamos el ejemplo de la suma y el resto de las operaciones se definen análogamente. Para evaluar $\suma(e_1,e_2)$ agregamos el marco $\suma(\square,e_2)$ a la pila y evaluamos $e_1$.
+    \[
+        \inference{}{\pc\succ\suma(e_1,e_2)\toh\suma(\square,e_2);\pc\succ e_1}
+    \]
+
+    Si tenemos en el tope de la pila el marco $\suma(\square,e_2)$ y se regresa como resultado un valor $v$, entonces, evaluamos $e_2$ y sustituimos el tope de la pila por el marco $\suma(v_1,\square)$.
+    \[
+        \inference{}{\suma(\square,e_2);\pc\prec v_1\toh\suma(v_1,\square);\pc\succ e_2}
+    \]
+    Si se devuelve un valor a la pila que tiene como tope el marco $\suma(\num[n],\square)$ entonces podemos devolver al resto de la pila el resultado de la suma de ambos valores.
+    \[
+        \inference{}{\suma(\num[n],\square);\pc\prec\num[m]\toh\pc\prec\num[n+m]}
+    \]
+    \item[Condicional] Para evaluar la expresión $\ift(e_1,e_2,e_3)$ agregamos el marco $\ift(\square,e_2,e_3)$ al tope de la pila y evaluamos $e_1$.
+    \[
+        \inference{}{\pc\succ\ift(e_1,e_2,e_3)\toh\ift(\square,e_2,e_3);\pc\succ e_1}
+    \]
+    Si se regresa $\truet$ a la pila con el marco $\ift(\square,e_2,e_3)$ en el tope, entonces evaluamos $e_2$ con el resto de la pila.
+    \[
+        \inference{}{\ift(\square,e_2,e_3);\pc\prec\truet\toh\pc\succ e_2}
+    \]
+    Si se regresa $\falset$ a la pila con el marco $\ift(\square,e_2,e_3)$ en el tope, entonces evaluamos $e_3$ con el resto de la pila.
+    \[
+        \inference{}{\ift(\square,e_2,e_3);\pc\prec\falset\toh\pc\succ e_3}
+    \]
+    \item[Asignaciones locales] Si se quiere evaluar la expresión $\lett(e_1,x.e_2)$ con la pila $\pc$ entonces se evalúa $e_2$ en donde se sustituyen las apariciones de $x$ por $e_1$ con la misma pila.
+    \[
+        \inference{}{\pc\succ\lett(e_1,x.e_2)\toh\pc\succ e_2[x:=e_1]}
+    \]
+    % Si se quiere evaluar la expresión $\letrec(f.e_1,f.e_2)$ con la pila $\pc$ entonces se evalúa $e_2$ en donde se sustituyen las apariciones de $f$ por $\fix(f.e_1)$ con la misma pila.
+    % \[
+    %     \inference{}{\pc\succ\letrec(f.e_1,f.e_2)\toh\pc\succ e_2[f:=\fix(f.e_1)]}
+    % \]
+    \item[Aplicación de función] Para evaluar una aplicación $\appt(e_1,e_2)$ en una pila $\pc$ se agrega el marco $\appt(\square,e_2)$ como tope y se evalúa $e_1$.
+    \[
+        \inference{}{\pc\succ\appt(e_1,e_2)\toh\appt(\square,e_2);\pc\succ e_1}
+    \]
+    Si se regresa un valor $\funt(x.e_1)$ a la pila con tope $\appt(\square,e_2)$ entonces se quita el tope  y se evalúa $e_1$ sustituyendo $x$ por $e_2$.
+    \[
+        \inference{}{\appt(\square,e_2);\pc\prec\funt(x.e_1)\toh\pc\succ e_1[x:=e_2]}
+    \]
+    Si se regresa un valor $\recfun(f.x.e_1)$ a la pila con tope $\appt(\square,e_2)$ entonces se quita el tope  y se evalúa $e_1$ sustituyendo $f$ por su punto fijo y $x$ por $e_2$.
+    \[
+        \inference{}{\appt(\square,e_2);\pc\prec\recfun(f.x.e_1)\toh\pc\succ e_1[f:=\fix(f.x.e_1),x:=e_2]}
+    \]
+    % Si en el tope de la pila tenemos el marco $\appt(\funt(x.e),\square)$ y re regresa el valor $v$ entonces evaluamos $e$ sustituyendo las apariciones de $x$ por $v$ en el resto de la pila.
+    % \[
+    %     \inference{}{\appt(\funt(x.e_1),\square);\pc\prec v\toh\pc\succ e[x:=v]}
+    % \]
+    \item[El operador de punto fijo] Para evaluar la expresión $\fix(f.e)$ en la pila $\pc$ se evalúa $e$ sustituyendo $f$ por $\fix(f.e)$.
+    \[
+        \inference{}{\pc\succ\fix(f.e)\toh\pc\succ e[f:=\fix(f.e)]}
+    \]
+\end{description}
+\bigskip
+\end{definition}
+\begin{remark} Es importante notar que todas las reglas de transición de la máquina $\Hs$ son axiomas, lo que facilita su implementación.
+\end{remark}
+
+\begin{example}[Ejecución de la máquina $\Hs$] Veamos el comportamiento de la máquina $\Hs$ evaluando la siguiente expresión:
+
+\begin{verbatim}
+    let x = 5 in if x <= 3 then x + 2 else x - 2 end
+\end{verbatim}
+Que en sintaxis abstracta se representa con el árbol:
+$$\lett(5,x.\ift(\leqt(x,3),\suma(x,2),\subt(x,2)))$$
+La ejecución en la máquina $\Hs$ se ve de la siguiente forma:
+\[
+    \begin{array}{rcl}
+    \pe&\succ&\lett(5,x.\ift(\leqt(x,3),\suma(x,2),\subt(x,2)))\\
+    \pe&\succ&\ift(\leqt(x,3),\suma(x,2),\subt(x,2))[x:=5]\\
+    \pe&\succ&\ift(\leqt(5,3),\suma(5,2),\subt(5,2))\\
+    \ift(\square,\suma(5,2),\subt(5,2));\pe&\succ&\leqt(5,3)\\
+    \leqt(\square,3);\ift(\square,\suma(5,2),\subt(5,2));\pe&\succ&5\\
+    \leqt(\square,3);\ift(\square,\suma(5,2),\subt(5,2));\pe&\prec&5\\
+    \leqt(5,\square);\ift(\square,\suma(5,2),\subt(5,2));\pe&\succ&3\\
+    \leqt(5,\square);\ift(\square,\suma(5,2),\subt(5,2));\pe&\prec&3\\
+    \ift(\square,\suma(5,2),\subt(5,2));\pe&\succ&5\leq3\\
+    \ift(\square,\suma(5,2),\subt(5,2));\pe&\prec&\falset\\
+    \pe&\succ&\subt(5,2)\\
+    \subt(\square,2);\pe&\succ&5\\
+    \subt(\square,2);\pe&\prec&5\\
+    \subt(5,\square);\pe&\succ&2\\
+    \subt(5,\square);\pe&\prec&2\\
+    \pe&\succ&5-2\\
+    \pe&\prec&3\\
+    \end{array}
+\]
+\end{example}
+
+\begin{example}[Ejecución máquina $\Hs$] Para ver el funcionamiento de la máquina $\Hs$ vamos a evaluar la siguiente expresión:
+
+\begin{verbatim}
+    let x = 3 in 
+        let f = fun y => x + y in 
+            let x = 5 in 
+                f 4 
+            end 
+        end end
+\end{verbatim}
+En sintaxis abstracta:
+$$\lett(3,x.\lett(\funt(y.\suma(x,y)),f.\lett(5,x.\appt(f,4))))$$
+La evaluamos en la máquina $\Hs$.
+\[
+    \begin{array}{rcl}
+        \pe&\succ&\lett(3,x.\lett(\funt(y.\suma(x,y)),f.\lett(5,x.\appt(f,4))))\\
+        \pe&\succ&\lett(\funt(y.\suma(x,y)),f.\lett(5,x.\appt(f,4)))[x:=3]\\
+        \pe&\succ&\lett(\funt(y.\suma(3,y)),f.\lett(5,x.\appt(f,4)))\\
+        \pe&\succ&\lett(5,x.\appt(f,4))[f:=\funt(y.\suma(3,y))]\\
+        \pe&\succ&\lett(5,x.\appt(\funt(y.\suma(3,y)),4))\\
+        \pe&\succ&\appt(\funt(y.\suma(3,y)),4)[x:=5]\\
+        \pe&\succ&\appt(\funt(y.\suma(3,y)),4)\\
+        \appt(\square,4);\pe&\succ&\funt(y.\suma(3,y))\\
+        \appt(\square,4);\pe&\prec&\funt(y.\suma(3,y))\\
+        \pe&\succ&\suma(3,y)[y:=4]\\
+        \pe&\succ&\suma(3,4)\\
+        \suma(\square,4);\pe&\succ&3\\
+        \suma(\square,4);\pe&\prec&3\\
+        \suma(3,\square);\pe&\succ&4\\
+        \suma(3,\square);\pe&\prec&4\\
+        \pe&\succ&3+4\\
+        \pe&\prec&7\\
+    \end{array}
+\]
+\end{example}
+
+\section{La Maquina $\Js$}
+% \section{La Maquina J}
+Con la máquina $\Hs$ es evidente el flujo de ejecución de un programa lo que nos facilita implementar un lenguaje de forma eficiente en una computadora. Las operaciones nativas necesarias para el funcionamiento de la máquina abstracta son: aritméticas, lógicas, de comparación y la operación de sustitución. La mayoría de éstas son operaciones nativas en una computadora, por lo que las podemos implementar de forma eficiente. 
+
+Sin embargo la operación de sustitución no se puede implementar eficientemente. Esta operación tiene una complejidad de $O(n)$ sobre el tamaño de la expresión, lo cuál no está ni cerca de la complejidad de las instrucciones de la computadora. Para que nuestro interprete de \minhs sea eficiente, es necesario deshacernos de la operación de sustitución y para eso agregaremos un ambiente a los estados de nuestra máquina que almacenen el valor de las variables. Un ambiente va a mapear una variable con el valor que le fue asignado.
+
+Llamaremos a esta nueva máquina $\Js$, y se define como una extensión de la máquina $\Hs$ evitando el uso de sustitución en la evaluación de expresiones. En su lugar se contará con un ambiente en donde se guardan los valores de las variables.
+
+\begin{remark} Para simplificar la definición de esta máquina se cambiará la estrategia de evaluación sobre el lenguaje, es decir, optaremos por una evaluación ansiosa. El motivo es simplificar el contenido de los ambientes, sin embargo, la persona que lee debe convencerse de que una implementación de evaluación perezosa no solo es posible sino que solo implica modificaciones menores sobre la definición que se presentará.
+\end{remark}
+
+\begin{definition}[Marcos] En la máquina $\Js$ se usa el mismo conjunto de marcos que los presentados para la máquina $\Hs$, y para el uso de evaluación ansiosa como estrategia de evaluación en la máquina $\Js$ se agregan los siguientes marcos:
+
+\begin{description}
+
+    \item[Asignaciones locales] 
+            \[
+                \begin{array}{ccc}
+                    \inference{}
+                    {\lett(\square,x.e_2)\marco}
+                \end{array}
+            \]
+    \item[Aplicación de función] 
+            \[
+                \inference{}
+                    {\appt(f,\square)\marco}
+            \]
+\end{description}
+
+Con los que se modela la evaluación ansiosa del lenguaje al evaluar los valores de las asignaciones locales así como el argumento de la función en la aplicación.
+\bigskip
+\end{definition}
+
+Los ambientes de variables se definen como una colección de identificadores con el valor que les corresponde.
+
+\begin{definition}[Ambientes] Un ambiente es una estructura que almacena asignaciones de variables con su valor y la definimos inductivamente como:
+    \[
+        \begin{array}{ccc}
+            \inference{}{\ee\env}[{\sf vacio}]&
+            \qquad&
+            \inference{x\;\;{\sf var}&v\;\;{\sf valor}&\ec\env}{x\leftarrow v;\ec\env}[{\sf asig}]
+        \end{array}
+    \]
+    La forma de acceder a los elementos del ambiente es mediante el nombre de la variable, entonces si el ambiente $\ec$ tiene la asignación $x\leftarrow v$. Podemos acceder al valor de $x$ como $\ec[x]$ y el resultado es $v$.
+
+    En caso de tener mas de una asignación sobre el mismo nombre de variable $\ec[x]$ nos regresa la primera aparición de $x$ en el ambiente. Por ejemplo en el ambiente $\ec =_{def} x\leftarrow v_1;x\leftarrow v_2;\ee$ la operación $\ec[x]$ nos arroja como resultado $v_1$.
+\bigskip
+\end{definition}
+
+Los estados de la máquina entonces ahora tendrán un ambiente.
+\begin{definition}[Estados de la máquina $\Js$]
+Los estados ahora son una relación ternaria de una pila de control $\pc$ un ambiente $\ec$ y una expresión $e$, denotados como:
+\begin{itemize}
+\item {\bf Estados de evaluación}:$\quad\pc\opc\ec\succ e$
+\item {\bf Estados de retorno}:$\quad\pc\opc\ec\prec e$
+\end{itemize}
+Un estado inicial es de la forma:
+$$\pe\opc\ee\succ e$$
+
+Mientras que los estados finales son de la forma:
+
+$$\pe\opc\ec\prec v$$
+
+Notemos que en los estados finales no importa que está guardado en el ambiente solo importa que la pila de control esté vacía.
+\bigskip
+\end{definition}
+
+\subsection{Transiciones}
+
+Ahora es necesario definir una reglas de transición para la máquina $\Js$.
+
+\begin{definition}[Transiciones de variables en la máquina $\Js$] Se definen las transiciones de la máquina sin utilizar la operación de sustitución.
+
+\begin{description}
+    \item[Variables] En la máquina $\Hs$ una variable representaba un estado bloqueado, pues la única forma de llegar a ella era que se tratara de una variable libre. En la máquina $\Js$ como no aplicamos sustitución tenemos que evaluar las variables buscándolas en el ambiente. Lo que definimos con la siguiente regla:
+
+    \[
+        \inference{}{\pc\opc\ec\succ x\toj\pc\opc\ec\prec\ec[x]}
+    \]
+\end{description}
+\bigskip
+\end{definition}
+
+La idea es utilizar el ambiente de las variables para buscar su valor. Sin embargo todas las expresiones que requieren de sustitución para su evaluación definen un alcance para sus variables. Por ejemplo en la evaluación de la expresión
+
+$$\appt(\funt(x.e_1),e_2)$$
+\noindent
+se debe agregar al ambiente la asignación $x\leftarrow e_2$ y evaluar $e_1$ para obtener el resultado. Pero una vez que termine la evaluación de la aplicación de función esta asignación debe quitarse del ambiente pues ya terminó su alcance. Para lograrlo es necesario extender la definición de la pila de ejecución para que guarde no sólo marcos sino también ambientes. 
+
+\begin{definition}[Pila de control para $\Js$] 
+
+    \[
+        \begin{array}{ccccc}
+            \inference{}{\pe\pila}[{\sf vacia}]&
+            \quad&
+            \inference{\mathfrak{m}\marco&\mathpzc{P}\pila}{\mathfrak{m};\mathpzc{P}\pila}[{\sf top}]&
+            \quad&
+            \inference{\ec\env&\mathpzc{P}\pila}{\ec;\mathpzc{P}\pila}[{\sf top}]
+        \end{array}
+    \]
+\bigskip
+\end{definition}
+
+De esta forma cuando evaluemos una expresión que genera un alcance distinto se agrega el ambiente anterior a la pila de control y se definen las nuevas asignaciones dentro del ambiente actual. Una vez que termine la ejecución y se regrese un valor a la pila con un ambiente en el tope, continuamos con la ejecución del programa tomando ese ambiente como actual.
+
+\begin{definition}[Transiciones con alcance en la máquina $\Js$] Ahora reescribimos los casos que involucran usar sustitución para su evaluación. 
+\begin{description}
+    \item[Asignaciones locales]
+    \[  
+        \begin{array}{c}
+            \inference{}{\pc\opc\ec\succ\lett(e_1,x.e_2)\toj\lett(\square,x.e_2);\pc\opc\ec\succ e_1}\\
+            \\
+            \inference{}{\lett(\square,x.e_2);\pc\opc\ec\prec v\toj\ec;\pc\opc x\leftarrow v;\ec\succ e_2}
+        \end{array}
+    \]
+
+    % \[
+    %     \begin{array}{c}
+    %         \inference{}{\pc\opc\ec\succ\letrec(f.e_1,f.e_2)\toj\letrec(f.\square,f.e_2);\pc\opc\ec\succ e_1}\\
+    %         \\
+    %         \inference{}{\letrec(f.\square,f.e_2);\pc\opc\ec\prec v\toj\ec;\pc\opc f\leftarrow\fix(f.v);\ec\succ e_2}
+    %     \end{array}
+    % \]
+    \item[Aplicación de función] 
+    \[
+    \begin{array}{c}
+        \inference{}{\appt(\square,e_2);\pc\opc\ec\prec v_1\toj\appt(v_1,\square);\pc\opc \ec\succ e_2}\\
+        \\
+        \inference{}{\appt(\funt(x.e_1),\square);\pc\opc\ec\prec v_2\toj\ec;\pc\opc x\leftarrow v_2;\ec\succ e_1}\\
+        \\
+        \inference{}{\appt(\recfun(f.x.e_1),\square);\pc\opc\ec\prec v_2\toj\ec;\pc\opc f\leftarrow\fix(f.x.e_1);x\leftarrow v_2;\ec\succ e_1}\\
+    \end{array}
+    \]
+    % \item[Operador de punto fijo]
+    % \[
+    %     \inference{}{\pc\opc\ec\succ\fix(f.e)\toj \pc\opc\ec\succ e}
+    % \]
+    % En el caso de \fix no es necesario modificar el ambiente pues la única forma de llegar a esta expresión es mediante un \letrec que ya agrega al ambiente la asignación $f\leftarrow\fix(f.e)$
+    \item[Liberación del ambiente] Esta regla se agrega para liberar el ambiente de la pila de control.
+    \[
+        \inference{}{\ec;\pc\opc\ec_1\prec v\toj\pc\opc\ec\prec v}
+    \]
+
+Observemos como la evaluación del valor a almacenar en las asignaciones locales se volvió un punto estricto pues los ambientes solo almacenan valores.
+\end{description}
+\bigskip
+\end{definition}
+
+Para ejemplificar el funcionamiento de la máquina $\Js$ veamos un ejemplo de evaluación de una expresión de $\minhs$ en ésta.
+
+\begin{example}[Ejecución máquina $\Js$] Para ver el funcionamiento de la máquina $\Js$ vamos a evaluar la siguiente expresión:
+
+\begin{verbatim}
+    let x = 3 in 
+        let f = fun y => x + y in 
+            let x = 5 in 
+                f 4 
+            end 
+        end 
+    end
+\end{verbatim}
+En sintaxis abstracta:
+$$\lett(3,x.\lett(\funt(y.\suma(x,y)),f.\lett(5,x.\appt(f,4))))$$
+La evaluamos en la máquina $\Js$.
+\[
+    \begin{array}{rcl}
+        \pe\opc\ee&\succ&\lett(3,x.\dots)\\
+        \lett(\square,x.\dots);\pe\opc\ee&\succ&3\\
+        \lett(\square,x.\dots);\pe\opc\ee&\prec&3\\
+        \ee;\pe\opc x\leftarrow3;\ee&\succ&\lett(\funt(y.\suma(x,y)),\dots)\\
+        \lett(\square,\dots);\ee;\pe\opc\underbrace{x\leftarrow3;\ee}_{\ec_1}&\succ&\funt(y.\suma(x,y))\\
+        \lett(\square,\dots);\ee;\pe\opc x\leftarrow3;\ee&\prec&\funt(y.\suma(x,y))\\
+        \ec_1;\ee;\pe\opc f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee&\succ&\lett(5,x.\appt(f,4))\\
+        \lett(\square,x.\appt(f,4));\ec_1;\ee;\pe\opc f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee&\succ&5\\
+        \lett(\square,x.\appt(f,4));\ec_1;\ee;\pe\opc\underbrace{f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee}_{\ec_2}&\prec&5\\
+       \ec_2;\ec_1;\ee;\pe\opc x\leftarrow5;f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee&\succ&\appt(f,4)\\
+       \appt(\square,4);\ec_2;\ec_1;\ee;\pe\opc x\leftarrow5;f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee&\succ&f\\
+       \appt(\square,4);\ec_2;\ec_1;\ee;\pe\opc\underbrace{x\leftarrow5;f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee}_{\ec_3}&\prec&\funt(y.\suma(x,y))\\
+       \ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow4;x\leftarrow5;f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee&\succ&\suma(x,y)\\
+       \suma(\square,y);\ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow4;x\leftarrow5;f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee&\succ&x\\
+       \suma(\square,y);\ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow4;x\leftarrow5;f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee&\prec&5\\
+       \suma(5,\square);\ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow4;x\leftarrow5;f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee&\succ&y\\
+       \suma(5,\square);\ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow4;x\leftarrow5;f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee&\prec&4\\
+       \ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow4;x\leftarrow5;f\leftarrow\funt(y.\suma(x,y));x\leftarrow3;\ee&\prec&5+4\\
+       \ec_2;\ec_1;\ee;\pe\opc\ec_3&\prec&9\\
+       \ec_1;\ee;\pe\opc\ec_2&\prec&9\\
+       \ee;\pe\opc\ec_1&\prec&9\\
+       \pe\opc\ee&\prec&9\\
+    \end{array}
+\]
+\end{example}
+
+\section{Alcance}
+
+Consideremos la siguiente expresión
+
+\begin{verbatim}
+                let x = 3 in 
+                    let f = fun y => x + y in 
+                        let x = 5 in 
+                            f 4
+                        end
+                    end
+                end
+\end{verbatim}
+
+Si evaluamos esta expresión en la máquina $\Hs$ el resultado es $7$ mientras que si la evaluamos en la máquina $\Js$ el resultado será $9$. Esto se debe al alcance utilizado en cada una de las máquinas. En general se tienen dos tipos de alcance: estático y dinámico.
+
+\begin{definition}[Alcance estático] En un lenguaje con alcance estático, el alcance de una variable es la región en la cual se encuentra definida.
+\bigskip
+\end{definition}
+
+Por ejemplo la máquina $\Hs$ implementa alcance estático y esto se debe al uso de sustitución para encontrar el valor de sus variables. Y de esta forma en el ejemplo anterior la expresión 
+
+\lstinline{fun y => x + y} 
+
+toma el valor de \lstinline{x} de la región que delimita a esa función, es decir, $3$.
+
+\begin{definition}[Alcance dinámico] En un lenguaje con alcance dinámico, el alcance de un identificador es todo el programa, es decir, se toma la última asignación hecha al mismo.
+\bigskip
+\end{definition}
+
+La máquina $\Js$ implementa este tipo de alcance. En el ejemplo anterior la expresión 
+
+\lstinline{fun y => x + y} 
+
+toma el valor de \lstinline{x} de la última asignación hecha sobre esa variable, es decir, $5$.
+
+Si bien el usar alcance dinámico no es un error, en nuestro caso representa un problema pues se busca que ambas máquinas evalúen al mismo valor las expresiones de \minhs. Para corregir esto, es necesario que las funciones usen el ambiente en el cual fueron creadas.
+
+\subsection{Closures}
+
+Debemos revisar nuestra definición de función para garantizar que use el ambiente adecuado en su ejecución. Para lograr evaluar las expresiones en el ambiente adecuado se usa el concepto de {\it Closure} o cerradura, que se define como sigue.
+
+\begin{definition}[Closure]
+Un {\it Closure} es una pareja de una expresión de función de \minhs y un ambiente que se denota como:
+
+$$\closure{\ec,f}$$
+
+y se interpreta como, que el ambiente adecuado para evaluar la función $f$ es $\ec$, de esta forma se respeta el ambiente en el que se define una función para usar el mismo en su ejecución y de esta forma definir una evaluación con alcance estático.
+\bigskip
+\end{definition}
+
+Ahora se modifican las transiciones definidas en la sección anterior para que usen {\it closures} y modelen una evaluación con alcance estático, en lugar de la evaluación con alcance dinámico presentada anteriormente.
+
+\begin{definition}[Transición para funciones] En lugar de regresar las funciones como una expresión, se guardará como una pareja de la expresión y el ambiente en el que fue definido.
+\bigskip
+
+\[
+    \begin{array}{c}
+        \inference{}{\pc\opc\ec\succ\funt(x.e)\toj\pc\opc\ec\prec\closure{\ec,x.e}}\\
+        \\
+        \inference{}{\appt(\square,e_2);\pc\opc\ec\prec\closure{\ec_f,x.e_1}\toj\appt(\closure{\ec_f,x.e_1},\square);\pc\opc \ec\succ e_2}\\
+        \\
+        \inference{}{\appt(\closure{\ec_f,x.e_1},\square);\pc\opc \ec\prec v\toj\ec;\pc\opc x\leftarrow v;\ec_f\succ e_1}\\
+        \\
+        \inference{}{\pc\opc\ec\succ\recfun(f.x.e)\toj\pc\opc\ec\prec\fix(f.\closure{\ec,x.e})}\\
+        \\
+        \inference{}{\appt(\square,e_2);\pc\opc\ec\prec\fix(f.\closure{\ec_f,x.e_1})\toj\appt(\fix(f.\closure{\ec_f,x.e_1}),\square);\pc\opc\ec\succ e_2}\\
+        \\
+        \inference{}{\appt(\fix(f.\closure{\ec_f,x.e_1}),\square);\pc\opc\ec\prec v\toj\ec;\pc\opc x\leftarrow v;f\leftarrow\fix(f.\closure{\ec_f,x.e_1});\ec_f\succ e_1}
+    \end{array}
+\]
+\bigskip
+
+Con estas reglas se general los {\it closures} en la evaluación de una función para que de esta forma el ambiente con el que se ejecutan en la aplicación sea el mismo ambiente en el que se definió la función y las variables tomen el valor esperado según el alcance estático.
+\bigskip
+\end{definition}
+
+Ahora veamos un ejemplo de la evaluación de una expresión usando {\it closures} para diferenciar respecto al ejemplo anterior en el que se usa un alcance dinámico.
+
+\begin{example}[Ejecución máquina $\Js$ con {\it closures}] Para ver el funcionamiento de la máquina $\Js$ vamos a evaluar la siguiente expresión:
+
+\begin{verbatim}
+    let x = 3 in 
+        let f = fun y => x + y in 
+            let x = 5 in 
+                f 4 
+            end 
+        end 
+    end
+\end{verbatim}
+En sintaxis abstracta:
+$$\lett(3,x.\lett(\funt(y.\suma(x,y)),f.\lett(5,x.\appt(f,4))))$$
+La evaluamos en la máquina $\Js$.
+\[
+    \begin{array}{rcl}
+        \pe\opc\ee&\succ&\lett(3,x.\dots)\\
+        \lett(\square,x.\dots);\pe\opc\ee&\succ&3\\
+        \lett(\square,x.\dots);\pe\opc\ee&\prec&3\\
+        \ee;\pe\opc x\leftarrow3;\ee&\succ&\lett(\funt(y.\suma(x,y)),\dots)\\
+        \lett(\square,\dots);\ee;\pe\opc\underbrace{x\leftarrow3;\ee}_{\ec_1}&\succ&\funt(y.\suma(x,y))\\
+        \lett(\square,\dots);\ee;\pe\opc x\leftarrow3;\ee&\prec&\closure{\ec_1,y.\suma(x,y)}\\
+        \ec_1;\ee;\pe\opc\underbrace{f\leftarrow\closure{\ec_1,y.\suma(x,y)};x\leftarrow3;\ee}_{\ec_2}&\succ&\lett(5,x\dots)\\
+        \lett(\square,\dots);\ec_1;\ee;\pe\opc f\leftarrow\closure{\ec_1,y.\suma(x,y)};x\leftarrow3;\ee&\succ&5\\
+        \lett(\square,\dots);\ec_1;\ee;\pe\opc f\leftarrow\closure{\ec_1,y.\suma(x,y)};x\leftarrow3;\ee&\prec&5\\
+        \ec_2;\ec_1;\ee;\pe\opc\underbrace{x\leftarrow 5;f\leftarrow\closure{\ec_1,y.\suma(x,y)};x\leftarrow3;\ee}_{\ec_3}&\succ&\appt(f,4)\\
+        \appt(\square,4);\ec_2;\ec_1;\ee;\pe\opc\ec_3&\succ&f\\
+        \appt(\square,4);\ec_2;\ec_1;\ee;\pe\opc\ec_3&\prec&\closure{\ec_1,y.\suma(x,y)}\\
+        \appt(\closure{\ec_1,y.\suma(x,y)},\square);\ec_2;\ec_1;\ee;\pe\opc\ec_3&\succ&4\\
+        \appt(\closure{\ec_1,y.\suma(x,y)},\square);\ec_2;\ec_1;\ee;\pe\opc\ec_3&\prec&4\\
+        \ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow 4;\ec_1&\succ&\suma(x,y)\\
+        \suma(\square,y);\ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow 4;\ec_1&\succ&x\\
+        \suma(\square,y);\ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow 4;\ec_1&\prec&3\\
+        \suma(3,\square);\ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow 4;\ec_1&\succ&y\\
+        \suma(3,\square);\ec_3;\ec_2;\ec_1;\ee;\pe\opc y\leftarrow 4;\ec_1&\prec&4\\
+        \ec_3;\ec_2;\ec_1;\ee;\pe\opc\ec_1&\prec&3+4\\
+        \ec_2;\ec_1;\ee;\pe\opc\ec_3&\prec&7\\
+        \ec_1;\ee;\pe\opc\ec_2&\prec&7\\
+        \ee;\pe\opc\ec_1&\prec&7\\
+        \pe\opc\ee&\prec&7\\
+    \end{array}
+\]
+Por lo que el resultado de la evaluación del programa es el valor $7$ como se esperaba.
+\end{example}
+
+% \begin{example}[Ejecución en $\Js$ con closures] Definimos la función que verifica la paridad de un número.
+
+% \begin{verbatim}
+% letrec f = x => 
+%             if (x <= 0) 
+%                 then (x = 0) 
+%                 else (f (x - 2))
+%     in 
+%         f 1
+%     end
+% \end{verbatim}
+
+% que corresponde al árbol de sintaxis abstracta:
+
+% $$\letrec(f.\funt(x.\ift(\leqt(x,0),\igu(x,0),\appt(f,\subt(x,2))),\appt(f,1))$$
+
+% Veamos su evaluación en la máquina $\Js$.
+
+% \[
+%     \begin{array}{rcl}
+%         \pe\opc\ee&\succ&\letrec(\dots)\\
+%         \letrec(f.\square,\dots);\pe\opc\ee&\succ&\funt(\dots)\\
+%         \letrec(f.\square,\appt(f,1));\pe\opc\ee&\prec&\closure{\ee,x.\dots}\\
+%         \pe\opc f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&\appt(f,1)\\
+%         \appt(\square,1);\pe\opc f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&f\\
+%         \appt(\square,1);\pe\opc f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\prec&\fix(f.\closure{\ee,x.\dots})\\
+%         \appt(\fix(f.\closure{\ee,x.\dots}),\square);\pe\opc f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&1\\
+%         \appt(\fix(f.\closure{\ee,x.\dots}),\square);\pe\opc\underbrace{f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee}_{\ec_1}&\prec&1\\
+%         \ec_1;\pe\opc x\leftarrow1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&\ift(\leqt(x,0)\dots)\\
+%         \ift(\square,\dots);\ec_1;\pe\opc x\leftarrow1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&\leqt(x,0)\\
+%         &\vdots&\\
+%         \ift(\square,\dots);\ec_1;\pe\opc x\leftarrow1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&1\leq0\\
+%         \ift(\square,\dots);\ec_1;\pe\opc x\leftarrow1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\prec&\falset\\
+%         \ec_1;\pe\opc x\leftarrow1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&\appt(f,\subt(x,2))\\
+%         \appt(\square,\subt(x,2));\ec_1;\pe\opc x\leftarrow1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&f\\
+%         \appt(\square,\subt(x,2));\ec_1;\pe\opc x\leftarrow1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\prec&\fix(f.\closure{\ee,x.\dots})\\
+%         \appt(\fix(f.\closure{\ee,x.\dots}),\square);\ec_1;\pe\opc x\leftarrow1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&\subt(x,2)\\
+%         &\vdots&\\
+%         \appt(\fix(f.\closure{\ee,x.\dots}),\square);\ec_1;\pe\opc\underbrace{x\leftarrow1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee}_{\ec_2}&\prec&-1\\
+%         \ec_2;\ec_1;\pe\opc x\leftarrow-1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&\ift(\leqt(x,0)\dots)\\
+%         \ift(\square,\dots);\ec_2;\ec_1;\pe\opc x\leftarrow-1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&\leqt(x,0)\\
+%         &\vdots&\\
+%         \ift(\square,\dots);\ec_2;\ec_1;\pe\opc x\leftarrow-1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&-1\leq0\\
+%         \ift(\square,\dots);\ec_2;\ec_1;\pe\opc x\leftarrow-1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\prec&\true\\
+%         \ec_2;\ec_1;\pe\opc x\leftarrow-1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&\igu(x,0)\\
+%         &\vdots&\\
+%         \ec_2;\ec_1;\pe\opc x\leftarrow-1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\succ&-1 == 0\\
+%         \ec_2;\ec_1;\pe\opc x\leftarrow-1;f\leftarrow\fix(f.\closure{\ee,x.\dots});\ee&\prec&\falset\\
+%         \ec_1;\pe\opc\ec_2&\prec&\falset\\
+%         \pe\opc\ec_1&\prec&\falset\\
+%     \end{array}
+% \]
+% \end{example}
+
+\begin{thebibliography}{9}
+\bibitem{notasGabrielle}
+Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+
+\bibitem{notasKarla}
+Ramírez Pulido K., Soto Romero M., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+
+
+\end{thebibliography}
+
+
+\end{document}

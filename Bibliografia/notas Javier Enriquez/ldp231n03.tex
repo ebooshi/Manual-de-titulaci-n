@@ -1,0 +1,466 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\addto\shorthandsspanish{\spanishdeactivate{~<>.}}
+
+\title{\LARGE
+Lenguajes de Programación 2023-1\\ 
+Nota de clase 3: Sintaxis\\
+\color{Orchid} Introducción}
+\author{Javier Enríquez Mendoza}
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+
+Como se vio en notas anteriores, la sintaxis de un lenguaje define las cadenas de texto o expresiones que pertenecen a un lenguaje. Con anterioridad se estudiaron herramientas que nos ayudan a definir formalmente la sintaxis de un lenguaje, como lo pueden ser gramáticas libres del contexto o incluso expresiones regulares. En esta nota se estudia formalmente el concepto de sintaxis para el caso especifico de los lenguajes de programación con el fin de entender la forma de construir expresiones pertenecientes a estos.
+
+\section{Sintaxis en Lenguajes de Programación}
+
+La sintaxis en los lenguajes de programación se refiere a la forma correcta de escribir las expresiones pertenecientes a este de tal forma que la computadora sea capaz de interpretar lo que dicha instrucción quiere decir.
+
+Para definir la sintaxis se usan dos tipos de objetos:
+\begin{itemize}
+    \item {\bf Cadenas de texto}, que son las expresiones del lenguaje tal y como las programadoras y programadores las escriben en su código.
+    \item {\bf Árboles de sintaxis abstracta}, se trata de una representación como estructuras arbóreas de las expresiones de lenguaje  en donde se describe su estructura jerárquica. 
+\end{itemize}
+
+Dependiendo del objeto utilizado se definen dos niveles distintos para el estudio de la sintaxis de los lenguajes de programación: la {\bf sintaxis concreta} y la {\bf sintaxis abstracta}.
+
+\subsection{Sintaxis Concreta}
+
+En la sintaxis concreta el objeto de estudio son las cadenas de texto que pertenecen al lenguaje. Esta sintaxis es diseñada con las usuarias y usuarios finales del lenguaje en mente, por lo que debe estar bien estructurada y ser fácil de leer y escribir. 
+
+\newpage
+La sintaxis concreta de un lenguaje de programación se determina usualmente en dos partes:
+\begin{itemize}
+    \item Sintaxis léxica
+    \item Sintaxis libre de contexto
+\end{itemize}
+
+\begin{definition}[Sintaxis léxica] Es la parte de la sintaxis concreta que describe la construcción de lexemas (átomos, tokens, símbolos terminales).
+\end{definition}
+
+Los principales lexemas en un lenguaje de programación son: palabras reservadas, identificadores, números, literales, espacios, etc. 
+
+La principal herramienta usada para la descripción de la sintaxis léxica son las expresiones regulares, mediante las cuales se capturan los patrones de escritura de los lexemas. 
+
+\begin{definition}[Sintaxis libre de contexto] Es la parte de la sintaxis concreta que describe la construcción de frases del lenguaje.
+\end{definition}
+
+Las frases descritas por la sintaxis libre del contexto constituyen los programas escritos en el lenguaje de programación.  La herramienta principal para la definición son las gramáticas libres del contexto, generalmente en forma de Backus-Naur (BNF).
+
+\begin{example}[Sintaxis concreta para el lenguaje de expresiones aritméticas]\label{ex:scea} En este ejemplo se define formalmente la sintaxis concreta del lenguaje {\sf EA} descrito en la primera nota de clase, en donde se propuso la siguiente gramática libre del contexto para describir su sintaxis:
+
+    \[
+    \begin{array}{rll}
+        e & ::= &  n\quad |\quad e + e\quad |\quad e*e\quad  \\
+        n & ::= & d \quad |\quad nd \\
+        d & ::= & 0 \quad |\quad 1 \quad |\quad 2 \quad |\quad 3 \quad |\quad 4 \quad |\quad 5 \quad |\quad 6 \quad |\quad 7 \quad |\quad 8 \quad |\quad 9 
+    \end{array}
+    \]
+
+Sin embargo se puede observar que la gramática anterior es ambigua, esto quiere decir que para la misma cadena se pueden dar dos derivaciones diferentes, lo cual cambia el significado de ésta. Por ejemplo la cadena $2+3*4$ se puede derivar de estas dos formas:
+
+    \[
+      \Tree  [.* [ 2 3 ].+ 4 ]
+    \]
+\noindent
+Que representa la expresión $(2+3)*4$ que al evaluar nos da como resultado $20$.
+    \[
+      \Tree  [.+ 2 [ 3 4 ].* ]
+    \]
+\noindent
+Que a su vez está representando la expresión $2+(3*4)$ cuyo resultado es $14$.
+
+En general cuando se utilice una gramática libre de contexto para definir la sintaxis concreta de un lenguaje de programación se busca que no tenga ambigüedad. El eliminar la ambigüedad de una gramática no es un proceso algorítmico y no siempre es posible hacerlo. Sin embargo para el lenguaje {\sf EA} se puede eliminar la ambigüedad modelando la precedencia y asociatividad de los operadores.
+
+Se jerarquiza la gramática en números, factores, términos y expresiones, obteniendo la siguiente gramática: 
+
+    \[
+    \begin{array}{rll}
+        e & ::= & t \quad |\quad e + t \\
+        t & ::= & f \quad |\quad t * f \\
+        f & ::= & n \quad |\quad (e)\\
+        n & ::= & d \quad |\quad nd \\
+        d & ::= & 0 \quad |\quad 1 \quad |\quad 2 \quad |\quad 3 \quad |\quad 4 \quad |\quad 5 \quad |\quad 6 \quad |\quad 7 \quad |\quad 8 \quad |\quad 9 
+    \end{array}
+    \]
+La gramática anterior define la sintaxis concreta para el lenguaje de expresiones aritméticas.
+
+\end{example}
+
+La sintaxis concreta puede representarse también usando definiciones inductivas, simplemente traduciendo la gramática del lenguaje a reglas de inferencia como se ve en el ejemplo siguiente.
+
+\begin{example}[Sintaxis concreta de {\sf EA} mediante definiciones inductivas]\label{ex:riea} En este ejemplo se traduce la gramática dada en el ejemplo \ref{ex:scea} a reglas de inferencia.
+
+\[
+    \begin{array}{cccc}
+    \inference{}{0\;{\sf D}}&
+    \inference{}{1\;{\sf D}}&
+    \cdots&
+    \inference{}{9\;{\sf D}}
+    \end{array}
+\]
+\[
+    \begin{array}{cc}
+    \inference{d\;{\sf D}}{d\;{\sf N}}&
+    \inference{n\;{\sf N}&d\;{\sf D}}{nd\;{\sf N}}\\
+    &\\
+    \inference{n\;{\sf N}}{n\;{\sf F}}&
+    \inference{e\;{\sf E}}{(e)\;{\sf F}}\\
+    &\\
+    \inference{f\;{\sf F}}{F\;{\sf T}}&
+    \inference{t\;{\sf T}&f\;{\sf F}}{t*f\;{\sf T}}\\
+    &\\
+    \inference{t\;{\sf T}}{t\;{\sf E}}&
+    \inference{e\;{\sf E}&t\;{\sf T}}{e+t\quad{\sf E}}
+    \end{array}
+\]
+
+Se puede observar que cada regla de inferencia de la definición inductiva anterior corresponde con una regla de producción de la gramática dada en el ejemplo \ref{ex:scea}.
+\end{example}
+
+La sintaxis concreta define la primera representación de los programas escritos en el lenguaje de programación, la cual es útil para el desarrollo de programas pero no lo es para el razonamiento sobre estos. Es por esto que es traducida a una representación interna definida por la sintaxis abstracta.
+\subsection{Sintaxis Abstracta}
+
+La sintaxis abstracta provee una representación mas simple de las expresiones del lenguaje, esta sintaxis es mas sencilla de manipular y facilita la tarea de definir funciones sobre las expresiones del lenguaje, como una función de evaluación, así como el razonamiento inductivo sobre las expresiones ya que las definiciones inductivas para la sintaxis concreta suele ser muy complejas.  Las expresiones son representadas mediante un árbol de sintaxis abstracta (asa).
+\newpage
+\begin{definition}[Árbol de sintaxis abstracta]\label{def:asa} Es un árbol ordenado en donde los nodos internos se etiquetan por un operador principal de la expresión y sus hijos son los argumentos de la operación, es decir, el número de hijos de un nodo corresponde con la aridad del operador con el que está etiquetado.   
+\end{definition}
+
+El árbol de sintaxis abstracta captura el orden de ejecución de las operaciones de una expresión, ya que adopta una notación prefija en la que el primer operador de la expresión corresponde con la operación principal. Por lo que se elimina el uso de paréntesis que es necesario en la sintaxis concreta para eliminar la ambigüedad.
+
+\begin{remark}
+El árbol de sintaxis abstracta de una expresión es {\bf único}, sin importar la representación que tenga en sintaxis concreta.
+\end{remark}
+
+La sintaxis abstracta se puede definir con el uso de reglas de inferencia para juicios $a\;\asa$ que se lee como {\it a es un árbol de sintaxis abstracta}.
+
+\begin{example}[Definición de sintaxis abstracta para \ea ]\label{ex:asa} Para el caso de las expresiones aritméticas existen tres clases de expresiones: los números, sumas y productos, las cuales corresponden a tres operadores: $\num$, $\suma$ y $\produ$ respectivamente. La aridad de $\num$ es $0$ mientras que la de los operadores $\suma$ y $\produ$ es $2$ pues se trata de operaciones binarias.
+
+\vspace{1em}
+Se define la sintaxis abstracta de \ea mediante las siguientes reglas:
+
+\[
+    \begin{array}{ccc}
+        \inference{n\in\N}{\num[n]\;\asa}&
+        \inference{t_1\;\asa&t_2\;\asa}{\suma(t_1,t_2)\;\asa}&
+        \inference{t_1\;\asa&t_2\;\asa}{\produ(t_1,t_2)\;\asa}
+    \end{array}
+\]
+
+
+\end{example}
+
+\section{De la sintaxis concreta a la abstracta}
+La sintaxis concreta provee de una forma intuitiva y sencilla para que las desarrolladoras y desarrolladores del lenguaje puedan escribir programas en él. Mientras que la sintaxis abstracta permite el razonamiento sobre estos programas. Ambas cumplen con un propósito especifico y ambas son necesarias en un lenguaje de programación, pues sería conflictivo pedirle a las personas que programan en el lenguaje que lo hicieran en sintaxis abstracta, así como el tratar de razonar inductivamente con la sintaxis concreta es una tarea difícil.
+
+Como primera tarea para el proceso de ejecución de un programa se debe definir una etapa de traducción entre la sintaxis concreta y la abstracta. La traducción entre estos dos niveles de sintaxis debe preservar el significado del programa. A esta etapa se le conoce como análisis sintáctico, también se emplea el término en ingles {\it parsing}.
+
+El proceso de traducción de una expresión en sintaxis concreta a abstracta se divide en dos etapas: 
+\begin{itemize}
+    \item Análisis léxico
+    \item Análisis sintáctico
+\end{itemize}
+\newpage
+\begin{definition}[Análisis Léxico]\label{def:al} En el análisis léxico se procesa la expresión en sintaxis concreta carácter por carácter y se divide en una serie de unidades atómicas llamadas lexemas o {\it tokens} los cuales son  clasificados en categorías. Se obtiene como resultado una representación intermedia de la cadena de entrada como una lista de lexemas.
+\end{definition}
+\begin{example}[Análisis Léxico] Para la expresión $3+8*5$ en sintaxis concreta del lenguaje de expresiones aritméticas se construye la siguiente lista de lexemas:
+$$[{\tt Num}\;3,{\tt Oper}\;+,{\tt Num}\;8,{\tt Oper}\;*,{\tt Num}\;5]$$
+\noindent
+En donde se pueden distinguir dos categorías de lexemas: números y operadores.
+\end{example}
+\begin{remark}
+El proceso de análisis léxico es importante en la implementación de un compilador o interprete sin embargo esta representación intermedia no aporta nada a la formalización de los programas por lo que se obviará esta etapa en la parte teórica del curso y se combinará con el análisis sintáctico.
+\end{remark}
+\begin{definition}[Análisis Sintáctico]\label{def:as}
+El análisis sintáctico es el proceso mediante el cuál a partir de una expresión $e$ en sintaxis concreta se encuentra un árbol de sintaxis abstracta $a$ tal que el juicio $e\;{\sf E}\longleftrightarrow a\;\asa$ se cumple. El árbol de sintaxis abstracta no siempre existe y de no encontrarse se dice que el analizador sintáctico fallo. 
+\end{definition}
+
+El analizador sintáctico debe verificar si un programa es correcto respecto a la sintaxis concreta del lenguaje en el que fue desarrollado y posteriormente devolver una representación del programa como un árbol de sintaxis abstracta.
+
+Como se discutió con anterioridad las reglas de inferencia y los juicios no sólo se emplean para la definición de propiedades y conjuntos sino también se usan para definir relaciones entre objetos, por lo que usaremos esta herramienta para definir un analizador sintáctico mediante la relación:
+
+$$e\;{\sf E} \longleftrightarrow a\;\asa$$
+\noindent
+que es válida si y sólo si la expresión $e$ en sintaxis concreta corresponde al árbol de sintaxis abstracta $a$.
+
+\begin{example}[Analizador Sintáctico para \ea]\label{ex:parea} Se define el analizador sintáctico para el lenguaje de expresiones aritméticas, a partir de las reglas de sintaxis concreta del lenguaje, agregando la relación correspondiente en cada caso:
+
+\[
+    \begin{array}{ccc}
+    \inference{e\;{\sf N}&e\in\N}{e\;{\sf F}\longleftrightarrow\num[e]\;\asa}&
+    \quad&
+    \inference{e\;{\sf E}\longleftrightarrow a\;\asa}{(e)\;{\sf F}\longleftrightarrow a\;\asa}\\
+    &&\\
+    \inference{e\;{\sf F}\longleftrightarrow a\;\asa}{e\;{\sf T}\longleftrightarrow a\;\asa}&
+    \quad&
+    \inference{e_1\;{\sf T}\longleftrightarrow a_1\;\asa&e_2\;{\sf F}\longleftrightarrow a_2\;\asa}{e_1*e_2\;{\sf T}\longleftrightarrow \produ(a_1,a_2)\;\asa}\\
+    &&\\
+    \inference{e\;{\sf T}\longleftrightarrow a\;\asa}{e\;{\sf E}\longleftrightarrow a\;\asa}&
+    \quad&
+    \inference{e_1\;{\sf E}\longleftrightarrow a_1\;\asa&e_2\;{\sf T}\longleftrightarrow a_2\;\asa}{e_1+e_2\;{\sf T}\longleftrightarrow \suma(a_1,a_2)\;\asa}
+    \end{array}
+\]
+\end{example}
+
+\begin{remark}
+Estas reglas pueden interpretarse como la relación que existe entre la sintaxis concreta y la abstracta, pero también se pueden interpretar como un algoritmo de traducción entre los dos niveles de sintaxis.
+\end{remark}
+
+
+En general un analizador sintáctico debe cumplir las siguientes proposiciones:
+
+\begin{proposition}[Total] Un analizador sintáctico debe ser una función total sobre el dominio de las expresiones del lenguaje, es decir, para cada $e\;{\sf E}$ existe un $a\;\asa$ tal que se satisface el juicio $e\;{\sf E}\longleftrightarrow a\;\asa$ 
+\end{proposition}
+\begin{proposition}[Libre de Ambigüedad] Un analizador sintáctico no debe ser ambiguo, esto es que si $e\;{\sf E}\longleftrightarrow a_1\;\asa$ y $e\;{\sf E}\longleftrightarrow a_2\;\asa$ entonces $a_1=a_2$. En otras palabras, el árbol de sintaxis abstracta de una expresión es único.
+\end{proposition}
+ \section{El operador $\lett$}
+
+Ahora extendamos nuestro simple lenguaje de expresiones aritméticas con variables y el operador $\lett$ para la definición de variables locales. 
+\begin{code}
+\begin{minted}{haskell}
+    let x = 5 in x + 1 end
+\end{minted}
+\end{code}
+
+Para agregar un nuevo constructor de expresiones a nuestro lenguaje se debe extender el conjunto de reglas de sintaxis concreta y abstracta agregando las reglas correspondientes a el nuevo constructor.
+\begin{description}
+    \item[Sintaxis Concreta]
+    \[
+        \begin{array}{ccc}
+            \inference{e\;{\sf identificador}}{e\;{\sf V}}&
+            \inference{e\;{\sf V}}{e\;{\sf F}}&
+            \inference{x\;{\sf V}&e_1\;{\sf E}&e_2\;{\sf E}}{\lett\;x=e_1\;{\tt in}\;e_2\;{\tt end}\;{\sf E}}
+        \end{array}
+    \]
+    En donde se agregan los juicios $v\;{\sf V}$ para indicar que $v$ es una variable y $s\;{\sf identificador}$ que dice que la cadena $s$ es un identificador válido. Para definir a un identificador como válido se deben excluir palabras reservadas, operadores y constantes del lenguaje.
+    \item[Sintaxis Abstracta] Una primera idea para definir la sintaxis abstracta del operador es la siguiente
+    \[
+        \begin{array}{cc}
+           \inference{x\;{\sf identificador}}{\vartt[x]\;\asa}& 
+            \inference{\vartt[x]\;\asa&a_1\;\asa&a_2\;\asa}{\lett(\vartt[x],a_1,a_2)\;\asa}
+        \end{array}
+    \]
+    Sin embargo estas reglas no están definiendo fielmente el comportamiento del operador $\lett$. Esto se debe a que la variable $x$ debería estar relacionada con la expresión $a_2$ en el sentido de que las apariciones de $x$ en $a_2$ alcanzan su valor con la definición de la expresión $\lett$ lo cuál indica un ligado de $x$ en $a_2$.
+\end{description}
+
+Más adelante en esta sección se da una definición de sintaxis abstracta mas adecuada para el operador $\lett$, pero primero es necesario definir algunos conceptos.
+
+\subsection{Ligado y Alcance de una variable}
+
+Al introducir el constructor $\lett$ al lenguaje se introducen con él el concepto de ligado y alcance de una variable. 
+
+\begin{definition}[Alcance] El alcance de una variable es la región de un programa en la cual esta alcanza su valor.
+\end{definition}
+
+En una expresión $\lett$
+\begin{code}
+\begin{lstlisting}
+    let x = v in (*$\cdots$*) end
+\end{lstlisting}
+\end{code}
+\noindent
+el alcance de la variable \lstinline{x} se delimita por las palabras reservadas \lstinline{in} y \lstinline{end}, es decir, el alcance de \lstinline{x} es toda la región del programa que se encuentra entre estas palabras reservadas.
+
+No todas las apariciones de una variable en un programa definen el mismo comportamiento. Por ejemplo en la siguiente expresión:
+
+\begin{code}
+\begin{lstlisting}
+    let x = 5 in x + y end
+\end{lstlisting}
+\end{code}
+\noindent
+se usan variables en tres ocasiones pero cada una representa un tipo de variable distinta.
+
+\begin{definition}[Variable de ligado] La instancia de ligado de una variable es aquella que da a ésta su valor. Es decir, es la aparición de la variable en donde ésta es definida.
+\end{definition}
+
+En la expresión $\lett$ anterior la variable de ligado es la siguiente:
+
+\begin{code}
+\begin{lstlisting}
+    let (*{\color{red}x*) = 5 in x + y  end
+\end{lstlisting}
+\end{code}
+
+\begin{definition}[Variable ligada] Una variable está ligada si se encuentra contenida dentro del alcance de una variable de ligado con su nombre. 
+\end{definition}
+
+En la expresión $\lett$ anterior la variable ligada es:
+
+\begin{code}
+\begin{lstlisting}
+    let x = 5 in (*{\color{red}x*) + y end
+\end{lstlisting}
+\end{code}
+\noindent
+pues se encuentra dentro del alcance de la variable de ligado {\tt x}.
+
+\begin{definition}[Variable libre] Una variable está libre en una expresión, si no se encuentra dentro del alcance de una variable de ligado con su nombre. Es decir, una variable es libre si no está ligada.
+\end{definition}
+
+En la expresión $\lett$ la variable libre es:
+
+\begin{code}
+\begin{lstlisting}
+    let x = 5 in x + (*{\color{red}y*) end
+\end{lstlisting}
+\end{code}
+\noindent
+pues la variable {\tt y} nunca se liga.
+
+Para que la sintaxis abstracta del operador $\lett$ sea fiel a la definición del operador es necesario que modele también el ligado de la variable en el cuerpo de expresión.
+
+\subsection{Sintaxis abstracta de orden superior}
+
+En la sintaxis abstracta utilizada hasta ahora, las variables son tratadas de la misma forma que los números siendo representadas por términos, esta sintaxis tiene el nombre de {\bf sintaxis abstracta de primer orden}. Sin embargo las variables juegan un papel especial en nuestro lenguaje.
+
+La sintaxis {\bf abstracta de orden superior} define un tratamiento especial para las variables en donde éstas así como su alcance y ligado forman parte del meta-lenguaje con el que se define el árbol de sintaxis abstracta. Para esto se agrega el constructor $x.t$ que indica que la variable $x$ está ligada en el árbol $t$, a este constructor se le llama {\it abstracción}.
+
+Con este nuevo constructor se pueden definir correctamente las reglas de sintaxis abstracta del operador $\lett$, de tal forma que incluyan el ligado de la variable definida, con la siguiente regla:
+
+        $$\inference{a_1\;\asa&a_2\;\asa}{\lett(a_1,x.a_2)\;\asa}$$
+
+
+Hay que observar que las variables se consideran como primitivas, no se verifica que $x$ es una variable sino que está implícito que lo es.
+
+\begin{examples}[Expresiones $\lett$ en sintaxis abstracta] 
+
+Para cada una de las siguientes expresiones se construye su árbol de sintaxis abstracta de orden superior:
+
+    \begin{enumerate} 
+
+        \item {\tt let x = 5 in x * 2 end}
+        $$\lett(\num[5],x.\suma(x,\num[2]))$$
+        \item {\tt let x = 12 in let y = 2 in x * y end end}
+        $$\lett(\num[12],x.\lett(\num[2],y.\produ(x,y)))$$
+        \item {\tt let x = let y = 2 in y * y end in x + 5 end}
+        $$\lett(\lett(\num[2],y.\produ(y,y)),x.\suma(x,5))$$
+    \end{enumerate}
+
+\end{examples}
+
+\section{Sustitución y $\alpha$-equivalencias}
+
+Consideremos las siguientes expresiones:
+
+\[
+    \begin{array}{ccc}
+            {\tt let\;x = 3\;in\; x +2\;end}&\quad&{\tt let\; y = 3\; in\; y + 2\;end}
+    \end{array}
+\]
+\noindent
+Ambas expresiones representan exactamente el mismo cómputo, sin embargo no se trata de la misma expresión pues sintacticamente son distintas. La diferencia entre las expresiones es únicamente en la elección del identificador para la variable definida dentro del $\lett$, es decir, podemos hacer que ambas expresiones sean iguales simplemente cambiando el nombre de la variable. A esto es a lo que se le conoce como $\alpha$-equivalencia.
+
+\begin{definition}[$\alpha$-equivalencia] Se dice que dos expresiones $e_1$ y $e_2$ son $\alpha$-equivalentes si y sólo si difieren únicamente en el nombre de las variables ligadas. Y se escribe $e_1\equiv_\alpha e_2$.
+\end{definition}
+
+Como su nombre lo sugiere la relación de $\alpha$-equivalencia es una relación de equivalencia, por lo que es:
+\begin{itemize}
+    \item {\bf Reflexiva}: para toda expresión $e$, $e\equiv_\alpha e$.
+    \item {\bf Transitiva}: para todas las expresiones $e_1$, $e_2$ y $e_3$, si $e_1\equiv_\alpha e_2$ y $e_2\equiv_\alpha e_3$ entonces $e_1\equiv_\alpha e_3$.
+    \item {\bf Simétrica}: para todas expresiones $e_1$ y $e_2$, si $e_1\equiv_\alpha e_2$ entonces $e_2\equiv_\alpha e_1$.
+\end{itemize}
+
+Si queremos conocer el valor de una expresión $\lett$, una primera idea para evaluar la expresión se sirve de la sustitución textual para simplificar la expresión sustituyendo el valor de las variables en sus ocurrencias ligadas en el cuerpo de la expresión. Primero se define el conjunto de variables libres de una expresión.
+
+\begin{definition}[Variables libres de una expresión] Dada una expresión en sintaxis abstracta $a$ definimos el conjunto de variables libres de la expresión, denotado $FV(a)$, como sigue:
+\[
+    \begin{array}{lcl}
+    FV(x)&=&\{x\}\\
+    FV(O(a_1,\cdots,a_n))&=&FV(a_1)\cup\cdots\cup FV(a_n)\\
+    FV(x.a)&=&FV(a)\backslash\{x\}
+    \end{array}
+\]
+\end{definition}
+
+Utilizando esta definición se define la función de sustitución para las expresiones de nuestro lenguaje.
+
+\begin{definition}[Función de Sustitución] Se define la función de sustitución sobre los árboles de sintaxis abstracta de orden superior como sigue:
+
+\[
+    \begin{array}{lclr}
+    x[x:=e]&=&e&\\
+    z[x:=e]&=&z&\\
+    \num[n][x:=e]&=&n&\\
+    \suma(a_1,a_2)[x:=e]&=&\suma(a_1[x:=e],a_2[x:=e])&\\
+    \produ(a_1,a_2)[x:=e]&=&\produ(a_1[x:=e],a_2[x:=e])&\\
+    \lett(a_1,a_2)[x:=e]&=&\lett(a_1[x:=e],a_2[x:=e])&\\
+    (z.a)[x:=e]&=&z.(a[x:=e])&\mbox{Si }x\neq z\mbox{ y }z\not\in FV(e)\\
+    (z.a)[x:=e]&=&{\tt indefinido}&\mbox{Si }z\in FV(e)\\
+    \end{array}
+\]
+
+Observemos que se puede generalizar el caso de los operadores en el siguiente
+\[
+    \begin{array}{lcl}
+    O(a_1,\cdots,a_n)[x:=e]&=&O(a_1[x:=e],\cdots,a_n[x:=e])
+    \end{array}
+\]
+
+En donde $O$ es un operador de aridad $n$
+\end{definition}
+
+A partir de $\alpha$-equivalencias se puede renombrar las variables ligadas de una expresión y de esa forma evitar el error {\tt indefinido} para el caso de las expresiones $z.a$.
+
+\begin{example}[Sustitución] Se resuelve la siguiente sustitución.
+
+\[
+    \begin{array}{cl}
+    &\lett(\suma(\num[2],x),y.\produ(y,x))[x=\produ(y,\num[3])]\\
+    =&\\
+    &\lett(\suma(\num[2],x)[x=\produ(y,\num[3])],y.\produ(y,x)[x=\produ(y,\num[3])])\\
+    =&\\
+    &\lett(\suma(\num[2][x=\produ(y,\num[3])],x[x=\produ(y,\num[3])]),y.\produ(y,x)[x=\produ(y,\num[3])])\\
+    =&\\
+    &\lett(\suma(\num[2],x[x=\produ(y,\num[3])]),y.\produ(y,x)[x=\produ(y,\num[3])])\\
+    =&\\
+    &\lett(\suma(\num[2],\produ(y,\num[3])),y.\produ(y,x)[x=\produ(y,\num[3])])\\
+    \equiv_\alpha&\\
+    &\lett(\suma(\num[2],\produ(y,\num[3])),w.\produ(w,x)[x=\produ(y,\num[3])])\\
+    =&\\
+    &\lett(\suma(\num[2],\produ(y,\num[3])),w.\produ(w[x=\produ(y,\num[3])],x[x=\produ(y,\num[3])]))\\
+    =&\\
+    &\lett(\suma(\num[2],\produ(y,\num[3])),w.\produ(w,x[x=\produ(y,\num[3])]))\\
+    =&\\
+    &\lett(\suma(\num[2],\produ(y,\num[3])),w.\produ(w,\produ(y,\num[3])))\\
+
+    \end{array}
+\]
+
+Puede utilizarse sintaxis concreta para simplificar la notación, dejando claro que eso representa un abuso de notación ya que el algoritmo está definido sobre los árboles de sintaxis abstracta.
+\end{example}
+
+Utilizando la función de sustitución se puede dar una primera idea de la evaluación de expresiones del lenguaje, sin embargo por si sola la sustitución textual no es suficiente para estudiar la semántica de nuestro lenguaje. El estudio de la semántica de un lenguaje requiere del uso de otros formalismos los cuales se definirán en la siguiente nota de clase.
+
+\begin{thebibliography}{9}
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+
+\bibitem{liliana}
+Reyes Cabello L., Un lenguaje para expresiones aritméticas (EA) Construcción de un interprete y un Compilador, Universidad Autónoma de la Ciudad de México, 2020.
+
+\bibitem{notasKarla}
+Ramírez Pulido K., Soto Romero M., Enríquez Mendoza J., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+
+\bibitem{notasGabrielle}
+Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+
+\end{thebibliography}
+
+
+\end{document}

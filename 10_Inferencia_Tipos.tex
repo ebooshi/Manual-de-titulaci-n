@@ -1,0 +1,941 @@
+%    Séptimo Capítulo: Inferencia de Tipos.
+%    Ejercicios por Barón L. Miguel.
+%    Teoría por Javier Enríquez Mendoza.
+%    Empezado el 12/4/23
+%    Concluido el 1/6/23
+% https://www.webber-labs.com/wp-content/uploads/2015/08/mpl-06.pdf
+% http://www.dcc.ic.uff.br/~isabel/LP/D.Watt.pdf
+% https://www.cs.cornell.edu/courses/cs3110/2011sp/Lectures/lec26-type-inference/type-inference.html
+% https://rodrigogribeiro.github.io/files/unify.pdf
+% file:///C:/Users/luismun/Downloads/doiufrgs,+100968-426558-3-CE.pdf https://www.google.com/url? sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiPy8-9842HAxVeD1kFHf_rB7Q4ChAWegQIIBAB&url=https%3A%2F%2Fwww.seer.ufrgs.br%2Frita%2Farticle%2Fdownload%2FVol27_nr3_13%2Fpdf_1&usg=AOvVaw0CRZfNvzqWmtheLBDCOXwk&opi=89978449
+
+%Gatito lambda
+\begin{figure}[htbp]
+    \centerline{\includegraphics[scale=0.5]{assets/07_gatitos_tipados.PNG}}       
+\end{figure}
+
+\bigskip
+
+Una propiedad importante de \textsf{Haskell} que queremos trasladar a \textsf{MinHS} es el mecanismo de inferencia de tipos. Este mecanismo provee una capa extra que permite trabajar con expresiones aún si estas no poseen un tipo explícito en cada uno de sus parámetros de entrada y valores de retorno. \\\\
+Anteriormente se definieron mediante la semántica estática las reglas para obtener el tipo de una expresión, no obstante este proceso es dependiente de las anotaciones explícitas de tipo que se encuentran definidas en la sintaxis del lenguaje.
+Con el mecanismo de inferencia de tipos se pretende desacoplar este conjunto de anotaciones de la sintaxis de \textsf{MinHS}.\\\\
+Con esto en mente, vamos a formular un sistema de restricciones derivadas de la estructura de la expresión que se desea tipificar, junto con el proceso de estandarización de variables para poder hacer uso de la inferencia de tipos mediante la aplicación del algoritmo para obtener el unificador general $\mu$ para expresiones de \textsf{MinHS}.\\
+
+\subsubsection{Objetivo}
+Definir el sistema de inferencia de tipos para \textsf{MinHS} que nos permita tipificar las expresiones garantizando la seguridad del lenguaje. Para esto, el objetivo principal será proporcionar una definición de las restricciones que cada estructura particular de las expresiones sintácticas de \textsf{MinHS} generan. A estas se les conoce como restricciones de tipo. \\\\
+Adicionalmente se proporcionará la definición del algoritmo de unificación para aplicar la inferencia de tipos conocido como algoritmo para obtener el unificador general \textbf{$\mu$}.
+
+
+\subsubsection{Planteamiento}
+En este capítulo  revisaremos diferentes  procedimientos que se aplican a las expresiones de \textsf{MinHS} para poder garantizar la correcta  asignación de un tipo.
+Estudiaremos la estandarización de variables para obtener expresiones $\alpha\text{-equivalentes}$ cuando existan variables ligadas repetidas dentro de una expresión.\\\\
+Posteriormente, vamos a definir los juicios para generar las restricciones de tipo que cada expresión de \textsf{MinHS} introduce, para finalmente definir el algoritmo unificador $\mu$.
+
+
+\section{Estandarización de variables}
+La semántica estática de \textsf{MinHS} y la semántica estática de \textsf{EAB} se implementan de forma similar para ir agregando a un contexto (que denotamos con la letra $\Gamma$) aquellas variables definidas en las expresiones junto con el tipo que se espera estas tengan.\\\\
+En el contexto $\Gamma$ solo puede existir una sola aparición por variable, es decir, nunca podremos tener $\Gamma=\{x : Nat,\ x : Bool\}$ dado que $\Gamma$ es un conjunto de variables y tipos. Tener la misma variable con dos tipos distintos es una inconsistencia dentro de nuestro programa y constituye un error en el tipificado de la expresión\footnote{Definición de semántica estática para \textsf{MinHS} formulada de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\\\
+Para evitar esta situación se define el proceso conocido como estandarización de variables que consiste en brindar una $\alpha$-equivalencia cuando dos variables ligadas tengan el mismo nombre.\\\\
+Tomemos como ejemplo la siguiente expresión:
+$$ \textsf{let } x = \textsf{true} \textsf{ in } \textsf{if } x \textsf{ then } \textsf{ let } x = 5 \textsf{ in } x < x \textsf{ end } \textsf{ end }$$
+En este caso la expresión está bien formada, no hay ninguna regla de la sintaxis concreta que esté mal aplicada para obtener nuestra expresión. La evaluación tampoco comprende un problema dado que la expresión \textsf{let} mas interna se evalúa a \textsf{false} y luego se continua con la evaluación del la instrucción \textsf{if}. Sin embargo, esta expresión nos genera el contexto $\Gamma=\{x : Bool,\ x : Nat\}$ el cual es inconsistente.\\\\
+El problema puede ser corregido utilizando una $\alpha$-equivalencia y renombrando las variables $x$ por $x_0$ y $x_1$ respectivamente:
+$$ \textsf{let } x_0 = \textsf{true} \textsf{ in } \textsf{if } x_0\ \textsf{ then } \textsf{ let } x_1 = 5 \textsf{ in } x_1 < x_1 \textsf{ end } \textsf{ end }$$
+Donde el contexto obtenido será: $\Gamma=\{x_0 : Bool,\ x_1 : Nat\}$
+
+\begin{exercise}
+    Para la siguiente expresión de \textsf{MinHS} expresando el contexto, aplica la estandarización de variables:
+    $$\textsf{let } x = \textsf{false} \textsf{ in } (\textsf{let } x = 6 \textsf{ in } (x + x + x) > 10 \textsf{ end}) \textsf{ end }$$
+      $$\Gamma=\{x  : Bool, x : Nat\}$$
+    $$\textsf{let } x_0 = \textsf{false} \textsf{ in } (\textsf{let } x_1 = 6 \textsf{ in } (x_1 + x_1 + x_1) > 10 \textsf{ end}) \textsf{ end }$$
+    $$\Gamma=\{x_0  : Bool, x_1 : Nat\}$$
+
+\end{exercise} 
+
+\begin{exercise}    
+    Para la siguiente expresión de \textsf{MinHS} expresando el contexto, aplica la estandarización de variables:
+    $$ \textsf{let } x = \textsf{true} \textsf{ in } (\textsf{let } x = 5 \textsf{ in } x < 5 \textsf{ end}) \textsf{ end} $$
+    $$ \Gamma = \{x:Bool,\ x:Nat\}$$
+    $$ \textsf{let } x_0 = \textsf{true} \textsf{ in }  (\textsf{let } x_1 = 5 \textsf{ in } x_1 < 5 \textsf{ end}) \textsf{ end} $$
+    $$ \Gamma = \{x_0:Bool,\ x_1:Nat\}$$
+\end{exercise}
+
+\begin{exercise}    
+    Para la siguiente expresión de \textsf{MinHS}, expresando el contexto, aplica la estandarización de variables:
+    
+    $$ \textsf{let } x = 1 \textsf{ in } (\textsf{let } x = \textsf{false} \textsf{ in } (\textsf{let } x = fun\ y :: Bool \Rightarrow y  \textsf{ in } x \textsf{ end}) \textsf{ end}) \textsf{ end }$$
+    $$ \Gamma = \{ x : Nat, x : Bool,\ x : Bool \to Bool \}$$
+    $$ \textsf{let } x_0 = 1 \textsf{ in } (\textsf{ let } x_1 = \textsf{false} \textsf{ in } (\textsf{let } x_2 = fun\ y :: Bool \Rightarrow y \textsf{ in } x_2 \textsf{ end}) \textsf{ end}) \textsf{ end} $$
+    $$ \Gamma = \{ x_0 : Nat,\ x_1 : Bool,\ x_2 : Bool \to Bool \}$$
+\end{exercise}
+
+ %       \begin{exercise} 
+%	Propón una semántica estática que resuelva el proceso de estandarización de variables.
+ %   \end{exercise}
+%	\begin{definition} Definición de la semántica estática para la estandarización de variables\footnote{definición formulada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}.\\\\
+%	Representaremos la asignación serializada de nuevas variables con una lista de parejas conformada por la variable original seguida de su nueva asignación mediante la aplicación del siguiente juicio: $$v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ e\ asa$$ 
+ %         Que se lee como: \\\\
+%	''El árbol de sintaxis abstracta $e$ es congruente con la lista $v_n: x_n\ ...\ v_0:x_0$ bajo $\alpha$-equivalencia aplicando la(s) sustitución(es) sí existen en la lista''.\\
+ %       \begin{description}
+   %         \item[Variables]
+   %         \[
+%	     \begin{array}{ccc}	
+  %              \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ v_n}{x_n}&\quad&
+%	     \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ y }{ y}
+  %              \end{array}
+    %        \]
+      %      \item[Valores numéricos]
+        %    \[
+           %     \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ num[n]}
+           % \]
+            % \item[Valores Booleanos]
+             %\[
+               % \begin{array}{ccc}
+                 %   \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ \textit{false}}&\quad&
+                   % \inference{}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ \textit{true}}
+                %\end{array}
+            %\]
+            %\item[Operadores]
+            %\[
+              %      \inference{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_1 & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_2}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ Op(t_1,t_2)}
+            %\]
+            %\item[Condicional]
+            %\[
+              %  \inference{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_c & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_t & v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_f}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  if(t_c,t_t,t_f)}
+            %\]
+            %\item[Asignaciones Locales]
+            %\[
+             %   \begin{array}{ccc}
+               %     \inference{v_{n}:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\  t_v &  y:x_{n+1},\ v_n : x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  t_b}{v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\  let(t_v,y.t_b)}&\quad&
+                %\end{array}
+            %\]
+            %\item[Funciones]
+            %\[
+              %  \inference{f:f_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t }{v_n:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\ fun(T,f.t)} \quad
+	%\]
+	%\[
+            %    \inference{f:f_{n+1}, y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t  }{x:x_{n}\ ...\ v_0:x_0\ \sim_{\alpha}\ recfun(T \to S,f.y.t)}
+            %\]
+            %\item[Aplicación de función]
+            %\[
+             %   \inference{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_f& v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ t_p}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ app(t_f,t_p)}
+            %\]
+            %\item[Operador de punto fijo]
+            %\[
+              %  \inference{y:x_{n+1}\ ...\ v_0:x_0\ \sim_{\alpha}\ t}{ v_n:x_n\ ...\ v_0:x_0\ \sim_{\alpha}\ fix(T,y.t)}
+            %\]
+	%\end{description}
+	%\end{definition}
+
+
+\section{Generación de restricciones}
+
+    Para poder tipificar una expresión bien formada de \textsf{MinHS}  sin utilizar las anotaciones de tipo explícitamente en los argumentos y valores de retorno, es necesario definir un proceso que nos ayude a obtener información sobre la estructura que esta posee. \\\\
+    A esta información se le conoce como restricciones y nos ayudan a ligar las condiciones que se deben cumplir para que una expresión esté bien tipificada.
+
+    \begin{definition}[Conjunto de restricciones]
+        Definimos el juicio para generar restricciones partiendo de una expresión válida $e$ representado como\footnote{Juicio para representar restricciones \hyperlink{123}{[123]},  \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}:
+    
+        $$e\mapsto R$$
+        
+        Que se lee como: "La expresión $e$ genera el conjunto $R$ de restricciones de tipo".
+    \end{definition}
+
+
+    \begin{definition}[Extensión de tipos para la generación de restricciones]
+        Para definir el algoritmo se extiende la categoría de tipos como sigue\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{125}{[125]} y \hyperlink{124}{[124]}}:
+        
+        $$\ T\ ::=\ X\ |\ Nat\ |\ Bool\ |\ T_1\ \to T_2\ |\ \llbracket e \rrbracket$$
+        
+        En donde $X$ es una variable de tipo. Estas variables nos ayudan en la definición de programas polimorfos, por ejemplo la función identidad:
+        
+        $$fun\ x\Rightarrow x :: X \to X$$ 
+        
+        La variable de tipo $X$$\,$ va a tomar su valor hasta que la función sea evaluada, por ejemplo en la aplicación:
+       
+        $$(fun \ x \Rightarrow x)\ 5 :: Nat \to Nat$$
+
+        La expresión $\llbracket e \rrbracket$ es una construcción sintáctica para definir el tipo de una expresión del lenguaje y se lee como: ''el tipo de $e$''.\\\\
+        Es importante aclarar que esta construcción no puede figurar como el tipo final asociado a la expresión y la encontraremos usualmente aplicada de la siguiente forma: $$\llbracket e \rrbracket = E $$
+            
+    \end{definition}
+
+   \bigskip    
+
+
+    \begin{definition}[Algoritmo de generación de restricciones]
+    
+    Una restricción es una ecuación de la forma $T_1 = T_2$ en donde $T_1$ y $T_2$ son tipos. La ecuación indica que $T_1$ debe ser igual a $T_2$ bajo unificación\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{125}{[125]} y \hyperlink{124}{[124]}}.\\
+
+        \begin{description}
+            \item[Variables]
+            \[
+                \inference{}{x_i\mapsto \llbracket x_i \rrbracket = X_i}
+            \]
+            Para el tipo de las variables se usará la misma variable pero en mayúsculas. Todas las apariciones de la variable generarán la misma restricción y como los nombres de variables son únicos no habrá dos variables distintas con el mismo tipo. 
+            \item[Valores numéricos]
+            \[
+                \inference{}{num[n] \mapsto \llbracket num[n] \rrbracket = Nat}
+            \]
+             \item[Valores Booleanos]
+             \[
+                \inference{}{bool[b] \mapsto \llbracket bool[b] \rrbracket = Bool}
+            \]
+            \item[Condicional]
+            \[
+	 	\scalemath{0.9}{
+                		\inference
+                    			{c \mapsto R_1 & t \mapsto R_2 & e \mapsto R_3}
+                    			{if(c,t,e) \mapsto R_1,R_2,R_3,\llbracket c \rrbracket = Bool, \llbracket t \rrbracket = \llbracket e \rrbracket, \llbracket if(c,t,e)\rrbracket = \llbracket e\rrbracket, \llbracket if(c,t,e)\rrbracket = \llbracket t \rrbracket}
+		}
+            \]
+            \item[Asignaciones Locales]
+            \[
+                \begin{array}{c}
+                    \inference
+                        {v \mapsto R_1 & b \mapsto R_2}
+                        {let(v,x_i.b) \mapsto R_1, R_2, X_i = \llbracket v\rrbracket, \llbracket let(v,x_i.b)\rrbracket = \llbracket b\rrbracket}\\
+                \end{array}
+            \]
+
+            \item[Funciones]
+            \[
+                \inference
+                    {t \mapsto R}
+                    {fun(x_i.t) \mapsto R, \llbracket fun(x_i.t)\rrbracket = X_i \to \llbracket t\rrbracket}
+                    \\
+	\]
+	\[
+                    \inference
+                        {b \mapsto R_1}
+                        {recfun(f.x_i.b) \mapsto R_1, \llbracket recfun(f.x_i.b)\rrbracket = X_i \to \llbracket b\rrbracket}\\
+            \]
+            \item[Aplicación de función]
+            \[
+                \inference
+                    {f \mapsto R_1 & p \mapsto R_2}
+                    {app(f,p) \mapsto R_1, R_2, \llbracket f\rrbracket = \llbracket p\rrbracket \to \llbracket app(f,p)\rrbracket}
+            \]
+            \item[Operadores]
+            \[
+                \begin{array}{c}
+                    \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        {sum(e_1 , e_2) \mapsto R_1,R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat, \llbracket sum(e_1 , e_2)\rrbracket = Nat}\\
+                    \\
+                     \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        { prod(e_1 , e_2) \mapsto R_1, R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat, \llbracket prod(e_1 , e_2)\rrbracket = Nat}\\
+                    \\
+                     \inference
+                        {e_1\mapsto R_1 & e_2 \mapsto R_2}
+                        { res(e_1,e_2) \mapsto R_1, R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat, \llbracket res(e_1,e_2)\rrbracket = Nat}\\
+                    \\
+                     \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        { eq(e_1,e_2) \mapsto R_1,R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat, \llbracket eq(e_1,e_2)\rrbracket = Bool}\\
+                    \\
+                    \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        {gt(e_1,e_2) \mapsto R_1, R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat, \llbracket gt(e_1,e_2)\rrbracket = Bool}\\
+                        \\
+                     \inference
+                        {e_1 \mapsto R_1 & e_2 \mapsto R_2}
+                        {lt(e_1,e_2) \mapsto R_1, R_2, \llbracket e_1\rrbracket = Nat, \llbracket e_2\rrbracket = Nat,  \llbracket lt(e_1,e_2)\rrbracket= Bool}\\\\
+                \end{array}
+            \]
+        \end{description}
+    \end{definition}
+
+\section{Algoritmo de unificación}
+
+    Una vez obtenida la lista de restricciones asociadas a una expresión $e$ tenemos toda la información que necesitamos acerca de su estructura para comenzar a unificar los tipos aplicando las restricciones hasta encontrar el tipo más general de la expresión, o hasta encontrar un error de tipificado al asignar dos tipos distintos a un mismo elemento.
+    %Para esto construiremos una composición de sustituciones tomando cada una de las restricciones. Al final se obtendrá la lista de sustituciones necesarias para hallar el tipo más general el cuál será la cabeza de la lista, en caso contrario quiere decir que la unificación falló.
+    
+    \begin{definition}[Algoritmo de unificación] La entrada del algoritmo es una lista de restricciones y la salida es una composición de sustituciones cuando la unificación sea posible. \textsf{Fail} en caso contrario.\\\\  A esta composición de sustituciones la denotamos con la letra  $\mu$ y se le conoce como: ''unificador general''\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}.
+
+        \[
+            \begin{array}{rclr}
+                U([\,])&=&[\,]\\
+                U(T=T:R)&=&U(R)&\\
+                U(X=T:R)&=&U(R[X:=T]) $\textopenbullet$ [X:=T] & \textit{si }X \not \in var(T)\\
+                U(X=T:R)&=&{\sf Fail}& \text{si }X \in var(T)\\
+                U( \llbracket e \rrbracket =T:R)&=&U(R[\llbracket e \rrbracket :=T]) $\textopenbullet$ [ \llbracket e \rrbracket :=T]&\\
+                U(T=X:R)&=&U(X=T:R)&\\
+                U(T= \llbracket e \rrbracket:R)&=&U( \llbracket e \rrbracket=T:R)&\\
+                U(S_1\to S_2=T_1\to T_2:R)&=&U(S_1=T_1:S_2=T_2:R)&\\
+                U(R)&=&{\sf Fail}&\\
+           \end{array}
+        \]
+ 
+    Este algoritmo compone el unificador general convirtiendo la restricción de la cabeza de la lista en una sustitución (cuando sea posible), aplicándola al resto de las restricciones y concatenándola para generar el unificador general.
+    \end{definition}
+
+    \section{Algoritmo de inferencia de tipos}
+
+    \begin{definition}[Algoritmo de Inferencia de tipos] Se define el algoritmo $\Ts(e)$ de inferencia de tipos que recibe una expresión $e$ de \textsf{MinHS} y regresa su tipo como sigue:\footnote{Definición formulada de \hyperlink{5}{[5]},  \hyperlink{12}{[12]},  \hyperlink{123}{[123]}, \hyperlink{124}{[124]} y \hyperlink{125}{[125]}}:\\
+
+        \begin{itemize}
+            \item Se encuentra la expresión $e'$ con nombres de variables únicas.
+            \item Se encuentra el conjunto de restricciones $R$ tal que $e'\mapsto R$.
+            \item Utilizando la función $U$ se calcula el unificador general $\mu$ del conjunto de restricciones $R$, tal que $U(R)=\mu$.
+            \item Se busca en $\mu$ la ecuación $\llbracket e' \rrbracket := T$.
+            \item $T$ es el tipo general de $e$, es decir, $\Ts(e)=T$.
+\bigskip
+        \end{itemize}
+    \end{definition}
+
+    \begin{exercise}
+            Vamos a encontrar el tipo de la expresión:
+                \begin{lstlisting} [ mathescape=true ]
+                $\textsf{let}$ $x$ = 0 $\textsf{in}$
+                    $\textsf{let}$ $y$ = 1 $\textsf{in}$
+                        $x$ = $y$
+                    $\textsf{end}$
+                $\textsf{end}$
+            \end{lstlisting}
+
+        \begin{description}
+        \item Representación en sintaxis abstracta:
+                  $$let(0,\ x.let(1,\ y.eq(x,\ y)))$$
+        \item  Renombramiento de variables
+                 $$let(0,x_0.let(1,x_1.eq(x_0,x_1)))$$
+         \item Generación de restricciones:
+            \begin{itemize}
+                \item$ 0 \mapsto  \llbracket 0 \rrbracket = Nat$
+                \item$ 1 \mapsto  \llbracket 1 \rrbracket = Nat$
+                \item$x_0\mapsto  \llbracket x_0 \rrbracket = X_0$
+                \item$x_1\mapsto  \llbracket x_1 \rrbracket = X_1$\\
+                \item$eq(x_0,\ x_1) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0,  \llbracket x_1 \rrbracket = X_1,  \llbracket x_0 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket eq(x_0,x_1) \rrbracket = Bool}_{R_1} $
+                \item$let(1,\ x_1.eq(x_0,\ x_1)) \mapsto \underbrace{ \llbracket 1 \rrbracket = Nat, R_1, X_1 =  \llbracket 1 \rrbracket,  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket}_{R_2}$
+                \item$let(0,\ x_0.let(1,\ x_1.eq(x_0,\ x_1))) \mapsto \\\underbrace{ \llbracket 0 \rrbracket = Nat, R_2, X_0 =  \llbracket 0 \rrbracket,  \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket}_{R_3}$
+            \end{itemize}
+
+           \item Lista de restricciones de $R$:
+        
+            \[
+                \begin{array}{rclr}
+                \R&=& \llbracket 0 \rrbracket= Nat,\\
+                && \llbracket 1 \rrbracket = Nat\\
+                && \llbracket x_0 \rrbracket = X_0\\
+                && \llbracket x_1 \rrbracket = X_1\\
+                && \llbracket x_0 \rrbracket = Nat\\
+	     && \llbracket x_1 \rrbracket = Nat\\
+                && \llbracket eq(x_0,x_1) \rrbracket = Bool\\
+                && X_1 =  \llbracket 1 \rrbracket \\
+                && \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket \\
+                &&  \llbracket x_1 \rrbracket = X_1 \\
+                && X_0=  \llbracket 0 \rrbracket \\
+                &&  \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket
+                \end{array}
+            \]
+            
+            \item Aplicación del algoritmo para encontrar el unificador general de $R$:
+
+                \begin{center}
+                    \begin{longtable}{ | l | l | } 
+                      \hline
+                      Restricciones & Unificador $\mu$ \\ 
+                        \hline
+                        $ \llbracket 0 \rrbracket = Nat$  & \\
+                        $ \llbracket 1 \rrbracket = Nat$  & \\
+                        $ \llbracket x_0 \rrbracket = X_0$ & \\
+                        $ \llbracket x_1 \rrbracket = X_1$  & \\
+                        $ \llbracket x_0 \rrbracket = Nat$  & \\
+		   $ \llbracket x_1 \rrbracket = Nat$  & \\
+                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  & \\
+                        $X_1 =  \llbracket 1 \rrbracket$ & \\
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & \\
+                        $ \llbracket x_1 \rrbracket = X_1$  & \\
+                        $X_0=  \llbracket 0 \rrbracket$ & \\
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
+                      \hline
+                        $ \llbracket 1 \rrbracket = Nat$  & $ \llbracket 0 \rrbracket := Nat$  \\
+                        $ \llbracket x_0 \rrbracket = X_0$ & \\
+                        $ \llbracket x_1 \rrbracket = X_1$  & \\
+                        $ \llbracket x_0 \rrbracket = Nat$  & \\
+		   $ \llbracket x_1 \rrbracket = Nat$  & \\
+                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  & \\
+                        $X_1 =  \llbracket 1 \rrbracket$ & \\
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & \\
+                        $ \llbracket x_1 \rrbracket = X_1$  & \\
+                        $X_0 = Nat$ & \\
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
+                      \hline
+                        $ \llbracket x_0 \rrbracket = X_0$ &  $ \llbracket 0 \rrbracket := Nat$  \\
+                        $ \llbracket x_1 \rrbracket = X_1$  &  $ \llbracket 1 \rrbracket := Nat$ \\
+                        $ \llbracket x_0 \rrbracket = Nat$  & \\
+		   $ \llbracket x_1 \rrbracket = Nat$  & \\
+                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  & \\
+                        $X_1 = Nat$ & \\
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & \\
+                        $ \llbracket x_1 \rrbracket = X_1$  & \\
+                        $X_0 = Nat$ & \\
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
+                      \hline
+                        $ \llbracket x_1 \rrbracket = X_1$  &   $ \llbracket 0 \rrbracket := Nat$\\  
+                        $X_0 = Nat$  &  $ \llbracket 1 \rrbracket := Nat$ \\
+                       $ \llbracket x_1 \rrbracket = Nat$  & $ \llbracket x_0 \rrbracket := X_0$ \\
+		  $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  &  \\
+                        $X_1 = Nat$ & \\
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & \\
+                        $ \llbracket x_1 \rrbracket = X_1$  & \\
+                        $X_0 = Nat$ & \\
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
+                      \hline
+ 		   $X_0 = Nat$   &  $ \llbracket 0 \rrbracket := Nat$ \\
+                        $ X_1 = Nat $  & $ \llbracket 1 \rrbracket := Nat$ \\
+                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  & $ \llbracket x_0 \rrbracket := X_0$  \\
+                        $X_1 = Nat$ & $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  &   \\
+                        $X_1 = X_1$  & \\
+                        $X_0 = Nat$ & \\
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
+                      \hline
+                        $ X_1 = Nat $  &  $ \llbracket 0 \rrbracket := Nat$ \\ 
+                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  &  $ \llbracket 1 \rrbracket := Nat$ \\ 
+                        $X_1 = Nat$ & $ \llbracket x_0 \rrbracket := X_0$  \\ 
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & $ \llbracket x_1 \rrbracket := X_1$ \\  
+                        $X_1 = X_1$  & $X_0 := Nat$ \\
+                        $Nat = Nat$ & \\
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & \\
+                      \hline
+                        $ \llbracket eq(x_0,x_1) \rrbracket = Bool$  &  $ \llbracket 0 \rrbracket := Nat$ \\  
+                        $Nat = Nat$ &  $ \llbracket 1 \rrbracket := Nat$ \\  
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket =  \llbracket eq(x_0,x_1) \rrbracket$  & $ \llbracket x_0 \rrbracket := X_0$  \\  
+                        $Nat = Nat$  & $ \llbracket x_1 \rrbracket := X_1$ \\  
+                        $Nat = Nat$ & $X_0 := Nat$ \\ 
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ &   $ X_1 := Nat $ \\
+                      \hline
+                        $Nat = Nat$ & $ \llbracket 0 \rrbracket := Nat$ \\
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket = Bool$  &    $ \llbracket 1 \rrbracket := Nat$ \\    
+                        $Nat = Nat$  & $ \llbracket x_0 \rrbracket := X_0$  \\  
+                        $Nat = Nat$ & $ \llbracket x_1 \rrbracket := X_1$ \\   
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ & $X_0 := Nat$ \\ 
+				   &   $ X_1 := Nat $ \\
+				   &   $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\
+                      \hline
+                        $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket = Bool$  &   $ \llbracket 0 \rrbracket := Nat$ \\ 
+                        $Nat = Nat$  &  $ \llbracket 1 \rrbracket := Nat$ \\  
+                        $Nat = Nat$ &  $ \llbracket x_0 \rrbracket := X_0$  \\ 
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket$ &  $ \llbracket x_1 \rrbracket := X_1$ \\  
+				  &    $X_0 := Nat$ \\ 
+				   &   $ X_1 := Nat $ \\
+				   &   $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\
+                      \hline
+                        $Nat = Nat$  &   $ \llbracket 0 \rrbracket := Nat$ \\ 
+                        $Nat = Nat$ &  $ \llbracket 1 \rrbracket := Nat$ \\    
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  Bool$ &  $ \llbracket x_0 \rrbracket := X_0$  \\   
+				  &   $ \llbracket x_1 \rrbracket := X_1$ \\  
+				  &    $X_0 := Nat$ \\ 
+				   &   $ X_1 := Nat $ \\
+				   &   $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\
+				  &    $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$  \\
+		 \hline
+                        $Nat = Nat$ &   $ \llbracket 0 \rrbracket := Nat$ \\      
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  Bool$ &  $ \llbracket 1 \rrbracket := Nat$ \\    
+				   &   $ \llbracket x_0 \rrbracket := X_0$  \\   
+				   &    $ \llbracket x_1 \rrbracket := X_1$ \\  
+				   &   $X_0 := Nat$ \\ 
+				   &   $ X_1 := Nat $ \\ 
+				   &    $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\ 
+				   &    $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$  \\
+		 \hline
+                        $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket =  Bool$ &   $ \llbracket 0 \rrbracket := Nat$ \\   
+				   &    $ \llbracket 1 \rrbracket := Nat$ \\
+				   &      $ \llbracket x_0 \rrbracket := X_0$  \\   
+				   &    $ \llbracket x_1 \rrbracket := X_1$ \\    
+				   &   $X_0 := Nat$ \\
+				  &  $ X_1 := Nat $ \\  
+				   &    $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\ 
+				   &    $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$  \\
+		 \hline
+           			  &   $ \llbracket 0 \rrbracket := Nat$ \\   
+				   &   $ \llbracket 1 \rrbracket := Nat$ \\
+				   &   $ \llbracket x_0 \rrbracket := X_0$  \\   
+				   &   $ \llbracket x_1 \rrbracket := X_1$ \\    
+				   &   $X_0 := Nat$ \\
+				   &   $ X_1 := Nat $ \\  
+				   &   $ \llbracket eq(x_0,x_1) \rrbracket  := Bool$ \\ 
+				   &   $ \llbracket let(1,x_1.eq(x_0,x_1)) \rrbracket := Bool$  \\
+           			   &   $ \llbracket let(0,x_0.let(1,x_1.eq(x_0,x_1))) \rrbracket :=  Bool$\\
+		\hline
+                    \end{longtable}
+                \end{center}
+        Del proceso anterior se puede concluir que el tipo de la expresión es $Bool$
+        \end{description}
+    \end{exercise}
+
+
+\bigskip
+\bigskip
+
+
+    \begin{exercise}
+        Vamos a encontrar el tipo de la expresión:
+            \begin{lstlisting}[ mathescape=true ]
+             $\textsf{recfun}$ $fib$ $n$ $\Rightarrow$ 
+                 $\textsf{if}$ ($n$ < 2) 
+                    $\textsf{then}$ 1
+                 $\textsf{else}$ $fib$ ($n$-1) + $fib$ ($n$-2)
+           \end{lstlisting}
+        \begin{description}
+	 \item Representación en sintáxis abstracta	
+ 	        $$recfun(fib.n.if(lt(n , 2), 1, sum(app(fib, (res(n,1))),app(fib, (res(n,2))))))$$
+
+            \item Renombramiento de variables
+                $$recfun(x_0.x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))))$$
+
+            \item Generación de restricciones
+ \bigskip
+            \begin{itemize}
+                \item $1 \mapsto  \llbracket 1 \rrbracket = Nat$
+                \item $2 \mapsto  \llbracket 2 \rrbracket = Nat$
+                \item $x_0 \to  \llbracket x_0 \rrbracket = X_0$
+                \item $x_1 \mapsto  \llbracket x_1 \rrbracket = X_1$
+                \item $res(x_1,1) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 1 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket res(x_1,1) \rrbracket = Nat}_{R_1}$
+                \item $res(x_1,2) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 2 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket res(x_1,2) \rrbracket = Nat}_{R_2}$
+                \item $app(x_0, res(x_1,1)) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0, R_1,  \llbracket x_0 \rrbracket =  \llbracket res(x_1,1) \rrbracket \to  \llbracket app(x_0, res(x_1,1)) \rrbracket }_{R_3}$
+                \item $app(x_0, res(x_1,2)) \mapsto \underbrace{ \llbracket x_0 \rrbracket = X_0, R_2,  \llbracket x_0 \rrbracket =  \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket }_{R_4}$
+                \item $sum(app(x_0, res(x_1,1)), app(x_0, res(x_1,2))) \mapsto \\ \underbrace{R_3, R_4.  \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat,  \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat,}_{R_5}$ \\ $\underbrace{  \llbracket sum(app(x_0, res(x_1,1), app(x_0, res(x_1,2))) \rrbracket = Nat}_{R_5}$
+                \item $lt(x_1 , 2) \mapsto \underbrace{ \llbracket x_1 \rrbracket = X_1,  \llbracket 2 \rrbracket = Nat,  \llbracket x_1 \rrbracket = Nat,  \llbracket lt(x_1 , 2) \rrbracket = Bool}_{R_6}$
+                \item $if(lt(x_1 , 2), 1, sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))) \mapsto$ \\ $\underbrace{R_6,  \llbracket 1 \rrbracket = Nat, R_5,  \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (res(x_1,1)))}_{R_7}$, \\ $\underbrace{app(x_0, (res(x_1,2)))) \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket,  \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket }_{R_7}$
+                \item $recfun(x_0.\ x_1.if(lt(x_1 , 2), 1, sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))))) \mapsto \\ \underbrace{R_7,   \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket}_{R_8}$
+            \end{itemize}
+
+           \item Como resultado se obtiene la lista de restricciones $R$:
+            \[
+                \begin{array}{rclr}
+                R&=&  \llbracket x_1 \rrbracket = X_1  \\
+                &&  \llbracket 2 \rrbracket = Nat\\
+                &&  \llbracket lt(x_1 , 2) \rrbracket = Bool\\
+                &&  \llbracket 1 \rrbracket = Nat\\
+                &&  \llbracket x_0 \rrbracket = X_0 \\
+                &&  \llbracket x_1 \rrbracket = X_1 \\
+                &&  \llbracket x_1 \rrbracket = Nat\\
+                &&  \llbracket res(x_1,1) \rrbracket = Nat \\
+                &&  \llbracket x_0 \rrbracket =  \llbracket res(x_1,1) \rrbracket \to  \llbracket app(x_0, res(x_1,1)) \rrbracket\\
+                &&  \llbracket 2 \rrbracket = Nat \\
+                &&  \llbracket res(x_1,2) \rrbracket = Nat \\
+                &&  \llbracket x_0 \rrbracket =  \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket \\
+                &&  \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat \\
+                &&  \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat \\	
+	      &&   \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat \\
+                &&  \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket \\
+                &&  \llbracket if(lt(x_1 , 2), 1, sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))))) \rrbracket =  \llbracket 1 \rrbracket\\
+                &&  \llbracket if(lt(x_1 , 2), 1, sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))))) \rrbracket =  \llbracket sum(...)  \rrbracket \\
+                &&  \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket \\
+                \end{array}
+            \]
+
+           \item Aplicación del algoritmo para encontrar el unificador general de $R$:
+
+                \begin{center}
+                    \begin{longtable}[!h]{ | l | l | } 
+                      \hline
+                      Restricciones & Unificador $\mu$ \\ 
+                        \hline
+                        $ \llbracket x_1 \rrbracket = X_1$ & \\
+                        $ \llbracket 2 \rrbracket = Nat$  & \\
+                        $ \llbracket lt(x_1 , 2) \rrbracket = Bool$ & \\
+                        $ \llbracket 1 \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket = X_0$ & \\
+                        $ \llbracket x_1 \rrbracket = X_1$ & \\
+                        $ \llbracket x_1 \rrbracket = Nat$ & \\
+                        $ \llbracket res(x_1,1) \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket res(x_1,1) \rrbracket \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ & \\
+                        $ \llbracket 2 \rrbracket = Nat$ & \\
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ & \\
+                        $ \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $  & \\
+                      \hline
+                        $ \llbracket 2 \rrbracket = Nat$  & $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $ \llbracket lt(x_1 , 2) \rrbracket = Bool$ & \\
+                        $ \llbracket 1 \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket = X_0$ & \\
+                        $X_1 = X_1$ & \\
+                        $X_1 = Nat$ & \\
+                        $ \llbracket res(x_1,1) \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket res(x_1,1) \rrbracket \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ & \\
+                        $ \llbracket 2 \rrbracket = Nat$ & \\
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ & \\
+                        $ \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $  & \\
+                    \hline
+                        $ \llbracket lt(x_1 , 2) \rrbracket = Bool$ & $ \llbracket x_1 \rrbracket := X_1$\\
+                        $ \llbracket 1 \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\
+                        $ \llbracket x_0 \rrbracket = X_0$ & \\
+                        $X_1 = \X_1$ & \\
+                        $X_1 = Nat$ & \\
+                        $ \llbracket res(x_1,1) \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket res(x_1,1) \rrbracket \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ & \\
+                        $Nat = Nat$ & \\
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket = \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ & \\
+                        $ \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $ & \\
+                    \hline
+                        $ \llbracket 1 \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $ \llbracket x_0 \rrbracket = X_0$ & $ \llbracket 2 \rrbracket := Nat$\\
+                        $X_1 = X_1$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
+                        $X_1 = Nat$ & \\
+                        $ \llbracket res(x_1,1) \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket res(x_1,1) \rrbracket \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ & \\
+                        $Nat = Nat$ & \\
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket = \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ & \\
+                        $ \llbracket 1 \rrbracket =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket 1 \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $  & \\
+                    \hline
+                        $ \llbracket x_0 \rrbracket = X_0$ & $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $X_1 = X_1$ & $ \llbracket 2 \rrbracket := Nat$ \\
+                        $X_1 = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$ \\
+                        $ \llbracket res(x_1,1) \rrbracket = Nat$ & $ \llbracket 1 \rrbracket := Nat$ \\
+                        $ \llbracket x_0 \rrbracket =  \llbracket res(x_1,1) \rrbracket \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ & \\
+                        $Nat = Nat$ & \\
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & \\
+                        $ \llbracket x_0 \rrbracket = \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ & \\
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket = Nat$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $  & \\
+                    \hline
+                        $X_1 = X_1$ & $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $X_1 = Nat$ & $ \llbracket 2 \rrbracket := Nat$ \\
+                        $ \llbracket res(x_1,1) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$  \\
+                        $X_0 =  \llbracket res(x_1,1) \rrbracket \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ &  $ \llbracket 1 \rrbracket := Nat$\\
+                        $Nat = Nat$ & $ \llbracket x_0 \rrbracket := X_0$ \\
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & \\
+                        $X_0 =  \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket = Nat$ & \\
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket = Nat$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $  & \\
+                    \hline
+                        $X_1 = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $ \llbracket res(x_1,1) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$ \\
+                        $X_0 =  \llbracket res(x_1,1) \rrbracket \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ &  $ \llbracket lt(x_1 , 2) \rrbracket := Bool$ \\
+                        $Nat = Nat$ & $ \llbracket 1 \rrbracket := Nat$ \\
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & $ \llbracket x_0 \rrbracket := X_0$ \\
+                        $X_0 =  \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ &  \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & \\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) ) \rrbracket = Nat$ & \\
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket = Nat$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   X_1  \to  \llbracket if(...) \rrbracket $ & \\
+                    \hline 
+                        $ \llbracket res(x_1,1) \rrbracket = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $X_0 =  \llbracket res(x_1,1) \rrbracket \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$ \\
+                        $Nat = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$ \\
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & $ \llbracket 1 \rrbracket := Nat$ \\
+                        $X_0 =  \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & $ \llbracket x_0 \rrbracket := X_0$  \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & $X_1 := Nat$\\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & \\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ & \\
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket = Nat$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & \\
+                    \hline
+                        $X_0 = Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ &   $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $Nat = Nat$ & $ \llbracket 2 \rrbracket := Nat$ \\
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$ \\
+                        $X_0 =  \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ &  $ \llbracket 1 \rrbracket := Nat$ \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & $ \llbracket x_0 \rrbracket := X_0$ \\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & $X_1 := Nat$ \\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ & $ \llbracket res(x_1,1) \rrbracket := Nat$ \\
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & \\
+                        $ \llbracket if(...) \rrbracket = Nat$ & \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $& \\
+                    \hline
+                        $Nat = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$ \\
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$  \\
+                        $Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket = $ & \\
+			     $ \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$  \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ &  $ \llbracket 1 \rrbracket := Nat$  \\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & $ \llbracket x_0 \rrbracket := X_0$  \\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ &  $X_1 := Nat$ \\
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & $ \llbracket res(x_1,1) \rrbracket := Nat$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ &     $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & \\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & \\
+                    \hline
+                        $ \llbracket res(x_1,2) \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$  \\
+                        $Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket =$ & \\ 
+	             $ \llbracket res(x_1,2) \rrbracket \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$ \\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ &  $ \llbracket 1 \rrbracket := Nat$\\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ & $ \llbracket x_0 \rrbracket := X_0$\\
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & $X_1 := Nat$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ &  $ \llbracket res(x_1,1) \rrbracket := Nat$\\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ &  $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & \\
+                    \hline
+                        $Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat \to  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & $ \llbracket x_1 \rrbracket := X_1$\\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ &  $ \llbracket 1 \rrbracket := Nat$\\
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & $ \llbracket x_0 \rrbracket := X_0$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ & $X_1 := Nat$\\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $ \llbracket res(x_1,1) \rrbracket := Nat$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $& $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ \\
+                        & $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+                    \hline
+                        $Nat = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\
+		  $ \llbracket app(x_0, res(x_1,1)) \rrbracket =  \llbracket app(x_0, res(x_1,2)) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$\\
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ &  $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ &  $ \llbracket 1 \rrbracket := Nat$\\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ &  $ \llbracket x_0 \rrbracket := X_0$\\
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & $X_1 := Nat$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ &  $ \llbracket res(x_1,1) \rrbracket := Nat$ \\
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+                    \hline
+	 	  $ \llbracket app(x_0, res(x_1,1)) \rrbracket =  \llbracket app(x_0, res(x_1,2)) \rrbracket$ &   $ \llbracket x_1 \rrbracket := X_1$\\ 
+                        $ \llbracket app(x_0, res(x_1,1)) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\ 
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ &    $ \llbracket 1 \rrbracket := Nat$\\ 
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ &  $ \llbracket x_0 \rrbracket := X_0$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ &  $X_1 := Nat$\\ 
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $\llbracket res(x_1,1) \rrbracket := Nat$\\ 
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $X_0 := Nat \mapsto  \llbracket app(x_0, res(x_1,1)) \rrbracket$  \\ 
+                        & $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+                    \hline
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$\\
+                        $ \llbracket app(x_0, res(x_1,2)) \rrbracket = Nat$ &   $ \llbracket 2 \rrbracket := Nat$\\  
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\ 
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ &    $ \llbracket 1 \rrbracket := Nat$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ &  $ \llbracket x_0 \rrbracket := X_0$\\ 
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ &  $X_1 := Nat$\\ 
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ &   $ \llbracket res(x_1,1) \rrbracket := Nat$\\ 
+                        &   $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$\\ 
+                        &  $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+			     &  $ \llbracket app(x_0, res(x_1,1)) \rrbracket$ := \\
+			     &  $ \llbracket app(x_0, res(x_1,2)) \rrbracket$\\
+                    \hline
+                        $ Nat = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$\\   
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ &  $ \llbracket 2 \rrbracket := Nat$\\
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ &   $ \llbracket 1 \rrbracket := Nat$\\ 
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $ \llbracket x_0 \rrbracket := X_0$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ &  $X_1 := Nat$\\
+                        &  $ \llbracket res(x_1,1) \rrbracket := Nat$ \\ 
+                        & $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$\\
+			     & $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+			     & $ \llbracket app(x_0, res(x_1,1)) \rrbracket$ := \\
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket$\\ 
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket := Nat$ \\
+                    \hline 
+                        $ \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2))))  \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\ 
+                        $Nat =  \llbracket sum(app(x_0, (res(x_1,1))), app(x_0, (res(x_1,2)))) \rrbracket$ & $ \llbracket 2 \rrbracket := Nat$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\ 
+                        $ \llbracket if(...) \rrbracket =  \llbracket sum(...) \rrbracket$ & $ \llbracket 1 \rrbracket := Nat$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket x_0 \rrbracket := X_0$\\
+                        &  $X_1 := Nat$\\ 
+                        & $ \llbracket res(x_1,1) \rrbracket := Nat$\\
+			     &  $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$\\
+			     & $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+			     & $ \llbracket app(x_0, res(x_1,1)) \rrbracket$ := \\
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket$\\ 
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket := Nat$ \\
+                    \hline 
+                        $Nat = Nat$ &  $ \llbracket x_1 \rrbracket := X_1$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\
+                        $ \llbracket if(...) \rrbracket =  Nat$ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket 1 \rrbracket := Nat$\\
+                        & $ \llbracket x_0 \rrbracket := X_0$\\ 
+                        &  $X_1 := Nat$\\  
+			     & $ \llbracket res(x_1,1) \rrbracket := Nat$\\
+			     & $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ \\
+			     & $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+			     & $ \llbracket app(x_0, res(x_1,1)) \rrbracket$ := \\
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket$\\ 
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket := Nat$ \\
+			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
+                    \hline 
+                        $ \llbracket if(...) \rrbracket = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\
+                        $ \llbracket if(...) \rrbracket = Nat$ & $ \llbracket 2 \rrbracket := Nat$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  \llbracket if(...) \rrbracket $ & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\
+                        & $ \llbracket 1 \rrbracket := Nat$\\ 
+                        & $ \llbracket x_0 \rrbracket := X_0$\\  
+			     & $X_1 := Nat$\\
+			     & $ \llbracket res(x_1,1) \rrbracket := Nat$ \\
+			     & $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ \\
+			     & $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+			     & $ \llbracket app(x_0, res(x_1,1)) \rrbracket$ := \\
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket$\\ 
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket := Nat$ \\
+			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
+                     \hline 
+                        $ Nat = Nat$ & $ \llbracket x_1 \rrbracket := X_1$\\
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to  Nat $ & $ \llbracket 2 \rrbracket := Nat$\\ 
+                        & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\ 
+                        & $ \llbracket 1 \rrbracket := Nat$\\  
+			     & $ \llbracket x_0 \rrbracket := X_0$\\
+			     & $X_1 := Nat$\\
+			     & $ \llbracket res(x_1,1) \rrbracket := Nat$\\
+			     & $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$ \\
+			     & $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+			     & $ \llbracket app(x_0, res(x_1,1)) \rrbracket$ := \\
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket$\\ 
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket := Nat$ \\
+			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
+			     & $ \llbracket if(...) \rrbracket := Nat$  \\
+                     \hline 
+                        $ \llbracket recfun(...) \rrbracket =   Nat  \to Nat $ & $ \llbracket x_1 \rrbracket := X_1$\\
+                        & $ \llbracket 2 \rrbracket := Nat$\\ 
+                        & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\  
+			     & $ \llbracket 1 \rrbracket := Nat$\\
+			     & $ \llbracket x_0 \rrbracket := X_0$\\
+			     & $X_1 := Nat$\\
+			     & $ \llbracket res(x_1,1) \rrbracket := Nat$\\
+			     & $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$\\
+			     & $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+			     & $ \llbracket app(x_0, res(x_1,1)) \rrbracket$ := \\
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket$\\ 
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket := Nat$ \\
+			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
+			     & $ \llbracket if(...) \rrbracket := Nat$  \\
+                     \hline 
+			     & $ \llbracket x_1 \rrbracket := X_1$\\
+                        & $ \llbracket 2 \rrbracket := Nat$\\ 
+                        & $ \llbracket lt(x_1 , 2) \rrbracket := Bool$\\  
+			     & $ \llbracket 1 \rrbracket := Nat$\\
+			     & $ \llbracket x_0 \rrbracket := X_0$\\
+			     & $X_1 := Nat$\\
+			     &  $ \llbracket res(x_1,1) \rrbracket := Nat$\\
+			     &  $X_0 := Nat \to  \llbracket app(x_0, res(x_1,1)) \rrbracket$\\
+			     & $ \llbracket res(x_1,2) \rrbracket := Nat$ \\
+			     & $ \llbracket app(x_0, res(x_1,1)) \rrbracket$ := \\
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket$\\ 
+			     & $ \llbracket app(x_0, res(x_1,2)) \rrbracket := Nat$ \\
+			     & $ \llbracket sum(...) \rrbracket := Nat$ \\
+			     & $ \llbracket if(...) \rrbracket := Nat$  \\
+                      	     & $ \llbracket recfun(...) \rrbracket :=   Nat  \to  Nat $\\ 
+                    \hline
+                \end{longtable}
+            \end{center}
+            Del proceso anterior se puede concluir que el tipo de la expresión es $Nat \ \to \ Nat$
+        \end{description}
+    \end{exercise}
+    
+    \section{Ejercicios para el lector}
+
+	\begin{exercise}
+		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
+\bigskip
+		\[
+			\textsf{let $z$ = 0 in $z$ $\textless$ $z$  end}
+		\]
+\bigskip
+		\begin{itemize}
+			\item obtén la representación en sintaxis abstracta.
+			\item Aplica la estandarización de variables para obtener una expresión $\alpha$-equivalente.
+			\item Aplica el algoritmo para obtener la lista de restricciones.
+		\end{itemize}
+	\end{exercise}
+
+\bigskip
+
+	\begin{exercise}
+		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
+\bigskip
+		\[
+			\textsf{fun $x \Rightarrow$ $x$ * ($x$ - 1) + ($x$ * $x$)}
+		\]
+\bigskip
+		\begin{itemize}
+			\item obtén la representación en sintaxis abstracta.
+			\item Aplica la estandarización de variables para obtener una expresión $\alpha$-equivalente.
+			\item Aplica el algoritmo para obtener la lista de restricciones.
+		\end{itemize}
+	\end{exercise}
+
+\bigskip
+
+	\begin{exercise}
+		Para la siguiente expresión de \textsf{MinHS} contesta los incisos enumerados a continuación:
+\bigskip
+		\[
+			\textsf{let $x$ = true in let $x$ = false in if $x$ then let $y$ = 1 in $y$  end else let $y$ = 2 in $y$ end end end}
+		\]
+		\begin{itemize}
+			\item obtén la representación en sintaxis abstracta.
+			\item Aplica la estandarización de variables para obtener una expresión $\alpha$-equivalente.
+			\item Aplica el algoritmo para obtener la lista de restricciones.
+		\end{itemize}
+	\end{exercise}
+
+\bigskip
+
+    \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraído de \hyperlink{12}{[12]}}
+          \[
+                \textsf{fun $x \Rightarrow$ (if $x$ then 1 else 0) true}
+	\]
+    \end{exercise}
+
+\bigskip
+
+    \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia\footnote{Ejercicio extraído de \hyperlink{12}{[12]}}
+           \begin{lstlisting}[ mathescape=true ]
+                $\textsf{fun}$ $x \Rightarrow$ $\textsf{app}$($x$,$x$)
+           \end{lstlisting} 
+    \end{exercise}
+
+\bigskip
+
+   \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
+	\[
+		\textsf{let $x = 0$ in fun $y \Rightarrow$  $y$ + $x$ end}
+	\]
+   \end{exercise}
+
+\bigskip
+     \begin{exercise} Dada la siguiente expresión de \textsf{MinHS}, obtén el tipo más general del unificador $\mu$ utilizando el algoritmo de inferencia.
+          \begin{lstlisting}[ mathescape=true ]
+             ($\textsf{recfun}$ $factorial$ $n$  $\Rightarrow$
+                 $\textsf{if}$ ($n$ < 2) 
+                    $\textsf{then}$ 1
+                 $\textsf{else } $ $factorial$ ($n$-1) * $n$)  9
+           \end{lstlisting}
+     \end{exercise}
+
+\bigskip
+
+   \begin{exercise} Contesta las siguientes preguntas.\\
+	\begin{itemize}
+	    \item ¿Cuál es la complejidad de cada fase del algoritmo para encontrar el unificador general $\mu$?\\
+           \item ¿Cuál es la complejidad total del algoritmo para encontrar el unificador general $\mu$?
+	\end{itemize}
+   \end{exercise}

@@ -1,0 +1,562 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\usepackage{chronology}
+
+\title{\LARGE 
+Lenguajes de Programación 2022-1\\ 
+Nota de clase 12: \tinyc \\
+\color{YellowOrange} Procedimental}
+\author{Javier Enríquez Mendoza}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Paradigma procedimental}
+
+Hasta ahora nos hemos concentrado en el estudio y formalización de \minhs$\,$ que es un lenguaje puramente funcional. Estos lenguajes son llamados puros porque su modelo de ejecución consiste únicamente en evaluar una expresión hasta hallar su valor. Sin embargo la mayoría de los lenguajes de programación de la actualidad no siguen el prototipo que hemos descrito hasta ahora.
+
+Los modelos de ejecución de lenguajes como C o Java, consideran efectos laterales de control o almacenamiento, tales como: definición de variables globales, ejecución secuencial de instrucciones o modificaciones dinámicas a la memoria de un programa, es decir el estado de este. 
+
+El concepto de estado tiene un lugar relevante en la computación. Si creamos programas que modelen el mundo real, entonces algunos de ellos deben modelar el hecho de que en el mundo real hay eventos que lo modifican. Por ejemplo: un auto consume gasolina mientras está en marcha, de manera que un programa que modele un tanque de gasolina podría usar estados para registrar los cambios en el nivel de combustible.
+
+Una vez que un lenguaje tiene entidades mutables o estados, es necesario hacer referencia al programa antes y después de cada mutación, es decir, el razonamiento y análisis formal de un programa depende del estado en que se ejecuta. En consecuencia se vuelve mucho más difícil determinar el comportamiento real de un programa, pues  depende del momento en que se ejecuta.
+
+El objetivo principal de esta nota es comenzar con el estudio y formalización de estos efectos laterales, para lo que se define un nuevo lenguaje con tintes procedimentales que se define como un fragmento del lenguaje de programación C, este lenguaje es llamado \tinyc. Dentro de este fragmento de C se incluyen los principales constructores que nos permitirán estudiar de forma general el comportamiento de los lenguajes de programación del paradigma procedimental, como lo son: ciclos $\while\,$, declaraciones globales y modificadores del estado.
+\section{Sintaxis}
+
+Comenzaremos definiendo la sintaxis para el lenguaje. 
+
+\begin{definition}[Sintaxis Concreta de \tinyc]
+
+    \[
+    \begin{array}{rcl}
+        \ctr{progam} &::=&\ctr{global-decs }\;\ctr{stmt}\\
+        \ctr{global-decs} &::=&\varepsilon\opc\ctr{global-dec }\;\ctr{global-decs}\\
+        \ctr{global-dec}&::=&\ctr{fun-dec}\opc\ctr{var-dec}\\
+        \ctr{var-decs} &::=&\varepsilon\opc\ctr{var-dec }\;\ctr{var-decs}\\
+        \ctr{var-dec}&::=&\ctr{type}\;\ctr{ident}=\ctr{expr };\\
+        \ctr{fun-dec}&::=&\ctr{type}\;\ctr{ident}\;(\ctr{arguments})\;\ctr{stmt };\\
+        \ctr{stmt}&::=&\ctr{expr };\opc\ift\;\ctr{expr }{\tt then}\;\ctr{stmt }{\tt else}\;\ctr{stmt };\opc\ift\;\ctr{expr }{\tt then}\;\ctr{stmt};\\
+        &&\opc\return\;\ctr{expr };\opc\{\ctr{var-decs }\ctr{stmts }\}\opc\while\;(\ctr{expr})\;\ctr{stmt}\\
+        \ctr{stmts} &::=&\varepsilon\opc\ctr{stmt }\;\ctr{stmts}\\
+        \ctr{expr} &::=&\ctr{num}\opc\ctr{ident}\opc\ctr{asig}\opc\ctr{expr} + \ctr{expr}\opc\ctr{expr} - \ctr{expr}\\
+        &&\opc\ctr{expr} > \ctr{expr}\opc\ctr{expr} < \ctr{expr}\opc\ctr{ident }(\ctr{exprs})\\
+        \ctr{asig} &::=&\ctr{ident}=\ctr{expr}\\
+        \ctr{exprs} &::=&\ctr{expr}\opc\ctr{expr},\ctr{exprs}\\
+        \ctr{arguments} &::=&\varepsilon\opc\ctr{type}\;\ctr{ident},\ctr{arguments}\\
+        \ctr{type}&::=&\intt\opc\boolt
+    \end{array}
+    \]
+
+\end{definition}
+
+Para la definición de los programas del lenguaje se agrega un pequeño conjunto de constructores del lenguaje C, siguiendo las reglas de semántica que veremos en secciones siguientes se pueden formalizar fácilmente otros constructores omitidos en esta sintaxis. Para las personas conocedoras del lenguaje C, la omisión mas evidente será la de los apuntadores, esta decisión se debe a que la semántica de los apuntadores y la aritmética de apuntadores son temas complicados por si solos y quedan fuera del alcance de este curso.
+
+En \tinyc se tienen tres categorías de constructores del lenguaje:
+\begin{itemize}
+    \item Declaraciones: que pueden ser tanto de variables como funciones. Se encargan de definir variables con valores asignados.
+    \item Expresiones: que regresan un valor, estos constructores se comportan de forma similar a los constructores del paradigma funcional en el sentido de que siempre regresan un valor.
+    \item Sentencias: son los constructores que modelan los efectos del programa en el estado, no regresan valores sino que solo se encargan de modificaciones.
+\end{itemize}
+
+Un programa es una serie de declaraciones globales seguido de una sentencia.
+
+\begin{remark} Es importante notar la diferencia entre las variables de \tinyc con relación a las de \minhs. En \minhs las variables eran variables en un estricto sentido matemático, se pueden ligar a un valor, pero una vez que se ligan ese valor no cambia. Mientras que en \tinyc las variables representan locaciones en memoria cuyo contenido puede cambiar durante la ejecución del programa. Esta diferencia sera más evidente en notas posteriores en donde se tenga un uso explicito de referencias a la memoria.
+\end{remark} 
+
+\begin{example}[Programas en \tinyc] Con la sintaxis concreta definida anteriormente se pueden construir programas como el siguiente:
+
+\begin{verbatim}
+    Int result = 0;
+    Int div (Int a, Int b){
+        Int res = 0;
+        while (b < a){
+            a = a - b;
+            res = res + 1;
+        }
+        return res
+    };
+    
+    result = div(11,5)
+\end{verbatim}
+
+Obsérvese como de forma intuitiva este programa no regresa ningún resultado, simplemente se altera el estado en el que se ejecuta y al finalizar la ejecución la variable {\tt result} tiene el valor $3$, pero este no es el resultado de la evaluación del programa.
+\end{example}
+
+\begin{remark} Para \tinyc se omite la definición de la sintaxis abstracta o el proceso de análisis sintáctico por simplicidad, sin embargo es importante que quien lee esta nota entienda que expresión en sintaxis concreta corresponde a cada uno de los marcos o árboles de sintaxis abstracta que se utilizan en las siguientes secciones.
+\end{remark}
+
+\section{Semántica Operacional (Máquina $\Cs$)}
+Para definir la semántica dinámica de \tinyc se define una nueva máquina abstracta llamada Máquina $\Cs$. Esta máquina sigue la misma estructura que las máquinas definidas para \minhs, en donde se tiene una pila de control con los cómputos pendientes y estados en donde se almacenan los valores de las variables. Para el caso de la máquina $\Cs$ no es posible el uso de sustitución como mecanismo de evaluación de variables ya que éstas dependen del estado en el que son ejecutadas.
+\subsection{Marcos}
+Comenzamos definiendo los marcos que se almacenan en la pila de control de la máquina $\Cs$. Aquí se omiten marcos para las expresiones (aquellos constructores que regresan valores) ya que pueden heredarse directamente de la máquina $\Js$, exceptuando la llamada a función ya que su comportamiento es diferente al visto anteriormente con las aplicaciones de función.
+
+La principal diferencia entre una llamada y una aplicación de función es que en \tinyc las funciones tienen que ser declaradas para ser llamadas, mientras que en \minhs se pueden usar funciones anónimas directamente en una aplicación. Otra diferencia es que \tinyc nos permite definiciones de funciones multiparamétricas mientras que en \minhs éstas se limitaban a un parámetro.
+\newpage
+\begin{definition}[Marcos para la pila de control de la máquina $\Cs$] Se definen los siguientes marcos que usaremos en la pila de control de la máquina $\Cs$
+\begin{description}
+    \item[Declaraciones] 
+        \[
+            \begin{array}{c}
+                \inference{}{\vardec(\T,x,\square)\marco}
+            \end{array}
+        \]
+    \item[Asignaciones] 
+        \[
+            \begin{array}{c}
+                \inference{}{\asig(x,\square)\marco}
+            \end{array}
+        \]
+    \item[Secuencia]
+        \[
+            \begin{array}{c}
+                \inference{}{\secu(\square,e_2)\marco}
+            \end{array}
+        \]
+    \item[Condicionales]
+        \[
+            \begin{array}{ccc}
+                \inference{}{\ift(\square,e_2,e_3)\marco}&
+                \qquad&
+                \inference{}{\ift(\square,e_2)\marco}
+            \end{array}
+        \]
+    \item[Return]
+        \[
+            \begin{array}{c}
+                \inference{}{\return(\square)\marco}
+            \end{array}
+        \]
+    % \item[While]
+    %     \[
+    %         \begin{array}{c}
+    %             \inference{}{\while(\square,e_2)\marco}
+    %         \end{array}
+    %     \]
+    \item[Llamada a función]
+        \[
+            \begin{array}{ccc}
+                \inference{}{\call(f,\square,e_2,\dots,e_n)\marco}&
+                \cdots&
+                \inference{}{\call(f,v_1,v_2,\dots,\square)\marco}
+            \end{array}
+        \]
+\end{description}
+\end{definition}
+
+\subsection{Estados}
+\begin{definition}[Estados de la máquina $\Cs$] Los estados de la máquina $\Cs$ son de la siguiente forma:
+    $$\pc\opc\lc\opc\gc\succ e\qquad\qquad\pc\opc\lc\opc\gc\prec e$$
+    En donde $\pc$ es una pila de control, $\lc$ y $\gc$ son ambientes de variables y $e$ es una expresión del lenguaje.
+\end{definition}
+
+La idea intuitiva detrás de esta definición es que cada estado tiene una pila de control con los cómputos pendientes y dos ambientes. El primero representa un ambiente auxiliar para la evaluación mientras que el segundo es el ambiente principal. El ambiente auxiliar cumple el fin de respetar el alcance de las variables dentro del cuerpo de una función, mientras que el ambiente principal se encarga de manejar el alcance de las variables declaradas de forma global. Podemos pensar en estos ambientes como un ambiente local y otro global, el momento en el que se declara una variable o una función va a definir en cuál de los ambientes se almacena.
+
+Se definen las operaciones de consulta y modificación sobre los ambientes, necesarias para la definición de las transiciones de la máquina.
+
+\begin{definition}[Consulta al ambiente] Definido recursivamente como sigue:
+\[
+    \begin{array}{ccccc}
+        \inference{}{\ee[x]=\fail}&
+        \quad&
+        \inference{}{x\leftarrow v;\ec[x] = v}&
+        \quad&
+        \inference{}{y\leftarrow v;\ec[x] = \ec[x]}
+    \end{array}
+\]
+\end{definition}
+
+\begin{definition}[Modificación al ambiente] Definido recursivamente como sigue:
+\[
+    \begin{array}{ccc}
+        \inference{}{\ee[x \rightarrowtail v]= \fail}&
+        \quad&
+        \inference{}{x\leftarrow u;\ec[x \rightarrowtail v] = x\leftarrow v;\ec}
+    \end{array}
+\]
+\[
+    \begin{array}{c}
+        \inference{}{y\leftarrow u;\ec[x \rightarrowtail v] = y\leftarrow u;\ec[x \rightarrowtail v]}
+    \end{array}
+\]
+\end{definition}
+
+\subsection{Transiciones}
+
+Ahora definimos las transiciones entre estados para la máquina $\Cs$. Estas transiciones modelan el proceso de evaluación de los programas escritos en el lenguaje.
+
+\begin{definition}[Transiciones de la máquina $\Cs$] Las transiciones de la máquina $\Cs$ se definen en términos de los programas que se están evaluando. Como vimos en secciones anteriores en el caso de \tinyc un programa no tiene un resultado final, es decir no se reduce a un valor. Por lo que se agrega un programa especifico que indica el final de la ejecución, este programa es el programa vacío y se denota como:
+
+$$\bot$$
+
+y define el final del proceso de evaluación de una sentencia, por lo que los estados finales de la máquina $\Cs$ son los que tienen la forma siguiente:
+
+$$\pe\opc\lc\opc\gc\prec\bot$$
+
+Con lo que se definen las transiciones con las siguientes reglas:
+\begin{description}
+    \item[Declaraciones]
+        \[
+            \begin{array}{c}
+            \inference{}{\pc\opc\lc\opc\gc\succ\vardec(\T,x,e)\toc\vardec(\T,x,\square);\pc\opc\lc\opc\gc\succ e}\\
+            \\
+            \inference{\gc[x]=\fail}{\vardec(\T,x,\square);\pc\opc\lc\opc\gc\prec v\toc\pc\opc\lc\opc x\leftarrow v;\gc\prec\bot}\\
+            \\
+            \inference{}{\pc\opc\lc\opc\gc\succ\fundec(\T,f,x_1:\T_1.\cdots.x_n:\T_n.e)\toc\pc\opc\lc\opc f\leftarrow x_1.\cdots.x_n.e;\gc\prec\bot}\\
+            \\
+            \end{array}
+        \]
+    \item[Asignación]
+        \[
+            \begin{array}{c}
+            \inference{}{\pc\opc\lc\opc\gc\succ\asig(x,e)\toc\asig(x,\square);\pc\opc\lc\opc\gc\succ e}\\
+            \\
+            \inference{\gc[x\rightarrowtail v]=\gc'}{\asig(x,\square);\pc\opc\lc\opc\gc\prec v\toc\pc\opc\lc\opc\gc'\prec\bot}\\
+            \\
+            \inference{\gc[x\rightarrowtail v]=\fail&\lc[x\rightarrowtail v]=\lc'}{\asig(x,\square);\pc\opc\lc\opc\gc\prec v\toc\pc\opc\lc'\opc\gc\prec\bot}\\
+            \\
+            \end{array}
+        \]
+    \item[Variables]
+        \[
+            \begin{array}{c}
+                \inference{\gc[x]=v}{\pc\opc\lc\opc\gc\succ x\toc\pc\opc\lc\opc\gc\prec v}\\
+                \\
+                \inference{\gc[x]=\fail&\lc[x]=v}{\pc\opc\lc\opc\gc\succ x\toc\pc\opc\lc\opc\gc\prec v}\\
+                \\
+            \end{array}
+        \]
+    \item[Secuencia]
+        \[
+            \begin{array}{c}
+                \inference{}{\pc\opc\lc\opc\gc\succ\secu(e_1,e_2)\toc\secu(\square,e_2);\pc\opc\lc\opc\gc\succ e_1}\\
+                \\
+                \inference{}{\secu(\square,e_2);\pc\opc\lc\opc\gc\prec\bot\toc\pc\opc\lc\opc\gc\succ e_2}\\
+                \\
+            \end{array}
+        \]
+    \item[Condicionales]
+        \[
+            \begin{array}{c}
+                \inference{}{\pc\opc\lc\opc\gc\succ\ift(e_1,e_2,e_3)\toc\ift(\square,e_2,e_3);\pc\opc\lc\opc\gc\succ e_1}\\
+                \\
+                \inference{}{\ift(\square,e_2,e_3);\pc\opc\lc\opc\gc\prec\truet\toc\pc\opc\lc\opc\gc\succ e_2}\\
+                \\
+                \inference{}{\ift(\square,e_2,e_3);\pc\opc\lc\opc\gc\prec\falset\toc\pc\opc\lc\opc\gc\succ e_3}\\
+                \\
+                \inference{}{\pc\opc\lc\opc\gc\succ\ift(e_1,e_2\toc\ift(\square,e_2);\pc\opc\lc\opc\gc\succ e_1}\\
+                \\
+                \inference{}{\ift(\square,e_2);\pc\opc\lc\opc\gc\prec\truet\toc\pc\opc\lc\opc\gc\succ e_2}\\
+                \\
+                \inference{}{\ift(\square,e_2);\pc\opc\lc\opc\gc\prec\falset\toc\pc\opc\lc\opc\gc\prec\bot}\\
+                \\
+            \end{array}
+        \]
+    \item[While]
+        \[
+            \begin{array}{c}
+                \inference{}{\pc\opc\lc\opc\gc\succ\while(e_1,e_2)\toc\pc\opc\lc\opc\gc\succ \ift(e_1,\secu(e_2,\while(e_1,e_2)))}\\
+            \end{array}
+        \]
+        Esta regla traduce la evaluación de un $\while\,$ a un $\ift\,$ con un solo caso. Modela la siguiente regla equivalencia entre programas:
+
+        $$\while\,(e_1)\{\,e_2\,\}\equiv\ift\,(e_1)\,\{\,e_2\,;\,\while\,(e_1)\{\,e_2\,\}\}$$
+
+        Obsérvese como la expresión $\while\,$ sigue apareciendo en el lado derecho. De esta forma se desdobla el ciclo tantas veces como se cumpla la condición.
+    \item[Llamada a función]
+        \[
+            \begin{array}{c}
+                \inference{}{\pc\opc\lc\opc\gc\succ\call(f,e_1,\cdots,e_n)\toc\call(\square,e_1,\cdots,e_n);\pc\opc\lc\opc\gc\succ f}\\
+                \\
+                \inference{}{\call(\square,e_1,\cdots,e_n);\pc\opc\lc\opc\gc\prec v\toc \call(v,\square,e_2,\cdots,e_n);\pc\opc\lc\opc\gc\succ e_1}\\
+                \\
+                \vdots\\
+                \\
+                % \inference{}{\call(x_1.\cdots x_n.e,v_1,\cdots,\square);\pc\opc\ee\opc\gc\prec v_n\toc \pc\opc\gc\opc x_1\leftarrow v_1;\cdots;x_n\leftarrow v_n;\ee\succ e}\\
+                \inference{}{\call(x_1.\cdots x_n.e,v_1,\cdots,\square);\pc\opc\lc\opc\gc\prec v_n\toc \pc\opc\gc\bigstar\lc\opc x_1\leftarrow v_1;\cdots;x_n\leftarrow v_n;\ee\succ e}
+            \end{array}
+        \]
+        Para la evaluación de una llamada a función, primero es necesario evaluar cada uno de los parámetros con los que se llama. Una vez que todos son valores, entonces se ejecuta el cuerpo de la función usando un ambiente vacío como ambiente principal y agregando a él los parámetros de la llamada. Y guardamos el ambiente principal anterior con un símbolo especial ($\bigstar$) que sirve como separado para saber en donde termina uno y comienza el otro.
+
+        % \[
+        %     \inference{}{\call(x_1.\cdots x_n.e,v_1,\cdots,\square);\pc\opc\lc\opc\gc\prec v_n\toc \pc\opc\gc\bigstar\lc\opc x_1\leftarrow v_1;\cdots;x_n\leftarrow v_n;\ee\succ e}
+        % \]
+
+        % Si el ambiente local no era vacío esto significa que hay llamadas a función anidadas, por lo cual no se puede hacer simplemente el swap de los ambientes ya que evaluaríamos la segunda llamada con el ambiente global. Entonces guardamos ambos ambientes con un símbolo especial ($\bigstar$) que sirve como separado para saber en donde termina uno y comienza el otro y definimos un nuevo ambiente local vacío como principal.
+    \item[Return]
+        El constructor $\return\,$ indica el final de la ejecución de una llamada a función.
+        \[
+            \begin{array}{c}
+                \inference{}{\pc\opc\gc\opc\lc\succ\return(e)\toc\return(\square);\pc\opc\gc\opc\lc\succ e}\\
+                \\
+                \inference{}{\return(\square);\pc\opc\gc\bigstar\lc_1\opc\lc_2\prec v\toc\pc\opc\lc_1\opc\gc\prec v}\\
+                \\
+                % \inference{}{\return(\square);\pc\opc\gc\opc\lc\prec v\toc\pc\opc\ee\opc\gc\prec v}
+            \end{array}
+        \]
+        Cuando termina la ejecución de una llamada a función. Se restaura el ambiente global y nos deshacemos del local pues solo era necesario dentro del cuerpo de la función.
+\end{description}
+\end{definition}
+
+\begin{remark} El manejo de los estados hace que no todas las reglas de transición sean axiomas, lo que dificulta la implementación en comparación con las máquinas $\Hs$ y $\Js$.
+\end{remark}
+
+Lo importante al finalizar la ejecución de un programa en \tinyc es el estado resultante, a diferencia de \minhs en donde lo importante era el valor al que se reducía.
+
+\begin{example}[Ejecución en la máquina $\Cs$] Para mostrar el funcionamiento de la máquina $\Cs$ se evaluará el siguiente programa $p$ de \tinyc:
+
+\begin{verbatim}
+    Int result = 0;
+    Int div (Int a, Int b){
+        Int res = 0;
+        while (b < a){
+            a = a - b;
+            res = res + 1;
+        }
+        return res
+    };
+    
+    result = div(11,5)
+\end{verbatim}
+
+$$p=_{def}\secu(\vardec(\intt,{\tt result},0),\secu(\fundec(\intt,{\tt div},a:\intt,b:\intt,e),\asig({\tt result},\call({\tt div},11,5))))$$
+
+
+$$e=_{def}\secu(\vardec(\intt,{\tt res},0),\secu(\while(\dots),\return({\tt res})))$$
+
+Que se evalúa en la máquina $\Cs$ como sigue:
+
+\[
+    \begin{array}{rcl}
+    \pe\opc\ee\opc\ee&\succ&p\\
+    &\vdots&\\
+    \pe\opc\ee\opc{\tt div}\leftarrow a.b.e;{\tt result}\leftarrow 0;\ee&\succ&\call({\tt div},11,5)\\
+    \call(\square,11,5);\pe\opc\ee\opc{\tt div}\leftarrow a.b.e;{\tt result}\leftarrow 0;\ee&\succ&{\tt div}\\
+    \call(\square,11,5);\pe\opc\ee\opc{\tt div}\leftarrow a.b.e;{\tt result}\leftarrow 0;\ee&\prec&a.b.e\\
+    \call(a.b.e,\square,5);\pe\opc\ee\opc{\tt div}\leftarrow a.b.e;{\tt result}\leftarrow 0;\ee&\succ&11\\
+    \call(a.b.e,11,\square);\pe\opc\ee\opc\underbrace{{\tt div}\leftarrow a.b.e;{\tt result}\leftarrow 0;\ee}_\gc&\prec&5\\
+    \pe\opc\gc\bigstar\ee\opc a\leftarrow11;b\leftarrow5;\ee&\succ&e\\
+    &\vdots&\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow0;a\leftarrow11;b\leftarrow5;\ee&\succ&\while(b<a,\dots)\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow0;a\leftarrow11;b\leftarrow5;\ee&\succ&\ift(a<b,\dots;\while(b<a,\dots))\\
+    &\vdots&\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow0;a\leftarrow11;b\leftarrow5;\ee&\succ&a=a-b;res=res+1;\while(\dots)\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow0;a\leftarrow6;b\leftarrow5;\ee&\succ&res=res+1;\while(\dots)\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow1;a\leftarrow6;b\leftarrow5;\ee&\succ&\while(\dots)\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow1;a\leftarrow6;b\leftarrow5;\ee&\succ&\ift(a<b,\dots;\while(b<a,\dots))\\
+    &\vdots&\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow1;a\leftarrow6;b\leftarrow5;\ee&\succ&a=a-b;res=res+1;\while(\dots)\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow1;a\leftarrow1;b\leftarrow5;\ee&\succ&res=res+1;\while(\dots)\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow2;a\leftarrow1;b\leftarrow5;\ee&\succ&\while(\dots)\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow2;a\leftarrow1;b\leftarrow5;\ee&\succ&\ift(a<b,\dots;\while(b<a,\dots))\\
+    \secu(\square,\return({\tt res}));\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow2;a\leftarrow1;b\leftarrow5;\ee&\prec&\bot\\
+    \pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow2;a\leftarrow1;b\leftarrow5;\ee&\succ&\return({\tt res})\\
+    \return(\square);\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow2;a\leftarrow1;b\leftarrow5;\ee&\succ&{\tt res}\\
+    \return(\square);\pc\opc\gc\bigstar\ee\opc{\tt res}\leftarrow2;a\leftarrow1;b\leftarrow5;\ee&\prec&2\\
+    \asig({\tt result},\square);\pe\opc\ee\opc{\tt div}\leftarrow a.b.e;{\tt result}\leftarrow 0;\ee&\prec&2\\
+    \pe\opc\ee\opc{\tt div}\leftarrow a.b.e;{\tt result}\leftarrow 2;\ee&\prec&\bot\\
+    \end{array}
+\]
+
+En la ejecución anterior podemos observar como finaliza con el programa vacío y en el ambiente se tiene almacenado en la variable {\tt result} el resultado que nos interesa de la ejecución del programa. Mientras que el proceso de evaluación no arrojo ningún resultado.
+\end{example}
+
+
+% \begin{definition}[Semántica Operacional de \tinyc].
+%     \begin{description}
+%         % \item[Programas]
+%         %     \[
+%         %         \begin{array}{c}
+%         %             \inference{\<\varnothing,\ctr{global-decs}\>\to^\star\sigma}{\ctr{global-decs stmt}\to \<\sigma,\ctr{stmt}\>}
+%         %         \end{array}
+%         %     \]
+%         \item[Declaraciones Globales]  
+%             \[
+%                 \begin{array}{c}
+%                     \inference{\<\sigma,e\>\to\<\sigma',e'\>}{\<\sigma, \T\;x=e\>\to\<\sigma', \T\;x=e'\>}\\
+%                     \\
+%                     \inference{}{\<\sigma, \T\;x=v\,\>\to\sigma[x\rightarrowtail v]}\\
+%                     \\
+%                     \inference{}{\<\sigma,\T\,f\,(\St_1\,x_1,\dots,\St_n\,x_n)\;\{b\}\>\to\sigma[f\rightarrowtail x_1.\cdots.x_n.b]}\\
+%                     % \\
+%                     % \inference{}{\<\sigma,\varepsilon\>\to\sigma}
+%                 \end{array}
+%             \]
+%         \item[Statements]
+%             \[
+%                 \begin{array}{c}
+%                     \inference{\<\sigma,e_b\>\to \<\sigma',e_b'\>}
+%                     {\<\sigma,\ift\;e_b\;{\tt then}\;e_t\;{\tt else}\;e_e\>\to\<\sigma',\ift\;e_b'\;{\tt then}\;e_t\;{\tt else}\;e_e\>}\\
+%                     \\
+%                     \inference{}
+%                     {\<\sigma,\ift\;\truet\;{\tt then}\;e_t\;{\tt else}\;e_e\>\to\<\sigma,e_t\>}\\
+%                     \\
+%                     \inference{}
+%                     {\<\sigma,\ift\;\falset\;{\tt then}\;e_t\;{\tt else}\;e_e\>\to\<\sigma,e_e\>}\\
+%                     \\
+%                     \inference{\<\sigma,e_b\>\to \<\sigma',e_b'\>}
+%                     {\<\sigma,\ift\;e_b\;{\tt then}\;e_t\>\to\<\sigma',\ift\;e_b'\;{\tt then}\;e_t\>}\\
+%                     \\
+%                     \inference{}
+%                     {\<\sigma,\ift\;\truet\;{\tt then}\;e_t\>\to\<\sigma,e_t\>}\\
+%                     \\
+%                     \inference{}
+%                     {\<\sigma,\ift\;\falset\;{\tt then}\;e_t\>\to\sigma}\\
+%                     \\
+%                     \inference{\<\sigma,e\>\to\<\sigma',e'\>}
+%                     {\<\sigma,\return\;e\>\to\<\sigma',\return\;e'\>}\\
+%                     \\
+%                     \inference{}
+%                     {\<\sigma,\return\;v\>\to\<\sigma,\return\;v\>}\\
+%                     \\
+%                     \inference{}
+%                     {\<\sigma,\while\;(e)\;e_s\>\to\<\sigma,\ift\;e\;{\tt then}\;e_s\,;\,while\;(e)\;e_s\>}\\
+%                     \\
+%                 \end{array}
+%             \]
+%         \item[Secuencial]
+%             \[
+%                 \begin{array}{ccc}
+%                     \inference{\<\sigma,e_1\>\to\<\sigma',e_1'\>}{\<\sigma,e_1\,;\,e_2\>\to\<\sigma',e_1'\,;\,e_2\>}&
+%                     \quad&
+%                     \inference{\<\sigma,e_1\>\to\sigma'}{\<\sigma,e_1\,;\,e_2\>\to\<\sigma',\,e_2\>}
+%                 \end{array}
+%             \]
+%             \[
+%                 \begin{array}{c}
+%                     \quad\\
+%                     \inference{\<\sigma,e_1\>\to\<\sigma',\return\;v\>}{\<\sigma,e_1\,;\,e_2\>\to\<\sigma',\return\;v\>}
+%                 \end{array}
+%             \]
+%         \item[Expresiones]
+%             \[
+%                 \begin{array}{c}
+%                     \inference{\sigma@x=v}{\<\sigma,x\>\to\<\sigma',v\>}\\
+%                     \\
+%                     \inference{\<\sigma,e\>\to\<\sigma',e'\>}{\<\sigma,x=e\>\to\<\sigma',x=e'\>}\\
+%                     \\
+%                     \inference{}{\<\sigma,x=v\>\to\sigma@x\leftarrowtail v}\\
+%                     \\
+%                     \inference{\<\sigma,e_i\>\to\<\sigma',e_i'\>}{\<\sigma,f\;(\dots,e_i,\dots)\>\to\<\sigma',f\;(\dots,e_i',\dots)\>}\\
+%                     \\
+%                     \inference{\sigma@f=x_1.\cdots.x_n.e}
+%                     {\<\sigma,f\,(v_1,\dots,v_n)\>\to\<\sigma, \>}
+%                 \end{array}
+%             \]
+%     \end{description}
+% \end{definition}
+\section{Semántica Estática}
+
+Por último se definen las reglas de semántica estática para \tinyc en relación al tipado de los programas del lenguaje.
+
+\begin{definition}[Semántica estática de \tinyc] Se define la semántica estática del lenguaje \tinyc$\,$ con la siguiente categoría de tipos:
+
+$$\T ::= \intt\opc\boolt\opc\T_1\to\T_2\opc\void $$
+
+ Sobre la cual se definen las siguientes reglas de tipado para los programas del lenguaje.
+\begin{description}
+    \item[Declaraciones]
+    \[
+        \begin{array}{c}
+        \inference{\Gamma\vdash e:\T}{\Gamma\vdash\vardec(\T,x,e):\void}\\
+        \\
+        \inference{\Gamma,x_1:\T_1,\cdots,x_n:\T_n,f:\T_1\to\cdots\to\T_n\to\T\vdash e:\T}{\Gamma\vdash\fundec(\T,f,x_1:\T_1.\cdots.x_n:\T_n.e):\void}\\
+        \end{array}
+    \]
+    \item[Asignaciones]
+    \[
+        \begin{array}{c}
+            \inference{\Gamma,x:\T\vdash e:\T}{\Gamma,x:\T\vdash\asig(x,e):\void}
+        \end{array}
+    \]
+
+    Al tratarse de una asignación, es necesario que dentro del ambiente se encuentre la variable $x$ con su tipo y se debe verificar que el nuevo valor para $x$ tenga el mismo tipo.
+    \item[Variables]
+    \[
+        \begin{array}{c}
+            \inference{}{\Gamma,x:\T\vdash x:\T}
+        \end{array}
+    \]
+    \item[Secuencia]
+    \[
+        \begin{array}{c}
+            \inference{\Gamma\vdash\vardec(\T,x,e):\void&\Gamma,x:\T\vdash e_2:\St}{\Gamma\vdash\secu(\vardec(\T,x,e),e_2):\St}\\
+            \\
+            \inference{\Gamma\vdash\fundec(\T,f,x_1:\T_1.\cdots.x_n:\T_n.e):\void&\Gamma,f:\T_1\to\cdots\to\T_n\to\T\vdash e_2:\St}{\Gamma\vdash\secu(\fundec(\T,f,x_1:\T_1.\cdots.x_n:\T_n.e),e_2):\St}\\
+            \\
+            \inference{\Gamma\vdash e_1:\void&\Gamma\vdash e_2:\T}{\Gamma\vdash\secu(e_1,e_2):\T}
+        \end{array}
+    \]
+
+    % \[
+    %     \begin{array}{c}
+    %         \inference{\inference{\underset{\vdots}{\inference{}{\Gamma_1\vdash e_1':\T_1}}}{\Gamma\vdash e_1:\void}&\Gamma_1\vdash e_2:\T}{\Gamma\vdash\secu(e_1,e_2):\T}
+    %     \end{array}
+    % \]
+    % Esta regla se vuelve más compleja que el resto, pues no basta con conocer recursivamente el tipo de las subexpresiones sino que se tiene que conocer también la estructura de la derivación para la primera de ellas, ya que $e_1$ puede incluir declaraciones y éstas modifican los contextos de tipado, al tratarse de una secuencia todas las declaraciones en $e_1$ tienen efecto en el tipado de $e_2$.
+
+    % Por lo que la regla, primero construye la derivación de $e_1$ hasta llegar a un axioma y a partir del contexto resultante se deriva el tipo de $e_2$.
+    \item[Condicionales]
+    \[
+        \begin{array}{c}
+            \inference{\Gamma\vdash e_1:\boolt&\Gamma\vdash e_2:\T&\Gamma\vdash e_3:\T}{\Gamma\vdash\ift(e_1,e_2,e_3):\T}\\
+            \\
+            \inference{\Gamma\vdash e_1:\boolt&\Gamma\vdash e_2:\void&}{\Gamma\vdash\ift(e_1,e_2):\void}
+        \end{array}
+    \]
+    Obsérvese como la expresión $\ift\,$ de una sola rama no puede regresar un valor sino que sólo puede modificar el estado del programa, es decir, se trata de un comando. Esto debido a la ausencia del caso {\tt else} que hace que no se pueda garantizar el buen comportamiento de este.
+
+    \item[While]
+    \[
+        \begin{array}{c}
+            \inference{\Gamma\vdash e_1:\boolt&\Gamma\vdash e_2:\void}{\Gamma\vdash \while(e_1,e_2):\void}
+        \end{array}
+    \]
+    El operador $\while\,$es un comando, es decir, devuelve un efecto puro y se le asigna el tipo $\void$. Adicionalmente el cuerpo debe ser también un comando.
+    \item[Llamada a función]
+    \[
+        \begin{array}{c}
+            \inference{\Gamma\vdash f:\T_1\to\cdots\to\T_n\to\T&\Gamma\vdash e_1:\T_1&\cdots&\Gamma\vdash e_n:\T_n}{\Gamma\vdash \call(f,e_1,\cdots,e_n):\T}
+        \end{array}
+    \]
+    \item[Return]
+    \[
+        \inference{\Gamma\vdash e:\T}{\Gamma\vdash\return(e):\T}
+    \]
+    
+\end{description}
+Como se puede observar en las reglas anteriores, las sentencias siempre tienen tipo \void esto debido a que son constructores que no regresan valores sino que modifican el estado.
+\end{definition}
+
+Esta definición de la semántica estática si bien  correcta, es provisional ya que en notas posteriores se modificará la estructura del lenguaje, por esta razón el estudio de la seguridad del sistema de tipos se deja pendiente hasta definir la última versión de \tinyc.
+
+
+
+\begin{thebibliography}{9}
+\bibitem{notasGabrielle}
+Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+
+% \bibitem{notasKarla}
+% Ramírez Pulido K., Soto Romero M., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+
+
+\end{thebibliography}
+
+
+\end{document}

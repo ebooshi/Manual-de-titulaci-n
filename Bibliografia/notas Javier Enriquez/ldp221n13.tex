@@ -1,0 +1,195 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\usepackage{chronology}
+
+\title{\LARGE 
+Lenguajes de Programación 2022-1\\ 
+Nota de clase 13: Excepciones \\
+\color{YellowOrange} Procedimental}
+\author{Javier Enríquez Mendoza}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+En los programas desarrollados en un ambiente real podemos encontrarnos en muchas situaciones en donde los cómputos no pueden terminar o completarse correctamente y en esos casos el lenguaje reporta a la persona que desarrolla en él la ocurrencia de esta situación. Algunos ejemplos de estas situaciones son: errores aritméticos como divisiones entre cero, referencias no encontradas, indices fuera de rango en estructuras de datos, desborde de la pila de ejecución, entre muchos otros.
+
+Algunas de estas situaciones pueden evitarse programativamente, es decir lidiar con ellas cambiando o restringiendo los programas que desarrollamos. Sin embargo, hay situaciones realmente excepcionales que no somos capaces de reconocer al momento de escribir el programa. Para lidiar con estas excepciones es necesaria una herramienta dentro del lenguaje que nos permita reconocerlas y nos brinde de una forma de lidiar con su ocurrencia, como lo es la transferencia del control del programa a un manejador de excepciones ya definido en el lenguaje. 
+
+En esta nota de clase estudiaremos estos conceptos así como tres mecanismos de manejo de errores y excepciones, así como las correspondientes extensiones a la máquina $\Cs$ para agregarlos a \tinyc. 
+
+\section{Errores}
+
+La forma mas simple de introducir el manejo de excepciones al lenguaje es mediante un constructor \error$\,$ que al ser evaluado detenga completamente la ejecución del programa, terminando el proceso de transición en la máquna $\Cs$.
+
+\begin{definition}[Errores en \tinyc] A continuación se presentan las extensiones necesarias para agregar errores al lenguaje.
+\begin{description}
+    \item[Sintaxis]
+    $$e ::= \dots\opc\error$$
+    \item[Semántica Operacional] Para definir la semántica dinámica en la máquina $\Cs$ de define una nueva clase de estados llamados de propagación. Estos estados se encargan, como su nombre lo dice, a propagar un error a la pila de control de tal forma que el error se propague hasta llegar aun estado final, es decir, hasta vaciar la pila de control. Estos estados se denotan como
+    $$\pc\opc\lc\opc\gc\prop\error$$
+    Con lo que definimos las reglas de transición para el constructor de error como sigue:
+    \[
+        \begin{array}{c}
+        \inference{}{\pc\opc\lc\opc\gc\succ\error\toc\pc\opc\lc\opc\gc\prop\error}\\
+        \\
+        \inference{}{\mathfrak{m};\pc\opc\lc\opc\gc\prop\error\toc\pc\opc\lc\opc\gc\prop\error}
+        \end{array}
+    \]
+    En las reglas anteriores el error se propaga sin importar el marco en el tope de la pila para detener la ejecución del programa, de esta forma la propagación de error terminará con el estado:
+    $$\pe\opc\lc\opc\gc\prop\error$$
+    Que representa un estado final.
+    \item[Semántica estática] La regla de tipado para el constructor de \error$\,$ es la siguiente:
+    $$\inference{}{\Gamma\vdash\error:\T}$$
+    La regla anterior permite que la constante de error tenga cualquier tipo, esto es necesario para preservar el tipado de los programas, sin embargo, la propiedad de unicidad de tipos se pierde, que no es importante desde un punto de vista teórico, sin embargo, no contar con esta propiedad se traduce en dificultades para la implementación de algoritmos de inferencia de tipos.
+\end{description}
+\end{definition}
+
+Si bien la presencia de un constructor de error es la forma mas simple de tratar con las excepciones en los programas, también es la forma mas agresiva pues la presencia de alguna excepción termina completamente con la ejecución del programa, en las siguientes secciones presentaremos una alternativa mas amigable parta manejar excepciones.
+
+\section{Manejo de excepciones con bloques}
+Otra alternativa para el manejo de errores de una forma menos radical y mas útil para el control del flujo de la ejecución del programa consiste en no sólo agregar una constante de error sino también contar con un manejador de excepciones que sea capaz de lidiar con el error generado en la ejecución volviendo a un punto estable del programa. De esta forma la propagación del error no llega hasta un estado final sino que se detiene en cuanto encuentra dentro de la pila de control el manejador de excepciones correspondiente, en este sentido un error define un salto en el control del programa y no la terminación de la ejecución. Para lograr esto se definen los constructores $\try\,$ y $\catch\,$ que definen los bloques de interés para el manejo de excepciones.
+\begin{definition}[Bloques de excepción en \tinyc] Se define la extensión de la máquina $\Cs$ para agregar bloques de manejo de excepciones a \tinyc.
+\begin{description}
+    \item[Sintaxis Concreta]
+    $$e ::= \dots\opc\error\opc\try\,e_1\,\catch\,e_2$$
+    \item[Sintaxis Abstracta]
+    $$a::=\dots\opc\error\opc\catch(e_1,e_2)$$
+    \item[Marcos de la pila de control]
+    $$\inference{}{\catch(\square,e,\lc,\gc)\marco}$$
+    Observemos como en el marco se almacenan también los ambientes en los cuales se declara el bloque de manejo de excepciones.
+    \item[Semántica operacional] Para la semántica operacional, las transiciones del constructor de error funcionan de la misma forma que en la extensión presentada en la sección anterior y solo cambia cuando hay un $\catch\,$ se encuentra como tope de la pila, lo que se define con las siguientes transiciones
+    \[
+        \begin{array}{c}
+            \inference{}{\pc\opc\lc\opc\gc\succ\catch(e_1,e_2)\toc\catch(\square,e_2,\lc,\gc);\pc\opc\lc\opc\gc\succ e_1}\\
+            \\
+            \inference{}{\catch(\square,e_2,\lc',\gc');\pc\opc\lc\opc\gc\prec v\toc\pc\opc\lc\opc\gc\prec v}\\
+            \\
+            \inference{}{\catch(\square,e_2,\lc',\gc');\pc\opc\lc\opc\gc\prop\error\toc\pc\opc\lc'\opc\gc'\succ e_2}
+        \end{array}
+    \]
+    De esta forma, en lugar de detener la ejecución del programa, cuando el error encuentra una sentencia $\catch\,$ en la pila se detiene la propagación y se ejecuta el bloque de código definido para lidiar con el error.
+    \item[Semántica estática]
+    $$\inference{\Gamma\vdash e_1:\T&\Gamma\vdash e_2:\T}{\Gamma\vdash\catch(e_1,e_2):\T}$$
+    Como $\catch\,$ puede regresar tanto $e_1$ como $e_2$ dependiendo de la ocurrencia de un error, ambas deben tener el mismo tipo para garantizar el tipado de los programas.
+\end{description}
+\end{definition}
+\begin{remark}
+Es de importancia mencionar que el alcance en una expresión $\try\dots\catch$ se resuelve de manera
+dinámica en contraste con el alcance del resto de los constructores.
+\end{remark}
+\section{Excepciones con valor}
+
+En esta sección estudiamos una forma más general del manejo de errores. Esta técnica continua con la ejecución del programa pasando el control a un punto estable de la ejecución, al igual que la propuesta en a sección anterior, pero la diferencia es que en este caso se busca no sólo atrapar el error sino que este error venga acompañado de un valor que nos sirva para comprender la procedencia del error y también a continuar con la ejecución de este. Esto se logra con los constructores $\raiset\,$ y $\handle\,$.
+
+\begin{definition}[Excepciones con valor en \tinyc] Se define la extensión de la máquina $\Cs$ agregando los constructores de manejo de excepciones con valores.
+\begin{description}
+    \item[Sintaxis concreta]
+    $$e::=\dots\opc\raiset\,e\opc\handle\,e_1\,{\tt with}\,x\Rightarrow e_2$$
+    \item[Sintaxis abstracta]
+    $$a ::= \dots\opc\raiset(a)\opc\handle(a_1,x.a_2)$$
+    \item[Marcos de la máquina $\Cs$]
+    \[
+        \begin{array}{ccc}
+        \inference{}{\raiset(\square)\marco}&\qquad&\inference{}{\handle(\square,x.e,\lc,\gc)\marco}
+        \end{array}
+    \]
+    \item[Semántica operacional] Se define la semántica operacional con las siguientes reglas de transición para la máquina $\Cs$.
+    \[
+        \begin{array}{c}
+        \inference{}{\pc\opc\lc\opc\gc\succ\raiset(e)\toc\raiset(\square);\pc\opc\lc\opc\gc\succ e}\\
+        \\
+        \inference{}{\raiset(\square);\pc\opc\lc\opc\gc\prec v\toc\pc\opc\lc\opc\gc\prop\raiset(v)}\\
+        \\
+        \inference{}{\pc\opc\lc\opc\gc\succ\handle(e_1,x.e_2)\toc\handle(\square,x.e_2,\lc,\gc);\pc\opc\lc\opc\gc\succ e_1}\\
+        \\
+        \inference{}{\handle(\square,x.e_2,\lc',\gc');\pc\opc\lc\opc\gc\prec v\toc\pc\opc\lc\opc\gc\prec v}\\
+        \\
+        \inference{}{\mathfrak{m};\pc\opc\lc\opc\gc\prop\raiset(v)\toc\pc\opc\lc\opc\gc\prop\raiset(v)}\\
+        \\
+        \inference{}{\handle(\square,x.e_2,\lc',\gc');\pc\opc\lc\opc\gc\prop\raiset(v)\toc\pc\opc\lc'\opc x\leftarrow v;\gc'\succ e_2}
+        \end{array}
+    \]
+    En estas reglas se observa que para este manejo de excepciones la propagación no es sobre un error sino sobre un valor envuelto en el constructor $\raiset\,$ y detiene su propagación cuando encuentra un $\handle\,$, si la ejecución del bloque $\handle\,$ termina sin problema entonces simplemente se quita ese marco de la pila para continuar con la ejecución del programa.
+    \item[Semántica estática] Se definen las reglas de tipado de los nuevos constructores del lenguaje.
+    \[
+        \begin{array}{ccc}
+            \inference{\Gamma\vdash e:\St}{\Gamma\vdash\raiset(e):\T}&\qquad&\inference{\Gamma\vdash e_1:\T&\Gamma,x:\St\vdash e_2:\T}{\Gamma\vdash\handle(e_1,x.e_2):\T}
+        \end{array}
+    \]
+    Puesto que el lanzamiento de una excepción $\raiset(e)$ surge en cualquier contexto su tipo deber ser arbitrario. Adicionalmente el valor de excepción puede ser cualquiera así que el tipo de e también es arbitrario y sin relación directa con el anterior.
+\end{description}
+\end{definition}
+
+\begin{remark} Observemos como esta última versión del manejo de excepciones tiene una estructura muy similar a los constructores usados para el manejo de continuaciones en las notas de clase anteriores. Esto no es casualidad y en algunos lenguajes de programación reales las excepciones de este tipo se implementan usando continuaciones las cuales por su naturaleza permiten volver al punto deseado en la ejecución del programa.
+\end{remark}
+
+\section{Seguridad del lenguaje}
+
+En la nota de clase anterior se definió la semántica estática de \tinyc mediante un conjunto de reglas de tipado para cada uno de los constructores del lenguaje. En esta sección estudiaremos la seguridad del lenguaje respecto a sus sistema de tipos considerando las extensiones que se definieron en las secciones anteriores. Como se discutió anteriormente al agregar el constructor de error la propiedad de unicidad deja de ser válida pues este programa puede tener más de una derivación de tipos válida según lo requiera el contexto del programa que lanza el error. Si bien esta propiedad es relevante y muy útil en la práctica se puede probar la seguridad de un sistema de tipos sin ella, probando las propiedades de preservación y progreso.
+
+Hasta ahora no hemos relacionado la semántica estática con las máquinas abstractas, sin embargo para las propiedades de preservación y progreso que relacionan los dos niveles semánticos (estático y dinámico) es necesario hacerlo. Lo que requiere de la definición de nuevos juicios, que son los siguientes:
+
+\begin{itemize}
+    \item El estado $s$ de la máquina $\Cs$ es correcto, denotado como $s\okj$.
+    \item La pila $\pc$ espera un valor de tipo $\T$ y se obtiene como resultado final un valor de tipo $\St$, denotado como $\Gamma\vdash\pc:\T\Rightarrow\St$. En donde $\Gamma$ es el contexto de tipado para variables.
+    \item El marco $\mathfrak{m}$ espera un valor de tipo $\T$ para calcular un valor de tipo $\St$ denotado como $\Gamma\vdash\mathfrak{m}:\T\Rightarrow\St$.
+    \item Sea $\ec$ un ambiente de declaraciones, definimos $\ec_\T$ como el contexto en el que se almacenan las mismas variables que en $\ec$ pero en lugar de guardar su valor almacenan su tipo. Como los ambientes guardan puros valores recuperar el tipo de ellos no es una tarea difícil. 
+\end{itemize}
+
+\begin{definition}[Juicios de tipado para pilas de control] Se definen los juicios anteriores como sigue:
+\begin{itemize}
+    \item 
+    $$\inference{\Gamma\vdash\pc:\T\Rightarrow\St&\Gamma\vdash e:\T&\Gamma=\lc_\T\cup\gc_\T}{\Gamma\vdash\pc\opc\lc\opc\gc\succ e\okj}$$
+    \item 
+    $$\inference{\Gamma\vdash\pc:\T\Rightarrow\St&\Gamma\vdash v:\T&\Gamma=\lc_\T\cup\gc_\T}{\Gamma\vdash\pc\opc\lc\opc\gc\prec v\okj}$$
+    \item
+    $$\inference{}{\Gamma\vdash\pe:\T\Rightarrow\T}$$
+    \item 
+    $$\inference{\Gamma\vdash\pc:\Rt\Rightarrow\St&\Gamma\vdash\mathfrak{m}:\T\Rightarrow\Rt}{\Gamma\vdash\mathfrak{m};\pc:\T\Rightarrow\St}$$
+    \item De igual forma es necesario definir las reglas de tipado para cada uno de los marcos de la máquina $\Cs$, estas reglas se siguen de la semántica estática de los constructores a los que corresponden. Como ejemplo mostramos la regla correspondiente al marco de $\ift$.
+
+    $$\inference{\Gamma\vdash e_1:\T&\Gamma\vdash e_2:\T}{\Gamma\vdash\ift(\square,e_1,e_2):\boolt\Rightarrow\T}$$
+
+\end{itemize}
+\end{definition}
+
+\begin{proposition}[Preservación de tipos] Si $s\okj$ y en la máquina $\Cs$ existe la transición $s\toc s'$ entonces $s'\okj$
+\end{proposition}
+
+\begin{proposition}[Progreso de la relación $\toc$] Si $s\okj$ entonces sucede una y sólo una de las siguientes situaciones:
+\begin{itemize}
+    \item $s$ es final, es decir, es de la forma:  $\pe\opc\lc\opc\gc\prec\bot$.
+    \item Existe $s'$ tal que $s\toc s'$.
+    \item $s$ es un error, es decir, es una de las formas: 
+    $$\pc\opc\lc\opc\gc\prop\error\qquad\qquad\pc\opc\lc\opc\gc\prop\raiset(v)$$
+\end{itemize}
+\end{proposition}
+
+\begin{thebibliography}{9}
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+
+\bibitem{notasGabrielle}
+Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+% \bibitem{notasKarla}
+% Ramírez Pulido K., Soto Romero M., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+
+
+\end{thebibliography}
+
+
+\end{document}

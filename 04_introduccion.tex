@@ -1,145 +1,403 @@
 %    Primer capítulo: Introducción a los lenguajes de programación.
-%    Barón M. Miguel.
-%    Empezado el 22/12/2025
-%    Concluido el
+%    Ejercicios por Barón M. Miguel.
+%    Teoría por Javier Enríquez Mendoza.
+%    Empezado el 17/10/22
+%    Concluido el 20/10/22
 
-%    Sección 1: Contexto, Hipótesis & Planteamiento
-\section{Plantamiento y motivación del estudio}
-\subsection{El desafío del diagnóstico clínico del TEA}
-El trastorno del espectro autista es un trastorno del desarrollo que describe ciertos desafíos asociados con la comunicación (verbal y no verbal), las habilidades sociales y los comportamientos repetitivos. Por lo general, el trastorno del espectro autista se diagnostica en un entorno clínico por especialistas con licencia mediante procedimientos que pueden ser largos y costosos. Se estima que el 1.5 por ciento de la población mundial está clasificada con autismo. Lamentablemente, el proceso de diagnóstico oficial de individuos con autismo es tedioso, requiriendo recursos clínicos y métodos de diagnóstico como la Entrevista Diagnóstica para el Autismo (ADI) y la Escala de Observación Diagnóstica para el Autismo (ADOS). En consecuencia, se cree que muchas más personas que están en el espectro permanecen sin ser detectadas
+%    Sección 1: Composición de Lenguajes.
+\begin{figure}[h]
+    \centerline{\includegraphics[scale=.33]{assets/01_gatito_introduccion.PNG}}       
+\end{figure}
 
-El diagnóstico del Trastorno del Espectro Autista (TEA) en adultos representa un desafío significativo tanto a nivel clínico como social, particularmente en países como México, donde los recursos especializados son limitados y el acceso a servicios de salud mental presenta importantes desigualdades. A diferencia de la infancia, el diagnóstico en la edad adulta suele verse retrasado debido a la falta de reconocimiento de los síntomas, a la adaptación social desarrollada por muchas personas a lo largo de su vida y a la escasa formación de profesionales en la detección del TEA en adultos \hyperlink{1}{[1]} \hyperlink{2}{[2]}.
 
-Uno de los principales obstáculos es el tiempo requerido para obtener un diagnóstico formal. En el contexto mexicano, el proceso puede extenderse por varios meses o incluso años, ya que las personas suelen transitar por múltiples consultas médicas antes de ser referidas a un especialista capacitado. Esta demora se debe, en gran medida, a la ausencia de protocolos de detección sistemática en el primer nivel de atención y a la limitada disponibilidad de clínicas especializadas, especialmente fuera de las grandes zonas urbanas.
 
-El costo asociado al diagnóstico constituye otra barrera relevante. Las evaluaciones clínicas del TEA suelen implicar entrevistas estructuradas, observaciones especializadas y la aplicación de instrumentos estandarizados que requieren tiempo y experiencia profesional. En el sector privado, estos procesos pueden resultar económicamente inaccesibles para una parte considerable de la población mexicana, mientras que en el sistema público la cobertura es insuficiente o inexistente para la población adulta. Esta situación contribuye a que muchas personas posterguen o abandonen la búsqueda de un diagnóstico formal \hyperlink{3}{[3]}.
+\bigskip
 
-Ante este panorama, los procesos de tamizaje adquieren una importancia fundamental. Los instrumentos de tamizaje económicos, fiables y autoadministrables, como los cuestionarios estandarizados, permiten identificar de manera preliminar la presencia de rasgos asociados al TEA sin requerir una evaluación clínica inmediata. Estas herramientas no sustituyen el diagnóstico profesional, pero cumplen un papel clave al orientar a las personas hacia la búsqueda de atención especializada, reducir los tiempos de espera y optimizar el uso de recursos clínicos \hyperlink{4}{[4]} \hyperlink{5}{[5]}.
+En el contexto de la computación, los lenguajes de programación fungen como una interfaz entre programador y procesador para establecer una comunicación sobre lo que queremos que la computadora ejecute por nosotros.\\\\
+Diferentes paradigmas de lenguajes de programación, estilos, reglas y convenciones se han adoptado en las últimas décadas para ajustarse al mejor planteamiento posible de un problema, mantener un estándar declarativo, un nombramiento homogéneo de variables y métodos, o un estilo idéntico compartido entre los diferentes programas que se agrupan en estas categorías.\\\\
+Iniciaremos el estudio de este manual planteando los conceptos claves que nos permitirán definir, clasificar y analizar a los lenguajes de programación que existen en el contexto de las ciencias de la computación. Estos conceptos nos permitirán definir nuestro propio lenguaje de programación desde cero.\\\\
+Por último analizaremos sus propiedades y estudiaremos sus características más importantes para poder dar una implementación robusta aplicando las definiciones que iremos presentando en el desarrollo de esta introducción.\\
 
-\subsection{Herramientas de tamizaje: \\ el Autism Spectrum Quotient-10 (AQ-10)}
+\subsection*{Objetivo}
+    Comenzar el estudio formal de los lenguajes de programación brindando un primer acercamiento a la construcción básica de uno. Partiendo de las definiciones de los conceptos que componen un lenguaje, específicamente sintaxis, semántica, y pragmática. Así como a la clasificación que agrupa y distingue a los diferentes lenguajes computacionales en la actualidad\footnote{Para las personas que poseen una madurez matemática superior a aquella que la que un estudiante de cuarto semestre de la Facultad de Ciencias pudiera tener se recomienda encarecidamente iniciar el estudio de este manual en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}. Los temas recomendados para omitir los primeros dos capítulos del manual son: estructuras discretas, juicios lógicos, reglas de inferencia e inducción estructural. }.
 
-El Autism Spectrum Quotient-10 (AQ-10) es un instrumento de tamizaje breve diseñado para identificar la presencia de rasgos asociados al Trastorno del Espectro Autista (TEA) en población adulta. Se trata de una versión reducida del Autism Spectrum Quotient original de 50 ítems (AQ-50), desarrollada con el objetivo de ofrecer una herramienta rápida, accesible y fácil de administrar en contextos clínicos y de investigación \hyperlink{8}{[8]}.
+\subsection*{Planteamiento}
+    Este capítulo inicia con el estudio de los lenguajes de programación, definiendo diferentes gramáticas para generar lenguajes pequeños y familiarizarnos con los elementos que los conforman.\\\\
+    Es de particular interés analizar nuestro primer caso de estudio, el lenguaje \textsf{EAL}: Expresiones aritmético-lógicas proporcionando la gramática y esbozando como podemos interpretar las expresiones que pertenecen al mismo mediante la función de evaluación \texttt{eval}.\\\\
+    Para cerrar el capítulo se discute brevemente la clasificación de los lenguajes de programación mas importantes de la actualidad basados en las características y paradigma de programación al que pertenecen. 
 
-El cuestionario AQ-10 consta de diez preguntas que evalúan dimensiones centrales asociadas al espectro autista, tales como la comunicación social, la atención al detalle, la flexibilidad cognitiva y la imaginación. Cada ítem se responde mediante una escala tipo Likert y se puntúa de forma binaria, produciendo una puntuación total que refleja la intensidad de los rasgos evaluados. Un puntaje igual o superior a un umbral predefinido sugiere la posible presencia de rasgos autistas y la conveniencia de una evaluación clínica más profunda.
+%    Sección 1: Composición de los lenguajes
+\section{Las partes del lenguaje}
 
-Es importante destacar que el AQ-10 no constituye una herramienta diagnóstica, sino un instrumento de tamizaje. Su propósito principal es facilitar la identificación preliminar de personas que podrían beneficiarse de una evaluación especializada. En este sentido, el AQ-10 funciona como un primer filtro que permite optimizar el uso de recursos clínicos, reducir tiempos de espera y orientar de manera más eficiente las trayectorias de atención.
+    La lingüística tiene como propósito definir una serie de reglas que rijan la estructura fundamental que compone un lenguaje.
+Las reglas que estudian dicha composición pueden ser clasificadas en sintácticas (estructura gramatical), semánticas (significado) y pragmáticas (contexto de uso).\\
 
-En el contexto del diagnóstico temprano del TEA, particularmente en adultos, el AQ-10 adquiere una relevancia significativa. Muchas personas adultas con rasgos del espectro no fueron evaluadas durante la infancia y han desarrollado estrategias de adaptación social que dificultan la detección clínica. El carácter autoadministrable, breve y de bajo costo del AQ-10 permite que estas personas puedan explorar de manera inicial la presencia de rasgos compatibles con el espectro autista, incluso en entornos donde el acceso a especialistas es limitado \hyperlink{6}{[6]} \hyperlink{7}{[7]}.
+    % Ejercicio 1.2
+    \begin{definition}(Sintaxis).
+        En el contexto de las ciencias de la computación, la sintaxis de un lenguaje son las reglas que definen las combinaciones de símbolos que se consideran declaraciones o expresiones correctamente estructuradas\footnote{Definición extraída de  \hyperlink{29}{[29]}, \hyperlink{30}{[30]} y \hyperlink{31}{[31]}}.
+        
+    \end{definition}
 
-\section{Metodología y herramientas de investigación}
-En este trabajo se emplea un conjunto de datos de acceso público correspondiente al cribado de características de la personalidad relacionadas con el  TEA en población adulta e infantil, disponible a través del repositorio UCI Machine Learning Repository. Dicho conjunto de datos fue proporcionado originalmente por el profesor Fadi Thabtah y se deriva de su investigación sobre la adaptación de técnicas de aprendizaje automático al proceso de detección del TEA en concordancia con los criterios establecidos en el DSM-5 \hyperlink{9}{[9]}.
+\bigskip
 
-\subsection{Recopilado de información: \\ ASDTest app}
+    % Ejercicio 1.1
+    \begin{definition}(Semántica).
+        En el contexto de las ciencias de la computación, la semántica describe los procesos que sigue una computadora al ejecutar un programa en un lenguaje específico. Esto se puede mostrar describiendo la relación entre la entrada y la salida de un programa, o una explicación de cómo se ejecutará el programa en una determinada plataforma, creando así un modelo de cálculo\footnote{Definición extraída de \hyperlink{20}{[20]},  \hyperlink{21}{[21]} y \hyperlink{28}{[28]}}.
+    \end{definition} 
 
-El punto de partida del trabajo de Thabtah surge de dos problemáticas bien documentadas: (i) los largos tiempos de espera y el alto costo asociados al diagnóstico clínico formal del TEA, y (ii) la escasez de conjuntos de datos conductuales abiertos que permitan analizar rasgos autistas desde una perspectiva computacional. Aunque existen repositorios genéticos ampliamente utilizados (como AGRE o NDAR), los datos conductuales para tamizaje temprano son limitados y difíciles de obtener.
 
-Con el objetivo de abordar estas limitaciones, se desarrolló una aplicación móvil denominada \textit{ASDTests}, diseñada tanto como herramienta de filtrado preliminar como mecanismo de recolección de datos a gran escala. La aplicación permite a padres, cuidadores, profesionales de la salud y a los propios individuos contestar cuestionarios breves basados en instrumentos psicométricos validados.
+    % Ejercicio 1.3
+    \begin{definition}(Pragmática).
+         En el contexto de las ciencias de la computación la pragmática se refiere a todos aquellos elementos del lenguaje que nos permiten obtener el significado de una expresión bajo un determinado contexto.\\\\
+        Un ejemplo de esto son las bibliotecas, que nos permiten importar métodos previamente definidos. Así, la interpretación de una instrucción de esta biblioteca solo tiene un significado válido bajo el contexto que la importa\footnote{Extraído de \hyperlink{36}{[36]} y   \hyperlink{37}{[37]}}.
+    \end{definition} 
 
-Durante un periodo aproximado de cuatro meses se recopilaron inicialmente 1452 instancias correspondientes a infantes, niños, adolescentes y adultos. Debido a un fuerte desbalance de clases en el grupo de infantes (aproximadamente 96\% sin rasgos de TEA), este subconjunto fue separado para análisis posteriores.
+    \bigskip
 
-El conjunto final analizado consta de aproximadamente 1100 registros correspondientes a niños, adolescentes y adultos, con una distribución típica de la población general: mayor proporción de casos sin TEA y mayor participación masculina. Las edades promedio reportadas fueron de 6.3 años (niños), 14.1 años (adolescentes) y 29.7 años (adultos)\hyperlink{9}{[9]}.
+%    Sección 2: Gramática de los Lenguajes.
+\section{Gramáticas y semántica de expresiones}
 
-La aplicación ASDTests integra versiones cortas de instrumentos ampliamente aceptados en la literatura clínica:
+    Los lenguajes (no solo los de programación) requieren de un conjunto de reglas que nos permita formar las expresiones que pertenecen a ellos y un método de interpretación que nos diga el significado de las expresiones formadas a partir de dicho conjunto de reglas.\\\\
+Las gramáticas de los lenguajes de programación constan de dos niveles: la sintaxis concreta y la sintaxis abstracta. Estudiaremos con especial atención la primera mientras que las sintaxis abstracta será presentada a detalle en el \hyperref[sec:sintax]{capítulo 3: Sintaxis}.\\\\
+En cursos como autómatas y lenguajes formales\footnote{Conforme al plan de estudios que se imparte desde el 2013 en la Facultad de Ciencias de la Universidad Nacional Autónoma de México con clave de asignatura 1425. } se revisan este tipo de estructuras y las reglas que las generan, éstas usualmente son representadas como gramáticas libres de contexto. A continuación revisaremos algunos ejemplos aplicados para estructuras 
+matemáticas.
 
-\begin{itemize} \item \textbf{AQ-10 (Autism Quotient-10):} versiones para niños, adolescentes y adultos, derivadas del AQ original de 50 ítems, enfocadas en dominios como comunicación social, atención al detalle y flexibilidad cognitiva. \item \textbf{Q-CHAT-10:} versión abreviada del Checklist for Autism in Toddlers, orientada a la detección de rasgos autistas en infantes y niños pequeños. \end{itemize}
+	%ejercicio 2.1
+	\begin{exercise}
+        Dado el alfabeto $A=\{a, b\}$ define la gramática para generar $\{a^nb^n\ |\ n \in \N\}$\footnote{Ejercicio consultado de \hyperlink{135}{[135]}}. 
+           \begin{align*}
+				S & ::= aSb \ | \ \varepsilon 
+			\end{align*}
+    \end{exercise}
 
-El proceso de recopilación de datos sigue un flujo estandarizado:
+    % Ejercicio 2.2
+    \begin{exercise}
+        Define la gramática para generar n tal que, n $\in \ \N$\footnote{Ejercicio consultado de \hyperlink{134}{[134]}}. 
+           \begin{align*}
+				S & ::= BT \ | \ A \\
+				T & ::= AT \ | \ A \\
+				A & ::= B \ | \ 0 \\
+				B & ::= 1 \ | \ 2 \ | \ 3 \ | \ 4 \ | \ 5 \ | \ 6 \ | \ 7 \ | \ 8 \ | \ 9
+			\end{align*}
+    \end{exercise}
 
-\begin{enumerate} \item Selección de idioma (la aplicación está disponible en 11 idiomas). \item Selección del rango de edad del individuo evaluado. \item Aplicación del cuestionario correspondiente (AQ-10 o Q-CHAT-10). \item Revisión de respuestas por parte del usuario. \item Captura de variables demográficas y contextuales. \item Cálculo automático del puntaje y despliegue del resultado. \end{enumerate}
+	%ejercicio 2.3
+	\begin{exercise}
+        Define la gramática para generar expresiones aritméticas parentizadas con notación infija para el operador ''+''\footnote{Ejercicio consultado de \hyperlink{136}{[136]}}.  (puedes suponer definidos los números naturales a partir del ejercicio anterior)\footnote{Aquí hacemos abuso de la notación en la última regla puesto que $\N$ no es un elemento de la gramática por si mismo, este hace referencia a los número naturales generados del ejercicio 2.2.}.
+			 \begin{align*}
+				S & ::= S \ + \ A \ | \ A \\
+				A & ::= (S) \ | \ \N
+			\end{align*}
+    \end{exercise}
 
-\subsection{Composición del conjunto de datos}
 
-Los datos se almacenan en una base de datos relacional (MySQL), permitiendo su posterior análisis estadístico y computacional. Además de las respuestas binarias a los ítems del cuestionario (A1--A10), el sistema recolecta un conjunto de variables adicionales que enriquecen el análisis:
 
-\begin{table}[htbp]
-\centering
-\caption{Features recopiladas, sus descripciones y su correspondencia con el cuestionario AQ-10.}
-\begin{tabularx}{\textwidth}{l l X}
-\toprule
-\textbf{Feature} & \textbf{Tipo} & \textbf{Descripción} \\
-\midrule
-Age & Número & Adults (year), es decir, 17 años o más \\
-Gender & String & Male o female \\
-Ethnicity & String & Lista de etnias comunes en formato de texto \\
-Born with jaundice & Boolean (yes/no) & Indica si la persona nació con ictericia \\
-Family member with PDD & Boolean (yes/no) & Indica si un familiar inmediato tiene PDD \\
-Who is completing the test & String & Parent, self, caregiver, medical staff, clinician, etc. \\
-Country of residence & String & Lista de países en formato de texto \\
-Used the screening app before & Boolean (yes/no) & Indica si el usuario ha usado antes la aplicación de tamizaje \\
-Screening method type & Integer (0,1,2,3) & Tipo de método según la categoría de edad (0 = Toddler, 1 = Child, 2 = Adolescent, 3 = Adult). En este estudio se utiliza únicamente Adult. \\
-A1 & Binary (0,1) & I often notice small sounds when others do not \\
-A2 & Binary (0,1) & I usually concentrate more on the whole picture rather than small details \\
-A3 & Binary (0,1) & I find it easy to do more than one thing at once \\
-A4 & Binary (0,1) & If there is an interruption, I can switch back to what I was doing very quickly \\
-A5 & Binary (0,1) & I find it easy to ``read between the lines'' when someone is talking to me \\
-A6 & Binary (0,1) & I know how to tell if someone listening to me is getting bored \\
-A7 & Binary (0,1) & When I’m reading a story I find it difficult to work out the characters’ intentions \\
-A8 & Binary (0,1) & I like to collect information about categories of things (e.g. types of cars, birds, trains, plants) \\
-A9 & Binary (0,1) & I find it easy to work out what someone is thinking or feeling just by looking at their face \\
-A10 & Binary (0,1) & I find it difficult to work out people’s intentions \\
-ASD score & Integer & Puntaje final basado en la función de puntuación del AQ-10-Adult (calculado automáticamente) \\
-Class label & Boolean & Decisión final basada en el AQ-10-Adult. Valores: 0 (sin rasgos ASD) o 1 (con rasgos ASD) \\
-\bottomrule
-\end{tabularx}
+%https://cs.stackexchange.com/questions/97794/what-is-a-non-ambiguous-cfg-for-generating-the-set-of-natural-numbers
 
-\caption*{\footnotesize PDD: pervasive developmental disorder; ASD: autism spectrum disorder.}
-\end{table}
+%https://repositorium.sdum.uminho.pt/bitstream/1822/53514/1/OASIcs-SLATE-2016-10.pdf
 
-La variable objetivo (presencia o ausencia de rasgos de TEA) se deriva directamente de las reglas de puntuación definidas por los instrumentos AQ-10 y Q-CHAT-10. Cada respuesta relevante suma un punto, y un puntaje superior al umbral establecido (por ejemplo, >6 en AQ-10 Adulto) genera una recomendación de evaluación clínica formal.
+%https://web.stanford.edu/class/archive/cs/cs103/cs103.1164/lectures/18/Slides18.pdf
 
-Este etiquetado automático permite construir un dataset supervisado sin intervención manual de expertos clínicos caso por caso, lo que facilita la escalabilidad del proceso.
+%https://www.cs.bu.edu/fac/snyder/cs320/Review%20and%20Practice%20Problems/Practice%20Problems%2007.html
 
-\begin{itemize}[leftmargin=*,noitemsep]
-  \item \textbf{Instrumento:} Cuestionario \textit{AQ-10} (10 ítems). Véase versión referenciada: \href{https://leademployer.merseywestlancs.nhs.uk/media/Neurodiversity/Adult-autism-AQ10-questionnaire-test-v1.pdf}{AQ-10 (PDF)}.
-  \item \textbf{Observaciones:} Respuestas binarias/categóricas por ítem registradas mediante autoinforme.
-  \item \textbf{Metadatos:} Edad, sexo, contexto de administración (clínico/autoadministrado), fecha, país, ictericia, y consentimiento informado.
-  \item \textbf{Etiqueta (target):} Variable binaria \texttt{ASD} $\in\{0,1\}$ indicando presencia de rasgos compatibles con TEA (1 = compatible, 0 = no compatible). Etiquetado a partir de historial clínico o validación cruzada con evaluación profesional cuando esté disponible.
-  \item \textbf{Preprocesado:} Codificación de respuestas, imputación controlada (si procede), normalización de metadatos y partición estratificada en entrenamiento/validación/prueba.
-\end{itemize}
 
-\section{Objetivos, resultados y aportes}
-\subsection{Objetivos de la investigación}
-\begin{enumerate}[leftmargin=*,noitemsep]
-  \item \textbf{Metodológico–analítico:} Analizar la expresividad del cuestionario AQ-10 mediante modelos de aprendizaje automático interpretable, con el fin de estudiar la contribución individual de sus ítems, identificar redundancias y explorar patrones latentes de rasgos autistas más allá de decisiones basadas en umbrales fijos.\\\\
-  \item \textbf{Clínico–operativo:} Evaluar el potencial del aprendizaje automático como herramienta de apoyo al tamizaje del Trastorno del Espectro Autista, orientada a una detección preliminar más informada y a la optimización del uso de recursos clínicos, sin sustituir el diagnóstico especializado. \\\\
+\subsection{El lenguaje EAL}
 
-Cabe señalar que, debido a la relativa reciente disponibilidad de este conjunto de datos, la literatura científica que lo utiliza es aún limitada. En consecuencia, existen pocos estudios que reporten resultados comparables o modelos de referencia ampliamente aceptados, lo que confiere a este trabajo un carácter principalmente exploratorio y experimental. Bajo este contexto, el presente estudio busca contribuir al análisis empírico del desempeño de distintos modelos de clasificación aplicados al tamizaje del Trastorno del Espectro Autista.
-\end{enumerate}
+	Vamos a definir la base del lenguaje que utilizaremos para el resto del manual, este  se denomina \textsf{EAL} (expresiones aritméticas y lógicas). Poco a poco iremos extendiendo y agregando instrucciones para hacerlo más robusto, por el momento nos limitaremos a definir los operadores aritméticos básicos: ''+'', ''-'',''*'' y los operadores lógicos: ''$<$'', ''isZero'' y ''not''. De igual forma definimos las constantes \texttt{true}, \texttt{false} y los números naturales. 
+    % Definición del lenguaje EAB
+    \begin{definition}[Sintaxis de {\sf Expresiones aritmético-lógicas: EAL}]
+        \[
+            \begin{array}{rll}
+                e & ::= &  n\quad |\quad {\tt true}\quad |\quad {\tt false}\quad |\quad e + e\quad |\quad e - e\quad |\quad e*e\quad |\quad e<e\quad 
+            \end{array}
+       \]
+       \[
+	 \begin{array}{rll}
+		|\quad {\tt isZero}\;e\quad |\quad {\tt not}\;e
+	\end{array}
+        \]
+        Nuevamente hacemos abuso en la notación para $n$, en donde $n\in\mathbb{N}$\footnote{Definición formulada de  \hyperlink{1}{[1]},  \hyperlink{5}{[5]}.  \hyperlink{12}{[12]},  \hyperlink{26}{[26]} y  \hyperlink{39}{[39]}.}.
+    \end{definition}
+        
+    % Definición de la función semántica para EAB
+    \begin{definition}[Semántica de \textsf{EAL}] Función de evaluación para el lenguaje de expresiones aritmético-lógicas.
+        $$\llbracket\cdot\rrbracket:{\sf EAL}\to\mathbb{N} \cup \textit{Bool}$$
+         Esto quiere decir que la función de evaluación recibe una expresión del lenguaje \textsf{EAL} y regresa un número natural ó un booleano
+        \[
+            \begin{array}{rll}
+                \llbracket n\rrbracket&=&n\\
+                \llbracket {\tt true}\rrbracket&=&{\tt true}\\
+                \llbracket {\tt false}\rrbracket&=&{\tt false}\\
+                \llbracket e_1 + e_2\rrbracket&=&\llbracket e_1\rrbracket+_\mathbb{N}\llbracket e_2\rrbracket\\
+ \llbracket e_1 - e_2\rrbracket&=&\llbracket e_1\rrbracket-_\mathbb{N}\llbracket e_2\rrbracket\\
+                \llbracket e_1*e_2\rrbracket&=&\llbracket e_1\rrbracket\times_\mathbb{N}\llbracket e_2\rrbracket\\
+                \llbracket e_1<e_2\rrbracket&=&\llbracket e_1\rrbracket<_\mathbb{N}\llbracket e_2\rrbracket\\
+                \llbracket {\tt isZero}\;e\rrbracket&=&{\sf zero}_\mathbb{N}\llbracket e\rrbracket\\
+                \llbracket {\tt not}\;e\rrbracket&=&\lnot\llbracket e\rrbracket
+            \end{array}
+        \]
+        En donde $ n \in \mathbb{N}$ y las constantes $\tt false$, $\tt true \in $ $Bool$.\\
+        Los operadores $+_\mathbb{N},\times_\mathbb{N},<_\mathbb{N}$ y ${\sf zero}_\mathbb{N}$ representan las funciones de suma, producto, menor que y el \textit{test} de cero definidas para los naturales respectivamente, mientras que $\lnot$ es la negación lógica para $Bool$\footnote{Definición extraída de \hyperlink{1}{[1]},  \hyperlink{5}{[5]}.  \hyperlink{12}{[12]},  \hyperlink{26}{[26]} y  \hyperlink{39}{[39]}.}.
+    \end{definition}
 
-\subsection{Preguntas de investigación}
-\begin{enumerate}[leftmargin=*,noitemsep]
-  \item ¿Aportan los modelos de aprendizaje automático interpretable información adicional al esquema tradicional de puntuación del AQ-10 basado en pesos iguales y umbrales fijos?
-  \item ¿Existen ítems del AQ-10 que contribuyan de manera diferencial a la identificación de rasgos autistas y que puedan ser considerados más informativos o redundantes desde una perspectiva basada en datos?
-  \item ¿Es posible identificar perfiles o patrones latentes de rasgos autistas a partir de las respuestas individuales del AQ-10, independientemente del puntaje total obtenido?
-  \item ¿Puede el aprendizaje automático estimar de forma confiable el puntaje o la probabilidad de tamizaje positivo utilizando un subconjunto reducido de ítems del AQ-10?
-  \item ¿Presentan los modelos aprendidos diferencias en su comportamiento o en la importancia de los ítems al analizar subgrupos poblacionales como sexo, grupo etario o región?
-  \item ¿Qué ventajas y limitaciones presentan los modelos interpretable frente a reglas determinísticas en términos de claridad explicativa y apoyo a la toma de decisiones clínicas preliminares?
-\end{enumerate}
+    A partir de la definición anterior se puede implementar un intérprete para expresiones del lenguaje \textsf{EAL} mediante una función recursiva $\tt eval$ como sigue:
+    \vskip 1em
+    \begin{lstlisting}
+        eval n          = n
+        eval true       = true
+        eval false      = false
+        eval (e1 + e2)  = eval e1 + eval e2
+        eval (e1 - e2)  = eval e1 - eval e2
+        eval (e1 * e2)  = eval e1 * eval e2
+        eval (e1 < e2)  = eval e1 < eval e2
+        eval (not e)    = not eval e
+        eval (isZero e) = eval e == 0
+     \end{lstlisting}
 
-\subsection{Metodología resumida}
-\begin{enumerate}[leftmargin=*,noitemsep]
-  \item Análisis exploratorio de los datos del AQ-10, incluyendo distribución de ítems, correlaciones y detección de redundancias.
-  \item División estratificada del conjunto de datos en subconjuntos de entrenamiento, validación y prueba.
-  \item Entrenamiento de modelos interpretable, incluyendo regresión logística, árboles de decisión y modelos de ensamble (Random Forest), comparados con la regla tradicional de puntuación como línea base.
-  \item Evaluación de desempeño utilizando métricas de tamizaje: sensibilidad, especificidad, AUC-ROC y análisis de incertidumbre en casos limítrofes.
-  \item Análisis de interpretabilidad mediante coeficientes, importancia de características y métodos de explicación local y global (por ejemplo, SHAP).
-  \item Exploración de métodos no supervisados (clustering, análisis factorial o PCA) para la identificación de patrones latentes en las respuestas.
-  \item Evaluación del impacto de la reducción de ítems en el desempeño y estabilidad de los modelos.
-\end{enumerate}
+    Con esta definición ahora podemos evaluar algunas expresiones pertenecientes a nuestro lenguaje \textsf{EAL}.
 
-\subsection{Consideraciones éticas y limitaciones}
-\begin{itemize}[leftmargin=*,noitemsep]
-  \item Protección de datos personales mediante anonimización y uso exclusivo de información con consentimiento informado.
-  \item Reconocimiento de que los modelos desarrollados tienen fines de tamizaje preliminar y no constituyen herramientas diagnósticas.
-  \item Riesgo de sesgos derivados de la composición del conjunto de datos y limitaciones en la representatividad poblacional.
-  \item Necesidad de validación externa y clínica antes de cualquier posible aplicación práctica.
-\end{itemize}
+    % Ejercicio 2.4
+    \begin{exercise}
+        Evalúa la expresión: \texttt{not} 3 $\textless$ 5 + 7  haciendo uso de la implementación del intérprete anteriormente definido para \textsf{EAL}.
+        \vskip 1em
+        \begin{lstlisting}
+                eval not 3 < 5 + 7  =   	                                                                
+                not eval 3 < 5 + 7  =          	                                                               
+                not eval 3 < eval 5 + 7  =
+                not eval 3 <  eval 5 + eval 7 =   
+                not 3 < 5 + 7  =                                                                            
+                not 3 < 12  =               	                                                                                                 
+                not true  =
+                false
+        \end{lstlisting}
+        
+    \end{exercise}
 
-\subsection{Resultado esperado y aporte}
-Se espera demostrar que el uso de modelos de aprendizaje automático interpretable aplicados al AQ-10 puede:
-\begin{itemize}[leftmargin=*,noitemsep]
-  \item Evidenciar que no todos los ítems del cuestionario contribuyen de igual forma al tamizaje de rasgos autistas.
-  \item Identificar subconjuntos de ítems capaces de mantener un desempeño comparable al cuestionario completo.
-  \item Revelar patrones o perfiles de rasgos autistas no capturados por el puntaje total.
-  \item Proporcionar explicaciones claras y comprensibles que apoyen la toma de decisiones clínicas preliminares y la priorización de evaluaciones especializadas.
-\end{itemize}
+
+    % Ejercicio 2.5
+    \begin{exercise}
+        Evalúa la expresión: $3$ * $\texttt{true}$ $ \textgreater$  $8$  haciendo uso de la implementación del intérprete anteriormente definido para \textsf{EAL}.
+        \vskip 1em
+        \begin{lstlisting}
+            eval 3 * true > 8       =                              
+            eval 3 * true > eval 8  =            
+            eval 3 * eval true >  8 =                                                  
+            3 * true > 8              
+        \end{lstlisting}
+        En este caso, aún cuando la expresión \textsf{EAL} está bien formada, no existe una regla en nuestro intérprete que nos permita continuar con la evaluación, por lo tanto, no se puede obtener un resultado. Más adelante estudiaremos mecanismos para evitar que casos como este figuren en la evaluación de un lenguaje.
+
+    \end{exercise}
+
+    \begin{definition}[Grámatica ambigua]
+        Sea \textit{G} Una gramática libre de contexto, decimos que que \textit{G} es una gramática ambigua si existe una cadena para la cual se pueda tener más de una derivación a la izquierda\footnote{Definición extraída de \hyperlink{5}{[5]}. \hyperlink{12}{[12]}, \hyperlink{40}{[40]} y \hyperlink{41}{[41]}.}.
+    \end{definition}
+
+
+\begin{exercise}
+    ¿La gramática definida para \textsf{EAL} es ambigua? Argumenta tu respuesta. \\
+    Sí porque podemos derivar de dos formas distintas la cadena: $3 + 4 * 5$                             
+    \[
+        \begin{array}{rcl}
+            \textit{e} & \rightarrow & \textit{e} + \textit{e} \\
+            & \rightarrow & 3 + \textit{e}   \\
+            & \rightarrow &  3 + \textit{e} * \textit{e}  \\
+            & \rightarrow & 3 + 4 * \textit{e} \\
+            & \rightarrow & 3 + 4 * 5 \\
+            \\
+            \textit{e} & \rightarrow &  \textit{e} * \textit{e} \\
+           & \rightarrow & \textit{e} * 5 \\
+           & \rightarrow & \textit{e} + \textit{e} * 5\\
+           & \rightarrow & \textit{e} + 4 * 5\\
+           & \rightarrow & 3 + 4 * 5
+        \end{array}
+    \]
+\end{exercise}
+
+    \bigskip
+
+    % Ejercicio 2.7
+    \begin{exercise}
+        ¿Cómo eliminarías la ambigüedad de esta gramática?    \\\\                    
+           Para eliminar la ambigüedad, se requiere de la introducción de paréntesis para los operadores binarios. Este cambio	 permite la asociatividad y hace explícita la precedencia en la cuál las operaciones se tienen que evaluar.  La 		gramática de \textsf{EAL} es entonces modificada como sigue:
+		   \[
+			    \begin{array}{rll}
+			        e & ::= & n \quad |\quad {\tt true} \quad |\quad {\tt false} \quad |\quad (e + e) \quad |\quad (e - e) \quad |\quad (e * e) \\
+			          &     & |\quad (e < e) \quad |\quad {\tt isZero}\; e \quad |\quad {\tt not}\; e
+			    \end{array}
+		    \]
+	
+
+            En el ejemplo anterior la ambigüedad queda eliminada en su totalidad al forzar la asociatividad de los operadores dependiendo de cual se quiera resolver primero:
+            \begin{center}
+                $(3 + (4 * 5))$  ó $((3 + 4 )* 5)$ 
+            \end{center}
+    \end{exercise}
+
+
+% Sección 3: Clasificación de los lenguajes.
+\section{Clasificación de los lenguajes de programación}
+
+    En computación existen diferentes clasificaciones que nos permiten agrupar lenguajes de programación según sus características principales, paradigma de programación al que pertenecen, tecnología involucrada en el proceso de traducción a lenguaje de máquina, etc. A continuación se enlistan algunas de estas categorías: 
+
+    \begin{itemize}
+        \item \textbf{Lenguajes compilados}:  que como el nombre lo indica precisan de un compilador para traducir el código de alto nivel a instrucciones de máquina que el procesador pueda ejecutar. Generalmente suelen ser mas lentos al momento de ejecutarse que el resto de las categorías  ya que requieren de un sistema sofisticado de inferencia de tipos, optimizaciones en la traducción de las instrucciones y en ocasiones entornos especiales para la ejecución de los programas como la máquina virtual de Java (\textit{JVM} por sus siglas en inglés)\footnote{Información obtenida de \hyperlink{43}{[43]}, \hyperlink{44}{[44]}, \hyperlink{45}{[45]}, \hyperlink{46}{[46]}}.\\
+
+        \item \textbf{Lenguajes interpretados}: en donde las instrucciones son mapeadas a su traducción equivalente en el lenguaje de máquina cuando la línea que contiene dicha instrucción se vaya a ejecutar por el procesador\footnote{También es posible interpretar las expresiones de un lenguaje como el valor asociado a dicha expresión una vez que se evalúa. En este curso estudiaremos este proceso en el \hyperref[sec:semantics]{capítulo 4: Semántica}.}. Generalmente son menos robustos a la hora de encontrar errores de tipo, errores en la tipografía, caracteres faltantes, etc. Sin embargo este tipo de lenguajes de programación resultan particularmente útiles por que permiten el modelado y la realización de programas mucho más rápido que los lenguajes compilados\footnote{Información obtenida de \hyperlink{43}{[43]}, \hyperlink{44}{[44]}, \hyperlink{45}{[45]}, \hyperlink{46}{[46]}}.\\
+
+        \item \textbf{Lenguajes funcionales}: este tipo de lenguajes se enfocan en la especificación de un problema mediante condiciones. 
+         La programación funcional es un paradigma de programación en el que los programas se construyen aplicando y componiendo funciones. Íntimamente relacionado con el paradigma de programación declarativa en el que las definiciones de funciones son árboles de expresiones que asignan valores a otros valores, en lugar de una secuencia de declaraciones imperativas que actualizan el estado de ejecución del programa\footnote{Definición extraída de \hyperlink{51}{[51]} y \hyperlink{52}{[52]}}.\\
+
+        \item  \textbf{Lenguajes imperativos}: que contrastan con la clasificación anterior por su naturaleza secuencial, podemos encapsular sus características más importantes en la siguiente definición: 
+         ''Un paradigma de programación de software que utiliza declaraciones que cambian el estado de un programa. De la misma manera que el modo imperativo en los lenguajes naturales expresa órdenes, un programa imperativo consta de órdenes que debe ejecutar la computadora. La programación imperativa se centra en describir cómo funciona un programa paso a paso\footnote{[\hyperlink{53}{[53]}} en lugar de descripciones de alto nivel de sus resultados esperados. ''\footnote{Extraído de \hyperlink{53}{[53]}, \hyperlink{54}{[54]}, \hyperlink{55}{[55]} y \hyperlink{56}{[56]}}\\\\
+        El término se utiliza con frecuencia como un contrapunto de la programación declarativa, siendo el primero un conjunto de instrucciones para solucionar un determinado problema mientras que el segundo se centra en la especificación del problema mismo.\\
+
+        \item \textbf{Lenguajes orientados a objetos:} que modelan las entidades de un programa con su identidad, métodos, variables y que brindan características deseables como la herencia, el polimorfismo y el encapsulamiento de datos.\\\\
+        Esta clasificación pertenece al paradigma imperativo dado que se trabaja estrechamente con el estado del programa en cada paso de la ejecución, sus direcciones de memoria y sus sentencias de control\footnote{Definición extraída de \hyperlink{47}{[47]}, \hyperlink{48}{[48]}, \hyperlink{49}{[49]}}.\\
+    
+        \item \textbf{Lenguajes lógicos}: los programas que se escriben en esta categoría de lenguajes se pueden definir de la siguiente forma:  ''Un programa, base de datos o base de conocimientos en un lenguaje de programación lógica es un conjunto de oraciones, predicados o afirmaciones que expresan hechos y reglas sobre un dominio específico.''\footnote{Definición extraída de \hyperlink{57}{[57]}} \\\\
+        Generalmente este tipo de programas se apoyan definiendo predicados y objetos a los cuales estos predicados pueden ser aplicados así como instrucciones y operadores lógicos para dar solución a los problemas planteados en este modelo.
+
+    
+    \end{itemize}
+
+    \bigskip
+
+    % Ejercicio 3.3
+    %\begin{exercise}
+    %    Elabora un mapa mental con las características y clasificaciones que consideres más importante en los lenguajes de programación.
+    %    \begin{figure}[htbp]
+    %        \centerline{\includegraphics[scale=.45]{mapa.jpg}}
+    %        \label{fig 1. Mapa para clasificar los lenguajes de programación.}
+    %    \end{figure}
+    %\end{exercise}
+
+    %\begin{figure*}[ht]
+    %    \centering
+    %\end{figure*}
+   %(Imagen de José M. Barranco:  ''Mapa Mental: Lenguajes de Programación) ''
+
+    \bigskip
+    \bigskip
+
+ % Ejercicio 3.1
+    \begin{exercise}
+        Da una implementación del algoritmo \texttt{selectionSort} para arreglos en algún lenguaje de programación imperativa.
+
+	\begin{lstlisting}[language=C++]
+	void swap(int *xp, int *yp){
+	    int temp = *xp;
+	    *xp = *yp;
+	    *yp = temp;
+	}
+	 
+	void selectionSort(int arr[], int n){
+	    int i, j, min_idx;
+	    for (i = 0; i < n-1; i++){
+	        min_idx = i;
+	        for (j = i+1; j < n; j++)
+	        if (arr[j] < arr[min_idx])
+	            min_idx = j;
+	        swap(&arr[min_idx], &arr[i]);
+	    }
+	}
+	 
+	\end{lstlisting}
+    \end{exercise}
+
+      % Ejercicio 3.2
+    \begin{exercise}
+        Da una implementación del algoritmo \texttt{selectionSort} para listas en algún lenguaje de programación declarativa.
+	\begin{lstlisting}[language=Haskell] import Data.List (minimum, delete)
+		ssort :: Ord t => [t] -> [t]
+		ssort [] = []
+		ssort xs = let { x = minimum xs } 
+		           in  x : ssort (delete x xs)
+	\end{lstlisting}
+    \end{exercise}
+
+
+% Ejercicios a discresión del lector   
+\section{Ejercicios para el lector}
+
+    % Ejercicio 4.1
+    \begin{exercise}
+        El uso del carácter especial ';' al terminar una instrucción de programa en lenguajes de programación como \textsf{C} y \textsf{Java}, a qué tipo de regla corresponde?
+    \end{exercise}
+
+
+    % Ejercicio 4.2
+    \begin{exercise}
+        Ejemplifica la aplicación de la pragmática aplicada en el contexto de los lenguajes de programación.
+    \end{exercise}
+
+
+     % Ejercicio 4.3
+    \begin{exercise}
+        En el contexto de los lenguajes de programación muchas veces la semántica de una expresión es explicada en lenguaje natural en la documentación del lenguaje. \\\\
+        Explica por qué esto no es una semántica formal.
+    \end{exercise}
+
+    % Ejercicio 4.4
+    \begin{exercise}
+        Escribe una gramática libre de contexto para generar cada uno de los siguientes lenguajes\footnote{Ejercicio extraído de \hyperlink{138}{[138]} y \hyperlink{138}{[138]}}.
+        \[
+		 \begin{array}{rcl}
+		   L_1 &  = &\{a^n b^m\ | \ n\ \textgreater \ 0,\ m\ \geq \ n \}\\
+	       % L_2 &  =  &\{ u a w b\ |\ u, w\ \in \{ a, b \}^*, \, |u| = |w| \}\\
+              L_2 & = & \{ a^m b^n c^p d^q\ |\ m + n = p + q \} 
+		\end{array}
+	  \]
+    \end{exercise}
+
+
+     % Ejercicio 4.5
+    \begin{exercise}
+        Escribe una gramática libre de contexto para el lenguaje  
+        \[L= \{ w \in \{a, b\}^* \mid w = w^R \} \]
+	En donde $w^R$ representa la reversa de la cadena $w$.
+    \end{exercise}
+
+    % Ejercicio 4.6
+    \begin{exercise}
+        Escribe una gramática libre de contexto para el siguiente lenguaje:
+		\[ L=\{ w \in \{ (, ) \}^* \ |\ \forall i \in \{1, 2, \dots, |w|\}, \ \#_i( w ) \geq 0, \ \#_i( w ) = 0 \text{ si y solo si } i = |w| \} \]
+	 En donde $\#_i(w)$ denota el número de paréntesis abiertos menos el número de paréntesis cerrados hasta la posición $i$ en la cadena $w$.  
+ \end{exercise}
+
+
+    % Ejercicio 4.7
+    \begin{exercise}
+        Evalúa la expresión del lenguaje \textsf{EAL} utilizando la función \texttt{eval}. \\ 
+        $$(7 * ((8 < 3) * 9))$$
+	  Es posible obtener un resultado de la evaluación la expresión anterior? argumenta tu respuesta.
+    \end{exercise}
+
+
+    % Ejercicio 4.8
+    \begin{exercise}
+        Evalúa la expresión del lenguaje \textsf{EAL} utilizando la función \texttt{eval}. \\ 
+            $$\texttt{not(isZero}( (7 * 4) + (1 * 0)))$$
+ Es posible obtener un resultado de la evaluación la expresión anterior? argumenta tu respuesta.
+    \end{exercise}
+
+
+    % Ejercicio 4.9
+    \begin{exercise}
+        Escribe el algoritmo de la búsqueda binaria sobre una lista ordenada en el paradigma de programación imperativa.
+    \end{exercise}
+
+    % Ejercicio 4.10
+    \begin{exercise}
+        Escribe el algoritmo de la búsqueda binaria sobre una lista ordenada en el paradigma de programación declarativa.
+    \end{exercise}
+
+% https://opendsa-server.cs.vt.edu/OpenDSA/Books/PIFLAS21/html/IntroGrammarEx.html
+% https://programming-idioms.org/idiom/124/binary-search-for-a-value-in-sorted-array/2120/haskell
+% https://www.geeksforgeeks.org/binary-search/
+
+% https://www.seas.upenn.edu/~cis1940/spring13/hw/01-intro.pdf
+% https://wiki.haskell.org/Typeclassopedia
+% https://github.com/JD95/haskell-problem-sets/blob/master/Lists/Problems.hs
+% https://www.reddit.com/r/haskell/comments/evlmsr/beginner_exercises/
+
+    %https://tex.stackexchange.com/questions/669517/notes-at-the-end-of-the-book-document-what-is-the-modern-way-of-doing-it

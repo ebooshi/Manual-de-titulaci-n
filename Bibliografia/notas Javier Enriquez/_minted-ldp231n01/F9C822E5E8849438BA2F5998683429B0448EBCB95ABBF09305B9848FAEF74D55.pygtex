@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nf}{quicksort}\PYG{p}{([}\PYG{n+nv}{X}\PYG{p}{|}\PYG{n+nv}{Xs}\PYG{p}{],}\PYG{n+nv}{Ys}\PYG{p}{)} \PYG{p}{:\PYGZhy{}}
+    \PYG{n+nf}{partition}\PYG{p}{(}\PYG{n+nv}{Xs}\PYG{p}{,}\PYG{n+nv}{X}\PYG{p}{,}\PYG{n+nv}{Left}\PYG{p}{,}\PYG{n+nv}{Right}\PYG{p}{),}
+    \PYG{n+nf}{quicksort}\PYG{p}{(}\PYG{n+nv}{Left}\PYG{p}{,}\PYG{n+nv}{Ls}\PYG{p}{),}
+    \PYG{n+nf}{quicksort}\PYG{p}{(}\PYG{n+nv}{Right}\PYG{p}{,}\PYG{n+nv}{Rs}\PYG{p}{),}
+    \PYG{n+nf}{append}\PYG{p}{(}\PYG{n+nv}{Ls}\PYG{p}{,[}\PYG{n+nv}{X}\PYG{p}{|}\PYG{n+nv}{Rs}\PYG{p}{],}\PYG{n+nv}{Ys}\PYG{p}{).}
+\PYG{n+nf}{quicksort}\PYG{p}{([],[]).}
+\end{Verbatim}

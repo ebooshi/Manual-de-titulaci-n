@@ -1,0 +1,367 @@
+\documentclass[12pt]{extarticle}
+\usepackage{comands} 
+\usepackage{chronology}
+
+\title{\LARGE 
+Lenguajes de Programación 2023-1\\ 
+Nota de clase 10: Continuaciones \\
+\color{SeaGreen} Funcional ($\lambda$)}
+\author{Javier Enríquez Mendoza}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+Las continuaciones proporcionan al programador una forma de controlar el flujo de un programa. Al tener acceso al contenido de la pila de control en un momento específico de la ejecución del programa. El uso de continuaciones da pie a diferentes optimizaciones sobre programas definidos recursivamente siendo CPS ({\it Continuation Passing Style}) la mas popular.
+
+En esta nota se definirá el concepto de continuaciones y se agregarán los constructores necesarios para utilizarlas dentro de \minhs. Así como la técnica de CPS y algoritmos de traducción de funciones recursivas.
+
+\section{¿Qué es una continuación?}
+Las continuaciones constituyen una técnica de programación basada en funciones de orden superior, la cual proporciona una manera simple y natural de modificar el flujo de una evaluación en lenguajes funcionales.
+
+Una continuación puede pensarse como el {\bf resto} de un cómputo. Esta definición puede no tener mucho sentido así que veamos mejor un ejemplo.
+
+\begin{examples}[Continuación]
+Tomemos como ejemplo la siguiente expresión:
+
+$$5+(6*3)-12$$
+
+Para evaluar esta expresión el cómputo actual es $(6*3)$. La continuación en este punto es el resto del cómputo, es decir, toda la expresión menos el cómputo actual es decir 
+
+$$5+\square-12$$
+
+En donde $\square$ representa un hueco en el cómputo que se llenará con el resultado del cómputo actual. La continuación ira cambiando a lo largo de la ejecución del programa.
+
+Una vez que $(6*3)$ termine de evaluarse, el cómputo será 
+
+$$5+18-12$$
+
+Por lo que el cómputo actual se vuelve $(5+18)$ y la continuación es:
+
+$$\square-12$$
+
+Una vez resuelto el cómputo $(5+18)$, la expresión se reduce a
+
+$$23-12$$
+
+Y el cómputo actual se vuelve $(23-12)$ y la continuación es vacía lo que representa que ya no hay cómputos pendientes después de que el cómputo actual termine su ejecución.
+\end{examples}
+
+\begin{remark} Podemos notar que las continuaciones como fueron definidas en el ejemplo son muy similares al contenido de nuestra pila de control en las máquinas abstractas definidas en la nota anterior.
+\end{remark}
+
+Otra forma de pensar en las continuaciones es que proveen un mecanismo de hacer referencia al estado de un programa en un punto específico de la ejecución de este.
+
+\begin{example}[Continuaciones como viajes en el tiempo] Tomemos el siguiente ejemplo para entender el comportamiento de una continuación:
+\begin{center}
+{\it Pensemos que estamos en casa cocina frente a la nevera, con ganas de una pizza. En este punto tomamos una continuación y la guardamos en el bolsillo. Después tomamos la masa, el queso y el jamón de la nevera, preparamos la pizza y la colocamos en el horno. Ahora invocamos la continuación que guardamos en nuestro bolsillo, viajamos en el tiempo y nos encontramos de nuevo frente a la nevera con ganas de una pizza. Pero afortunadamente esta vez, ya hay una en el horno y todos los ingredientes para prepararla desaparecieron de la nevera.
+
+Entonces la comemos.}
+\end{center}
+
+Una continuación no guarda un valor, sino que guarda el contexto en un momento especifico para que podamos volver a ese momento pero ya con el resultado que estamos calculando.
+\end{example}
+
+\subsection{Continuaciones como funciones}
+En su forma más simple una continuación es simplemente una función que representa al resto de los cómputos de un programa.
+ 
+Tomemos como ejemplo la siguiente expresión.
+$$(2+3)*6$$
+
+Ahora usemos la máquina $\Hs$ para evaluar esta expresión:
+
+\[
+	\begin{array}{rcl}
+	\pe&\succ&\produ(\suma(2,3),6)\\
+	\produ(\square,6);\pe&\succ&\suma(2,3)\\
+	\suma(\square,3);\produ(\square,6);\pe&\succ&2\\
+	\suma(\square,3);\produ(\square,6);\pe&\prec&2\\
+	\suma(2,\square);\produ(\square,6);\pe&\succ&3\\
+	\suma(2,\square);\produ(\square,6);\pe&\prec&3\\
+	\produ(\square,6);\pe&\prec&5\\
+	\produ(5,\square);\pe&\succ&6\\
+	\produ(5,\square);\pe&\prec&6\\
+	\pe&\prec&30\\
+	\end{array}
+\]
+
+En cada paso podemos representar la pila de control como una función de la siguiente manera:
+\begin{enumerate}
+	\item Cada marco se representa como una función en el punto de espera, por ejemplo $\suma(\square,2)$ es la función $\lambda v.v+2$
+	\item Una secuencia de marcos se representa como la composición de las funciones que los representan.
+	\item La pila vacía es representada por la función identidad.
+\end{enumerate}
+
+Para el ejemplo anterior tenemos las siguientes funciones que representan las pilas de control de la ejecución.
+
+\[
+	\begin{array}{rcl}
+	\pe&\qquad&k_{top}=\lambda v.v\\
+	\produ(\square,6);\pe&\qquad&k_1=\lambda v.k_{top}(v*6)\\
+	\suma(\square,3);\produ(\square,6);\pe&\qquad&k_2=\lambda v.k_1(v+3) \\
+	\suma(2,\square);\produ(\square,6);\pe&\qquad&k_3=\lambda v.k_1(2+v)\\
+	\produ(5,\square);\pe&\qquad&k_4=\lambda v.k_{top}(5*v)
+	\end{array}
+\]
+\section{Agregando continuaciones a \minhs}
+
+Consideremos otro ejemplo del uso de continuaciones con la expresión:
+
+$$(2+x)*(3+4)$$
+
+una vez evaluada la expresión $2 + x$ el resto del programa consiste en multiplicar el valor devuelto por $(3 + 4)$, es decir la continuación es la función:
+
+$$\lambda v. v*(3+4)$$
+
+Para modelar continuaciones en \minhs se podrían declarar como funciones usando el constructor $\lett$, de la siguiente forma:
+
+$$\lett\,k=\funt\,v\Rightarrow v*(3+4)\,{\tt in}\,k\;(2+x)\,{\tt end}$$
+
+En lugar de declarar la continuación como una función por separado como en el caso anterior, algunos lenguajes de programación como {\sf Haskell} proporcionan un nuevo mecanismo de ligado para la continuación, llamado \letcc. Con lo que el ejemplo anterior queda como:
+
+$$(\letcc\;k\;{\tt in}\;2+x\;{\tt end})*(3+4)$$
+
+en donde se está ligando la variable $k$ a la continuación de $(2+x)$ que en este caso es $\lambda v. v*(3+4)$
+
+\begin{remark}\letcc$\,$ significa {\it let current continuation}
+\end{remark}
+
+En el ejemplo anterior, $k$ está ligada a la continuación pero ésta nunca se llama explícitamente, es decir, $k$ no figura nuevamente en la expresión. Recordemos que la continuación es una función, que materializa el contenido de la pila de control en el punto en el que fue declarada mediante \letcc. Para invocar la continuación se usa el operador \continue$\,$ que nos permite llamar a la continuación $k$ con un parámetro.
+
+La pregunta que surge ahora es: ¿Qué uso tiene el invocar una continuación? Veamos un ejemplo en el que las continuaciones nos ayudan en la mejora del rendimiento de un programa.
+
+\begin{example}[Ejemplo de uso de continuaciones] Para ejemplificar el uso de continuaciones  consideremos el siguiente programa en {\sf Haskell} que multiplica todos los elementos de una lista de números
+
+\begin{verbatim}
+    mult :: [Int] -> Int
+    mult []     = 1
+    mult (x:xs) = x * (mult xs)
+\end{verbatim}
+
+Si en la lista de entrada para esta función hay alguna aparición del número $0$, la función es muy ineficiente, pues calcula todas las multiplicaciones hasta llegar a la lista vacía y al tener un $0$ el resultado será $0$ sin importar el resto de los elementos. Para mejorar la eficiencia en este caso, se puede reescribir la función como:
+
+\begin{verbatim}
+    mult :: [Int] -> Int
+    mult []     = 1
+    mult (0:xs) = 0
+    mult (x:xs) = x * (mult xs)
+\end{verbatim}
+
+De esta forma si aparece $0$ en la lista, esta función regresa directamente $0$, sin embargo  aún se tienen que resolver las multiplicaciones que se fueron generando por las llamadas recursivas, para poder obtener finalmente $0$ como resultado. Y si el $0$ fuera el último elemento de la lista la nueva función es igual de ineficiente que la anterior.
+
+Una solución para esto es el uso de continuaciones de la siguiente forma:
+
+\begin{verbatim}
+    mult :: [Int] -> Int
+    mult xs = letcc k in mult' xs 
+        where 
+            mult' []     = 1
+            mult' (0:xs) = continue k 0
+            mult' (x:xs) = x * (mult xs) 
+      end	
+\end{verbatim}
+
+en donde $k$ es el resto de los cómputos después de la llamada a {\tt mult'} y su definición con {\tt where}, y el operador \continue$\,$ indica que se debe pasar a dicha continuación el valor $0$ en lugar de continuar con la evaluación de {\tt mult'}, es decir, la evaluación se detiene de inmediato y regresa $0$ como resultado de la función {\tt mult}. De esta forma la continuación $k$ es el punto de escape para regresar el valor $0$ a la función principal.
+
+\vspace{1em}
+Análogamente en la expresión \lstinline{1+(mult [3,2,1,0])} la continuación $k$ sería $\lambda v.1+v$ en donde $v$ es el valor que regresa la función {\tt mult} y al momento de ejecutar $\continue\;k\;0$ se pasa $0$ directo a $\lambda v.1+v$ regresando $1$ como resultado.
+\end{example}
+
+En resumen, los operadores \letcc$\,$ y \continue$\,$ se utilizan para el manejo de continuaciones en lenguajes de programación. Así que los agregaremos a \minhs.
+
+\subsection{Sintaxis}
+\begin{definition}[Sintaxis para continuaciones] Se extiende la sintaxis de \minhs para agregar continuaciones al lenguaje como sigue:
+
+\begin{description}
+	\item[Tipos] 
+
+	$$\T::=\cdots\opc\Cont{\T}$$
+
+	en donde \Cont{\T} es el tipo para continuaciones que esperan un valor de tipo \T.
+	\item[Expresiones en sintaxis concreta]
+	$$e::=\cdots\opc\letcc\;k\;{\tt in}\;e\;{\tt end}\opc\continue\;e_1\;e_2$$
+	\item[Expresiones en sintaxis abstracta]
+	$$a::=\cdots\opc\letcc[\T](k.a)\opc\continue(a_1,a_2)$$
+	\item[Valores del lenguaje]
+	$$v::=\cdots\opc\cont{\pc}$$
+	en donde $\pc$ es una pila de control. Y la expresion $\cont{\pc}$ representa la pila $\pc$ materializada como una función. Al igual que el operador \fix$\,$ este tipo de expresiones surgen en la evaluación pero no deben estar disponibles para la persona que desarrolla en el lenguaje.
+\end{description}
+\end{definition}
+% \subsection{Semántica}
+\subsection{Semántica Estática}
+
+\begin{definition}[Semántica estática para continuaciones]
+Para definir la semántica estática debemos permitir un tipado sobre las pilas materializadas. Decimos que una pila $\pc$ tiene tipo \T$\,$ si el marco en el tope de ésta espera un valor de tipo \T. Por ejemplo, se cumple que:
+
+$$\ift(\square,e_2,e_3);\pc : \boolt$$
+
+Ya que el marco $\ift(\square,e_2,e_3)$ espera un valor booleano. Con esto en mente definimos las reglas de tipado como sigue:
+\begin{description}
+	\item[Pila materializada]
+	$$\inference{\pc:\T&\pc\pila}{\Gamma\vdash\cont{\pc}:\Cont{\T}}$$
+	\item[Declaración de continuaciones]
+	$$\inference{\Gamma,k:\Cont{\T}\vdash e:\T}{\Gamma\vdash\letcc[\T](k.e):\T}$$
+	\item[Invocación de continuaciones]
+	$$\inference{\Gamma\vdash e_1:\Cont{\T}&\Gamma\vdash e_2:\T}{\Gamma\vdash\continue(e_1,e_2):\St}$$
+	La expresión $\continue(e_1,e_2)$ causa que se suspenda el cómputo actual enviando el valor de $e_2$ a la pila materializada $e_1$ y dado que nunca se regresará a la evaluación actual el tipo resultante puede ser cualquiera.
+\end{description}
+\end{definition} 
+\subsection{Semántica Dinámica}
+La semántica operacional para continuaciones no puede modelarse con un sistema de transición puesto que se necesita el uso explícito de la pila de control. Por simplicidad, se utilizará la máquina $\Hs$ para modelarla, esto con el fin de no tener que lidiar con pilas en donde se encuentren ambientes. Sin embargo quien lee esta nota debe convencerse de que también se puede usar la máquina $\Js$ para la definición de la semántica operacional para continuaciones.
+
+\begin{definition}[Semántica dinámica para continuaciones] Extendemos la semántica dinámica para \minhs definida con la máquina $\Hs$ para tratar con los nuevos constructores para continuaciones de la siguiente forma:
+\begin{description}
+	\item[Marcos]
+	\[
+		\begin{array}{ccc}
+			\inference{}{\continue(\square,e_2)\marco}&
+			\qquad&
+			\inference{}{\continue(v_1,\square)\marco}
+		\end{array}
+	\]
+	\item[Transiciones]
+	\[
+		\inference{}{\pc\succ\letcc[\T](k.e)\toh\pc\succ e[k:=\cont{\pc}]}
+	\]
+	Evaluar un \letcc$\,$ causa la materialización de la pila actual, que se liga a $k$ y se prosigue con la evaluación de $e$.
+	\[
+		\begin{array}{c}
+			\inference{}{\pc\succ\continue(e_1,e_2)\toh\continue(\square,e_2);\pc\succ e_1}\\
+			\qquad\\
+			\inference{}{\continue(\square,e_2);\pc\prec v_1\toh\continue(v_1,\square);\pc\succ e_2}\\
+			\qquad\\
+			\inference{}{\continue(\cont{\pc_c},\square);\pc\prec v_2\toh\pc_c\prec v_2}
+		\end{array}
+	\]
+
+	Para el operador \continue$\,$ primero se reducen ambas expresiones a valores, y si regresamos un valor a un \continue$\,$ con una pila $\pc_c$ se abandona la pila actual y se restaura $\pc_c$
+
+
+\end{description}
+\end{definition}
+% \section{Optimizaciones sobre funciones recursivas}
+% Las funciones recursivas dependen del resultado de la llamada al argumento reducido para poder calcular el resultado esperado. Esto se traduce a una serie de cómputos que quedan pendientes hasta que la recusión alcanza el caso base. Y es por eso que se tiene la idea de que un algoritmo recursivo es menos eficiente que uno iterativo. 
+
+% Consideremos el siguiente ejemplo de la función factorial
+
+% \begin{verbatim}
+%     fact :: Int -> Int
+%     fact 0 = 1
+%     fact n = n * (fact (n - 1))
+% \end{verbatim}
+
+% la evaluación usando la máquina $\Hs\,$ se vería de la siguiente forma:
+
+% \[
+% 	\begin{array}{rcl}
+% 	\pe&\succ&\fact(5)\\
+% 	&\vdots&\\
+% 	\produ(5,\square);\pe&\succ&\fact(4)\\
+% 	&\vdots&\\
+% 	\produ(4,\square);\produ(5,\square);\pe&\succ&\fact(3)\\
+% 	&\vdots&\\
+% 	\produ(3,\square);\produ(4,\square);\produ(5,\square);\pe&\succ&\fact(2)\\
+% 	&\vdots&\\
+% 	\produ(2,\square);\produ(3,\square);\produ(4,\square);\produ(5,\square);\pe&\succ&\fact(1)\\
+% 	&\vdots&\\
+% 	\produ(1,\square);\produ(2,\square);\produ(3,\square);\produ(4,\square);\produ(5,\square);\pe&\succ&\fact(0)\\
+% 	\produ(1,\square);\produ(2,\square);\produ(3,\square);\produ(4,\square);\produ(5,\square);\pe&\prec&1\\
+% 	\produ(2,\square);\produ(3,\square);\produ(4,\square);\produ(5,\square);\pe&\prec&1\\
+% 	\produ(3,\square);\produ(4,\square);\produ(5,\square);\pe&\prec&2\\
+% 	\produ(4,\square);\produ(5,\square);\pe&\prec&6\\
+% 	\produ(5,\square);\pe&\prec&24\\
+% 	\pe&\prec&120\\
+% 	\end{array}
+% \]
+% En la ejecución anterior puede observarse como la pila de control va creciendo tanto como llamadas recursivas a factorial tengamos. Y no es hasta que se llega a $\fact(0)$ que comienzan a liberarse. Por esta razón, si queremos calcular el factorial de un número muy grande llegaría un momento en el que la memoria de la computadora no pudiera seguir almacenando cómputos pendientes.
+
+% Para solucionar esto, surgen diferentes optimizaciones o transformaciones sobre funciones recursivas que nos permiten no dejar cómputos pendientes para calcular el resultado. En esta sección veremos dos {\it tail recursion} y {\it continuation passing style}. Ésta última está basada en el uso de continuaciones.
+% \subsection{Tail recursion}
+% En el ejemplo de la sección anterior, se acumulan los marcos en la pila, debido al caso recursivo de factorial, en donde el cómputo $3*(\fact\;2)$ no puede resolverse hasta que no se conozca el valor de $\fact\;2$.
+
+% La técnica de {\it tail recursion} o recursión de cola, consiste en eliminar este cómputo pendiente y en el caso recursivo de la función regresar directamente la llamada recursiva. Para lograrlo se hace uso de un acumulador en donde se va almacenando los recultados intermedios de la función, este se pasa como parámetro de la función en cada llamada recursiva. Y en el caso base, en lugar de regresar un valor constante, se regresa el acumulador. 
+
+% \begin{example}[Factorial en {\it tail recursion}] A continuación se muestra la versión de factorial usando la técnica de {\it tail recursion}
+
+% \begin{verbatim}
+%     facttail :: Int -> Int -> Int
+%     facttail 0 acc = acc
+%     facttail n acc = facttail (n - 1) (n * acc)
+% \end{verbatim}
+
+% Para calcular el factorial usando la función anterior se inicializa el acumulador con el valor de regreso del caso base en la función original, en el caso de factorial $1$. Entonces la llamada sería:
+% $${\tt facttail}\;5\;1$$
+
+% Observemos como en la definición usando {\it tail recursion} la llamada recursiva no deja cómputos pendientes sino que regresa directamente una llamada a función y es el acumulador el que va almacenando el resultado.
+
+% A pesar de usarse la notación de {\sf Haskell} para definición de funciones, es importante notar que la idea de esta técnica se puede implementar de la misma forma en \minhs. Veamos como se definiría:
+
+% \begin{verbatim}
+%     letrec facttail => fun n => fun acc => 
+%                          if (n = 0)
+%                             then acc
+%                             else facttail (n - 1) (n * acc)
+%                 in facttail 5 end
+% \end{verbatim}
+% \end{example}
+% \subsection{Continuation Passing Style}
+% Otra técnica de optimización sobre el mismo problema de los cómputos pendientes el {\it continuation passing style} que consiste en mantener una copia de la pila de control materializada, la cual se representa con una función. De esta forma el control se pasa a la pila mediante una aplicación y la pila se materializa mediante una abstracción lambda.
+
+% Su objetivo es transformar cualquier programa en uno que tenga un comportamiento iterativo con respecto a la pila de control. La idea del método es colectar y pasar, como argumento adicional a cada función, toda la información de control y datos necesaria para que la ejecución del programa continué después de finalizar  la llamada a dicha función.
+
+% En general, se recomiendan seguir los siguientes pasos para obtener una conversión a CPS óptima:
+
+% \begin{enumerate}
+% 	\item Convertir la función recursiva a una versión que utilice {\it tail recursion}.
+% 	\item Modificar el caso base para que aplique la continuación recibida como argumento al valor original.
+% 	\item Modificar las llamadas recursivas para que construyan una nueva función (continuación) de manera similar a cuando modificábamos el acumulador en las versiones de cola. La acumulación se da en este caso aplicando la continuación actual con los cómputos pendientes.
+% \end{enumerate}
+
+% \begin{example}[Función factorial usando CPS] Se presenta una nueva versión de la función factorial usando la técnica CPS.
+
+% \begin{verbatim}
+%     factcc :: Int -> (Int -> Int) -> Int
+%     factcc 0 k = k 0
+%     factcc n k = factcc (n - 1) (\ v -> k (n * v))
+% \end{verbatim}
+
+% Obsérvese como en el caso recursivo se está construyendo explícitamente la continuación que representa los cómputos pendientes, en este caso, la multiplicación. Y se compone con los cómputos pendientes de las llamadas anteriores, representados por el parámetro \lstinline{k}.
+
+% De nuevo se usa notación de {\sf Haskell} por simplicidad pero la técnica puede usarse de igual forma en \minhs. Presentamos la misma función en nuestro lenguaje:
+
+% \begin{verbatim}
+%     letrec factcc => fun n => fun k => 
+%                          if (n = 0)
+%                             then (k 0)
+%                             else factcc (n - 1) (fun v => k (n * v))
+%                 in factcc 5 end
+% \end{verbatim}
+
+% \end{example}
+
+\begin{thebibliography}{9}
+% \bibitem{notasGabrielle}
+% Keller G., O'Connor-Davis L., Class Notes from the course Concepts of programming language design, Department of Information and Computing Sciences, Utrecht University, The Netherlands, Fall 2020.
+
+\bibitem{notasFavio}
+Miranda Perea F., González Huesca L., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-1.
+
+\bibitem{notasKarla}
+Ramírez Pulido K., Soto Romero M., Nota de Clase del curso de Lenguajes de Programación, Facultad de Ciencias UNAM, Semestre 2021-2
+
+\bibitem{shriram}
+Krishnamurthi S., Programming Languages Application and Interpretation; Version 26.04.2007.
+
+\bibitem{harper}
+Harper R., Practical Foundations for Programming Languages. Working draft, 2010.
+
+\bibitem{mitchell}
+Mitchell J., Foundations for Programming Languages. MIT Press 1996.
+
+
+
+\end{thebibliography}
+
+
+\end{document}

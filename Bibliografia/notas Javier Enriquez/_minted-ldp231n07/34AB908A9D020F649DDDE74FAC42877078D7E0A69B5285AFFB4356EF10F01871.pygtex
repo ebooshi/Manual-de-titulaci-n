@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kr}{let}\PYG{+w}{ }\PYG{n}{id}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{Nat}\PYG{+w}{ }\PYG{o+ow}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{k+kt}{Nat}\PYG{p}{)}\PYG{+w}{ }\PYG{o+ow}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{fun}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o+ow}{::}\PYG{+w}{ }\PYG{k+kt}{Nat}\PYG{+w}{ }\PYG{o+ow}{=\PYGZgt{}}\PYG{+w}{ }\PYG{n}{x}\PYG{p}{)}\PYG{+w}{ }\PYG{k+kr}{in}\PYG{+w}{ }\PYG{n}{id}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{+w}{ }\PYG{n}{end}
+\end{Verbatim}
