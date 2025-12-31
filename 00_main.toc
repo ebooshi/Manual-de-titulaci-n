@@ -1,0 +1,14 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
+\contentsline {section}{\numberline {1}Plantamiento y motivación del estudio}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1}El desafío del diagnóstico clínico del TEA}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.2}Herramientas de tamizaje: \\ el Autism Spectrum Quotient-10 (AQ-10)}{2}{subsection.1.1.2}%
+\contentsline {section}{\numberline {2}Metodología y herramientas de investigación}{2}{section.1.2}%
+\contentsline {subsection}{\numberline {2.1}Recopilado de información: \\ ASDTest app}{3}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {2.2}Composición del conjunto de datos}{3}{subsection.1.2.2}%
+\contentsline {section}{\numberline {3}Objetivos, resultados y aportes}{5}{section.1.3}%
+\contentsline {subsection}{\numberline {3.1}Objetivos de la investigación}{5}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {3.2}Preguntas de investigación}{5}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {3.3}Metodología resumida}{6}{subsection.1.3.3}%
+\contentsline {subsection}{\numberline {3.4}Consideraciones éticas y limitaciones}{6}{subsection.1.3.4}%
+\contentsline {subsection}{\numberline {3.5}Resultado esperado y aporte}{6}{subsection.1.3.5}%
