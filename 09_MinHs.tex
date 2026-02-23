@@ -26,7 +26,7 @@ El desarrollo del capítulo se plantea de forma similar a como lo hemos hecho co
 
 \subsection{Sintaxis concreta}
     El lenguaje de programación \textsf{Haskell} emplea la declaración explícita de tipos en su sintaxis concreta, este patrón se traslada a \textsf{MinHS} mediante la introducción de las anotaciones de tipos para \textit{Int}, \textit{Bool} y en el caso de las funciones, su tipo será representado por la expresión $T_1 \rightarrow T_2$ en la sintaxis concreta donde $T_1$ representa el tipo de la variable ligada en el cuerpo de la expresión  y $T_2$ es el tipo que regresa la evaluación de la expresión.\\\\
-Esta modificación a la sintaxis concreta solo aplicará para quellas expresiones donde sea estrictamente necesario anotar su tipo para verificar la correctitud de tipificado. El resto de las expresiones se definen de manera similar a como lo hicimos para \textsf{EAB} limitando la aparición de típo en la medida de lo posible.
+Esta modificación a la sintaxis concreta solo aplicará para aquellas expresiones donde sea estrictamente necesario anotar su tipo para verificar la correctitud de tipificado. El resto de las expresiones se definen de manera similar a como lo hicimos para \textsf{EAB} limitando la aparición de típo en la medida de lo posible.
 
  %   Finalmente se introduce la expresión para funciones recursivas representadas por la expresión \[ \textsf{letrec}\; var=\; e_1\; {\sf in}\; e_2\; \textsf{end}\]
 \bigskip
@@ -71,51 +71,51 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
             \item[Valores y variables]
         \[
             \begin{array}{ccc}
-                \inference{n\in\N}{num[n]\;asa}&
-                \inference{}{bool[\textit{true}]\;asa}&
-                \inference{}{bool[\textit{false}]\;asa}
+                \inference{n\in\N}{num[n]\; ASA}&
+                \inference{}{bool[\textit{true}]\; ASA}&
+                \inference{}{bool[\textit{false}]\; ASA}
             \end{array}
         \]
         \[
             \begin{array}{ccc}
-                \inference{x \in\ Variables}{x\;asa}
+                \inference{x \in\ Variables}{x\; ASA}
             \end{array}
         \]
         \item[Operadores]
         \[
             \begin{array}{c}
-                \inference{t_1\;asa&\cdots&t_n\;asa}{O(t_1,\dots,t_n)\;asa}
+                \inference{t_1\; ASA&\cdots&t_n\; ASA}{O(t_1,\dots,t_n)\; ASA}
             \end{array}
         \]
         \item[Condicional]
         \[
             \begin{array}{c}
-                \inference{t_1\;asa&t_2\;asa&t_3\;asa}{if(t_1,t_2,t_3)\;asa}
+                \inference{t_1\; ASA&t_2\; ASA&t_3\; ASA}{if(t_1,t_2,t_3)\; ASA}
             \end{array}
         \]
         \item[Asignaciones locales]
         \[
             \begin{array}{cc}
-                \inference{t_1\;asa&t_2\;asa}{let(t_1,x.t_2)\;asa}&
+                \inference{t_1\; ASA&t_2\; ASA}{let(t_1,x.t_2)\; ASA}&
             \end{array}
         \]
         \item[Definición de funciones]
         \[
             \begin{array}{c}
-                \inference{t\;asa}{fun(\textit{T},x.t)\;asa} \; \;
-                \inference{t\;asa}{recfun(T,f.x.t)\;asa}
+                \inference{t\; ASA}{fun(\textit{T},x.t)\; ASA} \; \;
+                \inference{t\; ASA}{recfun(T,f.x.t)\; ASA}
             \end{array}
         \]
         \item[Aplicación de función]
         \[
             \begin{array}{c}
-                \inference{t_1\;asa&t_2\;asa}{app(t_1,t_2)\;asa}
+                \inference{t_1\; ASA&t_2\; ASA}{app(t_1,t_2)\; ASA}
             \end{array}
         \]
         \item[Operador de punto fijo]
         \[
             \begin{array}{c}
-                \inference{t\;asa}{fix(\textit{T},f.t)\;asa}
+                \inference{t\; ASA}{fix(\textit{T},f.t)\; ASA}
              \end{array}
          \]
 		\[\]
@@ -243,8 +243,8 @@ Esta modificación a la sintaxis concreta solo aplicará para quellas expresione
     \begin{definition}[Semántica operacional de paso pequeño] Para concluir con la definición de \textsf{MinHS} enunciaremos las reglas de la semántica operacional. \\\\
 Es importante observar que la evaluación perezosa característica de \textsf{Haskell} se debe particularmente a los operadores \textsf{app} y \textsf{let} dado que la sustitución se hace sin evaluar la expresión que dará el valor en la variable ligada\footnote{Definición extraída de  \hyperlink{5}{[5]},  \hyperlink{12}{[12]}, \hyperlink{115}{[115]} y \hyperlink{116}{[116]}}.\\ 
         \begin{itemize}
-            \item Conjunto de estados $S=\{a\;|\;a\;asa\}$
-            \item Estados Iniciales $I=\{a\;|\;a\;asa,\;\varnothing\sim a\}$
+            \item Conjunto de estados $S=\{a\;|\;a\; ASA\}$
+            \item Estados Iniciales $I=\{a\;|\;a\; ASA,\;\varnothing\sim a\}$
             \item Estados Finales $F = \{num[n],bool[true],bool[false],fun(T, x.t)\}$
             \item Transiciones, dadas por las siguientes reglas:\\
             \begin{description}

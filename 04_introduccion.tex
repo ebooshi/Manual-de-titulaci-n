@@ -83,7 +83,7 @@ matemáticas.
 
 	%ejercicio 2.3
 	\begin{exercise}
-        Define la gramática para generar expresiones aritméticas parentizadas con notación infija para el operador ''+''\footnote{Ejercicio consultado de \hyperlink{136}{[136]}}.  (puedes suponer definidos los números naturales a partir del ejercicio anterior)\footnote{Aquí hacemos abuso de la notación en la última regla puesto que $\N$ no es un elemento de la gramática por si mismo, este hace referencia a los número naturales generados del ejercicio 2.2.}.
+        Define la gramática para generar expresiones aritméticas parentizadas con notación in-fija para el operador ''+''\footnote{Ejercicio consultado de \hyperlink{136}{[136]}}.  (puedes suponer definidos los números naturales a partir del ejercicio anterior)\footnote{Aquí hacemos abuso de la notación en la última regla puesto que $\N$ no es un elemento de la gramática por si mismo, este hace referencia a los número naturales generados del ejercicio 2.2.}.
 			 \begin{align*}
 				S & ::= S \ + \ A \ | \ A \\
 				A & ::= (S) \ | \ \N
@@ -188,7 +188,7 @@ matemáticas.
 
     \end{exercise}
 
-    \begin{definition}[Grámatica ambigua]
+    \begin{definition}[Gramática ambigua]
         Sea \textit{G} Una gramática libre de contexto, decimos que que \textit{G} es una gramática ambigua si existe una cadena para la cual se pueda tener más de una derivación a la izquierda\footnote{Definición extraída de \hyperlink{5}{[5]}. \hyperlink{12}{[12]}, \hyperlink{40}{[40]} y \hyperlink{41}{[41]}.}.
     \end{definition}
 
@@ -237,7 +237,7 @@ matemáticas.
 % Sección 3: Clasificación de los lenguajes.
 \section{Clasificación de los lenguajes de programación}
 
-    En computación existen diferentes clasificaciones que nos permiten agrupar lenguajes de programación según sus características principales, paradigma de programación al que pertenecen, tecnología involucrada en el proceso de traducción a lenguaje de máquina, etc. A continuación se enlistan algunas de estas categorías: 
+    En computación existen diferentes clasificaciones que nos permiten agrupar lenguajes de programación según sus características principales, paradigma de programación al que pertenecen, tecnología involucrada en el proceso de traducción a lenguaje de máquina, etc. A continuación se en listan algunas de estas categorías: 
 
     \begin{itemize}
         \item \textbf{Lenguajes compilados}:  que como el nombre lo indica precisan de un compilador para traducir el código de alto nivel a instrucciones de máquina que el procesador pueda ejecutar. Generalmente suelen ser mas lentos al momento de ejecutarse que el resto de las categorías  ya que requieren de un sistema sofisticado de inferencia de tipos, optimizaciones en la traducción de las instrucciones y en ocasiones entornos especiales para la ejecución de los programas como la máquina virtual de Java (\textit{JVM} por sus siglas en inglés)\footnote{Información obtenida de \hyperlink{43}{[43]}, \hyperlink{44}{[44]}, \hyperlink{45}{[45]}, \hyperlink{46}{[46]}}.\\

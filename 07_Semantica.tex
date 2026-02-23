@@ -60,8 +60,8 @@ Adicionalmente estudiaremos los estados y transiciones de la máquina abstracta 
     \bigskip
     \[
         \begin{array}{ccc}
-            \inference{}{\Delta\sim \textit{T}}[\textit{(fvt)}]&
-		\inference{}{\Delta\sim \textit{F}}[\textit{(fvf)}]&
+            \inference{}{\Delta\sim \textit{bool[b]}}[\textit{(fvb)}]&
+			%\inference{}{\Delta\sim \textit{bool[false]}}[\textit{(fvb)}]&
             \inference{\Delta\sim e_1&\cdots&\Delta\sim e_n}{\Delta\sim O(e_1,\cdots,e_n)}[\textit{(fvo)}]
         \end{array}
     \]
@@ -131,7 +131,7 @@ Nuevamente hacemos abuso de la notación para denotar los operadores de \textsf{
                          {
                              \inference
                                  {}
-                                 {\emptyset \sim \textit{T}}[\textit{(fvt)}] 
+                                 {\emptyset \sim \textit{bool[true]}}[\textit{(fvb)}] 
                              \inference
                                  {
                                      \inference
@@ -153,7 +153,7 @@ Nuevamente hacemos abuso de la notación para denotar los operadores de \textsf{
                                  {}
                                  {\emptyset \sim 7}[\textit{(fvn)}] 
                              }
-                             {\emptyset \sim \textit{if(T, prod(sum(1, 1), 2), 7) }}[\textit{(fvo)}]
+                             {\emptyset \sim \textit{if(bool[true], prod(sum(1, 1), 2), 7) }}[\textit{(fvo)}]
 	            }           
             \]
 
@@ -180,7 +180,7 @@ Nuevamente hacemos abuso de la notación para denotar los operadores de \textsf{
 							{
 								\inference
 									{}
-									{\emptyset \sim T}[\textit{(fvt)}]
+									{\emptyset \sim bool[false]}[\textit{(fvb)}]
 								\inference
 									{
 										\inference
@@ -189,7 +189,7 @@ Nuevamente hacemos abuso de la notación para denotar los operadores de \textsf{
 									}
 									{\emptyset \sim x.x}[\textit{(fva)}]
 							}
-							{\emptyset \sim \textit{let(} \textit{T,}x.x \textit{) }    }[\textit{(fvo)}] 
+							{\emptyset \sim \textit{let(} \textit{bool[false],}x.x \textit{) }    }[\textit{(fvo)}] 
 						\inference
 							{}
 							{\emptyset \sim 2}[\textit{(fvn)}] 
@@ -197,9 +197,9 @@ Nuevamente hacemos abuso de la notación para denotar los operadores de \textsf{
 							{}
 							{\emptyset \sim 1}[\textit{(fvn)}] 
 					}
-					{\emptyset \sim \textit{if(} \textit{let(} \textit{T,}x.x \textit{),} 2, 1 \textit{)}}[\textit{(fvo)}]
+					{\emptyset \sim \textit{if(} \textit{let(} \textit{bool[false],}x.x \textit{),} 2, 1 \textit{)}}[\textit{(fvo)}]
 			}
-			{\emptyset \sim \textit{sum(1,} \textit{if(} \textit{let(} \textit{T,}x.x \textit{),} 2, 1 \textit{))}}[\textit{(fvo)}]
+			{\emptyset \sim \textit{sum(1,} \textit{if(} \textit{let(} \textit{bool[false],}x.x \textit{),} 2, 1 \textit{))}}[\textit{(fvo)}]
             }
         \]
     \end{exercise}
@@ -210,7 +210,7 @@ Nuevamente hacemos abuso de la notación para denotar los operadores de \textsf{
     Sea $a$ un \textit{ASA} decimos que $a$ es cerrada si y sólo si $$ FV(a)\ =\ \emptyset $$
     Es decir, $a$ es una expresión del lenguaje cerrada si no tiene apariciones de variables libres\footnote{Definición acuñada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}. 
     \end{definition}
-De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación generados de expresiones cerradas concluirán todas sus ramas con algún axioma (\textit{fvn, fvt, fvf,  o fvv}). 
+De los ejercicios anteriores podemos notar que el análisis sintáctico para evaluar  expresiones con variables libres fallará en una o más ramas, mientras que los árboles de derivación generados de expresiones cerradas concluirán todas sus ramas con algún axioma (\textit{fvn, fvb,  o fvv}). 
 
 \section{Semántica dinámica}
 La semántica dinámica constituye el siguiente eslabón del proceso de ejecución de un programa. Una vez verificada que la expresión en sintaxis concreta es una expresión válida y no posee variables libres, entonces se puede comenzar a discutir el como se ejecutará dicha expresión. \\\\
@@ -233,10 +233,10 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
             \item[Estados Iniciales] $I=\{a\ |\ a\ ASA,\ FV(a) = \emptyset \}$ \\
 	 Los estados iniciales son todas las expresiones cerradas del lenguaje y corresponde a la regla:
             $$\inference{a\ ASA & \emptyset \sim a}{a\ inicial}[\textit{(init)}]$$ 
-            \item[Estados Finales] Son las expresiones que no se pueden reducir mas obtenidas al final del proceso de evaluación.\\\\
+            \item[Estados Finales]  Este conjunto de estados finales está compuesto únicamente por los valores de \textsf{EAB} que formalizamos a continuación\footnote{Los estados que no se pueden reducir más pero que no corresponden a un valor (es decir expresiones mal formadas) se les conoce como estados bloqueados.}. \\\\
 	 Definimos una categoría de valores los cuales son un subconjunto de expresiones de \textsf{EAB}. Esta nueva categoría se representa con el juicio $v\ valor$. \\\\
 		Para el caso de \textsf{EAB}  se denota con las reglas:
-            $$\inference{}{num[n]\ valor}[\textit{(vnum)}] \ \ \ \ \ \inference{}{\textit{T}\ \ valor}[\textit{(vtrue)}]  \ \ \ \ \ \inference{}{\textit{F}\ \ valor}[\textit{(vfalse)}] $$
+            $$\inference{}{num[n]\ valor}[\textit{(vnum)}] \ \ \ \ \ \inference{}{\textit{bool[b]}\ \ valor}[\textit{(vbool)}]$$ %  \ \ \ \ \ %\inference{}{\textit{bool[false]}\ \ valor}[\textit{(vfalse)}] $$
             Entonces se define el conjunto de estados finales $F=\{a\ |\ a\ valor\}$, correspondiente a la regla:
             $$\inference{a\ valor}{a\ final}[\textit{(fin)}]$$ 
 	\item[Transiciones] Para definir la semántica operacional es necesario puntualizar la constitución de un sistema de transición.
@@ -333,9 +333,9 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
         \[
             \scalemath{0.85}{
                 \begin{array}{c}
-                    \inference{}{if(T,e_1,e_2)  \rightarrow e_1}[$(if_T)$]
+                    \inference{}{if(bool[true],e_1,e_2)  \rightarrow e_1}[$(if_T)$]
                     \quad
-                    \inference{}{if(F,e_1,e_2)  \rightarrow e_2}[$(if_F)$]
+                    \inference{}{if(bool[false],e_1,e_2)  \rightarrow e_2}[$(if_F)$]
                     \quad
                 \end{array}
             }
@@ -395,7 +395,7 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
         \] 
         \[
             \begin{array}{cl}
-                &if(F,\ let(prod(99,99),\ x.sum(x,x)),\ 0)\\
+                &if(bool[false],\ let(prod(99,99),\ x.sum(x,x)),\ 0)\\
                 \rightarrow &0
 
             \end{array}
@@ -411,11 +411,11 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
         \]  
         \[
             \begin{array}{cl}
-                &\textit{let}(\textit{if(T}, 42,0), \textit{x}.\textit{if(F}, \text{41}, x))\\
+                &\textit{let}(\textit{if(bool[true]}, 42,0), \textit{x}.\textit{if(F}, \text{41}, x))\\
                 \rightarrow &\textit{let}(\text{42}, \textit{x}. \textit{if(F}, \text{41}, x))\\
-                \rightarrow &\textit{if(F}, 41, x)[x:=42]\\
-                \rightarrow &\textit{if(F}[x:=42], 41[x:=42], x[x:=42])\\
-                \rightarrow &\textit{if(F}, 41, 42)\\
+                \rightarrow &\textit{if(bool[false]}, 41, x)[x:=42]\\
+                \rightarrow &\textit{if(bool[false]}[x:=42], 41[x:=42], x[x:=42])\\
+                \rightarrow &\textit{if(bool[false]}, 41, 42)\\
                 \rightarrow &42\\
             \end{array}
         \]
@@ -469,7 +469,7 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
     \begin{definition}[Definición de semántica de paso grande para \textsf{EAB}] Se define la relación de transición  $\Downarrow$ mediante las siguientes reglas de inferencia\footnote{Definición formulada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
         \begin{description}
             \item[Valores]
-            $$\inference{}{num[n] \Downarrow num[n]}[\textit{(bsnum)}] \ \ \ \ \ \inference{}{T \Downarrow T}[\textit{(bstrue)}] \ \ \ \ \ \inference{}{F \Downarrow F}[\textit{(bsfalse)}]$$
+            $$\inference{}{num[n] \Downarrow num[n]}[\textit{(bsnum)}] \ \ \ \ \ \inference{}{bool[b] \Downarrow bool[b]}[\textit{(bsbool)}] $$ %\ \ \ \ \ \inference{}{F \Downarrow F}[\textit{(bsfalse)}]$$
             \item[Suma] 
             $$\inference{e_1 \Downarrow num[n]&e_2\Downarrow num[m]}{sum(e_1, e_2)\Downarrow num[n+_N m]}[\textit{(bssum)}]$$
             \item[Resta] 
@@ -487,7 +487,7 @@ En este capítulo nos centraremos en la semántica operacional que estudia el pr
 
 \bigskip
 
-Es importante notar que en estos ejercicios estamos haciendo abuso de la notación dado que las reglas para la función de transición de paso grande $\Downarrow$ están definidas para la sintáxis abstracta pero permitimos el uso de la sintáxis concreta para simplificar la notación.
+Es importante notar que en estos ejercicios estamos haciendo abuso de la notación dado que las reglas para la función de transición de paso grande $\Downarrow$ están definidas para la sintaxis abstracta pero permitimos el uso de la sintaxis concreta para simplificar la notación.
 
     \begin{exercise}
         Dada la siguiente expresión de \textsf{EAB} evalúa utilizando la semántica de paso grande. Adicionalmente proporciona la representación en sintaxis abstracta.
@@ -497,17 +497,17 @@ Es importante notar que en estos ejercicios estamos haciendo abuso de la notaci�
 	\bigskip
         Sintaxis abstracta:
         \[
-            \textit{if(F},\textit{sum}(\textit{prod}(3,7\text{)},1\text{)}, \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{)} 
+            \textit{if(bool[false]},\textit{sum}(\textit{prod}(3,7\text{)},1\text{)}, \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{)} 
         \]
 	\bigskip
         Evaluación paso grande:
         \[
-            \scalemath{.76}{
+            \scalemath{.68}{
                 \inference
 		{
 			\inference
 				{}
-				{F \Downarrow F}[\textit{(bsbool)}] & 
+				{bool[false] \Downarrow bool[false]}[\textit{(bsbool)}] & 
 			\inference
 				{
 					\inference
@@ -526,7 +526,7 @@ Es importante notar que en estos ejercicios estamos haciendo abuso de la notaci�
 				}
 				{ \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{ )} \Downarrow 15 }[\textit{(bssum)}] 
 		}
-		{\textit{if(F},\textit{sum}(\textit{prod}(3,7\text{)},1\text{)}, \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{ )} \Downarrow 15 }[\textit{(bsiff)}]
+		{\textit{if(bool[false]},\textit{sum}(\textit{prod}(3,7\text{)},1\text{)}, \textit{sum}(\textit{prod}(2,7\text{)},1\text{)} \text{ )} \Downarrow 15 }[\textit{(bsiff)}]
             }
         \]
     \end{exercise}
@@ -540,7 +540,7 @@ Es importante notar que en estos ejercicios estamos haciendo abuso de la notaci�
         \]
         Sintaxis abstracta:
         \[
-            \textit{let}( \textit{let}( F,y.\textit{if}(y, 0, 1\text{)}\text{)} , x.\textit{sum}(x, 1\text{))}
+            \textit{let}( \textit{let}(bool[false], y.\textit{if}(y, 0, 1\text{)}\text{)} , x.\textit{sum}(x, 1\text{))}
         \]
         Evaluación paso grande:
 	\[
@@ -552,28 +552,28 @@ Es importante notar que en estos ejercicios estamos haciendo abuso de la notaci�
 				{ 
 				\inference
 					{}
-					{F \Downarrow F}[\textit{(bsbool)}]  \quad 
+					{bool[false] \Downarrow bool[false]}[\textit{(bsbool)}]  \quad 
 					\inference
 						{
 							\inference
 							{
 								\inference
 									{}
-									{F \Downarrow F}[\textit{(bsbool)}] \quad 
+									{bool[false] \Downarrow bool[false]}[\textit{(bsbool)}] \quad 
 								\inference
 									{}
 									{1 \Downarrow 1}[\textit{(bsnum)}]
 							}
 							{
-								\textit{if}(F,0, 1\text{)}\text{)} \Downarrow 1
+								\textit{if}(bool[false],0, 1\text{)}\text{)} \Downarrow 1
 							}[\textit{(bsift)}]
 					}
 					{
-						\textit{if}(y,0, 1\text{)}\text{)}[y:=F] \Downarrow 1
+						\textit{if}(y,0, 1\text{)}\text{)}[y:=bool[false]] \Downarrow 1
 					}[]
 				 }
 				 { 
-					\textit{let}( F,\ y.\textit{if}(y, 0, 1\text{)}\text{)} \Downarrow 1
+					\textit{let}(bool[false],\ y.\textit{if}(y, 0, 1\text{)}\text{)} \Downarrow 1
 				}[\textit{(bslet)}] \quad
 				\inference
 					{
@@ -595,7 +595,7 @@ Es importante notar que en estos ejercicios estamos haciendo abuso de la notaci�
 					}[]
 				}
 				{
-					 \textit{let}( \textit{let}(F, y.\textit{if}(y,0,1\text{)}\text{)} ,x.\textit{sum}(x,1\text{))} \Downarrow 2
+					 \textit{let}( \textit{let}(bool[false], y.\textit{if}(y,0,1\text{)}\text{)} ,x.\textit{sum}(x,1\text{))} \Downarrow 2
 				}[\textit{(bslet)}]
             		}
 		}
@@ -672,10 +672,56 @@ Es importante notar que en estos ejercicios estamos haciendo abuso de la notaci�
     \begin{definition} [Función de evaluación para \textsf{EAB}]Se define la función \texttt{eval} en términos de la semántica dinámica del lenguaje como sigue\footnote{Definición formulada a partir de \hyperlink{2}{[2]}, \hyperlink{5}{[5]} y  \hyperlink{12}{[12]} }:
     $$\texttt{eval}(e)=e_f\mbox{ si y sólo si } e \rightarrow^* e_f \mbox{ y }e_f \nrightarrow $$
 
-    La función de evaluación aplica de forma exhaustiva la semántica dinámica hasta llegar a un estado bloqueado (en el caso de \textsf{EAB} los estados bloqueados son los valores).
+    La función de evaluación aplica de forma exhaustiva la semántica dinámica hasta llegar a un estado final (en el caso de \textsf{EAB}, un valor).
     \end{definition}
     
-    La función \texttt{eval} será de utilidad para el resto de las secciones que visitaremos a lo largo del curso.
+    \begin{exercise}
+    	Dada la siguiente expresión de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
+    	\[
+    	\texttt{let } y = (5 - 2) \texttt{ in } \texttt{if true then } (y * 3) \texttt{ else } 0 \texttt{ end}
+    	\]
+    	\[
+    	\begin{array}{cl}
+    		&\textit{let}(\textit{res}(5,2),\ y.\textit{if}(bool[true],\ \textit{prod}(y,3),\ 0))\\
+    		\rightarrow &\textit{let}(3,\ y.\textit{if}(bool[true],\ \textit{prod}(y,3),\ 0))\\
+    		\rightarrow &\textit{if}(bool[true],\ \textit{prod}(y,3),\ 0)[y:=3]\\
+    		\rightarrow &\textit{if}(bool[true][y:=3],\ \textit{prod}(y,3)[y:=3],\ 0[y:=3])\\
+    		\rightarrow &\textit{if}(bool[true],\ \textit{prod}(3,3),\ 0)\\
+    		\rightarrow &\textit{prod}(3,3)\\
+    		\rightarrow &9
+    	\end{array}
+    	\]
+    	
+    	Por lo tanto,
+    	\[
+    	\texttt{eval}(\texttt{let } y = (5 - 2) \texttt{ in if true then } (y * 3) \texttt{ else } 0) = 9
+    	\]
+    \end{exercise}
+    
+    
+    
+    \begin{exercise}
+    	Dada la siguiente expresión de nuestro lenguaje \textsf{EAB} utiliza las reglas de transición de la semántica de paso pequeño para evaluarla.
+    	\[
+    	\texttt{if } ((2 + 3) - 5) \texttt{ then } 1 \texttt{ else } \texttt{let } z = 4 + 1 \texttt{ in } z * z \texttt{ end}
+    	\]
+    	\[
+    	\begin{array}{cl}
+    		&\textit{if}(\textit{res}(\textit{sum}(2,3),5),\ 1,\ \textit{let}(\textit{sum}(4,1),\ z.\textit{prod}(z,z)))\\
+    		\rightarrow &\textit{if}(\textit{res}(5,5),\ 1,\ \textit{let}(\textit{sum}(4,1),\ z.\textit{prod}(z,z)))\\
+    		\rightarrow &\textit{if}(0,\ 1,\ \textit{let}(\textit{sum}(4,1),\ z.\textit{prod}(z,z)))
+    	\end{array}
+    	\]
+    	
+    	En este punto la evaluación se bloquea, ya que $0$ no es un valor booleano ($T$ o $F$), por lo que no es posible aplicar ni la regla $(if_T)$ ni $(if_F)$.
+    	
+    	Por lo tanto,
+    	\[
+    	\texttt{eval}(e) \text{ no está definida}
+    	\]
+    \end{exercise}
+    
+    %La función \texttt{eval} será de utilidad para el resto de las secciones que visitaremos a lo largo del curso.
     
     \section{Ejercicios para el lector}
 
@@ -684,7 +730,7 @@ Es importante notar que en estos ejercicios estamos haciendo abuso de la notaci�
 		$$ \texttt{let x = 5 * 2 in x - 5 end }$$
 		Contesta lo siguiente:		
 		\begin{itemize}
-			\item Proporciona la representación en sintáxis abstracta.
+			\item Proporciona la representación en sintaxis abstracta.
 			\item Aplica la semántica estática para inferir la presencia de variables libres con el juicio $ \sim $.
 			\item Aplica la semántica dinámica de paso pequeño para evaluar la expresión.
 			\item Aplica la semántica dinámica de paso grande para evaluar la expresión.
@@ -696,7 +742,7 @@ Es importante notar que en estos ejercicios estamos haciendo abuso de la notaci�
 		$$ \texttt{let y = false in if y then (let z = 1 in 11 - z end) else x end }$$
 		Contesta lo siguiente:		
 		\begin{itemize}
-			\item Proporciona la representación en sintáxis abstracta.
+			\item Proporciona la representación en sintaxis abstracta.
 			\item Aplica la semántica estática para inferir la presencia de variables libres con el juicio $ \sim $.
 			\item Aplica la semántica dinámica de paso pequeño para evaluar la expresión.
 			\item Aplica la semántica dinámica de paso grande para evaluar la expresión.
@@ -719,7 +765,7 @@ Es importante notar que en estos ejercicios estamos haciendo abuso de la notaci�
     \begin{exercise}
         Ahora supón que se quieren añadir cuantificadores y variables a nuestro lenguaje \texttt{Prop}\footnote{Ejercicio extraído de \hyperlink{107}{[107]}.} de la siguiente forma: \\
         \[
-            \inference{x \ \texttt{Prop}}{\exists v, \ x \ \texttt{Prop}} \; \inference{x \ \texttt{Prop}}{\forall v,\ x \ \texttt{Prop}} \; \inference{v \ variable}{v \ \texttt{Prop}} 
+            \inference{x \ \texttt{Prop}}{\exists v.\ x \ \texttt{Prop}} \; \inference{x \ \texttt{Prop}}{\forall v.\ x \ \texttt{Prop}} \; \inference{v \ variable}{v \ \texttt{Prop}} 
         \]
 	
 	 \begin{itemize}
@@ -731,8 +777,8 @@ Es importante notar que en estos ejercicios estamos haciendo abuso de la notaci�
     \begin{exercise}
         Una calculadora de Notación Polaca Reversa (\texttt{NPR})\footnote{Ejercicio extraído de \hyperlink{107}{[107]}.} es una calculadora que no requiere de parentizado para evaluar las expresiones que son pasadas como argumento.\\
         Esta se apoya de una pila para ''empujar'' los operandos y los operadores así como de la notación pos-fija, es decir el operador se escribe después de los operandos, por ejemplo:
-        $$7\ +\ 1\ =\ 7\ 1\ + $$ 
-        $$7\ -\ (3\ +\ 2)\ =\ 7\ 3\ 2\ +\ -$$
+        $$7\ +\ 1\ \text{se representa como: }\ 7\ 1\ + $$ 
+        $$7\ -\ (3\ +\ 2)\ \text{se representa como: }\ 7\ 3\ 2\ +\ -$$
         Esta calculadora empuja símbolos a la pila hasta encontrar un operador, en tal caso, los dos símbolos más próximos al tope son extraídos de la pila y el resultado de la operación es empujado nuevamente.\\\\
         La sintaxis concreta de la calculadora está definida por las siguientes reglas: \\
         \[

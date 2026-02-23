@@ -55,8 +55,7 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
     % \end{definition}
 
     %De forma equivalente, la gramática previamente mostrada tiene una representación en un conjunto de juicios lógicos.
-     
-     \begin{definition}[Definición de la sintaxis concreta para expresiones ariméticas de EAB] En su representación como juicios lógicos\footnote{ Definición extraída de \hyperlink{12}{[12]}.}: 
+     \begin{definition}[Definición de la sintaxis concreta para expresiones ariméticas de EAB] \label{sec:sintaxis_concreta_EAB} En su representación como juicios lógicos\footnote{ Definición extraída de \hyperlink{12}{[12]}.}: 
         \[
             \begin{array}{cccc}
             \inference{}{0\;{\text{D}}}&
@@ -77,11 +76,11 @@ Posteriormente explicaremos la relación que el operador \texttt{let} introduce 
             \inference{t\;{\sf \text{T}}&f\;{\sf \text{F}}}{t*f\;{\sf \text{T}}}\\
             &\\
             \inference{t\;{\sf \text{T}}}{t\;{\sf \text{E}}}&
-            \inference{e\;{\sf \text{E}}&t\;{\sf \text{T}}}{e+t\quad{\sf \text{E}}}\\
-	     &\\
-            \inference{t\;{\sf \text{T}}}{t\;{\sf \text{E}}}&
-            \inference{e\;{\sf \text{E}}&t\;{\sf \text{T}}}{e-t\quad{\sf \text{E}}}
+            \inference{e\;{\sf \text{E}}&t\;{\sf \text{T}}}{e+t\quad{\sf \text{E}}}
             \end{array}
+        \]
+        \[
+        	 \inference{e\;{\sf \text{E}}&t\;{\sf \text{T}}}{e-t\quad{\sf \text{E}}}
         \]
     \end{definition}
 
@@ -150,9 +149,9 @@ A las expresiones de \textsf{EAB} formuladas a partir de la sintaxis concreta, l
 El objetivo es introducir las constantes \texttt{true} y \texttt{false} y el operador \texttt{if}  \texttt{then} \texttt{else}. Tomando en cuenta el parentizado de expresiones para evitar condiciones de ''else colgante''\footnote{Este problema es conocido en inglés como ''$dangling\ else$'' recurrente en la implementación de \textit{parsers} en el que una cláusula else opcional en una declaración if-then(-else) da como resultado que los condicionales anidados sean ambiguos. \hyperlink{90}{[90]}} y la ambigüedad que deriva de no marcar el alcance de las condicionales.\\\\
 Para este propósito, marcaremos con paréntesis la expresión inmediata a evaluar después del marcador \texttt{then}.
 
-    
+    \label{sec:sintaxis_concreta_IF}
     \begin{exercise}        
-        Define la sintaxis concreta para extender nuestro lenguaje \textsf{EAB} con las instrucciones lógicas previamente discutidas%\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{8}{[8]} y \hyperlink{12}{[12]} }
+        Define la sintaxis concreta para extender nuestro lenguaje \textsf{EAB} con las instrucciones lógicas previamente discutidas\footnote{Definición formulada a partir de \hyperlink{107}{[]}}.
         \[ 
             \inference{}{\texttt{true} \text{ B}} \quad \inference{}{\texttt{false} \text{ B}}
         \]
@@ -160,11 +159,13 @@ Para este propósito, marcaremos con paréntesis la expresión inmediata a evalu
              \inference{c \text{ E } t \text{ E }  e \text{ E}}{\texttt{if $c$ then ($t$) else $e$} \text{ E}} \quad 
 	  %\inference{c \text{ E } t \text{ E}}{\texttt{if $c$ then ($t$) } \text{E}}  \quad
 	  \inference{x \text{ B }}{x \text{ E}}
-        \]
+        \] \\
         %\[
          %   \inference{e \text{ E}}{(e) \text{ LE}} \inference{e \text{ LE}}{ e \text{ E}}
         %\]
 	% Antes, la F era LE. lo cambie porque las F pueden usar el perentizado y comenté la regla de arriba para no repetir el mismo mecanismo pero creo que funciona.
+	Nótese que el operador \textsf{if} forza el encapsulamiento de la expresión \textsf{then} empleando parentizado explícito. Esta regla podría hacer uso de una estrategia ó heurística para eliminar la ambigüedad del operador y los paréntesis.\\\\
+	Por simplicidad y para facilitar la interpretación de la jerarquía de condicionales, utilizaremos el parentizado explicito.
     \end{exercise}
 
 Notemos que con la sintaxis extendida ahora podemos tener expresiones que son sintácticamente correctas, pero que no tienen sentido como: \[ \texttt{true} + 1\]
@@ -183,8 +184,8 @@ Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo
     \begin{exercise}
         Define los juicios que componen la sintaxis abstracta para el operador \texttt{if}\\
         \[
-            \inference{\texttt{true} \text{ B} }{\textit{T} \textit{ ASA}} \quad
-            \inference{\texttt{false} \text{ B} }{\textit{F} \textit{ ASA}}
+            \inference{\texttt{true} \text{ B} }{\textit{bool[true]} \textit{ ASA}} \quad
+            \inference{\texttt{false} \text{ B} }{\textit{bool[false]} \textit{ ASA}}
         \]
         \[
           %  \inference{c \textit{ ASA } t \textit{ ASA  }}{ \textit{if(} \textit{c,t} \text{)} \textit{ ASA}} 
@@ -197,8 +198,8 @@ Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo
     \begin{exercise}
         Define las reglas del analizador sintáctico para el operador \texttt{If}.
         \[
-            \inference{}{\texttt{true} \text{ B} \longleftrightarrow \textit{T} \textit{ ASA}}[\textit{(true)}]  \quad
-            \inference{}{\texttt{false} \text{ B} \longleftrightarrow \textit{F} \textit{ ASA}}[\textit{(false)}]
+            \inference{}{\texttt{true} \text{ B} \longleftrightarrow \textit{bool[true]} \textit{ ASA}}[\textit{(true)}]  \quad
+            \inference{}{\texttt{false} \text{ B} \longleftrightarrow \textit{bool[false]} \textit{ ASA}}[\textit{(false)}]
         \]
         \[
             %\inference{ \text{$c$ E} \longleftrightarrow \textit{e'} \textit{ ASA}}{\text{($e$) LE} \longleftrightarrow \textit{e'} \textit{ ASA}}[\textit{(parentB)}] \;
@@ -220,11 +221,11 @@ Por el momento permitiremos este tipo de expresiones y en el siguiente capítulo
     Ahora necesitamos extender aún mas \textsf{EAB} para incluir expresiones de tipo: 
     \[\texttt{let } \textit{ x } \text{=} \textit{ $e_1$ } \texttt{in} \textit{ $e_2$ }  \texttt{end}\]
 
-    Donde las apariciones de la variable \textit{x} serán sustituidas por $e_1$ en $e_2$.\\\\
+    La intuición de esta clase de expresiones es que en su proceso de evaluación las apariciones de la variable \textit{x} en $e_2$, serán sustituidas por el resultado de la evaluación de $e_1$.\\\\
     Para definir al operador \texttt{let} en \textsf{EAB}, se tienen que definir los juicios lógicos para la sintaxis concreta y abstracta. Así como una categoría nueva para los identificadores de variables que en conjunto introducen el concepto de ligado de variable.\\\\
 Definamos entonces la sintaxis concreta de la nueva instrucción como sigue.
     \begin{exercise}
-        Proporciona las sintaxis concreta para agregar la instrucción \texttt{let} de tal forma que sea congruente con las especificación mencionada anteriormente\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} }.
+        Proporciona las sintaxis concreta\footnote{Recordemos que las categorías gramaticales B (\hyperref[sec:sintaxis_concreta_IF]{definición 3.1}) y F (\hyperref[sec:sintaxis_concreta_EAB]{definición 1.2}) engloban la definición de los booleanos y los factores en la gramática concreta respectivamente.} para agregar la instrucción \texttt{let} de tal forma que sea congruente con las especificación mencionada anteriormente\footnote{Definición formulada a partir de \hyperlink{1}{[1]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]} y \hyperlink{81}{[81]} }.
 
         \[
             \inference{e \text{ identificador}}{e\text{ V}}[\textit{(var) }]
@@ -281,7 +282,7 @@ La sintaxis abstracta de orden superior, abstrae el ligado como parte del metale
         Obtén la representación en sintaxis abstracta partiendo de la sintaxis concreta de las siguiente expresión: \\\\
         \texttt{let} $y$ = \texttt{if} \texttt{true} \texttt{then} (1) \texttt{else} 0 \texttt{in} \texttt{if} $x$ \texttt{then} (\texttt{false}) \texttt{else true} \texttt{end}\\
         \[
-            \textit{let(if(T, num[1], num[0]), $y$.if($x$, F, T))\ ASA}
+            \textit{let(if(bool[true], num[1], num[0]), $y$.if($x$, bool[false], bool[true]))\ ASA}
         \]
     \end{exercise}
 
@@ -290,7 +291,7 @@ La sintaxis abstracta de orden superior, abstrae el ligado como parte del metale
         
         \texttt{let $x$ = false} \texttt{in} \texttt{if} $x$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} (\texttt{if} $\alpha$ \texttt{then} (4) \texttt{else} 1) \texttt{else} 0) \texttt{else false} \texttt{end}\\
         \[
-            \textit{let(F, x.if(x, if($\alpha$, if($\alpha$, num[4], 1), 0), F)) ASA}
+            \textit{let(bool[false], x.if(x, if($\alpha$, if($\alpha$, num[4], num[1]), num[0]), bool[false])) ASA}
         \]        
     \end{exercise}
 
@@ -308,17 +309,14 @@ La sintaxis abstracta de orden superior, abstrae el ligado como parte del metale
     De tal forma que si tenemos la siguiente expresión: \[ \texttt{let } x = 5 \texttt{ in }  \setulcolor{red}\textit{\ul{x}} + y \texttt{ end } \] Decimos que $x$ es la variable ligada en el cuerpo de la expresión \texttt{let}.
     \end{definition}
 
-
 \begin{definition}[Alcance de variable] El alcance de una variable es la región de un programa en la que esta obtiene su valor\footnote{Definición formulada de \hyperlink{5}{[5]} y  \hyperlink{12}{[12]}}. \\\\
 En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido por las palabras reservadas \texttt{in} y \texttt{end}. Solo en esta región la definición del valor asociado a la variable ligada de la instrucción puede tomar efecto.
 	
 \end{definition}
 
-
     \begin{definition}[Variable libre] Una variable está libre en una expresión si no se encuentra dentro del alcance de una variable de ligado con su nombre. Es decir, una variable es libre si no está ligada\footnote{Definición formulada de  \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}.\\\\
-    De tal forma que si tenemos la siguiente expresión: \[ \texttt{let } x = e_1 \texttt{ in } \setulcolor{red}\textit{\ul{y}} \texttt{ end } \] Decimos que $y$ es una variable libre en nuestra expresión \texttt{let}.
+    De tal forma que si tenemos la siguiente expresión: \[ \texttt{let } x = e_1 \texttt{ in } \setulcolor{red}\textit{\ul{y}} + 1 \texttt{ end } \] Decimos que $y$ es una variable libre en nuestra expresión \texttt{let}.
     \end{definition}
-
     
     \begin{definition}[Función para obtener las variables libres de una expresión] Dado el árbol de sintaxis abstracta $a$  definimos el conjunto de variables libres de la expresión\footnote{Definición extraída de  \hyperlink{2}{[2]}, \hyperlink{5}{[5]}, \hyperlink{12}{[12]}, \hyperlink{80}{[80]} y \hyperlink{81}{[81]}}, denotado $FV(a)$ como sigue:
         \[
@@ -330,7 +328,6 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         \]
 	 Es importante remarcar que la expresión $O(a_1,\cdots,a_n)$, comprende un abuso de la notación para representar a todos los operadores aritméticos, booleanos y expresiones let de \textsf{EAB}.
     \end{definition}
-
 
     \begin{exercise}
     Dada la siguiente expresión \texttt{let} definida como:
@@ -365,7 +362,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 
     \begin{exercise}
     Por cada expresión \texttt{let} en $e$ escribe la variable de ligado, el alcance y las instancias ligadas.
-    
+   
         %\begin{align*}
     	%\texttt{let  }
     	%	\setulcolor{blue}\textit{\ul{x}}&= \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end }
@@ -395,55 +392,98 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         %\begin{align*}
           %       &\texttt{let } \setulcolor{orange}\texttt{\ul{z}}=7 \texttt{ in } y+z \texttt{ end }\\
         %\end{align*}
-    \end{exercise}
-	
-   \bigskip
 
-\begin{center}
- \scalemath{0.60}{
-\begin{turn}{90}
-\begin{tabular}{ |p{7.2cm}|p{5.7cm}|p{6.5cm}|p{6.5cm}|  }
- 		\hline
- 		\multicolumn{4}{|c|}{Expresiones \texttt{let} en \textsf{EAB}} \\
- 		\hline\xrowht[()]{20pt}
- 		Expresión & Variable de ligado & Alcance & Variable ligada\\
-		\hline\xrowht[()]{90pt}
-  		\makecell[l]{
-			\\
-		    $\texttt{let  } x = \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end} \texttt{ in }$ \\  
-		     \qquad $\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
-		    \qquad \qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$\\
-		    \qquad \texttt{ end } \\ 
-		    \texttt{ end } \\
-		} & $\setulcolor{blue}\texttt{\ul{x}} = \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end}$ &  \makecell[l]{ $\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
-		     \qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$ \\
-		     \texttt{ end } }  & \makecell[l]{ $ \texttt{let } y = (\setulcolor{blue}\texttt{\ul{x}} \ast 2) + \setulcolor{blue}\texttt{\ul{x}} \texttt{ in }$ \\
-		     \qquad $(\setulcolor{blue}\texttt{\ul{x}} \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$\\
-		     \texttt{ end } }\\
-		\hline\xrowht[()]{30pt}
-	 	\makecell[l]{ \\ $\texttt{let } x = (2 + 4) \texttt{ in } x+1 \texttt{ end}$ \\
-		} &  $\setulcolor{purple}\texttt{\ul{x}} = (2 + 4)$  &  $x+1$   &  $\setulcolor{purple}\texttt{\ul{x}}+1$\\
-		\hline\xrowht[()]{60pt}
- 		\makecell[l]{ 
-		 \\ 
-		 $\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
-		 \qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z$ \\
-		 \texttt{ end } 
-		 } &   $\setulcolor{green}\texttt{\ul{y}} = (x \ast 2) + x$  &  $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z$  &   $(x \ast  \setulcolor{green}\texttt{\ul{y}}) + \texttt{let }z = 7 \texttt{ in }   \setulcolor{green}\texttt{\ul{y}} + z$\\
- 		\hline\xrowht[()]{40pt}
-		\makecell[l]{ 
-		\\
-		\texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end} }  &   \setulcolor{orange}\texttt{\ul{z}} = 7  & y + z &  y + \setulcolor{orange}\texttt{\ul{z}}\\
-		\hline
-\end{tabular}
-\end{turn}
-}
-\end{center}
+		\begin{center}
+		 \scalemath{0.6}{
+		\begin{turn}{0}
+		\begin{tabular}{ |p{7.0cm}|p{2.3cm}|p{5.2cm}|p{6.0cm}|  }
+		 		\hline
+		 		\multicolumn{4}{|c|}{Expresiones \texttt{let} en \textsf{EAB}} \\
+		 		\hline\xrowht[()]{20pt}
+		 		Let & Variable ligada & Expresión a ligar & Alcance del let\\
+				\hline\xrowht[()]{30pt}
+			 		\makecell[l]{ \\ 
+			 			$\texttt{let } x = (2 + 4) \texttt{ in } x+1 \texttt{ end}$ \\
+					} &  $\setulcolor{purple}\texttt{\ul{x}}$  &  $2 + 4$   &  $\setulcolor{purple}\texttt{\ul{x}}+1$\\
+				\hline\xrowht[()]{40pt}
+				\makecell[l]{ 
+					\\
+					\texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end} }  &   \setulcolor{orange}\texttt{\ul{z}} & 7 &  y + \setulcolor{orange}\texttt{\ul{z}}\\
+				\hline\xrowht[()]{60pt}
+		 		\makecell[l]{ 
+				 \\ 
+				 $\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
+				 \qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z$ \\
+				 \texttt{ end } 
+				 } &   $\setulcolor{green}\texttt{\ul{y}} $  &  $ (x \ast 2) + x$  &  $(x \ast  \setulcolor{green}\texttt{\ul{y}}) + \texttt{let }z = 7 \texttt{ in }   \setulcolor{green}\texttt{\ul{y}} + z$\\
+				\hline\xrowht[()]{90pt}
+				\makecell[l]{
+					\\
+					$\texttt{let  } x = \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end} \texttt{ in }$ \\  
+					\qquad $\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
+					\qquad \qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$\\
+					\qquad \texttt{ end } \\ 
+					\texttt{ end } \\
+				} & $\setulcolor{blue}\texttt{\ul{x}}$ &  \makecell[l]{ \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end} }  & \makecell[l]{ $ \texttt{let } y = (\setulcolor{blue}\texttt{\ul{x}} \ast 2) + \setulcolor{blue}\texttt{\ul{x}} \texttt{ in }$ \\
+					\qquad $(\setulcolor{blue}\texttt{\ul{x}} \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$\\
+					\texttt{ end } }\\
+					\hline
+		\end{tabular}
+		\end{turn}
+		}
+		\end{center}
+
+
+    \end{exercise}
+
+\bigskip
+
+%\begin{center}
+%	\scalemath{0.60}{
+%		\begin{turn}{90}
+%			\begin{tabular}{ |p{7.2cm}|p{5.7cm}|p{6.5cm}|p{6.5cm}|  }
+%				\hline
+%				\multicolumn{4}{|c|}{Expresiones \texttt{let} en \textsf{EAB}} \\
+%				\hline\xrowht[()]{20pt}
+%				Expresión & Variable de ligado & Alcance & Variable ligada\\
+%				\hline\xrowht[()]{30pt}
+%				\makecell[l]{ \\ $\texttt{let } x = (2 + 4) \texttt{ in } x+1 \texttt{ end}$ \\
+%				} &  $\setulcolor{purple}\texttt{\ul{x}} = (2 + 4)$  &  $x+1$   &  $\setulcolor{purple}\texttt{\ul{x}}+1$\\
+%				\hline\xrowht[()]{40pt}
+%				\makecell[l]{ 
+%					\\
+%					\texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end} }  &   \setulcolor{orange}\texttt{\ul{z}} = 7  & y + z &  y + \setulcolor{orange}\texttt{\ul{z}}\\
+%				\hline\xrowht[()]{60pt}
+%				\makecell[l]{ 
+%					\\ 
+%					$\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
+%					\qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z$ \\
+%					\texttt{ end } 
+%				} &   $\setulcolor{green}\texttt{\ul{y}} = (x \ast 2) + x$  &  $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z$  &   $(x \ast  \setulcolor{green}\texttt{\ul{y}}) + \texttt{let }z = 7 \texttt{ in }   \setulcolor{green}\texttt{\ul{y}} + z$\\
+%				\hline\xrowht[()]{90pt}
+%				\makecell[l]{
+%					\\
+%					$\texttt{let  } x = \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end} \texttt{ in }$ \\  
+%					\qquad $\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
+%					\qquad \qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$\\
+%					\qquad \texttt{ end } \\ 
+%					\texttt{ end } \\
+%				} & $\setulcolor{blue}\texttt{\ul{x}} = \texttt{let }x = (2 + 4) \texttt{ in } x+1 \texttt{ end}$ &  \makecell[l]{ $\texttt{let } y = (x \ast 2) + x \texttt{ in }$ \\
+%					\qquad $(x \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$ \\
+%					\texttt{ end } }  & \makecell[l]{ $ \texttt{let } y = (\setulcolor{blue}\texttt{\ul{x}} \ast 2) + \setulcolor{blue}\texttt{\ul{x}} \texttt{ in }$ \\
+%					\qquad $(\setulcolor{blue}\texttt{\ul{x}} \ast y) + \texttt{let }z = 7 \texttt{ in }  y + z \texttt{ end}$\\
+%					\texttt{ end } }\\
+%				\hline
+%			\end{tabular}
+%		\end{turn}
+%	}
+%\end{center}
+
 
 
 
     \begin{exercise}
-        Al evaluar la expresión $e$ se puede obtener un valor? si sí muestra el procedimiento para la evaluación informal (aún no definimos la semántica operacional para \texttt{let} en \textsf{EAB}, pero se puede esbozar el método de evaluación partiendo de la descripción de esta instrucción.)
+        Al evaluar la expresión $e$ se puede obtener un valor? si sí muestra el procedimiento para la evaluación informal (aún no definimos la semántica operacional para \texttt{let} en \textsf{EAB}, pero se puede esbozar el método de evaluación partiendo de la descripción de  instrucción.)
     
         \begin{align*}
         	e=_{\text{def}}\texttt{let  }
@@ -525,8 +565,8 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
             \begin{array}{lclr}
                 x[x :=e]&=&e&\\
                 z[x :=e]&=&z&\\
-	     \textit{T}\; [z:=e]& =& \textit{T} \\
-	     \textit{F}\; [z:=e] &=& \textit{F}\\
+	     \textit{bool[true]}\; [z:=e]& =& \textit{bool[true]} \\
+	     \textit{bool[false]}\; [z:=e] &=& \textit{bool[false]}\\
                 num[n][x:=e]&=&num[n]&\\
                 sum(a_1,a_2)[x:=e]&=&sum(a_1[x:=e],a_2[x:=e])&\\
                 res(a_1,a_2)[x:=e]&=&res(a_1[x:=e],a_2[x:=e])&\\
@@ -583,7 +623,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     \begin{exercise}
         Desarrolla la sustitución aplicada a la siguiente expresión de acuerdo con la función de sustitución previamente definida.
         	\[
-          	  (\texttt{let } x = (w + 1) * 2 \texttt{ in} \texttt{ if } \texttt{True } \texttt{ then } w \texttt{ else } (2 * x) \texttt{ end })[w:=2]
+          	  (\texttt{let } x = (w + 1) * 2 \texttt{ in} \texttt{ if } \texttt{true } \texttt{ then } w \texttt{ else } (2 * x) \texttt{ end })[w:=2]
         	\]
        	%\[ 
 	%	\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}, x.\textit{if(} \textit{T, } w, \textit{ prod(2, x)))} \; [ w := \textit{num}[2]] 
@@ -592,13 +632,13 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 	%	\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}[ w := \textit{num}[2]] , x.\textit{if(} \textit{T, } w, \textit{ prod(2, x))}[ w := \textit{num}[2]])  
 	%\]
 	%\[
-	%	\textit{let(prod(sum(w, num}[1])[ w := \textit{num}[2]], \textit{num}[2][ w := \textit{num}[2]] \textit{)}, x.\textit{if(} \textit{T}[ w := \textit{num}[2]], w \ [ w := \textit{num}[2]], \textit{ prod(}num[2], x)[ w := \textit{num}[2]] ))  
+	%	\textit{let(prod(sum(w, num}[1])[ w := \textit{num}[2]], \textit{num}[2][ w := \textit{num}[2]] \textit{)}, x.\textit{if(} \textit{bool[true]}[ w := \textit{num}[2]], w \ [ w := \textit{num}[2]], \textit{ prod(}num[2], x)[ w := \textit{num}[2]] ))  
 	%\]
 	%\[
-	%	\textit{let(prod(sum(}w[ w := \textit{num}[2]], num[1][ w := \textit{num}[2]]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{T}, \ num[2], \textit{ prod(num}[2][ w := \textit{num}[2]], \  x[ w := \textit{num}[2]]))) 
+	%	\textit{let(prod(sum(}w[ w := \textit{num}[2]], num[1][ w := \textit{num}[2]]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{bool[true]}, \ num[2], \textit{ prod(num}[2][ w := \textit{num}[2]], \  x[ w := \textit{num}[2]]))) 
 	%\]
 	%\[
-	%	\textit{let(prod(sum(}\textit{num}[2], num[1]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{T}, \ num[2], \textit{ prod(num}[2], \  x))) 
+	%	\textit{let(prod(sum(}\textit{num}[2], num[1]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{bool[true]}, \ num[2], \textit{ prod(num}[2], \  x))) 
 	%\]
 	%\[ 
 	%	\scalemath{0.9}{
@@ -613,7 +653,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 \flushleft{
 	\rotatebox{90}{
 		\parbox{20cm}{
-  			$\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}, x.\textit{if(} \textit{T, } w, \textit{ prod(2, x)))} \; [ w := \textit{num}[2]]$
+  			$\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}, x.\textit{if(} \textit{bool[true]}, w, \textit{ prod(2, x)))} \; [ w := \textit{num}[2]]$
 		}
 	}
 }
@@ -623,7 +663,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 \flushleft{
 	\rotatebox{90}{
 		\parbox{20cm}{
-  			$\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}[ w := \textit{num}[2]] , x.\textit{if(} \textit{T, } w, \textit{ prod(2, x))}[ w := \textit{num}[2]])$
+  			$\textit{let(prod(sum(w, num}[1]), \textit{num}[2]\textit{)}[ w := \textit{num}[2]] , x.\textit{if(} \textit{bool[true], } w, \textit{ prod(2, x))}[ w := \textit{num}[2]])$
 		}
 	}
 }
@@ -633,7 +673,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 \flushleft{
 	\rotatebox{90}{
 		\parbox{20cm}{
-			  $\textit{let(prod(sum(w, num}[1])[ w := \textit{num}[2]], \textit{num}[2][ w := \textit{num}[2]] \textit{)}, x.\textit{if(} \textit{T}[ w := \textit{num}[2]], w[ w := \textit{num}[2]], \textit{ prod(}num[2], x)[ w := \textit{num}[2]] )) $
+			  $\textit{let(prod(sum(w, num}[1])[ w := \textit{num}[2]], \textit{num}[2][ w := \textit{num}[2]] \textit{)}, x.\textit{if(} \textit{bool[true]}[ w := \textit{num}[2]], w[ w := \textit{num}[2]], \textit{ prod(}num[2], x)[ w := \textit{num}[2]] )) $
 		}
 	}
 }
@@ -643,7 +683,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 \flushleft{
 	\rotatebox{90}{
 		\parbox{20cm}{
- 			 $\textit{let(prod(sum(}w[ w := \textit{num}[2]], num[1][ w := \textit{num}[2]]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{T}, \ num[2], \textit{ prod(num}[2][ w := \textit{num}[2]], \  x[ w := \textit{num}[2]]))) $
+ 			 $\textit{let(prod(sum(}w[ w := \textit{num}[2]], num[1][ w := \textit{num}[2]]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{bool[true]}, \ num[2], \textit{ prod(num}[2][ w := \textit{num}[2]], \  x[ w := \textit{num}[2]]))) $
 		}
 	}
 }
@@ -653,7 +693,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
 \flushleft{
 	\rotatebox{90}{
 		\parbox{20cm}{
- 			 $\textit{let(prod(sum(}\textit{num}[2], num[1]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{T}, \ num[2], \textit{ prod(num}[2], \  x))) $
+ 			 $\textit{let(prod(sum(}\textit{num}[2], num[1]), \textit{num}[2] \textit{)}, x.\textit{if(} \textit{bool[true]}, \ num[2], \textit{ prod(num}[2], \  x))) $
 		}
 	}
 }
@@ -697,7 +737,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
     \begin{exercise}
         La siguiente expresión ¿es una expresión correcta de nuestro lenguaje? Explica por que si o porque no de acuerdo a las reglas de sintaxis concreta definidas.
         \[
-            \texttt{if } \top \texttt{ then } \texttt{ let } x = \text{True} \texttt{ in} \texttt{ if } x \texttt{ then } \bot \texttt{ end} 
+            \texttt{if } \top \texttt{ then } \texttt{ let } x = \text{true} \texttt{ in} \texttt{ if } x \texttt{ then } \bot \texttt{ end} 
         \]
     \end{exercise}
 
@@ -769,7 +809,7 @@ En el caso del operador \texttt{let} de \textsf{EAB} el alcance está definido p
         \item Define la función de sustitución para este lenguaje. \\\\
         La relación de $\alpha$-equivalencia en este lenguaje se define con respecto al operador $fun$:
              \[ fun(x) \rightarrow e_1 \equiv_\alpha fun(y) \rightarrow e_2   \]
-	  \[  \longleftrightarrow  \]
+	  \[  \text{sí y solo sí}  \]
 	  \[e_1, e_2 \  \text{difieren únicamente en el nombre de sus variables ligadas}\]
              \item Demuestra que $\equiv_\alpha$ es una relación de equivalencia.
     \end{itemize}

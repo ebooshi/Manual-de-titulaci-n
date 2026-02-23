@@ -150,8 +150,8 @@ Ejemplifiquemos esto con el siguiente ejercicio.
     Ahora discutamos un tipo de estructuras particulares que se relacionan de forma íntima con los conceptos anteriormente planteados; las estructuras recursivas\footnote{Definición formulada a partir de \hyperlink{91}{[91]}, \hyperlink{92}{[92]} y \hyperlink{93}{[93]}}. Estas se generan a partir de dos casos:
     \begin{itemize}
  
-        \item La estructura está compuesta por un elemento primitivo. Muchas veces estos elementos constituyen la clausula de escape para la recursión inducida por la definición y darán lugar a uno o más axiomas en su representación como regla de inferencia.
-        \item La estructura está compuesta por una llamada a la función constructora con un elemento nuevo y la estructura misma que se desea definir como argumentos. 
+        \item La estructura está compuesta por alguno de sus elementos primitivos. Muchas veces estos elementos constituyen la clausula de escape para la recursión inducida por la definición y darán lugar a uno o más axiomas en su representación como regla de inferencia.
+        \item La estructura está compuesta por una llamada a alguna de sus funciones constructoras con un elemento nuevo y la estructura misma que se desea definir como argumentos\footnote{Los elementos primitivos y las funciones constructoras de las estructuras recursivas pueden ser diversas, en el caso particular de las listas el único elemento primitivo de la estructura es la lista vacía y la única función constructora es la función \textit{append} representada por la regla \textit{tup}.}. 
     \end{itemize}
 
 
@@ -176,14 +176,14 @@ Ejemplifiquemos esto con el siguiente ejercicio.
 
     % Ejercicio 2.1
     \begin{exercise}
-        Utiliza la inducción estructural para demostrar: 
+        Utiliza la inducción estructural para demostrar que si $t \in \text{A}^*$ entonces:
         \[ t \bullet \varepsilon = t\] 
             \textbf{Caso Base} t = $\varepsilon$ \\
 		 $t \bullet \varepsilon = \varepsilon \bullet \varepsilon$\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  \qquad \qquad \qquad  \qquad \qquad  (Por hipótesis)\\
             $\varepsilon \bullet \varepsilon$ =  $\varepsilon$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la definición de $\bullet$) \\
             $\varepsilon$ = $t$. \\\\
-            \textbf{Hipótesis Inductiva} $t \bullet \varepsilon = t$, $\forall$ $t \in \text{A}^*$ \\\\
-            \textbf{Paso Inductivo} Por demostrar para t' = $\<a,t\>, a \in \text{A}$, $t \in \text{A}^*$ \\
+            \textbf{Hipótesis Inductiva} $t \bullet \varepsilon = t$ \\\\
+            \textbf{Paso Inductivo} Por demostrar para $\<a,t\> \ \forall \ a \in \text{A}$\\ %donde $a \in \text{A}$, $t \in \text{A}^*$ \\
             $\<a,t\> \bullet \varepsilon$ = $\<a, \<t \bullet \varepsilon \> \>$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad (Por la definición de $\bullet$) \\
             $\<t \bullet \varepsilon \> = t $ \qquad \qquad \qquad \qquad \qquad \quad \qquad \qquad \qquad \qquad \qquad\ (Por la hipótesis inductiva) \\
             $\<a,t\> \bullet \varepsilon = \<a, \<t \bullet \varepsilon \> \> = \<a, t\>$ \\ 
@@ -192,34 +192,39 @@ Ejemplifiquemos esto con el siguiente ejercicio.
 
     % Definición 2.2: Función para contar caracteres
     \begin{definition}
-        Definimos la función para contar ocurrencias de los carácteres 1 ó 0 en una cadena denotada por $numChar$ :: (A $\rightarrow$ A*) $\rightarrow$ Int como sigue\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}} :
+        Definimos la función para contar ocurrencias de los caracteres 1 ó 0 en una cadena denotada por $numChar$ :: (A $\rightarrow$ A*) $\rightarrow$ Int como sigue\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}} :
         \[   
+        	numChar(c, \ \varepsilon) = 0 \\
+        \]
+        \[
             numChar(c, \ \<a,t\>) = 
                 \begin{cases}
-                    numChar(c, \ \varepsilon) = 0 \\
                     1 + numChar(c, \ t) & \text{Sí \textit{a} = c} \\
                     numChar(c, \ t)     & \text{Sí \textit{a}} \neq c \\
                  \end{cases}
         \]
     \end{definition}
-Cuando se quiera aplicar el principio de inducción a una función o propiedad que recibe mas de un argumento, la inducción se tiene que fijar sobre alguno de sus parámetros. Ejemplifiquemos esto con el siguiente ejercicio.
+Cuando se quiera aplicar el principio de inducción a una función o propiedad que se enuncia para mas de un argumento, la inducción se tiene que fijar sobre alguno de sus parámetros.\\\\
+En los siguientes ejercicios, cuando interactúen dos elementos $s$, $t$ $\in$ A$^*$ como en ($s \bullet t$), la convención será escoger siempre el parámetro izquierdo (en este caso $s$) para aplicar el principio de inducción, pues la función de concatenación ($\bullet$), está definida para operar sobre el parámetro izquierdo. Ésto simplifica el razonamiento al desarrollar el paso inductivo. \\\\
+Ejemplifiquemos esto con el siguiente ejercicio.
+
 
     % Ejercicio 2.3
     \begin{exercise}
-        Utiliza la inducción estructural para demostrar
-
+        Utiliza la inducción estructural para demostrar que sí $c \in \text{A}$ y $s, t \in  \text{A}^*$ entonces:
            \[ numChar(c, s \bullet t) = numChar(c, s) + numChar(c, t)  \]
-
-	 \textbf{Demostración por inducción sobre }$s$.\\\\
+	 \textbf{Demostración por inducción sobre }$s$.\\
+	 %Escogemos el parámetro $s$ para aplicar el principio de inducción pues la función de concatenación ($\bullet$), está definida para el parámetro izquierdo. Esto simplifica el razonamiento al desarrollar el paso inductivo. \\
+	 
         \textbf{Caso Base} $s = \varepsilon$ \\
 		$numChar(c, s \bullet t) = numChar(c, \varepsilon \bullet t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad  (Por hipótesis)\\
              $numChar(c, \varepsilon \bullet t) = numChar(c, t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad(Por la definición de $\bullet$)\\
              $0 + numChar(c, t)$ = $numChar(c, \varepsilon) + numChar(c, t)$ \quad  (Por la definición de $numChar$)\\
              = $numChar(c, s) + numChar(c, t)$\\
 
-        \textbf{Hipótesis Inductiva}  $numChar(c, s \bullet t) = numChar(c, s) + numChar(c, t), \forall  s,t  \in $ A*\\
+        \textbf{Hipótesis Inductiva}  $numChar(c, s \bullet t) = numChar(c, s) + numChar(c, t)$\\
 
-        \textbf{Paso Inductivo} Por demostrar para $s' = \<a,s\>, a \in $ A, $s \in $A*\\
+        \textbf{Paso Inductivo} Por demostrar para $\<a,s\> \bullet t \ \ \forall \ t  \in\text{A}^* \text{ y } \forall \ a \in \text{A}$ \\ %\text{ donde } a \in $ A, $s \in $A*\\
             $numChar(c, \<a,s\> \bullet t)$ = $numChar(c, \<a, s \bullet t \>)$ \qquad \qquad \qquad \quad (Por la definición de $\bullet$)\\
             
         \textbf{Caso 1} $a = c$ entonces tenemos\\
@@ -250,18 +255,20 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
 
     % Ejercicio 2.4
     \begin{exercise}
-        Utiliza inducción estructural para demostrar
+        Utiliza inducción estructural para demostrar que si $s,t \in \text{A}^*$, entonces:
             \[ len(s \bullet t) = len(s) + len(t) \]
-    	\textbf{Demostración por inducción sobre } $s$.\\\\
+    	\textbf{Demostración por inducción sobre } $s$.\\
+    		 %Escogemos el parámetro $s$ para aplicar el principio de inducción pues la función de concatenación ($\bullet$) y la función \textit{len}, están definidas para operar sobre el parámetro izquierdo. Esto simplifica el razonamiento al desarrollar el paso inductivo. \\
+    		 
 	        \textbf{Caso Base } $s = \varepsilon$ \\
 	   $len(s \bullet t) = len(\varepsilon \bullet t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  (Por la hipótesis)
            $len(\varepsilon \bullet t) = len(t)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad (Por la definición de $\bullet$) \\
            = $0 + len(t)$ = $len(\varepsilon) + len(t)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad (Por la definición de $len$) \\
            = $len(s) + len(t)$\\\
 
-        \textbf{Hipótesis inductiva }  $len(s \bullet t) = len(s) + len(t) \ \forall s,t \in $ A*\\  
+        \textbf{Hipótesis inductiva }  $len(s \bullet t) = len(s) + len(t)$\\  
 
-        \textbf{Paso Inductivo } Por demostrar para $s' = \<a,s\>$, \textit{a} $\in$ A y \textit{s} $\in$ A*\\
+        \textbf{Paso Inductivo } Por demostrar para $\<a,s\> \bullet t \ \ \forall \ t  \in\text{A}^* \text{ y } \forall \ a \in \text{A}$\\ %\text{ donde } \textit{a} $\in$ A y \textit{s} $\in$ A*\\
             $len(\<a,s\> \bullet t) = len(\<a,\<s \bullet t\>\>)$ \qquad \qquad \qquad \qquad \qquad \quad \quad \quad \quad \quad \ \ (Por la definición $\bullet$) \\
             = $1 + len(s \bullet t)$ = $1 + len(s) + len(t)$ \qquad \qquad \qquad \qquad \qquad (Por la hipótesis inductiva) \\
             = $(1 + len(s)) + len(t)$ = $len(\<a,s\>) + len(t)$ \\
@@ -275,8 +282,8 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
 
         \textbf{Caso Base} $s = \varepsilon$ \\
             $len(rev(s)) = len(rev(\varepsilon)) = len(\varepsilon) = len(s)$.  \qquad \qquad \qquad \qquad  (Por la definición de $rev$) \\\\
-            \textbf{Hipótesis Inductiva} $len(rev(s)) = len(s) \ \forall s \in $ A* \\\\
-            \textbf{Paso Inductivo} Por demostrar para $s' = \<a, s\> $, \textit{a} $\in$ A y \textit{s} $\in$ A* \\
+            \textbf{Hipótesis Inductiva} $len(rev(s)) = len(s)$ \\\\
+            \textbf{Paso Inductivo} Por demostrar para $\<a, s\> \ \forall \ a \in \text{A}$\\% \textit{a} $\in$ A y \textit{s} $\in$ A* \\
             $len(rev(\<a, s\> )) = len(rev(s) \bullet \<a,\varepsilon\>)$ \qquad \qquad \qquad \qquad \qquad \ \ (Por la definición de $rev$)\\
             = $ len(rev(s)) + len(\<a,\varepsilon\>)$  \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (Por la propiedad anterior)\\
             = $len(rev(s)) + 1 + len(\varepsilon)$ \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \ \ (Por la definición de len)\\ 
@@ -288,11 +295,11 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
 
     % Definición 2.4 Arboles binarios balanceados de altura K y tipo A, Función para contar los nodos de un árbol
     \begin{definition}
-        Definimos la estructura de datos árboles binarios de tipo A denotados como Tree A con las siguientes reglas\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
+        Definimos la estructura de datos árboles binarios de tipo A denotados como $Tree_{A}$ con las siguientes reglas\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
 
         \begin{enumerate}
-            \item $\emptyset$ Tree A.
-            \item Si  $t_1$ Tree A y $t_2$ Tree A y $a \in $ A  entonces  $node(a,t_1,t_2)$ Tree A.
+            \item $\emptyset$ $Tree_{A}$.
+            \item Si  $t_1$ $Tree_{A}$ y $t_2$ $Tree_{A}$ y $a \in $ A  entonces  $node(a,t_1,t_2)$ $Tree_{A}$.
             \item Son todos.
         \end{enumerate} 
 
@@ -303,7 +310,7 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
     \end{definition}
 
   \begin{definition}
-        Definimos la función para obtener la altura de los elementos de Tree A denotada $height(t)$ :: Tree A $\rightarrow$ Int,  como sigue:\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
+        Definimos la función para obtener la altura de los elementos de $Tree_{A}$ denotada $height(t)$ :: $Tree_{A}$ $\rightarrow$ Int,  como sigue:\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
        \[
             \begin{array}{rcl}
             	height(\emptyset) & = & 0 \\
@@ -313,7 +320,7 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
     \end{definition}
   
     \begin{definition}
-        Definimos la función que cuenta el número de nodos de los elementos de Tree A denotada $n_n(t)$ :: Tree A $\rightarrow$ Int,  como\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
+        Definimos la función que cuenta el número de nodos de los elementos de $Tree_{A}$ denotada $n_n(t)$ :: $Tree_{A}$ $\rightarrow$ Int,  como\footnote{Definición formulada a partir de \hyperlink{67}{[67]}, \hyperlink{68}{[68]} y \hyperlink{69}{[69]}}:
         \[
             \begin{array}{rcl}
                  n_n(\emptyset)     &  =  & 0  \\
@@ -325,10 +332,10 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
 
     % Ejercicio 2.6
     \begin{exercise}
-        Demuestra utilizando inducción estructural que si \textit{t} Tree A con altura \textit{k} entonces $n_n(t) \leq 2^k - 1$ \\\\
+        Demuestra utilizando inducción estructural que si \textit{t} $Tree_{A}$ con altura \textit{k} entonces $n_n(t) \leq 2^k - 1$ \\\\
         \textbf{Caso Base} $t = \emptyset$, $k=0$\\\\
             $n_n(\emptyset) = 0  \leq 2^0 -1 $ = $1 -1$ = 0.\\\\
-        \textbf{Hipótesis Inductiva} $n_n(t) \leq 2^k - 1$,  para todo $t$ Tree A, donde $height(t)=k$. \\\\
+        \textbf{Hipótesis Inductiva} $n_n(t) \leq 2^k - 1$,  para todo $t$ $Tree_{A}$, donde $height(t)=k$. \\\\
         \textbf{Paso Inductivo} Por demostrar $n_n(node(a,t_1,t_2)) \leq 2^{k+1} - 1$ donde $height(node(a,t_1,t_2)) = k + 1$ y $height(t_1) = height(t_2) = k$.\\\\
             $n_n(node(a,t_1,t_2)) = 1 + n_n(t_1) + n_n(t_2)$ \quad \quad \quad \quad \quad \quad \ \ \ \  (Por definición de $n_n(t)$) \\
             $\leq 1 + (2^{k} - 1) + (2^{k} - 1)$ \qquad \qquad \qquad \qquad \qquad \qquad  \ \ (Por la hipótesis inductiva) \\
@@ -345,8 +352,8 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
         Supón que se quiere modelar una partida de pimpón donde hay 2 jugadores A y B (el jugador A siempre empieza primero), y un marcador que cuenta el número de puntos de A y B representado como una terna: \[ \text{(jugador en turno, puntuación de A, puntuación de B)} \] 
   
         De tal forma que cada estado indica la información del juego hasta ese punto. \\\\
-        Para indicar la transición entre estados utilizamos la notación "$\rightarrow$". Por ejemplo si el jugador B anota, la transición se modela como: \[ (\text{B,X,Y}) \rightarrow (\text{B,X,Y+1}) \]  ya que el jugador que anota un punto vuelve a tirar la pelota en el siguiente turno.\\
-        La partida acaba cuando alguno de los dos logra anotar 10 puntos. \\
+        Para indicar la transición entre estados utilizamos la notación "$\rightarrow$". Por ejemplo si el jugador B anota, la transición se modela como: \[ (\text{B,X,Y}) \rightarrow (\text{B,X,Y+1}) \]  ya que el jugador que anota un punto vuelve a tirar la pelota en el siguiente turno. La partida acaba cuando alguno de los dos logra anotar 10 puntos. \\\\
+        Es importante notar que el estado de un juego puede evolucionar hacia distintos estados dependiendo del desarrollo de la partida. Por ejemplo, el estado (B,X,Y) puede transitar al estado (B,X,Y+1) si el jugador B anota el punto, o al estado (A,X,Y) si no anota y el saque pasa al jugador A. Esto implica que la transición $\rightarrow$ no puede modelarse como una función (ya que un mismo estado puede tener más de una imagen), sino como una relación sobre el conjunto de estados, permitiendo que un estado tenga múltiples estados sucesores.\\ 
 
         En base a la especificación dada anteriormente contesta lo siguiente:
         \begin{enumerate}
@@ -364,8 +371,8 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
                     \text{F} =  \{(\text{C},\text{X},\text{Y})\} \text{ donde } \text{C} \in \{\text{A},\text{B}\} \text{ y X o Y} = 10\nonumber
                 \end{equation}
 
-            \item  Define la función de transición (enlista cuales son los casos y como se comporta la función en cada uno de estos).\\\\
-		Definimos la función de transición $f(s) :: \text{I} \cup \Gamma  \rightarrow \Gamma \cup \text{F}$ a partir de los siguientes casos:\\\\
+            \item  Define la relación de transición (enlista cuales son los casos y como se comporta la relación en cada uno de estos).\\\\
+		Definimos la relación de transición $f(s) :: \text{I} \cup \Gamma  \rightarrow \Gamma \cup \text{F}$ a partir de los siguientes casos:\\\\
                 Sí el jugador A puntúa: 
                 \[ f((\text{A},\text{X},\text{Y})) = (\text{A},\text{X}+1,\text{Y}) \]
                 Sí el jugador B puntúa: 
@@ -376,7 +383,7 @@ Cuando se quiera aplicar el principio de inducción a una función o propiedad q
                 \[ f((\text{B},\text{X},\text{Y})) = (\text{A},\text{X},\text{Y}) \]
 	     Sí el jugador C $\in \{\text{A},\text{B}\}$ hace un saque: 
                 \[ f((\text{C},\text{X},\text{Y})) = (\text{C},\text{X},\text{Y}) \]
-	\item Define mediante reglas de inferencia la implementación para la función de transición para cada uno de los casos descritos en el ejercicio anterior.
+	\item Define mediante reglas de inferencia la implementación para la relación de transición para cada uno de los casos descritos en el ejercicio anterior.
                 \[
                 \scalemath{0.81}{
                     \begin{array}{lcl}    
@@ -468,15 +475,15 @@ Un árbol binario completo es un tipo de árbol binario en el que todos los nive
 
     %    Ejercicio 4.6
     \begin{exercise}
-        Demuestra utilizando la inducción estructural sobre el tipo de dato Tree A que se cumple la siguiente afirmación:\\\\
-        Sea \textit{t} Tree A, tal que $t$ es completo, entonces:
+        Demuestra utilizando la inducción estructural sobre el tipo de dato $Tree_{A}$ que se cumple la siguiente afirmación:\\\\
+        Sea \textit{t} $Tree_{A}$, tal que $t$ es completo, entonces:
         \[ height(t) = floor(log_{2}(n_n(t)))\]
     \end{exercise}
 
     %    Ejercicio 4.7
     \begin{exercise}
-Demuestra utilizando la inducción estructural sobre el tipo de dato Tree A que se cumple la siguiente afirmación:\\\\
-        Sea \textit{t} Tree A, tal que $t$ es completo, entonces:
+Demuestra utilizando la inducción estructural sobre el tipo de dato $Tree_{A}$ que se cumple la siguiente afirmación:\\\\
+        Sea \textit{t} $Tree_{A}$, tal que $t$ es completo, entonces:
         \[   n_i(t) = \frac{n_n(t) - 1}{2} \] donde $n_i(t)$ es el número de nodos internos en un árbol y $n_n(t)$ es el número de total de nodos.
     \end{exercise}
 
@@ -520,7 +527,7 @@ Demuestra utilizando la inducción estructural sobre el tipo de dato Tree A que 
         \begin{enumerate}
             \item Determina el conjunto de estados. 
             \item Identifica los estados iniciales y finales del sistema de transición.
-            \item Define la función de transición $\rightarrow_R$ que indique como se debe transitar entre los estados del sistema.
+            \item Define la relación de transición $\rightarrow_R$ que indique como se debe transitar entre los estados del sistema.
             \item Muestra paso a paso la ejecución del programa:
                   \[  \texttt{move};\texttt{turn};\texttt{move};\texttt{turn};\texttt{turn};\texttt{turn};\texttt{move} \]
                   Utilizando la relación $\rightarrow_R$ y partiendo del estado inicial.
@@ -529,10 +536,11 @@ Demuestra utilizando la inducción estructural sobre el tipo de dato Tree A que 
     \end{exercise}
 
 
-    Para finalizar esta sección vamos a revisar dos ejercicios prácticos que implementaremos en \texttt{Haskell}. Estos ejercicios combinan las definiciones de las funciones que hemos estudiado hasta este punto para listas y que ejemplifican las propiedades recursivas de estas estructuras en un lenguaje de programación funcional\footnote{Los ejercicios 4.11 y 4.12 fueron extraídos de \hyperlink{75}{[75]}.}.
+    Para finalizar esta sección vamos a revisar dos ejercicios prácticos que implementaremos en \texttt{Haskell}. Estos ejercicios combinan las definiciones de las funciones que hemos estudiado hasta este punto para listas y que ejemplifican las propiedades recursivas de estas estructuras en un lenguaje de programación funcional\footnote{Los ejercicios \hyperref[sec:511]{5.11} y \hyperref[sec:512]{5.12} fueron extraídos de \hyperlink{75}{[75]}.}.
 
 
     \begin{exercise}
+     \label{sec:511}	
         La validación del número de una tarjeta de crédito se hace implementando un algoritmo \texttt{checkSum} obteniendo información de los dígitos que la componen. Para eso implementaremos nuestro propio validador de tarjetas de crédito como sigue:\\
     
         Los dígitos que están una posición impar (empezando por el índice 0 de izquierda a derecha) se deben duplicar. \\\\
@@ -557,7 +565,8 @@ Demuestra utilizando la inducción estructural sobre el tipo de dato Tree A que 
     \end{exercise}
 
     \begin{exercise}
-        Las torres de Hanoi son un un rompecabezas clásico cuya solución puede ser escrita de forma recursiva. Los discos de diferentes tamaños se apilan del más grande al más pequeño y el objetivo es moverlos del pivote inicial al pivote final, dónde pivotes = discos = n.\\\\
+    \label{sec:512}
+        Las torres de Hanoi son un rompecabezas clásico cuya solución puede ser escrita de forma recursiva. Los discos de diferentes tamaños se apilan del más grande al más pequeño y el objetivo es moverlos del pivote inicial al pivote final, dónde pivotes = discos = n.\\\\
  Las reglas son  las siguientes: 
         \begin{enumerate}
             \item Ningún disco puede estar encima de un disco mas pequeño. 
@@ -571,7 +580,7 @@ Demuestra utilizando la inducción estructural sobre el tipo de dato Tree A que 
                           type move = (Peg, Peg)
             \end{verbatim}
         \end{center}
-	\texttt{Peg} designa el nombre del pivote y \texttt{move} es una tupla ($origen$, $destino$) que modela el moviento del disco que está en el tope de la pila del pivote origen al pivote destino. \\
+	\texttt{Peg} designa el nombre del pivote y \texttt{move} es una tupla ($origen$, $destino$) que modela el movimiento del disco que está en el tope de la pila del pivote origen al pivote destino. \\
 
         Implementa la función \texttt{Hanoi :: Int} $\rightarrow$ \texttt{[Peg]} $\rightarrow$ \texttt{[move]}
         Que dada el número de discos y una lista con el nombre de los pivotes regrese una lista con los movimientos para mover los discos desde el pivote de la extrema izquierda hasta el pivote de la extrema derecha, por ejemplo con n = 3: 
