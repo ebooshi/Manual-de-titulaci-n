@@ -1,63 +1,137 @@
+%\begin{titlepage}
+%
+%	\begin{figure*}[ht]
+%        		\centering
+%        		\includegraphics[width=0.5\textwidth]{assets/logo_fciencias.png}
+%    	\end{figure*}
+%
+%    	\vspace{5mm}
+%    	\hbox{ 
+%    		\hspace*{0.02\textwidth} 
+%    		\parbox[b]{0.95 \textwidth}{ 
+%
+%		        	\centering
+%		        	\bigskip 
+%		        	\bigskip
+%
+%		        	{\noindent\large\bfseries\textsc{
+%		            	Universidad Nacional Autónoma de México}
+%		        	}\bigskip
+%
+%		        	{\noindent\large\bfseries\textsc{
+%		           	 Facultad de Ciencias}
+%		        	}\bigskip
+%		        
+%		    	{\noindent\large\bfseries\textsc{
+%		           	Reporte de Actividad Docente}
+%		       	 }\bigskip \bigskip
+%		        
+%			{\large \textsc{
+%		           	 Manual de ejercicios para la materia de Lenguajes de Programación.\bigskip
+%		        	}}\bigskip \bigskip
+%		        
+%			{\large \textsc{
+%		           	 Que para obtener el Título de: 
+%		        	}}\bigskip 
+%		        
+%		          	Licenciado en Ciencias de la Computación.
+%		
+%		        \bigskip \bigskip \bigskip \bigskip \bigskip \bigskip
+%		        
+%			{\large \textsc{
+%		           	 Presenta: Luis Miguel Muñoz Barón  \bigskip \bigskip \bigskip
+%		        	}}\bigskip \bigskip \bigskip
+%		        
+%			{\large \textsc{
+%		           	 Tutor: Javier Enriquez Mendoza
+%		        	}}\bigskip
+%		
+%		        	\vspace{0.10\textheight}
+%		        	\centering
+%			        	{\noindent 
+%					2023
+%				}\bigskip
+%
+%    		}
+%	}
+%
+%\end{titlepage}
+%
+%\newpage
+%\thispagestyle{empty}
+%\phantom{~}
+%\vfill
+
 \begin{titlepage}
-
-	\begin{figure*}[ht]
-        		\centering
-        		\includegraphics[width=0.5\textwidth]{assets/logo_fciencias.png}
-    	\end{figure*}
-
-    	\vspace{5mm}
-    	\hbox{ 
-    		\hspace*{0.02\textwidth} 
-    		\parbox[b]{0.95 \textwidth}{ 
-
-		        	\centering
-		        	\bigskip 
-		        	\bigskip
-
-		        	{\noindent\large\bfseries\textsc{
-		            	Universidad Nacional Autónoma de México}
-		        	}\bigskip
-
-		        	{\noindent\large\bfseries\textsc{
-		           	 Facultad de Ciencias}
-		        	}\bigskip
-		        
-		    	{\noindent\large\bfseries\textsc{
-		           	Reporte de Actividad Docente}
-		       	 }\bigskip \bigskip
-		        
-			{\large \textsc{
-		           	 Manual de ejercicios para la materia de Lenguajes de Programación.\bigskip
-		        	}}\bigskip \bigskip
-		        
-			{\large \textsc{
-		           	 Que para obtener el Título de: 
-		        	}}\bigskip 
-		        
-		          	Licenciado en Ciencias de la Computación.
+	\thispagestyle{empty}
+	
+	\begin{tikzpicture}[remember picture,overlay]
 		
-		        \bigskip \bigskip \bigskip \bigskip \bigskip \bigskip
-		        
-			{\large \textsc{
-		           	 Presenta: Luis Miguel Muñoz Barón  \bigskip \bigskip \bigskip
-		        	}}\bigskip \bigskip \bigskip
-		        
-			{\large \textsc{
-		           	 Tutor: Javier Enriquez Mendoza
-		        	}}\bigskip
+		% Escudo superior
+		\node[anchor=north west] at ([xshift=1.2cm,yshift=-3.2cm]current page.north west)
+		{\includegraphics[width=2.8cm]{assets/unam_escudo.png}};
 		
-		        	\vspace{0.10\textheight}
-		        	\centering
-			        	{\noindent 
-					2023
-				}\bigskip
-
-    		}
-	}
-
+		% Escudo inferior
+		\node[anchor=south west] at ([xshift=1.2cm,yshift=4.5cm]current page.south west)
+		{\includegraphics[width=2.8cm]{assets/fciencias_escudo.png}};
+		
+		% Líneas verticales
+		\draw[line width=1pt] ([xshift=2.6cm,yshift=-7.4cm]current page.north west) -- ([xshift=2.6cm,yshift=9cm]current page.south west);
+		\draw[line width=0.5pt] ([xshift=2.8cm,yshift=-7.4cm]current page.north west) -- ([xshift=2.8cm,yshift=9cm]current page.south west);
+		
+	\end{tikzpicture}
+	
+	\begin{center}
+		
+		\vspace*{1cm}
+		
+		{\large UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO}
+		
+		\vspace{0.2cm}
+		
+		\rule{10cm}{0.5pt}
+		
+		\vspace{0.2cm}
+		
+		{\large FACULTAD DE CIENCIAS}
+		
+		\vspace{2.5cm}
+		
+		{\Large\bfseries MANUAL DE EJERCICIOS PARA LA MATERIA LENGUAJES DE PROGRAMACIÓN}
+		
+		\vspace{2cm}
+		
+		
+		{\Large ACTIVIDAD DE APOYO A LA DOCENCIA}
+		
+		\vspace{1cm}
+		
+		QUE PARA OBTENER EL TÍTULO DE:
+		
+		\vspace{0.3cm}
+		
+		LICENCIADO EN CIENCIAS DE LA COMPUTACIÓN
+		
+		\vspace{1cm}
+		
+		PRESENTA:
+		
+		\vspace{0.3cm}
+		
+		{\large LUIS MIGUEL MUÑOZ BARÓN}
+		
+		\vspace{0.7cm}
+		
+		TUTOR:
+		
+		\vspace{0.3cm}
+		
+		{\large JAVIER ENRIQUEZ MENDOZA}
+		
+		\vfill
+		
+		CIUDAD UNIVERSITARIA, CDMX. 2026.
+		
+	\end{center}
+	
 \end{titlepage}
-
-\newpage
-\thispagestyle{empty}
-\phantom{~}
-\vfill

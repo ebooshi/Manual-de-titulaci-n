@@ -30,8 +30,8 @@
 \contentsline {section}{\numberline {3}La función eval}{51}{section.4.3}%
 \contentsline {section}{\numberline {4}Ejercicios para el lector}{52}{section.4.4}%
 \contentsline {chapter}{\numberline {5}Cálculo Lambda}{54}{chapter.5}%
-\contentsline {subsubsection}{Objetivo}{55}{figure.caption.8}%
-\contentsline {subsubsection}{Planteamiento}{55}{figure.caption.8}%
+\contentsline {subsubsection}{Objetivo}{55}{figure.caption.7}%
+\contentsline {subsubsection}{Planteamiento}{55}{figure.caption.7}%
 \contentsline {section}{\numberline {1}Sintaxis del Cálculo Lambda}{55}{section.5.1}%
 \contentsline {subsubsection}{Currificación en el Cálculo Lambda}{56}{exercise.5.1.1}%
 \contentsline {section}{\numberline {2}$\alpha $-equivalencia en el Cálculo Lambda}{57}{section.5.2}%
@@ -55,8 +55,8 @@
 \contentsline {section}{\numberline {8}Combinadores de punto fijo}{67}{section.5.8}%
 \contentsline {section}{\numberline {9}Ejercicios para el lector}{69}{section.5.9}%
 \contentsline {chapter}{\numberline {6}\textsf {MinHS}}{71}{chapter.6}%
-\contentsline {subsubsection}{Objetivo}{72}{figure.caption.9}%
-\contentsline {subsubsection}{Planteamiento}{72}{figure.caption.9}%
+\contentsline {subsubsection}{Objetivo}{72}{figure.caption.8}%
+\contentsline {subsubsection}{Planteamiento}{72}{figure.caption.8}%
 \contentsline {section}{\numberline {1}Sintaxis de \textsf {MinHS}}{72}{section.6.1}%
 \contentsline {subsection}{\numberline {1.1}Sintaxis concreta}{72}{subsection.6.1.1}%
 \contentsline {subsection}{\numberline {1.2}Sintaxis abstracta}{73}{subsection.6.1.2}%
@@ -69,16 +69,16 @@
 \contentsline {subsection}{\numberline {3.2}No terminación}{79}{subsection.6.3.2}%
 \contentsline {section}{\numberline {4}Ejercicios para el lector}{79}{section.6.4}%
 \contentsline {chapter}{\numberline {7}Inferencia de tipos}{81}{chapter.7}%
-\contentsline {subsubsection}{Objetivo}{82}{figure.caption.10}%
-\contentsline {subsubsection}{Planteamiento}{82}{figure.caption.10}%
+\contentsline {subsubsection}{Objetivo}{82}{figure.caption.9}%
+\contentsline {subsubsection}{Planteamiento}{82}{figure.caption.9}%
 \contentsline {section}{\numberline {1}Estandarización de variables}{82}{section.7.1}%
 \contentsline {section}{\numberline {2}Generación de restricciones}{83}{section.7.2}%
 \contentsline {section}{\numberline {3}Algoritmo de unificación}{85}{section.7.3}%
 \contentsline {section}{\numberline {4}Algoritmo de inferencia de tipos}{86}{section.7.4}%
 \contentsline {section}{\numberline {5}Ejercicios para el lector}{99}{section.7.5}%
 \contentsline {chapter}{\numberline {8}Máquinas abstractas}{101}{chapter.8}%
-\contentsline {subsubsection}{Objetivo}{102}{figure.caption.11}%
-\contentsline {subsubsection}{Planteamiento}{102}{figure.caption.11}%
+\contentsline {subsubsection}{Objetivo}{102}{figure.caption.10}%
+\contentsline {subsubsection}{Planteamiento}{102}{figure.caption.10}%
 \contentsline {section}{\numberline {1}La máquina $\mathcal {H}$}{102}{section.8.1}%
 \contentsline {subsection}{\numberline {1.1}Marcos y la pila de control}{102}{subsection.8.1.1}%
 \contentsline {subsection}{\numberline {1.2}Estados}{103}{subsection.8.1.2}%
@@ -93,8 +93,8 @@
 \contentsline {subsection}{\numberline {2.7}Transiciones con cerradura para $\mathcal {J}$}{112}{subsection.8.2.7}%
 \contentsline {section}{\numberline {3}Ejercicios para el lector}{114}{section.8.3}%
 \contentsline {chapter}{\numberline {9}TinyC}{116}{chapter.9}%
-\contentsline {subsubsection}{Objetivo}{117}{figure.caption.12}%
-\contentsline {subsubsection}{Planteamiento}{117}{figure.caption.12}%
+\contentsline {subsubsection}{Objetivo}{117}{figure.caption.11}%
+\contentsline {subsubsection}{Planteamiento}{117}{figure.caption.11}%
 \contentsline {section}{\numberline {1}Sintaxis}{117}{section.9.1}%
 \contentsline {section}{\numberline {2}La Máquina $\mathcal {C}$}{118}{section.9.2}%
 \contentsline {subsection}{\numberline {2.1}Marcos}{118}{subsection.9.2.1}%
@@ -103,8 +103,8 @@
 \contentsline {subsection}{\numberline {2.4}Transiciones}{120}{subsection.9.2.4}%
 \contentsline {section}{\numberline {3}Ejercicios para el lector}{128}{section.9.3}%
 \contentsline {chapter}{\numberline {10}Herencia y subtipos}{129}{chapter.10}%
-\contentsline {subsubsection}{Objetivo}{130}{figure.caption.13}%
-\contentsline {subsubsection}{Planteamiento}{130}{figure.caption.13}%
+\contentsline {subsubsection}{Objetivo}{130}{figure.caption.12}%
+\contentsline {subsubsection}{Planteamiento}{130}{figure.caption.12}%
 \contentsline {section}{\numberline {1}Orientación a objetos}{130}{section.10.1}%
 \contentsline {section}{\numberline {2}Subtipos}{131}{section.10.2}%
 \contentsline {subsection}{\numberline {2.1}Subtipificado de tipos primitivos}{132}{subsection.10.2.1}%
@@ -117,8 +117,8 @@
 \contentsline {subsection}{\numberline {3.2}Conversión descendente \it (Downcasting)}{135}{subsection.10.3.2}%
 \contentsline {section}{\numberline {4}Ejercicios para el lector}{136}{section.10.4}%
 \contentsline {chapter}{\numberline {11}Java Peso Pluma}{137}{chapter.11}%
-\contentsline {subsubsection}{Objetivo}{138}{figure.caption.14}%
-\contentsline {subsubsection}{Planteamiento}{138}{figure.caption.14}%
+\contentsline {subsubsection}{Objetivo}{138}{figure.caption.13}%
+\contentsline {subsubsection}{Planteamiento}{138}{figure.caption.13}%
 \contentsline {section}{\numberline {1}Sintaxis de Java Peso Pluma}{138}{section.11.1}%
 \contentsline {section}{\numberline {2}Tablas de clase}{141}{section.11.2}%
 \contentsline {section}{\numberline {3}Semántica dinámica}{142}{section.11.3}%
