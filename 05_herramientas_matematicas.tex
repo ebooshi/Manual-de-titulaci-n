@@ -25,7 +25,7 @@ También estudiaremos brevemente estructuras recursivas como cadenas y listas pa
 \section{Juicios lógicos}
 
     Una parte fundamental del razonamiento matemático es la capacidad de determinar si una afirmación es verdadera o falsa basado en la información que poseemos sobre los elementos que son mencionados en dicha afirmación. \\\\
-    Para poder aplicar un juicio sobre algún elemento, objeto o entidad para determinar su veracidad primero debemos definir dichos elementos. A continuación vamos a introducir los conceptos necesarios para poder formalizar esta noción y el cómo aplicarla. Esto será de utilidad para definir características, reglas de construcción y reglas de evaluación en los lenguajes de programación y modelos de computo que discutiremos a lo largo del manual.\\
+    Para poder aplicar un juicio sobre algún elemento, objeto o entidad para determinar su veracidad primero debemos definir dichos elementos. A continuación vamos a introducir los conceptos necesarios para poder formalizar esta noción y el cómo aplicarla. Esto será de utilidad para definir características, reglas de construcción, reglas de evaluación en los lenguajes de programación y modelos de computo que discutiremos a lo largo del manual.\\
 
     \bigskip
 
@@ -121,7 +121,7 @@ Ejemplifiquemos esto con el siguiente ejercicio.
         Utiliza las reglas (\textit{eps}) y (\textit{tup}) para derivar la cadena
         \[
              \<1,\<0,\<0,\varepsilon\>\>\>, \qquad
-             \<1,\<0,\<0\<1,\varepsilon\>\>\>\> \qquad y \qquad
+             \<1,\<0,\<0,\<1,\varepsilon\>\>\>\> \qquad y \qquad
              \<1,\<1,\<1,\<0,\<1,\<0,\varepsilon\>\>\>\>\>\>
         \] 
         \bigskip
@@ -205,7 +205,7 @@ Ejemplifiquemos esto con el siguiente ejercicio.
         \]
     \end{definition}
 Cuando se quiera aplicar el principio de inducción a una función o propiedad que se enuncia para mas de un argumento, la inducción se tiene que fijar sobre alguno de sus parámetros.\\\\
-En los siguientes ejercicios, cuando interactúen dos elementos $s$, $t$ $\in$ A$^*$ como en ($s \bullet t$), la convención será escoger siempre el parámetro izquierdo (en este caso $s$) para aplicar el principio de inducción, pues la función de concatenación ($\bullet$), está definida para operar sobre el parámetro izquierdo. Ésto simplifica el razonamiento al desarrollar el paso inductivo. \\\\
+En los siguientes ejercicios, cuando interactúen dos elementos $s$, $t$ $\in$ A$^*$ como en ($s \bullet t$), la convención será escoger siempre el parámetro izquierdo (en este caso $s$) para aplicar el principio de inducción, pues la función de concatenación ($\bullet$), está definida para operar sobre el parámetro izquierdo. Esto simplifica el razonamiento al desarrollar el paso inductivo. \\\\
 Ejemplifiquemos esto con el siguiente ejercicio.
 
 
@@ -352,7 +352,8 @@ Ejemplifiquemos esto con el siguiente ejercicio.
         Supón que se quiere modelar una partida de pimpón donde hay 2 jugadores A y B (el jugador A siempre empieza primero), y un marcador que cuenta el número de puntos de A y B representado como una terna: \[ \text{(jugador en turno, puntuación de A, puntuación de B)} \] 
   
         De tal forma que cada estado indica la información del juego hasta ese punto. \\\\
-        Para indicar la transición entre estados utilizamos la notación "$\rightarrow$". Por ejemplo si el jugador B anota, la transición se modela como: \[ (\text{B,X,Y}) \rightarrow (\text{B,X,Y+1}) \]  ya que el jugador que anota un punto vuelve a tirar la pelota en el siguiente turno. La partida acaba cuando alguno de los dos logra anotar 10 puntos. \\\\
+        Para indicar la transición entre estados utilizamos la notación "$\rightarrow$". Por ejemplo si el jugador B anota, la transición se modela como: \[ (\text{B,X,Y}) \rightarrow (\text{B,X,Y+1}) \]  ya que el jugador que anota un punto vuelve a tirar la pelota en el siguiente turno.\\
+        La partida acaba cuando alguno de los dos logra anotar 10 puntos. \\\\
         Es importante notar que el estado de un juego puede evolucionar hacia distintos estados dependiendo del desarrollo de la partida. Por ejemplo, el estado (B,X,Y) puede transitar al estado (B,X,Y+1) si el jugador B anota el punto, o al estado (A,X,Y) si no anota y el saque pasa al jugador A. Esto implica que la transición $\rightarrow$ no puede modelarse como una función (ya que un mismo estado puede tener más de una imagen), sino como una relación sobre el conjunto de estados, permitiendo que un estado tenga múltiples estados sucesores.\\ 
 
         En base a la especificación dada anteriormente contesta lo siguiente:

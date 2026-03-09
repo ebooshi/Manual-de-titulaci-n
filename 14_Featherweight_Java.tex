@@ -136,6 +136,57 @@ Revisemos la sintaxis concreta de \textsf{Java Peso Pluma} con los siguientes ej
     \end{verbatim}
 \end{exercise}
 
+\begin{exercise}
+	Proporciona la definición de una clase \textsf{MinHeap} que modele una
+	estructura de datos de tipo heap mínimo. Puedes suponer la existencia
+	de la clase \textsf{Integer} que permite comparar valores.
+	
+	\begin{verbatim}
+		class HeapNode extends Object {
+			Integer value;
+			HeapNode left;
+			HeapNode right;
+			
+			HeapNode(Integer value, HeapNode left, HeapNode right){
+				super();
+				this.value = value;
+				this.left = left;
+				this.right = right;
+			}
+			
+			Integer getValue(){
+				return this.value;
+			}
+			
+			HeapNode getLeft(){
+				return this.left;
+			}
+			
+			HeapNode getRight(){
+				return this.right;
+			}
+		}
+		
+		class MinHeap extends Object {
+			HeapNode root;
+			
+			MinHeap(HeapNode root){
+				super();
+				this.root = root;
+			}
+			
+			HeapNode getRoot(){
+				return this.root;
+			}
+			
+			Integer findMin(){
+				return this.root.getValue();
+			}
+		}
+	\end{verbatim}
+	
+\end{exercise}
+
 \bigskip
 
 
@@ -464,3 +515,14 @@ La demostración de estas últimas cuatro proposiciones no es posible dado que n
 \begin{exercise}
    Dadas las reglas para sintaxis y las reglas de la semántica dinámica y estática de \textsf{Java Peso Pluma}, Demuestra la proposición 5.3: Seguridad.
 \end{exercise}
+
+
+\newpage
+
+\chapter*{Conclusión}
+
+A lo largo de este manual se presentaron los conceptos fundamentales que permiten estudiar a los lenguajes de programación desde una perspectiva formal. Más allá de entenderlos únicamente como herramientas prácticas para escribir programas, el objetivo fue analizarlos como estructuras bien definidas que pueden describirse mediante modelos matemáticos y reglas precisas.\\\\
+El recorrido comenzó introduciendo algunas herramientas matemáticas básicas que nos permiten razonar sobre los programas y sus propiedades. A partir de estas ideas fue posible presentar la sintaxis y la semántica de un lenguaje, dos componentes esenciales que determinan tanto la forma en la que se escriben los programas como el significado que tienen cuando se ejecutan.\\\\
+Posteriormente se estudiaron distintos modelos que ayudan a comprender el comportamiento de los programas. El cálculo lambda permitió analizar la noción de función y evaluación desde un punto de vista abstracto, mientras que el lenguaje \textsf{MinHS} sirvió como un primer ejemplo concreto de cómo estas ideas pueden materializarse en un lenguaje funcional. De manera complementaria se discutió el problema de la inferencia de tipos, mostrando cómo es posible deducir propiedades importantes de los programas a partir de reglas formales.\\\\
+Más adelante se introdujeron modelos operacionales para describir la ejecución de programas mediante máquinas abstractas, así como el lenguaje imperativo \textsf{TinyC}, que incorpora el manejo explícito de estado y memoria. Finalmente se exploraron conceptos propios del paradigma orientado a objetos, como la herencia y el subtipado, culminando con el estudio de \textit{Featherweight Java}, un modelo que captura los elementos esenciales de este estilo de programación.\\\\
+En conjunto, los temas presentados buscan ofrecer una visión más clara de los principios que dan forma a los lenguajes de programación modernos. Comprender estos fundamentos no solo permite analizar con mayor profundidad los lenguajes existentes, sino también contar con las herramientas necesarias para estudiar, diseñar e incluso proponer nuevos lenguajes de programación.

@@ -77,6 +77,7 @@ En \textsf{TinyC} los constructores del lenguaje se pueden agrupar en tres categ
                 fib = pre + post;
                 pre = post;
                 post = fib;
+                i++;
             }
             return fib;
         };
@@ -354,7 +355,7 @@ Se definen las transiciones con las siguientes reglas:\\
         };
         Int result = fibonacci(3);
     \end{lstlisting}
-    Para facilitar la representación y la evaluación de la máquina $\Cs$ vamos a seccionar el programa para tener fragmenos de este, definimos entonces:
+    Para facilitar la representación y la evaluación de la máquina $\Cs$ vamos a seccionar el programa para tener fragmentos de este, definimos entonces:
 \begin{multline*}
 A =_{def}\; secu(vardec(Int, i, 1), \\
       secu(vardec(Int, pre, 1), \\
@@ -550,7 +551,7 @@ A =_{def}\; secu(vardec(Int, i, 1), \\
 \]
 \end{exercise}
 
-Nuestra atención está no en el resultado que se obtiene en el último paso ($\bot$) mas bien en el estado de la memoria. Óbserve que no regresamos el resultado al final de la evaluación si no que lo almacenamos en una de las variables que queda impresa en el contexto final. \\
+En este caso, el interés no se centra en el resultado producido en el último paso de la evaluación ($\bot$), sino en el estado final de la memoria. El cálculo no devuelve un valor explícitamente; en su lugar, el estado del programa y por consiguiente el resultado quedan impresos en una de las variables que forman parte del contexto final. \\
 
 \section{Ejercicios para el lector}
 

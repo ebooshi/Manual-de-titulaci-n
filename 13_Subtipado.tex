@@ -12,10 +12,10 @@
 En este capítulo vamos a revisar el último paradigma de programación que estudiaremos en este manual: La orientación a objetos y sus características más importantes como la herencia y los subtipos.\\\\
 La introducción del paradigma de la orientación a objetos presenta una ventaja al momento de reutilizar código que ya hemos definido anteriormente y que durante los últimos años supuso una revolución en la forma en la que se escriben y desarrollan los programas que corren en nuestros teléfonos y computadoras personales.\\\\
 Lenguajes como \textsf{Java},  \textsf{Python}, \textsf{Ruby}, \textsf{Golang}, \textsf{Swift}, \textsf{C\#} entre muchos otros implementan la herencia, en donde métodos, constructores y variables de la clase padre puede ser reutilizadas por otra clase hija.\\\\
-Más aún, en este tipo de lenguajes la flexibilidad no solo se extiende a hacer uso de código previamente definido y heredado si no que se puede extender y sobrecargar sobre lo ya existente, proporcionando una mecanismo modular para desarrollar software y evitar la re definición de clases, métodos y variables. 
+Más aún, en este tipo de lenguajes la flexibilidad no solo se extiende a hacer uso de código previamente definido y heredado sino que se puede extender y sobrecargar sobre lo ya existente, proporcionando un mecanismo modular para desarrollar software y evitar la re definición de clases, métodos y variables. 
 
 \subsubsection{Objetivo}
-El objetivo de este capítulo es proporcionar una definición de los conceptos principales de la orientación objetos y su aplicación a la herencia y el subtipificado en el paradigma procedimental para las diferentes categorías definidas en la sintaxis de \textsf{TinyC}.
+El objetivo de este capítulo es proporcionar una definición de los conceptos principales de la orientación a objetos y su aplicación a la herencia y el subtipificado en el paradigma procedimental para las diferentes categorías definidas en la sintaxis de \textsf{TinyC}.
 
 \subsubsection{Planteamiento}
 En este capítulo se presentan las definiciones principales del paradigma de la orientación a objetos como clase, objeto y subtipo, así como las reglas que nos permiten inferir el tipo de una expresión.\\\\
@@ -216,20 +216,20 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 
     \begin{exercise}
         Dada la siguiente expresión, utiliza las reglas de tipificado para suma y producto para derivar el tipo de la misma.
-        $$ 4.0\ - \ 1\ < \ 3.0\ : \ \textit{Float}$$
+        $$ 4\text{.}0\ - \ 1\ < \ 3\text{.}0\ : \ \textit{Float}$$
     \end{exercise}
 
     \bigskip
 
     \begin{exercise}
         Dada la siguiente expresión, utiliza las reglas de tipificado para suma y producto para derivar el tipo de la misma.
-        $$ 3\ +\ 3.0 \ +\ 4\ - \ 4\ : \ \textit{Float}$$
+        $$ 3\ +\ 3\text{.}0 \ +\ 4\ - \ 4\ : \ \textit{Float}$$
     \end{exercise}
     \bigskip
 
     \begin{exercise}
         Dada la siguiente expresión, utiliza las reglas de tipificado para el operador \textit{if} y deriva el tipo de la misma.
-        $$\textsf{if } 7\ *\ 0.0 < 0 \textsf{ then } 1 \textsf{ else } 0 : \ \textit{Float}$$
+        $$\textsf{if } 7\ *\ 0\text{.}0 < 0 \textsf{ then } 1 \textsf{ else } 0 : \ \textit{Float}$$
     \end{exercise}
     \bigskip
 
@@ -248,7 +248,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
 
     \begin{exercise}
         Utiliza la regla de \textit{Upcasting} para obtener el tipo de la siguiente expresión basado en las reglas para tipos primitivos.
-        $$ \textsf{fun}(x:\textsf{Int} \rightarrow \textsf{if}\ x < 0\ \textsf{then}\ x - 1.0 \ \textsf{else}\ x ) : \textit{Int}  \rightarrow \textit{Int} $$
+        $$ \textsf{fun}(x:\textsf{Int} \rightarrow \textsf{if}\ x < 0\ \textsf{then}\ x - 1\text{.}0 \ \textsf{else}\ x ) : \textit{Int}  \rightarrow \textit{Int} $$
     \end{exercise}
 
     \bigskip
@@ -256,7 +256,7 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
     \begin{exercise}
         Utiliza las reglas de elementos máximos para obtener la derivación del tipificado para la siguiente expresión.
         Si no es posible argumenta por qué.
-        $$\textsf{fun}(x:\textsf{Int} \rightarrow \textsf{if}\ x \leq 0\ \textsf{then}\ x - 1.0 \ \textsf{else}\ x   ) : \textit{Bot} $$
+        $$\textsf{fun}(x:\textsf{Int} \rightarrow \textsf{if}\ x \leq 0\ \textsf{then}\ x - 1\text{.}0 \ \textsf{else}\ x   ) : \textit{Bot} $$
     \end{exercise}
 	
 	\bigskip
@@ -264,6 +264,6 @@ La relación de subtipificado puede ser aplicada a partir de dos interpretacione
     \begin{exercise}
         Utiliza las reglas de elementos máximos para obtener la derivación del tipificado para la siguiente expresión.
 	  Si no es posible argumenta por qué.
-        $$ \textsf{fun}(x:\textsf{Int} \rightarrow \textsf{if}\ x \leq 0\ \textsf{then}\ x - 1.0 \ \textsf{else}\ x) : \textit{Top} $$
+        $$ \textsf{fun}(x:\textsf{Int} \rightarrow \textsf{if}\ x \leq 0\ \textsf{then}\ x - 1\text{.}0 \ \textsf{else}\ x) : \textit{Top} $$
     \end{exercise}
  

@@ -498,7 +498,7 @@ Para el caso de la resta hay que tener en cuenta que los números negativos no e
 
     En general se tienen las siguientes reducciones cuando se aplican las proyecciones a los pares, donde a y b son expresiones arbitrarias del Cálculo Lambda\footnote{Extraído de \hyperlink{12}{[12]}}:
 
-$${\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf a}$$
+${\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf a}$
     \[
         \begin{array}{cl}
         &{\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b})\\
@@ -508,13 +508,17 @@ $${\sf fst}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf a}$$
         =&(\lambda p.p\,{\sf True})(\lambda x. x\,{\sf a}\, {\sf b})\\
         \to_\beta&( \lambda x. x\,{\sf a}\, {\sf b})\,{\sf True}\\
         \to_\beta&{\sf True}\,{\sf a}\, {\sf b}\\ 
+        \end{array}
+    \]
+    \[
+    	\begin{array}{cl}
         =&(\lambda x.\lambda y.x)\,{\sf a}\, {\sf b}\\
         \to_\beta&(\lambda y.{\sf a})\, {\sf b}\\
         \to_\beta& {\sf a}
         \end{array}
     \]
 
-$${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$ 
+${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$
 \[
         \begin{array}{cl}
         &{\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b})\\
@@ -530,7 +534,7 @@ $${\sf snd}\;({\sf pair}\;{\sf a} \; {\sf b}) \to_\beta ^* {\sf b}$$
         \end{array}
     \]
 
-            \subsection{Listas}
+  \subsection{Listas}
 
             \begin{definition}[Definición de listas en Cálculo Lambda]  Las listas en el Cálculo Lambda se apoyan del constructor de los pares para ir añadiendo elementos anidando esta operación agregando una unidad por aplicación. \\\\
             Para esta estructura la lista vacía será representada por una $\lambda$-expresión que sea $\alpha$-equivalente a la constante \textsf{False}.\footnote{Definición extraída de \hyperlink{12}{[12]},  \hyperlink{110}{[110]} y   \hyperlink{113}{[113]}}\\\\
@@ -712,7 +716,7 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
 
 
                 \begin{exercise}
-                    Encuentra la forma normal de las siguientes $\lambda$-expresiones, si no es posible explica por qué.\\
+                    Encuentra la forma normal de las siguientes $\lambda$-expresiones, si no es posible explica por qué.
                     \[
                         (\lambda y.yy)(\lambda z.zz)(\lambda \alpha . \lambda \beta . \alpha \beta \alpha)\ \textsf{False} \; \overline{0}
                     \]
@@ -766,9 +770,9 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
 
 
                 \begin{exercise}
-                    Utilizando cualquier combinador de punto fijo resuelve lo siguiente:\\
+                    Utilizando cualquier combinador de punto fijo resuelve lo siguiente:
                     
-                    Define la función reversa para las listas del Cálculo Lambda. \\
+                    Define la función reversa para las listas del Cálculo Lambda.
                     \[
                         \textsf{rev}\ [\ ]\ =\ [\ ]
                     \]
@@ -781,7 +785,7 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
 
 
                 \begin{exercise}
-                    Utilizando el combinador $Y$ contesta lo siguiente: \\
+                    Utilizando el combinador $Y$ contesta lo siguiente: 
                     \begin{itemize}
                     	\item Da una definición de la función exponencial para los numerales de Church.
                     	\item Resuelve la función para \textsf{exp} $\overline{4} \; \overline{2}$.
@@ -801,7 +805,7 @@ De esta forma la evaluación de la función \textsf{fib}, puede ser desarrollada
 
 
 		\begin{exercise}
-			Para cada una de los siguientes $\lambda$-expresiones menciona a cuál definición pertenece. \\
+			Para cada una de los siguientes $\lambda$-expresiones menciona a cuál definición pertenece.
 			\begin{itemize}
 				\item $\lambda s\lambda z.s(s(s(s(s(sz)))))$
 				\item $\lambda f.\lambda a.\lambda b.fab $
