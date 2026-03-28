@@ -1,0 +1,297 @@
+\documentclass[11pt]{beamer}
+\usetheme{Madrid}
+\usefonttheme{serif}
+
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\DeclareMathOperator{\sen}{sen}
+\DeclareMathOperator{\tg}{tg}
+
+\setbeamertemplate{caption}[numbered]
+
+\author{Luis Miguel Muñoz Barón}
+\title{Manual de ejercicios para la materia Lenguajes de Programación}
+% Informe o seu email de contato no comando a seguir
+% Por exemplo, alcebiades.col@ufes.br
+\newcommand{\email}{email}
+%\setbeamercovered{transparent} 
+\setbeamertemplate{navigation symbols}{} 
+%\logo{} 
+\date{7 de Abril 2026} 
+
+\institute[]{
+	Facultad de Ciencias UNAM \\ [0.5em]
+	Licenciatura en Ciencias de la Computación \\ [1em]	
+	\textbf{Tutor: } Javier Enriquez Mendoza  \\
+} 
+
+\titlegraphic{
+	\centering
+	\includegraphics[height=2cm]{imagens/fciencias_escudo.png}
+}
+%\subject{}
+
+% ---------------------------------------------------------
+% Selecione um estilo de referência
+\bibliographystyle{apalike}
+
+%\bibliographystyle{abbrv}
+%\setbeamertemplate{bibliography item}{\insertbiblabel}
+% ---------------------------------------------------------
+
+% ---------------------------------------------------------
+% Incluir os slides nos quais as referências foram citadas
+%\usepackage[brazilian,hyperpageref]{backref}
+
+%\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+%\renewcommand{\backref}{}
+%\renewcommand*{\backrefalt}[4]{
+%	\ifcase #1 %
+%		Nenhuma citação no texto.%
+%	\or
+%		Citado na página #2.%
+%	\else
+%		Citado #1 vezes nas páginas #2.%
+%	\fi}%
+% ---------------------------------------------------------
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Contenido}
+	\begin{columns}
+		\column{0.5\textwidth}
+		\renewcommand{\baselinestretch}{3.3}
+		\selectfont
+		\tableofcontents
+		
+		\column{0.3\textwidth}
+		%\includegraphics[width=\textwidth]{imagens/02_gatito_herramientas_matematicas.jpg}
+	\end{columns}
+\end{frame}
+
+\section{Motivación \& Objetivos}
+
+\begin{frame}{Motivación}
+ 	\begin{enumerate}
+ 		\item{\textbf{¿Qué dificultades tienen los alumnos?}} \\ [3em]
+ 		\item{\textbf{¿Qué huecos existen en los materiales existentes?}}
+ 	\end{enumerate}
+\end{frame}
+
+
+
+\begin{frame}{limitaciones lectivas y desafíos comunes}
+	 	\begin{enumerate}
+		\item{Dificultad para aplicar reglas formales en ejecuciones abstractas}  \\ [1.2em]
+		\item{Problemas para entender semántica operacional vs denotacional}\textsuperscript{1} \\ [1.2em]
+		\item{Confusión de conceptos como variables libres, alcance de variable, variable ligada}\textsuperscript{2} \\ [1.2em]
+		\item{Confusión en $\lambda$-cálculo notación, sustitución y $\alpha$-equivalencia}\textsuperscript{3} \\ [1.2em]
+	\end{enumerate}
+	
+	\vspace{1em}
+	{\tiny
+		1. \href{https://www.reddit.com/r/asklinguistics/comments/1iukacx/resources\_for\_practice\_with\_compositional/?utm\_source=chatgpt.com}{Resources for practice with compositional semantics? r/asklinguistics} \\ [0.2em] 
+		2. \href{https://www.reddit.com/r/functionalprogramming/comments/16ez50d/how_does_it_help_to_read_an_introduction_to/?utm_source=chatgpt.com}{How does it help to read "An introduction to Functional Programming Through Lambda Calculus"?} \\ [0.2em] 
+		3. \href{https://www.reddit.com/r/math/comments/1m2hvcp/lambda_calculus_made_easy/?utm_source=chatgpt.com}{Lambda Calculus made easy r/math} \\ [0.2em]
+	}
+\end{frame}
+
+\begin{frame}{limitaciones lectivas y desafíos comunes}
+	\begin{enumerate}
+		\item{Alta aplicación de razonamiento lógico estructurado}\textsuperscript{4} \\ [1.2em]
+		\item{Manipulación de notación sin entendimiento sobre su significado} \\ [1.2em]
+		\item{Dificultad de aprendizaje autónomo y progresivo}\textsuperscript{5} \\ [1.2em] 
+		\item{Incapacidad de transferir teoría a código real}\textsuperscript{6} \\ [1.2em]
+	\end{enumerate}
+	
+	\vspace{1em}
+	{\tiny
+		4. \href{https://arxiv.org/abs/2104.06710?utm_source=chatgpt.com}{Students Struggle to Explain Their Own Program Code} \\ [0.2em] 
+		5. \href{https://github.com/ossu/computer-science/issues/1094?utm_source=chatgpt.com}{RFC: Tackling learners' struggles in Core Programming Issue 1094} \\ [0.2em]
+		6. \href{https://digibuo.uniovi.es/dspace/bitstream/handle/10651/63076/2102.11147.pdf?sequence=1&utm_source=chatgpt.com}{Improving Concept Learning Through Specialized Digital Fanzines} \\ [0.2em]
+	}
+\end{frame}
+
+
+\section{Propuesta didáctica}
+
+\begin{frame}{Objetivo General}
+	Desarrollar un material didáctico autocontenido que facilite la comprensión y práctica de conceptos fundamentales en lenguajes de programación.
+	
+\end{frame}
+
+
+
+\begin{frame}{Objetivos específicos}
+	\begin{itemize}
+		\item{Presentar teoría clara y estructurada} \\ [1em]
+		\item{Diseñar ejercicios de complejidad progresiva} \\ [1em]
+		\item{Fomentar el aprendizaje autónomo} \\ [1em]
+		\item{Reforzar la comprensión conceptual} \\ [1em]
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Propuesta didáctica}
+	\textbf{Sección teórica:}
+	\begin{itemize}
+		\item{Objetivo(s)} \\
+		\item{Planteamiento}\\
+		\item{Definiciones}\\
+		\item{Intuición y formalización}\\
+		\item{Ejemplos resueltos}
+	\end{itemize}
+	\textbf{Sección teórica:}
+	\begin{itemize}
+		\item{Ejemplos abiertos para el lector}
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Estructura del material}
+	El contenido está organizado por temas, agrupando los conceptos y definiciones de manera incremental. \\ [2em]
+	\begin{itemize}
+		\item{Introducción, Gramáticas y Herramientas Matemáticas} \\
+		\item{Sintaxis y Semántica}\\
+		\item{Cálculo Lambda y MiniHs}\\
+		\item{Inferencia de tipos}\\
+		\item{TinyC \& Máquinas Abstractas} \\
+		\item{Featherweight Java}
+	\end{itemize}
+\end{frame}
+
+\section{Contenido}
+
+\begin{frame}{Contenido}
+	Texto referente à introdução.
+\end{frame}
+
+
+
+\begin{frame}{Definições, Teoremas, Corolários e Exemplos}
+    \begin{block}{Definição 2.1.1}
+    Aqui temos uma nova definição.
+    \end{block}
+    
+    \begin{block}{Teorema 2.1.2}
+    Aqui temos um novo teorema.
+    \end{block}
+    
+    \begin{block}{Exemplo 2.1.3}
+    Aqui temos um novo exemplo.
+    \end{block}
+    
+    \begin{block}{Corolário 2.1.4}
+    Aqui temos um novo corolário.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Citações das Referências}
+    Livro de Análise Real~\cite{lima2004analise}
+\end{frame}
+
+\begin{frame}{Listas}
+    Exemplo de lista com símbolos:
+
+    \begin{itemize}
+        \item Primeiro elemento
+        \item Segundo elemento
+    \end{itemize}
+    
+    \bigskip
+    
+    Exemplo de lista com itens enumerados:
+    
+    \begin{enumerate}
+        \item Primeiro elemento
+        \item Segundo elemento
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Tabelas}
+    A Tabela mostra um modelo de tabela.
+
+    \begin{table}[htb]
+        \caption{Exemplo de tabela}
+        \label{tab:modelo_tabela}
+        \centering
+        \begin{tabular}{c|c|c|c}
+	        \hline
+	        \textbf{Pessoa} & \textbf{Idade} & \textbf{Peso} & \textbf{Altura} \\ \hline
+	        Marcos & 26    & 68   & 178    \\ \hline
+	        Ivone  & 22    & 57   & 162    \\ \hline
+	        Sueli  & 40    & 65   & 153    \\ \hline
+        \end{tabular}
+        
+        \medskip
+        
+        Fonte: Produção do próprio autor.
+    \end{table}
+\end{frame}
+
+\begin{frame}{Imagens}
+    A Figura mostra a logomarca promocional da Universidade Federal do Espírito Santo (UFES).
+    
+    \begin{figure}[htb]
+        \caption{Logomarca Promocional UFES}
+        \label{fig:logo_UFES}
+        \centering
+        \includegraphics[width=0.5\textwidth]{imagens/logomarca_UFES}
+        
+        \medskip
+        
+        Fonte: Produção do próprio autor.
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Conclusão}
+    Texto referente à conclusão.
+\end{frame}
+
+\begin{frame}{Trabalhos futuros}
+    \begin{itemize}
+        \item Estudar $\ldots$
+        
+        \medskip
+        
+        \item Explorar $\ldots$
+        
+        \medskip
+        
+        \item Analisar $\ldots$
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[allowframebreaks]{Referências}
+    \bibliography{referencias}
+\end{frame}
+
+\begin{frame}
+
+\begin{center}
+    Obrigado!
+    
+    \email
+\end{center}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{imagens/logomarca_UFES}
+\end{figure}
+
+\end{frame}
+
+\end{document}

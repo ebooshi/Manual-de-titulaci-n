@@ -1,0 +1,4 @@
+\babel@toc {brazil}{}\relax 
+\beamer@sectionintoc {1}{Motivación \& Objetivos}{3}{0}{1}
+\beamer@sectionintoc {2}{Propuesta didáctica}{6}{0}{2}
+\beamer@sectionintoc {3}{Contenido}{10}{0}{3}

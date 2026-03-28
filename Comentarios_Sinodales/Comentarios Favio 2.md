@@ -18,6 +18,7 @@
 
 *5. La induccion va ser para la cadena s, Paso Inductivo numChar(c, s * t), el cuantificador esta mal para todo s, t. 
    para todo t es importante. quita solo la s. 
+   * poner el para todo a.
 
    * agregar \forall t (variable sobre la cual no haces inducción) in A. 3.2 3.3 3.4 quitar el para todo s. 
 
