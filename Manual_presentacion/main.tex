@@ -10,6 +10,10 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{mathpartir}
+\usepackage{tcolorbox}
+\usepackage{bussproofs}
+\tcbuselibrary{skins, breakable, theorems}
 
 \DeclareMathOperator{\sen}{sen}
 \DeclareMathOperator{\tg}{tg}
@@ -36,11 +40,29 @@
 	\centering
 	\includegraphics[height=2cm]{imagens/fciencias_escudo.png}
 }
+
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable, theorems}
+
+\newtheorem{exercise}{Ejercicio}
+
+\tcolorboxenvironment{exercise}{
+	boxrule=0pt,
+	boxsep=0pt,
+	blanker,
+	borderline west={2pt}{0pt}{blue},
+	left=8pt,
+	right=8pt
+}
+
+
 %\subject{}
 
 % ---------------------------------------------------------
 % Selecione um estilo de referência
 \bibliographystyle{apalike}
+
+\tcolorboxenvironment{exercise}{boxrule=0pt,boxsep=0pt,blanker,borderline west={2pt}{0pt}{},left=8pt,right=8pt,before skip=10pt,after skip=10pt,breakable}
 
 %\bibliographystyle{abbrv}
 %\setbeamertemplate{bibliography item}{\insertbiblabel}
@@ -174,9 +196,402 @@
 
 \section{Contenido}
 
+
 \begin{frame}{Contenido}
-	Texto referente à introdução.
+	Algunos Ejemplos
 \end{frame}
+
+
+\begin{frame}{Contenido}
+	Sintaxis concreta, semántica dinámica y semántica estática.
+\end{frame}
+
+\begin{frame}{Contenido}
+	
+	 \begin{exercise}[4.2 Capítulo 4]
+	 	\renewcommand{\theexercise}{3.14}
+		 Considera la siguiente sintaxis concreta para un lenguaje proposicional simple \texttt{Prop} donde solo se utiliza el conector \texttt{AND} ($\wedge$) y el operador \texttt{NOT} ($\neg$) definida como: 
+		 \[
+		 \inferrule{x \ \texttt{Prop}\ \: y\ \texttt{Prop}}{ x \wedge y\ \texttt{Prop}} \; \inferrule{x \ \texttt{Prop}}{\neg x \ \texttt{Prop}} \; \inferrule{\ }{\top \ \texttt{Prop}} \; \inferrule{\ }{\bot \  \texttt{Prop}} 
+		 \] 
+		 
+		 \begin{itemize}
+		 	\item  Proporciona una semántica de paso pequeño para evaluar las expresiones en \texttt{Prop}.
+		 	\item Proporciona una semántica de paso grande para evaluar las expresiones \texttt{Prop}.
+		 \end{itemize}   
+	\end{exercise}
+\end{frame}
+
+\begin{frame}{Contenido}
+	
+	\begin{exercise}[4.2 Capítulo 4]
+		
+		Determina una semántica de paso pequeño (SOS) para el lenguaje \texttt{Prop}.
+		
+		\begin{enumerate}
+			\item Identifica el conjunto de estados $Q$, el conjunto de estados iniciales $I$ y el conjunto de estados finales $F$.
+			
+			\begin{tcolorbox}[colback=gray!10,colframe=black]
+				\textbf{Solución:} El conjunto de estados $Q$ es simplemente el conjunto de todas las expresiones de \texttt{Prop}. 
+				$F = \{\top, \bot\}$. $I = Q$.
+			\end{tcolorbox}
+			
+		\end{enumerate}
+		
+	\end{exercise}
+	
+\end{frame}
+
+\begin{frame}{Contenido}
+	
+	\begin{exercise}[4.2 Capítulo 4]
+		
+		\begin{enumerate}
+			\setcounter{enumi}{1}
+			
+			\item Proporciona reglas de inferencia para una relación $\mapsto : Q \to Q$, que realiza un solo paso de evaluación de la expresión.
+			
+			\begin{tcolorbox}[colback=gray!10,colframe=black]
+				\textbf{Solución:}
+				{\small
+					\begin{mathpar}
+						\inferrule{a \mapsto a'}{\neg a \mapsto \neg a'} 
+						\quad \textsc{SOS-NOT}_1
+						
+						\inferrule{\ }{\neg \top \mapsto \bot} 
+						\quad \textsc{SOS-NOT}_2
+						
+						\inferrule{\ }{\neg \bot \mapsto \top} 
+						\quad \textsc{SOS-NOT}_3
+						
+						\inferrule{a \mapsto a'}{a \wedge b \mapsto a' \wedge b} 
+						\quad \textsc{SOS-AND}_1
+						
+						\inferrule{\ }{\top \wedge b \mapsto b} 
+						\quad \textsc{SOS-AND}_2
+						
+						\inferrule{\ }{\bot \wedge b \mapsto \bot} 
+						\quad \textsc{SOS-AND}_3
+					\end{mathpar}
+				}
+			\end{tcolorbox}
+			
+		\end{enumerate}
+		
+	\end{exercise}
+	
+\end{frame}
+
+\begin{frame}{Contenido}
+	
+	\begin{exercise}
+		
+		Determina una semántica de paso grande para el lenguaje \texttt{Prop}.
+		
+		\begin{tcolorbox}[colback=gray!10,colframe=black]
+			\textbf{Solución:}
+			{\small
+				\begin{mathpar}
+					
+					\inferrule{\ }{\top \Downarrow \top} 
+					\quad \textsc{TRUE}
+					
+					\inferrule{\ }{\bot \Downarrow \bot} 
+					\quad \textsc{FALSE}
+					
+					\inferrule{a \Downarrow \top}{\neg a \Downarrow \bot} 
+					\quad \textsc{NOT}_1
+					
+					\inferrule{a \Downarrow \bot}{\neg a \Downarrow \top} 
+					\quad \textsc{NOT}_2
+					
+					\inferrule{a \Downarrow \top \quad b \Downarrow v}{a \wedge b \Downarrow v} 
+					\quad \textsc{AND}_1
+					
+					\inferrule{a \Downarrow \bot}{a \wedge b \Downarrow \bot} 
+					\quad \textsc{AND}_2
+					
+				\end{mathpar}
+			}
+		\end{tcolorbox}
+		
+	\end{exercise}
+	
+\end{frame}
+
+\begin{frame}{Contenido}
+  \begin{exercise}[4.3 Capítulo 4]
+  	Ahora supón que se quieren añadir cuantificadores y variables a nuestro lenguaje \texttt{Prop}de la siguiente forma: \\
+  	\[
+  	\inferrule{x \ \texttt{Prop}}{\exists v.\ x \ \texttt{Prop}} \; \inferrule{x \ \texttt{Prop}}{\forall v.\ x \ \texttt{Prop}} \; \inferrule{v \ variable}{v \ \texttt{Prop}} 
+  	\]
+  	
+  	\begin{itemize}
+  		\item Proporciona un conjunto de reglas que definan la semántica estática que nos permite decidir cuando una expresión de \texttt{Prop} no contiene variables libres bajo un contexto $\Gamma$. Denotado de la siguiente forma: \\
+  		$ \Gamma \vdash e \ Ok $ 
+  	\end{itemize}
+  \end{exercise}
+\end{frame}
+
+
+\begin{frame}{Contenido}
+	
+	\begin{exercise}
+		
+		\begin{tcolorbox}[colback=gray!10,colframe=black]
+			\textbf{Solución:} El contexto será un conjunto (ambiente) de nombres de variables, denotado por $\Gamma$.
+			
+			{\scriptsize
+				%\setlength{\mathparskip}{2pt}
+				
+				\begin{mathpar}
+					
+					\inferrule*[right=\textsc{LookupEnv}]
+					{v \in \Gamma}
+					{\Gamma \vdash v \ \texttt{Ok}}
+					
+					\inferrule*[right=\textsc{Exists}]
+					{\Gamma \cup \{v\} \vdash x \ \texttt{Ok}}
+					{\Gamma \vdash \exists v.\, x \ \texttt{Ok}}
+					
+					\inferrule*[right=\textsc{Forall}]
+					{\Gamma \cup \{v\} \vdash x \ \texttt{Ok}}
+					{\Gamma \vdash \forall v.\, x \ \texttt{Ok}}
+					
+					\and
+					
+					\inferrule*[right=\textsc{Not}]
+					{\Gamma \vdash x \ \texttt{Ok}}
+					{\Gamma \vdash \neg x \ \texttt{Ok}}
+					
+					\inferrule*[right=\textsc{And}]
+					{\Gamma \vdash x \ \texttt{Ok} \\ \Gamma \vdash y \ \texttt{Ok}}
+					{\Gamma \vdash x \wedge y \ \texttt{Ok}}
+					
+				\end{mathpar}
+			}
+			
+		\end{tcolorbox}
+		
+	\end{exercise}
+	
+\end{frame}
+
+\begin{frame}{Derivación (semántica estática)}
+	
+	{\scriptsize
+		\begin{prooftree}
+			
+			\AxiomC{$x \in \{x,y\}$}
+			\RightLabel{\textsc{LookupEnv}}
+			\UnaryInfC{$\{x,y\} \vdash x\ \texttt{Ok}$}
+			
+			\AxiomC{$y \in \{x,y\}$}
+			\RightLabel{\textsc{LookupEnv}}
+			\UnaryInfC{$\{x,y\} \vdash y\ \texttt{Ok}$}
+			
+			\AxiomC{$x \in \{x,y\}$}
+			\RightLabel{\textsc{LookupEnv}}
+			\UnaryInfC{$\{x,y\} \vdash x\ \texttt{Ok}$}
+			
+			\RightLabel{\textsc{And}}
+			\BinaryInfC{$\{x,y\} \vdash y \wedge x\ \texttt{Ok}$}
+			
+			\RightLabel{\textsc{And}}
+			\BinaryInfC{$\{x,y\} \vdash x \wedge (y \wedge x)\ \texttt{Ok}$}
+			
+			\RightLabel{\textsc{Not}}
+			\UnaryInfC{$\{x,y\} \vdash \neg (x \wedge (y \wedge x))\ \texttt{Ok}$}
+			
+			\RightLabel{\textsc{Exists}}
+			\UnaryInfC{$\{x\} \vdash \exists y.\ \neg (x \wedge (y \wedge x))\ \texttt{Ok}$}
+			
+			\RightLabel{\textsc{Forall}}
+			\UnaryInfC{$\emptyset \vdash \forall x.\ \exists y.\ \neg (x \wedge (y \wedge x))\ \texttt{Ok}$}
+			
+		\end{prooftree}
+	}
+	
+\end{frame}
+
+
+\begin{frame}{Contenido}
+	\begin{exercise}[9.11 Capítulo 5]
+		Supón que se requieren extender las estructuras de datos para el Cálculo Lambda con la introducción de árboles binarios.\\ [1.2em]
+		\begin{itemize}
+			\item Define el árbol binario vacío $\varnothing$ ($Empty$). \\ [0.8em]
+			\item Define el constructor de un nodo que contiene un elemento, un sub-árbol izquierdo y derecho. ($Branch\ x\ l\ r$) \\ [0.8em]
+			\item Define la función \textsf{fold} que nos permita iterar el árbol y computar alguna operación sobre sus elementos.
+		\end{itemize}
+	\end{exercise}	
+\end{frame}
+
+\begin{frame}{Definición del árbol vacío}
+	\begin{exercise}[9.11 Capítulo 5]
+		El árbol vacío se define como:
+		
+		\[
+		\textsf{Empty} = \lambda e\ b.\ e
+		\]
+		
+		\begin{itemize}
+			\item $e$ representa el caso base (árbol vacío).
+			\item $b$ representa el caso de nodo.
+			\item El árbol vacío ignora el caso de nodo.
+		\end{itemize}
+		
+		%Intuición:
+		%\begin{itemize}
+		%	\item Siempre devuelve el valor base.
+		%\end{itemize}
+	\end{exercise}
+\end{frame}
+
+
+\begin{frame}{Constructor de nodos}
+	\begin{exercise}[9.11 Capítulo 5]
+		Un nodo con valor $x$, subárbol izquierdo $l$ y derecho $r$:
+		
+		\[
+		\textsf{Branch}\ x\ l\ r = \lambda e\ b.\ b\ x\ (l\ e\ b)\ (r\ e\ b)
+		\]
+		
+		\begin{itemize}
+			\item $x$ es el valor almacenado.
+			\item $l$ y $r$ son subárboles.
+		\end{itemize}
+		
+		%El nodo:
+		%\begin{itemize}
+		%	\item Aplica recursivamente $l$ y $r$.
+		%	\item Combina resultados usando $b$.
+		%\end{itemize}
+	\end{exercise}
+\end{frame}
+
+\begin{frame}{Árboles en el Cálculo Lambda}
+	\begin{exercise}[9.11 Capítulo 5]
+		Consideremos el árbol:
+		
+		\[
+		\textsf{Branch}\ 1\ \textsf{Empty}\ (\textsf{Branch}\ 2\ \textsf{Empty}\ \textsf{Empty})
+		\]
+		
+		Aplicando las definiciones:
+		
+		\begin{itemize}
+			\item \textsf{Empty} $= \lambda e\ b.\ e$
+			\item \textsf{Branch} $= \lambda x\ l\ r.\ \lambda e\ b.\ b\ x\ (l\ e\ b)\ (r\ e\ b)$
+		\end{itemize}
+		
+		Se reduce a:
+		
+		\[
+		\lambda e\ b.\ b\ 1\ e\ (b\ 2\ e\ e)
+		\]
+		
+		%La intuición detrás de esta estructura índica que:
+		%\begin{itemize}
+		%	\item Cada nodo aplica $b$ a su valor.
+		%	\item Los subárboles ya vienen evaluados.
+		%\end{itemize}
+	\end{exercise}
+\end{frame}
+
+
+\begin{frame}{Definición de fold}
+	\begin{exercise}[9.11 Capítulo 5]
+		La función \textsf{fold} sobre árboles se define como:
+		
+		\[
+		\textsf{fold}\ t\ e\ op = t\ e\ op
+		\]
+		
+		\begin{itemize}
+			\item $t$: árbol binario.
+			\item $e$: valor base.
+			\item $op$: operador para nodos.
+		\end{itemize}
+
+		%La intuición detrás de este operador nos indica que:
+		%\begin{itemize}
+		%	\item \textsf{fold} no recorre el árbol explícitamente. 
+		%	\item El árbol ya contiene su propia recursión.
+		%\end{itemize}
+	\end{exercise}
+\end{frame}
+
+\begin{frame}{Ejemplo de uso de fold}
+	\begin{exercise}[9.11 Capítulo 5]
+		Ejemplo: sumar todos los elementos del árbol.
+		
+		\[
+		\textsf{fold}\ t\ 0\ (\lambda x\ l\ r.\ x + l + r)
+		\]
+		
+		\begin{itemize}
+			\item $0$ es el valor del árbol vacío.
+			\item La función combina:
+			\begin{itemize}
+				\item valor del nodo ($x$)
+				\item resultado izquierdo ($l$)
+				\item resultado derecho ($r$)
+			\end{itemize}
+		\end{itemize}
+	\end{exercise}
+\end{frame}
+
+
+\begin{frame}{Evaluación con \textsf{fold} (suma)}
+	\begin{exercise}[9.11 Capítulo 5]
+		\[
+		t =_{def} \lambda e\ b.\ b\ 1\ e\ (b\ 2\ e\ e)
+		\]
+		
+		Aplicamos \textsf{fold} con suma:
+		\[
+		t\ 0\ (\lambda x\ l\ r.\ x + l + r)
+		\]
+		\begin{align*}
+			&(\lambda e\ b.\ b\ 1\ e\ (b\ 2\ e\ e))\ 0\ (\lambda x\ l\ r.\ x + l + r) \\
+			\rightarrow_\beta\ &(\lambda b.\ b\ 1\ 0\ (b\ 2\ 0\ 0))\ (\lambda x\ l\ r.\ x + l + r) \\
+			\rightarrow_\beta\ &(\lambda x\ l\ r.\ x + l + r)\ 1\ 0\ ((\lambda x\ l\ r.\ x + l + r)\ 2\ 0\ 0) \\
+			\rightarrow_\beta\ &(\lambda x\ l\ r.\ x + l + r)\ 1\ 0\ (2 + 0 + 0) \\
+			\rightarrow_\beta\ &1 + 0 + (2 + 0 + 0) \\
+			\rightarrow_\beta\ &3
+		\end{align*}
+	\end{exercise}
+\end{frame}
+
+\begin{frame}{Contenido}
+	
+	
+\end{frame}
+
+
+\begin{frame}{Contenido}
+	
+	
+\end{frame}
+
+
+\begin{frame}{Contenido}
+	
+	
+\end{frame}
+
+
+\begin{frame}{Contenido}
+	
+	
+\end{frame}
+
+
+\begin{frame}{Contenido}
+	
+	
+\end{frame}
+
 
 
 
