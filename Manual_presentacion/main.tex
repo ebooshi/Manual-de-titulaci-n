@@ -13,7 +13,20 @@
 \usepackage{mathpartir}
 \usepackage{tcolorbox}
 \usepackage{bussproofs}
-\tcbuselibrary{skins, breakable, theorems}
+\usepackage{ dsfont }
+\usepackage[normalem]{ulem}
+\usepackage{xcolor}
+% PREÁMBULO (asegúrate de tener esto una sola vez en tu doc)
+\usepackage{tikz}
+\usetikzlibrary{fit,calc}
+\usepackage[normalem]{ulem}
+\usepackage{xcolor}
+
+\newcommand{\ulorange}[1]{\textcolor{orange}{\uline{\textcolor{black}{#1}}}}
+\newcommand{\ulred}[1]{\textcolor{red}{\uline{\textcolor{black}{#1}}}}
+
+% ------------------------------------------------------
+
 
 \DeclareMathOperator{\sen}{sen}
 \DeclareMathOperator{\tg}{tg}
@@ -107,7 +120,7 @@
 \begin{frame}{Motivación}
  	\begin{enumerate}
  		\item{\textbf{¿Qué dificultades tienen los alumnos?}} \\ [3em]
- 		\item{\textbf{¿Qué huecos existen en los materiales existentes?}}
+ 		\item{\textbf{¿Qué huecos hay en los materiales existentes?}}
  	\end{enumerate}
 \end{frame}
 
@@ -183,7 +196,7 @@
 
 
 \begin{frame}{Estructura del material}
-	El contenido está organizado por temas, agrupando los conceptos y definiciones de manera incremental. \\ [2em]
+	%El contenido está organizado por temas, agrupando los conceptos y definiciones de manera incremental. \\ [2em]
 	\begin{itemize}
 		\item{Introducción, Gramáticas y Herramientas Matemáticas} \\
 		\item{Sintaxis y Semántica}\\
@@ -202,220 +215,361 @@
 \end{frame}
 
 
-\begin{frame}{Contenido}
-	Sintaxis concreta, semántica dinámica y semántica estática.
+\begin{frame}{Calculadora  \texttt{NPR}}
+	\begin{exercise}[4.5 Capítulo 4] 
+		La sintáxis para definir una calculadora utilizando la notación polaca reversa (\texttt{NPR}) se define como:
+		%Es una calculadora que no requiere de parentizado para evaluar las expresiones. Esta se apoya de una pila para ''empujar'' los operandos y los operadores así como de la notación pos-fija, es decir el operador se escribe después de los operandos, por ejemplo:
+		%Esta calculadora empuja símbolos a la pila hasta encontrar un operador, en tal caso, los dos símbolos más próximos al tope son extraídos de la pila y el resultado de la operación es empujado nuevamente.\\\\
+		\[
+			\inferrule{x \in \mathds{N}}{x \ Symbol} \; 
+			\inferrule{x \in \{+,-,*,/ \}}{x \ Symbol} \; 
+			\inferrule{\ }{\epsilon \ \texttt{ \texttt{NPR}}} \; 
+			\inferrule{x \ Symbol \ xs\ \texttt{ \texttt{NPR}}}{x \ xs \ \texttt{ \texttt{NPR}}}
+		\]
+		
+		$$7\ +\ 1\ \text{se representa como: }\ 7\ 1\ + $$
+		$$7\ -\ (3\ +\ 2)\ \text{se representa como: }\ 7\ 3\ 2\ +\ -$$
+		
+	\end{exercise}
 \end{frame}
 
-\begin{frame}{Contenido}
-	
-	 \begin{exercise}[4.2 Capítulo 4]
-	 	\renewcommand{\theexercise}{3.14}
-		 Considera la siguiente sintaxis concreta para un lenguaje proposicional simple \texttt{Prop} donde solo se utiliza el conector \texttt{AND} ($\wedge$) y el operador \texttt{NOT} ($\neg$) definida como: 
-		 \[
-		 \inferrule{x \ \texttt{Prop}\ \: y\ \texttt{Prop}}{ x \wedge y\ \texttt{Prop}} \; \inferrule{x \ \texttt{Prop}}{\neg x \ \texttt{Prop}} \; \inferrule{\ }{\top \ \texttt{Prop}} \; \inferrule{\ }{\bot \  \texttt{Prop}} 
-		 \] 
-		 
-		 \begin{itemize}
-		 	\item  Proporciona una semántica de paso pequeño para evaluar las expresiones en \texttt{Prop}.
-		 	\item Proporciona una semántica de paso grande para evaluar las expresiones \texttt{Prop}.
-		 \end{itemize}   
+\begin{frame}{Calculadora  \texttt{NPR}}
+	\begin{exercise}[4.5 Capítulo 4] 
+		Esta gramática tiene el problema de poder formar expresiones que no pertenecen necesariamente a \texttt{NPR} como:
+		$$ 1 + 2$$
+		$$ + * /$$
 	\end{exercise}
 \end{frame}
 
-\begin{frame}{Contenido}
-	
-	\begin{exercise}[4.2 Capítulo 4]
-		
-		Determina una semántica de paso pequeño (SOS) para el lenguaje \texttt{Prop}.
-		
-		\begin{enumerate}
-			\item Identifica el conjunto de estados $Q$, el conjunto de estados iniciales $I$ y el conjunto de estados finales $F$.
-			
-			\begin{tcolorbox}[colback=gray!10,colframe=black]
-				\textbf{Solución:} El conjunto de estados $Q$ es simplemente el conjunto de todas las expresiones de \texttt{Prop}. 
-				$F = \{\top, \bot\}$. $I = Q$.
-			\end{tcolorbox}
-			
-		\end{enumerate}
-		
+
+\begin{frame}{Calculadora  \texttt{NPR}}
+	\begin{exercise}[4.5 Capítulo 4] 
+		\begin{itemize}
+			\item Proporciona un conjunto de reglas para definir la semántica estática que pueda analizar una expresión $e$ y nos diga si una expresión perteneciente a \texttt{NPR} está bien formada, denotando el juicio como: $\vdash e \ Ok$.
+		\end{itemize}
 	\end{exercise}
-	
 \end{frame}
 
-\begin{frame}{Contenido}
-	
-	\begin{exercise}[4.2 Capítulo 4]
+\begin{frame}{Semántica estática para  \texttt{NPR}}
+	\begin{exercise}[4.5 Capítulo 4] 		
+		\textbf{Solución:} %Equiparemos nuestras reglas con un contexto que incluye el \emph{número de valores} disponibles en la pila.
 		
-		\begin{enumerate}
-			\setcounter{enumi}{1}
-			
-			\item Proporciona reglas de inferencia para una relación $\mapsto : Q \to Q$, que realiza un solo paso de evaluación de la expresión.
-			
-			\begin{tcolorbox}[colback=gray!10,colframe=black]
-				\textbf{Solución:}
-				{\small
-					\begin{mathpar}
-						\inferrule{a \mapsto a'}{\neg a \mapsto \neg a'} 
-						\quad \textsc{SOS-NOT}_1
-						
-						\inferrule{\ }{\neg \top \mapsto \bot} 
-						\quad \textsc{SOS-NOT}_2
-						
-						\inferrule{\ }{\neg \bot \mapsto \top} 
-						\quad \textsc{SOS-NOT}_3
-						
-						\inferrule{a \mapsto a'}{a \wedge b \mapsto a' \wedge b} 
-						\quad \textsc{SOS-AND}_1
-						
-						\inferrule{\ }{\top \wedge b \mapsto b} 
-						\quad \textsc{SOS-AND}_2
-						
-						\inferrule{\ }{\bot \wedge b \mapsto \bot} 
-						\quad \textsc{SOS-AND}_3
-					\end{mathpar}
+		\medskip
+		
+		El programa vacío es válido solo si hay exactamente un valor en la pila; esto significa que el programa evaluará a un único resultado:
+		
+		\[
+		\inferrule{}{1 \vdash \epsilon \ Ok} \quad \textsc{Vacío}
+		\]
+	\end{exercise}
+\end{frame}
+
+\begin{frame}{Semántica estática para  \texttt{NPR}}
+	\begin{exercise}[4.5 Capítulo 4] 
+		
+		Anteponer un número a un programa implica que se requiere un valor menos en la pila:
+		
+		\[
+		\inferrule{x \in \mathbb{N} \quad (n+1) \vdash xs \ Ok}{n \vdash x\ xs \ Ok} \quad \textsc{Num}
+		\]
+		
+		\medskip
+		
+		Anteponer un operador requiere dos valores en la pila y produce uno. La estructura de la regla refleja esto:
+		
+		\[
+		\inferrule{x \in \{+,-,*,/\} \quad (n+1) \vdash xs \ Ok}{(n+2) \vdash x\ xs \ Ok} \quad \textsc{Op}
+		\]
+	\end{exercise}
+\end{frame}
+
+\begin{frame}{Derivación estática: $3\;2\;1\;+\;-$}
+	
+	\begin{exercise}
+		
+		Aplica el analizador sintáctico para la expresión: 
+		\[
+			 3\ 2\ 1\ +\ -\
+		\]
+		
+		\centering
+		\resizebox{0.95\textwidth}{!}{$
+			\inferrule*[right=\textsc{Num}]
+			{3 \in \mathbb{N} \quad
+				\inferrule*[right=\textsc{Num}]
+				{2 \in \mathbb{N} \quad
+					\inferrule*[right=\textsc{Num}]
+					{1 \in \mathbb{N} \quad
+						\inferrule*[right=\textsc{Op}]
+						{+ \in \{+,-,*,/\} \quad
+							\inferrule*[right=\textsc{Op}]
+							{- \in \{+,-,*,/\} \quad
+								\inferrule*[right=\textsc{Vacío}]
+								{}
+								{1 \vdash \epsilon \ Ok}
+							}
+							{2 \vdash -\ \epsilon \ Ok}
+						}
+						{3 \vdash +\ -\ \epsilon \ Ok}
+					}
+					{2 \vdash 1\ +\ -\ \epsilon \ Ok}
 				}
-			\end{tcolorbox}
-			
-		\end{enumerate}
+				{1 \vdash 2\ 1\ +\ -\ \epsilon \ Ok}
+			}
+			{0 \vdash 3\ 2\ 1\ +\ -\ \epsilon \ Ok}
+			$}
+	\end{exercise}
+	
+\end{frame}
+
+
+\begin{frame}{Semántica dinámica para  \texttt{NPR}}
+	\begin{exercise}[4.5 Capítulo 4]
+		\begin{itemize}
+			\item Proporciona una conjunto de reglas para implementar la semántica operacional de paso pequeño para las expresiones bien formadas de \texttt{NPR}. Define la relación $\rightarrow : Q \times Q$, que evalúa un paso del cálculo.
+		\end{itemize}
+	\end{exercise}	
+\end{frame}
+
+
+
+\begin{frame}{Semántica dinámica para  \texttt{NPR}}
+	\begin{exercise}[4.5 Capítulo 4]
+		
+	\textbf{Solución:} \\[1em]
+	Nuestros estados $Q$ serán de la forma $s \; \triangleright \; p$, donde $s$ es una pila de números naturales y $p$ es un programa en notación polaca reversa (\texttt{NPR}). \\[1em]
+	
+	Los estados iniciales son todos aquellos de la forma $\bullet \; \triangleright \; p$. \\[1em]
+	
+	Los estados finales son todos aquellos de la forma $n \; \triangleright \; \epsilon$. \\[1em]
+		
+	\end{exercise}
+\end{frame}
+
+
+\begin{frame}{Semántica dinámica para  \texttt{NPR}}
+	\begin{exercise}[4.5 Capítulo 4]
+		\begin{itemize}
+			\item Proporciona una conjunto de reglas para implementar la semántica operacional de paso pequeño para las expresiones bien formadas de \texttt{NPR}. Define la relación $\rightarrow : Q \times Q$, que evalúa un paso del cálculo.
+		\end{itemize}
+	\end{exercise}	
+\end{frame}
+
+\begin{frame}{Semántica de paso pequeño para RPN}
+	
+	\vspace{0.4cm}
+	
+	\begin{exercise}[4.5 Capítulo 4]
+		
+		\textbf{Los números simplemente se apilan en la pila:}
+		
+		\[
+		\frac{x \in \mathbb{N}}
+		{s \;\triangleright\; x \; s' \;\rightarrow\; x : s \;\triangleright\; s'}
+		\quad \textsc{SS-Num}
+		\]
+		
+		\vspace{0.4cm}
+		
+		\textbf{Las operaciones extraen dos elementos de la pila y operan sobre ellos:}
+		
+		\[
+		\frac{x \in \{+,-,\ast,/\}}
+		{a : b : s \;\triangleright\; x \; s' \;\rightarrow\; (a \; x \; b) : s \;\triangleright\; s'}
+		\quad \textsc{SS-Op}
+		\]
 		
 	\end{exercise}
 	
 \end{frame}
 
-\begin{frame}{Contenido}
+
+\begin{frame}{Semántica de paso pequeño para RPN}
+	\begin{exercise}[4.5 Capítulo 4]
+	\small
 	
+	\[
+		\begin{array}{lclc}
+			&  \text{Evalúa la siguiente expresión:}              &\bullet \;\triangleright\; 1\;5\;10\;/\;- \\ \\
+			&\rightarrow& 1 : \bullet \;\triangleright\; 5\;10\;/\;- &\textsc{SS-Num} \\
+			
+			&\rightarrow& 5 : 1 : \bullet \;\triangleright\; 10\;/\;- & \textsc{SS-Num} \\
+			
+			&\rightarrow& 10 : 5 : 1 : \bullet \;\triangleright\; /\;- & \textsc{SS-Num} \\
+			
+			&\rightarrow& (10 / 5) : 1 : \bullet \;\triangleright\; - & \textsc{SS-Op} \\
+			
+			&\rightarrow& 2 : 1 : \bullet \;\triangleright\; - & \\
+			
+			&\rightarrow& (1 - 2) : \bullet \;\triangleright\; \epsilon & \textsc{SS-Op} \\
+			
+			&\rightarrow& -1 \;\triangleright\; \epsilon &
+		\end{array}
+	\]
+	\end{exercise}
+	
+\end{frame}
+
+
+\begin{frame}{Temas estudiados en este ejercicio}
+	\begin{itemize}
+		\item Sintáxis concreta.
+		\item Gramáticas permisivas.
+		\item Análisis estático y reglas de inferencia.
+		\item Semántica operacional de paso pequeño.
+		\item relaciones de transición.
+		\item Evaluación de expresiones.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Semántica Operacional para el Cálculo Lambda}
+	\begin{exercise}
+		Supón ahora que se requiere implementar una máquina abstracta para modelar la ejecución de las expresiones bien formadas a partir de la sintáxis concreta del Cálculo Lambda junto con el operador ''+''. \\[1em]
+	\end{exercise}
+\end{frame}
+
+\begin{frame}
+	\begin{exercise}
+		\begin{itemize}
+			\item{Propón un conjunto de reglas para implementar un proceso de análisis estático para expresiones cerradas.} \\[1em]
+			\item{Propón un conjunto de reglas para implementar la semántica dinámica para evaluar expresiones.}
+		\end{itemize}
+	\end{exercise}
+\end{frame}
+
+\begin{frame}{Semántica Estática}
+	\begin{exercise}
+		\textbf{Solución: }
+		
+		\[
+		\frac{n \in Int}{\Gamma \vdash (\textsf{Num } n)\ ok}
+		\quad
+		\frac{x \in \Gamma}{\Gamma \vdash x\ ok}
+		\]
+		
+		\[
+		\frac{\Gamma, x \vdash e\ ok}{\Gamma \vdash (\textsf{Lambda } x.e)\ ok} \; \; \;
+		\frac{\Gamma \vdash e_1\ ok \quad \Gamma \vdash e_2\ ok}
+		{\Gamma \vdash (\textsf{Apply } e_1\ e_2)\ ok}
+		\]
+		
+		\[
+		\frac{\Gamma \vdash e_1\ ok \quad \Gamma \vdash e_2\ ok}
+		{\Gamma \vdash (\textsf{Plus } e_1\ e_2)\ ok}
+		\]
+	\end{exercise}
+\end{frame}
+
+\begin{frame}{Derivación: Expresión Cerrada}
+	\begin{exercise}
+		Sea:
+		\[
+		e = (\textsf{Apply } (\textsf{Lambda } x.\ \textsf{Plus } x\ \textsf{Num } 1)\ 2)
+		\]
+		
+		\[
+		\frac{
+			\frac{
+				\frac{
+					\frac{x \in \{x\}}{\{x\} \vdash x\ ok}
+					\quad
+					\frac{}{\{x\} \vdash \textsf{Num } 1\ ok}
+				}{\{x\} \vdash \textsf{Plus } x\ \textsf{Num } 1\ ok}
+			}{\emptyset \vdash \textsf{Lambda } x.\textsf{Plus } x\ \textsf{Num } 1\ ok}
+			\quad
+			\frac{}{\emptyset \vdash \textsf{Num } 2\ ok}
+		}{
+			\emptyset \vdash  (\textsf{Apply } (\textsf{Lambda } x.\ \textsf{Plus } x\ \textsf{Num } 1)\ \textsf{Num }2)\ ok
+		}
+		\]
+		
+	\end{exercise}
+\end{frame}
+
+\begin{frame}{Semántica Operacional de paso pequeño}
 	\begin{exercise}
 		
-		Determina una semántica de paso grande para el lenguaje \texttt{Prop}.
+		\[
+		\frac{e_1 \mapsto e_1'}
+		{(\textsf{Apply } e_1\ e_2) \mapsto (\textsf{Apply } e_1'\ e_2)}
+		\]
 		
-		\begin{tcolorbox}[colback=gray!10,colframe=black]
-			\textbf{Solución:}
-			{\small
-				\begin{mathpar}
-					
-					\inferrule{\ }{\top \Downarrow \top} 
-					\quad \textsc{TRUE}
-					
-					\inferrule{\ }{\bot \Downarrow \bot} 
-					\quad \textsc{FALSE}
-					
-					\inferrule{a \Downarrow \top}{\neg a \Downarrow \bot} 
-					\quad \textsc{NOT}_1
-					
-					\inferrule{a \Downarrow \bot}{\neg a \Downarrow \top} 
-					\quad \textsc{NOT}_2
-					
-					\inferrule{a \Downarrow \top \quad b \Downarrow v}{a \wedge b \Downarrow v} 
-					\quad \textsc{AND}_1
-					
-					\inferrule{a \Downarrow \bot}{a \wedge b \Downarrow \bot} 
-					\quad \textsc{AND}_2
-					
-				\end{mathpar}
-			}
-		\end{tcolorbox}
+		\[
+		\frac{\ }
+		{(\textsf{Apply } (\textsf{Lambda } x.e_1)\ e_2)
+			\mapsto e_1[x := e_2]}
+		\]
 		
+		\[
+		\frac{e_1 \mapsto e_1'}
+		{(\textsf{Plus } e_1\ e_2) \mapsto (\textsf{Plus } e_1'\ e_2)}
+		\]
+		
+		\[
+		\frac{e \mapsto e'}
+		{(\textsf{Plus } (\textsf{Num } n)\ e) \mapsto (\textsf{Plus } (\textsf{Num } n)\ e')}
+		\]
+		
+		\[
+		\frac{\ }
+		{(\textsf{Plus } (\textsf{Num } n_1)\ (\textsf{Num } n_2))
+			\mapsto (\textsf{Num } (n_1 + n_2))}
+		\]
 	\end{exercise}
-	
 \end{frame}
 
-\begin{frame}{Contenido}
-  \begin{exercise}[4.3 Capítulo 4]
-  	Ahora supón que se quieren añadir cuantificadores y variables a nuestro lenguaje \texttt{Prop}de la siguiente forma: \\
-  	\[
-  	\inferrule{x \ \texttt{Prop}}{\exists v.\ x \ \texttt{Prop}} \; \inferrule{x \ \texttt{Prop}}{\forall v.\ x \ \texttt{Prop}} \; \inferrule{v \ variable}{v \ \texttt{Prop}} 
-  	\]
-  	
-  	\begin{itemize}
-  		\item Proporciona un conjunto de reglas que definan la semántica estática que nos permite decidir cuando una expresión de \texttt{Prop} no contiene variables libres bajo un contexto $\Gamma$. Denotado de la siguiente forma: \\
-  		$ \Gamma \vdash e \ Ok $ 
-  	\end{itemize}
-  \end{exercise}
-\end{frame}
-
-
-\begin{frame}{Contenido}
-	
+\begin{frame}{Inciso (a)}
 	\begin{exercise}
+		Iniciales:
 		
-		\begin{tcolorbox}[colback=gray!10,colframe=black]
-			\textbf{Solución:} El contexto será un conjunto (ambiente) de nombres de variables, denotado por $\Gamma$.
-			
-			{\scriptsize
-				%\setlength{\mathparskip}{2pt}
-				
-				\begin{mathpar}
-					
-					\inferrule*[right=\textsc{LookupEnv}]
-					{v \in \Gamma}
-					{\Gamma \vdash v \ \texttt{Ok}}
-					
-					\inferrule*[right=\textsc{Exists}]
-					{\Gamma \cup \{v\} \vdash x \ \texttt{Ok}}
-					{\Gamma \vdash \exists v.\, x \ \texttt{Ok}}
-					
-					\inferrule*[right=\textsc{Forall}]
-					{\Gamma \cup \{v\} \vdash x \ \texttt{Ok}}
-					{\Gamma \vdash \forall v.\, x \ \texttt{Ok}}
-					
-					\and
-					
-					\inferrule*[right=\textsc{Not}]
-					{\Gamma \vdash x \ \texttt{Ok}}
-					{\Gamma \vdash \neg x \ \texttt{Ok}}
-					
-					\inferrule*[right=\textsc{And}]
-					{\Gamma \vdash x \ \texttt{Ok} \\ \Gamma \vdash y \ \texttt{Ok}}
-					{\Gamma \vdash x \wedge y \ \texttt{Ok}}
-					
-				\end{mathpar}
-			}
-			
-		\end{tcolorbox}
+		\[
+		S = \{ e \mid \emptyset \vdash e\ ok \}
+		\]
 		
+		Finales:
+		\[
+		F = \{ \textsf{Num } n,\ \textsf{Lambda } x.e \}
+		\]
 	\end{exercise}
-	
 \end{frame}
 
-\begin{frame}{Derivación (semántica estática)}
-	
-	{\scriptsize
-		\begin{prooftree}
-			
-			\AxiomC{$x \in \{x,y\}$}
-			\RightLabel{\textsc{LookupEnv}}
-			\UnaryInfC{$\{x,y\} \vdash x\ \texttt{Ok}$}
-			
-			\AxiomC{$y \in \{x,y\}$}
-			\RightLabel{\textsc{LookupEnv}}
-			\UnaryInfC{$\{x,y\} \vdash y\ \texttt{Ok}$}
-			
-			\AxiomC{$x \in \{x,y\}$}
-			\RightLabel{\textsc{LookupEnv}}
-			\UnaryInfC{$\{x,y\} \vdash x\ \texttt{Ok}$}
-			
-			\RightLabel{\textsc{And}}
-			\BinaryInfC{$\{x,y\} \vdash y \wedge x\ \texttt{Ok}$}
-			
-			\RightLabel{\textsc{And}}
-			\BinaryInfC{$\{x,y\} \vdash x \wedge (y \wedge x)\ \texttt{Ok}$}
-			
-			\RightLabel{\textsc{Not}}
-			\UnaryInfC{$\{x,y\} \vdash \neg (x \wedge (y \wedge x))\ \texttt{Ok}$}
-			
-			\RightLabel{\textsc{Exists}}
-			\UnaryInfC{$\{x\} \vdash \exists y.\ \neg (x \wedge (y \wedge x))\ \texttt{Ok}$}
-			
-			\RightLabel{\textsc{Forall}}
-			\UnaryInfC{$\emptyset \vdash \forall x.\ \exists y.\ \neg (x \wedge (y \wedge x))\ \texttt{Ok}$}
-			
-		\end{prooftree}
-	}
-	
+\begin{frame}{Inciso (b): Ejecución}
+	\begin{exercise}
+		Evaluar:
+		
+		\[
+		(\textsf{Apply } (\textsf{Lambda } x.\ 
+		\textsf{Plus } x\ (\textsf{Num } 1))\ (\textsf{Num } 2))
+		\]
+	\end{exercise}
 \end{frame}
 
+\begin{frame}{Ejecución paso a paso}
+	\begin{exercise}
+		\[
+		(\textsf{Apply } (\textsf{Lambda } x.\ 
+		\textsf{Plus } x\ \textsf{Num } 1)\  \textsf{Num } 2) \mapsto
+		\]
+		
+		\[
+		(\textsf{Plus } x\ \textsf{Num } 1)[x := \textsf{Num } 2]	\mapsto
+		\]
+		
+		\[
+		(\textsf{Plus } (\textsf{Num } 2)\ (\textsf{Num } 1)) \mapsto
+		\]
+		
+		\[
+		(\textsf{Num } (2 + 1))	\mapsto
+		\]
+		
+		\[
+		(\textsf{Num } 3)
+		\]
+	\end{exercise}
+\end{frame}
 
-\begin{frame}{Contenido}
+\begin{frame}{Cálculo Lambda}
 	\begin{exercise}[9.11 Capítulo 5]
 		Supón que se requieren extender las estructuras de datos para el Cálculo Lambda con la introducción de árboles binarios.\\ [1.2em]
 		\begin{itemize}
@@ -426,18 +580,20 @@
 	\end{exercise}	
 \end{frame}
 
+
+
 \begin{frame}{Definición del árbol vacío}
 	\begin{exercise}[9.11 Capítulo 5]
 		El árbol vacío se define como:
 		
 		\[
-		\textsf{Empty} = \lambda e\ b.\ e
+		\textsf{Empty} = \lambda e\lambda b.\ e
 		\]
 		
 		\begin{itemize}
 			\item $e$ representa el caso base (árbol vacío).
 			\item $b$ representa el caso de nodo.
-			\item El árbol vacío ignora el caso de nodo.
+			%\item El árbol vacío ignora el caso de nodo.
 		\end{itemize}
 		
 		%Intuición:
@@ -453,7 +609,7 @@
 		Un nodo con valor $x$, subárbol izquierdo $l$ y derecho $r$:
 		
 		\[
-		\textsf{Branch}\ x\ l\ r = \lambda e\ b.\ b\ x\ (l\ e\ b)\ (r\ e\ b)
+		\textsf{Branch}\ x\ l\ r = \lambda e\lambda b.\ b\ x\ (l\ e\ b)\ (r\ e\ b)
 		\]
 		
 		\begin{itemize}
@@ -461,6 +617,20 @@
 			\item $l$ y $r$ son subárboles.
 		\end{itemize}
 		
+		
+		
+%		En esta definición utilizo una notación abreviada común en programación funcional, donde una expresión como
+%		Branch x l r = ...
+%		debe entenderse como azúcar sintáctica para una abstracción lambda completamente explícita:
+%		Branch = λx.λl.λr. ....
+%		
+%		Este estilo se adopta para mejorar la legibilidad y resaltar la estructura del constructor de datos, evitando una sobrecarga de lambdas que puede dificultar la intuición del encoding.
+%		
+%		Sin embargo, es importante notar que, a nivel formal en cálculo lambda puro, todas las variables (x, l, r) están correctamente ligadas mediante abstracciones.
+%		
+%		Este es un trade-off entre rigor sintáctico y claridad expositiva: mantengo la semántica del cálculo lambda, pero uso una notación más compacta para hacer evidente la estructura inductiva del árbol.
+%		
+
 		%El nodo:
 		%\begin{itemize}
 		%	\item Aplica recursivamente $l$ y $r$.
@@ -480,14 +650,14 @@
 		Aplicando las definiciones:
 		
 		\begin{itemize}
-			\item \textsf{Empty} $= \lambda e\ b.\ e$
-			\item \textsf{Branch} $= \lambda x\ l\ r.\ \lambda e\ b.\ b\ x\ (l\ e\ b)\ (r\ e\ b)$
+			\item \textsf{Empty} $= \lambda e\lambda b.\ e$
+			\item \textsf{Branch}$\ x \ l \ r \ = \lambda e\lambda b.\ b\ x\ (l\ e\ b)\ (r\ e\ b)$
 		\end{itemize}
 		
 		Se reduce a:
 		
 		\[
-		\lambda e\ b.\ b\ 1\ e\ (b\ 2\ e\ e)
+		\lambda e\lambda b.\ b\ 1\ e\ (b\ 2\ e\ e)
 		\]
 		
 		%La intuición detrás de esta estructura índica que:
@@ -496,6 +666,68 @@
 		%	\item Los subárboles ya vienen evaluados.
 		%\end{itemize}
 	\end{exercise}
+\end{frame}
+
+\begin{frame}{Árbol asociado a \texttt{Branch}}
+	
+	\resizebox{0.85\textwidth}{!}{
+		\begin{minipage}{\textwidth}
+	
+			\begin{exercise}[Ejemplo de 4 niveles]
+				
+			\begin{center}
+				\begin{tikzpicture}[
+					level 1/.style={sibling distance=4cm},
+					level 2/.style={sibling distance=3cm},
+					level 3/.style={sibling distance=2cm},
+					level distance=1.5cm,
+					every node/.style={circle, draw, minimum size=7mm}
+					]
+					
+					\node {1}
+					child { node {2}
+						child { node {E} }
+						child { node {4}
+							child { node {E} }
+							child { node {E} }
+						}
+					}
+					child { node {3}
+						child { node {E} } % ← IMPORTANTE: quitar missing
+						child { node {5}
+							child { node {E} }
+							child { node {E} }
+						}
+					};
+					
+				\end{tikzpicture}
+			\end{center}
+				
+				\medskip
+						
+				\[
+				\begin{aligned}
+					\textsf{Branch}\ 1\ 
+					(&\textsf{Branch}\ 2\ \textsf{Empty}\ 
+					(\textsf{Branch}\ 4\ \textsf{Empty}\ \textsf{Empty})) \\
+					(&\textsf{Branch}\ 3\ \textsf{Empty}\ 
+					(\textsf{Branch}\ 5\ \textsf{Empty}\ \textsf{Empty}))
+				\end{aligned}
+				\]
+				
+				\medskip
+				
+				\[
+				\lambda e\lambda b.\ 
+				b\ 1\ 
+				(b\ 2\ e\ (b\ 4\ e\ e))\ 
+				(b\ 3\ e\ (b\ 5\ e\ e))
+				\]
+				
+			\end{exercise}
+		\end{minipage}
+	}
+	
 \end{frame}
 
 
@@ -507,11 +739,11 @@
 		\textsf{fold}\ t\ e\ op = t\ e\ op
 		\]
 		
-		\begin{itemize}
-			\item $t$: árbol binario.
-			\item $e$: valor base.
-			\item $op$: operador para nodos.
-		\end{itemize}
+%		\begin{itemize}
+%			\item $t$: árbol binario.
+%			\item $e$: valor base.
+%			\item $op$: operador para nodos.
+%		\end{itemize}
 
 		%La intuición detrás de este operador nos indica que:
 		%\begin{itemize}
@@ -526,18 +758,18 @@
 		Ejemplo: sumar todos los elementos del árbol.
 		
 		\[
-		\textsf{fold}\ t\ 0\ (\lambda x\ l\ r.\ x + l + r)
+		\textsf{fold}\ t\ 0\ (\lambda x\lambda l\lambda r.\ x + l + r)
 		\]
 		
-		\begin{itemize}
-			\item $0$ es el valor del árbol vacío.
-			\item La función combina:
-			\begin{itemize}
-				\item valor del nodo ($x$)
-				\item resultado izquierdo ($l$)
-				\item resultado derecho ($r$)
-			\end{itemize}
-		\end{itemize}
+%		\begin{itemize}
+%			\item $0$ es el valor del árbol vacío.
+%			\item La función combina:
+%			\begin{itemize}
+%				\item valor del nodo ($x$)
+%				\item resultado izquierdo ($l$)
+%				\item resultado derecho ($r$)
+%			\end{itemize}
+%		\end{itemize}
 	\end{exercise}
 \end{frame}
 
@@ -545,7 +777,7 @@
 \begin{frame}{Evaluación con \textsf{fold} (suma)}
 	\begin{exercise}[9.11 Capítulo 5]
 		\[
-		t =_{def} \lambda e\ b.\ b\ 1\ e\ (b\ 2\ e\ e)
+		t =_{def} \lambda e\lambda b.\ b\ 1\ e\ (b\ 2\ e\ e)
 		\]
 		
 		Aplicamos \textsf{fold} con suma:
@@ -563,150 +795,230 @@
 	\end{exercise}
 \end{frame}
 
-\begin{frame}{Contenido}
-	
-	
-\end{frame}
 
 
-\begin{frame}{Contenido}
-	
-	
-\end{frame}
-
-
-\begin{frame}{Contenido}
-	
-	
-\end{frame}
-
-
-\begin{frame}{Contenido}
-	
-	
-\end{frame}
-
-
-\begin{frame}{Contenido}
-	
-	
-\end{frame}
-
-
-
-
-\begin{frame}{Definições, Teoremas, Corolários e Exemplos}
-    \begin{block}{Definição 2.1.1}
-    Aqui temos uma nova definição.
-    \end{block}
-    
-    \begin{block}{Teorema 2.1.2}
-    Aqui temos um novo teorema.
-    \end{block}
-    
-    \begin{block}{Exemplo 2.1.3}
-    Aqui temos um novo exemplo.
-    \end{block}
-    
-    \begin{block}{Corolário 2.1.4}
-    Aqui temos um novo corolário.
-    \end{block}
-\end{frame}
-
-\begin{frame}{Citações das Referências}
-    Livro de Análise Real~\cite{lima2004analise}
-\end{frame}
-
-\begin{frame}{Listas}
-    Exemplo de lista com símbolos:
-
-    \begin{itemize}
-        \item Primeiro elemento
-        \item Segundo elemento
-    \end{itemize}
-    
-    \bigskip
-    
-    Exemplo de lista com itens enumerados:
-    
-    \begin{enumerate}
-        \item Primeiro elemento
-        \item Segundo elemento
-    \end{enumerate}
-\end{frame}
-
-\begin{frame}{Tabelas}
-    A Tabela mostra um modelo de tabela.
-
-    \begin{table}[htb]
-        \caption{Exemplo de tabela}
-        \label{tab:modelo_tabela}
-        \centering
-        \begin{tabular}{c|c|c|c}
-	        \hline
-	        \textbf{Pessoa} & \textbf{Idade} & \textbf{Peso} & \textbf{Altura} \\ \hline
-	        Marcos & 26    & 68   & 178    \\ \hline
-	        Ivone  & 22    & 57   & 162    \\ \hline
-	        Sueli  & 40    & 65   & 153    \\ \hline
-        \end{tabular}
-        
-        \medskip
-        
-        Fonte: Produção do próprio autor.
-    \end{table}
-\end{frame}
-
-\begin{frame}{Imagens}
-    A Figura mostra a logomarca promocional da Universidade Federal do Espírito Santo (UFES).
-    
-    \begin{figure}[htb]
-        \caption{Logomarca Promocional UFES}
-        \label{fig:logo_UFES}
-        \centering
-        \includegraphics[width=0.5\textwidth]{imagens/logomarca_UFES}
-        
-        \medskip
-        
-        Fonte: Produção do próprio autor.
-    \end{figure}
-\end{frame}
-
-\begin{frame}{Conclusão}
-    Texto referente à conclusão.
-\end{frame}
-
-\begin{frame}{Trabalhos futuros}
-    \begin{itemize}
-        \item Estudar $\ldots$
-        
-        \medskip
-        
-        \item Explorar $\ldots$
-        
-        \medskip
-        
-        \item Analisar $\ldots$
-    \end{itemize}
-\end{frame}
-
-
-\begin{frame}[allowframebreaks]{Referências}
-    \bibliography{referencias}
+\begin{frame}{Conclusiones}
+	\textbf{Limataciones y alcance del material}
+	\begin{itemize}
+		\item{hola}
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
-
-\begin{center}
-    Obrigado!
-    
-    \email
-\end{center}
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=0.5\textwidth]{imagens/logomarca_UFES}
-\end{figure}
-
+	\textbf{Gracias!}
 \end{frame}
+
+%\begin{frame}{Contenido}
+%	Sintaxis concreta, semántica dinámica y semántica estática.
+%\end{frame}
+%
+%\begin{frame}{Contenido}
+%	
+%	 \begin{exercise}[4.2 Capítulo 4]
+	%	 	\renewcommand{\theexercise}{3.14}
+	%		 Considera la siguiente sintaxis concreta para un lenguaje proposicional simple \texttt{Prop} donde solo se utiliza el conector \texttt{AND} ($\wedge$) y el operador \texttt{NOT} ($\neg$) definida como: 
+	%		 \[
+	%		 \inferrule{x \ \texttt{Prop}\ \: y\ \texttt{Prop}}{ x \wedge y\ \texttt{Prop}} \; \inferrule{x \ \texttt{Prop}}{\neg x \ \texttt{Prop}} \; \inferrule{\ }{\top \ \texttt{Prop}} \; \inferrule{\ }{\bot \  \texttt{Prop}} 
+	%		 \] 
+	%		 
+	%		 \begin{itemize}
+		%		 	\item  Proporciona una semántica de paso pequeño para evaluar las expresiones en \texttt{Prop}.
+		%		 	\item Proporciona una semántica de paso grande para evaluar las expresiones \texttt{Prop}.
+		%		 \end{itemize}   
+	%	\end{exercise}
+%\end{frame}
+%
+%\begin{frame}{Contenido}
+%	
+%	\begin{exercise}[4.2 Capítulo 4]
+	%		
+	%		Determina una semántica de paso pequeño (SOS) para el lenguaje \texttt{Prop}.
+	%		
+	%		\begin{enumerate}
+		%			\item Identifica el conjunto de estados $Q$, el conjunto de estados iniciales $I$ y el conjunto de estados finales $F$.
+		%			
+		%			\begin{tcolorbox}[colback=gray!10,colframe=black]
+			%				\textbf{Solución:} El conjunto de estados $Q$ es simplemente el conjunto de todas las expresiones de \texttt{Prop}. 
+			%				$F = \{\top, \bot\}$. $I = Q$.
+			%			\end{tcolorbox}
+		%			
+		%		\end{enumerate}
+	%		
+	%	\end{exercise}
+%	
+%\end{frame}
+%
+%\begin{frame}{Contenido}
+%	
+%	\begin{exercise}[4.2 Capítulo 4]
+	%		
+	%		\begin{enumerate}
+		%			\setcounter{enumi}{1}
+		%			
+		%			\item Proporciona reglas de inferencia para una relación $\mapsto : Q \to Q$, que realiza un solo paso de evaluación de la expresión.
+		%			
+		%			\begin{tcolorbox}[colback=gray!10,colframe=black]
+			%				\textbf{Solución:}
+			%				{\small
+				%					\begin{mathpar}
+					%						\inferrule{a \mapsto a'}{\neg a \mapsto \neg a'} 
+					%						\quad \textsc{SOS-NOT}_1
+					%						
+					%						\inferrule{\ }{\neg \top \mapsto \bot} 
+					%						\quad \textsc{SOS-NOT}_2
+					%						
+					%						\inferrule{\ }{\neg \bot \mapsto \top} 
+					%						\quad \textsc{SOS-NOT}_3
+					%						
+					%						\inferrule{a \mapsto a'}{a \wedge b \mapsto a' \wedge b} 
+					%						\quad \textsc{SOS-AND}_1
+					%						
+					%						\inferrule{\ }{\top \wedge b \mapsto b} 
+					%						\quad \textsc{SOS-AND}_2
+					%						
+					%						\inferrule{\ }{\bot \wedge b \mapsto \bot} 
+					%						\quad \textsc{SOS-AND}_3
+					%					\end{mathpar}
+				%				}
+			%			\end{tcolorbox}
+		%			
+		%		\end{enumerate}
+	%		
+	%	\end{exercise}
+%	
+%\end{frame}
+%
+%\begin{frame}{Contenido}
+%	
+%	\begin{exercise}
+	%		
+	%		Determina una semántica de paso grande para el lenguaje \texttt{Prop}.
+	%		
+	%		\begin{tcolorbox}[colback=gray!10,colframe=black]
+		%			\textbf{Solución:}
+		%			{\small
+			%				\begin{mathpar}
+				%					
+				%					\inferrule{\ }{\top \Downarrow \top} 
+				%					\quad \textsc{TRUE}
+				%					
+				%					\inferrule{\ }{\bot \Downarrow \bot} 
+				%					\quad \textsc{FALSE}
+				%					
+				%					\inferrule{a \Downarrow \top}{\neg a \Downarrow \bot} 
+				%					\quad \textsc{NOT}_1
+				%					
+				%					\inferrule{a \Downarrow \bot}{\neg a \Downarrow \top} 
+				%					\quad \textsc{NOT}_2
+				%					
+				%					\inferrule{a \Downarrow \top \quad b \Downarrow v}{a \wedge b \Downarrow v} 
+				%					\quad \textsc{AND}_1
+				%					
+				%					\inferrule{a \Downarrow \bot}{a \wedge b \Downarrow \bot} 
+				%					\quad \textsc{AND}_2
+				%					
+				%				\end{mathpar}
+			%			}
+		%		\end{tcolorbox}
+	%		
+	%	\end{exercise}
+%	
+%\end{frame}
+%
+%\begin{frame}{Contenido}
+%  \begin{exercise}[4.3 Capítulo 4]
+	%  	Ahora supón que se quieren añadir cuantificadores y variables a nuestro lenguaje \texttt{Prop}de la siguiente forma: \\
+	%  	\[
+	%  	\inferrule{x \ \texttt{Prop}}{\exists v.\ x \ \texttt{Prop}} \; \inferrule{x \ \texttt{Prop}}{\forall v.\ x \ \texttt{Prop}} \; \inferrule{v \ variable}{v \ \texttt{Prop}} 
+	%  	\]
+	%  	
+	%  	\begin{itemize}
+		%  		\item Proporciona un conjunto de reglas que definan la semántica estática que nos permite decidir cuando una expresión de \texttt{Prop} no contiene variables libres bajo un contexto $\Gamma$. Denotado de la siguiente forma: \\
+		%  		$ \Gamma \vdash e \ Ok $ 
+		%  	\end{itemize}
+	%  \end{exercise}
+%\end{frame}
+%
+%
+%\begin{frame}{Contenido}
+%	
+%	\begin{exercise}
+	%		
+	%		\begin{tcolorbox}[colback=gray!10,colframe=black]
+		%			\textbf{Solución:} El contexto será un conjunto (ambiente) de nombres de variables, denotado por $\Gamma$.
+		%			
+		%			{\scriptsize
+			%				%\setlength{\mathparskip}{2pt}
+			%				
+			%				\begin{mathpar}
+				%					
+				%					\inferrule*[right=\textsc{LookupEnv}]
+				%					{v \in \Gamma}
+				%					{\Gamma \vdash v \ \texttt{Ok}}
+				%					
+				%					\inferrule*[right=\textsc{Exists}]
+				%					{\Gamma \cup \{v\} \vdash x \ \texttt{Ok}}
+				%					{\Gamma \vdash \exists v.\, x \ \texttt{Ok}}
+				%					
+				%					\inferrule*[right=\textsc{Forall}]
+				%					{\Gamma \cup \{v\} \vdash x \ \texttt{Ok}}
+				%					{\Gamma \vdash \forall v.\, x \ \texttt{Ok}}
+				%					
+				%					\and
+				%					
+				%					\inferrule*[right=\textsc{Not}]
+				%					{\Gamma \vdash x \ \texttt{Ok}}
+				%					{\Gamma \vdash \neg x \ \texttt{Ok}}
+				%					
+				%					\inferrule*[right=\textsc{And}]
+				%					{\Gamma \vdash x \ \texttt{Ok} \\ \Gamma \vdash y \ \texttt{Ok}}
+				%					{\Gamma \vdash x \wedge y \ \texttt{Ok}}
+				%					
+				%				\end{mathpar}
+			%			}
+		%			
+		%		\end{tcolorbox}
+	%		
+	%	\end{exercise}
+%	
+%\end{frame}
+%
+%\begin{frame}{Derivación (semántica estática)}
+%	
+%	{\scriptsize
+	%		\begin{prooftree}
+		%			
+		%			\AxiomC{$x \in \{x,y\}$}
+		%			\RightLabel{\textsc{LookupEnv}}
+		%			\UnaryInfC{$\{x,y\} \vdash x\ \texttt{Ok}$}
+		%			
+		%			\AxiomC{$y \in \{x,y\}$}
+		%			\RightLabel{\textsc{LookupEnv}}
+		%			\UnaryInfC{$\{x,y\} \vdash y\ \texttt{Ok}$}
+		%			
+		%			\AxiomC{$x \in \{x,y\}$}
+		%			\RightLabel{\textsc{LookupEnv}}
+		%			\UnaryInfC{$\{x,y\} \vdash x\ \texttt{Ok}$}
+		%			
+		%			\RightLabel{\textsc{And}}
+		%			\BinaryInfC{$\{x,y\} \vdash y \wedge x\ \texttt{Ok}$}
+		%			
+		%			\RightLabel{\textsc{And}}
+		%			\BinaryInfC{$\{x,y\} \vdash x \wedge (y \wedge x)\ \texttt{Ok}$}
+		%			
+		%			\RightLabel{\textsc{Not}}
+		%			\UnaryInfC{$\{x,y\} \vdash \neg (x \wedge (y \wedge x))\ \texttt{Ok}$}
+		%			
+		%			\RightLabel{\textsc{Exists}}
+		%			\UnaryInfC{$\{x\} \vdash \exists y.\ \neg (x \wedge (y \wedge x))\ \texttt{Ok}$}
+		%			
+		%			\RightLabel{\textsc{Forall}}
+		%			\UnaryInfC{$\emptyset \vdash \forall x.\ \exists y.\ \neg (x \wedge (y \wedge x))\ \texttt{Ok}$}
+		%			
+		%		\end{prooftree}
+	%	}
+%	
+%\end{frame}
+
 
 \end{document}
