@@ -283,7 +283,7 @@
 	\end{exercise}
 \end{frame}
 
-\begin{frame}{Derivación estática: $3\;2\;1\;+\;-$}
+\begin{frame}{Semántica Estática para NPR}
 	
 	\begin{exercise}
 		
@@ -326,7 +326,7 @@
 \begin{frame}{Semántica dinámica para  \texttt{NPR}}
 	\begin{exercise}[4.5 Capítulo 4]
 		\begin{itemize}
-			\item Proporciona una conjunto de reglas para implementar la semántica operacional de paso pequeño para las expresiones bien formadas de \texttt{NPR}. Define la relación $\rightarrow : Q \times Q$, que evalúa un paso del cálculo.
+			\item Proporciona una definición para el conjunto \textit{Q} de estados iniciales (\textit{I}) y finales (\textit{F}) para la evaluación de las expresiones \texttt{NPR} correctamente formadas.
 		\end{itemize}
 	\end{exercise}	
 \end{frame}
@@ -355,13 +355,13 @@
 	\end{exercise}	
 \end{frame}
 
-\begin{frame}{Semántica de paso pequeño para RPN}
+\begin{frame}{Semántica de paso pequeño para NPR}
 	
 	\vspace{0.4cm}
 	
 	\begin{exercise}[4.5 Capítulo 4]
 		
-		\textbf{Los números simplemente se apilan en la pila:}
+		\textbf{Los números simplemente se empujan al tope de la pila:}
 		
 		\[
 		\frac{x \in \mathbb{N}}
@@ -384,7 +384,7 @@
 \end{frame}
 
 
-\begin{frame}{Semántica de paso pequeño para RPN}
+\begin{frame}{Semántica operacional para NPR}
 	\begin{exercise}[4.5 Capítulo 4]
 	\small
 	
@@ -401,9 +401,9 @@
 			
 			&\rightarrow& 2 : 1 : \bullet \;\triangleright\; - & \\
 			
-			&\rightarrow& (1 - 2) : \bullet \;\triangleright\; \epsilon & \textsc{SS-Op} \\
+			&\rightarrow& (2 - 1) : \bullet \;\triangleright\; \epsilon & \textsc{SS-Op} \\
 			
-			&\rightarrow& -1 \;\triangleright\; \epsilon &
+			&\rightarrow& 1 \;\triangleright\; \epsilon &
 		\end{array}
 	\]
 	\end{exercise}
@@ -411,163 +411,215 @@
 \end{frame}
 
 
-\begin{frame}{Temas estudiados en este ejercicio}
+\begin{frame}{Contenidos del ejercicio}
 	\begin{itemize}
 		\item Sintáxis concreta.
 		\item Gramáticas permisivas.
-		\item Análisis estático y reglas de inferencia.
+		\item Semántica estática y reglas de inferencia.
 		\item Semántica operacional de paso pequeño.
-		\item relaciones de transición.
+		\item Relaciones de transición.
 		\item Evaluación de expresiones.
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Semántica Operacional para el Cálculo Lambda}
-	\begin{exercise}
-		Supón ahora que se requiere implementar una máquina abstracta para modelar la ejecución de las expresiones bien formadas a partir de la sintáxis concreta del Cálculo Lambda junto con el operador ''+''. \\[1em]
-	\end{exercise}
-\end{frame}
-
-\begin{frame}
-	\begin{exercise}
-		\begin{itemize}
-			\item{Propón un conjunto de reglas para implementar un proceso de análisis estático para expresiones cerradas.} \\[1em]
-			\item{Propón un conjunto de reglas para implementar la semántica dinámica para evaluar expresiones.}
-		\end{itemize}
-	\end{exercise}
-\end{frame}
-
-\begin{frame}{Semántica Estática}
-	\begin{exercise}
-		\textbf{Solución: }
-		
-		\[
-		\frac{n \in Int}{\Gamma \vdash (\textsf{Num } n)\ ok}
-		\quad
-		\frac{x \in \Gamma}{\Gamma \vdash x\ ok}
-		\]
-		
-		\[
-		\frac{\Gamma, x \vdash e\ ok}{\Gamma \vdash (\textsf{Lambda } x.e)\ ok} \; \; \;
-		\frac{\Gamma \vdash e_1\ ok \quad \Gamma \vdash e_2\ ok}
-		{\Gamma \vdash (\textsf{Apply } e_1\ e_2)\ ok}
-		\]
-		
-		\[
-		\frac{\Gamma \vdash e_1\ ok \quad \Gamma \vdash e_2\ ok}
-		{\Gamma \vdash (\textsf{Plus } e_1\ e_2)\ ok}
-		\]
-	\end{exercise}
-\end{frame}
-
-\begin{frame}{Derivación: Expresión Cerrada}
-	\begin{exercise}
-		Sea:
-		\[
-		e = (\textsf{Apply } (\textsf{Lambda } x.\ \textsf{Plus } x\ \textsf{Num } 1)\ 2)
-		\]
-		
-		\[
-		\frac{
-			\frac{
-				\frac{
-					\frac{x \in \{x\}}{\{x\} \vdash x\ ok}
-					\quad
-					\frac{}{\{x\} \vdash \textsf{Num } 1\ ok}
-				}{\{x\} \vdash \textsf{Plus } x\ \textsf{Num } 1\ ok}
-			}{\emptyset \vdash \textsf{Lambda } x.\textsf{Plus } x\ \textsf{Num } 1\ ok}
-			\quad
-			\frac{}{\emptyset \vdash \textsf{Num } 2\ ok}
-		}{
-			\emptyset \vdash  (\textsf{Apply } (\textsf{Lambda } x.\ \textsf{Plus } x\ \textsf{Num } 1)\ \textsf{Num }2)\ ok
-		}
-		\]
-		
-	\end{exercise}
-\end{frame}
-
-\begin{frame}{Semántica Operacional de paso pequeño}
-	\begin{exercise}
-		
-		\[
-		\frac{e_1 \mapsto e_1'}
-		{(\textsf{Apply } e_1\ e_2) \mapsto (\textsf{Apply } e_1'\ e_2)}
-		\]
-		
-		\[
-		\frac{\ }
-		{(\textsf{Apply } (\textsf{Lambda } x.e_1)\ e_2)
-			\mapsto e_1[x := e_2]}
-		\]
-		
-		\[
-		\frac{e_1 \mapsto e_1'}
-		{(\textsf{Plus } e_1\ e_2) \mapsto (\textsf{Plus } e_1'\ e_2)}
-		\]
-		
-		\[
-		\frac{e \mapsto e'}
-		{(\textsf{Plus } (\textsf{Num } n)\ e) \mapsto (\textsf{Plus } (\textsf{Num } n)\ e')}
-		\]
-		
-		\[
-		\frac{\ }
-		{(\textsf{Plus } (\textsf{Num } n_1)\ (\textsf{Num } n_2))
-			\mapsto (\textsf{Num } (n_1 + n_2))}
-		\]
-	\end{exercise}
-\end{frame}
-
-\begin{frame}{Inciso (a)}
-	\begin{exercise}
-		Iniciales:
-		
-		\[
-		S = \{ e \mid \emptyset \vdash e\ ok \}
-		\]
-		
-		Finales:
-		\[
-		F = \{ \textsf{Num } n,\ \textsf{Lambda } x.e \}
-		\]
-	\end{exercise}
-\end{frame}
-
-\begin{frame}{Inciso (b): Ejecución}
-	\begin{exercise}
-		Evaluar:
-		
-		\[
-		(\textsf{Apply } (\textsf{Lambda } x.\ 
-		\textsf{Plus } x\ (\textsf{Num } 1))\ (\textsf{Num } 2))
-		\]
-	\end{exercise}
-\end{frame}
-
-\begin{frame}{Ejecución paso a paso}
-	\begin{exercise}
-		\[
-		(\textsf{Apply } (\textsf{Lambda } x.\ 
-		\textsf{Plus } x\ \textsf{Num } 1)\  \textsf{Num } 2) \mapsto
-		\]
-		
-		\[
-		(\textsf{Plus } x\ \textsf{Num } 1)[x := \textsf{Num } 2]	\mapsto
-		\]
-		
-		\[
-		(\textsf{Plus } (\textsf{Num } 2)\ (\textsf{Num } 1)) \mapsto
-		\]
-		
-		\[
-		(\textsf{Num } (2 + 1))	\mapsto
-		\]
-		
-		\[
-		(\textsf{Num } 3)
-		\]
-	\end{exercise}
-\end{frame}
+%\begin{frame}{Semántica Operacional para el Cálculo Lambda}
+%	\begin{exercise}
+%		Se requiere implementar una máquina abstracta para modelar la ejecución de las expresiones formadas a partir de la sintáxis del Cálculo Lambda junto con el operador ''+''. \\[1em]
+%	\end{exercise}
+%\end{frame}
+%
+%\begin{frame}
+%	\begin{exercise}
+%		\begin{itemize}
+%			\item{Propón un conjunto de reglas para implementar la semántica estática para expresiones cerradas.} \\[1em]
+%		\end{itemize}
+%	\end{exercise}
+%\end{frame}
+%
+%\begin{frame}{Semántica Estática}
+%	\begin{exercise}
+%		\textbf{Solución: }
+%		
+%		\[
+%		\frac{n \in \mathbb{N}}{\Gamma \vdash (\textsf{Num } n)\ ok}
+%		\quad \textsc{Num}
+%		\qquad
+%		\frac{x \in \Gamma}{\Gamma \vdash x\ ok}
+%		\quad \textsc{Var}
+%		\]
+%		
+%		\[
+%		\frac{\Gamma \vdash e_1\ ok \quad \Gamma \vdash e_2\ ok}
+%		{\Gamma \vdash (\textsf{Apply } e_1\ e_2)\ ok}
+%		\quad \textsc{App}
+%		\qquad
+%		\frac{\Gamma \vdash e_1\ ok \quad \Gamma \vdash e_2\ ok}
+%		{\Gamma \vdash (\textsf{Plus } e_1\ e_2)\ ok}
+%		\quad \textsc{Plus}
+%		\]
+%		
+%		\[
+%		\frac{\Gamma, x \vdash e\ ok}
+%		{\Gamma \vdash (\textsf{Lambda } x.e)\ ok}
+%		\quad \textsc{Lam}
+%		\]
+%		
+%	\end{exercise}
+%\end{frame}
+%
+%\begin{frame}{Derivación: Expresión Cerrada}
+%	\begin{exercise}
+%		\small
+%		
+%		Sea:
+%		\[
+%		e = (\textsf{Apply } (\textsf{Lambda } x.\ \textsf{Plus } x\ \textsf{Num } 1)\ 2)
+%		\]
+%		
+%		\[
+%		\resizebox{0.95\textwidth}{!}{
+%			$
+%			\frac{
+%				\frac{
+%					\frac{
+%						\frac{x \in \{x\}}{\{x\} \vdash x\ ok}
+%						\;\textsc{Var}
+%						\quad
+%						\frac{1 \in \mathbb{N}}{\{x\} \vdash \textsf{Num } 1\ ok}
+%						\;\textsc{Num}
+%					}{
+%						\{x\} \vdash \textsf{Plus } x\ \textsf{Num } 1\ ok
+%					}
+%					\;\textsc{Plus}
+%				}{
+%					\emptyset \vdash \textsf{Lambda } x.\textsf{Plus } x\ \textsf{Num } 1\ ok
+%				}
+%				\;\textsc{Lam}
+%				\quad
+%				\frac{2 \in \mathbb{N}}{\emptyset \vdash \textsf{Num } 2\ ok}
+%				\;\textsc{Num}
+%			}{
+%				\emptyset \vdash (\textsf{Apply } (\textsf{Lambda } x.\ \textsf{Plus } x\ \textsf{Num } 1)\ \textsf{Num } 2)\ ok
+%			}
+%			\;\textsc{App}
+%			$
+%		}
+%		\]
+%		%Las reglas de semántica estática presentadas garantizan únicamente la buena formación sintáctica respecto a un contexto, pero no son suficientes para asegurar propiedades semánticas como progreso o preservación. Para ello es necesario introducir un sistema de tipos.
+%		
+%		%Las reglas de semántica estática definen cuándo una expresión está bien formada respecto a un contexto 
+%		%Γ
+%		%Γ. En particular, una expresión se considera cerrada cuando es derivable bajo el contexto vacío.
+%		
+%		%Las reglas de semántica estática que presentamos verifican que las expresiones estén bien formadas respecto a un contexto Γ Γ, es decir, que las variables estén correctamente ligadas y que la estructura sea válida. Sin embargo, no son lo suficientemente fuertes para garantizar que la evaluación siempre produzca un resultado válido ni que no existan errores en ejecución. Por ejemplo, expresiones como ( Apply ( Num 3 ) ( Num 2 ) ) (Apply (Num 3) (Num 2)) o ( Plus ( Lambda 𝑥 . 𝑥 ) ( Num 1 ) ) (Plus (Lambda x.x) (Num 1)) son aceptadas por estas reglas, aunque no tienen sentido operacional. Estos casos ill-formed muestran que el sistema solo valida la forma de las expresiones, pero no su significado. Para evitar este tipo de problemas, sería necesario un sistema de tipos que restrinja mejor las expresiones y garantice propiedades como que la ejecución no se atore.
+%		
+%		
+%	\end{exercise}
+%\end{frame}
+%
+%\begin{frame}
+%	\begin{exercise}
+%		\begin{itemize}
+%			\item{Propón un conjunto de reglas para implementar la semántica dinámica para evaluar expresiones.}
+%		\end{itemize}
+%	\end{exercise}
+%\end{frame}
+%
+%\begin{frame}{Semántica Operacional de paso pequeño}
+%	\begin{exercise}
+%		
+%		\[
+%		\frac{e_1 \mapsto e_1'}
+%		{(\textsf{Apply } e_1\ e_2) \mapsto (\textsf{Apply } e_1'\ e_2)}
+%		\]
+%		
+%		\[
+%		\frac{\ }
+%		{(\textsf{Apply } (\textsf{Lambda } x.e_1)\ e_2)
+%			\mapsto e_1[x := e_2]}
+%		\]
+%		
+%		\[
+%		\frac{e_1 \mapsto e_1'}
+%		{(\textsf{Plus } e_1\ e_2) \mapsto (\textsf{Plus } e_1'\ e_2)}
+%		\]
+%		
+%		\[
+%		\frac{e \mapsto e'}
+%		{(\textsf{Plus } (\textsf{Num } n)\ e) \mapsto (\textsf{Plus } (\textsf{Num } n)\ e')}
+%		\]
+%		
+%		\[
+%		\frac{\ }
+%		{(\textsf{Plus } (\textsf{Num } n_1)\ (\textsf{Num } n_2))
+%			\mapsto (\textsf{Num } (n_1 + n_2))}
+%		\]
+%	\end{exercise}
+%\end{frame}
+%
+%\begin{frame}{Inciso (a)}
+%	\begin{exercise}
+%		Iniciales:
+%		
+%		\[
+%		S = \{ e \mid \emptyset \vdash e\ ok \}
+%		\]
+%		
+%		Finales:
+%		\[
+%		F = \{ \textsf{Num } n,\ \textsf{Lambda } x.e \}
+%		\]
+%	\end{exercise}
+%\end{frame}
+%
+%\begin{frame}{Inciso (b): Ejecución}
+%	\begin{exercise}
+%		Evaluar:
+%		
+%		\[
+%		(\textsf{Apply } (\textsf{Lambda } x.\ 
+%		\textsf{Plus } x\ (\textsf{Num } 1))\ (\textsf{Num } 2))
+%		\]
+%	\end{exercise}
+%\end{frame}
+%
+%\begin{frame}{Ejecución paso a paso}
+%	\begin{exercise}
+%		\[
+%		(\textsf{Apply } (\textsf{Lambda } x.\ 
+%		\textsf{Plus } x\ \textsf{Num } 1)\  \textsf{Num } 2) \mapsto
+%		\]
+%		
+%		\[
+%		(\textsf{Plus } x\ \textsf{Num } 1)[x := \textsf{Num } 2]	\mapsto
+%		\]
+%		
+%		\[
+%		(\textsf{Plus } (\textsf{Num } 2)\ (\textsf{Num } 1)) \mapsto
+%		\]
+%		
+%		\[
+%		(\textsf{Num } (2 + 1))	\mapsto
+%		\]
+%		
+%		\[
+%		(\textsf{Num } 3)
+%		\]
+%	\end{exercise}
+%\end{frame}
+%
+%
+%\begin{frame}{Temas estudiados en este ejercicio}
+%	\begin{itemize}
+%		\item Sintáxis Abstracta del Cálculo Lambda.
+%		\item Expresiones cerradas.
+%		\item Semántica estática y reglas de inferencia.
+%		\item Evaluación de expresiones funcionales.
+%		\item Semántica operacional de paso pequeño.
+%		\item Estrategias de evaluación.
+%		\item Sustitución de variables.
+%	\end{itemize}
+%\end{frame}
 
 \begin{frame}{Cálculo Lambda}
 	\begin{exercise}[9.11 Capítulo 5]
@@ -673,7 +725,7 @@
 	\resizebox{0.85\textwidth}{!}{
 		\begin{minipage}{\textwidth}
 	
-			\begin{exercise}[Ejemplo de 4 niveles]
+			\begin{exercise}[Ejemplo de 3 niveles]
 				
 			\begin{center}
 				\begin{tikzpicture}[
@@ -795,12 +847,29 @@
 	\end{exercise}
 \end{frame}
 
-
+\begin{frame}{Temas estudiados en este ejercicio}
+	\begin{itemize}
+		\item Sintáxis concreta del Calculo Lambda.
+		\item Codificación de estructuras de datos en Lambda puro.
+		\item Representación funcional de árboles binarios.
+		\item Church encoding.
+		\item Funciones de orden superior.
+		\item $\beta$-reducción.
+		\item Operador \textsf{fold}.
+		
+	\end{itemize}
+\end{frame}
 
 \begin{frame}{Conclusiones}
-	\textbf{Limataciones y alcance del material}
+	\textbf{Limataciones y alcance del material} \\[1em]
 	\begin{itemize}
-		\item{hola}
+		\item Enfoque didáctico.
+		\item Tratamiento superficial de las demostraciones.
+		\item Falta de implementación práctica.
+		\item Enfoque en ejemplos académicos simplificados.
+		\item Limitada exploración de eficiencia y complejidad.
+		\item Poco énfasis en aplicaciones industriales.
+		\item Alcance restringido al plan de estudios.
 	\end{itemize}
 \end{frame}
 
